@@ -1,8 +1,43 @@
 <template>
   <div>
+
+    <!-- <Navbar
+    > -->
+
     <nuxt />
+
+    <!-- <Footer
+    > -->
+
   </div>
 </template>
+
+
+
+<script>
+
+// import Navbar from '~/components/dynamicUX/Navbar.vue'
+// import Footer from '~/components/dynamicUX/Footer.vue'
+
+export default {
+  
+  components: {
+  },
+
+  data () {
+    return {
+    }
+  },
+
+  methods: {
+  }
+
+}
+
+</script>
+
+
+
 
 <style>
 html {

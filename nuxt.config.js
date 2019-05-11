@@ -1,15 +1,38 @@
 import pkg from './package'
 
+require('dotenv').config()
+
+console.log('>>> nuxt.config.js / process.env :\n', process.env)
+console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID :\n', process.env.NUXT_APIVIZ_UUID)
+console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE :\n', process.env.NUXT_BACKEND_MODE)
+
 export default {
   mode: 'spa',
 
+  /* 
+  ** ENV variables
+  cf : https://nuxtjs.org/api/configuration-env/
+  cf : https://samuelcoe.com/blog/nuxt-dotenv/
+  */
+  env: {
+    // c5efafab-1733-4ad1-9eb8-d529bc87c481 // config SONUM
+    // f0a482da-28be-4929-a443-f22ecb03ee68 // config APCIS
+    ApivizUUID : process.env.NUXT_APIVIZ_UUID,
+    BackendMode : process.env.NUXT_BACKEND_MODE || 'default' 
+  },
+
   /*
   ** Router config
+  cf : https://nuxtjs.org/api/configuration-router
   */
   router: {
     middleware: [
-      
+      'setAppMode',
+      'getAppConfig',
     ],
+    // scrollBehavior: function (to, from, savedPosition) {
+    //   return { x: 0, y: 0 }
+    // }
   },
 
   /*
@@ -36,13 +59,22 @@ export default {
   ** Global CSS
   */
   css: [
-    // '~/assets/style/app.styl'
+    // // Load a Node.js module directly (here it's a Sass file)
+    // 'bulma',
+    // // CSS file in the project
+    // '@/assets/css/main.css',
+    // // SCSS file in the project
+    // '@/assets/css/main.scss'
   ],
 
   /*
   ** Plugins to load before mounting the App
+  cf : https://nuxtjs.org/api/configuration-plugins
   */
   plugins: [
+    '~/plugins/axios',
+    // '~/plugins/checkTokens',
+    // '~/plugins/utils',
   ],
 
   /*
@@ -62,10 +94,10 @@ export default {
     // baseURL: '',
     // // baseURL: 'http://solidata-preprod-api.co-demos.com/api' || 'http://localhost:4000/api',
     // // baseURL: process.env.API_PROD || process.env.API_PREPROD || process.env.API_DEV,
-    // debug: false,
-    // retry: {
-    //   retries: 0
-    // },
+    debug: false,
+    retry: {
+      retries: 0
+    },
     // credentials: false,
     // proxyHeaders: false
   },

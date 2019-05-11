@@ -1,14 +1,32 @@
 <template>
   <section class="container">
     <div>
-      <logo />
+
       <h1 class="title">
         apiviz-nuxt
       </h1>
       <h2 class="subtitle">
-        My supreme Nuxt.js project
+        Migrating apiviz frontend as SPA Nuxt project
       </h2>
-      <div class="links">
+
+      <!-- DEBUGGING -->
+      <hr>
+      <div>
+        apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br>
+        runMode : <code>{{ runMode }}</code><br>
+        rootUrlBackend : <code>{{ rootUrlBackend }}</code><br>
+        locale : <code>{{ locale }}</code><br>
+        <hr>
+        config.socials : <br><code>{{ config.socials }}</code>
+        <hr>
+        jwt : <br><code>{{ jwt }}</code>
+        user : <br><code>{{ user }}</code><br>
+        <hr>
+        <!-- search : <br><code>{{ search }}</code><hr> -->
+      </div>
+
+
+      <!-- <div class="links">
         <a
           href="https://nuxtjs.org/"
           target="_blank"
@@ -19,18 +37,75 @@
           target="_blank"
           class="button--grey"
         >GitHub</a>
-      </div>
+      </div> -->
+
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import {mapState} from 'vuex'
+
+// import Logo from '~/components/Logo.vue'
+
+// import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue';
+// import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue';
+// import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
+// import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue';
+
+// import DynamicList       from '~/components/dynamicData/DynamicList.vue';
+// import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
+// import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 
 export default {
+  
   components: {
-    Logo
+  },
+
+  middleware : [
+  ],
+
+  data () {
+    return {
+      // config : this.$store.getters['config/getConfig'],
+    }
+  },
+
+  computed: {
+
+    ...mapState({
+
+      apivizFrontUUID : state => state.apivizFrontUUID,
+      runMode : state => state.runMode ,
+      rootUrlBackend : state => state.rootUrlBackend,
+      locale : state => state.locale,
+
+      config : state => state.config.config,
+
+      search : state => state.search.search,
+
+      user : state => state.user.user,
+      jwt : state => state.user.jwt
+
+    }),
+
+    // ...mapGetters({
+    //
+    //}),
+
+    // config() {
+    //   console.log('getting config from page')
+    //   return this.$store.getters['config/getConfig']
+    // },
+
+
+
+  },
+
+  methods: {
+
   }
+
 }
 </script>
 

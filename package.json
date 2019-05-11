@@ -1,22 +1,38 @@
 {
   "name": "apiviz-nuxt",
   "version": "1.0.0",
-  "description": "My supreme Nuxt.js project",
+  "description": "Apiviz as SPA",
   "author": "Julien_P",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+
+    "dev": "nuxt", 
+    "dev-test": "NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481 nuxt",
+
+    "dev-docker": "NUXT_BACKEND_MODE=default_docker nuxt",
+    "dev-preprod": "NUXT_BACKEND_MODE=preprod nuxt",
+    "dev-prod": "NUXT_BACKEND_MODE=production nuxt",
+
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/bulma": "^1.2.1",
+    "bulma-carousel": "^4.0.4",
+    "bulma-checkradio": "^1.1.0",
+    "cookieparser": "^0.1.0",
     "cross-env": "^5.2.0",
     "nuxt": "^2.4.0",
-    "@nuxtjs/bulma": "^1.2.1",
-    "@nuxtjs/axios": "^5.3.6"
+    "prunecluster": "^2.1.0",
+    "vee-validate": "^2.2.7",
+    "vue2-leaflet": "^2.1.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "dotenv": "^8.0.0",
+    "node-sass": "^4.12.0",
+    "nodemon": "^1.18.9",
+    "sass-loader": "^7.1.0"
   }
 }
