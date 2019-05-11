@@ -4,6 +4,15 @@ export default {
   mode: 'spa',
 
   /*
+  ** Router config
+  */
+  router: {
+    middleware: [
+      
+    ],
+  },
+
+  /*
   ** Headers of the page
   */
   head: {
@@ -27,6 +36,7 @@ export default {
   ** Global CSS
   */
   css: [
+    // '~/assets/style/app.styl'
   ],
 
   /*
@@ -49,6 +59,15 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    // baseURL: '',
+    // // baseURL: 'http://solidata-preprod-api.co-demos.com/api' || 'http://localhost:4000/api',
+    // // baseURL: process.env.API_PROD || process.env.API_PREPROD || process.env.API_DEV,
+    // debug: false,
+    // retry: {
+    //   retries: 0
+    // },
+    // credentials: false,
+    // proxyHeaders: false
   },
 
   /*
