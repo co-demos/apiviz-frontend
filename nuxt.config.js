@@ -9,6 +9,8 @@ console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE :\n', process.en
 export default {
   mode: 'spa',
 
+  buildDir: 'src',
+
   server: {
     // port: 8800, // default: 3000
     // host: 'localhost' // '0.0.0.0', // default: localhost
@@ -108,6 +110,7 @@ export default {
     //     icons: ['fab']
     //   }
   ],
+
   /*
   ** Axios module configuration (@nuxt/axios)
   */
@@ -127,16 +130,18 @@ export default {
   ** Build configuration
   */
   build: {
-    vendors : [
-      'axios'
-    ],
-    postcss: {
-      preset: {
-        features: {
-          customProperties: false
-        }
-      }
-    },
+    // vendors : [
+    //   'axios'
+    // ],
+
+    extractCSS: true,
+    // postcss: {
+    //   preset: {
+    //     features: {
+    //       customProperties: false
+    //     }
+    //   }
+    // },
     /*
     ** You can extend webpack config here
     */

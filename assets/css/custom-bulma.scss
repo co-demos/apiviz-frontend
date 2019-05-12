@@ -1,8 +1,8 @@
 
 
 
-@import "../../node_modules/bulma/sass/utilities/initial-variables";
-@import "../../node_modules/bulma/sass/utilities/functions";
+@import "../../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../../node_modules/bulma/sass/utilities/functions.sass";
 
 @import "./rem.scss";
 @import "./apiviz-colors.scss";
@@ -65,7 +65,43 @@ $family-secondary   : $family-BonvenoCF ;
 
 
 
+// Import the rest of Bulma at the end
+@import "../../node_modules/bulma/bulma.sass";
+@import "../../node_modules/bulma-extensions/bulma-carousel/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-checkradio/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-accordion/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-slider/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-tooltip/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-badge/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-calendar/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-steps/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-timeline/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-tagsinput/src/sass/index.sass";
+@import "../../node_modules/bulma-extensions/bulma-ribbon/src/sass/index.sass";
+// @import "../../node_modules/bulma-extensions/bulma-switch/src/sass/index.sass"; // not working
+// @import "../../node_modules/bulma-extensions/src/sass/index.sass"; // not working with build
 
+// available bulma extensions
+/*
+  @import "../../bulma-accordion/src/sass/index.sass"
+  @import "../../bulma-badge/src/sass/index.sass"
+  @import "../../bulma-calendar/src/sass/index.sass"
+  @import "../../bulma-carousel/src/sass/index.sass"
+  @import "../../bulma-checkradio/src/sass/index.sass"
+  @import "../../bulma-divider/src/sass/index.sass"
+    @import "../../bulma-iconpicker/src/sass/index.sass"
+    @import "../../bulma-pageloader/src/sass/index.sass"
+    @import "../../bulma-pricingtable/src/sass/index.sass"
+    @import "../../bulma-quickview/src/sass/index.sass"
+    @import "../../bulma-ribbon/src/sass/index.sass"
+  @import "../../bulma-slider/src/sass/index.sass"
+  @import "../../bulma-steps/src/sass/index.sass"
+    @import "../../bulma-switch/src/sass/index.sass" ////// ERROR
+  @import "../../bulma-tagsinput/src/sass/index.sass"
+  @import "../../bulma-timeline/src/sass/index.sass"
+  @import "../../bulma-tooltip/src/sass/index.sass"
+*/
 
 // BULMA OVERRIDE
 
@@ -109,10 +145,10 @@ box-shadow : $apiviz-strong-shadow;
   }
 
 }
+
 .slider:focus {
   outline: none !important;
 }
-
 .slider-navigation-previous {
   background-image: url('../icons/icon_chevron2_violet.svg');
   left: calc( 50% + (-4em)); // To ensure correct spacing and alignment on various screen sizes; avoid buttons to overflow
@@ -122,6 +158,3 @@ box-shadow : $apiviz-strong-shadow;
   right: calc( 50% + (-4em)); // Same as above
 }
 
-// Import the rest of Bulma at the end
-@import "../../node_modules/bulma/bulma.sass";
-@import "../../node_modules/bulma-extensions/src/sass/index.sass";
