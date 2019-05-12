@@ -51,7 +51,7 @@ export default {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
 
@@ -60,16 +60,17 @@ export default {
   */
   loading: { color: '#fff' },
 
+
   /*
   ** Global CSS
   */
   css: [
     // Load a Node.js module directly (here it's a Sass file)
-    'bulma',
+    // 'bulma',
     // CSS file in the project
     // '@/assets/css/main.css',
     // SCSS file in the project
-    // '@/assets/css/main.scss'
+    '@/assets/css/main.scss'
   ],
 
   /*
@@ -77,7 +78,7 @@ export default {
   cf : https://nuxtjs.org/api/configuration-plugins
   */
   plugins: [
-    '~/plugins/axios',
+    // '~/plugins/axios',
     '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
@@ -89,13 +90,23 @@ export default {
   modules: [
 
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    // '@nuxtjs/axios',
     // to solve CORS problem
-    '@nuxtjs/proxy',
+    // '@nuxtjs/proxy',
 
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma',
-    'nuxt-fontawesome',
+    // Doc: https://github.com/nuxt-community/modules/tree/master/packages/bulma
+    // '@nuxtjs/bulma',
+    // 'nuxt-fontawesome',
+    // 'nuxt-fontawesome', {
+    //   imports: [
+    //   {
+    //     set: '@fortawesome/free-solid-svg-icons',
+    //     icons: ['fas']
+    //   },
+    //   {
+    //     set:'@fortawesome/free-brands-svg-icons',
+    //     icons: ['fab']
+    //   }
   ],
   /*
   ** Axios module configuration (@nuxt/axios)
@@ -116,6 +127,9 @@ export default {
   ** Build configuration
   */
   build: {
+    vendors : [
+      'axios'
+    ],
     postcss: {
       preset: {
         features: {

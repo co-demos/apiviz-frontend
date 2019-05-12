@@ -15,9 +15,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/bulma": "^1.2.1",
     "axios": "^0.18.0",
+    "bulma": "^0.7.4",
     "bulma-carousel": "^4.0.4",
     "bulma-checkradio": "^1.1.0",
     "bulma-extensions": "^6.2.5",
@@ -26,13 +25,13 @@
     "leaflet": "^1.5.1",
     "leaflet.markercluster": "^1.4.1",
     "nuxt": "^2.4.0",
-    "nuxt-fontawesome": "^0.4.0",
     "prunecluster": "^2.1.0",
     "vee-validate": "^2.2.7",
     "vue2-leaflet": "^2.1.1",
     "vue2-leaflet-markercluster": "^3.0.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.2",
     "dotenv": "^8.0.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",
