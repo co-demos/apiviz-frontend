@@ -60,9 +60,18 @@ export const getters = {
       }
     },
 
+  // global-related
+    getGlobalConfig : state => {
+      return state.config.global
+    },
+
   // navbar-related 
-    hasNavbar(){      
-      return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : undefined 
+    hasNavbar : (state) => {      
+      // console.log('hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
+      return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false 
+    },
+    getNavbarConfig : state => {
+      return (state.config.navbar) ? state.config.navbar.app_navbar : undefined 
     },
 
   // footer-related
@@ -70,7 +79,7 @@ export const getters = {
       return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
     },
     hasCreditsFooter : (state) => {
-      console.log('hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
+      // console.log('hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig.has_credits_footer) ? state.localRouteConfig.has_credits_footer : false 
     },
     getFooterConfig : state => {

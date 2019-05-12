@@ -40,6 +40,11 @@ export const getters = {
       return state.rootUrlAuth
     },
 
+  // UX GETTERS
+    getNavbarVisibility : state => {
+      return state.showNav
+    },
+
   // FOR TRANSLATIONS
   // - - - - - - - - - - - - - - - //
     // getTranslation : (state) => (textsData) => {

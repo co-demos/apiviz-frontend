@@ -11,8 +11,12 @@
     "dev-preprod": "NUXT_BACKEND_MODE=preprod nuxt",
     "dev-prod": "NUXT_BACKEND_MODE=production nuxt",
     "build": "nuxt build",
+    "build-prod": "NUXT_BACKEND_MODE=production nuxt build",
+    "build-preprod": "NUXT_BACKEND_MODE=preprod nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "generate-prod": "NUXT_BACKEND_MODE=production nuxt generate",
+    "generate-preprod": "NUXT_BACKEND_MODE=preprod nuxt generate"
   },
   "dependencies": {
     "axios": "^0.18.0",

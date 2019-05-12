@@ -1,9 +1,12 @@
 <template>
   <div>
 
+
+
     <!-- DEBUGGING -->
     <section class="container">
       <div class="container">
+        <br><br><br>
         <h1 class="title">
           apiviz-nuxt
         </h1>
@@ -13,20 +16,25 @@
 
         <hr>
         <div>
-          runMode : <code>{{ runMode }}</code><br>
-          apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br>
-          rootUrlBackend : <code>{{ rootUrlBackend }}</code><br>
-          rootUrlAuth : <code>{{ rootUrlAuth }}</code><br>
-          locale : <code>{{ locale }}</code><br>
+          <!-- runMode : <code>{{ runMode }}</code><br> -->
+          <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br> -->
+          <!-- rootUrlBackend : <code>{{ rootUrlBackend }}</code><br> -->
+          <!-- rootUrlAuth : <code>{{ rootUrlAuth }}</code><br> -->
+          <!-- locale : <code>{{ locale }}</code><br> -->
           <hr>
-          localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>
-          config.socials.app_facebook : <br><code>{{ config.socials.app_facebook }}</code><br>
+          has_navbar : <code>{{ has_navbar }}</code><br>
+          globalConfig.app_logo : <br><code>{{ globalConfig.app_logo }}</code><br>
+          navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br>
+          navbarConfig : <br><code>{{ navbarConfig }}</code><br>
+          navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br>
+          <!-- config.socials.app_facebook : <br><code>{{ config.socials.app_facebook }}</code><br> -->
+          localRouteConfig : <br><code>{{ localRouteConfig }}</code><br> 
           <hr>
-          jwt : <br><code>{{ jwt }}</code><br>
-          user : <br><code>{{ user }}</code><br>
+          <!-- jwt : <br><code>{{ jwt }}</code><br> -->
+          <!-- user : <br><code>{{ user }}</code><br> -->
           <hr>
-          has_footer : <code>{{ has_footer }}</code><br>
-          has_credits_footer : <code>{{ has_credits_footer }}</code><br>
+          <!-- has_footer : <code>{{ has_footer }}</code><br> -->
+          <!-- has_credits_footer : <code>{{ has_credits_footer }}</code><br> -->
           <hr>
           <!-- search : <br><code>{{ search }}</code><hr> -->
         </div>
@@ -35,15 +43,16 @@
 
 
     <!-- NAVBAR -->
-    <!-- <NavBar 
+    <NavBar 
       v-if="has_navbar"
-      :navbarConfig="this.navbarConfig" 
-      :logo="this.globalConfig.app_logo"
-      :brand="this.globalConfig.app_title.content"
-      :appLocales="this.globalConfig.app_languages" 
-      :currentDatasetURI="currentDatasetURI"
+      :navbarConfig="navbarConfig" 
+      :logo="globalConfig.app_logo"
+      :brand="globalConfig.app_title.content"
+      :appLocales="globalConfig.app_languages" 
       :localRouteConfig="localRouteConfig"
-    ></NavBar> -->
+    ></NavBar>
+
+
 
     <!-- BANNER -->
     <!-- <DynamicBanner 
@@ -135,11 +144,11 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 // import Logo from '~/components/Logo.vue'
 
-// import NavBar from '~/components/dynamicUx/NavBar.vue';
+import NavBar from '~/components/dynamicUx/NavBar.vue';
 import Footer from '~/components/dynamicUx/Footer.vue';
 
 // import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue';
@@ -155,7 +164,7 @@ export default {
   
   components: {
 
-    // NavBar, 
+    NavBar, 
     Footer, 
 
     // DynamicBanner,
@@ -176,6 +185,10 @@ export default {
   middleware : [
     'getRouteConfig',
   ],
+  beforeMount : function(){
+    console.log('beforeMount / this.globalConfig : ', this.globalConfig)
+    console.log('beforeMount / this.localRouteConfig : ', this.localRouteConfig)
+  },
 
   data () {
     return {
@@ -200,6 +213,7 @@ export default {
 
       config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,
+      // globalConfig : state => state.config.global,
 
       search : state => state.search.search,
 
@@ -209,7 +223,12 @@ export default {
     }),
 
     ...mapGetters({
+
+      globalConfig : 'config/getGlobalConfig',
+
       has_navbar : 'config/hasNavbar',
+      navbarConfig : 'config/getNavbarConfig',
+
       has_footer : 'config/hasFooter',
       has_credits_footer : 'config/hasCreditsFooter',
       has_banner : 'config/hasBanner',

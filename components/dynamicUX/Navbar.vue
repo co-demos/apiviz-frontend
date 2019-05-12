@@ -1,26 +1,27 @@
 <template>
-    <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
 
-      <div class="container">
-          
-        <Brand 
-          :logo="logo" 
-          :logoTo="this.navbarConfig.logo_to"
-          :brand="brand"
-        ></Brand>
+    <div class="container">
+        
+      <Brand 
+        :logo="logo" 
+        :logoTo="navbarConfig.logo_to"
+        :brand="brand"
+      ></Brand>
 
-        <!-- DEBUGGING -->
-        <!-- currentRouteConfig : {{ currentRouteConfig.field }} -->
-      
-        <NavBarContent 
-          :NavbarLinks="this.navbarConfig.links_options"
-          :user="user"
-          :localRouteConfig="localRouteConfig"
-        ></NavBarContent>
+      <!-- DEBUGGING -->
+      <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
+      <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
+    
+      <NavBarContent 
+        :NavbarLinks="navbarConfig.links_options"
+        :localRouteConfig="localRouteConfig"
+      ></NavBarContent>
 
-      </div>
+    </div>
 
-    </nav>
+
+  </nav>
 </template>
 
 <script>
@@ -38,8 +39,6 @@ export default {
     'logo', 
     'brand', 
     'localRouteConfig',
-
-    'user'
   ]
 }
 </script>

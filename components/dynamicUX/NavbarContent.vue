@@ -88,7 +88,7 @@
           <router-link
             v-if="!link.has_dropdown && !link.is_external_link && link.link_type == 'button' && link.is_visible == true"
             :class="`navbar-item button is-primary is-outlined is-small btn-menu`"
-            v-bind:key="`'btnlink-ext-' + ${index}`"
+            :key="`'btnlink-ext-' + ${index}`"
             :to="link.link_to"
             >
             <span>{{ translate( link,'link_text' ) }}</span>
@@ -98,7 +98,7 @@
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
             :class="`navbar-item button is-primary is-outlined is-small btn-menu`"
             :href="link.link_to"
-            v-bind:key="`'sublink-int-' + ${i}`"
+            :key="`'sublink-int-' + ${index}`"
             target="_blank"
             >
             <span>{{ translate( link,'link_text' ) }}</span>
@@ -106,7 +106,7 @@
 
           <hr 
             v-if="!link.has_dropdown && link.link_type == 'button' && link.is_visible == true"
-            v-bind:key="`'sublink-div-' + ${i}`"
+            :key="`'sublink-div-' + ${index}`"
             class="is-flex-touch menu-delimiter"
           >
 
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   props : [
@@ -181,31 +181,33 @@ export default {
     // console.log("// currentDatasetURI : ", this.currentDatasetURI)
   },
   computed : {
+
     ...mapState({
-      user: 'user'
+      user: 'user',
+      locale: 'locale',
     }),
-    showNav() {
-      return this.$store.getters.getNavbarVisibility
-    },
+
+    ...mapGetters({
+      showNav : 'getNavbarVisibility',
+    }),
+
+    // showNav() {
+    //   return this.$store.getters.getNavbarVisibility
+    // },
     isUserAdmin () {
       return this.$store.getters.getCheckUserRole('admin')
     },
     isUserStaff () {
       return this.$store.getters.getCheckUserRole('staff')
     },
+
+
   },
   methods : {
 
     getText(textCode) {
       return this.$store.getters.defaultText({txt:textCode})
     },
-
-    // isCurrentRoute(linkTo){
-    //   console.log("\n...... linkTo : ", linkTo)
-    //   let path = this.$router.currentRoute.path
-    //   console.log("...... path : ", path)
-    //   return ( path === linkTo ) ? true : false
-    // },
     loadExternalURL(link_to){
       console.log("loadExternalURL / link_to : ", link_to)
       var win = window.open(link_to, '_blank');
@@ -230,18 +232,17 @@ export default {
       }
       return isLinkToRoute || isSublinkRoute
     },
+    
     translate( textsToTranslate, listField ) {
-      // console.log("textsToTranslate : ", textsToTranslate )
-      let listTexts = textsToTranslate.link_text
-      // console.log("listTexts : ", listTexts )
-      return this.$store.getters.getTranslation({ texts : listTexts })
-    }
+      let listTexts = textsToTranslate[listField]
+      return this.$Translate( listTexts, this.locale, 'text')
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../assets/styles/apiviz-colors.scss';
+  @import '~/assets/css/apiviz-colors.scss';
   .router-link-active{
     // text-decoration: underline;
     color: $apiviz-primary ;
