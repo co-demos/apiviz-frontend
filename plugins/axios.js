@@ -1,20 +1,20 @@
 export default function ({ $axios, redirect, store }) {
   $axios.onRequest(config => {
     console.log('\n> > > plugin axios / Making request to : ' + config.method + ' -> ' + config.url)
-    config.headers['Access-Control-Allow-Origin'] = '*'
+    // config.headers['Access-Control-Allow-Origin'] = '*'
     // config.headers['Content-Type'] = 'application/json';
     // config.headers['Authorization'] = store.state.auth.access_token ;
     // config.headers['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept";
     // config.headers['Access-Control-Allow-Credentials'] = true ;
 
-    // console.log('\n> > > plugin axios / config : \n', config) ;
+    // console.log('> > > plugin axios / config : \n', config) ;
   })
 
   $axios.onResponse(response => {
+    // console.log('\n> > > plugin axios / response     : ', response)
     // console.log('\n> > > plugin axios / response.status : ', response.status)
     // console.log('> > > plugin axios / typeof response.data  : ', typeof response.data)
 
-    // console.log('> > > plugin axios / response     : \n', response)
     // console.log('> > > plugin axios / response.headers  : \n', response.headers)
     // console.log('> > > plugin axios / response.data     : \n', response.data)
     // console.log('> > > plugin axios / response.config : ', response.config )
@@ -37,17 +37,17 @@ export default function ({ $axios, redirect, store }) {
   // })
 
   $axios.onError(error => {
+    console.log('> > > plugin axios / error : ', error );
     const code = parseInt(error.response && error.response.status)
     console.log('\n> > > plugin axios / error - code : ', code)
-    // console.log('> > > plugin axios / error : ', error );
 
-    if (code === 404) {
-      redirect('/404')
-    }
+    // if (code === 404) {
+    //   redirect('/404')
+    // }
 
-    if (code === 500) {
-      redirect('/')
-    }
+    // if (code === 500) {
+    //   redirect('/')
+    // }
 
     // if (code === 401) {
     // redirect('/login')

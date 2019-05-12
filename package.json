@@ -5,14 +5,11 @@
   "author": "Julien_P",
   "private": true,
   "scripts": {
-
-    "dev": "nuxt", 
+    "dev": "nuxt",
     "dev-test": "NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481 nuxt",
-
     "dev-docker": "NUXT_BACKEND_MODE=default_docker nuxt",
     "dev-preprod": "NUXT_BACKEND_MODE=preprod nuxt",
     "dev-prod": "NUXT_BACKEND_MODE=production nuxt",
-
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -20,14 +17,20 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/bulma": "^1.2.1",
+    "axios": "^0.18.0",
     "bulma-carousel": "^4.0.4",
     "bulma-checkradio": "^1.1.0",
+    "bulma-extensions": "^6.2.5",
     "cookieparser": "^0.1.0",
     "cross-env": "^5.2.0",
+    "leaflet": "^1.5.1",
+    "leaflet.markercluster": "^1.4.1",
     "nuxt": "^2.4.0",
+    "nuxt-fontawesome": "^0.4.0",
     "prunecluster": "^2.1.0",
     "vee-validate": "^2.2.7",
-    "vue2-leaflet": "^2.1.1"
+    "vue2-leaflet": "^2.1.1",
+    "vue2-leaflet-markercluster": "^3.0.0"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",

@@ -1,0 +1,124 @@
+
+// Import the rest of Bulma at the end
+@import "../../node_modules/bulma/bulma.sass";
+@import "../../node_modules/bulma-extensions/src/sass/index.sass";
+
+@import "../../node_modules/bulma/sass/utilities/initial-variables";
+@import "../../node_modules/bulma/sass/utilities/functions";
+@import "./rem.scss";
+@import "./apiviz-colors.scss";
+@import "./apiviz-misc.scss";
+
+// Barlow
+@import url(https://fonts.googleapis.com/css?family=Barlow:400,700&subset=latin-ext);
+
+// Nexa
+@font-face {
+  font-family: 'Nexa';
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://github.com/co-demos/carto-sonum/blob/master/graphisme/Nexa/Nexa-Book.otf?raw=true") format("opentype");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+// BonvenoCF
+@font-face {
+  font-family: 'BonvenoCF';
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://github.com/co-demos/carto-sonum/blob/master/graphisme/BonvenoCF/BonvenoCF-Light.otf?raw=true") format("opentype");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+$primary        : $apiviz-primary; 
+$primary-invert : $apiviz-primary-invert;
+$info           : $apiviz-info; 
+$link           : $apiviz-link; 
+$success        : $apiviz-success; 
+$warning        : $apiviz-warning; 
+$danger         : $apiviz-danger; 
+
+
+$light          : $apiviz-grey-light;
+$dark           : $apiviz-grey-dark;
+
+$text           : $apiviz-text-color;
+$body-size      : $apiviz-base-font-size;
+
+$size-1         : rem(40px);
+$size-2         : rem(28px);
+
+$link           : $grey;
+$link-hover     : $apiviz-primary;
+
+$disabled-opacity: 0.7 ;
+$button-disabled-opacity: $disabled-opacity ;
+
+$family-Barlow     : "Barlow", sans-serif ;
+$family-Nexa       : "Nexa" ;
+$family-BonvenoCF  : "BonvenoCF" ;
+
+
+// $family-sans-serif  : "Barlow", sans-serif ;
+$family-sans-serif  : "Nexa", sans-serif ;
+$family-primary     : $family-sans-serif ; 
+$family-secondary   : $family-BonvenoCF ; 
+
+
+
+
+
+// BULMA OVERRIDE
+
+// form .control{
+//   font-size: rem(14px);
+// }
+
+.is-checkradio[type="checkbox"] + label{
+  font-size: $apiviz-navbar-font-size
+}
+
+
+
+// Bulma default behaviour darkens the button, doesn't fit for CIS
+.button.is-primary:hover{
+  background-color:$primary-invert;
+  color:$primary;
+  border-color:$primary;
+}
+// Bulma default has a transparent background, causing the button
+// to become invisible on a purple background
+.button.is-primary.is-outlined{
+  background-color:$primary-invert;
+}
+.button.is-primary.is-outlined:hover{
+  border-color:$primary-invert;
+}
+
+
+
+
+
+
+// BULMA-CAROUSEL OVERRIDE
+.slider-navigation-previous, .slider-navigation-next {
+  top: unset !important;
+  margin: 1em;
+
+  &:hover {
+box-shadow : $apiviz-strong-shadow;
+  }
+
+}
+.slider:focus {
+  outline: none !important;
+}
+
+.slider-navigation-previous {
+  background-image: url('../icons/icon_chevron2_violet.svg');
+  left: calc( 50% + (-4em)); // To ensure correct spacing and alignment on various screen sizes; avoid buttons to overflow
+}
+.slider-navigation-next {
+  background-image: url('../icons/icon_chevron1_violet.svg');
+  right: calc( 50% + (-4em)); // Same as above
+}

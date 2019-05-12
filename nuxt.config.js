@@ -2,12 +2,17 @@ import pkg from './package'
 
 require('dotenv').config()
 
-console.log('>>> nuxt.config.js / process.env :\n', process.env)
+// console.log('>>> nuxt.config.js / process.env :\n', process.env)
 console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID :\n', process.env.NUXT_APIVIZ_UUID)
 console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE :\n', process.env.NUXT_BACKEND_MODE)
 
 export default {
   mode: 'spa',
+
+  server: {
+    // port: 8800, // default: 3000
+    // host: 'localhost' // '0.0.0.0', // default: localhost
+  },
 
   /* 
   ** ENV variables
@@ -59,11 +64,11 @@ export default {
   ** Global CSS
   */
   css: [
-    // // Load a Node.js module directly (here it's a Sass file)
-    // 'bulma',
-    // // CSS file in the project
+    // Load a Node.js module directly (here it's a Sass file)
+    'bulma',
+    // CSS file in the project
     // '@/assets/css/main.css',
-    // // SCSS file in the project
+    // SCSS file in the project
     // '@/assets/css/main.scss'
   ],
 
@@ -73,6 +78,7 @@ export default {
   */
   plugins: [
     '~/plugins/axios',
+    '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
   ],
@@ -81,26 +87,30 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    // to solve CORS problem
+    '@nuxtjs/proxy',
+
     // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
+    'nuxt-fontawesome',
   ],
   /*
-  ** Axios module configuration
+  ** Axios module configuration (@nuxt/axios)
   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-    // baseURL: '',
-    // // baseURL: 'http://solidata-preprod-api.co-demos.com/api' || 'http://localhost:4000/api',
-    // // baseURL: process.env.API_PROD || process.env.API_PREPROD || process.env.API_DEV,
-    debug: false,
-    retry: {
-      retries: 0
-    },
-    // credentials: false,
-    // proxyHeaders: false
-  },
+  // axios: {
+  //   // See https://github.com/nuxt-community/axios-module#options
+  //   // baseURL: '',
+  //   debug: true,
+  //   retry: {
+  //     retries: 0
+  //   },
+  //   // proxy : true,
+  //   credentials: false,
+  //   proxyHeaders: false
+  // },
 
   /*
   ** Build configuration

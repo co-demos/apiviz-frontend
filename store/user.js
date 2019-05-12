@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const state = () => ({
 
   // USER-RELATED
@@ -6,7 +8,11 @@ export const state = () => ({
     role: undefined,
     isLoggedin: false
   },
-  jwt : undefined,
+
+  jwt : {
+    access_token : undefined,
+    refresh_token : undefined,
+  },
 
 })
 
@@ -29,7 +35,7 @@ export const mutations = {
   setRole (state, {role}) {
     state.user.role = (typeof role === 'string') ? role : undefined
   },
-  
+
 }
 
 export const actions = {

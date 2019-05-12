@@ -21,21 +21,36 @@ export const state = () => ({
 
 export const getters = {
 
-  getApivizFrontUUID : state => {
-    // console.log( "...I'm you, I dee... ", state.apivizFrontUUID )
-    return state.apivizFrontUUID
-  },
-  getRunMode : state => {
-    // console.log( "...I'm on a run mode... ", state.runMode )
-    return state.runMode
-  },
-  getRootUrlBackend : state => {
-    // console.log( "...I'm roooot... ", state.rootUrlBackend )
-    return state.rootUrlBackend
-  },
-  getRootUrlAuth : state => {
-    return state.rootUrlAuth
-  }
+  // GLOBAL APP GETTERS
+  // - - - - - - - - - - - - - - - //
+    getApivizFrontUUID : state => {
+      // console.log( "...I'm you, I dee... ", state.apivizFrontUUID )
+      return state.apivizFrontUUID
+    },
+    getRunMode : state => {
+      // console.log( "...I'm on a run mode... ", state.runMode )
+      return state.runMode
+    },
+    getRootUrlBackend : state => {
+      // console.log( "...I'm roooot... ", state.rootUrlBackend )
+      return state.rootUrlBackend
+    },
+    getRootUrlAuth : state => {
+      // console.log( "...I'm roooot auth... ", state.rootUrlAuth )
+      return state.rootUrlAuth
+    },
+
+  // FOR TRANSLATIONS
+  // - - - - - - - - - - - - - - - //
+    // getTranslation : (state) => (textsData) => {
+    //   console.log("store / textsData : ", textsData)
+    //   const textField = 'text'
+    //   // return textFromLocale( textsData.texts, locale, textField )
+    //   return this.$Translate( textsData.texts, state.locale, textField )
+    // },
+
+
+
 
 }
 
