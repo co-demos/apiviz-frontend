@@ -24,53 +24,68 @@ export const state = () => ({
 
 export const getters = {
 
-  getConfig : state => {
-    console.log( "... here comes the app config : \n", state.config )
-    return state.config
-  },
-
-  getEndpointConfigAuthUsers : state => {
-    // console.log("getEndpointConfigAuthUsers...")
-    return state.config.endpoints.filter(function(r) {
-      return r.data_type === "user"
-    });
-  },
-
-  getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
-    console.log("getEndpointConfigAuthSpecific / endpointType : ", endpointType)
-    let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
-    // console.log("getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
-    return allAuthEndpoints.find(function(r) {
-      return r.endpoint_type === endpointType
-    });
-  },
+  // APP CONFIG GETTERS
+  // - - - - - - - - - - - - - - - //
+    getConfig : state => {
+      console.log( "... here comes the app config : \n", state.config )
+      return state.config
+    },
+    getEndpointConfigAuthUsers : state => {
+      // console.log("getEndpointConfigAuthUsers...")
+      return state.config.endpoints.filter(function(r) {
+        return r.data_type === "user"
+      });
+    },
+    getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
+      console.log("getEndpointConfigAuthSpecific / endpointType : ", endpointType)
+      let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
+      // console.log("getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
+      return allAuthEndpoints.find(function(r) {
+        return r.endpoint_type === endpointType
+      });
+    },
 
   // ROUTE CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
-  getCurrentRouteConfig : (state, dispatch) => (currentRoute) => {
-    // console.log('\n ++ getCurrentRouteConfig / currentRoute : ', currentRoute)
-    // console.log(' ++ getCurrentRouteConfig / state.config.routes : \n', state.config.routes)
-    try {
-      return state.config.routes.find(function(r) {
-        return r.urls.indexOf(currentRoute) !== -1;
-      });
-    } catch (e) {
-      console.log('err',e);
-      return undefined
-    }
-  },
+    getCurrentRouteConfig : (state, dispatch) => (currentRoute) => {
+      // console.log('\n ++ getCurrentRouteConfig / currentRoute : ', currentRoute)
+      // console.log(' ++ getCurrentRouteConfig / state.config.routes : \n', state.config.routes)
+      try {
+        return state.config.routes.find(function(r) {
+          return r.urls.indexOf(currentRoute) !== -1;
+        });
+      } catch (e) {
+        console.log('err',e);
+        return undefined
+      }
+    },
+
   // navbar-related 
+    hasNavbar(){      
+      return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : undefined 
+    },
 
   // footer-related
-  hasFooter : (state) => {
-    return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
-  },
-  getFooterConfig : state => {
-    return (state.config.footer) ? state.config.footer.app_footer : undefined 
-  },
-  getSocialsConfig : state => {
-    return state.config.socials
-  },
+    hasFooter : (state) => {
+      return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
+    },
+    hasCreditsFooter : (state) => {
+      console.log('hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
+      return (state.localRouteConfig.has_credits_footer) ? state.localRouteConfig.has_credits_footer : false 
+    },
+    getFooterConfig : state => {
+      return (state.config.footer) ? state.config.footer.app_footer : undefined 
+    },
+    getSocialsConfig : state => {
+      return state.config.socials
+    },
+
+  // banner-related
+    hasBanner(){      
+      return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false 
+    },
+
+
 
 
 }

@@ -1,9 +1,6 @@
 <template>
   <div>
 
-    <!-- <Navbar
-    > -->
-
     <nuxt />
 
     <!-- CREDITS CODEMOS / REMOTE FOOTER -->

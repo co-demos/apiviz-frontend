@@ -1,10 +1,9 @@
 
-// Import the rest of Bulma at the end
-@import "../../node_modules/bulma/bulma.sass";
-@import "../../node_modules/bulma-extensions/src/sass/index.sass";
+
 
 @import "../../node_modules/bulma/sass/utilities/initial-variables";
 @import "../../node_modules/bulma/sass/utilities/functions";
+
 @import "./rem.scss";
 @import "./apiviz-colors.scss";
 @import "./apiviz-misc.scss";
@@ -122,3 +121,7 @@ box-shadow : $apiviz-strong-shadow;
   background-image: url('../icons/icon_chevron1_violet.svg');
   right: calc( 50% + (-4em)); // Same as above
 }
+
+// Import the rest of Bulma at the end
+@import "../../node_modules/bulma/bulma.sass";
+@import "../../node_modules/bulma-extensions/src/sass/index.sass";
