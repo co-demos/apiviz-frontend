@@ -1,14 +1,14 @@
 <!-- Tufts VUE 3.3.0 concept-map (APIVIZ_CONFIGURATIONS.vue) 2019-05-10 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/Resources/Java/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Fri May 10 15:03:18 CEST 2019 by jpy on platform Mac OS X 10.14.4 in JVM 9.0.4+11 -->
+<!-- Do Not Remove: Saved date Fri May 10 15:04:33 CEST 2019 by jpy on platform Mac OS X 10.14.4 in JVM 9.0.4+11 -->
 <!-- Do Not Remove: Saving version @(#)VUE: built October 8 2015 at 1658 by tomadm on Linux 2.6.32-504.23.4.el6.x86_64 i386 JVM 1.7.0_21-b11(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
     label="APIVIZ_CONFIGURATIONS.vue" created="1557058466769" x="0.0"
     y="0.0" width="7156.4854" height="6831.232" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1557493398622" size="575482"
+    <resource referenceCreated="1557493473256" size="575645"
         spec="/Users/jpy/Dropbox/_FLASK/_CIS/_POC_EIG/apiviz/documentation/configurations/APIVIZ_CONFIGURATIONS.vue"
         type="1" xsi:type="URLResource">
         <title>APIVIZ_CONFIGURATIONS.vue</title>
@@ -11076,7 +11076,7 @@
         <URIString>http://vue.tufts.edu/rdf/resource/9746f41852d86f1a3791a8e758661870</URIString>
     </layer>
     <userZoom>0.5719174722321179</userZoom>
-    <userOrigin x="-1887.9061" y="-1571.5372"/>
+    <userOrigin x="-1935.9061" y="-1571.5372"/>
     <presentationBackground>#202020</presentationBackground>
     <PathwayList currentPathway="0" revealerIndex="-1">
         <pathway ID="0" label="Chemin sans nom" created="1557058466768"

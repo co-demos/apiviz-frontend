@@ -258,5 +258,12 @@ In the following illustration you can grasp a more detailed comprehension of how
 
 #### DEPLOYMENT AS FULL CLIENT SOVEREIGNETY ON SERVICES 
 <h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-server-C.jpg">
+	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-server-C.jpg"> 
+</h2>
+
+------
+
+#### ALL DEPLOYMENT OPTIONS
+<h2 align=center>
+	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export.jpeg">
 </h2>
