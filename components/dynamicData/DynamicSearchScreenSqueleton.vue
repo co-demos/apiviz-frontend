@@ -24,18 +24,19 @@ import SearchWithFilters from './SearchWithFilters.vue';
 import FiltersFeedback from './FiltersFeedback.vue';
 
 export default {
+  
   name: 'DynamicSearchScreenSqueleton',
+  
   components: {
     SearchWithFilters, 
     FiltersFeedback, 
   },
-	props: [
+  
+  props: [
     'filtersConfig',
     'mainClass'
   ],
-  computed : {
-
-  }
+  
 }
 </script>
 
@@ -46,5 +47,5 @@ export default {
   main{
     margin-top: $apiviz-navbar-height + $apiviz-search-bar-height;
   }
-  
+
 </style>

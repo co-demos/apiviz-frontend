@@ -171,9 +171,9 @@ import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue';
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
 // import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue';
 
-// import DynamicList       from '~/components/dynamicData/DynamicList.vue';
-// import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
+import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 // import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
+// import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 
 export default {
   
@@ -187,9 +187,9 @@ export default {
     DynamicStaticRaw,
     // DynamicStaticTest,
 
-    // DynamicList, 
-    // DynamicMap, 
+    DynamicList, 
     // DynamicDetail,
+    // DynamicMap, 
 
     // LoginScreen,
     // LogoutScreen,

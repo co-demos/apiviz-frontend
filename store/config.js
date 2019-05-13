@@ -40,7 +40,7 @@ export const getters = {
       });
     },
     getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
-      state.log && console.log("getEndpointConfigAuthSpecific / endpointType : ", endpointType)
+      // state.log && console.log("getEndpointConfigAuthSpecific / endpointType : ", endpointType)
       let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
       // state.log && console.log("getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
       return allAuthEndpoints.find(function(r) {
@@ -215,7 +215,7 @@ export const mutations = {
 export const actions = {
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    state.log && console.log("getConfigType / type : ", type)
+    // state.log && console.log("getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)

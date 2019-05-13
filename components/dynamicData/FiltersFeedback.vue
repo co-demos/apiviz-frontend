@@ -45,43 +45,26 @@ export default {
   computed: {
     ...mapState({
       filterDescriptions: 'filterDescriptions',
-      selectedFilters: ({search}) => {
-        const {selectedFilters} = search.question
+      selectedFilters: state => {
+        const {selectedFilters} = state.search.search.question
         const filters = []
-
         for(const [filter, values] of selectedFilters){
           for(const value of values){
               filters.push({filter, value})
           }
         }
-
         return filters
       }
     }),
   },
   methods: {
     clearAllFilters(){
-      this.$store.dispatch( 'clearAllFilters' )
+      this.$store.dispatch( 'search/clearAllFilters' )
     },
     clearFilter({filter, value}){
-      this.$store.dispatch( 'toggleFilter', {filter, value} )
+      this.$store.dispatch( 'search/toggleFilter', {filter, value} )
     },
 
-
-    // reinitFiltersTexts() {
-    //   let filtersDftReinit = this.$store.state.global.app_basic_dict
-    //   console.log("filtersDftReinit : ", filtersDftReinit )
-    //   return this.$store.getters.getTranslation({ texts : filtersDftReinit })
-    // },
-    // translate( textsToTranslate ) {
-    //   let listTexts = textsToTranslate
-    //   console.log("listTexts : ", listTexts )
-    //   return this.$store.getters.getTranslation({ texts : listTexts })
-    // },
-    // translateBis( textsToTranslate, listField ) {
-    //   let listTexts = textsToTranslate[listField]
-    //   return this.$store.getters.getTranslation({ texts : listTexts })
-    // }
   }
 
 }

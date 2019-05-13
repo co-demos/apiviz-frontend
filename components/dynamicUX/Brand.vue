@@ -40,7 +40,7 @@ export default {
   ],
 
   beforeMount : function(){
-    this.log && console.log('\nC-Brand / beforeMount...')
+    // this.log && console.log('\nC-Brand / beforeMount...')
   },
 
   computed: {

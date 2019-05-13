@@ -463,7 +463,7 @@ import {mapState} from 'vuex'
 
 import NotFoundError from './NotFoundError.vue';
 
-import {getItemById} from '../utils.js';
+import {getItemById} from '~/plugins//utils.js';
 
 export default {
   name: 'DynamicDetail',

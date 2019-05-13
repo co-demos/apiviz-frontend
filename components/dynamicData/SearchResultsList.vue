@@ -82,6 +82,7 @@ export default {
   // },
 
   mounted(){
+
     this.$store.dispatch('setSearchConfigDisplay');
     this.showCount = this.$store.getters.getSearchConfigDefaultShowCount
 
@@ -92,7 +93,7 @@ export default {
       if (getSearchConfigMoreProjectOnScrollCount && getSearchConfigScrollBeforeBottomTrigger &&
         window.innerHeight + window.scrollY >= (document.body.offsetHeight - getSearchConfigScrollBeforeBottomTrigger)
       ) {
-        if(this.$store.state.search.answer.result && this.showCount < this.$store.state.search.answer.result.projects.length){
+        if(this.$store.state.search.search.answer.result && this.showCount < this.$store.state.search.search.answer.result.projects.length){
           this.showCount = this.showCount + getSearchConfigMoreProjectOnScrollCount
         }
       }

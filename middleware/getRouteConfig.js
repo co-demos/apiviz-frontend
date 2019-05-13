@@ -22,17 +22,16 @@ export default function ({ store, route, redirect }) {
   // check if route is dynamic data
   if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
     
+    log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
+    store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
+
     // get current dataset_uri for comparison
     let previousDatasetURI = store.getters['config/getCurrentDatasetURI']
     log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
 
-
-    log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
-    store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
-
     let localEndpointConfig = store.getters['config/getEndpointConfig']
     store.commit('config/setLocalEndpointConfig', localEndpointConfig)
-    log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
+    // log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
 
     let currentDatasetURI = localEndpointConfig.dataset_uri
     store.commit('config/setCurrentDatasetURI', currentDatasetURI)
@@ -45,7 +44,7 @@ export default function ({ store, route, redirect }) {
 
       let localFiltersConfig = store.getters['config/getEndpointConfigFilters']
       store.commit('config/setLocalFiltersConfig', localFiltersConfig)
-      log && console.log('-M3- getRouteConfig / localFiltersConfig : ', localFiltersConfig)
+      // log && console.log('-M3- getRouteConfig / localFiltersConfig : ', localFiltersConfig)
 
       store.dispatch('search/createDatasetFilters')
       store.commit('search/setIsMapSearch', currentRouteConfig)

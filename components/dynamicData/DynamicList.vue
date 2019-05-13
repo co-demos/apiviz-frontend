@@ -3,10 +3,11 @@
     :filtersConfig="filtersConfig"
     mainClass="list"
     >
-    <SearchResultsList
+    <!-- TEMPORARY COMMENTED -->
+    <!-- <SearchResultsList
       :routeConfig="routeConfig"
       :projectContentsFields="routeConfig.contents_fields"
-    />
+    /> -->
   </DynamicSearchScreenSqueleton>
 </template>
 
@@ -39,7 +40,7 @@ export default {
   computed: {
 
     ...mapState({
-      log : state => state.log, 
+      log : 'log', 
       user: state => state.user.user
     }),
 

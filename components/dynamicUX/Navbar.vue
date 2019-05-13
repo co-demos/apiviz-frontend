@@ -38,7 +38,7 @@ export default {
   ],
 
   beforeMount : function(){
-    this.log && console.log('\nC-Navbar / beforeMount...')
+    // this.log && console.log('\nC-Navbar / beforeMount...')
     // console.log('Navbar / beforeMount / this.navbarConfig : ', this.navbarConfig)
   },
 

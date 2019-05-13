@@ -89,18 +89,19 @@ export default {
   computed:
     {
       ...mapState({
-        selectedFilters: ({search}) => search.question.selectedFilters,
-        'filterDescriptions': 'filterDescriptions'
+        log : 'log', 
+        selectedFilters: state => state.search.search.question.selectedFilters,
+        filterDescriptions: state => state.search.search.filterDescriptions
       }),
       searchedText: {
-        get () { return this.$store.state.search.question.query },
+        get () { return this.$store.state.search.search.question.query },
         set (value) {
-          this.$store.dispatch('searchedTextChanged', {searchedText: value})
+          this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
         }
       },
 
       endpointConfigFilters() {
-        let configFilter = this.$store.getters.getEndpointConfigFilters
+        let configFilter = this.$store.getters['config/getEndpointConfigFilters']
         return configFilter
       }
 
@@ -116,7 +117,7 @@ export default {
     },
 
     emptyOneFilter({filter}){
-      this.$store.dispatch( 'emptyOneFilter', {filter} )
+      this.$store.dispatch( 'search/emptyOneFilter', {filter} )
     },
     changeFilter({target}){
       this.$store.dispatch(
@@ -141,8 +142,8 @@ export default {
   },
 
   mounted(){
-    if(!this.$store.state.search.answer.result){
-      this.$store.dispatch('searchedTextChanged', {searchedText: this.searchedText})
+    if(!this.$store.state.search.search.answer.result){
+      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
     }
   }
 }
