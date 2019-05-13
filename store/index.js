@@ -62,25 +62,25 @@ export const getters = {
 export const mutations = {
 
   // APP CONDITIONS- RELATED
-  setApivizFrontUUID (state, apivizFrontUUID){
-    state.apivizFrontUUID = apivizFrontUUID
-  },
-  setRunMode( state, runMode ){
-    state.runMode = runMode
-    const roots = apiBackendConfigs[runMode]
-    state.rootUrlBackend = roots.rootURL
-  },
-  setAuthUrlRoot( state, urlRoot ){
-    state.rootUrlAuth = urlRoot
-  },
+    setApivizFrontUUID (state, apivizFrontUUID){
+      state.apivizFrontUUID = apivizFrontUUID
+    },
+    setRunMode( state, runMode ){
+      state.runMode = runMode
+      const roots = apiBackendConfigs[runMode]
+      state.rootUrlBackend = roots.rootURL
+    },
+    setAuthUrlRoot( state, urlRoot ){
+      state.rootUrlAuth = urlRoot
+    },
 
   // UX OPTIONS-RELATED
-  disableBanners(state){
-    state.bannerVisible = false
-  },
-  switchNavbarMenu(state){
-    state.showNav = !state.showNav
-  },
+    disableBanners(state){
+      state.bannerVisible = false
+    },
+    switchNavbarMenu(state){
+      state.showNav = !state.showNav
+    },
 
 }
 

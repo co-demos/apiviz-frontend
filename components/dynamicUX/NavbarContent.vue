@@ -11,7 +11,7 @@
         v-for="(link, index) in this.NavbarLinks.extra_buttons"
         >
 
-        <router-link
+        <nuxt-link
           v-if="link.link_type == 'link' && link.is_visible == true"
           :key="`'link-' + ${index}`"
           :class="`navbar-item ${ link.has_dropdown ? 'has-dropdown is-hoverable' : '' }  `"
@@ -47,14 +47,14 @@
                 {{ translate(sublink, 'link_text' ) }}
               </a>
 
-              <router-link
+              <nuxt-link
                 v-if="!sublink.is_divider && !sublink.is_external_link"
                 :key="`'sublink-int-' + ${i}`"
                 :class="`navbar-item ${ isActiveLink(sublink.link_to) ? 'has-text-white has-background-primary' : '' }`"
                 :to="sublink.link_to"
                 >
                 {{ translate(sublink, 'link_text' ) }}
-              </router-link>
+              </nuxt-link>
 
 
               <hr 
@@ -67,7 +67,7 @@
           
           </div>
 
-        </router-link>
+        </nuxt-link>
         
         <hr 
           v-if="link.link_type == 'link' && link.is_visible == true"
@@ -85,14 +85,14 @@
           v-for="(link, index) in this.NavbarLinks.extra_buttons"
           >
 
-          <router-link
+          <nuxt-link
             v-if="!link.has_dropdown && !link.is_external_link && link.link_type == 'button' && link.is_visible == true"
             :class="`navbar-item button is-primary is-outlined is-small btn-menu`"
             :key="`'btnlink-ext-' + ${index}`"
             :to="link.link_to"
             >
             <span>{{ translate( link,'link_text' ) }}</span>
-          </router-link>
+          </nuxt-link>
 
           <a
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
@@ -134,26 +134,26 @@
 
           <hr class="navbar-divider">
 
-          <router-link class="navbar-item"
+          <nuxt-link class="navbar-item"
             v-if="isUserAdmin || isUserStaff"
             :to="'/backoffice'"
             >
             {{ getText('backoffice') }}
-          </router-link>
+          </nuxt-link>
 
-          <router-link class="navbar-item"
+          <nuxt-link class="navbar-item"
             :to="'/preferences'"
             >
             {{ getText('pref_user') }}
-          </router-link>
+          </nuxt-link>
 
           <hr class="navbar-divider">
 
-          <router-link class="navbar-item"
+          <nuxt-link class="navbar-item"
             :to="'/logout'"
             >
             {{ getText('disconnect') }}
-          </router-link>
+          </nuxt-link>
 
         </div>
 
@@ -243,7 +243,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '~/assets/css/apiviz-colors.scss';
-  .router-link-active{
+  .nuxt-link-active{
     // text-decoration: underline;
     color: $apiviz-primary ;
   }

@@ -4,9 +4,7 @@
     <div class="container">
         
       <Brand 
-        :logo="logo" 
         :logoTo="navbarConfig.logo_to"
-        :brand="brand"
       ></Brand>
 
       <!-- DEBUGGING -->
@@ -27,19 +25,41 @@
 <script>
 import Brand from './Brand.vue';
 import NavBarContent from './NavbarContent.vue';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
+
   components: {
     Brand,
     NavBarContent
   },
+  
   props: [
-    'navbarConfig',
-    'appLocales',
-    'logo', 
-    'brand', 
-    'localRouteConfig',
-  ]
+  ],
+
+  beforeMount : function(){
+    console.log('\nC-Navbar / beforeMount...')
+    // console.log('Navbar / beforeMount / this.navbarConfig : ', this.navbarConfig)
+  },
+
+  data () {
+    return {
+    }
+  },
+
+  computed: {
+
+    ...mapState({
+      // localRouteConfig : state => state.config.localRouteConfig,
+      }),
+
+    ...mapGetters({
+      navbarConfig : 'config/getNavbarConfig',
+      localRouteConfig : 'config/getLocalRouteConfig',
+    }),
+    
+  },
+
 }
 </script>
 

@@ -2,16 +2,16 @@
 
   <div class="navbar-brand" :title="brand">
 
-      <router-link 	
+      <nuxt-link 	
         id="logo_home"
         class="navbar-item" 
         :to="logoTo">
         <img 
             id="navbar-logo" 
-            :src="this.logo.url"
+            :src="logo.url"
             :alt="'Logo ' + brand"
         ></img>
-      </router-link>
+      </nuxt-link>
 
       <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
       <div 
@@ -30,21 +30,41 @@
 </template>
 
 <script>
+
+import { mapState, mapGetters } from 'vuex'
+
 export default {
+
   props: [
-    'logo',
     'logoTo', 
-    'brand'
   ],
-  computed: {
-    showNav() {
-      return this.$store.getters.getNavbarVisibility
-    }
+
+  beforeMount : function(){
+    console.log('\nC-Brand / beforeMount...')
   },
+
+  computed: {
+    
+    ...mapState({
+      showNav : state => state.showNav
+    }),
+    
+    // showNav() {
+    //   return this.$store.getters.getNavbarVisibility
+    // },
+
+    ...mapGetters({
+      logo : 'config/getNavbarLogo',
+      brand : 'config/getNavbarBrand' 
+    }),
+
+  },
+
   methods : {
     triggerBurger(){
       this.$store.commit('switchNavbarMenu')
     }
   }
+
 }
 </script>

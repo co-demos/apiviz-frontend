@@ -59,19 +59,36 @@ export const getters = {
         return undefined
       }
     },
+    getLocalRouteConfig : state => {
+      return state.localRouteConfig
+    },
 
   // global-related
     getGlobalConfig : state => {
       return state.config.global
     },
+    getAppLocales : state => {
+      return (state.config.global) ? state.config.global.app_languages : 'fr' 
+    },
+
+  // styles-related 
+    getStylesConfig : state => {
+      return state.config.styles
+    },
 
   // navbar-related 
     hasNavbar : (state) => {      
-      // console.log('hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
+      // console.log('S-config-hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false 
     },
     getNavbarConfig : state => {
       return (state.config.navbar) ? state.config.navbar.app_navbar : undefined 
+    },
+    getNavbarLogo : state => {
+      return (state.config.global) ? state.config.global.app_logo : undefined 
+    },
+    getNavbarBrand : state => {
+      return (state.config.global) ? state.config.global.app_title.content : undefined 
     },
 
   // footer-related
@@ -79,7 +96,7 @@ export const getters = {
       return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
     },
     hasCreditsFooter : (state) => {
-      // console.log('hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
+      // console.log('S-config-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig.has_credits_footer) ? state.localRouteConfig.has_credits_footer : false 
     },
     getFooterConfig : state => {
@@ -90,11 +107,20 @@ export const getters = {
     },
 
   // banner-related
-    hasBanner(){      
+    hasBanner : state => {      
+      // console.log('S-config-hasBanner ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false 
     },
-
-
+    getCurrentBanner : (state, getters) => {
+      // console.log('S-config-getCurrentBanner ...')
+      let bannersSet = getters.getStylesConfig.app_banners.banners_set
+      const routeBannerUri = state.localRouteConfig.banner.banner_uri
+      let resultSet = bannersSet.find(function(b) {
+        return b.banner_uri == routeBannerUri
+      })
+      // console.log('S-config-getCurrentBanner ... resultSet : \n', resultSet)
+      return resultSet
+    },
 
 
 }
@@ -102,12 +128,15 @@ export const getters = {
 export const mutations = {
 
   setConfig(state, {type,result}) {
+    // console.log("S-setConfig ... result : ", result)
     // console.log("result : ", result)
     state.config[type] = result
   },
 
   setLocalRouteConfig(state, routeConfig) {
+    console.log("S-config-setConfig...")
     state.localRouteConfig = routeConfig
+    console.log("S-config-setConfig / state.localRouteConfig : ", state.localRouteConfig)
   },
 
 }

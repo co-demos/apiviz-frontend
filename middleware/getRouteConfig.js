@@ -12,14 +12,14 @@ export default function ({ store, route, redirect }) {
   ]
 
   let path = route.path
-  // console.log('\n-- getRouteConfig / path : ', path)
+  console.log('-- getRouteConfig / path : ', path)
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
   store.commit('config/setLocalRouteConfig', currentRouteConfig)
 
   if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
     
-    console.log(" - - DynamicScreen / route IS for a dynamic content ... ")
+    console.log("-- getRouteConfig / route requires a dynamic content ... ")
     // store.dispatch('search/setSearchEndpointConfig', { path : path })
     // let localEndpointConfig = store.getters['getEndpointConfig']
     // store.commit('config/setLocalEndpointConfig', localEndpointConfig)
