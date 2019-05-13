@@ -38,7 +38,7 @@ export default {
   ],
 
   beforeMount : function(){
-    console.log('\nC-Navbar / beforeMount...')
+    this.log && console.log('\nC-Navbar / beforeMount...')
     // console.log('Navbar / beforeMount / this.navbarConfig : ', this.navbarConfig)
   },
 
@@ -51,7 +51,9 @@ export default {
 
     ...mapState({
       // localRouteConfig : state => state.config.localRouteConfig,
-      }),
+      log : state => state.log, 
+      // user: state => state.user.user
+    }),
 
     ...mapGetters({
       navbarConfig : 'config/getNavbarConfig',

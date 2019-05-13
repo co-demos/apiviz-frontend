@@ -120,6 +120,7 @@
 
         <hr>
         <div>
+          (console) log : <code>{{ log }}</code><br>
           <!-- runMode : <code>{{ runMode }}</code><br> -->
           <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br> -->
           <!-- rootUrlBackend : <code>{{ rootUrlBackend }}</code><br> -->
@@ -129,7 +130,7 @@
           has_navbar : <code>{{ has_navbar }}</code><br>
           <!-- globalConfig.app_logo : <br><code>{{ globalConfig.app_logo }}</code><br> -->
           has_banner : <code>{{ has_banner }}</code><br>
-          
+          <hr>
           <!-- navbarConfig : <br><code>{{ navbarConfig }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
@@ -137,6 +138,10 @@
           localRouteConfig.field : <code>{{ localRouteConfig.field }}</code><br> 
           localRouteConfig.dynamic_template : <code>{{ localRouteConfig.dynamic_template }}</code><br> 
           <!-- localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>  -->
+          <hr>
+          currentDatasetURI : <code>{{ currentDatasetURI }}</code><br> 
+          localEndpointConfig : <code>{{ localEndpointConfig }}</code><br> 
+          localFiltersConfig : <code>{{ localFiltersConfig }}</code><br> 
           <hr>
           <!-- jwt : <br><code>{{ jwt }}</code><br> -->
           <!-- user : <br><code>{{ user }}</code><br> -->
@@ -198,7 +203,7 @@ export default {
   ],
 
   beforeMount : function(){
-    console.log('\nP-index.vue / beforeMount...')
+    // console.log('\nP-index.vue / beforeMount...')
     // console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
     // console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
   },
@@ -216,13 +221,15 @@ export default {
 
     ...mapState({
 
+      log : state => state.log, 
+
       apivizFrontUUID : state => state.apivizFrontUUID,
       runMode : state => state.runMode,
       rootUrlBackend : state => state.rootUrlBackend,
       rootUrlAuth : state => state.rootUrlAuth,
       locale : state => state.locale,
 
-      config : state => state.config.config,
+      // config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,
       // globalConfig : state => state.config.global,
 
@@ -236,6 +243,10 @@ export default {
     ...mapGetters({
 
       globalConfig : 'config/getGlobalConfig',
+
+      localEndpointConfig : 'config/getLocalEndpointConfig',
+      localFiltersConfig : 'config/getLocalFiltersConfig',
+      currentDatasetURI : 'config/getCurrentDatasetURI',
 
       has_navbar : 'config/hasNavbar',
       has_footer : 'config/hasFooter',

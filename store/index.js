@@ -2,6 +2,9 @@ import { apiBackendConfigs } from '~/config/apiBackends.js'
 
 export const state = () => ({
 
+  // CONSOLE LOG ALLOWED 
+  log: process.env.ConsoleLog,
+
   // APIVIZ FRONTEND UUID
   apivizFrontUUID : undefined,
 

@@ -2,6 +2,7 @@ var cookieparser = require('cookieparser')
 
 export default function ({ store, route, redirect }) {
 
+  const log = store.state.log 
   
   // based on DynamicRoutes in legacy apiviz
   let promiseArray = []
@@ -10,28 +11,28 @@ export default function ({ store, route, redirect }) {
   // if ( typeof store.state.config.global === 'undefined' ) {
     if ( typeof store.getters['config/getGlobalConfig'] === 'undefined' ) {
     
-    console.log('\n-- getAppConfig...')
+    log && console.log('\n--M2-- getAppConfig...')
 
-    console.log("-- getAppConfig / store.state.config.global is undefined ...")
+    log && console.log("--M2-- getAppConfig / store.state.config.global is undefined ...")
     promiseArray.push(
 
       store.dispatch('config/getConfigAll')
       .then(() => {
 
         const runMode = store.getters.getRunMode
-        // console.log("-- getAppConfig / after getConfigAll ... runMode : ", runMode);
+        // log && console.log("--M2-- getAppConfig / after getConfigAll ... runMode : ", runMode);
 
         let authUrlRoots = store.getters['config/getEndpointConfigAuthSpecific']('auth_root')
-        // console.log("-- getAppConfig / authUrlRoots : ", authUrlRoots);
+        // log && console.log("--M2-- getAppConfig / authUrlRoots : ", authUrlRoots);
 
         const authUrlRoot = authUrlRoots.root_url[runMode]
-        // console.log("-- getAppConfig / authUrlRoot : ", authUrlRoot);
+        // log && console.log("--M2-- getAppConfig / authUrlRoot : ", authUrlRoot);
         store.commit('setAuthUrlRoot', authUrlRoot)
         
       })
 
       .catch(() => {
-        console.log( 'getAppConfig / error getting app config from backend...')
+        log && console.log( '--M2-- getAppConfig / error getting app config from backend...')
       })
 
     )

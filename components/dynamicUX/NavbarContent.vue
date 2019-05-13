@@ -183,7 +183,8 @@ export default {
   computed : {
 
     ...mapState({
-      user: 'user',
+      log : 'log',
+      user: state => state.user.user,
       locale: 'locale',
     }),
 

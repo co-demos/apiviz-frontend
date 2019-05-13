@@ -6,10 +6,15 @@ require('dotenv').config()
 console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID :\n', process.env.NUXT_APIVIZ_UUID)
 console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE :\n', process.env.NUXT_BACKEND_MODE)
 
+console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', process.env.NUXT_CONSOLELOG)
+const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
+const logAllowed = ['dev', 'preprod']
+console.log('>>> nuxt.config.js / consoleLogMode :', consoleLogMode)
+
 export default {
   mode: 'spa',
 
-  buildDir: 'src',
+  // buildDir: 'src', // default : '.nuxt'
 
   server: {
     // port: 8800, // default: 3000
@@ -25,7 +30,8 @@ export default {
     // c5efafab-1733-4ad1-9eb8-d529bc87c481 // config SONUM
     // f0a482da-28be-4929-a443-f22ecb03ee68 // config APCIS
     ApivizUUID : process.env.NUXT_APIVIZ_UUID,
-    BackendMode : process.env.NUXT_BACKEND_MODE || 'default' 
+    BackendMode : process.env.NUXT_BACKEND_MODE || 'default',
+    ConsoleLog: logAllowed.includes(consoleLogMode),
   },
 
   /*

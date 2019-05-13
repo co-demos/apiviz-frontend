@@ -152,8 +152,8 @@ import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 import CustomMarkers from './CustomMarkers.vue'
 
-import {VIEW_MAP} from '../constants.js'
-import {getItemById} from '../utils.js';
+import {VIEW_MAP} from '../../config/constants.js'
+import {getItemById} from '~/plugins/utils.js';
 
 const FRANCE_CENTER = [46.2276, 2.2137];
 

@@ -1,6 +1,10 @@
 import axios from 'axios'
+import { makeEmptySelectedFilters } from '~/plugins//utils';
 
 export const state = () => ({
+
+  // CONSOLE LOG ALLOWED 
+  log: process.env.ConsoleLog,
 
   // LEGACY
   geolocByProjectId: new Map(),
@@ -45,20 +49,79 @@ export const state = () => ({
         defaultShowCount : undefined,
         moreProjectOnScrollCount : undefined,
         scrollBeforeBottomTrigger : undefined
-        }
       }
     }
+  }
 
 })
 
 export const getters = {
 
+  getSelectedFilters : state => {
+    return state.search.question.selectedFilters
+  },
+
 }
 
 export const mutations = {
 
+  setSearchParam(state,{type,result}){
+    state.search[type] = result
+  },
+
+  setIsMapSearch (state, routeConfig) {
+    // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
+    state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
+    // state.log && console.log("S-search-setIsMapSearch / state.search : ", state.search )
+  },
+
+  // FILTERS-RELATED
+  setDatasetFilters(state, datasetFilter ){
+    // state.log && console.log("S-search-setDatasetFilters / datasetFilter : ", datasetFilter )
+    const filterOptions = datasetFilter.filter_options
+    // state.log && console.log("S-search-setDatasetFilters / filterOptions : ", filterOptions )
+    state.datasetFilters = filterOptions
+  },
+  setFilterDescriptions (state, filterDescriptions) {
+    state.filterDescriptions = filterDescriptions
+  },
+  clearAllFilters(state){
+    state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
+  },
+
 }
 
 export const actions = {
+
+  // FOR ENDPOINT CONFIG
+  setSearchEndpointConfig({state, commit,rootGetters}, currentRouteConfig) {
+
+    state.log && console.log('S-search-setSearchEndpointConfig ...')
+
+    // let routeConfig = getters.getCurrentRouteConfig(path)
+    let routeConfig = currentRouteConfig
+    // state.log && console.log('S-search-setSearchEndpointConfig / routeConfig : ', routeConfig)
+
+    commit('setSearchParam',{type:'currentRouteConfig', result: routeConfig})
+    commit('setSearchParam',{type:'dataset_uri', result: routeConfig.dataset_uri})
+    commit('setSearchParam',{type:'endpoint_type', result: routeConfig.endpoint_type})
+    
+    let endpointConfig = rootGetters['config/getEndpointConfig']
+    // state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
+    commit('setSearchParam',{type:'endpoint', result: endpointConfig})
+
+  },
+    
+  // FOR FILTERS
+  createDatasetFilters({state, getters, commit, rootGetters}){
+    // state.log && console.log("S-search-createDatasetFilters / state : ", state )
+    const currentFiltersConfig = rootGetters['config/getEndpointConfigFilters']
+    // state.log && console.log("S-search-createDatasetFilters / currentFiltersConfig : ", currentFiltersConfig)
+    if (currentFiltersConfig && currentFiltersConfig.filter_options){
+      let filterDescriptions = currentFiltersConfig.filter_options
+      commit('setFilterDescriptions', filterDescriptions)
+      commit('clearAllFilters')
+    }
+  },
 
 }

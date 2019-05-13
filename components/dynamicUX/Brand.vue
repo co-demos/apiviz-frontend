@@ -40,12 +40,13 @@ export default {
   ],
 
   beforeMount : function(){
-    console.log('\nC-Brand / beforeMount...')
+    this.log && console.log('\nC-Brand / beforeMount...')
   },
 
   computed: {
     
     ...mapState({
+      log : state => state.log, 
       showNav : state => state.showNav
     }),
     

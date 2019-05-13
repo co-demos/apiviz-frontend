@@ -1,21 +1,24 @@
 
 export default function ({ store }) {
 
-  console.log('\n---------------------')
+  const log = store.state.log 
+
+  log && console.log('\n---------------------')
   // console.log('-- setAppMode...')
 
   if ( typeof(store.getters.getApivizFrontUUID) === 'undefined' ){
-    console.log('-- setAppMode / process.env.ApivizUUID : ', process.env.ApivizUUID )
-      // console.log('-- setAppMode / setting apivizFrontUUID')
+
+    log && console.log('--M1-- setAppMode / process.env.ApivizUUID : ', process.env.ApivizUUID )
+      // log && console.log('-- setAppMode / setting apivizFrontUUID')
     store.commit('setApivizFrontUUID', process.env.ApivizUUID )
-    console.log('-- setAppMode / store.state.apivizFrontUUID : ', store.state.apivizFrontUUID )
+    log && console.log('--M1-- setAppMode / store.state.apivizFrontUUID : ', store.state.apivizFrontUUID )
   }
 
   if ( typeof(store.getters.getRunMode) === 'undefined' ){
-    console.log('-- setAppMode / process.env.BackendMode : ', process.env.BackendMode )
+    log && console.log('--M1-- setAppMode / process.env.BackendMode : ', process.env.BackendMode )
       // console.log('-- setAppMode / setting runMode')
     store.commit('setRunMode', process.env.BackendMode )
-    console.log('-- setAppMode / store.state.runMode : ', store.state.runMode )
+    log && console.log('--M1-- setAppMode / store.state.runMode : ', store.state.runMode )
   }
 
 }

@@ -43,7 +43,7 @@ import ProjectCard from './ProjectCard.vue'
 
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 
-import {VIEW_LIST} from '../constants.js'
+import {VIEW_LIST} from '../../config/constants.js'
 
 let scrollListener;
 

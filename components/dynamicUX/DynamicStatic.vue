@@ -30,7 +30,7 @@ export default {
   ],
 
   beforeMount : function(){
-    // console.log('\nC-DynamicStatic / beforeMount...')
+    // this.log && console.log('\nC-DynamicStatic / beforeMount...')
   },
 
   data: () => {
@@ -42,6 +42,7 @@ export default {
   computed: {
 
     ...mapState({
+      log:'log',
       user: 'user'
     }),
 
@@ -54,28 +55,28 @@ export default {
   watch : {
 
     localRouteConfig(old){
-      // console.log("\n - - DynamicStatic / watch / localRouteConfig ... ")
+      // this.log && console.log("\n - - DynamicStatic / watch / localRouteConfig ... ")
       this.rawHtml = ''
       this.getRawHtml()
     },
 
     rawHtml(newRawHtml, oldRawHtml){
       if (oldRawHtml == '' && newRawHtml != ''){
-        console.log("rawHtml is not blank anymore")
+        this.log && console.log("rawHtml is not blank anymore")
         this.loadExtScript()
       }
       else{
-        // console.log(oldRawHtml, newRawHtml)
+        // this.log && console.log(oldRawHtml, newRawHtml)
       }
     }
   },
 
   beforeMount : function(){
-    // console.log("\nC-DynamicStatic / beforeMount ... ")
+    // this.log && console.log("\nC-DynamicStatic / beforeMount ... ")
   },
 
   mounted(){
-    console.log("C-DynamicStatic / mounted ... ")
+    this.log && console.log("C-DynamicStatic / mounted ... ")
     this.getRawHtml()
   },
 
@@ -94,7 +95,7 @@ export default {
 
       // here we go fetch the raw HTML content of a webpage
       let template_url = (this.localRouteConfig && this.localRouteConfig.template_url) ? this.localRouteConfig.template_url : 'https://co-demos.com/error'
-      console.log(template_url + " is template")
+      this.log && console.log('template_url : ', template_url)
       let head = {
         headers: {
         //  'Access-Control-Allow-Origin': '*', // Uncommented, to try
@@ -104,7 +105,7 @@ export default {
       this.rawHtml = ''
       axios.get(template_url, head)
         .then( (response) => {
-          //console.log(response);
+          //this.log && console.log(response);
           this.rawHtml = (response && response.data) ? response.data : '<br><br>there is an Error <br><br>'}
         )
         .catch( (err) => {this.rawHtml = '<br><br>there is an <strong> Error </strong><br><br>'} )
@@ -119,7 +120,7 @@ export default {
       if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
 
         let ext_script_url = this.localRouteConfig.ext_script_url;
-        console.log(ext_script_url + " is ext_script")
+        this.log && console.log(ext_script_url + " is ext_script")
         let extScript = document.createElement('script');
         extScript.setAttribute('src', ext_script_url);
         extScript.setAttribute('type', "text/javascript");
@@ -129,7 +130,7 @@ export default {
 
       // ACTIVATE CAROUSELS
       if (this.localRouteConfig && this.localRouteConfig.has_carousel){
-        console.log("load carousel from utils");
+        this.log && console.log("load carousel from utils");
         loadScript("https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js", activateCarousel);
         
         // activateCarousel() 

@@ -54,7 +54,7 @@
 <script>
 import {mapState} from 'vuex'
 
-import {VIEW_LIST, VIEW_MAP, VIEW_STAT} from '../constants.js'
+import {VIEW_LIST, VIEW_MAP, VIEW_STAT} from '../../config/constants.js'
 
 export default {
     name: 'SearchResultsCountAndTabs',

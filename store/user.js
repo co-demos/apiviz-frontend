@@ -2,6 +2,9 @@ import axios from 'axios'
 
 export const state = () => ({
 
+  // CONSOLE LOG ALLOWED 
+  log: process.env.ConsoleLog,
+
   // USER-RELATED
   user : {
     infos: undefined,

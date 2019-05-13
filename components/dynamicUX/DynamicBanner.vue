@@ -50,14 +50,15 @@ export default {
   },
 
   beforeMount : function(){
-    console.log('\nC-DynamicBanner / beforeMount...')
-    console.log('C-DynamicBanner / beforeMount / this.dynamicTemplate : ', this.dynamicTemplate)
+    this.log && console.log('\nC-DynamicBanner / beforeMount...')
+    this.log && console.log('C-DynamicBanner / beforeMount / this.dynamicTemplate : ', this.dynamicTemplate)
   },
 
   computed: {
 
     ...mapState({
       user: 'user',
+      log : 'log',
       bannerVisible : 'bannerVisible'
     }),
 
@@ -74,7 +75,9 @@ export default {
 
 
   mounted(){
-    
+
+    let log = this.log
+
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
     // here we go fetch the raw HTML content of a webpage
     let template_url = (this.currentBanner.template_url) ? this.currentBanner.template_url : 'https://co-demos.com/error'
@@ -86,7 +89,7 @@ export default {
     }
     axios.get(template_url, head)
     .then( (response) => { 
-      // console.log(response); 
+      // log && console.log(response); 
       this.rawHtml = (response && response.data) ? response.data : '<br><br>there is an Error <br><br>'} 
     )
     .catch( (err) => {this.rawHtml = '<br><br>there is an <strong> Error </strong><br><br>'} )
