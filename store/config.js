@@ -122,6 +122,12 @@ export const getters = {
       return resultSet
     },
 
+  // ENDPOINTS CONFIG GETTERS
+  // - - - - - - - - - - - - - - - //``
+
+
+
+  
 
 }
 

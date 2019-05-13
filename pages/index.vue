@@ -181,6 +181,7 @@ export default {
     DynamicStatic, 
     DynamicStaticRaw,
     // DynamicStaticTest,
+
     // DynamicList, 
     // DynamicMap, 
     // DynamicDetail,
