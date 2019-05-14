@@ -83,12 +83,12 @@ export default {
 
   mounted(){
 
-    this.$store.dispatch('setSearchConfigDisplay');
-    this.showCount = this.$store.getters.getSearchConfigDefaultShowCount
+    this.$store.dispatch('search/setSearchConfigDisplay');
+    this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
 
     scrollListener = () => {
-      const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters.getSearchConfigScrollBeforeBottomTrigger
-      const getSearchConfigMoreProjectOnScrollCount = this.$store.getters.getSearchConfigMoreProjectOnScrollCount
+      const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters['search/getSearchConfigScrollBeforeBottomTrigger']
+      const getSearchConfigMoreProjectOnScrollCount = this.$store.getters['search/getSearchConfigMoreProjectOnScrollCount']
 
       if (getSearchConfigMoreProjectOnScrollCount && getSearchConfigScrollBeforeBottomTrigger &&
         window.innerHeight + window.scrollY >= (document.body.offsetHeight - getSearchConfigScrollBeforeBottomTrigger)
@@ -103,14 +103,14 @@ export default {
 
   watch: {
     projects(prev, next){
-      this.showCount = this.$store.getters.getSearchConfigDefaultShowCount;
+      this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount'];
     }
   },
 
   computed: {
     projectColumns(){
-      const {projects} = this.$store.state.search.answer.result;
-      const getSearchConfigColumnCount = this.$store.getters.getSearchConfigColumnCount
+      const {projects} = this.$store.state.search.search.answer.result;
+      const getSearchConfigColumnCount = this.$store.getters['search/getSearchConfigColumnCount']
 
       if(projects && getSearchConfigColumnCount){
         const columnsData = Array(getSearchConfigColumnCount).fill().map(() => []);
@@ -123,11 +123,13 @@ export default {
       }
     },
     ...mapState({
-      pending: ({search}) => !!search.answer.pendingAbort,
-      projects: ({search}) => search.answer.result && search.answer.result.projects,
-      total: ({search}) => search.answer.result && search.answer.result.total,
-      hasSelectedFilters: ({search}) => {
-        const selectedFilters = search.question && search.question.selectedFilters;
+      log : 'log', 
+      locale : state => state.locale,
+      pending: state => !!state.search.search.answer.pendingAbort,
+      projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
+      total: state => state.search.search.answer.result && state.search.search.answer.result.total,
+      hasSelectedFilters: state => {
+        const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
         if(!selectedFilters)
             return false;
 

@@ -52,81 +52,86 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 
-import {VIEW_LIST, VIEW_MAP, VIEW_STAT} from '../../config/constants.js'
+import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
 
 export default {
-    name: 'SearchResultsCountAndTabs',
-    
-    props: [
-      'view', 
-      'open'
-    ],
+  name: 'SearchResultsCountAndTabs',
+  
+  props: [
+    'view', 
+    'open'
+  ],
 
-    data(){
-      return {
-        VIEW_MAP, 
-        VIEW_LIST,
-        VIEW_STAT
-      }
-    },
-
-    computed: {
-      ...mapState({
-        pending: ({search}) => !!search.answer.pendingAbort,
-        total: ({search}) => search.answer.result && search.answer.result.total
-      }),
-
-      // CONFIG ENDPOINTS
-      endpointConfigFilters() {
-        return this.$store.getters.getEndpointConfigFilters
-      },
-      endpointConfigList() {
-        return this.$store.getters.getEndpointConfigList
-      },
-      endpointConfigMap() {
-        return this.$store.getters.getEndpointConfigMap
-      },
-      endpointConfigDetail() {
-        return this.$store.getters.getEndpointConfigDetail
-      },
-      endpointConfigStat() {
-        let endpointStat =  this.$store.getters.getEndpointConfigStat
-        console.log("endpointStat : ", endpointStat)
-        return endpointStat
-      },
-
-      // CONFIG ROUTES
-      endpointConfigUrlToList() {
-        let routeConfig =  this.$store.getters.getRouteConfigListForDataset
-        return routeConfig
-      },
-      endpointConfigUrlToMap() {
-        let routeConfig =  this.$store.getters.getRouteConfigMapForDataset
-        return routeConfig
-      },
-      // endpointConfigUrlToStat() {
-      //   let routeConfig = this.$store.getters.getRouteConfigStatForDataset
-      //   console.log("routeConfig : ", routeConfig)
-      //   return routeConfig
-      // }
-    },
-
-    methods : {
-      configTabs(tabField) {
-        let tabsConf = this.$store.state.config.global.app_screen_tabs
-        return tabsConf[tabField]
-      },
-      translate( textsToTranslate ) {
-        let listTexts = textsToTranslate.link_text
-        return this.$store.getters.getTranslation({ texts : listTexts })
-      },
-      translateBis( textsToTranslate, listField ) {
-        let listTexts = textsToTranslate[listField]
-        return this.$store.getters.getTranslation({ texts : listTexts })
-      }
+  data(){
+    return {
+      VIEW_MAP, 
+      VIEW_LIST,
+      VIEW_STAT
     }
+  },
+
+  computed: {
+
+    ...mapState({
+      log : 'log', 
+      locale : state => state.locale,
+      pending: state => !!state.search.search.answer.pendingAbort,
+      total: state => state.search.search.answer.result && state.search.search.answer.result.total
+    }),
+
+    // CONFIG ENDPOINTS
+    endpointConfigFilters() {
+      return this.$store.getters['config/getEndpointConfigFilters']
+    },
+    endpointConfigList() {
+      return this.$store.getters['config/getEndpointConfigList']
+    },
+    endpointConfigMap() {
+      return this.$store.getters['config/getEndpointConfigMap']
+    },
+    endpointConfigDetail() {
+      return this.$store.getters['config/getEndpointConfigDetail']
+    },
+    endpointConfigStat() {
+      let endpointStat =  this.$store.getters['/getEndpointConfigStat']
+      console.log("endpointStat : ", endpointStat)
+      return endpointStat
+    },
+
+    // CONFIG ROUTES
+    endpointConfigUrlToList() {
+      let routeConfig =  this.$store.getters['config/getRouteConfigListForDataset']
+      return routeConfig
+    },
+    endpointConfigUrlToMap() {
+      let routeConfig =  this.$store.getters['config/getRouteConfigMapForDataset']
+      return routeConfig
+    },
+    // endpointConfigUrlToStat() {
+    //   let routeConfig = this.$store.getters.getRouteConfigStatForDataset
+    //   console.log("routeConfig : ", routeConfig)
+    //   return routeConfig
+    // }
+  },
+
+  methods : {
+    configTabs(tabField) {
+      let tabsConf = this.$store.state.config.config.global.app_screen_tabs
+      return tabsConf[tabField]
+    },
+    translate( textsToTranslate ) {
+      let listTexts = textsToTranslate.link_text
+      return this.$Translate( listTexts, this.locale, 'text')
+      // return this.$store.getters.getTranslation({ texts : listTexts })
+    },
+    translateBis( textsToTranslate, listField ) {
+      let listTexts = textsToTranslate[listField]
+      return this.$Translate( listTexts, this.locale, 'text')
+      // return this.$store.getters.getTranslation({ texts : listTexts })
+    }
+  }
 
 }
 </script>

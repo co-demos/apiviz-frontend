@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { makeEmptySelectedFilters } from '~/plugins//utils';
-// import {  getObjectDataFromPath,
-//           searchItems, 
-//           // searchEnpointCreator, 
-//           searchEndpointGenerator, 
-//           createSelectedFiltersForSearch
-//         } from '~/plugins/utils.js';
+import {  
+  makeEmptySelectedFilters,
+  getObjectDataFromPath,
+  searchItems, 
+  // searchEnpointCreator, 
+  searchEndpointGenerator, 
+  createSelectedFiltersForSearch
+  } from '~/plugins/utils.js';
 
 export const state = () => ({
 
@@ -63,16 +64,149 @@ export const state = () => ({
 
 export const getters = {
 
-  getSelectedFilters : state => {
-    return state.search.question.selectedFilters
-  },
-  setSearchedText (state, {searchedText}) {
-    state.search.question.query = searchedText
-  },
-  
+    getSelectedFilters : state => {
+      return state.search.question.selectedFilters
+    },  
+    getSearchConfigColumnCount : state => {
+      state.search.config.display.columnCount
+    },
+    getSearchConfigDefaultShowCount : state => {
+      state.search.config.display.defaultShowCount
+    },
+    getSearchConfigMoreProjectOnScrollCount : state => {
+      state.search.config.display.moreProjectOnScrollCount
+    },
+    getSearchConfigScrollBeforeBottomTrigger : state => {
+      state.search.config.display.scrollBeforeBottomTrigger
+    },
+
+    getSearchDatasetURI : state => {
+      return state.search.dataset_uri
+    },
+
+  // RESULTS
+    getResults : (state) => {
+      return state.search.answer.result && state.search.answer.result.projects
+    },
+    getGeoResults : (state, getters) => {
+      let allResults = getters.getResults
+      // console.log(" ++ getGeoResults / allResults : ", allResults)
+      if (typeof allResults !== 'undefined'){
+        let filtered = allResults.filter(i => !i.lat && !i.lon)
+        // console.log(" ++ getGeoResults / filtered : ", filtered)
+        return filtered
+      } else {
+        return undefined
+      }
+    },
+
+  // ITEMS CONFIG GETTERS
+    // - - - - - - - - - - - - - - - //
+    getProjectConfig : (state, getters, rootState) => (position) => {
+      try {
+        return state.search.currentRouteConfig.contents_fields.find( function(f) {  return f.position === position; });
+      }
+      catch (e) {
+        console.log('err',e);
+        return undefined
+      }
+    },
+    getProjectConfigUniform :(state, getters) => (itemData) => {
+      // console.log(" ++ getProjectConfigUniform - itemData : ", itemData)
+      let res = {}
+      const infoTypes = ['id','title','image','address','tags']
+      infoTypes.forEach( function(infoType){
+        let fieldObj = getters.getProjectConfig('block_'+infoType)
+        res[infoType] = (fieldObj && fieldObj.field) ? itemData[fieldObj.field] : undefined
+      })
+      res.image = getters.getImgUrl(res)
+      res.fullItem = itemData
+      return res
+    },
+
+  // IMAGES CONFIG GETTERS
+  // - - - - - - - - - - - - - - - //
+    getImgUrl : (state, getters, rootState) => (obj) => {
+      // console.log("getImgUrl - obj : ", obj)
+      let image = obj.image
+
+      if(!image){
+        let images_set = undefined
+        if (state.search.dataset_uri
+          && rootState.config.config.styles
+          && rootState.config.config.styles.app_search_default_images_sets
+          && state.config.styles.app_search_default_images_sets.images_sets) {
+          let d = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function(d){
+            return d.dataset_uri === state.search.dataset_uri;
+          })
+          images_set  = (d) ? d.images_set : undefined
+        }
+
+        if (images_set && images_set.length > 0) {
+          const textureCount = images_set.length + 1
+          let id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
+          let reste = id % images_set.length + 1;
+          let imageObj = images_set.find(function(i){
+            return i.dft_text === 'img_'+reste;
+          })
+          image = imageObj.src_image
+        }else {
+          let random = Math.floor(Math.random() * (7 - 1) + 1)
+          image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
+        }
+      }
+      return image
+    },
+    getImageUrl : (state, getters, rootState, rootGetters) => (obj) => {
+
+      // console.log("getImageUrl - obj : ", obj)
+      const item = obj.item
+      console.log("getImageUrl - item : ", item)
+      
+      const position = obj.position
+      console.log("getImageUrl - position : ", position)
+
+      const defaultImages = rootGetters['config/getRouteConfigDefaultDatasetImages']
+      // console.log("getImageUrl - defaultImages : ", defaultImages)
+
+      console.log("getImageUrl - state.search.currentRouteConfig : ", state.search.currentRouteConfig)
+      const routeContentImagesFields = state.search.currentRouteConfig.images_fields
+      // console.log("getImageUrl - routeContentImagesFields : ", routeContentImagesFields)
+
+      let fieldToGet = routeContentImagesFields[position]
+      let fieldImage = fieldToGet.field
+      // console.log("getImageUrl - fieldImage : ", fieldImage)
+
+      let image = item[fieldImage]
+      console.log("getImageUrl - image (A) : ", image)
+
+      if(!image){
+        let d = defaultImages
+        let images_set  = (d) ? d.images_set : undefined
+
+        if (images_set && images_set.length > 0) {
+          const textureCount = images_set.length + 1
+          let id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
+          let tail = id % images_set.length + 1;
+          let imageObj = images_set.find(function(i){
+            return i.dft_text === 'img_'+tail;
+          })
+          image = imageObj.src_image
+        } else {
+          image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
+        }
+      }
+      console.log("getImageUrl - image (B) : ", image)
+      return image
+    },
 }
 
 export const mutations = {
+
+  // GENERAL
+    setSearchConfig(state, {type,result}) {
+      state.search.config[type] = result
+    },
 
   // FILTERS-RELATED
     setDatasetFilters(state, datasetFilter ){
@@ -154,6 +288,18 @@ export const mutations = {
 }
 
 export const actions = {
+
+  // TO VARIABILIZE
+  setSearchConfigDisplay({commit}) {
+    // here this function will probably change when this may be inherited from the configuration files
+    const defaultDisplay = {
+      columnCount : 4,
+      defaultShowCount : 50,
+      moreProjectOnScrollCount : 20,
+      scrollBeforeBottomTrigger : 500
+    }
+    commit('setSearchConfig', {type:'display',result:defaultDisplay});
+  },
 
   // FOR ENDPOINT CONFIG
     setSearchEndpointConfig({state, commit,rootGetters}, currentRouteConfig) {

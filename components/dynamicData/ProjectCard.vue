@@ -110,23 +110,23 @@ export default {
     //   return description.slice(0, MAX_SUMMARY_LENGTH) + tail
     // },
     dataset_uri(){
-      return this.$store.state.search.dataset_uri
+      return this.$store.state.search.search.dataset_uri
     },
     itemInfos(){
-      return this.$store.getters.getProjectConfigUniform(this.item)
+      return this.$store.getters['search/getProjectConfigUniform'](this.item)
       // return this.item
     },
     noData() {
-      return this.$store.getters.defaultText({txt:'no_data'})
+      return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
     noAbstractText() {
-      return this.$store.getters.defaultText({txt:'no_abstract'})
+      return this.$store.getters['config/defaultText']({txt:'no_abstract'})
     },
     noInfos() {
-      return this.$store.getters.defaultText({txt:'no_info'})
+      return this.$store.getters['config/defaultText']({txt:'no_info'})
     },
     noAddress() {
-      return this.$store.getters.defaultText({txt:'no_address'})
+      return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
   },
   methods : {
@@ -142,7 +142,7 @@ export default {
       }
     },
     itemImage(fieldBlock){
-      return this.$store.getters.getImageUrl({item: this.item, position: fieldBlock})
+      return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
       // return this.item
     },
     projectId() {

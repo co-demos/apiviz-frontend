@@ -37,12 +37,12 @@
 
 
     <!-- DATA VISUALISATION -->
-    <!-- <DynamicList 
+    <DynamicList 
       v-if="localRouteConfig.dynamic_template == 'DynamicList' "
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
       :filtersConfig="localFiltersConfig"
-    ></DynamicList> -->
+    ></DynamicList>
 
     <!-- <DynamicMap 
       v-if="localRouteConfig.dynamic_template == 'DynamicMap' "

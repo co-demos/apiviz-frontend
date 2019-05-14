@@ -1,3 +1,25 @@
+// feature test for AbortController that works in Safari 12
+let abortableFetchSupported = false;
+
+try{
+  const ac = new AbortController()
+
+  fetch('.', {signal: ac.signal})
+  .then(r => r.text())
+  .then(result => {
+    abortableFetchSupported = false;
+  })
+  .catch(err => {
+    abortableFetchSupported = err.name === 'AbortError'
+  })
+
+  ac.abort();
+}
+catch(e){
+  abortableFetchSupported = false;
+}
+
+
 // To load external librairies in components
 export function loadScript(url, callback){
   console.log("try to load script:", url);
@@ -30,7 +52,104 @@ export function activateCarousel(slidesNumber=2, isInfinite=true, hasPagination=
   document.getElementsByClassName("slider-navigation-next")[0].childNodes[0].remove();
 }
 
+
 // SEARCH RELATED
+
+export function searchItems(url = undefined){
+
+  // console.log("+ + + searchItems ... ");
+
+  // abort fetch if this is supported
+  // abort manually when response arrives otherwise
+  const ac = abortableFetchSupported ? new AbortController() : undefined
+  let searchAborted = false
+
+  return {
+    abort(){
+      searchAborted = true
+      if(ac)
+          ac.abort()
+    },
+    promise: (ac ? fetch(url, {signal: ac.signal} ) : fetch(url))
+    .then(r => r.json())
+    .then(({data, query}) => {
+      if(searchAborted){
+        const error = new Error('Search aborted')
+        error.name = 'AbortError'
+        throw error
+      }
+      else{
+        // console.log("+ + + searchItems (response) / data :", data);
+        return {
+          projects: data
+          && data.data_raw
+          && data.data_raw.f_data
+          && Array.isArray(data.data_raw.f_data)
+          ? data.data_raw.f_data
+          : [],
+          total: (data && data.data_raw && data.data_raw.f_data_count) ? data.data_raw.f_data_count : 0
+        }
+      }
+    })
+
+  }
+
+}
+
+export function searchEndpointGenerator(obj) {
+  if (!obj) { throw 'error in searchEndpointGenerator: no parameter defined' }
+
+  // console.log("+ + + searchEndpointGenerator / ...")
+  // console.log("+ + + searchEndpointGenerator / obj : \n ", obj)
+
+  // endpoint config related
+  const endpointConfig = obj.endpointConfig
+  const endpointConfigArgs = endpointConfig.args_options
+
+  // question related
+  const questionParams = obj.questionParams
+  const selectedFilters = obj.selectedFilters
+
+  // base query to be completed with args + questions
+  let baseQuery = endpointConfig.root_url + '?'
+
+  const appArgs = ['query', 'forMap', 'page', 'perPage', 'onlyGeocoded', 'itemId', 'shuffleSeed' ]
+  
+  // loop in routeArgs + queries then append to baseQuery
+  let argsArray = []
+  for (let key in endpointConfigArgs ) {
+    const EndpointArg = endpointConfigArgs[key]
+    // console.log("+ + + searchEndpointGenerator / EndpointArg : ", EndpointArg)
+    if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
+      if ( questionParams[EndpointArg.app_arg] ) {
+        let argString = EndpointArg.arg + '=' + questionParams[EndpointArg.app_arg]
+        argsArray.push(argString)
+      }
+    }
+  }
+
+  // loop in selectedFilters to add filters request if any
+  // find corresponding mapper in endPointConfig
+  const filterMapper = endpointConfigArgs.find( c => c.app_arg === 'filters')
+  // console.log("+ + + searchEndpointGenerator / filterMapper : \n ", filterMapper)
+  if (filterMapper && selectedFilters.length > 0 ){
+    const EndpointArg = filterMapper.arg
+    for (let index in selectedFilters) {
+      let argFilterString = EndpointArg + '=' + selectedFilters[index]
+      argsArray.push(argFilterString)
+    }
+  }
+
+  let argsLongString = argsArray.join('&')
+  baseQuery += argsLongString
+
+
+  // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
+
+  return baseQuery
+}
+
+// FILTER RELATED
 export function makeEmptySelectedFilters(filterDescriptions){
   // console.log("::: makeEmptySelectedFilters / filterDescriptions : ", filterDescriptions)
   const selectedFilters = new Map()
@@ -38,4 +157,33 @@ export function makeEmptySelectedFilters(filterDescriptions){
     selectedFilters.set(f.name, new Set())
   }
   return selectedFilters;
+}
+
+export function createSelectedFiltersForSearch(selectedFiltersMap){
+  let filtersUri = []
+  selectedFiltersMap.forEach( (val,key,map) => {
+    // console.log('val,key,map',val,key,map);
+    val.forEach( (v) => {
+      filtersUri.push(key + v)
+    })
+  })
+  // console.log(filtersUri);
+  return filtersUri
+}
+
+// OBJECT RELATED
+// FUNCTION TO PARSE AN OBJECT GIVEN A PATH
+export function getObjectDataFromPath(obj, path, splitter='/') {
+  let current = obj; 
+  // console.log("+ + + getObjectDataFromPath / current raw : \n", current )
+  try {
+    let current_temp = current
+    path.split(splitter).forEach( function(p) { 
+      current_temp = current_temp[p]; 
+    }); 
+    // console.log("+ + + getObjectDataFromPath / current final : \n", current )
+    return current_temp
+  } catch (e) {
+    return ""
+  }
 }

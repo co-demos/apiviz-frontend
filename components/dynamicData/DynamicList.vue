@@ -4,10 +4,10 @@
     mainClass="list"
     >
     <!-- TEMPORARY COMMENTED -->
-    <!-- <SearchResultsList
+    <SearchResultsList
       :routeConfig="routeConfig"
       :projectContentsFields="routeConfig.contents_fields"
-    /> -->
+    />
   </DynamicSearchScreenSqueleton>
 </template>
 

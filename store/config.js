@@ -48,23 +48,7 @@ export const getters = {
       });
     },
 
-  // ROUTE CONFIG GETTERS
-  // - - - - - - - - - - - - - - - //
-    getCurrentRouteConfig : (state) => (currentRoute) => {
-      try {
-        return state.config.routes.find(function(r) {
-          return r.urls.indexOf(currentRoute) !== -1;
-        });
-      } catch (e) {
-        state.log && console.log('err',e);
-        return undefined
-      }
-    },
-    getLocalRouteConfig : state => {
-      return state.localRouteConfig
-    },
-
-  // global-related
+  // GLOBAL RELATED
     getGlobalConfig : state => {
       return state.config.global
     },
@@ -72,12 +56,12 @@ export const getters = {
       return (state.config.global) ? state.config.global.app_languages : 'fr' 
     },
 
-  // styles-related 
+  // STYLES RELATED
     getStylesConfig : state => {
       return state.config.styles
     },
 
-  // navbar-related 
+  // NAVBAR RELATED
     hasNavbar : (state) => {      
       // state.log && console.log('S-config-hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false 
@@ -92,7 +76,7 @@ export const getters = {
       return (state.config.global) ? state.config.global.app_title.content : undefined 
     },
 
-  // footer-related
+  // FOOTER RELATED
     hasFooter : (state) => {
       return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
     },
@@ -107,7 +91,7 @@ export const getters = {
       return state.config.socials
     },
 
-  // banner-related
+  // BANNER RELATED
     hasBanner : state => {      
       // state.log && console.log('S-config-hasBanner ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false 
@@ -121,6 +105,46 @@ export const getters = {
       })
       // state.log && console.log('S-config-getCurrentBanner ... resultSet : \n', resultSet)
       return resultSet
+    },
+
+
+  // ROUTE CONFIG GETTERS
+    // - - - - - - - - - - - - - - - //
+    getCurrentRouteConfig : (state) => (currentRoute) => {
+      try {
+        return state.config.routes.find(function(r) {
+          return r.urls.indexOf(currentRoute) !== -1;
+        });
+      } catch (e) {
+        state.log && console.log('err',e);
+        return undefined
+      }
+    },
+    getLocalRouteConfig : state => {
+      return state.localRouteConfig
+    },
+    getRouteConfigListForDataset : (state, getters, rootState) => {
+      return state.config.routes.find(function(r) {
+        return r.endpoint_type === 'list'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      })
+    },
+    getRouteConfigMapForDataset : (state, getters, rootState) => {
+      return state.config.routes.find(function(r) {
+        return r.endpoint_type === 'map'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+    },
+    getRouteConfigStatForDataset : (state, getters, rootState) => {
+      return state.config.routes.find(function(r) {
+        return r.endpoint_type === 'stat'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+    },
+    getRouteConfigDefaultDatasetImages : (state, getters, rootState) => {
+      return state.config.styles.app_search_default_images_sets.images_sets.find(function(r) {
+        return r.dataset_uri === rootState.search.search.dataset_uri;
+      });
     },
 
   // ENDPOINTS CONFIG GETTERS
@@ -178,6 +202,19 @@ export const getters = {
     getCurrentDatasetURI : state => {
       return state.currentDatasetURI
     },
+
+  // DEFAULT TEXTS GETTERS
+  // - - - - - - - - - - - - - - - //
+    defaultText : (state) => (field) => {
+      // default texts fields are :
+      // 'reinit_filters', 'no_abstract', 'no_address'
+      // 'source', 'no_info'
+      const f = field.txt
+      const noAbstractDict = state.config.global.app_basic_dict[f]
+      let text = noAbstractDict.find(t=>t.locale == state.locale )
+      return text.text
+    },
+
 
 }
 

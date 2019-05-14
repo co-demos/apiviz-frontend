@@ -11,7 +11,7 @@
           v-model="searchedText"
           class="input is-large is-light input-navbar"
           :placeholder="translate(endpointConfigFilters, 'placeholder' )"
-          @input="searchedTextChanged"
+          @input="searchTextChanged"
           >
       </div>
 
@@ -86,26 +86,28 @@ import {mapState} from 'vuex'
 
 export default {
 
-  computed:
-    {
-      ...mapState({
-        log : 'log', 
-        selectedFilters: state => state.search.search.question.selectedFilters,
-        filterDescriptions: state => state.search.search.filterDescriptions
-      }),
-      searchedText: {
-        get () { return this.$store.state.search.search.question.query },
-        set (value) {
-          this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
-        }
-      },
+  computed: {
 
-      endpointConfigFilters() {
-        let configFilter = this.$store.getters['config/getEndpointConfigFilters']
-        return configFilter
+    ...mapState({
+      log : 'log', 
+      locale : state => state.locale,
+      selectedFilters: state => state.search.search.question.selectedFilters,
+      filterDescriptions: state => state.search.search.filterDescriptions
+    }),
+    
+    searchedText: {
+      get () { return this.$store.state.search.search.question.query },
+      set (value) {
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
       }
-
     },
+
+    endpointConfigFilters() {
+      let configFilter = this.$store.getters['config/getEndpointConfigFilters']
+      return configFilter
+    }
+
+  },
 
   methods: {
 
@@ -126,9 +128,14 @@ export default {
       )
     },
 
+    searchTextChanged(){
+      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+    },
+
     translate( textsToTranslate, listField ) {
       let listTexts = textsToTranslate[listField]
-      return this.$store.getters.getTranslation({ texts : listTexts })
+      // return this.$store.getters['getTranslation']({ texts : listTexts })
+      return this.$Translate( listTexts, this.locale, 'text')
     },
     isFilterFromSelectedFiltersBold(filterName){
       return false
