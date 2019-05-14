@@ -441,32 +441,22 @@
 
     <NotFoundError v-if="isError"/>
 
-    <br>
-
   </div>
 </template>
 
 
-<script>
-export default {
-  computed: {
-    ...mapState({
-        user: 'user'
-    })
-  },
-}
-</script>
-
 
 <script>
-import {mapState} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import NotFoundError from './NotFoundError.vue';
 
-import {getItemById} from '~/plugins//utils.js';
+// import { getItemById } from '~/plugins/utils.js';
 
 export default {
+
   name: 'DynamicDetail',
+
   components: {
     NotFoundError,
   },
@@ -474,27 +464,25 @@ export default {
   props: [
     'routeConfig',
     'endPointConfig',
-    // 'logo',
-    // 'brand'
   ],
 
   data: () => {
     return   {
-      displayableItem : null,
+      // displayableItem : null,
       contentFields : null,
       isError: false
     }
   },
 
   beforeMount: function () {
-    // console.log("\n - - DynamicDetail / beforeMount ... ")
+    console.log("\n - - DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
 
   },
 
   mounted(){
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    // console.log(" - - DynamicDetail / mounted... ")
+    console.log(" - - DynamicDetail / mounted... ")
     const int = setInterval(() => {
       if(window.pageYOffset < 50){
         clearInterval(int)
@@ -504,26 +492,33 @@ export default {
       }
     }, 100);
 
-    getItemById(this.$route.query.id,this.$store.state.search.endpoint)
-    .then(item => {
-      // console.log(" - - DynamicDetail / item : \n ", item)
-      // this.$store.commit('setDisplayedProject', {item})
-      this.displayableItem = item
-    })
-    .catch(function(err) { this.isError = true ; console.error('item route error', err) })
+    this.$store.dispatch('search/searchOne', this.$route.query.id)
+    
+    // LEGACY
+    // getItemById(this.$route.query.id, this.$store.state.search.search.endpoint)
+    // .then(item => {
+    //   // console.log(" - - DynamicDetail / item : \n ", item)
+    //   // this.$store.commit('setDisplayedProject', {item})
+    //   this.displayableItem = item
+    // })
+    // .catch(function(err) { this.isError = true ; console.error('item route error', err) })
   },
 
   computed: {
-    // ...mapState({
-    //   project: 'displayedProject',
-    // }),
+
     ...mapState({
-        user: 'user'
+      log : 'log', 
+      locale : state => state.locale,
+      user: state => state.user.user,
+    }),
+
+    ...mapGetters({
+      displayableItem : 'search/getDisplayedProject'
     }),
 
     // default texts
     backToResults() {
-      return this.$store.getters.defaultText({txt:'back_to_results'})
+      return this.$store.getters['config/defaultText']({txt:'back_to_results'})
     },
 
     // POSITIONS TO BE FILLED
@@ -534,72 +529,52 @@ export default {
 
     // TEXT TRANSLATORS - NO DATA 
     noData() {
-      return this.$store.getters.defaultText({txt:'no_data'})
+      return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
     noAbstractText() {
-      return this.$store.getters.defaultText({txt:'no_abstract'})
+      return this.$store.getters['config/defaultText']({txt:'no_abstract'})
     },
     noInfos() {
-      return this.$store.getters.defaultText({txt:'no_info'})
+      return this.$store.getters['config/defaultText']({txt:'no_info'})
     },
     noAddress() {
-      return this.$store.getters.defaultText({txt:'no_address'})
+      return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
 
     // TEXT TRANSLATORS - FIELD TITLES
     seeWebsite() {
-      return this.$store.getters.defaultText({txt:'see_website'})
+      return this.$store.getters['config/defaultText']({txt:'see_website'})
     },
     seeContact() {
-      return this.$store.getters.defaultText({txt:'see_contact'})
+      return this.$store.getters['config/defaultText']({txt:'see_contact'})
     },
     shareLink() {
-      return this.$store.getters.defaultText({txt:'share_link'})
+      return this.$store.getters['config/defaultText']({txt:'share_link'})
     },
     sourceData() {
-      return this.$store.getters.defaultText({txt:'source'})
+      return this.$store.getters['config/defaultText']({txt:'source'})
     },
     periodData() {
-      return this.$store.getters.defaultText({txt:'period'})
+      return this.$store.getters['config/defaultText']({txt:'period'})
     },
     infosData() {
-      return this.$store.getters.defaultText({txt:'infos'})
+      return this.$store.getters['config/defaultText']({txt:'infos'})
     },
     infosTel() {
-      return this.$store.getters.defaultText({txt:'tel'})
+      return this.$store.getters['config/defaultText']({txt:'tel'})
     },
     infosOpen() {
-      return this.$store.getters.defaultText({txt:'open_infos'})
+      return this.$store.getters['config/defaultText']({txt:'open_infos'})
     },
     infosMore() {
-      return this.$store.getters.defaultText({txt:'more_infos'})
+      return this.$store.getters['config/defaultText']({txt:'more_infos'})
     },
     servicesData() {
-      return this.$store.getters.defaultText({txt:'services'})
+      return this.$store.getters['config/defaultText']({txt:'services'})
     },
     downloadFile() {
-      return this.$store.getters.defaultText({txt:'dowload_file'})
+      return this.$store.getters['config/defaultText']({txt:'dowload_file'})
     },
-    // projectFormatted(){
-    //   if (!this.project) {
-    //     return {
-    //       tags: [],
-    //       image: '',
-    //       logo_url: '',
-    //       title: '',
-    //       address: '',
-    //       description: '',
-    //       projectPartners: '',
-    //       website: '',
-    //       pageAtSourcer: ''
-    //     }
-    //   } else {
-    //     // return this.$store.getters.getProjectConfigUniform(this.project)
-    //     return this.project
-    //   }
-    // },
-
-
 
   },
 
@@ -611,7 +586,7 @@ export default {
     },
 
     itemImage(fieldBlock){
-      return this.$store.getters.getImageUrl({item: this.displayableItem, position: fieldBlock})
+      return this.$store.getters['search/getImageUrl']({item: this.displayableItem, position: fieldBlock})
       // return this.item
     },
     matchProjectWithConfig(fieldBlock) {
@@ -670,8 +645,8 @@ export default {
 
 
     goBack(e){
-        e.preventDefault()
-        this.$router.back()
+      e.preventDefault()
+      this.$router.back()
     }
   },
 

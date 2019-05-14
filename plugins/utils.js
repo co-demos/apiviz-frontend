@@ -1,3 +1,6 @@
+
+console.log('> > > plugins/utils... ')
+
 // feature test for AbortController that works in Safari 12
 let abortableFetchSupported = false;
 
@@ -54,6 +57,34 @@ export function activateCarousel(slidesNumber=2, isInfinite=true, hasPagination=
 
 
 // SEARCH RELATED
+
+// server-side end-point to get only one project
+// export function getItemById(id, endpointConfig){
+
+//   // const url = searchEnpointCreator({
+//   //   page:1,
+//   //   per_page:1,
+//   //   baseUrl:root_url,
+//   //   item_id:id
+//   // })
+//   console.log("\nPL-getItemById ..." )
+//   console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
+
+//   const url = searchEndpointGenerator({
+//     endpointConfig : endpointConfig,
+//     questionParams : { itemId : id },
+//     selectedFilters : [],
+//   })
+//   console.log("\PL-getItemById / url : ", url )
+
+//   return fetch(url)
+//   .then(r => r.json())
+//   .then(({data, query}) =>
+//     data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
+//       ? data.data_raw.f_data[0]
+//       : undefined
+//   )
+// }
 
 export function searchItems(url = undefined){
 

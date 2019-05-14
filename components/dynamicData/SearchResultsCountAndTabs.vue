@@ -15,37 +15,43 @@
 
     <div class="buttons has-addons is-right">
 
-      <router-link 
+      <nuxt-link 
         v-if="typeof endpointConfigList !== 'undefined'"
         :disabled="endpointConfigList.is_disabled" 
         :to="endpointConfigUrlToList.urls[0]" 
-        :class="['button', view === VIEW_LIST ? 'is-selected is-primary' : undefined]" 
+        :class="['button has-text-centered', view === VIEW_LIST ? 'is-selected is-primary' : undefined]" 
         >
-        <img :src="`/static/icons/${view === VIEW_LIST ? 'icon_list_blanc.svg': 'icon_list.svg'}`">
+        <!-- <img :src="`~/assets/icons/${view === VIEW_LIST ? 'icon_list_blanc.svg': 'icon_list.svg'}`"> -->
+        <span class="icon">
+          <i class="fas fa-th-large"></i>
+        </span>
         <!-- <span>liste</span> -->
         <span>{{ translate(configTabs('tab_list')) }}</span>
-      </router-link>
+      </nuxt-link>
 
-      <router-link
+      <nuxt-link
         v-if="typeof endpointConfigMap !== 'undefined'"
         :disabled="endpointConfigMap.is_disabled" 
         :to="endpointConfigUrlToMap.urls[0]" 
-        :class="['button', view === VIEW_MAP ? 'is-selected is-primary' : undefined]" 
+        :class="['button has-text-centered', view === VIEW_MAP ? 'is-selected is-primary' : undefined]" 
         >
-        <img :src="`/static/icons/${view === VIEW_MAP ? 'icon_map_blanc.svg': 'icon_map.svg'}`">
+        <!-- <img :src="`~/assets/icons/${view === VIEW_MAP ? 'icon_map_blanc.svg': 'icon_map.svg'}`"> -->
+        <span class="icon">
+          <i class="far fa-map"></i>
+        </span>
         <!-- <span>carte</span> -->
         <span>{{ translate(configTabs('tab_map')) }}</span>
-      </router-link>
+      </nuxt-link>
 
-      <!-- <router-link
+      <!-- <nuxt-link
         v-if="typeof endpointConfigUrlToStat !== 'undefined'"
         :disabled="endpointConfigStat.is_disabled" 
         :to="endpointConfigUrlToStat.urls[0]" 
         :class="['button', view === VIEW_MAP ? 'is-selected is-primary' : undefined]" 
         >
-        <img src="/static/icons/icon_dataviz.svg">
+        <img src="~/assets/icons/icon_dataviz.svg">
         <span>{{ translate(configTabs('tab_stat')) }}</span>
-      </router-link> -->
+      </nuxt-link> -->
 
     </div>
   </div>
@@ -86,43 +92,23 @@ export default {
     ...mapState({
       log : 'log', 
       locale : state => state.locale,
-      pending: state => !!state.search.search.answer.pendingAbort,
-      total: state => state.search.search.answer.result && state.search.search.answer.result.total
+      // pending: state => !!state.search.search.answer.pendingAbort,
+      // total: state => state.search.search.answer.result && state.search.search.answer.result.total
     }),
 
-    // CONFIG ENDPOINTS
-    endpointConfigFilters() {
-      return this.$store.getters['config/getEndpointConfigFilters']
-    },
-    endpointConfigList() {
-      return this.$store.getters['config/getEndpointConfigList']
-    },
-    endpointConfigMap() {
-      return this.$store.getters['config/getEndpointConfigMap']
-    },
-    endpointConfigDetail() {
-      return this.$store.getters['config/getEndpointConfigDetail']
-    },
-    endpointConfigStat() {
-      let endpointStat =  this.$store.getters['/getEndpointConfigStat']
-      console.log("endpointStat : ", endpointStat)
-      return endpointStat
-    },
+    ...mapGetters({
+      pending : 'search/getPending',
+      total : 'search/getResultsCount',
 
-    // CONFIG ROUTES
-    endpointConfigUrlToList() {
-      let routeConfig =  this.$store.getters['config/getRouteConfigListForDataset']
-      return routeConfig
-    },
-    endpointConfigUrlToMap() {
-      let routeConfig =  this.$store.getters['config/getRouteConfigMapForDataset']
-      return routeConfig
-    },
-    // endpointConfigUrlToStat() {
-    //   let routeConfig = this.$store.getters.getRouteConfigStatForDataset
-    //   console.log("routeConfig : ", routeConfig)
-    //   return routeConfig
-    // }
+      endpointConfigFilters : 'config/getEndpointConfigFilters',
+      endpointConfigList : 'config/getEndpointConfigList',
+      endpointConfigMap : 'config/getEndpointConfigMap',
+      endpointConfigDetail : 'config/getEndpointConfigDetail',
+      endpointConfigStat : 'config/getEndpointConfigStat',
+      endpointConfigUrlToList : 'config/getRouteConfigListForDataset',
+      endpointConfigUrlToMap : 'config/getRouteConfigMapForDataset',
+    }),
+
   },
 
   methods : {
@@ -196,7 +182,7 @@ export default {
   .buttons{
     & > *{
       width: 7em;
-      justify-content: left;
+      // justify-content: left;
 
       img{
           max-height: 1.5em;

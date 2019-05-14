@@ -51,11 +51,11 @@
       :filtersConfig="localFiltersConfig"
     ></DynamicMap> -->
 
-    <!-- <DynamicDetail 
+    <DynamicDetail 
       v-if="localRouteConfig.dynamic_template == 'DynamicDetail' "
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
-    ></DynamicDetail> -->
+    ></DynamicDetail>
 
 
 
@@ -178,7 +178,7 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
 // import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue';
 
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
-// import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
+import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 // import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 
 export default {
@@ -194,7 +194,7 @@ export default {
     // DynamicStaticTest,
 
     DynamicList, 
-    // DynamicDetail,
+    DynamicDetail,
     // DynamicMap, 
 
     // LoginScreen,

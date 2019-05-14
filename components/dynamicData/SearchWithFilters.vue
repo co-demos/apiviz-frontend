@@ -13,6 +13,13 @@
           :placeholder="translate(endpointConfigFilters, 'placeholder' )"
           @input="searchTextChanged"
           >
+        <span 
+          v-show="searchedText !== ''"
+          class="icon is-large is-right has-text-grey-light"
+          @click="searchedText=''"
+          >
+          <i class="fas fa-times"></i>
+        </span>
       </div>
 
 

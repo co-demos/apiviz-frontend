@@ -113,7 +113,7 @@ export default {
     }),
 
     ...mapGetters({
-      dataset_uri : 'search/getSearchDatasetURI'
+      dataset_uri : 'search/getSearchDatasetURI',
     }),
 
     // dataset_uri(){

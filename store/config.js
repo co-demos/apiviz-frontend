@@ -206,14 +206,16 @@ export const getters = {
   // DEFAULT TEXTS GETTERS
   // - - - - - - - - - - - - - - - //
     defaultText : (state, getters, rootState) => (field) => {
+      // state.log && console.log("\nS-config-G-defaultText ..." )
+      // state.log && console.log("S-config-G-defaultText / field : ", field )
+      
       // default texts fields are :
       // 'reinit_filters', 'no_abstract', 'no_address'
       // 'source', 'no_info'
-      state.log && console.log("\nS-config-G-defaultText ..." )
-      state.log && console.log("S-config-G-defaultText / field : ", field )
+      
       const f = field.txt
       const noAbstractDict = state.config.global.app_basic_dict[f]
-      state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
+      // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
       let text = noAbstractDict.find(t=>t.locale == rootState.locale )
       return text.text
     },

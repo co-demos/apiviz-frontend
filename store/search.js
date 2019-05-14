@@ -125,7 +125,9 @@ export const getters = {
         return undefined
       }
     },
-
+    getDisplayedProject : (state) => {
+      return state.displayedProject
+    },
 
   // ITEMS CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
@@ -154,7 +156,7 @@ export const getters = {
   // IMAGES CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getImgUrl : (state, getters, rootState) => (obj) => {
-      // console.log("getImgUrl - obj : ", obj)
+      // console.log("\nS-search-G-getImgUrl / obj : ", obj)
       let image = obj.image
 
       if(!image){
@@ -188,24 +190,24 @@ export const getters = {
 
       // console.log("getImageUrl - obj : ", obj)
       const item = obj.item
-      console.log("getImageUrl - item : ", item)
+      // console.log("S-search-G-getImageUrl - item : ", item)
       
       const position = obj.position
-      console.log("getImageUrl - position : ", position)
+      // console.log("S-search-G-getImageUrl - position : ", position)
 
       const defaultImages = rootGetters['config/getRouteConfigDefaultDatasetImages']
-      // console.log("getImageUrl - defaultImages : ", defaultImages)
+      // console.log("S-search-G-getImageUrl - defaultImages : ", defaultImages)
 
-      console.log("getImageUrl - state.search.currentRouteConfig : ", state.search.currentRouteConfig)
+      // console.log("getImageUrl - state.search.currentRouteConfig : ", state.search.currentRouteConfig)
       const routeContentImagesFields = state.search.currentRouteConfig.images_fields
       // console.log("getImageUrl - routeContentImagesFields : ", routeContentImagesFields)
 
       let fieldToGet = routeContentImagesFields[position]
       let fieldImage = fieldToGet.field
-      // console.log("getImageUrl - fieldImage : ", fieldImage)
+      // console.log("S-search-G-getImageUrl - fieldImage : ", fieldImage)
 
       let image = item[fieldImage]
-      console.log("getImageUrl - image (A) : ", image)
+      // console.log("S-search-G-getImageUrl - image (A) : ", image)
 
       if(!image){
         let d = defaultImages
@@ -223,7 +225,7 @@ export const getters = {
           image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
         }
       }
-      console.log("getImageUrl - image (B) : ", image)
+      // console.log("S-search-G-getImageUrl - image (B) : ", image)
       return image
     },
 }
@@ -310,6 +312,12 @@ export const mutations = {
         error
       }
     },
+    setDisplayedProject(state, {result}){
+      state.displayedProject = result.projects[0]
+    },
+    cleanDisplayedProject(state){
+      state.displayedProject = undefined
+    }
 
 }
 
@@ -427,6 +435,7 @@ export const actions = {
       })
       state.log && console.log("S-search-A-search / endpointBis : \n", endpointGenerated )
 
+      // TO DO - CHANGE FETCH --> USE AXIOS
       // perform search --> !!! only request map search if map search results empty in store !!! 
       // const searchPendingAbort = searchItems(endpoint)
       const searchPendingAbort = searchItems(endpointGenerated)
@@ -448,5 +457,35 @@ export const actions = {
         })
     },
 
+    searchOne({state, commit, dispatch, getters}, id ){
 
+      commit('cleanDisplayedProject')
+
+      state.log && console.log("\nS-search-A-searchOne ..." )
+      state.log && console.log("\nS-search-A-searchOne / id : ", id )
+
+      // ENDPOINT GENERATOR
+      let endpointGenerated = searchEndpointGenerator({
+        endpointConfig : state.search.endpoint,
+        questionParams : { itemId : id },
+        selectedFilters : [],
+      })
+      state.log && console.log("S-search-A-searchOne / endpointBis : \n", endpointGenerated )
+
+      // TO DO - CHANGE FETCH --> USE AXIOS
+      const searchPendingAbort = searchItems(endpointGenerated)
+      commit('setSearchPending', { pendingAbort: searchPendingAbort })
+
+      searchPendingAbort.promise
+        .then(({projects, total}) => {
+          console.log("S-search-A-searchOne / projects : \n", projects )
+          commit('setDisplayedProject', { result: { projects, total }})
+        })
+        .catch(error => {
+          // don't report aborted fetch as errors
+          if (error.name !== 'AbortError')
+            commit('setSearchError', {error})
+        })
+
+    },
 }
