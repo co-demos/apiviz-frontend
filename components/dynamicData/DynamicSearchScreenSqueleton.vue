@@ -4,6 +4,7 @@
       :filtersConfig="filtersConfig"
     />
     <main :class="mainClass">
+      <!-- TEMPORARILY COMMENTED -->
       <FiltersFeedback/>
       <slot/>
     </main>
@@ -36,7 +37,17 @@ export default {
     'filtersConfig',
     'mainClass'
   ],
-  
+
+  beforeMount : function(){
+    this.log && console.log('\nC-DynamicSearchScreenSqueleton / beforeMount...')
+  },
+
+  mounted(){
+    this.log && console.log('\nC-DynamicSearchScreenSqueleton / mounted...')
+    this.log && console.log('C-DynamicSearchScreenSqueleton / this.mainClass : ', this.mainClass)
+    this.log && console.log('C-DynamicSearchScreenSqueleton / this.filtersConfig : ', this.filtersConfig)
+  },
+
 }
 </script>
 

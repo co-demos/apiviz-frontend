@@ -52,7 +52,7 @@
         <!-- BLOCK SOURCE -->
         <div class="content" v-if="matchItemWithConfig('block_src')">
           <p class="subtitle is-6 is-italic has-text-grey">
-            {{ this.$store.getters.defaultText({txt:'source'})}} : {{ matchItemWithConfig('block_src') }}
+            {{ this.$store.getters['config/defaultText']({txt:'source'})}} : {{ matchItemWithConfig('block_src') }}
           </p>
         </div>
 
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -85,33 +85,40 @@ export default {
     'contentFields',
     'view'
     ],
+
   // beforeCreate: function () {
-  //   console.log("\n - - ProjectCard / beforeCreate ... ")
+    // this.log && console.log('\nC-ProjectCard / beforeCreate...')
   // },
   // created: function () {
-  //   console.log("\n - - ProjectCard / created ... ")
+    // this.log && console.log('\nC-ProjectCard / created...')
   // },
+
   beforeMount: function () {
-    // console.log("\n - - ProjectCard / beforeMount ... ")
-    // console.log(" - - ProjectCard / this.contentFields : \n ", this.contentFields)
-    // console.log(" - - ProjectCard / this.item : \n ", this.item)
-    // console.log(" - - ProjectCard / this.$store.state.config.global.app_basic_dict : \n ", this.$store.state.config.global.app_basic_dict)
+    // this.log && console.log('\nC-ProjectCard / beforeMount...')
+    // this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
+    // this.log && console.log('\nC-ProjectCard / this.item : ', this.item)
+    // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
   },
   // mounted : function () {
-  //   console.log("\n - - ProjectCard / mounted ... ")
-  //   console.log("- - ProjectCard / this.routeConfig", this.routeConfig)
+    // this.log && console.log('\nC-ProjectCard / mounted...')
+    // this.log && console.log('\nC-ProjectCard / this.routeConfig : ', this.routeConfig)
   // },
 
   computed: {
-    // summary(){
-    //   const {description = '(projet sans résumé)'} = this.item
-    //   const tail = description.length > MAX_SUMMARY_LENGTH ? '...' : '';
-    //   return description.slice(0, MAX_SUMMARY_LENGTH) + tail
+
+    ...mapState({
+      log : 'log', 
+      locale : state => state.locale,
+    }),
+
+    ...mapGetters({
+      dataset_uri : 'search/getSearchDatasetURI'
+    }),
+
+    // dataset_uri(){
+    //   return this.$store.state.search.search.dataset_uri
     // },
-    dataset_uri(){
-      return this.$store.state.search.search.dataset_uri
-    },
     itemInfos(){
       return this.$store.getters['search/getProjectConfigUniform'](this.item)
       // return this.item
@@ -128,8 +135,11 @@ export default {
     noAddress() {
       return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
+
   },
+
   methods : {
+
     matchItemWithConfig(fieldBlock) {
       // console.log("matchItemWithConfig / fieldBlock : ", fieldBlock )
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
@@ -171,6 +181,7 @@ export default {
       let city = ( cityItem || cityItem !== 'None' ) ?  cityItem : this.noAddress
       return city
     },
+
   },
 
 };

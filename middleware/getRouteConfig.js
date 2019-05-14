@@ -27,7 +27,7 @@ export default function ({ store, route, redirect }) {
 
     // get current dataset_uri for comparison
     let previousDatasetURI = store.getters['config/getCurrentDatasetURI']
-    log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
+    // log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
 
     let localEndpointConfig = store.getters['config/getEndpointConfig']
     store.commit('config/setLocalEndpointConfig', localEndpointConfig)
@@ -48,6 +48,8 @@ export default function ({ store, route, redirect }) {
 
       store.dispatch('search/createDatasetFilters')
       store.commit('search/setIsMapSearch', currentRouteConfig)
+
+      // log && console.log('-M3- getRouteConfig / finished ...')
 
     }
 

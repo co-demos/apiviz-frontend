@@ -8,12 +8,11 @@ export default function ({ store, route, redirect }) {
   let promiseArray = []
   
   // CHECK IF config.global is undefined yet
-  // if ( typeof store.state.config.global === 'undefined' ) {
     if ( typeof store.getters['config/getGlobalConfig'] === 'undefined' ) {
     
-    log && console.log('\n--M2-- getAppConfig...')
+    // log && console.log('\n--M2-- getAppConfig...')
 
-    log && console.log("--M2-- getAppConfig / store.state.config.global is undefined ...")
+    // log && console.log("--M2-- getAppConfig / store.state.config.global is undefined ...")
     promiseArray.push(
 
       store.dispatch('config/getConfigAll')

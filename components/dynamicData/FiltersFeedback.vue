@@ -38,13 +38,22 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
+
   name: 'FiltersFeedback',
+
+  beforeMount : function(){
+    // this.log && console.log('\nC-FiltersFeedback / beforeMount...')
+  },
+
   computed: {
+
     ...mapState({
-      filterDescriptions: 'filterDescriptions',
+      log : 'log',
+      locale : state => state.locale,
+      // filterDescriptions: state => state.search.filterDescriptions,
       selectedFilters: state => {
         const {selectedFilters} = state.search.search.question
         const filters = []
@@ -56,8 +65,14 @@ export default {
         return filters
       }
     }),
+
+    ...mapGetters({
+      filterDescriptions : 'search/getFilterDescriptions'
+    }),
   },
+
   methods: {
+
     clearAllFilters(){
       this.$store.dispatch( 'search/clearAllFilters' )
     },

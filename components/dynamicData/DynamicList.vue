@@ -3,7 +3,7 @@
     :filtersConfig="filtersConfig"
     mainClass="list"
     >
-    <!-- TEMPORARY COMMENTED -->
+    <!-- TEMPORARILY COMMENTED -->
     <SearchResultsList
       :routeConfig="routeConfig"
       :projectContentsFields="routeConfig.contents_fields"
@@ -26,6 +26,10 @@ export default {
     'endPointConfig',
     'filtersConfig'
   ],
+
+  beforeMount : function(){
+    // this.log && console.log('\nC-DynamicList / beforeMount...')
+  },
 
   data: () => {
     return   {

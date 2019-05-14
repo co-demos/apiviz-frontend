@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import ProjectCard from './ProjectCard.vue'
+import { mapState, mapGetters } from 'vuex'
 
+import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 
 import {VIEW_LIST} from '../../config/constants.js'
@@ -48,6 +48,7 @@ import {VIEW_LIST} from '../../config/constants.js'
 let scrollListener;
 
 export default {
+
   name: 'SearchResultsList',
 
   components: {
@@ -59,6 +60,10 @@ export default {
     'routeConfig',
     'projectContentsFields'
   ],
+
+  beforeMount : function(){
+    this.log && console.log('\nC-SearchResultsList / beforeMount...')
+  },
 
   data(){
     return {
@@ -82,6 +87,8 @@ export default {
   // },
 
   mounted(){
+
+    this.log && console.log('C-SearchResultsList / mounted ...')
 
     this.$store.dispatch('search/setSearchConfigDisplay');
     this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
@@ -108,26 +115,36 @@ export default {
   },
 
   computed: {
-    projectColumns(){
-      const {projects} = this.$store.state.search.search.answer.result;
-      const getSearchConfigColumnCount = this.$store.getters['search/getSearchConfigColumnCount']
 
-      if(projects && getSearchConfigColumnCount){
+    projectColumns(){
+
+      this.log && console.log('\nC-SearchResultsList / projectColumns ...')
+
+      // const {projects} = this.$store.state.search.search.answer.result;
+      const {projects} = this.$store.getters['search/getResultObject']
+      this.log && console.log('C-SearchResultsList / projectColumns / projects : ', projects)
+
+      const getSearchConfigColumnCount = this.$store.getters['search/getSearchConfigColumnCount']
+      this.log && console.log('C-SearchResultsList / projectColumns / getSearchConfigColumnCount : ', getSearchConfigColumnCount)
+
+      if ( projects && getSearchConfigColumnCount ){
         const columnsData = Array(getSearchConfigColumnCount).fill().map(() => []);
 
         projects.slice(0, this.showCount).forEach((p, i) => {
             columnsData[i%getSearchConfigColumnCount].push(p);
         })
 
+        this.log && console.log('C-SearchResultsList / projectColumns / columnsData : ', columnsData)
         return columnsData
       }
     },
+
     ...mapState({
       log : 'log', 
       locale : state => state.locale,
-      pending: state => !!state.search.search.answer.pendingAbort,
-      projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
-      total: state => state.search.search.answer.result && state.search.search.answer.result.total,
+      // pending: state => !!state.search.search.answer.pendingAbort,
+      // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
+      // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
       hasSelectedFilters: state => {
         const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
         if(!selectedFilters)
@@ -135,18 +152,24 @@ export default {
 
         return [...selectedFilters.values()].some(selectedFilterValues => selectedFilterValues.size >= 1)
       }
-    })
+    }),
+
+    ...mapGetters({
+      pending : 'search/getPending',
+      projects : 'search/getResults',
+      total : 'search/getResultsCount',
+    }),
+
   },
 
   methods: {
     clearAllFilters(){
-      this.$store.dispatch( 'clearAllFilters' )
+      this.$store.dispatch( 'search/clearAllFilters' )
     }
   },
 
   beforeDestroy(){
     window.removeEventListener('scroll', scrollListener)
-
     scrollListener = undefined;
   }
 

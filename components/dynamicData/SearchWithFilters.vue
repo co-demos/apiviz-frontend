@@ -82,27 +82,52 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
+
+  name: 'SearchWithFilters',
+
+  beforeMount : function(){
+    // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+  },
+
+  mounted(){
+
+    // this.log && console.log('C-SearchWithFilters / mounted...')
+
+    if(!this.$store.state.search.search.answer.result){
+      // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
+      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+    }
+
+    // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
+  },
 
   computed: {
 
     ...mapState({
       log : 'log', 
       locale : state => state.locale,
-      selectedFilters: state => state.search.search.question.selectedFilters,
-      filterDescriptions: state => state.search.search.filterDescriptions
+      // selectedFilters: state => state.search.search.question.selectedFilters,
+      // filterDescriptions: state => state.search.filterDescriptions
     }),
-    
+
+    ...mapGetters({
+      selectedFilters : 'search/getSelectedFilters',
+      filterDescriptions : 'search/getFilterDescriptions'
+    }),
+
     searchedText: {
       get () { return this.$store.state.search.search.question.query },
       set (value) {
+        // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
         this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
       }
     },
 
     endpointConfigFilters() {
+      this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
       let configFilter = this.$store.getters['config/getEndpointConfigFilters']
       return configFilter
     }
@@ -112,9 +137,9 @@ export default {
   methods: {
 
     collapseChoices(filterName){
-      // console.log("collapseChoices / filterName : ", filterName)
+      console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
       let element = this.$refs[filterName][0]
-      // console.log("collapseChoices / element : ", element)
+      // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
       element.classList.toggle("hide-choices")
     },
 
@@ -123,12 +148,13 @@ export default {
     },
     changeFilter({target}){
       this.$store.dispatch(
-        'toggleFilter',
+        'search/toggleFilter',
         {filter: target.getAttribute('data-filter'), value: target.getAttribute('data-choice')}
       )
     },
 
     searchTextChanged(){
+      this.log && console.log('C-SearchWithFilters / searchTextChanged...')
       this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
     },
 
@@ -148,11 +174,7 @@ export default {
     },
   },
 
-  mounted(){
-    if(!this.$store.state.search.search.answer.result){
-      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
-    }
-  }
+
 }
 </script>
 

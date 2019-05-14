@@ -64,29 +64,55 @@ export const state = () => ({
 
 export const getters = {
 
+  // FILTER RELATED
+  // - - - - - - - - - - - - - - - //
     getSelectedFilters : state => {
       return state.search.question.selectedFilters
     },  
-    getSearchConfigColumnCount : state => {
-      state.search.config.display.columnCount
-    },
-    getSearchConfigDefaultShowCount : state => {
-      state.search.config.display.defaultShowCount
-    },
-    getSearchConfigMoreProjectOnScrollCount : state => {
-      state.search.config.display.moreProjectOnScrollCount
-    },
-    getSearchConfigScrollBeforeBottomTrigger : state => {
-      state.search.config.display.scrollBeforeBottomTrigger
+    getFilterDescriptions : state => {
+      // state.log && console.log("\nS-search-G-getFilterDescriptions ..." )
+      // state.log && console.log("S-search-G-getFilterDescriptions / state.search.question.filterDescriptions : \n", state.search.question.filterDescriptions )
+      return state.filterDescriptions
     },
 
+  // XXX RELATED
+  // - - - - - - - - - - - - - - - //
+    getSearchConfigColumnCount : state => {
+      state.log && console.log("\nS-search-G-getSearchConfigColumnCount ..." )
+      return state.search.config.display.columnCount
+    },
+    getSearchConfigDefaultShowCount : state => {
+      return state.search.config.display.defaultShowCount
+    },
+    getSearchConfigMoreProjectOnScrollCount : state => {
+      return state.search.config.display.moreProjectOnScrollCount
+    },
+    getSearchConfigScrollBeforeBottomTrigger : state => {
+      return state.search.config.display.scrollBeforeBottomTrigger
+    },
     getSearchDatasetURI : state => {
       return state.search.dataset_uri
     },
 
-  // RESULTS
+  // RESULTS RELATED
+  // - - - - - - - - - - - - - - - //
+    getPending : (state) => {
+      return !!state.search.answer.pendingAbort
+    },
+    getResultObject : (state) => {
+      return state.search.answer.result
+    },
     getResults : (state) => {
+      state.log && console.log("\nS-search-G-getResults ..." )
       return state.search.answer.result && state.search.answer.result.projects
+    },
+    getResultsList : (state) => {
+      state.log && console.log("\nS-search-G-getResultsList ..." )
+      return state.search.answer.result ? state.search.answer.result.projects : undefined
+    },
+    getResultsCount : (state) => {
+      state.log && console.log("\nS-search-G-getResultsCount ..." )
+      return state.search.answer.result ? state.search.answer.result.total : 0
     },
     getGeoResults : (state, getters) => {
       let allResults = getters.getResults
@@ -100,8 +126,9 @@ export const getters = {
       }
     },
 
+
   // ITEMS CONFIG GETTERS
-    // - - - - - - - - - - - - - - - //
+  // - - - - - - - - - - - - - - - //
     getProjectConfig : (state, getters, rootState) => (position) => {
       try {
         return state.search.currentRouteConfig.contents_fields.find( function(f) {  return f.position === position; });
@@ -135,7 +162,7 @@ export const getters = {
         if (state.search.dataset_uri
           && rootState.config.config.styles
           && rootState.config.config.styles.app_search_default_images_sets
-          && state.config.styles.app_search_default_images_sets.images_sets) {
+          && rootState.config.config.styles.app_search_default_images_sets.images_sets) {
           let d = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function(d){
             return d.dataset_uri === state.search.dataset_uri;
           })
@@ -234,6 +261,8 @@ export const mutations = {
       state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
     },
     setSearchedText (state, {searchedText}) {
+      // state.log && console.log("\nS-search-M-setSearchedText ..." )
+      // state.log && console.log("S-search-M-setSearchedText / searchedText : ", searchedText )
       state.search.question.query = searchedText
     },
     setSelectedFilters (state, {selectedFilters}) {
@@ -247,9 +276,6 @@ export const mutations = {
       state.search.question.selectedFilters.set(filter, new Set())
       // trigger re-render
       state.search.question.selectedFilters = new Map(state.search.question.selectedFilters)
-    },
-    clearAllFilters(state){
-      state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
     },
     setSearchParam(state,{type,result}){
       state.search[type] = result
@@ -290,16 +316,18 @@ export const mutations = {
 export const actions = {
 
   // TO VARIABILIZE
-  setSearchConfigDisplay({commit}) {
-    // here this function will probably change when this may be inherited from the configuration files
-    const defaultDisplay = {
-      columnCount : 4,
-      defaultShowCount : 50,
-      moreProjectOnScrollCount : 20,
-      scrollBeforeBottomTrigger : 500
-    }
-    commit('setSearchConfig', {type:'display',result:defaultDisplay});
-  },
+    setSearchConfigDisplay({state, commit}) {
+      // here this function will probably change when this may be inherited from the configuration files
+      // state.log && console.log("\nS-search-A-setSearchConfigDisplay ...")
+      const defaultDisplay = {
+        columnCount : 4,
+        defaultShowCount : 50,
+        moreProjectOnScrollCount : 20,
+        scrollBeforeBottomTrigger : 500
+      }
+      // state.log && console.log("\nS-search-A-setSearchConfigDisplay / defaultDisplay :", defaultDisplay)
+      commit('setSearchConfig', {type:'display',result:defaultDisplay});
+    },
 
   // FOR ENDPOINT CONFIG
     setSearchEndpointConfig({state, commit,rootGetters}, currentRouteConfig) {
@@ -322,14 +350,19 @@ export const actions = {
     
   // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
-      // state.log && console.log("S-search-createDatasetFilters / state : ", state )
+      // state.log && console.log("\nS-search-A-createDatasetFilters / state : ", state )
+      
       const currentFiltersConfig = rootGetters['config/getEndpointConfigFilters']
-      // state.log && console.log("S-search-createDatasetFilters / currentFiltersConfig : ", currentFiltersConfig)
+      // state.log && console.log("S-search-A-createDatasetFilters / currentFiltersConfig : ", currentFiltersConfig)
+      
       if (currentFiltersConfig && currentFiltersConfig.filter_options){
         let filterDescriptions = currentFiltersConfig.filter_options
+        // state.log && console.log("S-search-A-createDatasetFilters / filterDescriptions : ", filterDescriptions)
         commit('setFilterDescriptions', filterDescriptions)
         commit('clearAllFilters')
       }
+      // state.log && console.log("S-search-A-createDatasetFilters / finished...")
+
     },
 
   // FOR QUERY SEARCH FILTERS
@@ -356,14 +389,15 @@ export const actions = {
       dispatch('search')
     },
   
-    clearAllFilters({commit, dispatch}){
-      // state.log && console.log("\n// clearAllFilters ..." )
+    clearAllFilters({state, commit, dispatch}){
+      // state.log && console.log("S-search-A-clearAllFilters ..." )
       commit('clearAllFilters')
       dispatch('search')
     },
 
   // FOR QUERY SEARCH TEXT
-    searchedTextChanged({commit, dispatch}, {searchedText}){
+    searchedTextChanged({state, commit, dispatch}, {searchedText}){
+      // state.log && console.log("\nS-search-A-searchedTextChanged ..." )
       commit('setSearchedText', {searchedText})
       dispatch('search')
     },
@@ -373,12 +407,13 @@ export const actions = {
   // MAIN SEARCH ACTION
     search({state, commit, dispatch, getters}){
 
-      state.log && console.log("S-search-A-search / main action to query endpoint..." )
-      const {search} = state;
-      // console.log("// search / search : ", search )
+      state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+      
+      const search = state.search;
+      // state.log && console.log("S-search-A-search / search : ", search )
 
       const selectedFilters = createSelectedFiltersForSearch(getters.getSelectedFilters)
-      // state.log && console.log('selectedFilters',selectedFilters);
+      // state.log && console.log('S-search-A-search / selectedFilters',selectedFilters);
       // abort previous search if any
       if(search.answer.pendingAbort){
         search.answer.pendingAbort.abort()
@@ -390,8 +425,7 @@ export const actions = {
         questionParams : state.search.question,
         selectedFilters : selectedFilters,
       })
-      // state.log && console.log("-- search / endpointBis : \n", endpointGenerated )
-
+      state.log && console.log("S-search-A-search / endpointBis : \n", endpointGenerated )
 
       // perform search --> !!! only request map search if map search results empty in store !!! 
       // const searchPendingAbort = searchItems(endpoint)
@@ -400,8 +434,8 @@ export const actions = {
 
       searchPendingAbort.promise
         .then(({projects, total}) => {
-          // state.log && console.log("-- search / total : \n", total )
-          // state.log && console.log("-- search / projects : \n", projects )
+          // state.log && console.log("S-search-A-search / total : \n", total )
+          // state.log && console.log("S-search-A-search / projects : \n", projects )
 
           // if search is for map either fill resultMap if empty or do nothing
           commit('setSearchResult', {result: {projects, total}})

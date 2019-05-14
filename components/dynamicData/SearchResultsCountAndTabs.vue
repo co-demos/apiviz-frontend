@@ -52,11 +52,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
 
 export default {
+
   name: 'SearchResultsCountAndTabs',
   
   props: [
@@ -70,6 +71,14 @@ export default {
       VIEW_LIST,
       VIEW_STAT
     }
+  },
+
+  beforeMount : function(){
+    this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
+  },
+
+  mounted(){
+
   },
 
   computed: {

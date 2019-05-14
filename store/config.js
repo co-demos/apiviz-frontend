@@ -205,13 +205,16 @@ export const getters = {
 
   // DEFAULT TEXTS GETTERS
   // - - - - - - - - - - - - - - - //
-    defaultText : (state) => (field) => {
+    defaultText : (state, getters, rootState) => (field) => {
       // default texts fields are :
       // 'reinit_filters', 'no_abstract', 'no_address'
       // 'source', 'no_info'
+      state.log && console.log("\nS-config-G-defaultText ..." )
+      state.log && console.log("S-config-G-defaultText / field : ", field )
       const f = field.txt
       const noAbstractDict = state.config.global.app_basic_dict[f]
-      let text = noAbstractDict.find(t=>t.locale == state.locale )
+      state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
+      let text = noAbstractDict.find(t=>t.locale == rootState.locale )
       return text.text
     },
 
@@ -225,23 +228,19 @@ export const mutations = {
     // state.log && console.log("result : ", result)
     state.config[type] = result
   },
-
   setLocalRouteConfig(state, routeConfig) {
     // state.log && console.log("S-config-setLocalRouteConfig...")
     state.localRouteConfig = routeConfig
     // state.log && console.log("S-config-setLocalRouteConfig / state.localRouteConfig : ", state.localRouteConfig)
   },
-
   setLocalEndpointConfig(state, localEndpointConfig) {
     // state.log && console.log("S-config-setLocalEndpointConfig...")
     state.localEndpointConfig = localEndpointConfig
   },
-
   setCurrentDatasetURI(state, currentDatasetURI) {
     // state.log && console.log("S-config-setCurrentDatasetURI...")
     state.currentDatasetURI = currentDatasetURI
   },
-
   setLocalFiltersConfig(state, localFiltersConfig) {
     // state.log && console.log("S-config-setLocalFiltersConfig...")
     state.localFiltersConfig = localFiltersConfig

@@ -140,8 +140,14 @@
           <!-- localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>  -->
           <hr>
           currentDatasetURI : <code>{{ currentDatasetURI }}</code><br> 
-          localEndpointConfig : <code>{{ localEndpointConfig }}</code><br> 
-          localFiltersConfig : <code>{{ localFiltersConfig }}</code><br> 
+          <!-- localEndpointConfig : <code>{{ localEndpointConfig }}</code><br>  -->
+          <!-- localFiltersConfig : <br><pre><code>{{ JSON.stringify(localFiltersConfig, null, 1) }}</code></pre><br>  -->
+          <hr>
+          datasetFilters : <br><pre><code>{{ JSON.stringify(datasetFilters, null, 1) }}</code></pre><br>
+          <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions, null, 1) }}</code></pre><br> -->
+          search.config : <br><pre><code>{{ JSON.stringify(search.config, null, 1) }}</code></pre><br>
+          search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br>
+          search.answer : <br><pre><code>{{ JSON.stringify(search.answer, null, 1) }}</code></pre><br>
           <hr>
           <!-- jwt : <br><code>{{ jwt }}</code><br> -->
           <!-- user : <br><code>{{ user }}</code><br> -->
@@ -203,9 +209,9 @@ export default {
   ],
 
   beforeMount : function(){
-    // console.log('\nP-index.vue / beforeMount...')
-    // console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
-    // console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
+    // this.log && console.log('\nP-index.vue / beforeMount...')
+    // this.log && console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
+    // this.log && console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
   },
 
   data () {
@@ -234,6 +240,8 @@ export default {
       // globalConfig : state => state.config.global,
 
       search : state => state.search.search,
+      filterDescriptions : state => state.search.filterDescriptions,
+      datasetFilters : state => state.search.datasetFilters,
 
       user : state => state.user.user,
       jwt : state => state.user.jwt
