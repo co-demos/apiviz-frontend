@@ -96,12 +96,12 @@ export default {
   name: 'SearchWithFilters',
 
   beforeMount : function(){
-    // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+    this.log && console.log('\nC-SearchWithFilters / beforeMount...')
   },
 
   mounted(){
 
-    // this.log && console.log('C-SearchWithFilters / mounted...')
+    this.log && console.log('C-SearchWithFilters / mounted...')
 
     if(!this.$store.state.search.search.answer.result){
       // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
@@ -126,7 +126,8 @@ export default {
     }),
 
     searchedText: {
-      get () { return this.$store.state.search.search.question.query },
+      // get () { return this.$store.state.search.search.question.query },
+      get () { return this.$store.getters['search/getSearchQuestionQuery'] },
       set (value) {
         // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
         this.$store.dispatch('search/searchedTextChanged', {searchedText: value})

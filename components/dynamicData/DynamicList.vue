@@ -6,8 +6,8 @@
     <!-- TEMPORARILY COMMENTED -->
     <SearchResultsList
       :routeConfig="routeConfig"
-      :projectContentsFields="routeConfig.contents_fields"
     />
+      <!-- :projectContentsFields="routeConfig.contents_fields" -->
   </DynamicSearchScreenSqueleton>
 </template>
 

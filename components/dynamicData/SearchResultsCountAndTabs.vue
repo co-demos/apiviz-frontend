@@ -13,6 +13,13 @@
       <slot name="project"/>
     </div>
 
+    <!-- DEBUGGING -->
+    <!-- <div class="container"> -->
+      <!-- -- SearchResultsCountAndTabs --<br> -->
+      <!-- total : <br><code>{{ total }}</code><br> -->
+      <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
+    <!-- </div> -->
+
     <div class="buttons has-addons is-right">
 
       <nuxt-link 
@@ -54,6 +61,7 @@
       </nuxt-link> -->
 
     </div>
+
   </div>
 </template>
 

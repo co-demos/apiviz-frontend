@@ -5,6 +5,14 @@
       :class="`card proj-card ${ view === 'VIEW_LIST' ? 'hover-effect' : ''}`"
       >
       
+      <!-- DEBUGGING -->
+      <!-- <div class="container"> -->
+        <!-- -- ProjectCard --<br> -->
+        <!-- dataset_uri : <br><code>{{ dataset_uri }}</code><br> -->
+        <!-- block_id : <br><code>{{ matchItemWithConfig('block_id') }}</code><br> -->
+        <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
+        <!-- contentFields : <br><pre><code>{{ JSON.stringify(contentFields , null, 1) }}</code></pre><br>  -->
+      <!-- </div> -->
 
       <!-- BLOCK IMAGE -->
       <router-link 
@@ -23,7 +31,7 @@
 
         <div class="content" v-if="projectCity()">
           <span class="icon">
-            <img class="image is-16x16" src="/static/icons/icon_pin.svg">
+            <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
           </span>
           <span class="subtitle is-6 is-capitalized">
             <!-- {{ matchItemWithConfig('block_address')}} -->
@@ -141,7 +149,7 @@ export default {
   methods : {
 
     matchItemWithConfig(fieldBlock) {
-      // console.log("matchItemWithConfig / fieldBlock : ", fieldBlock )
+      // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
       if (contentField) {
         const field = contentField.field
@@ -171,13 +179,13 @@ export default {
     },
     projectAddress() {
       let fullAddress = this.matchItemWithConfig('block_address')
-      console.log('fullAddress : ', fullAddress)
+      // this.log && console.log('C-ProjectCard / fullAddress : ', fullAddress)
       let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
       return address
     },
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
-      // console.log('cityItem : ', cityItem)
+      // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)
       let city = ( cityItem || cityItem !== 'None' ) ?  cityItem : this.noAddress
       return city
     },

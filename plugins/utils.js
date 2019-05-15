@@ -1,5 +1,5 @@
 
-console.log('> > > plugins/utils... ')
+console.log('+ + + plugins/utils... ')
 
 // feature test for AbortController that works in Safari 12
 let abortableFetchSupported = false;
@@ -59,36 +59,51 @@ export function activateCarousel(slidesNumber=2, isInfinite=true, hasPagination=
 // SEARCH RELATED
 
 // server-side end-point to get only one project
-// export function getItemById(id, endpointConfig){
+  // export function getItemById(id, endpointConfig){
 
-//   // const url = searchEnpointCreator({
-//   //   page:1,
-//   //   per_page:1,
-//   //   baseUrl:root_url,
-//   //   item_id:id
-//   // })
-//   console.log("\nPL-getItemById ..." )
-//   console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
+  //   // const url = searchEnpointCreator({
+  //   //   page:1,
+  //   //   per_page:1,
+  //   //   baseUrl:root_url,
+  //   //   item_id:id
+  //   // })
+  //   console.log("\nPL-getItemById ..." )
+  //   console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
 
-//   const url = searchEndpointGenerator({
-//     endpointConfig : endpointConfig,
-//     questionParams : { itemId : id },
-//     selectedFilters : [],
-//   })
-//   console.log("\PL-getItemById / url : ", url )
+  //   const url = searchEndpointGenerator({
+  //     endpointConfig : endpointConfig,
+  //     questionParams : { itemId : id },
+  //     selectedFilters : [],
+  //   })
+  //   console.log("\PL-getItemById / url : ", url )
 
-//   return fetch(url)
-//   .then(r => r.json())
-//   .then(({data, query}) =>
-//     data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
-//       ? data.data_raw.f_data[0]
-//       : undefined
-//   )
-// }
+  //   return fetch(url)
+  //   .then(r => r.json())
+  //   .then(({data, query}) =>
+  //     data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
+  //       ? data.data_raw.f_data[0]
+  //       : undefined
+  //   )
+  // }
 
-export function searchItems(url = undefined){
+// cf : https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
+export function resolvePathString(path, obj=self, separator='/') {
+  // console.log("\n+ + + resolvePathString ... ");
+  // console.log("+ + + resolvePathString / path : ", path);
+  // console.log("+ + + resolvePathString / obj : ", obj);
 
-  // console.log("+ + + searchItems ... ");
+  var properties = Array.isArray(path) ? path : path.split(separator)
+  // console.log("+ + + resolvePathString / properties : ", properties);
+
+  return properties.reduce((prev, curr) => prev && prev[curr], obj)
+
+}
+
+export function searchItems(url=undefined, responsePaths=undefined){
+
+  console.log("\n+ + + searchItems ... ");
+
+  console.log("+ + + searchItems / url : ", url);
 
   // abort fetch if this is supported
   // abort manually when response arrives otherwise
@@ -110,16 +125,30 @@ export function searchItems(url = undefined){
         throw error
       }
       else{
-        // console.log("+ + + searchItems (response) / data :", data);
-        return {
-          projects: data
-          && data.data_raw
-          && data.data_raw.f_data
-          && Array.isArray(data.data_raw.f_data)
-          ? data.data_raw.f_data
-          : [],
-          total: (data && data.data_raw && data.data_raw.f_data_count) ? data.data_raw.f_data_count : 0
+        console.log("+ + + searchItems (response) / data :", data);
+        
+        // read responsePath and populate dataStrcture correspondingly
+        // console.log("+ + + searchItems / responsePaths : ", responsePaths);
+        let responseProjects = resolvePathString(responsePaths.projects.path, data, '/')
+        // console.log("+ + + searchItems / responseProjects : ", responseProjects);
+        let responseTotal = resolvePathString(responsePaths.total.path, data, '/')
+        let dataStructure = {
+          projects : responseProjects,
+          total : responseTotal
         }
+
+        // return {
+        //   projects: data
+        //   && data.data_raw
+        //   && data.data_raw.f_data
+        //   && Array.isArray(data.data_raw.f_data)
+        //   ? data.data_raw.f_data
+        //   : [],
+        //   total: (data && data.data_raw && data.data_raw.f_data_count) ? data.data_raw.f_data_count : 0
+        // }
+
+        return dataStructure
+
       }
     })
 

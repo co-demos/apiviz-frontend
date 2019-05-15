@@ -93,6 +93,9 @@ export const getters = {
     getSearchDatasetURI : state => {
       return state.search.dataset_uri
     },
+    getSearchQuestionQuery : state => {
+      return state.search.question.Query
+    },
 
   // RESULTS RELATED
   // - - - - - - - - - - - - - - - //
@@ -315,9 +318,12 @@ export const mutations = {
     setDisplayedProject(state, {result}){
       state.displayedProject = result.projects[0]
     },
-    cleanDisplayedProject(state){
+    clearResults(state){
+      state.search.answer.result = undefined
+    },
+    clearDisplayedProject(state){
       state.displayedProject = undefined
-    }
+    },
 
 }
 
@@ -437,17 +443,22 @@ export const actions = {
 
       // TO DO - CHANGE FETCH --> USE AXIOS
       // perform search --> !!! only request map search if map search results empty in store !!! 
-      // const searchPendingAbort = searchItems(endpoint)
-      const searchPendingAbort = searchItems(endpointGenerated)
+      const responsePaths = state.search.endpoint.resp_fields
+      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+
+      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
-        .then(({projects, total}) => {
+        // .then(({projects, total}) => {
+        .then(( response ) => {
+          state.log && console.log("S-search-A-search / response : \n", response )
           // state.log && console.log("S-search-A-search / total : \n", total )
           // state.log && console.log("S-search-A-search / projects : \n", projects )
 
           // if search is for map either fill resultMap if empty or do nothing
-          commit('setSearchResult', {result: {projects, total}})
+          commit('setSearchResult', {result: { projects : response.projects, total : response.total }})
+          // commit('setSearchResult', {result: {projects, total}})
           // commit ('setSearchResultMap', {resultMap: {projects, total}})
         })
         .catch(error => {
@@ -459,7 +470,7 @@ export const actions = {
 
     searchOne({state, commit, dispatch, getters}, id ){
 
-      commit('cleanDisplayedProject')
+      commit('clearDisplayedProject')
 
       state.log && console.log("\nS-search-A-searchOne ..." )
       state.log && console.log("\nS-search-A-searchOne / id : ", id )
@@ -472,14 +483,18 @@ export const actions = {
       })
       state.log && console.log("S-search-A-searchOne / endpointBis : \n", endpointGenerated )
 
+      const responsePaths = state.search.endpoint.resp_fields
+      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+
       // TO DO - CHANGE FETCH --> USE AXIOS
-      const searchPendingAbort = searchItems(endpointGenerated)
+      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
-        .then(({projects, total}) => {
-          console.log("S-search-A-searchOne / projects : \n", projects )
-          commit('setDisplayedProject', { result: { projects, total }})
+        .then(( response ) => {
+          console.log("S-search-A-searchOne / response : \n", response )
+          // commit('setDisplayedProject', { result: { projects, total }})
+          commit('setDisplayedProject', {result: { projects : response.projects, total : response.total }})
         })
         .catch(error => {
           // don't report aborted fetch as errors

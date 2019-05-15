@@ -33,7 +33,7 @@
       v-if="localRouteConfig.dynamic_template == 'DynamicStaticTest' "
     ></DynamicStaticTest> -->
 
-
+    
 
 
     <!-- DATA VISUALISATION -->
@@ -120,17 +120,17 @@
 
         <hr>
         <div>
-          (console) log : <code>{{ log }}</code><br>
+          <!-- (console) log : <code>{{ log }}</code><br> -->
           <!-- runMode : <code>{{ runMode }}</code><br> -->
           <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br> -->
           <!-- rootUrlBackend : <code>{{ rootUrlBackend }}</code><br> -->
           <!-- rootUrlAuth : <code>{{ rootUrlAuth }}</code><br> -->
           <!-- locale : <code>{{ locale }}</code><br> -->
           <!-- <hr> -->
-          has_navbar : <code>{{ has_navbar }}</code><br>
+          <!-- has_navbar : <code>{{ has_navbar }}</code><br> -->
           <!-- globalConfig.app_logo : <br><code>{{ globalConfig.app_logo }}</code><br> -->
-          has_banner : <code>{{ has_banner }}</code><br>
-          <hr>
+          <!-- has_banner : <code>{{ has_banner }}</code><br> -->
+          <!-- <hr> -->
           <!-- navbarConfig : <br><code>{{ navbarConfig }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
@@ -143,11 +143,18 @@
           <!-- localEndpointConfig : <code>{{ localEndpointConfig }}</code><br>  -->
           <!-- localFiltersConfig : <br><pre><code>{{ JSON.stringify(localFiltersConfig, null, 1) }}</code></pre><br>  -->
           <hr>
-          datasetFilters : <br><pre><code>{{ JSON.stringify(datasetFilters, null, 1) }}</code></pre><br>
+          <!-- datasetFilters : <br><pre><code>{{ JSON.stringify(datasetFilters, null, 1) }}</code></pre><br> -->
+          
           <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions, null, 1) }}</code></pre><br> -->
-          search.config : <br><pre><code>{{ JSON.stringify(search.config, null, 1) }}</code></pre><br>
+          search.dataset_uri : <code>{{ search.dataset_uri }}</code><br> 
+          search.endpoint_type : <code>{{ search.endpoint_type }}</code><br> 
+          <!-- search.endpoint : <br><pre><code>{{ JSON.stringify(search.endpoint, null, 1) }}</code></pre><br>  -->
+
+
+          <!-- search.config : <br><pre><code>{{ JSON.stringify(search.config, null, 1) }}</code></pre><br> -->
           search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br>
-          search.answer : <br><pre><code>{{ JSON.stringify(search.answer, null, 1) }}</code></pre><br>
+          search.answer.result.total : <code>{{ search.answer.result ? search.answer.result.total : "nothing yet" }}</code><br>
+          <!-- search.answer : <br><pre><code>{{ JSON.stringify(search.answer, null, 1) }}</code></pre><br> -->
           <hr>
           <!-- jwt : <br><code>{{ jwt }}</code><br> -->
           <!-- user : <br><code>{{ user }}</code><br> -->
@@ -161,12 +168,14 @@
     </section>
 
 
+
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+// default nuxt boilerplate ....
 // import Logo from '~/components/Logo.vue'
 
 import NavBar from '~/components/dynamicUx/NavBar.vue';

@@ -1,5 +1,14 @@
 <template>
   <section class="search-results-list">
+
+    <!-- DEBUGGING -->
+    <!-- <div class="container"> -->
+      <!-- -- SearchResultsList --<br> -->
+      <!-- routeConfig.dataset_uri : <code>{{ routeConfig.dataset_uri }}</code><br> -->
+      <!-- routeConfig.contents_fields : <br><pre><code>{{ JSON.stringify(routeConfig.contents_fields , null, 1) }}</code></pre><br>  -->
+      <!-- <br> -->
+    <!-- </div> -->
+
     <div class="container" v-if="pending">
       <div class="pending">Recherche en cours...</div>
     </div>
@@ -33,6 +42,7 @@
           </button>
         </div>
       </div>
+
     </div>
   </section>
 </template>
@@ -58,11 +68,22 @@ export default {
 
   props: [
     'routeConfig',
-    'projectContentsFields'
+    // 'projectContentsFields'
   ],
 
+
+  // beforeCreate: function () {
+    //   console.log("\n - - SearchResultsList / beforeCreate ... ")
+  // },
+  // created: function () {
+    //   console.log("\n - - SearchResultsList / created ... ")
+  // },
   beforeMount : function(){
     this.log && console.log('\nC-SearchResultsList / beforeMount...')
+    // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
+    // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
+    // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
+    // this.projectContentsFields = this.routeConfig.content_fields
   },
 
   data(){
@@ -71,20 +92,6 @@ export default {
       showCount: undefined,
     }
   },
-
-  // beforeCreate: function () {
-  //   console.log("\n - - SearchResultsList / beforeCreate ... ")
-  // },
-  // created: function () {
-  //   console.log("\n - - SearchResultsList / created ... ")
-  // },
-  // beforeMount: function () {
-  //   console.log("\n - - SearchResultsList / beforeMount ... ")
-  //   // console.log(" - - SearchResultsList / this.routeConfig : \n ", this.routeConfig)
-  //   console.log(" - - SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
-  //   console.log(" - - SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
-  //   // this.projectContentsFields = this.routeConfig.content_fields
-  // },
 
   mounted(){
 
@@ -116,6 +123,32 @@ export default {
 
   computed: {
 
+    projectContentsFields() {
+      return this.routeConfig.contents_fields
+    },
+
+    ...mapState({
+      log : 'log', 
+      locale : state => state.locale,
+      // pending: state => !!state.search.search.answer.pendingAbort,
+      // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
+      // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
+      hasSelectedFilters: state => {
+        const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
+        // console.log('C-SearchResultsList / selectedFilters : ', selectedFilters)
+        if(!selectedFilters)
+            return false;
+
+        return [...selectedFilters.values()].some(selectedFilterValues => selectedFilterValues.size >= 1)
+      }
+    }),
+
+    ...mapGetters({
+      pending : 'search/getPending',
+      projects : 'search/getResults',
+      total : 'search/getResultsCount',
+    }),
+
     projectColumns(){
 
       this.log && console.log('\nC-SearchResultsList / projectColumns ...')
@@ -139,26 +172,7 @@ export default {
       }
     },
 
-    ...mapState({
-      log : 'log', 
-      locale : state => state.locale,
-      // pending: state => !!state.search.search.answer.pendingAbort,
-      // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
-      // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
-      hasSelectedFilters: state => {
-        const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
-        if(!selectedFilters)
-            return false;
 
-        return [...selectedFilters.values()].some(selectedFilterValues => selectedFilterValues.size >= 1)
-      }
-    }),
-
-    ...mapGetters({
-      pending : 'search/getPending',
-      projects : 'search/getResults',
-      total : 'search/getResultsCount',
-    }),
 
   },
 

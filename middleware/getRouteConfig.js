@@ -14,7 +14,7 @@ export default function ({ store, route, redirect }) {
   ]
 
   let path = route.path
-  log && console.log('-M3- getRouteConfig / path : ', path)
+  // log && console.log('-M3- getRouteConfig / path : ', path)
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
   store.commit('config/setLocalRouteConfig', currentRouteConfig)
@@ -22,7 +22,7 @@ export default function ({ store, route, redirect }) {
   // check if route is dynamic data
   if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
     
-    log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
+    // log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
     store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
 
     // get current dataset_uri for comparison
@@ -35,10 +35,13 @@ export default function ({ store, route, redirect }) {
 
     let currentDatasetURI = localEndpointConfig.dataset_uri
     store.commit('config/setCurrentDatasetURI', currentDatasetURI)
-    log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
+    // log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
 
     // rebuild filter if dataset_uri had changed
     if ( previousDatasetURI !== currentDatasetURI ){
+
+      // clear previous results
+      store.commit('search/clearResults')
 
       log && console.log('-M3- getRouteConfig / rebuilding filters...')
 

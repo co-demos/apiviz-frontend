@@ -149,9 +149,10 @@ export const getters = {
 
   // ENDPOINTS CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
-    getEndpointConfig : (state, getters, rootState) => {
-      // state.log && console.log("S-config-getEndpointConfig - state.config.endpoints : \n", state.config.endpoints)
-      // state.log && console.log("S-config-getEndpointConfig - rootState.search : \n", rootState.search)
+    getEndpointConfig : (state, getters, rootState, rootGetters) => {
+      // state.log && console.log("\nS-config-getEndpointConfig - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfig - rootState.search.search.dataset_uri : ", rootState.search.search.dataset_uri)
+      // state.log && console.log("S-config-getEndpointConfig - rootGetters['search/getSearchDatasetURI'] : ", rootGetters['search/getSearchDatasetURI'])
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === rootState.search.search.endpoint_type
         && r.dataset_uri === rootState.search.search.dataset_uri;
@@ -236,7 +237,8 @@ export const mutations = {
     // state.log && console.log("S-config-setLocalRouteConfig / state.localRouteConfig : ", state.localRouteConfig)
   },
   setLocalEndpointConfig(state, localEndpointConfig) {
-    // state.log && console.log("S-config-setLocalEndpointConfig...")
+    state.log && console.log("S-config-M-setLocalEndpointConfig...")
+    state.log && console.log("S-config-M-setLocalEndpointConfig / localEndpointConfig : ", localEndpointConfig)
     state.localEndpointConfig = localEndpointConfig
   },
   setCurrentDatasetURI(state, currentDatasetURI) {
