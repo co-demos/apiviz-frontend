@@ -137,7 +137,7 @@
           <MglGeojsonLayer
             :sourceId="geoJsonSource.id"
             :source="geoJsonSource"
-            layerId="clusterLayer"
+            layerId="clusters-id"
             :layer="geoJsonlayer"
           />
         </template>
@@ -204,9 +204,7 @@ export default {
       map : undefined, 
       markersTreshold : 100,
       geoJsonSource : undefined,
-      geoJsonlayer : {
-
-      },
+      geoJsonlayer : undefined,
 
       // LOCAL DATA
       VIEW_MAP,
@@ -448,10 +446,13 @@ export default {
       this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSource : ", geoJsonSource)
 
       let geoJsonLayer = {
-        id: "clusters",
+        id: "clusters-id",
         type: "circle",
         source: geoJsonSource.id,
-        filter: ["has", "point_count"],
+        filter: ["!=", "cluster", true],
+        paint: {
+            "circle-color": "#00ffff",
+          }        
       }
       this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonLayer : ", geoJsonLayer)
       return geoJsonLayer
