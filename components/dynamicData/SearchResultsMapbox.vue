@@ -115,36 +115,40 @@
         <template
           v-if="itemsForMap && itemsForMap.length < markersTreshold"
           >
-          <MglMarker
+          <div 
             v-for="(item, index) in itemsForMap"
-            :coordinates="[item.lon, item.lat]"
-            color='grey'
-            @click="highlightItem(item)"
-          >
-            <!-- <MglPopup>
-              <div>
-                sd_id : {{ item.sd_id }}
-              </div>
-            </MglPopup> -->
+            >
+            <MglMarker
+              :key="index"
+              :coordinates="[item.lon, item.lat]"
+              color='grey'
+              @click="highlightItem(item)"
+              >
+              <!-- <MglPopup>
+                <div>
+                  sd_id : {{ item.sd_id }}
+                </div>
+              </MglPopup> -->
 
-          </MglMarker>
+            </MglMarker>
+          </div>
         </template>
 
         <!-- CLUSTER -->
         <template
           v-if="geoJsonSource && geoJsonlayer"
           >
-          <MglGeojsonLayer
+          <!-- <MglGeojsonLayer
             :sourceId="geoJsonSource.id"
             :source="geoJsonSource"
             layerId="clusters-id"
             :layer="geoJsonlayer"
-          />
+          /> -->
         </template>
 
         <!-- CONTROLS -->
         <!-- <MglGeolocateControl ref="geolocateControl"/> -->
-        <MglNavigationControl position="top-right" />
+        <MglNavigationControl position="bottom-right" />
 
       </MglMap>
       
@@ -297,7 +301,6 @@ export default {
   mounted(){
 
     this.log && console.log("\nC-SearchResultsMapbox / mounted... ")
-    this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
 
     const OSMBright = 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json'
     const Positron = 'https://openmaptiles.github.io/positron-gl-style/style-cdn.json'
@@ -346,7 +349,7 @@ export default {
           this.log && console.log('C-SearchResultsMapbox / itemsForMap/ ItemsAsGeoJSON : ', ItemsAsGeoJSON )
           this.geoJsonSource = ItemsAsGeoJSON
 
-          this.geoJsonLayer = this.createGeoJsonLayer(ItemsAsGeoJSON)
+          this.geoJsonLayer = this.createGeoJsonLayer('clusterLayer')
 
         } else {
           this.geoJsonSource = undefined
@@ -368,12 +371,72 @@ export default {
     onMapLoaded(event) {
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded ... ")
 
+      // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
+
       // in component
       this.map = event.map;
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / this.map :", this.map)
 
+      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / this.geoJsonLayer :", this.geoJsonLayer)
+      this.map.addSource( 'clusterLayer', this.geoJsonSource)
+      // this.map.addLayer(this.geoJsonLayer)
       // or just to store if you want have access from other components
       // this.$store.search.map = event.map;
+
+      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
+      this.map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "clusterLayer",
+        filter: ["has", "point_count"],
+        paint: {
+          // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+          // with three steps to implement three types of circles:
+          //   * Blue, 20px circles when point count is less than 100
+          //   * Yellow, 30px circles when point count is between 100 and 750
+          //   * Pink, 40px circles when point count is greater than or equal to 750
+          "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6", 100,
+            "#f1f075", 750,
+            "#f28cb1"
+          ],
+          "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            20, 100, 30, 750, 40
+        ]
+        }
+      })
+      
+      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
+      this.map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "clusterLayer",
+        filter: ["has", "point_count"],
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12
+        }
+      })
+      
+      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
+      this.map.addLayer({
+        id: "unclustered-point",
+        type: "circle",
+        source: "clusterLayer",
+        filter: ["!", ["has", "point_count"]],
+        paint: {
+          "circle-color": "#11b4da",
+          "circle-radius": 4,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#fff"
+        }
+      })
+
 
     },
 
@@ -430,7 +493,7 @@ export default {
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / geoJSON : ", geoJSON)
       // return geoJSON
       let geoJsonSource = {
-        id : 'clusterLayer',
+        // id : 'clusterLayer',
         type : 'geojson',
         data : geoJSON,
         cluster : true,
@@ -441,18 +504,19 @@ export default {
 
     },
 
-    createGeoJsonLayer(geoJsonSource) {
+    createGeoJsonLayer(geoJsonSourceId) {
 
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSource : ", geoJsonSource)
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
 
       let geoJsonLayer = {
         id: "clusters-id",
         type: "circle",
-        source: geoJsonSource.id,
+        source: geoJsonSourceId,
         filter: ["!=", "cluster", true],
+        filter: ['has', 'point_count'],
         paint: {
-            "circle-color": "#00ffff",
-          }        
+          "circle-color": "#00ffff",
+        }
       }
       this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonLayer : ", geoJsonLayer)
       return geoJsonLayer
