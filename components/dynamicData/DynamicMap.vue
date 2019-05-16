@@ -3,7 +3,11 @@
     :filtersConfig="filtersConfig"
     mainClass="list"
     >
-    <SearchResultsMap
+    <!-- <SearchResultsMaps
+      :routeConfig="routeConfig"
+      :endPointConfig="endPointConfig"
+    /> -->
+    <SearchResultsMapbox
       :routeConfig="routeConfig"
       :endPointConfig="endPointConfig"
     />
@@ -11,26 +15,41 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 
 import DynamicSearchScreenSqueleton from './DynamicSearchScreenSqueleton.vue'
-import SearchResultsMap from './SearchResultsMap.vue';
+import SearchResultsMaps from './SearchResultsMaps.vue';
+import SearchResultsMapbox from './SearchResultsMapbox.vue';
+
 
 export default {
+
   name: 'DynamicMap',  
+
   props:[
     'routeConfig',
     'endPointConfig',
     'filtersConfig',
   ],
+
+  beforeMount : function(){
+    this.log && console.log('\nC-DynamicMap / beforeMount...')
+  },
+
   components: {
     DynamicSearchScreenSqueleton, 
-    SearchResultsMap
+    SearchResultsMaps,
+    SearchResultsMapbox,
   },
+
   computed: {
+
     ...mapState({
-      user: 'user'
-    })
+      log : 'log', 
+      locale : state => state.locale,
+      user: state => state.user.user
+    }),
+
   },
 }
 </script>

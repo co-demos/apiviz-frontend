@@ -44,12 +44,12 @@
       :filtersConfig="localFiltersConfig"
     ></DynamicList>
 
-    <!-- <DynamicMap 
+    <DynamicMap 
       v-if="localRouteConfig.dynamic_template == 'DynamicMap' "
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
       :filtersConfig="localFiltersConfig"
-    ></DynamicMap> -->
+    ></DynamicMap>
 
     <DynamicDetail 
       v-if="localRouteConfig.dynamic_template == 'DynamicDetail' "
@@ -188,7 +188,7 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
 
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
-// import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
+import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 
 export default {
   
@@ -204,7 +204,7 @@ export default {
 
     DynamicList, 
     DynamicDetail,
-    // DynamicMap, 
+    DynamicMap, 
 
     // LoginScreen,
     // LogoutScreen,

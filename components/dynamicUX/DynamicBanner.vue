@@ -50,8 +50,8 @@ export default {
   },
 
   beforeMount : function(){
-    this.log && console.log('\nC-DynamicBanner / beforeMount...')
-    this.log && console.log('C-DynamicBanner / beforeMount / this.dynamicTemplate : ', this.dynamicTemplate)
+    // this.log && console.log('\nC-DynamicBanner / beforeMount...')
+    // this.log && console.log('C-DynamicBanner / beforeMount / this.dynamicTemplate : ', this.dynamicTemplate)
   },
 
   computed: {

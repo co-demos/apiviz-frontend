@@ -88,7 +88,7 @@ export default {
   },
 
   beforeMount : function(){
-    this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
+    // this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
   },
 
   mounted(){

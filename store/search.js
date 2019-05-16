@@ -13,6 +13,9 @@ export const state = () => ({
   // CONSOLE LOG ALLOWED 
   log: process.env.ConsoleLog,
 
+  // MAPBOX
+  map : undefined,
+
   // LEGACY
   geolocByProjectId: new Map(),
 
@@ -78,7 +81,7 @@ export const getters = {
   // XXX RELATED
   // - - - - - - - - - - - - - - - //
     getSearchConfigColumnCount : state => {
-      state.log && console.log("\nS-search-G-getSearchConfigColumnCount ..." )
+      // state.log && console.log("\nS-search-G-getSearchConfigColumnCount ..." )
       return state.search.config.display.columnCount
     },
     getSearchConfigDefaultShowCount : state => {
@@ -106,11 +109,11 @@ export const getters = {
       return state.search.answer.result
     },
     getResults : (state) => {
-      state.log && console.log("\nS-search-G-getResults ..." )
+      // state.log && console.log("\nS-search-G-getResults ..." )
       return state.search.answer.result && state.search.answer.result.projects
     },
     getResultsList : (state) => {
-      state.log && console.log("\nS-search-G-getResultsList ..." )
+      // state.log && console.log("\nS-search-G-getResultsList ..." )
       return state.search.answer.result ? state.search.answer.result.projects : undefined
     },
     getResultsCount : (state) => {
@@ -306,8 +309,18 @@ export const mutations = {
         error: undefined
       }
     },
+    setSearchPendingOne(state, {pendingAbort}){
+      state.log && console.log('S-search-M-setSearchPendingOne... ')
+      state.log && console.log('S-search-M-setSearchPendingOne / pendingAbort :', pendingAbort)
+      state.search.answer = {
+        pendingAbort,
+        result: state.search.answer.result,
+        // resultMap: undefined,
+        error: undefined
+      }
+    },
     setSearchError(state, {error}){
-      console.error('search error', error)
+      state.log && console.error('S-search-M-setSearchError / search error', error)
       state.search.answer = {
         pendingAbort: undefined,
         result: undefined,
@@ -317,6 +330,7 @@ export const mutations = {
     },
     setDisplayedProject(state, {result}){
       state.displayedProject = result.projects[0]
+      state.search.answer.pendingAbort = undefined
     },
     clearResults(state){
       state.search.answer.result = undefined
@@ -421,7 +435,7 @@ export const actions = {
   // MAIN SEARCH ACTION
     search({state, commit, dispatch, getters}){
 
-      state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+      // state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
       
       const search = state.search;
       // state.log && console.log("S-search-A-search / search : ", search )
@@ -439,12 +453,12 @@ export const actions = {
         questionParams : state.search.question,
         selectedFilters : selectedFilters,
       })
-      state.log && console.log("S-search-A-search / endpointBis : \n", endpointGenerated )
+      // state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
 
       // TO DO - CHANGE FETCH --> USE AXIOS
       // perform search --> !!! only request map search if map search results empty in store !!! 
       const responsePaths = state.search.endpoint.resp_fields
-      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
       const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
@@ -473,7 +487,7 @@ export const actions = {
       commit('clearDisplayedProject')
 
       state.log && console.log("\nS-search-A-searchOne ..." )
-      state.log && console.log("\nS-search-A-searchOne / id : ", id )
+      // state.log && console.log("\nS-search-A-searchOne / id : ", id )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
@@ -481,14 +495,14 @@ export const actions = {
         questionParams : { itemId : id },
         selectedFilters : [],
       })
-      state.log && console.log("S-search-A-searchOne / endpointBis : \n", endpointGenerated )
+      // state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
 
       const responsePaths = state.search.endpoint.resp_fields
-      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
       // TO DO - CHANGE FETCH --> USE AXIOS
       const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
-      commit('setSearchPending', { pendingAbort: searchPendingAbort })
+      commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
         .then(( response ) => {

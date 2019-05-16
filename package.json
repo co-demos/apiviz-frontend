@@ -28,9 +28,12 @@
     "cross-env": "^5.2.0",
     "leaflet": "^1.5.1",
     "leaflet.markercluster": "^1.4.1",
+    "mapbox-gl": "^0.54.0",
     "nuxt": "^2.4.0",
     "prunecluster": "^2.1.0",
     "vee-validate": "^2.2.7",
+    "vue-choropleth": "^0.2.1",
+    "vue-mapbox": "^0.4.1",
     "vue2-leaflet": "^2.1.1",
     "vue2-leaflet-markercluster": "^3.0.0"
   },

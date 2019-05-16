@@ -90,6 +90,7 @@ export default {
     '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+    { src: '~/plugins/mapbox', mode: 'client' },
   ],
 
   /*
@@ -136,9 +137,10 @@ export default {
   ** Build configuration
   */
   build: {
-    // vendors : [
-    //   'axios'
-    // ],
+    vendors : [
+      'axios',
+      'mapbox-gl'
+    ],
 
     extractCSS: true,
     // postcss: {

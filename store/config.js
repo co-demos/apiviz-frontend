@@ -237,8 +237,8 @@ export const mutations = {
     // state.log && console.log("S-config-setLocalRouteConfig / state.localRouteConfig : ", state.localRouteConfig)
   },
   setLocalEndpointConfig(state, localEndpointConfig) {
-    state.log && console.log("S-config-M-setLocalEndpointConfig...")
-    state.log && console.log("S-config-M-setLocalEndpointConfig / localEndpointConfig : ", localEndpointConfig)
+    // state.log && console.log("S-config-M-setLocalEndpointConfig...")
+    // state.log && console.log("S-config-M-setLocalEndpointConfig / localEndpointConfig : ", localEndpointConfig)
     state.localEndpointConfig = localEndpointConfig
   },
   setCurrentDatasetURI(state, currentDatasetURI) {

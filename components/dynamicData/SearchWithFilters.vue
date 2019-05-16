@@ -96,12 +96,12 @@ export default {
   name: 'SearchWithFilters',
 
   beforeMount : function(){
-    this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+    // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
   },
 
   mounted(){
 
-    this.log && console.log('C-SearchWithFilters / mounted...')
+    // this.log && console.log('C-SearchWithFilters / mounted...')
 
     if(!this.$store.state.search.search.answer.result){
       // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
@@ -135,7 +135,7 @@ export default {
     },
 
     endpointConfigFilters() {
-      this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
+      // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
       let configFilter = this.$store.getters['config/getEndpointConfigFilters']
       return configFilter
     }
@@ -145,7 +145,7 @@ export default {
   methods: {
 
     collapseChoices(filterName){
-      console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
+      // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
       let element = this.$refs[filterName][0]
       // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
       element.classList.toggle("hide-choices")

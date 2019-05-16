@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-console.log('> > > plugins/translate... ')
+// console.log('+ + + plugins/translate... ')
 
 Vue.prototype.$Translate = (textsList, locale, field) => {
   // console.log("::: textFromLocale / textsList : ", textsList)

@@ -53,7 +53,7 @@ import { mapState, mapGetters } from 'vuex'
 import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 
-import {VIEW_LIST} from '../../config/constants.js'
+import { VIEW_LIST } from '../../config/constants.js'
 
 let scrollListener;
 
@@ -79,7 +79,7 @@ export default {
     //   console.log("\n - - SearchResultsList / created ... ")
   // },
   beforeMount : function(){
-    this.log && console.log('\nC-SearchResultsList / beforeMount...')
+    // this.log && console.log('\nC-SearchResultsList / beforeMount...')
     // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
     // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
     // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
@@ -95,7 +95,7 @@ export default {
 
   mounted(){
 
-    this.log && console.log('C-SearchResultsList / mounted ...')
+    // this.log && console.log('Cs-SearchResultsList / mounted ...')
 
     this.$store.dispatch('search/setSearchConfigDisplay');
     this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
@@ -151,14 +151,14 @@ export default {
 
     projectColumns(){
 
-      this.log && console.log('\nC-SearchResultsList / projectColumns ...')
+      // this.log && console.log('\nC-SearchResultsList / projectColumns ...')
 
       // const {projects} = this.$store.state.search.search.answer.result;
       const {projects} = this.$store.getters['search/getResultObject']
-      this.log && console.log('C-SearchResultsList / projectColumns / projects : ', projects)
+      // this.log && console.log('C-SearchResultsList / projectColumns / projects : ', projects)
 
       const getSearchConfigColumnCount = this.$store.getters['search/getSearchConfigColumnCount']
-      this.log && console.log('C-SearchResultsList / projectColumns / getSearchConfigColumnCount : ', getSearchConfigColumnCount)
+      // this.log && console.log('C-SearchResultsList / projectColumns / getSearchConfigColumnCount : ', getSearchConfigColumnCount)
 
       if ( projects && getSearchConfigColumnCount ){
         const columnsData = Array(getSearchConfigColumnCount).fill().map(() => []);
@@ -167,7 +167,7 @@ export default {
             columnsData[i%getSearchConfigColumnCount].push(p);
         })
 
-        this.log && console.log('C-SearchResultsList / projectColumns / columnsData : ', columnsData)
+        // this.log && console.log('C-SearchResultsList / projectColumns / columnsData : ', columnsData)
         return columnsData
       }
     },

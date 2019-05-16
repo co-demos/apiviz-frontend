@@ -1,6 +1,8 @@
 <template>
   <div class="map">
+
     <div class="count-and-tabs-container">
+
       <div class="container">
 
         <SearchResultsCountAndTabs 
@@ -70,70 +72,60 @@
         </SearchResultsCountAndTabs>
 
       </div>
-  </div>
 
-  <!-- LOADER -->
-  <div 
-    v-show="!projects || itemLoading"
-    class="lds-roller floating"
-    >
-    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-    <!-- class="leaflet-control-loader lds-roller" -->
-  </div>
+    </div>
 
-  <l-map
-    :zoom="zoom"
-    :bounds="bounds"
-    :preferCanvas="preferCanvas"
-    :min-zoom="minZoom"
-    :max-zoom="maxZoom"
-    :options="{ zoomControl: false }"
-    :center="center"
-    @update:center="centerUpdate"
-    @update:zoom="zoomUpdate"
-    ref='map'
-    >
+    <!-- LOADER -->
+    <div 
+      v-show="!projects || itemLoading"
+      class="lds-roller floating"
+      >
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      <!-- class="leaflet-control-loader lds-roller" -->
+    </div>
 
-    <l-control-zoom position="bottomright"/>
+    <LMap
+      :zoom="zoom"
+      :bounds="bounds"
+      :preferCanvas="preferCanvas"
+      :min-zoom="minZoom"
+      :max-zoom="maxZoom"
+      :options="{ zoomControl: false }"
+      :center="center"
+      @update:center="centerUpdate"
+      @update:zoom="zoomUpdate"
+      ref='map'
+      >
 
-    <l-tile-layer
-      :url="url"
-      :attribution="attribution"/>
+      <LControlZoom position="bottomright"/>
 
-      <!-- MARKER CLUSTER -->
-      <!-- <v-marker-cluster 
-        v-if="projects"
-        :options="{showCoverageOnHover: false, iconCreateFunction: iconCreateFunction}"
-        >
-        <l-marker 
-          v-for="(item, i) in itemsForMap()"
-          :key="i"
-          :lat-lng="{lng: parseFloat(item.lon), lat: parseFloat(item.lat)}"
-          @click="showCard=true; highlightItem(item)"
-          >
-          <l-icon
-            v-if="checkIfItemHasLatLng(item)"
-            iconUrl="/static/icons/icon_pin_plein_violet.svg"
-            :iconSize="getIconSize(item, highlightedItem)"
-          />
-            <!-- :iconSize="item.sd_id === highlightedItem.sd_id ? [46, 46] : [29, 29]" -->
-            <!-- :iconSize="itemId(item, 'block_id') === itemId(highlightedItem, 'block_id') ? [46, 46] : [29, 29]" -->
-        </l-marker>
-      </v-marker-cluster> -->
-
-      <CustomMarkers
-        :routeConfig="routeConfig"
-        :endPointConfig="endPointConfig"
-        :itemsForMap="itemsForMap"
-        :checkIfStringFloat="checkIfStringFloat"
-        :mapObject="this.$refs.map"
-
-        :contentFields="contentFields"
-        @getSelectedItem="handleIconSignal"
-        :highlightedItem="highlightedItem"
+      <LTileLayer
+        :url="url"
+        :attribution="attribution"
       />
 
-    </l-map>
+
+
+      <!-- <CustomMarkers
+
+        v-if="itemsForMap"
+
+        :routeConfig="routeConfig"
+        :endPointConfig="endPointConfig"
+        :contentFields="contentFields"
+
+        :itemsForMap="itemsForMap"
+        :checkIfStringFloat="checkIfStringFloat"
+
+        :mapObject="this.$refs.map"
+
+        :highlightedItem="highlightedItem"
+        @getSelectedItem="handleIconSignal"
+
+      /> -->
+
+
+    </LMap>
 
   </div>
 </template>
@@ -141,27 +133,39 @@
 
 
 <script>
-import { mapState, mapActions } from 'vuex'
-
-import { L, LMap, LControlZoom, LTileLayer, LMarker, LIcon } from 'vue2-leaflet';
-import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
-// import { PruneCluster, PruneClusterForLeaflet } from 'exports-loader?PruneCluster,PruneClusterForLeaflet!prunecluster/dist/PruneCluster.js'
-// import { PruneCluster, PruneClusterForLeaflet } from 'PruneCluster'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
+import { VIEW_MAP } from '../../config/constants.js'
+
+// import { L } from 'leaflet';
+import { LMap, LControlZoom, LTileLayer, LMarker, LIcon } from 'vue2-leaflet';
+import Vue2LeafletMarkerCluster from 'vue2-leaflet-markercluster'
+
 import CustomMarkers from './CustomMarkers.vue'
 
-import {VIEW_MAP} from '../../config/constants.js'
-import {getItemById} from '~/plugins/utils.js';
+
+// TO DO => COMMENT getItemById and replace by an action
+import { getItemById } from '~/plugins/utils.js';
+
+
 
 const FRANCE_CENTER = [46.2276, 2.2137];
+// const EUROPE_CENTER = [46.2276, 2.2137];
+// const AMERICAS_CENTER = [46.2276, 2.2137];
+// const AFRICA_CENTER = [46.2276, 2.2137];
+// const ASIA_CENTER = [46.2276, 2.2137];
+// const OCEANIA_CENTER = [46.2276, 2.2137];
+// const WORLD_CENTER = [46.2276, 2.2137];
 
 
 export default {
-  name: "SearchResultsMap",
+
+  name: "SearchResultsMaps",
 
   components: {
+
     LMap,
     LControlZoom,
     LTileLayer,
@@ -169,9 +173,6 @@ export default {
     LIcon,
 
     CustomMarkers,
-    // 'v-marker-cluster': Vue2LeafletMarkerCluster,
-    // PruneCluster,
-    // PruneClusterForLeaflet,
 
     ProjectCard,
     SearchResultsCountAndTabs,
@@ -200,8 +201,6 @@ export default {
       itemLoading: false,
       showCard:false,
       itemsOnMap : [
-        // {sd_id : 'A', lat : '47.412', lon : '-1.218' },
-        // {sd_id : 'B', lat : '47.4234', lon : '-1.248' },
       ],
 
       // LEAFLET SETUP
@@ -224,18 +223,16 @@ export default {
   },
 
   beforeMount: function () {
-    // console.log("- - - - - MAP TIME !!!! - - - - - -")
-    // console.log("\n - - SearchResultsMap / beforeMount ... ")
-    // console.log(" - - SearchResultsMap / routeConfig : \n", this.routeConfig)
-    // console.log(" - - SearchResultsMap / endPointConfig : \n", this.endPointConfig)
 
-    // let pruneCluster = new PruneClusterForLeaflet();
+    this.log && console.log("\n- + - SearchResultsMap - + - + - + - + - + - + ")
+    this.log && console.log("C-SearchResultsMap / beforeMount ... ")
+    // this.log && console.log("C-SearchResultsMap / routeConfig : \n", this.routeConfig)
+    // this.log && console.log("C-SearchResultsMap / endPointConfig : \n", this.endPointConfig)
 
     // set up fields mapper
     this.contentFields = this.routeConfig.contents_fields
-    // console.log(" - - SearchResultsMap / contentFields : \n", this.contentFields)
+    // this.log && console.log("C-SearchResultsMap / contentFields : \n", this.contentFields)
 
-    // console.log("test marker / L.latLng(47.412, -1.218)", L.latLng(47.412, -1.218))
     // set up leaflet options
     const mapOptions = this.endPointConfig.map_options
 
@@ -253,56 +250,69 @@ export default {
 
   mounted(){
 
-    // console.log(" - - SearchResultsMap / mounted... ")
-    // if(this.projects){
-    //   const projectsWithMissingAddress = this.projects.filter(p => !p.lat)
-    //   // if(projectsWithMissingAddress.length >= 1)
-    //   //   this.findProjectsGeolocs(projectsWithMissingAddress)
-    //   }
+    this.log && console.log("\nC-SearchResultsMap / mounted... ")
     this.itemsOnMap = this.projects
+
+    this.log && console.log("C-SearchResultsMap / mounted / this.$refs.map : ", this.$refs.map)
 
   },
 
   computed: {
 
     ...mapState({
-      projects({search}){ return search.answer.result && search.answer.result.projects },
-      // items({search}){ return search.answer.resultMap && search.answer.result.projects },
-      // displayedProjects(){
-      //   return this.projects && this.projects.filter(p => this.geolocByProjectId.get(p.id))
-      // },
-      // displayedProjects(){
-      //   console.log("displayedProjects : ", this.projects)
-      //   if(this.projects){
-      //     let itemsWithLatLng = this.projects.filter(i => !i.lat && !i.lon)
-      //     return itemsWithLatLng
-      //   }
-      // },
-      // geolocByProjectId({geolocByProjectId}){return geolocByProjectId}
+      log : 'log', 
+      locale : state => state.locale,
+      // projects({search}){ return search.answer.result && search.answer.result.projects },
     }),
+
+    ...mapGetters({
+      // pending : 'search/getPending',
+      projects : 'search/getResults',
+      // total : 'search/getResultsCount',
+    }),
+
     bounds(){
-      let displayedItems = this.itemsForMap()
-      return displayedItems && new L.LatLngBounds(displayedItems.map(p => ({
+
+      // let displayedItems = this.itemsForMap() // as methoid
+      let displayedItems = this.itemsForMap // as computed
+      // this.log && console.log("\nC-SearchResultsMap / bounds / isplayedItems : \n", displayedItems)
+      
+      let newBounds = displayedItems && new L.LatLngBounds(displayedItems.map(p => ({
         lng: parseFloat(p.lon), 
         lat: parseFloat(p.lat),
-      })));
+      })))
+      this.log && console.log("C-SearchResultsMap / bounds / newBounds : \n", newBounds)
+
+      return newBounds ;
     },
+
+    itemsForMap(){
+      this.log && console.log('\nC-SearchResultsMap / itemsForMap ...')
+      // this.log && console.log('C-SearchResultsMap / itemsForMap/ this.projects : ', this.projects )
+      if (this.projects){
+        let geoItems = this.projects.filter(item => this.checkIfItemHasLatLng(item) )
+        this.log && console.log('C-SearchResultsMap / itemsForMap/ geoItems : ', geoItems )
+        return geoItems
+      } else {
+        return undefined 
+      }
+    },
+
   },
-
-
 
 
   methods: {
 
     handleIconSignal(itemData){
-      // console.log('handleIconSignal / itemData : ', itemData)
+      // this.log && console.log('C-SearchResultsMap / handleIconSignal / itemData : ', itemData)
       this.highlightItem(itemData)
     },
-    itemsForMap(){
-      if (this.projects){
-        return this.projects.filter(item => this.checkIfItemHasLatLng(item) )
-      }
-    },
+    // itemsForMap(){
+    //   this.log && console.log('C-SearchResultsMap / itemsForMap ...')
+    //   if (this.projects){
+    //     return this.projects.filter(item => this.checkIfItemHasLatLng(item) )
+    //   }
+    // },
     getIconSize(item, highlightedItem){
       if (highlightedItem) {
         return this.itemId(item, 'block_id') === this.itemId(highlightedItem, 'block_id') ? this.iconSizeHighlighted : this.iconSizeNormal
@@ -311,9 +321,9 @@ export default {
       }
     },
     matchItemWithConfig(item, fieldBlock) {
-      // console.log("matchItemWithConfig / item : ", item)
+      // this.log && console.log("C-SearchResultsMap / matchItemWithConfig / item : ", item)
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-      // console.log("matchItemWithConfig / contentField : ", contentField)
+      // this.log && console.log("C-SearchResultsMap / matchItemWithConfig / contentField : ", contentField)
       if (contentField) {
         const field = contentField.field
         return item[field]
@@ -322,19 +332,6 @@ export default {
         return undefined
       }
     },
-    itemId(item) {
-      // console.log("itemId / item : ", item)
-      return this.matchItemWithConfig(item, 'block_id')
-    },
-    getHighlightedItemId(){
-      if ( this.highlightedItem ) {
-        // console.log("itemId / this.highlightedItem : ", this.highlightedItem)
-        return this.itemId(highlightedItem, 'block_id') 
-      } else {
-        return false
-      }
-    },
-
 
 
     checkIfStringFloat(value){
@@ -345,12 +342,7 @@ export default {
         return false
       }
     },
-    // getLatLng(item){
-    //   return { lat : this.checkIfStringFloat(item.lat) , lng : checkIfStringFloat(item.lon) }
-    // },
-    // getLatLngDense(item){
-    //   return { lat : this.checkIfStringFloat(item.latlng[0]) , lng : checkIfStringFloat(item.latlng[1]) }
-    // },
+
     checkIfItemHasLatLng(item){
       return this.checkIfStringFloat(item.lat) && this.checkIfStringFloat(item.lon)
     },
@@ -363,41 +355,48 @@ export default {
     },
 
 
-
+    itemId(item) {
+      // this.log && console.log("C-SearchResultsMap / itemId / item : ", item)
+      return this.matchItemWithConfig(item, 'block_id')
+    },
+    getHighlightedItemId(){
+      if ( this.highlightedItem ) {
+        // this.log && console.log("C-SearchResultsMap / itemId / this.highlightedItem : ", this.highlightedItem)
+        return this.itemId(highlightedItem, 'block_id') 
+      } else {
+        return false
+      }
+    },
     highlightItem(i) {
-      // console.log("highlightItem / i : ", i)
+
+      // this.log && console.log("C-SearchResultsMap / highlightItem / i : ", i)
       // show loader 
       this.showCard = true
       this.itemLoaded = false
-      // this.itemLoading = true
+
       this.center = [i.lat, i.lon]
-      // this.center = [i.lon, i.lat]
+
       // get item ID
-      // const item_id = this.itemId(i)
       const item_id = i.ID
+
+      // TO DO => REPLACE getItemById BY search/searchOne
+      // get item data
+      // this.$store.dispatch('search/searchOne', item_id )
+
       getItemById( item_id, this.$store.state.search.endpoint)
-        .then(item => {
-          // this.$store.commit('setDisplayedProject', {item})
-          // console.log(" - - DynamicDetail / item : ", item)
-          this.highlightedItem = item;
-          this.itemLoaded = true
-          // this.itemLoading = false
-        })
-        .catch(function(err) { this.isError = true ; console.error('item route error', err) })
+      .then( item => {
+        // this.log && console.log(" - - DynamicDetail / item : ", item)
+        this.highlightedItem = item;
+        this.itemLoaded = true
+        // this.itemLoading = false
+      })
+      .catch( function(err) { 
+        this.isError = true ; 
+        this.log && console.error('item route error', err) 
+      })
+
     },
 
-
-
-
-    iconCreateFunction(cluster){
-      const markerCount = cluster.getChildCount();
-
-      return new L.DivIcon({
-        html: `<span>${markerCount}</span>`, 
-        className: 'cis-marker-cluster',
-        iconSize: new L.Point(40, 40)
-      });
-    },
 
   },
 
