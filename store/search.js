@@ -8,7 +8,7 @@ import {
   createSelectedFiltersForSearch
   } from '~/plugins/utils.js';
 
-export const strict = false
+// export const strict = false
 
 export const state = () => ({
 
@@ -16,7 +16,7 @@ export const state = () => ({
   log: process.env.ConsoleLog,
 
   // MAPBOX
-  map : undefined,
+  mapbox : { map : new Object() },
 
   // LEGACY
   geolocByProjectId: new Map(),
@@ -71,7 +71,7 @@ export const getters = {
 
   // MAP RELATED
     getMap : state => {
-      return state.map
+      return state.mapbox
     },
     getIsMapSearch : state => {
       return state.search.question.forMap
@@ -248,11 +248,17 @@ export const getters = {
 
 export const mutations = {
 
-  // MAP
-    setMap(state, map) {
+  // MAP-RELATED
+    setMap (state, {map}) {
       state.log && console.log("\nS-search-M-setMap ..." )
-      state.log && console.log("\nS-search-M-setMap / map : ", map )
-      state.map = map.map
+      state.log && console.log("S-search-M-setMap / state.mapbox : ", state.mapbox )
+      state.log && console.log("S-search-M-setMap / map : ", map )
+      // state.mapbox.map = map
+    },
+    setIsMapSearch (state, routeConfig) {
+      // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
+      state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
+      // state.log && console.log("S-search-setIsMapSearch / state.search : ", state.search )
     },
 
   // GENERAL
@@ -271,12 +277,6 @@ export const mutations = {
       state.filterDescriptions = filterDescriptions
     },
 
-  // MAP-RELATED
-    setIsMapSearch (state, routeConfig) {
-      // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
-      state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
-      // state.log && console.log("S-search-setIsMapSearch / state.search : ", state.search )
-    },
 
   // SEARCH-RELATED
     setSearchParam(state,{type,result}){
@@ -361,8 +361,10 @@ export const mutations = {
 export const actions = {
 
   // MAPBOX
-    setMap({state, commit}, map){
-      commit('setMap', map.map)
+    setMap({state, commit}, {map}){
+      state.log && console.log("\nS-search-A-setMap ..." )
+      state.log && console.log("S-search-A-setMap / map : ", map )
+      commit('setMap', {map:map})
     },
 
   // TO VARIABILIZE

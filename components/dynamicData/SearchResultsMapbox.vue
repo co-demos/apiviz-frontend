@@ -175,16 +175,17 @@ import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 
 import { VIEW_MAP, GeoCenters } from '../../config/constants.js'
-import { StylesOSM } from '../../config/mapboxVectorStyles.js'
 
 import Mapbox from "mapbox-gl";
 import { MglMap } from "vue-mapbox";
 import mapboxgl from 'mapbox-gl'
 
 // TO DO => COMMENT getItemById and replace by an action
-import { getItemById } from '~/plugins/utils.js';
+// import { getItemById } from '~/plugins/utils.js';
 
-import { getStyleJSON } from '~/plugins/mapbox.js';
+import { StylesOSM } from '../../config/mapboxVectorStyles.js'
+import { getStyleJSON, createGeoJSONSource, createClusterCirclesLayer, createClusterCountLayer, createClusterUnclusteredLayer } from '~/plugins/mapbox.js';
+import { createGeoJsonDataPoints } from '~/plugins/geoJson.js';
 
 
 export default {
@@ -205,7 +206,7 @@ export default {
     return {
 
       // MAPBOX MAP OBJECT
-      // map : undefined, 
+      map : undefined, 
       isClusterSet : false,
       markersTreshold : 50,
       geoJson : undefined,
@@ -255,7 +256,6 @@ export default {
       // mapStyle : 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json',
       // mapStyle : StylesOSM.Positron,
       // mapStyle : StylesOSM.FjordColors,
-          
       
     };
   },
@@ -310,11 +310,10 @@ export default {
     const KlokantechBasic = 'https://openmaptiles.github.io/klokantech-basic-gl-style/style-cdn.json'
     const DarkMatterBis = 'https://free.tilehosting.com/styles/darkmatter/style.json'
 
+    // !!! ERROR CORS FETCHING DISTANT STYLES !!!    
     const styleUrl = Positron
     this.log && console.log("C-SearchResultsMapbox / mounted / trying to get styleUrl : ", styleUrl)
-
-    // !!! ERROR CORS FETCHING DISTANT STYLES !!!    
-    getStyleJSON(styleUrl)
+    // getStyleJSON(styleUrl)
 
     // this.createMapbox(styleUrl)
 
@@ -322,14 +321,32 @@ export default {
 
   watch:{
 
-    // map(next, prev){
-    //   if (next && !prev) {
-    //     this.log && console.log('C-SearchResultsMapbox / watch - map ...')
-    //     this.geoJson = this.createGeoJsonData(this.itemsForMap)
-    //     this.log && console.log('C-SearchResultsMapbox / watch - this.geoJson : ', this.geoJson)
-    //     this.createMapItems(this.geoJson)
-    //   }
-    // },
+    map(next, prev){
+
+      this.log && console.log('\nC-SearchResultsMapbox / watch - map ...')
+      // this.log && console.log('C-SearchResultsMapbox / watch - map / prev : ', prev)
+      // this.log && console.log('C-SearchResultsMapbox / watch - map / next : ', next)
+      this.log && console.log('C-SearchResultsMapbox / watch - map / this.isClusterSet : ', this.isClusterSet)
+      this.log && console.log('C-SearchResultsMapbox / watch - map / this.itemsForMap : ', this.itemsForMap)
+
+      if (next && !prev) {
+
+        this.log && console.log('C-SearchResultsMapbox / watch - map is created ')
+
+        if (!this.isClusterSet && this.itemsForMap ) {
+          this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ...')
+          this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
+          this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
+          this.createMapItems(this.geoJson)
+        } 
+        
+        else if (!this.clusterSet && !this.itemsForMap ) {
+          this.log && console.log('C-SearchResultsMapbox / watch - map - this.itemsForMap empty ... just wait for projects to change')
+        }
+
+      }
+
+    },
 
     projects(next, prev){
 
@@ -341,18 +358,18 @@ export default {
       this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
 
       if (this.map && !this.isClusterSet && this.itemsForMap) {
-        this.log && console.log('C-SearchResultsMapbox / watch - projects - createGeoJsonData ...')
-        this.geoJson = this.createGeoJsonData(this.itemsForMap)
+        this.log && console.log('C-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ...')
+        this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
         this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
-      else if (this.map && this.isClusterSet && this.geoJson) {
+      // else 
+      if (this.map && this.isClusterSet) {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - updateSourceData ...')
         this.updateSourceData(this.itemsForMap)
       } 
       else {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
-        return 
       }
 
     }
@@ -372,7 +389,6 @@ export default {
       isPending : 'search/getPending',
       // map : 'search/getMap',
     }),
-
 
     itemsForMap(){
       
@@ -394,149 +410,44 @@ export default {
 
   },
 
+  beforeDestroy() {
+    this.log && console.log('\nC-SearchResultsMapbox / beforeDestroy ...')
+  },
 
   methods: {
 
     onMapLoaded(event) {
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded ... ")
+      this.log && console.log("\nC-SearchResultsMapbox / onMapLoaded ... ")
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
       
-      // in component
+      // store in component
       this.map = event.map;
 
-      // in store
-      // this.$store.dispatch('search/setMap', event.map)
-      // this.$store.commit('search/setMap', {map : event.map})
-      // this.$store.state.search.map = event.map
+      // in store => WARNING : object too complex to be stored/mutated in vuex so far
+      // check : https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-management-vuex-strict-mode/
+      // this.$store.dispatch('search/setMap',{map: event.map}) // trigger action 
+      // this.$store.commit('search/setMap', {map : event.map}) // trigger mutation directly
     },
 
-
-    createGeoJsonData(dataArray){
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonData ... ")
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonData / dataArray : ", dataArray)
-      // geojson wrappeer
-      let geoJSON = {
-        type : 'FeatureCollection',
-        features : [],
-      }
-      const notAllowedKeys = ['lon', 'lat']
-      // remap items array
-      let dataGeoJson = dataArray.map(item => {
-        let trimmedItem = Object.keys(item)
-                          .filter(key => !notAllowedKeys.includes(key))
-                          .reduce((obj, key) => {
-                            obj[key] = item[key];
-                            return obj;
-                          }, {} );
-        const tempObject = {
-          type : 'Feature',
-          properties : trimmedItem,
-          geometry : {
-            type : 'Point',
-            coordinates : [item.lon, item.lat]
-          }
-        }
-        return tempObject
-      })
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / dataGeoJson : ", dataGeoJson)
-      geoJSON.features = dataGeoJson
-      return geoJSON
-    },
-    createGeoJsonSource(geoJSON){
-
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource ... ")
-      
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / geoJSON : ", geoJSON)
-      let geoJsonSource = {
-        // id : 'clusterLayer',
-        type : 'geojson',
-        data : geoJSON,
-        cluster : true,
-        clusterMaxZoom : 14,
-        clusterRadius : 50,
-      }
-      return geoJsonSource
-
-    },
     createGeoJsonLayers(geoJsonSourceId) {
 
       this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
 
-      // let geoJsonLayer = {
-      //   id: "clusters-id",
-      //   type: "circle",
-      //   source: geoJsonSourceId,
-      //   filter: ["!=", "cluster", true],
-      //   filter: ['has', 'point_count'],
-      //   paint: {
-      //     "circle-color": "#00ffff",
-      //   }
-      // }
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonLayer : ", geoJsonLayer)
-      // return geoJsonLayer
-
+      let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId, {})
+      let countLayerConfig = createClusterCountLayer(geoJsonSourceId, {})
+      let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId, {})
 
       // adding layer to display clusters circles
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
-      this.map.addLayer({
-        id: "clusters",
-        type: "circle",
-        source: geoJsonSourceId,
-        filter: ["has", "point_count"],
-        paint: {
-          // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-          // with three steps to implement three types of circles:
-          //   * Blue, 20px circles when point count is less than 100
-          //   * Yellow, 30px circles when point count is between 100 and 750
-          //   * Pink, 40px circles when point count is greater than or equal to 750
-          "circle-color": [
-            "step",
-            ["get", "point_count"],
-            "#51bbd6", 100,
-            "#f1f075", 750,
-            "#f28cb1"
-          ],
-          "circle-radius": [
-            "step",
-            ["get", "point_count"],
-            20, 100, 30, 750, 40
-        ]
-        }
-      })
+      this.map.addLayer(clusterLayerConfig)
       
       // adding layer to display clusters counts
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
-      this.map.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: geoJsonSourceId,
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": "{point_count_abbreviated}",
-          // "text-font": ["Roboto Regular"],
-          "text-font": ["Open Sans Bold"],
-          // "text-font": ["Open Sans Regular"], // OK
-          "text-size": 12
-        },
-        paint: {
-          "text-color": "#ffffff"
-        }
-      })
+      this.map.addLayer(countLayerConfig)
       
       // adding layer to display single item
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
-      this.map.addLayer({
-        id: "unclustered-point",
-        type: "circle",
-        source: geoJsonSourceId,
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": "#11b4da",
-          "circle-radius": 10,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#fff"
-        }
-      })
+      this.map.addLayer(unclusteredLayerConfig)
 
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  this.map ", this.map)
 
@@ -568,13 +479,15 @@ export default {
 
 
     },
+
     createMapItems(geoJson){
 
       // adding reactive source
-      this.log && console.log("C-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
+      this.log && console.log("\nC-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
       this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
       
-      this.geoJsonSource = this.createGeoJsonSource(geoJson)
+      let geoJsonSource = createGeoJSONSource(geoJson)
+      this.geoJsonSource = geoJsonSource
       this.log && console.log("C-SearchResultsMapbox / createMapItems / this.geoJsonSource :", this.geoJsonSource)
       this.map.addSource( 'clusterSource', this.geoJsonSource)
 
@@ -585,11 +498,12 @@ export default {
       this.isClusterSet = true
       this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
     },
+
     updateSourceData(itemsForMap){
       this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
       this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
       if (itemsForMap){
-        let geoJson = this.createGeoJsonData(itemsForMap)
+        let geoJson = createGeoJsonDataPoints(itemsForMap)
         this.map.getSource('clusterSource').setData(geoJson)
       }
     },
