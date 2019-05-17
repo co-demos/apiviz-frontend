@@ -184,7 +184,13 @@ import mapboxgl from 'mapbox-gl'
 // import { getItemById } from '~/plugins/utils.js';
 
 import { StylesOSM } from '../../config/mapboxVectorStyles.js'
-import { getStyleJSON, createGeoJSONSource, createClusterCirclesLayer, createClusterCountLayer, createClusterUnclusteredLayer } from '~/plugins/mapbox.js';
+import {  getStyleJSON, 
+          createGeoJSONSource, 
+          createClusterCirclesLayer, 
+          createClusterCountLayer, 
+          createClusterUnclusteredLayer,
+          createHeatmapLayer
+        } from '~/plugins/mapbox.js';
 import { createGeoJsonDataPoints } from '~/plugins/geoJson.js';
 
 
@@ -232,7 +238,7 @@ export default {
       // MAPBOX SETUP
       preferCanvas: true,
       zoom: 6,
-      maxZoom: 19,
+      maxZoom: 18,
       minZoom: 2,
       currentZoom: 6,
 
@@ -438,6 +444,11 @@ export default {
       let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId, {})
       let countLayerConfig = createClusterCountLayer(geoJsonSourceId, {})
       let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId, {})
+      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId, {propWeight : 'weigth', maxZoom: this.maxZoom })
+
+      // adding layer to display heatmap
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - heatmap - layer ")
+      // mapboxMap.addLayer(heatmapLayerConfig)
 
       // adding layer to display clusters circles
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters - layer ")
@@ -482,6 +493,33 @@ export default {
         mapboxMap.getCanvas().style.cursor = 'pointer';
       })
       mapboxMap.on('mouseleave', 'clusters', function () {
+        mapboxMap.getCanvas().style.cursor = '';
+      })
+
+      // CLUSTER-COUNT ACTIONS
+      mapboxMap.on('click', 'cluster-count', function (e) {
+
+        var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
+        
+        var clusterId = featuresCluster[0].properties.cluster_id;
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count - clusterId : ", clusterId)
+        
+        mapboxMap.getSource(geoJsonSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+          if (err) {return}
+
+          mapboxMap.easeTo({
+            center: featuresCluster[0].geometry.coordinates,
+            zoom: zoom
+          })
+        })
+
+      })
+      
+      mapboxMap.on('mouseenter', 'cluster-count', function () {
+        mapboxMap.getCanvas().style.cursor = 'pointer';
+      })
+      mapboxMap.on('mouseleave', 'cluster-count', function () {
         mapboxMap.getCanvas().style.cursor = '';
       })
 

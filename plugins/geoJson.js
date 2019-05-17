@@ -23,6 +23,7 @@ export function createGeoJsonDataPoints(dataArray){
                         return obj;
                       }, {} );
     trimmedItemProps.iconMapbox = "marker"
+    trimmedItemProps.weigth = 0.1
 
     const tempObject = {
       type : 'Feature',
