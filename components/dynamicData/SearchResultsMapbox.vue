@@ -633,6 +633,7 @@ export default {
       if (itemsForMap){
         let geoJson = createGeoJsonDataPoints(itemsForMap)
         this.map.getSource('clusterSource').setData(geoJson)
+        this.map.getSource('allPointsSource').setData(geoJson)
       }
     },
 
