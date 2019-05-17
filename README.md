@@ -161,7 +161,7 @@ $ npm run generate
 #### MAP VIEW (Sonum client configuration)
 displays your geolocalized data, given your configuration set in backoffice
 <h2 align=center>
-	<img src="./documentation/screenshots/map-view-sonum-01.png">
+	<img src="./documentation/screenshots/map-view-sonum-02.png">
 </h2>
 
 
