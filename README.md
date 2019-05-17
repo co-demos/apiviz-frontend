@@ -114,7 +114,8 @@ $ npm run generate
     - **[Vue.js](https://vuejs.org/)** as JS framework, 
     - **[Axios](https://github.com/axios/axios)** for API queries (to make queries to [Solidata](https://github.com/entrepreneur-interet-general/solidata_backend) or else), 
     - **[Bulma](https://bulma.io/)** as CSS framework, 
-    - **[Leaflet](https://leafletjs.com)**, **[Vue2Leaflet](https://github.com/KoRiGaN/Vue2Leaflet)**, and **[PruneCluster](https://github.com/SINTEF-9012/PruneCluster)** for map layout
+    <!-- - **[Leaflet](https://leafletjs.com)**, **[Vue2Leaflet](https://github.com/KoRiGaN/Vue2Leaflet)**, and **[PruneCluster](https://github.com/SINTEF-9012/PruneCluster)** for map layout -->
+    - **[Mapbox-GL](https://docs.mapbox.com/mapbox-gl-js/api/)**, and **[vue-mapbox](https://soal.github.io/vue-mapbox/)** as a mapbox-gl wrapper for vue.js
 <br>
 
 - _Server_   : 
