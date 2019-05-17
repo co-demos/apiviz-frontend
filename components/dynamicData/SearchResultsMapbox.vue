@@ -323,11 +323,11 @@ export default {
 
     map(next, prev){
 
-      this.log && console.log('\nC-SearchResultsMapbox / watch - map ...')
+      // this.log && console.log('\nC-SearchResultsMapbox / watch - map ...')
       // this.log && console.log('C-SearchResultsMapbox / watch - map / prev : ', prev)
       // this.log && console.log('C-SearchResultsMapbox / watch - map / next : ', next)
-      this.log && console.log('C-SearchResultsMapbox / watch - map / this.isClusterSet : ', this.isClusterSet)
-      this.log && console.log('C-SearchResultsMapbox / watch - map / this.itemsForMap : ', this.itemsForMap)
+      // this.log && console.log('C-SearchResultsMapbox / watch - map / this.isClusterSet : ', this.isClusterSet)
+      // this.log && console.log('C-SearchResultsMapbox / watch - map / this.itemsForMap : ', this.itemsForMap)
 
       if (next && !prev) {
 
@@ -336,7 +336,7 @@ export default {
         if (!this.isClusterSet && this.itemsForMap ) {
           this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ...')
           this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
-          this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
+          // this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
           this.createMapItems(this.geoJson)
         } 
         
@@ -350,17 +350,17 @@ export default {
 
     projects(next, prev){
 
-      this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.map : ', this.map)
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
+      // this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.map : ', this.map)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
 
       if (this.map && !this.isClusterSet && this.itemsForMap) {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ...')
         this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
-        this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
+        // this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
       // else 
@@ -392,13 +392,13 @@ export default {
 
     itemsForMap(){
       
-      this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
-      this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
+      // this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
+      // this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
 
       if (this.projects){
 
         let geoItems = this.projects.filter(item => this.checkIfItemHasLatLng(item) )
-        this.log && console.log('C-SearchResultsMapbox / itemsForMap / geoItems ... : ', geoItems )
+        // this.log && console.log('C-SearchResultsMapbox / itemsForMap / geoItems ... : ', geoItems )
         return geoItems
 
       } else {
@@ -431,51 +431,57 @@ export default {
 
     createGeoJsonLayers(geoJsonSourceId) {
 
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
+
+      let mapboxMap = this.map 
 
       let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId, {})
       let countLayerConfig = createClusterCountLayer(geoJsonSourceId, {})
       let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId, {})
 
       // adding layer to display clusters circles
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
-      this.map.addLayer(clusterLayerConfig)
+      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
+      mapboxMap.addLayer(clusterLayerConfig)
       
       // adding layer to display clusters counts
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
-      this.map.addLayer(countLayerConfig)
+      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
+      mapboxMap.addLayer(countLayerConfig)
       
       // adding layer to display single item
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
-      this.map.addLayer(unclusteredLayerConfig)
+      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
+      mapboxMap.addLayer(unclusteredLayerConfig)
 
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  this.map ", this.map)
+      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  mapboxMap ", mapboxMap)
+
+
+
 
       // inspect a cluster on click
-      // this.map.on('click', 'clusters', function (e) {
+
+      mapboxMap.on('click', 'clusters', function (e) {
         
-      //   var features = this.map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        var features = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  features : ", features)
         
-      //   var clusterId = features[0].properties.cluster_id;
-      //   this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add clic - clusterId : ", clusterId)
+        var clusterId = features[0].properties.cluster_id;
+        console.log("C-SearchResultsMapbox / onMapLoaded / add clic - clusterId : ", clusterId)
         
-      //   this.map.getSource(geoJsonSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-      //   if (err) {
-      //     return
-      //   }
-      //   this.map.easeTo({
-      //     center: features[0].geometry.coordinates,
-      //     zoom: zoom
-      //     })
-      //   })
-      // })
+        mapboxMap.getSource(geoJsonSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+        if (err) {return}
+
+        mapboxMap.easeTo({
+          center: features[0].geometry.coordinates,
+          zoom: zoom
+          })
+        })
+      })
       
-      // this.map.on('mouseenter', 'clusters', function () {
-      //   // this.map.getCanvas().style.cursor = 'pointer';
-      // })
-      // this.map.on('mouseleave', 'clusters', function () {
-      //   // this.map.getCanvas().style.cursor = '';
-      // })
+      mapboxMap.on('mouseenter', 'clusters', function () {
+        mapboxMap.getCanvas().style.cursor = 'pointer';
+      })
+      mapboxMap.on('mouseleave', 'clusters', function () {
+        mapboxMap.getCanvas().style.cursor = '';
+      })
 
 
     },
@@ -483,12 +489,12 @@ export default {
     createMapItems(geoJson){
 
       // adding reactive source
-      this.log && console.log("\nC-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
-      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+      // this.log && console.log("\nC-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
       
       let geoJsonSource = createGeoJSONSource(geoJson)
       this.geoJsonSource = geoJsonSource
-      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.geoJsonSource :", this.geoJsonSource)
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.geoJsonSource :", this.geoJsonSource)
       this.map.addSource( 'clusterSource', this.geoJsonSource)
 
       // cf : https://www.jerriepelser.com/books/airport-explorer/mapping/clustering/
@@ -496,12 +502,12 @@ export default {
       // this.map.addLayer(this.geoJsonLayer)
       this.createGeoJsonLayers( 'clusterSource' )
       this.isClusterSet = true
-      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
     },
 
     updateSourceData(itemsForMap){
-      this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
-      this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
+      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
+      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
       if (itemsForMap){
         let geoJson = createGeoJsonDataPoints(itemsForMap)
         this.map.getSource('clusterSource').setData(geoJson)
