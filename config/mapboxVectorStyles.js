@@ -2393,6 +2393,13 @@ export const StylesOSM = {
     // 	maxZoom: 19
     // });
     "version": 8,
+
+    // cf : http://jsfiddle.net/brianssheldon/wm18a33d/27/
+    // cf :  http://glfonts.lukasmartinelli.ch
+    // cf : https://github.com/openmaptiles/fonts
+    "glyphs": "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+    // "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    // "glyphs": "http://glfonts.lukasmartinelli.ch/fonts/{fontstack}/{range}.pbf",
     "sources": {
       "simple-tiles": {
         "type": "raster",

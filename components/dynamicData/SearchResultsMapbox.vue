@@ -148,7 +148,7 @@
 
         <!-- CONTROLS -->
         <!-- <MglGeolocateControl ref="geolocateControl"/> -->
-        <MglNavigationControl position="bottom-right" />
+        <MglNavigationControl position="top-right" />
 
       </MglMap>
       
@@ -513,8 +513,13 @@ export default {
         filter: ["has", "point_count"],
         layout: {
           "text-field": "{point_count_abbreviated}",
-          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          // "text-font": ["Roboto Regular"],
+          "text-font": ["Open Sans Bold"],
+          // "text-font": ["Open Sans Regular"], // OK
           "text-size": 12
+        },
+        paint: {
+          "text-color": "#ffffff"
         }
       })
       
@@ -533,6 +538,35 @@ export default {
         }
       })
 
+      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  this.map ", this.map)
+
+      // inspect a cluster on click
+      // this.map.on('click', 'clusters', function (e) {
+        
+      //   var features = this.map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        
+      //   var clusterId = features[0].properties.cluster_id;
+      //   this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add clic - clusterId : ", clusterId)
+        
+      //   this.map.getSource(geoJsonSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+      //   if (err) {
+      //     return
+      //   }
+      //   this.map.easeTo({
+      //     center: features[0].geometry.coordinates,
+      //     zoom: zoom
+      //     })
+      //   })
+      // })
+      
+      // this.map.on('mouseenter', 'clusters', function () {
+      //   // this.map.getCanvas().style.cursor = 'pointer';
+      // })
+      // this.map.on('mouseleave', 'clusters', function () {
+      //   // this.map.getCanvas().style.cursor = '';
+      // })
+
+
     },
     createMapItems(geoJson){
 
@@ -548,7 +582,6 @@ export default {
       // cf : 
       // this.map.addLayer(this.geoJsonLayer)
       this.createGeoJsonLayers( 'clusterSource' )
-      // this.map.glyphs = "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
       this.isClusterSet = true
       this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
     },
