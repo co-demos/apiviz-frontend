@@ -64,7 +64,7 @@ export function getStyleJSON (styleURL) {
 }
 
 // GEOJSON SOURCE
-export function createGeoJSONSource (geoJSON) {
+export function createGeoJSONSource (geoJSON, vars) {
 
   console.log("+ + + createGeoJSONSource ... ")
 
@@ -72,14 +72,14 @@ export function createGeoJSONSource (geoJSON) {
     // id : 'clusterLayer',
     type : 'geojson',
     data : geoJSON,
-    cluster : true,
-    clusterMaxZoom : 14,
-    clusterRadius : 50,
+    cluster : vars.isCluster,
+    clusterMaxZoom : vars.clusterMaxZoom,
+    clusterRadius : vars.clusterRadius,
   }
   return geoJsonSource
 }
 
-// GEOJSON LAYERS
+// GEOJSON LAYERS - CLUSTER CIRCLES
 export function createClusterCirclesLayer (sourceId, vars) {
 
   let layerConfig = {
@@ -121,6 +121,7 @@ export function createClusterCirclesLayer (sourceId, vars) {
   return layerConfig
 }
 
+// GEOJSON LAYERS - CLUSTER COUNTS
 export function createClusterCountLayer (sourceId, vars) {
   let layerConfig = {
     id: "cluster-count",
@@ -143,6 +144,7 @@ export function createClusterCountLayer (sourceId, vars) {
   return layerConfig
 }
 
+// GEOJSON LAYERS - UNCLUSTERED CIRCLES
 export function createClusterUnclusteredLayer (sourceId, vars) {
   let layerConfig = {
     id: "unclustered-point",
@@ -159,6 +161,38 @@ export function createClusterUnclusteredLayer (sourceId, vars) {
   return layerConfig
 }
 
+// GEOJSON LAYERS - ALL POINTS CIRCLES
+export function createAllPoints (sourceId, vars) {
+  var layerConfig = {
+    "id": "all-points",
+    "type": "circle",
+    "source": sourceId,
+    "filter": ["==", "$type", "Point"],
+    "paint": {
+      "circle-stroke-width": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        9, 0,
+        vars.maxZoom, 1
+      ], 
+      "circle-stroke-color": "#fff",
+      "circle-color": "#a174ac",
+      "circle-opacity": 0.8,
+      "circle-radius": [
+        "interpolate",
+        ["linear"],
+        ["zoom"], 
+        4, vars.radiusMin,
+        vars.maxZoom, vars.radiusMax
+      ],
+
+    },
+  }
+  return layerConfig
+}
+
+// GEOJSON LAYERS - HEATMAP
 export function createHeatmapLayer (sourceId, vars) {
 
   // cf : https://docs.mapbox.com/help/tutorials/make-a-heatmap-with-mapbox-gl-js/
