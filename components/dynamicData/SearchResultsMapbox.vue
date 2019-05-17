@@ -117,9 +117,9 @@
           >
           <div 
             v-for="(item, index) in itemsForMap"
+            :key="index"
             >
             <MglMarker
-              :key="index"
               :coordinates="[item.lon, item.lat]"
               color='grey'
               @click="highlightItem(item)"
@@ -135,16 +135,16 @@
         </template>
 
         <!-- CLUSTER -->
-        <template
+        <!-- <template
           v-if="geoJsonSource && geoJsonlayer"
-          >
+          > -->
           <!-- <MglGeojsonLayer
             :sourceId="geoJsonSource.id"
             :source="geoJsonSource"
             layerId="clusters-id"
             :layer="geoJsonlayer"
           /> -->
-        </template>
+        <!-- </template> -->
 
         <!-- CONTROLS -->
         <!-- <MglGeolocateControl ref="geolocateControl"/> -->
@@ -206,9 +206,11 @@ export default {
 
       // MAPBOX MAP OBJECT
       map : undefined, 
+      isClusterSet : false,
       markersTreshold : 100,
+      geoJson : undefined,
       geoJsonSource : undefined,
-      geoJsonlayer : undefined,
+      // geoJsonlayer : undefined,
 
       // LOCAL DATA
       VIEW_MAP,
@@ -318,6 +320,27 @@ export default {
 
   },
 
+  watch:{
+
+    projects(prev, next){
+
+      this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
+      if (this.map && !this.isClusterSet && this.itemsForMap) {
+        this.log && console.log('C-SearchResultsMapbox / watch - createGeoJsonData ...')
+        this.geoJson = this.createGeoJsonData(this.itemsForMap)
+        this.log && console.log('C-SearchResultsMapbox / watch - this.geoJson : ', this.geoJson)
+        this.createMapItems(this.geoJson)
+      } else if (this.map && this.isClusterSet && this.geoJson) {
+        this.log && console.log('C-SearchResultsMapbox / watch - updateSourceData ...')
+        this.updateSourceData(this.itemsForMap)
+      } else {
+        this.log && console.log('C-SearchResultsMapbox / watch - else ...')
+        return 
+      }
+
+    }
+
+  },
 
   computed: {
 
@@ -334,31 +357,19 @@ export default {
 
 
     itemsForMap(){
+      
       this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
+      this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
 
       if (this.projects){
+
         let geoItems = this.projects.filter(item => this.checkIfItemHasLatLng(item) )
-        this.log && console.log('C-SearchResultsMapbox / itemsForMap/ geoItems : ', geoItems )
-        
-        
-        // if (geoItems.length > this.markersTreshold ){
-        if (geoItems.length > 2 ){
-
-          this.log && console.log('C-SearchResultsMapbox / itemsForMap/ remapping to geoJSON ' )
-          let ItemsAsGeoJSON = this.createGeoJsonSource(geoItems)
-          this.log && console.log('C-SearchResultsMapbox / itemsForMap/ ItemsAsGeoJSON : ', ItemsAsGeoJSON )
-          this.geoJsonSource = ItemsAsGeoJSON
-
-          this.geoJsonLayer = this.createGeoJsonLayer('clusterLayer')
-
-        } else {
-          this.geoJsonSource = undefined
-          this.geoJsonLayer = undefined
-          return undefined 
-        }
-        
+        this.log && console.log('C-SearchResultsMapbox / itemsForMap / geoItems ... : ', geoItems )
         return geoItems
 
+      } else {
+        // nothing in projects => empty everything
+        return undefined
       }
 
     },
@@ -370,24 +381,83 @@ export default {
 
     onMapLoaded(event) {
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded ... ")
-
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
-
       // in component
       this.map = event.map;
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / this.map :", this.map)
+    },
 
-      this.log && console.log("C-SearchResultsMapbox / onMapLoaded / this.geoJsonLayer :", this.geoJsonLayer)
-      this.map.addSource( 'clusterLayer', this.geoJsonSource)
-      // this.map.addLayer(this.geoJsonLayer)
-      // or just to store if you want have access from other components
-      // this.$store.search.map = event.map;
 
+    createGeoJsonData(dataArray){
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonData ... ")
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonData / dataArray : ", dataArray)
+      // geojson wrappeer
+      let geoJSON = {
+        type : 'FeatureCollection',
+        features : [],
+      }
+      const notAllowedKeys = ['lon', 'lat']
+      // remap items array
+      let dataGeoJson = dataArray.map(item => {
+        let trimmedItem = Object.keys(item)
+                          .filter(key => !notAllowedKeys.includes(key))
+                          .reduce((obj, key) => {
+                            obj[key] = item[key];
+                            return obj;
+                          }, {} );
+        const tempObject = {
+          type : 'Feature',
+          properties : trimmedItem,
+          geometry : {
+            type : 'Point',
+            coordinates : [item.lon, item.lat]
+          }
+        }
+        return tempObject
+      })
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / dataGeoJson : ", dataGeoJson)
+      geoJSON.features = dataGeoJson
+      return geoJSON
+    },
+    createGeoJsonSource(geoJSON){
+
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource ... ")
+      
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / geoJSON : ", geoJSON)
+      let geoJsonSource = {
+        // id : 'clusterLayer',
+        type : 'geojson',
+        data : geoJSON,
+        cluster : true,
+        clusterMaxZoom : 14,
+        clusterRadius : 50,
+      }
+      return geoJsonSource
+
+    },
+    createGeoJsonLayers(geoJsonSourceId) {
+
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
+
+      // let geoJsonLayer = {
+      //   id: "clusters-id",
+      //   type: "circle",
+      //   source: geoJsonSourceId,
+      //   filter: ["!=", "cluster", true],
+      //   filter: ['has', 'point_count'],
+      //   paint: {
+      //     "circle-color": "#00ffff",
+      //   }
+      // }
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonLayer : ", geoJsonLayer)
+      // return geoJsonLayer
+
+
+      // adding layer to display clusters circles
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
       this.map.addLayer({
         id: "clusters",
         type: "circle",
-        source: "clusterLayer",
+        source: geoJsonSourceId,
         filter: ["has", "point_count"],
         paint: {
           // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
@@ -410,11 +480,12 @@ export default {
         }
       })
       
+      // adding layer to display clusters counts
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
       this.map.addLayer({
         id: "cluster-count",
         type: "symbol",
-        source: "clusterLayer",
+        source: geoJsonSourceId,
         filter: ["has", "point_count"],
         layout: {
           "text-field": "{point_count_abbreviated}",
@@ -423,105 +494,49 @@ export default {
         }
       })
       
+      // adding layer to display single item
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
       this.map.addLayer({
         id: "unclustered-point",
         type: "circle",
-        source: "clusterLayer",
+        source: geoJsonSourceId,
         filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-color": "#11b4da",
-          "circle-radius": 4,
+          "circle-radius": 10,
           "circle-stroke-width": 1,
           "circle-stroke-color": "#fff"
         }
       })
 
-
     },
+    createMapItems(geoJson){
 
-    // createMapbox(styleUrl){
-    //   this.log && console.log("C-SearchResultsMapbox / createMapbox ... ")
-    //   // init the map
-
-    //   this.map = new mapboxgl.Map({
-    //     container: 'mapboxDiv',
-    //     style: styleUrl,
-    //     center: [4.7835, 52.3491],
-    //     zoom: 6,
-    //     pitch: 0,
-    //     minZoom: 2,
-    //     maxZoom: 20,
-    //     attributionControl: false
-    //   })
-    //   // this.map.addControl(new mapboxgl.Navigation());
-
-    // },
-
-    createGeoJsonSource(dataArray){
-
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource ... ")
+      // adding reactive source
+      this.log && console.log("C-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
+      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
       
-      // geojson wrappeer
-      let geoJSON = {
-        type : 'FeatureCollection',
-        features : [],
+      this.geoJsonSource = this.createGeoJsonSource(geoJson)
+      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.geoJsonSource :", this.geoJsonSource)
+      this.map.addSource( 'clusterSource', this.geoJsonSource)
+
+      // cf : https://www.jerriepelser.com/books/airport-explorer/mapping/clustering/
+      // cf : 
+      // this.map.addLayer(this.geoJsonLayer)
+      this.createGeoJsonLayers( 'clusterSource' )
+      // this.map.glyphs = "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+      this.isClusterSet = true
+      this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+    },
+    updateSourceData(itemsForMap){
+      this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
+      this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
+      if (itemsForMap){
+        let geoJson = this.createGeoJsonData(itemsForMap)
+        this.map.getSource('clusterSource').setData(geoJson)
       }
-
-      const notAllowedKeys = ['lon', 'lat']
-
-      // remap items array
-      let dataGeoJson = dataArray.map(item => {
-        let trimmedItem = Object.keys(item)
-                          .filter(key => !notAllowedKeys.includes(key))
-                          .reduce((obj, key) => {
-                            obj[key] = item[key];
-                            return obj;
-                          }, {} );
-        const tempObject = {
-          type : 'Feature',
-          properties : trimmedItem,
-          geometry : {
-            type : 'Point',
-            coordinates : [item.lon, item.lat]
-          }
-        }
-        return tempObject
-      })
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / dataGeoJson : ", dataGeoJson)
-      geoJSON.features = dataGeoJson
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonSource / geoJSON : ", geoJSON)
-      // return geoJSON
-      let geoJsonSource = {
-        // id : 'clusterLayer',
-        type : 'geojson',
-        data : geoJSON,
-        cluster : true,
-        clusterMaxZoom : 14,
-        clusterRadius : 50,
-      }
-      return geoJsonSource
-
     },
 
-    createGeoJsonLayer(geoJsonSourceId) {
-
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
-
-      let geoJsonLayer = {
-        id: "clusters-id",
-        type: "circle",
-        source: geoJsonSourceId,
-        filter: ["!=", "cluster", true],
-        filter: ['has', 'point_count'],
-        paint: {
-          "circle-color": "#00ffff",
-        }
-      }
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonLayer : ", geoJsonLayer)
-      return geoJsonLayer
-
-    },
 
     matchItemWithConfig(item, fieldBlock) {
       // this.log && console.log("C-SearchResultsMapbox / matchItemWithConfig / item : ", item)
@@ -559,7 +574,23 @@ export default {
     },
     
 
+    // createMapbox(styleUrl){
+    //   this.log && console.log("C-SearchResultsMapbox / createMapbox ... ")
+    //   // init the map
 
+    //   this.map = new mapboxgl.Map({
+    //     container: 'mapboxDiv',
+    //     style: styleUrl,
+    //     center: [4.7835, 52.3491],
+    //     zoom: 6,
+    //     pitch: 0,
+    //     minZoom: 2,
+    //     maxZoom: 20,
+    //     attributionControl: false
+    //   })
+    //   // this.map.addControl(new mapboxgl.Navigation());
+
+    // },
 
 
 
