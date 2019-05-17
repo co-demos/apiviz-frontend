@@ -119,18 +119,18 @@
             v-for="(item, index) in itemsForMap"
             :key="index"
             >
-            <MglMarker
+            <!-- <MglMarker
               :coordinates="[item.lon, item.lat]"
-              color='grey'
+              color='#90689a'
               @click="highlightItem(item)"
-              >
+              > -->
               <!-- <MglPopup>
                 <div>
                   sd_id : {{ item.sd_id }}
                 </div>
               </MglPopup> -->
 
-            </MglMarker>
+            <!-- </MglMarker> -->
           </div>
         </template>
 
@@ -296,7 +296,7 @@ export default {
 
     // this.log && console.log("\nC-SearchResultsMapbox / created... ")
     // We need to set mapbox-gl library here in order to use it in template
-    this.mapbox = Mapbox;
+    // this.mapbox = Mapbox;
 
   },
 
@@ -440,40 +440,42 @@ export default {
       let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId, {})
 
       // adding layer to display clusters circles
-      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters - layer ")
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters - layer ")
       mapboxMap.addLayer(clusterLayerConfig)
       
       // adding layer to display clusters counts
-      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - clusters-count - layer ")
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters-count - layer ")
       mapboxMap.addLayer(countLayerConfig)
       
       // adding layer to display single item
-      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point - layer ")
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point - layer ")
       mapboxMap.addLayer(unclusteredLayerConfig)
 
-      // this.log && console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  mapboxMap ", mapboxMap)
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point -  mapboxMap ", mapboxMap)
 
 
 
 
-      // inspect a cluster on click
+      // inspect a cluster or a point on click
 
+      // CLUSTER ACTIONS
       mapboxMap.on('click', 'clusters', function (e) {
+
+        var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
         
-        var features = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        console.log("C-SearchResultsMapbox / onMapLoaded / add - unclustered-point -  features : ", features)
-        
-        var clusterId = features[0].properties.cluster_id;
-        console.log("C-SearchResultsMapbox / onMapLoaded / add clic - clusterId : ", clusterId)
+        var clusterId = featuresCluster[0].properties.cluster_id;
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
         
         mapboxMap.getSource(geoJsonSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-        if (err) {return}
+          if (err) {return}
 
-        mapboxMap.easeTo({
-          center: features[0].geometry.coordinates,
-          zoom: zoom
+          mapboxMap.easeTo({
+            center: featuresCluster[0].geometry.coordinates,
+            zoom: zoom
           })
         })
+
       })
       
       mapboxMap.on('mouseenter', 'clusters', function () {
@@ -483,6 +485,38 @@ export default {
         mapboxMap.getCanvas().style.cursor = '';
       })
 
+
+      let displayPoint = this.highlightItem
+
+      // POINT ACTIONS
+      mapboxMap.on('click', 'unclustered-point', function (e) {
+        
+        var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
+
+        var pointId = featuresPoint[0].properties.sd_id;
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
+
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
+
+        mapboxMap.easeTo({
+          center: coordinates,
+        })
+
+        let itemProps = featuresPoint[0].properties
+        itemProps.lat = coordinates[1]
+        itemProps.lon = coordinates[0]
+        displayPoint(itemProps)
+
+      })
+
+      mapboxMap.on('mouseenter', 'unclustered-point', function () {
+        mapboxMap.getCanvas().style.cursor = 'pointer';
+      })
+      mapboxMap.on('mouseleave', 'unclustered-point', function () {
+        mapboxMap.getCanvas().style.cursor = '';
+      })
 
     },
 
@@ -539,7 +573,7 @@ export default {
       // this.itemLoaded = false
 
       // recenter map
-      this.center = [item.lon, item.lat]
+      // this.center = [item.lon, item.lat]
       // this.zoom = 10
 
       // get item ID
