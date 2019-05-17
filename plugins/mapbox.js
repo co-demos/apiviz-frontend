@@ -209,7 +209,7 @@ export function createHeatmapLayer (sourceId, vars) {
         ["linear"],
         ["get", vars.propWeight],
         0, 0,
-        1, 1
+        0.1, 1
       ],
 
       // Increase the heatmap color weight weight by zoom level
@@ -218,8 +218,8 @@ export function createHeatmapLayer (sourceId, vars) {
         "interpolate",
         ["linear"],
         ["zoom"],
-        0, 1,
-        vars.maxZoom, 2
+        0, 0.1,
+        vars.maxZoom, 1.5
       ],
 
       // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
@@ -242,8 +242,8 @@ export function createHeatmapLayer (sourceId, vars) {
         "interpolate",
         ["linear"],
         ["zoom"],
-        0, 1,
-        vars.maxZoom, 250
+        6, 10,
+        vars.maxZoom, 100
       ],
 
       // Transition from heatmap to circle layer by zoom level
@@ -252,7 +252,7 @@ export function createHeatmapLayer (sourceId, vars) {
         ["linear"],
         ["zoom"],
         6, 0.7,
-        vars.maxZoom-5, 0
+        vars.maxZoom, 0.1
       ],
     }
   }

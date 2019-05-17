@@ -455,21 +455,24 @@ export default {
       let mapboxMap = this.map 
 
       let allPointsConfig = createAllPoints(geoJsonSourceId.allPointsId, { radiusMin: 1, radiusMax: 10, maxZoom: this.maxZoom-5 })
+      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {propWeight: 'weigth', maxZoom: this.maxZoom })
 
       let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId.clusterId, {})
       let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, {})
       let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, {})
-      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.clusterId, {propWeight : 'weigth', maxZoom: this.maxZoom })
+
 
       //  HEEATMAP
       // 0 - adding layer to display heatmap
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - heatmap - layer ")
       // mapboxMap.addLayer(heatmapLayerConfig)
 
+
       // ALL POINTS
       // 1 - adding layer to display all items
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - all points - layer ")
       mapboxMap.addLayer(allPointsConfig)
+
 
       // CLUSTERING
       // 2 - adding layer to display clusters circles
