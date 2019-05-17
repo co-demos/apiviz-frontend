@@ -16,6 +16,8 @@ export default function ({ store, route, redirect }) {
   let path = route.path
   // log && console.log('-M3- getRouteConfig / path : ', path)
 
+  let previousIsMapSearch = store.getters['search/getIsMapSearch']
+
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
   store.commit('config/setLocalRouteConfig', currentRouteConfig)
 
@@ -54,6 +56,9 @@ export default function ({ store, route, redirect }) {
 
       // log && console.log('-M3- getRouteConfig / finished ...')
 
+    } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
+      store.commit('search/clearResults')
+      store.dispatch('search/search')
     }
 
   }

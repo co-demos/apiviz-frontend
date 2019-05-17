@@ -205,9 +205,9 @@ export default {
     return {
 
       // MAPBOX MAP OBJECT
-      map : undefined, 
+      // map : undefined, 
       isClusterSet : false,
-      markersTreshold : 100,
+      markersTreshold : 50,
       geoJson : undefined,
       geoJsonSource : undefined,
       // geoJsonlayer : undefined,
@@ -322,19 +322,36 @@ export default {
 
   watch:{
 
-    projects(prev, next){
+    // map(next, prev){
+    //   if (next && !prev) {
+    //     this.log && console.log('C-SearchResultsMapbox / watch - map ...')
+    //     this.geoJson = this.createGeoJsonData(this.itemsForMap)
+    //     this.log && console.log('C-SearchResultsMapbox / watch - this.geoJson : ', this.geoJson)
+    //     this.createMapItems(this.geoJson)
+    //   }
+    // },
+
+    projects(next, prev){
 
       this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.map : ', this.map)
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
+
       if (this.map && !this.isClusterSet && this.itemsForMap) {
-        this.log && console.log('C-SearchResultsMapbox / watch - createGeoJsonData ...')
+        this.log && console.log('C-SearchResultsMapbox / watch - projects - createGeoJsonData ...')
         this.geoJson = this.createGeoJsonData(this.itemsForMap)
-        this.log && console.log('C-SearchResultsMapbox / watch - this.geoJson : ', this.geoJson)
+        this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
-      } else if (this.map && this.isClusterSet && this.geoJson) {
-        this.log && console.log('C-SearchResultsMapbox / watch - updateSourceData ...')
+      } 
+      else if (this.map && this.isClusterSet && this.geoJson) {
+        this.log && console.log('C-SearchResultsMapbox / watch - projects - updateSourceData ...')
         this.updateSourceData(this.itemsForMap)
-      } else {
-        this.log && console.log('C-SearchResultsMapbox / watch - else ...')
+      } 
+      else {
+        this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
         return 
       }
 
@@ -353,6 +370,7 @@ export default {
       projects : 'search/getResults',
       displayedProject : 'search/getDisplayedProject',
       isPending : 'search/getPending',
+      // map : 'search/getMap',
     }),
 
 
@@ -382,8 +400,14 @@ export default {
     onMapLoaded(event) {
       this.log && console.log("C-SearchResultsMapbox / onMapLoaded ... ")
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
+      
       // in component
       this.map = event.map;
+
+      // in store
+      // this.$store.dispatch('search/setMap', event.map)
+      // this.$store.commit('search/setMap', {map : event.map})
+      // this.$store.state.search.map = event.map
     },
 
 

@@ -8,6 +8,8 @@ import {
   createSelectedFiltersForSearch
   } from '~/plugins/utils.js';
 
+export const strict = false
+
 export const state = () => ({
 
   // CONSOLE LOG ALLOWED 
@@ -66,6 +68,14 @@ export const state = () => ({
 })
 
 export const getters = {
+
+  // MAP RELATED
+    getMap : state => {
+      return state.map
+    },
+    getIsMapSearch : state => {
+      return state.search.question.forMap
+    },
 
   // FILTER RELATED
   // - - - - - - - - - - - - - - - //
@@ -238,6 +248,13 @@ export const getters = {
 
 export const mutations = {
 
+  // MAP
+    setMap(state, map) {
+      state.log && console.log("\nS-search-M-setMap ..." )
+      state.log && console.log("\nS-search-M-setMap / map : ", map )
+      state.map = map.map
+    },
+
   // GENERAL
     setSearchConfig(state, {type,result}) {
       state.search.config[type] = result
@@ -342,6 +359,11 @@ export const mutations = {
 }
 
 export const actions = {
+
+  // MAPBOX
+    setMap({state, commit}, map){
+      commit('setMap', map.map)
+    },
 
   // TO VARIABILIZE
     setSearchConfigDisplay({state, commit}) {
