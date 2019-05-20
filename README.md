@@ -77,9 +77,12 @@ Please check out our *[guidelines](./GUIDELINES_DEV.md)*
 
 ## INSTALLATION WALKTHROUGH 
 
+
 <hr>
 
-## Build Setup
+Before anything you need to install [Apiviz-backend]() to serve your configuration to the frontend. 
+
+## Build Setup (with Nuxt)
 
 ``` bash
 # install dependencies
@@ -101,6 +104,16 @@ $ npm start
 
 # generate static project
 $ npm run generate
+```
+
+## Build Setup (with Docker) ... not quite sure yet
+
+``` bash
+# install / stop / restart
+
+$ make up-nuxt # run app with Docker
+$ make restart-nuxt # restart app with Docker
+$ make down-nuxt # stop app with Docker
 ```
 
 ------
