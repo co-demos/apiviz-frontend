@@ -9,13 +9,19 @@
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
-ApiViz (soon will) includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
+ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
   - **navbar** : define the logo, links, and menus in your apiviz instance's navabr. 
   - **styles** : define the CSS styles for your apiviz instance.
   - **routes** : define the pages and routes of your apiviz instance, either statics contents or data views.
   - **data endpoints** : define the data endpoints feeding your apiviz instance and the fields you want to display.
   - **global** : define some metadata for your apiviz instance.
   - **footer** : define the links present in the apiviz instance's footer.
+
+--------
+
+#### warning : 
+
+**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/ApiViz/tree/j_login)** is correctly installed first.
 
 --------
 
@@ -27,9 +33,17 @@ Nevertheless to do so an instance of ApiViz must be connected to several externa
 
 The goal of ApiViz is to **work with any external service** fulfilling those roles, but we developed an **eco-system of open source applications** allowing a complete and free way to deploy such a datavisualisation service. 
 
-- [Apiviz](https://github.com/co-demos/ApiViz) as the high-level app for visualisation, a sort of open source CMS for data-visualisation ; 
-- [Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend) to "API-fy" your data and manage open data projects ;
-- [TokTok](https://github.com/co-demos/toktok) for a dedicated authentication service to manage users, JWT, and roles. 
+<br>
+
+| logo | <div style="text-align:center">the open source eco-system ( aka TADATA! )</div> |
+|    :----:   |          :--- |
+| <img src="./static/logos/logo_apiviz_icon_15.png" height="33"> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation ;   |
+| <img src="./static/logos/logo_solidata.png" height="33"> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects ; |
+| <img src="./static/logos/logo_auth_microservice.png" height="33"> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles.  |
+| <img src="./static/logos/logo_openscraper_01.png" height="33"> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
+
+
+<br>
 
 In the following illustration you can have a general idea of how those several services could work altogether. Check the [`/documentation/configurations`](./documentation/configurations) folder to have a broader look to [other configurations](./documentation/configurations/APIVIZ_CONFIGURATIONS-export.pdf).
 
@@ -80,7 +94,7 @@ Please check out our *[guidelines](./GUIDELINES_DEV.md)*
 
 <hr>
 
-Before anything you need to install [Apiviz-backend]() to serve your configuration to the frontend. 
+Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz)** to serve your configuration to the frontend. (for now use the **[`j_login`](https://github.com/co-demos/ApiViz/tree/j_login)** branch)
 
 ## Build Setup (with Nuxt)
 
@@ -106,15 +120,19 @@ $ npm start
 $ npm run generate
 ```
 
-## Build Setup (with Docker) ... not quite sure yet
+... then check in your browser : `localhost:3000`
+
+## Build Setup (with Docker)
 
 ``` bash
 # install / stop / restart
 
-$ make up-nuxt # run app with Docker
-$ make restart-nuxt # restart app with Docker
-$ make down-nuxt # stop app with Docker
+$ make up # run app with Docker
+$ make restart # restart app with Docker
+$ make down # stop app with Docker
 ```
+
+... then check in your browser : `localhost:3333`
 
 ------
 
@@ -175,7 +193,7 @@ $ make down-nuxt # stop app with Docker
 #### MAP VIEW (Sonum client configuration)
 displays your geolocalized data, given your configuration set in backoffice
 <h2 align=center>
-	<img src="./documentation/screenshots/map-view-sonum-02.png">
+	<img src="./documentation/screenshots/map-view-sonum-03.png">
 </h2>
 
 

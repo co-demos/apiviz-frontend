@@ -1,6 +1,8 @@
 ### cf : https://guillim.github.io/docker/2018/11/18/docker-hands-on-intro.html 
 ### cf : https://jonathanmh.com/deploying-a-nuxt-js-app-with-docker/
 ### cf : https://dev.to/vuevixens/dockerise-your-nuxt-ssr-app-like-a-boss-a-true-vue-vixens-story-4mm6
+### cf : https://github.com/sass/node-sass/issues/2165
+### cf : https://stackoverflow.com/questions/54492385/nuxt-js-in-docker-missing-dependencies
 
 export APP=apiviz-nuxt
 
@@ -28,11 +30,6 @@ network-stop:
 ### frontend
 ### ============ ###
 
-frontend: 
-	${DC} -f ${DC}-frontend.yml up --build -d
-frontend-stop:
-	${DC} -f ${DC}-frontend.yml down
-
 nuxt: 
 	${DC} -f ${DC}-nuxt.yml up --build -d
 nuxt-stop:
@@ -42,13 +39,7 @@ nuxt-stop:
 ### main make / docker commands
 ### ============================= ###
 
-# --------------------
-# default
-up: network frontend
-down: frontend-stop network-stop
+# nuxt building
+up: network nuxt
+down: nuxt-stop network-stop
 restart: down up
-
-# nuxt test
-up-nuxt: network nuxt
-down-nuxt: nuxt-stop network-stop
-restart-nuxt: down up

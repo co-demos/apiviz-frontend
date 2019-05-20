@@ -16,6 +16,7 @@ services:
       npm run dev
     volumes:
       - .:/app
+      - /app/node_modules/
       
   nginx:
     image: nginx:1.13
