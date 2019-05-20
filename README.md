@@ -1,5 +1,6 @@
 <h2 align=center>
 	<img src="./static/logos/logo_apiviz_15.png">
+  FRONTEND
 </h2>
 
 
