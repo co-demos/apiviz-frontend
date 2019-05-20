@@ -24,6 +24,20 @@ export const state = () => ({
 
 export const getters = {
 
+  getConfirmTokenConfig : (state, getters, rootState) => {
+    return rootState.config.config.endpoints.find(function(r) {
+      return r.field === 'app_data_API_user_auth'
+    });
+  },
+
+  getCheckUserRole : (state, getters) => (roleToCheck) => {
+    const user = state.user
+    const userRole = user.role // role from auth confirm access response
+    const authConfig = getters.getConfirmTokenConfig 
+    const roleUserToCheck = authConfig.roles[roleToCheck]['resp_role'] // role corresponding to roleToCheck
+    return roleUserToCheck === userRole
+  },
+
 }
 
 export const mutations = {
@@ -32,7 +46,7 @@ export const mutations = {
     console.log('tokens : ', tokens)
     // state.jwt = (tokens && tokens.access_token && tokens.refresh_token) ? tokens : undefined
     state.jwt = tokens
-    console.log('state.jwt : ', state.jwt)
+    state.log && console.log('S-user-M-setTokesn / state.jwt : ', state.jwt)
   },
   setInfos (state, {infos}) {
     state.user.infos = (infos && infos.email) ? infos : undefined
@@ -47,10 +61,13 @@ export const mutations = {
 export const actions = {
 
   // USER-RELATED
-  saveLoginInfos({commit, getters}, {APIresponse}){
+  saveLoginInfos({state, commit, getters}, {APIresponse}){
+
+    let r = APIresponse
+    state.log && console.log("\nS-user-A-saveLoginInfos / r = APIresponse : ", r )
 
     const authConfig = getters.getConfirmTokenConfig
-    console.log("\n// authConfig : \n", authConfig )
+    state.log && console.log("S-user-A-saveLoginInfos / authConfig ", authConfig )
 
     const accessTokenPath = authConfig.resp_fields.access_token.path
     const refreshTokenPath = authConfig.resp_fields.refresh_token.path
@@ -61,15 +78,12 @@ export const actions = {
     const userPseudoPath = authConfig.resp_fields.user_pseudo.path
     const userEmailPath = authConfig.resp_fields.user_email.path
 
-    let r = APIresponse
-    console.log("\n// r = APIresponse : \n", r )
-
     // let tokens = (r && r.data && r.data.data && r.data.data.tokens) ? r.data.data.tokens : undefined
     let tokens = (r && r.data ) ? { 
       access_token   : getObjectDataFromPath(r.data, accessTokenPath), 
       refresh_token : getObjectDataFromPath(r.data, refreshTokenPath), 
     } : undefined ;
-    // console.log('tokens : \n', tokens)
+    // state.log && console.log("S-user-A-saveLoginInfos / tokens ", tokens )
 
     // let infos = (r && r.data && r.data.data && r.data.data.infos) ? r.data.data.infos : undefined
     let infos = ( r && r.data ) ? {
@@ -79,7 +93,7 @@ export const actions = {
         id      : getObjectDataFromPath(r.data, userIdPath), 
         pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
     } : undefined ;
-    // console.log('infos : \n', infos)
+    // state.log && console.log("S-user-A-saveLoginInfos / infos ", infos )
 
     // let role = (r && r.data && r.data.data && r.data.data.auth && r.data.data.auth.role) ? r.data.data.auth.role : undefined
     let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
@@ -89,9 +103,10 @@ export const actions = {
     commit('setRole',   {role})
 
     // test user role
-    console.log('then... getCheckUserRole - guest : ', getters.getCheckUserRole('guest'))
-    console.log('then... getCheckUserRole - admin : ', getters.getCheckUserRole('admin'))
+    state.log && console.log('S-user-A-saveLoginInfos / then... getCheckUserRole - guest : ', getters.getCheckUserRole('guest'))
+    state.log && console.log('S-user-A-saveLoginInfos / then... getCheckUserRole - admin : ', getters.getCheckUserRole('admin'))
   },
+  
   logout({commit}){
     commit('setTokens', {})
     commit('setInfos',  {})

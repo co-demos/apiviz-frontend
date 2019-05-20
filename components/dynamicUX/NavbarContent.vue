@@ -192,9 +192,6 @@ export default {
       showNav : 'getNavbarVisibility',
     }),
 
-    // showNav() {
-    //   return this.$store.getters.getNavbarVisibility
-    // },
     isUserAdmin () {
       return this.$store.getters.getCheckUserRole('admin')
     },
@@ -207,7 +204,7 @@ export default {
   methods : {
 
     getText(textCode) {
-      return this.$store.getters.defaultText({txt:textCode})
+      return this.$store.getters['config/defaultText']({txt:textCode})
     },
     loadExternalURL(link_to){
       console.log("loadExternalURL / link_to : ", link_to)
