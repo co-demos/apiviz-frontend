@@ -64,7 +64,7 @@ export const actions = {
   saveLoginInfos({state, commit, getters}, {APIresponse}){
 
     let r = APIresponse
-    state.log && console.log("\nS-user-A-saveLoginInfos / r = APIresponse : ", r )
+    state.log && console.log("\nS-user-A-saveLoginInfos / r = APIresponse : \n", r )
 
     const authConfig = getters.getConfirmTokenConfig
     state.log && console.log("S-user-A-saveLoginInfos / authConfig ", authConfig )
@@ -83,7 +83,7 @@ export const actions = {
       access_token   : getObjectDataFromPath(r.data, accessTokenPath), 
       refresh_token : getObjectDataFromPath(r.data, refreshTokenPath), 
     } : undefined ;
-    // state.log && console.log("S-user-A-saveLoginInfos / tokens ", tokens )
+    state.log && console.log("S-user-A-saveLoginInfos / tokens ", tokens )
 
     // let infos = (r && r.data && r.data.data && r.data.data.infos) ? r.data.data.infos : undefined
     let infos = ( r && r.data ) ? {
@@ -93,7 +93,7 @@ export const actions = {
         id      : getObjectDataFromPath(r.data, userIdPath), 
         pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
     } : undefined ;
-    // state.log && console.log("S-user-A-saveLoginInfos / infos ", infos )
+    state.log && console.log("S-user-A-saveLoginInfos / infos ", infos )
 
     // let role = (r && r.data && r.data.data && r.data.data.auth && r.data.data.auth.role) ? r.data.data.auth.role : undefined
     let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined

@@ -193,10 +193,10 @@ export default {
     }),
 
     isUserAdmin () {
-      return this.$store.getters.getCheckUserRole('admin')
+      return this.$store.getters['user/getCheckUserRole']('admin')
     },
     isUserStaff () {
-      return this.$store.getters.getCheckUserRole('staff')
+      return this.$store.getters['user/getCheckUserRole']('staff')
     },
 
 

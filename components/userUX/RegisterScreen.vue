@@ -1,6 +1,4 @@
 <template>
-    <!-- <div> -->
-        <!-- <NavBar :logo="logo" :brand="brand"/> -->
 
   <section class="hero has-background-white-ter is-fullheight skip-navbar">
 
@@ -12,10 +10,9 @@
           <div class="column is-6" v-if="!user.isLoggedin">
 
             <p class="subtitle has-text-grey">
-              <!-- Vous n'avez pas encore de compte ? -->
+              <!-- NO USER ACCOUNT ? -->
               {{ getText('no_account') }}
             </p>
-            <!-- <h3 class="title has-text-grey">S'enregistrer</h3> -->
 
             <div class="box">
               <FormRegister/>
@@ -23,7 +20,7 @@
 
             <p class="has-text-grey">              
               <router-link :to="'/login'">
-                <!-- créer un compte -->
+                <!-- CREATE ACCOUNT -->
                 {{ getText('connect') }}
               </router-link>
             </p>
@@ -32,10 +29,10 @@
 
           <div class="column is-6" v-if="user.isLoggedin">
             <p class="subtitle has-text-grey">
-              <!-- Bonjour  -->
+              <!-- HELLO  -->
               {{ getText('hello') }}
               {{user.infos.email}}, 
-              <!-- vous êtes déjà enregistré.e -->
+              <!-- IS REGISTRED -->
               {{ getText('is_registered') }}
             </p>
 
@@ -46,33 +43,29 @@
     </div>
   </section>
 
-        <!-- <Footer/>
-    </div> -->
 </template>
 
 <script>
 import {mapState} from 'vuex'
 
-// import NavBar from '../NavBar.vue';
-// import Footer from '../Footer.vue';
-import FormRegister from '../FormRegister.vue';
+import FormRegister from './RegisterForm.vue';
 
 export default {
+
   components: {
-    // NavBar, 
-    // Footer, 
     FormRegister
   },
+
   props: [
-    // 'logo', 
-    // 'brand'
   ],
 
   computed: {
+
     ...mapState({
       log : state => state.log, 
-      user: 'user'
+      user: state => state.user.user,
     })
+    
   },
 
   mounted(){

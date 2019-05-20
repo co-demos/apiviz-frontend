@@ -121,7 +121,7 @@
             <label for="userAcceptCGU">
 
               <a class="modal-button has-text-primary" data-target="modal_legal" aria-haspopup="true">
-                <!-- Conditions Générales d'Utilisation -->
+                <!-- CGU BOX -->
                 {{ getText('accept_cgu') }}
               </a>
             </label>
@@ -136,7 +136,7 @@
           :disabled="!enableBtn" 
           type="submit"
           >
-      		<!-- S'enregistrer -->
+      		<!-- REGISTER -->
           {{ getText('register') }}
       	</button>
 
@@ -147,7 +147,7 @@
         type="submit" 
         v-if="user.isLoggedin"
         >
-        <!-- déjà connecté -->
+        <!-- USER CONNECTED -->
         {{ getText('connected') }}
       </p>
 
@@ -174,8 +174,10 @@ export default {
   computed: {
 
     ...mapState({
-      user: 'user'
+      log : state => state.log, 
+      user: state => state.user.user,
     }),
+    
     enableBtn() {
       return (this.errors.all().length === 0) ? true : false
     }
@@ -198,12 +200,14 @@ export default {
         } else {
 
           // if the form looks good, we send it to the backend
-          // const urlRegister = this.$store.getters.getRootUrlUser
-          const urlAuthRoot = this.$store.getters.getRootUrlAuth
+          const urlAuthRoot = this.$store.getters['getRootUrlAuth']
 
           const urlAuthRegister = this.$store.getters['config/getEndpointConfigAuthSpecific']('register')
           const urlAuthRegisterSuffix = urlAuthRegister.root_url
-          console.log("urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
+          this.log && console.log("C-RegisterForm / urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
+
+          let authUrl = urlAuthRoot + urlAuthLoginSuffix
+          this.log && console.log("C-RegisterForm / authUrl : ", authUrl)
 
           let payload = {
             name: this.userName,
@@ -231,12 +235,12 @@ export default {
                     this.customformError = 'Register failed' + msg
                     break;
                   default:
-                    console.log('error unkown',error,Object.keys(error));
+                    this.log && console.log('C-RegisterForm / error unkown',error,Object.keys(error));
                     this.customformError = 'Register failed - contact the webmaster'
                     break;
                 }
               } catch (e) {
-                console.log('we cannot read the error message from the API',e);
+                this.log && console.log('C-RegisterForm / we cannot read the error message from the API',e);
                 this.customformError = 'Register failed'
               }
             })

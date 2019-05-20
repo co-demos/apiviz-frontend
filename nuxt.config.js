@@ -98,6 +98,11 @@ export default {
   */
   modules: [
 
+    ['nuxt-validate', {
+      // lang: 'es',
+      // regular vee-validate options 
+    }],
+
     // Doc: https://axios.nuxtjs.org/usage
     // '@nuxtjs/axios',
     // to solve CORS problem

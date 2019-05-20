@@ -88,8 +88,8 @@ export default {
 
   computed: mapState({
     log : state => state.log, 
-    user : 'user',
-    jwt : 'jwt'
+    user: state => state.user.user,
+    jwt: state => state.user.jwt,
   }),
 
   mounted(){

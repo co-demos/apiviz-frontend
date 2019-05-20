@@ -23,7 +23,7 @@
             :placeholder="getText('email')"
             type="email" 
             >
-          <!-- <span>{{ errors.first('userEmail') }}</span> -->
+          <span>{{ errors.first('userEmail') }}</span>
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -39,7 +39,7 @@
             :placeholder="getText('password')"
             type="password" 
             >
-          <!-- <span>{{ errors.first('userPassword') }}</span> -->
+          <span>{{ errors.first('userPassword') }}</span>
           <span class="icon is-small is-left">
             <i class="fas fa-key"></i>
           </span>
@@ -117,8 +117,8 @@ export default {
   computed: {
     ...mapState({
       log : state => state.log, 
-      user : 'user',
-      jwt : 'jwt'
+      user: state => state.user.user,
+      jwt: state => state.user.jwt,
     }),
     isUserAdmin () {
       return this.$store.getters['user/getCheckUserRole']('admin')
@@ -159,7 +159,7 @@ export default {
           console.log(error)
           this.customformError = 'Login failed'
         })
-        .then(response => {
+        .then( response => {
           this.log && console.log("C-LoginForm / response : ", response)
           this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
         })

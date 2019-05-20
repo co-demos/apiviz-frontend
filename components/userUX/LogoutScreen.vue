@@ -65,7 +65,7 @@ export default {
 
     ...mapState({
       log : state => state.log, 
-      user: 'user'
+      user: state => state.user.user,
     }),
 
   },

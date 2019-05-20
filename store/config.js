@@ -30,19 +30,19 @@ export const getters = {
   // APP CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getConfig : state => {
-      state.log && console.log( "... here comes the app config : \n", state.config )
+      state.log && console.log( "S-config-G-getConfig / here comes the app config : \n", state.config )
       return state.config
     },
     getEndpointConfigAuthUsers : state => {
-      // state.log && console.log("getEndpointConfigAuthUsers...")
+      // state.log && console.log("S-config-G-getEndpointConfigAuthUsers...")
       return state.config.endpoints.filter(function(r) {
         return r.data_type === "user"
       });
     },
     getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
-      // state.log && console.log("getEndpointConfigAuthSpecific / endpointType : ", endpointType)
+      state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / endpointType : ", endpointType)
       let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
-      // state.log && console.log("getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
+      // state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
       return allAuthEndpoints.find(function(r) {
         return r.endpoint_type === endpointType
       });
@@ -63,7 +63,7 @@ export const getters = {
 
   // NAVBAR RELATED
     hasNavbar : (state) => {      
-      // state.log && console.log('S-config-hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
+      // state.log && console.log('S-config-G-hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false 
     },
     getNavbarConfig : state => {
@@ -159,35 +159,35 @@ export const getters = {
       });
     },
     getEndpointConfigFilters : (state, getters, rootState) => {
-      // state.log && console.log("getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'filters'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
     getEndpointConfigList : (state, getters, rootState) => {
-      // state.log && console.log("getEndpointConfigList - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfigList - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'list'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
     getEndpointConfigMap : (state, getters, rootState) => {
-      // state.log && console.log("getEndpointConfigMap - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfigMap - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'map'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
     getEndpointConfigDetail : (state, getters, rootState) => {
-      // state.log && console.log("getEndpointConfigDetail - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfigDetail - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'detail'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
     getEndpointConfigStat : (state, getters, rootState) => {
-      // state.log && console.log("getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
+      // state.log && console.log("S-config-getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'stat'
         && r.dataset_uri === rootState.search.search.dataset_uri;

@@ -1,9 +1,9 @@
 <template>
   <div>
 
-    <!-- LOGIN/LOGOUT/REGISTER ROUTES -->
-    <LoginScreen 
-    ></LoginScreen>
+    <!-- REGISTER ROUTES -->
+    <RegisterScreen 
+    ></RegisterScreen>
 
   </div>
 </template>
@@ -11,13 +11,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import LoginScreen from '~/components/userUX/LoginScreen.vue';
+import RegisterScreen from '~/components/userUX/RegisterScreen.vue';
 
 export default {
   
   components: {
 
-    LoginScreen,
+    RegisterScreen,
 
   },
 
@@ -26,11 +26,12 @@ export default {
   ],
 
   beforeMount : function(){
-    // this.log && console.log('\nP-login.vue / beforeMount...')
+    // this.log && console.log('\nP-register.vue / beforeMount...')
   },
 
   data () {
     return {
+
     }
   },
 
