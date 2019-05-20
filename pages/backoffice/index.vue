@@ -6,47 +6,13 @@
       v-if="has_navbar"
     ></NavBar>
 
-    <!-- BANNER -->
-    <DynamicBanner 
-      v-if="has_banner"
-      :dynamicTemplate="localRouteConfig.dynamic_template"
-    ></DynamicBanner> 
-      <!-- :template_url="this.getCurrentBanner.template_url" -->
 
-
-    <!-- REMOTE STATICS -->
-    <DynamicStatic 
-      v-if=" localRouteConfig.dynamic_template == 'DynamicStatic' "
-    ></DynamicStatic>
-      <!-- :routeConfig="localRouteConfig" -->
-
-    <!-- LOCAL TEST STATIC -->
-    <!-- <DynamicStaticTest 
-      v-if="localRouteConfig.dynamic_template == 'DynamicStaticTest' "
-    ></DynamicStaticTest> -->
-
-
-    <!-- DATA VISUALISATION -->
-    <DynamicList 
-      v-if="localRouteConfig.dynamic_template == 'DynamicList' "
+    <!-- BACKOFFICE ROUTES -->
+      <!-- v-if="localRouteConfig.dynamic_template == 'BackOffice' " -->
+    <BackOfficeScreen 
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
-      :filtersConfig="localFiltersConfig"
-    ></DynamicList>
-
-    <DynamicMap 
-      v-if="localRouteConfig.dynamic_template == 'DynamicMap' "
-      :routeConfig="localRouteConfig"
-      :endPointConfig="localEndpointConfig"
-      :filtersConfig="localFiltersConfig"
-    ></DynamicMap>
-
-    <DynamicDetail 
-      v-if="localRouteConfig.dynamic_template == 'DynamicDetail' "
-      :routeConfig="localRouteConfig"
-      :endPointConfig="localEndpointConfig"
-    ></DynamicDetail>
-
+    ></BackOfficeScreen>
 
 
     <!-- FOOTERS -->
@@ -140,31 +106,15 @@ import { mapState, mapGetters } from 'vuex'
 import NavBar from '~/components/dynamicUx/NavBar.vue';
 import Footer from '~/components/dynamicUx/Footer.vue';
 
-import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue';
-import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue';
-import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
-// import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue';
+import BackOfficeScreen  from '~/components/BackOffice/BackOfficeScreen.vue';
 
-import DynamicList       from '~/components/dynamicData/DynamicList.vue';
-import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
-import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 
 export default {
   
   components: {
-
     NavBar, 
     Footer, 
-
-    DynamicBanner,
-    DynamicStatic, 
-    DynamicStaticRaw,
-    // DynamicStaticTest,
-
-    DynamicList, 
-    DynamicDetail,
-    DynamicMap, 
-
+    BackOfficeScreen
   },
 
   middleware : [
@@ -172,17 +122,13 @@ export default {
   ],
 
   beforeMount : function(){
-    // this.log && console.log('\nP-index.vue / beforeMount...')
-    // this.log && console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
-    // this.log && console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
+    // this.log && console.log('\nP-BackOff-index.vue / beforeMount...')
+    // this.log && console.log('P-BackOff-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
+    // this.log && console.log('P-BackOff-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
   },
 
   data () {
     return {
-      // localRouteConfig : undefined,
-      // localEndpointConfig : undefined,
-      // localFiltersConfig : undefined,
-      // currentDatasetURI : undefined,
     }
   },
 
