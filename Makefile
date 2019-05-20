@@ -48,7 +48,7 @@ up: network frontend
 down: frontend-stop network-stop
 restart: down up
 
-
+# nuxt test
 up-nuxt: network nuxt
 down-nuxt: nuxt-stop network-stop
 restart-nuxt: down up

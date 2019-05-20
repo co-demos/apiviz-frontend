@@ -77,14 +77,24 @@
     <div
       v-if="isUserAdmin || isUserStaff" 
       >
-      <router-link
+      <nuxt-link
         class="button is-block is-primary is-fullwidth" 
         :to="'/backoffice'"
         >
         back office
-      </router-link>
+      </nuxt-link>
       <br>
     </div>
+
+    <nuxt-link 
+      v-if="user.isLoggedin" 
+      class="button is-block is-primary is-fullwidth" 
+      :to="'/'"
+      >
+      home
+    </nuxt-link>
+
+    <br>
 
     <button 
       v-if="user.isLoggedin" 
@@ -115,14 +125,17 @@ export default {
   },
 
   computed: {
+
     ...mapState({
       log : state => state.log, 
       user: state => state.user.user,
       jwt: state => state.user.jwt,
     }),
+
     isUserAdmin () {
       return this.$store.getters['user/getCheckUserRole']('admin')
     },
+    
     isUserStaff () {
       return this.$store.getters['user/getCheckUserRole']('staff')
     },

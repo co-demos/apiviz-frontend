@@ -1,17 +1,22 @@
 version: '3'
 
 services:
+
   nuxt:
     build: 
-      context: ./
+      context: ${APP_PATH}
       dockerfile: Dockerfile.nuxt
     container_name: ${APP}-nuxt
     restart: always
+    environment : 
+      - HOST=0.0.0.0
     ports:
       - "3333:3000"
-    command:
-      "npm run dev"
-
+    command: 
+      npm run dev
+    volumes:
+      - .:/app
+      
   nginx:
     image: nginx:1.13
     container_name: ${APP}-nginx

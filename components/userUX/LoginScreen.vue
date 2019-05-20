@@ -28,17 +28,17 @@
 
               <div class="column is-6" >
                 <p class="has-text-grey">
-                  <router-link :to="'/register'">
+                  <nuxt-link :to="'/register'">
                     {{ getText('create_account') }}
-                  </router-link>
+                  </nuxt-link>
                 </p>
               </div>
 
               <div class="column is-6" >
                 <p class="has-text-grey">
-                  <router-link disabled :to="'/forgot-password'">
+                  <nuxt-link disabled :to="'/forgot-password'">
                     {{ getText('forgot_password') }}
-                  </router-link>
+                  </nuxt-link>
                 </p>
               </div>
 

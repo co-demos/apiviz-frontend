@@ -1,20 +1,28 @@
-FROM node:9
+FROM node:9.10.1
 
-RUN mkdir -p /app_in_docker
-WORKDIR /app_in_docker
+MAINTAINER Julien Paris
 
-COPY . /app_in_docker
+ENV HOST 0.0.0.0
 
-# cache package.json and node_modules to speed up builds
-RUN npm install
+# create app folder in container
+RUN echo "-->>> creating app folder" && \
+  mkdir -p /app
+WORKDIR /app
 
-# build necessary even if no static files are needed,
-# since it builds the server as well
-RUN npm run build
+# copy packages and install
+COPY package.json /app
+RUN echo "-->>> installing packages" && \
+  npm install
+
+# copy rest of app folder
+COPY . /app
+
+# RUN npm run build 
 
 # expose port on container
 EXPOSE 3000
 
 ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
 
-RUN ["npm", "run", "dev"]
+CMD ["npm", "run", "dev"]
