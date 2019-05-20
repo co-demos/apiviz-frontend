@@ -96,7 +96,7 @@ Please check out our *[guidelines](./GUIDELINES_DEV.md)*
 
 Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz)** to serve your configuration to the frontend. (for now use the **[`j_login`](https://github.com/co-demos/ApiViz/tree/j_login)** branch)
 
-## Build Setup (with Nuxt)
+## Build setup (with Nuxt)
 
 ``` bash
 # install dependencies
@@ -122,7 +122,7 @@ $ npm run generate
 
 ... then check in your browser : `localhost:3000`
 
-## Build Setup (with Docker)
+## Build setup (with Docker)
 
 ``` bash
 # install / stop / restart
