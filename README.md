@@ -202,6 +202,14 @@ displays your geolocalized data, given your configuration set in backoffice
 
 ------------
 
+#### HEATMAP VIEW (Sonum client configuration)
+in development : geographical densities of points
+<h2 align=center>
+	<img src="./documentation/screenshots/heatmap-view-sonum-02.png">
+</h2>
+
+------------
+
 #### LIST VIEW (APCIS client configuration)
 displays your data as a cards list, given your configuration set in backoffice
 <h2 align=center>

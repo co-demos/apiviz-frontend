@@ -242,7 +242,7 @@ export function createHeatmapLayer (sourceId, vars) {
         "interpolate",
         ["linear"],
         ["zoom"],
-        6, 10,
+        6, 15,
         vars.maxZoom, 100
       ],
 
