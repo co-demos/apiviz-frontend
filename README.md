@@ -21,7 +21,7 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 #### warning : 
 
-**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/ApiViz/tree/j_login)** is correctly installed first.
+**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
 
 --------
 
@@ -94,7 +94,7 @@ Please check out our *[guidelines](./GUIDELINES_DEV.md)*
 
 <hr>
 
-Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz)** to serve your configuration to the frontend. (for now use the **[`j_login`](https://github.com/co-demos/ApiViz/tree/j_login)** branch)
+Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
 
 ## Build setup (with Nuxt)
 
@@ -120,7 +120,7 @@ $ npm start
 $ npm run generate
 ```
 
-... then check in your browser : `localhost:3000`
+... then check in your browser : [`localhost:3000`](localhost:3000)
 
 ## Build setup (with Docker)
 
@@ -132,7 +132,7 @@ $ make restart # restart app with Docker
 $ make down # stop app with Docker
 ```
 
-... then check in your browser : `localhost:3333`
+... then check in your browser : [`localhost:3333`](localhost:3333)
 
 ------
 
@@ -155,6 +155,8 @@ $ make down # stop app with Docker
     - hosted in **[Digital Ocean](http://digitalocean.com/)**, 
     - domain name from **[NameCheap](http://namecheap.com/)**
 
+- _Dev tools_   : 
+    - **[Docker](https://www.docker.com/)**... also check this [introduction to Docker](https://guillim.github.io/docker/2018/11/18/docker-hands-on-intro.html)
 
 -------
 
