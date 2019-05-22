@@ -1,7 +1,6 @@
 ---
 layout : default
 title : index
-permalink : /presentation/home
 sidebar:
   nav: "docs"
 ---
