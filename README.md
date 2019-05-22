@@ -18,7 +18,7 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 --------
 
-#### warning : 
+#### WARNING : 
 
 **apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
 
@@ -86,12 +86,13 @@ More detailed configuration documentation on its way...
 
 Please check out our *[guidelines](./GUIDELINES_DEV.md)*
 
+You can also check the *[development roadmap for future features](https://github.com/co-demos/apiviz-frontend/projects/1)*
+
 --------
 
 ## INSTALLATION WALKTHROUGH 
 
-
-<hr>
+--------
 
 Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
 
@@ -146,7 +147,6 @@ $ make down # stop app with Docker
     - **[Bulma](https://bulma.io/)** as CSS framework, 
     <!-- - **[Leaflet](https://leafletjs.com)**, **[Vue2Leaflet](https://github.com/KoRiGaN/Vue2Leaflet)**, and **[PruneCluster](https://github.com/SINTEF-9012/PruneCluster)** for map layout -->
     - **[Mapbox-GL](https://docs.mapbox.com/mapbox-gl-js/api/)**, and **[vue-mapbox](https://soal.github.io/vue-mapbox/)** as a mapbox-gl wrapper for vue.js
-<br>
 
 - _Server_   : 
     - **[Ubuntu 18.04]()**, 
