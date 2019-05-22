@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : DEPLOYMENT CONFIGURATIONS
 permalink : /meta/changelog
 sidebar:

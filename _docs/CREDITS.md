@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : CREDITS
 permalink : /meta/credits
 sidebar:

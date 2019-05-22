@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : THE APIVIZ ECOSYSTEM
 permalink : /general/ecosystem
 sidebar:

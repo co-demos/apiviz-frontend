@@ -1,5 +1,5 @@
 ---
-layout : default
+layout : single
 title : HOW TO CONFIGURE YOUR APIVIZ INSTANCE
 permalink : /docs/backoffice
 sidebar:

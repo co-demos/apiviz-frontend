@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : CONTRIBUTING GUIDE
 permalink : /dev/contributing
 sidebar:

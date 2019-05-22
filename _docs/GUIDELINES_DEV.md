@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : GUIDELINES FOR DEVELOPMENT
 permalink : /dev/guidelines
 sidebar:

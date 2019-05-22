@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : INSTALLATION WALKTHROUGH
 permalink : /docs/installation
 sidebar:

@@ -1,5 +1,5 @@
 ---
-layout : home 
+layout : single 
 title : DEPLOYMENT CONFIGURATIONS
 permalink : /docs/deployments
 sidebar:
