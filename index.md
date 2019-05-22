@@ -19,7 +19,9 @@ If your data is stored somewhere and accessible via an API, ApiViz can transform
 
 
 ##### A global grasp of Apiviz
-- [Presentation](/presentation/screenshots)
+- [Presentation](/docs/presentation/screenshots)
+- [Presentation 2](/presentation/screenshots)
+- [Presentation 3](/_docs/PRESENTATION.md)
 - [Ecosystem](/ECOSYSTEM.md)
 
 ##### Install Apiviz
