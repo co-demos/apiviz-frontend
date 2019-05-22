@@ -86,10 +86,10 @@ defaults:
 
   # _posts
   - scope:
-      path: "_posts"
+      path: ""
       type: posts
     values:
-      layout: single
+      layout: home
       # author_profile: true
       read_time: true
       comments: true

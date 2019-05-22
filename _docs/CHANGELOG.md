@@ -1,4 +1,10 @@
-# Changelog
+---
+layout : home 
+title : DEPLOYMENT CONFIGURATIONS
+permalink : /meta/changelog
+sidebar:
+  nav: "docs"
+---
 
 ## Current (in progress) - check current in `/app/config_app/app_metas.py`
 
