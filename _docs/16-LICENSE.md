@@ -1,7 +1,7 @@
 ---
 layout : single
 title : LICENCE
-permalink : /meta/license
+# permalink : /meta/license
 # categories:
 #   - documentation
 # tags:

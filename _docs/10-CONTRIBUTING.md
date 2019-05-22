@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : CONTRIBUTING GUIDE
-permalink : /dev/contributing
+# permalink : /dev/contributing
 categories:
   - documentation
 tags:

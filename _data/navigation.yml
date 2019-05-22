@@ -2,7 +2,7 @@ main:
   - title: "Presentation"
     url: /general/presentation
   - title: "Quickstart guide"
-    url: /docs/installation
+    url: /guide/installation
   - title: "Blog"
     url: /posts/
   # - title: "Categories"

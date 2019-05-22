@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : CREDITS
-permalink : /meta/maintain
+# permalink : /meta/maintain
 # categories:
 #   - documentation
 # tags:

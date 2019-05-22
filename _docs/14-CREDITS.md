@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : CREDITS
-permalink : /meta/credits
+# permalink : /meta/credits
 categories:
   - documentation
 tags:

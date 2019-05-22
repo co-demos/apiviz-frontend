@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : GALLERY
-permalink : /general/gallery
+# permalink : /general/gallery
 # categories:
 #   - documentation
 # tags:

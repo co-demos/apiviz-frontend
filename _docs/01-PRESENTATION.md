@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : PRESENTATION
-permalink : /general/presentation
+# permalink : /general/presentation
 # categories:
 #   - documentation
 # tags:

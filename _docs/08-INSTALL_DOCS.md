@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : INSTALL THE DOCS WITH JEKYLL
-permalink : /docs/install-docs
+# permalink : /docs/install-docs
 # categories:
 #   - documentation
 # tags:

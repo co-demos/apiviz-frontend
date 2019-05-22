@@ -1,7 +1,7 @@
 ---
 layout : single
 title : STACK
-permalink : /dev/stack
+# permalink : /dev/stack
 # categories:
 #   - documentation
 # tags:

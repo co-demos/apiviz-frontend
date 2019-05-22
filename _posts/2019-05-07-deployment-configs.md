@@ -12,6 +12,7 @@ tags:
   - deployment
 toc: true
 toc_label: " contents"
+toc_sticky: true
 
 legends:
   - url: /documentation/configurations/APIVIZ-CONFIGURATIONS-export-legends.jpg

@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : INSTALLATION WALKTHROUGH
-permalink : /docs/installation
+# permalink : /docs/installation
 categories:
   - documentation
 tags:

@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : GUIDELINES FOR DEVELOPMENT
-permalink : /dev/guidelines
+# permalink : /dev/guidelines
 # categories:
 #   - documentation
 # tags:

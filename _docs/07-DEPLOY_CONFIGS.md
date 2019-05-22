@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : DEPLOYMENT CONFIGURATIONS
-permalink : /docs/deployments
+# permalink : /docs/deployments
 # categories:
 #   - documentation
 # tags:

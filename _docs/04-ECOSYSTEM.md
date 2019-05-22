@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : THE APIVIZ ECOSYSTEM
-permalink : /documentation/ecosystem
+# permalink : /documentation/ecosystem
 categories:
   - documentation
 tags:

@@ -9,6 +9,7 @@ tags:
   - tadata
 toc: true
 toc_label: " contents"
+toc_sticky: true
 light:
   - url: /documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg
     image_path: /documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg

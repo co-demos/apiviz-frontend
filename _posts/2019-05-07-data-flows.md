@@ -9,6 +9,7 @@ tags:
   - principles
 toc: true
 toc_label: " contents"
+toc_sticky: true
 
 # cf : https://mmistakes.github.io/minimal-mistakes/post%20formats/post-gallery/
 light:

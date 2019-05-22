@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : SCREENSHOTS
-permalink : /general/screenshots
+# permalink : /general/screenshots
 # categories:
 #   - documentation
 # tags:

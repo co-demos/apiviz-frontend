@@ -1,7 +1,7 @@
 ---
 layout : single 
 title : DEPLOYMENT CONFIGURATIONS
-permalink : /meta/changelog
+# permalink : /meta/changelog
 categories:
   - documentation
 tags:
