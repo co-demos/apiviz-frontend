@@ -23,9 +23,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 twitter_username: jparis_py
 github_username: JulienParis
 repository: "co-demos/apiviz-frontend"
-
-minimal_mistakes_skin: default
-search: true
+search: true 
 
 # Build settings
 markdown: kramdown
@@ -34,31 +32,11 @@ remote_theme: mmistakes/minimal-mistakes
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: FR # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 include:
   - _pages
-  - _posts
   - _docs
-
-# Plugins (previously gems:)
-plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-redirect-from
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
-
-# mimic GitHub Pages with --safe
-# whitelist:
-#   - jekyll-paginate
-#   - jekyll-sitemap
-#   - jekyll-gist
-#   - jekyll-feed
-#   - jemoji
-#   - jekyll-include-cache
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -66,26 +44,37 @@ plugins:
 # exclude:
 #   - Gemfile
 #   - Gemfile.lock
-#   - node_modules
+  - node_modules
+  - assets
 #   - vendor/bundle/
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
 
+# Plugins (previously gems:)
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-include-cache
+
 author:
   name   : "Julien Paris"
-  avatar : "/statics/logos/logo_apiviz_icon_15.jpg"
-  bio    : "Apiviz Team"
+  avatar : "/assets/images/bio-photo.jpg"
+  bio    : "Apiviz team"
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
-      url: "https://jpylab.com"
+      url: "https://"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/jparis.py"
+      url: "https://twitter.com/jparis_py"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/JulienParis"
+
 
 footer:
   links:
@@ -94,10 +83,23 @@ footer:
       url: "https://twitter.com/jparis_py"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/co-demos/apiviz-frontend"
+      url: "https://github.com/JulienParis"
 
 
 defaults:
+
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      sidebar:
+        nav: "docs"
 
   # _docs
   - scope:
@@ -111,20 +113,6 @@ defaults:
       sidebar:
         nav: "docs"
 
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      # author_profile: true
-      # read_time: true
-      # comments: true
-      # share: true
-      # related: true
-      # sidebar:
-      #   nav: "docs"
-
   # _pages
   - scope:
       path: "_pages"
@@ -132,13 +120,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-      sidebar:
-        nav: "docs"
 
 category_archive:
   type: liquid
   path: /categories/
-
 tag_archive:
   type: liquid
   path: /tags/
