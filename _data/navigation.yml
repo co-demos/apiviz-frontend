@@ -37,6 +37,8 @@ docs:
 
   - title: Developers
     children:
+      - title: "Stack"
+        url: /dev/stack
       - title: "Contributing"
         url: /dev/contributing
       - title: "Guidelines"
