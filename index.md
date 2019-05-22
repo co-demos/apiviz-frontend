@@ -1,6 +1,8 @@
 ---
 layout : default
 title : index
+categories : 
+  - index
 ---
 
 
@@ -17,18 +19,18 @@ If your data is stored somewhere and accessible via an API, ApiViz can transform
 
 
 ##### A global grasp of Apiviz
-- [Presentation](/documentation/gh_pages/PRESENTATION.md)
-- [Ecosystem](/documentation/gh_pages/ECOSYSTEM.md)
+- [Presentation](/PRESENTATION.md)
+- [Ecosystem](/ECOSYSTEM.md)
 
 ##### Install Apiviz
-- [Installation](/documentation/gh_pages/INSTALLATION.md)
-- [Configuration from back-office](/documentation/gh_pages/BACKOFFICE.md)
-- [Deployment configurations](/documentation/gh_pages/DEPLOY_CONFIGS.md)
+- [Installation](/INSTALLATION.md)
+- [Configuration from back-office](/BACKOFFICE.md)
+- [Deployment configurations](/DEPLOY_CONFIGS.md)
 
 ##### More infos
-- [Change log](/documentation/gh_pages/CHANGELOG.md)
-- [Contribute](/documentation/gh_pages/CONTRIBUTE.md)
-- [Guidelines](/documentation/gh_pages/GUIDELINES.md)
-- [Credits](/documentation/gh_pages/CREDITS.md)
+- [Change log](/CHANGELOG.md)
+- [Contribute](/CONTRIBUTE.md)
+- [Guidelines](/GUIDELINES.md)
+- [Credits](/CREDITS.md)
 
 

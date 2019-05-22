@@ -10,3 +10,21 @@ plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
   - jekyll-include-cache
+
+repository: "https://github.com/co-demos/apiviz-frontend"
+logo: "/static/logos/logo_apiviz_icon_15.png"
+
+include : 
+ - _docs
+
+defaults:
+  # _docs
+  - scope:
+      path: ""
+      type: docs
+    values:
+      sidebar:
+        nav: "docs"
+        read_time: true
+
+permalink: /:categories/:title/

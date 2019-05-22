@@ -46,27 +46,27 @@ In the following illustration you can grasp a more detailed comprehension of how
 
 #### GLOBAL BLUEPRINT - MAIN DATA FLOWS AND APPS SERVICES
 
-![FULL_DETAILS](../../documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-full.jpg)
+![FULL_DETAILS](../documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-full.jpg)
 
 ---------
 
 ## DEPLOYMENT CONFIGURATIONS
 
-![LEGENDS](../../documentation/configurations/APIVIZ-CONFIGURATIONS-export-legends.jpg)
+![LEGENDS](../documentation/configurations/APIVIZ-CONFIGURATIONS-export-legends.jpg)
 
 ------
 
 #### DEPLOYMENT AS FULL MUTUALIZED MICROSERVICES SYTEM
-![PAAS_D](../../documentation/configurations/APIVIZ-CONFIGURATIONS-export-paas-D.jpg)
+![PAAS_D](../documentation/configurations/APIVIZ-CONFIGURATIONS-export-paas-D.jpg)
 
 ------
 
 #### DEPLOYMENT AS FULL CLIENT SOVEREIGNETY ON SERVICES 
 
-![SERVER_C](../../documentation/configurations/APIVIZ-CONFIGURATIONS-export-server-C.jpg)
+![SERVER_C](../documentation/configurations/APIVIZ-CONFIGURATIONS-export-server-C.jpg)
 
 ------
 
 #### ALL DEPLOYMENT OPTIONS
 
-![ALL_EXPORTS](../../documentation/configurations/APIVIZ-CONFIGURATIONS-export.jpeg)
+![ALL_EXPORTS](../documentation/configurations/APIVIZ-CONFIGURATIONS-export.jpeg)

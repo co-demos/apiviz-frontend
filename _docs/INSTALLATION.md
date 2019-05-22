@@ -1,14 +1,14 @@
 
 
-## DEVELOPERS
-
-Please check out our *[guidelines](../../GUIDELINES_DEV.md)*
-
-You can also check the *[development roadmap for future features](https://github.com/co-demos/apiviz-frontend/projects/1)*
+## INSTALLATION WALKTHROUGH 
 
 --------
 
-## INSTALLATION WALKTHROUGH 
+## DEVELOPERS
+
+Please check out our *[guidelines](../GUIDELINES_DEV.md)*
+
+You can also check the *[development roadmap for future features](https://github.com/co-demos/apiviz-frontend/projects/1)*
 
 --------
 
