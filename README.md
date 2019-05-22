@@ -18,6 +18,9 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
   - **global** : define some metadata for your apiviz instance.
   - **footer** : define the links present in the apiviz instance's footer.
 
+
+Check out our documentation here on Github pages : https://co-demos.github.io/apiviz-frontend/
+
 --------
 
 #### WARNING : 
