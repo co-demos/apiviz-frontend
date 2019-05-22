@@ -13,8 +13,8 @@ main:
   #   url: /page-archive/
   # - title: "Collections"
   #   url: /collection-archive/
-  - title: "Sonum carto"
-    url: https://carto.societenumerique.gouv.fr/sonum-carto/carte
+  # - title: "Sonum carto"
+  #   url: https://carto.societenumerique.gouv.fr/sonum-carto/carte
 
 
 # documentation links
