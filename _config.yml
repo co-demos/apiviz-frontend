@@ -113,15 +113,15 @@ defaults:
 
   # _posts
   - scope:
-      path: "_posts"
+      path: ""
       type: posts
     values:
       layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
+      # author_profile: true
+      # read_time: true
+      # comments: true
+      # share: true
+      # related: true
       # sidebar:
       #   nav: "docs"
 
