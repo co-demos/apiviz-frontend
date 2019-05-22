@@ -2,13 +2,22 @@
 layout : single 
 title : SCREENSHOTS
 permalink : /general/screenshots
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
+toc: true
 sidebar:
   nav: "docs"
 ---
 
 ------------
 
-#### MAP VIEW (Sonum client configuration)
+#### MAP VIEW 
+(Sonum client configuration)
+
 displays your geolocalized data, given your configuration set in backoffice
 
 ![MAP VIEW](../documentation/screenshots/map-view-sonum-03.png)

@@ -2,6 +2,12 @@
 layout : single 
 title : CREDITS
 permalink : /meta/maintain
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
 sidebar:
   nav: "docs"
 ---

@@ -2,8 +2,15 @@
 layout : single 
 title : PRESENTATION
 permalink : /general/presentation
-sidebar:
-  nav: "docs"
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
+# toc: true
+# sidebar:
+#   nav: "docs"
 ---
 
 -----

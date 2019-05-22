@@ -2,6 +2,12 @@
 layout : single 
 title : GUIDELINES FOR DEVELOPMENT
 permalink : /dev/guidelines
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
 sidebar:
   nav: "docs"
 ---

@@ -2,6 +2,10 @@
 layout : single 
 title : GALLERY
 permalink : /general/gallery
+# categories:
+#   - documentation
+# tags:
+#   - deployment
 sidebar:
   nav: "docs"
 ---

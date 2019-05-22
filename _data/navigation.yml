@@ -25,21 +25,23 @@ docs:
         url: /general/presentation
       - title: "Screenshots"
         url: /general/screenshots
-      - title: "Gallery"
-        url: /general/gallery
+      - title: "Main principles"
+        url: /general/data-flows
       - title: "The Apiviz ecosystem"
         url: /general/ecosystem
+      - title: "Gallery"
+        url: /general/gallery
 
   - title: Installation
     children:
       - title: "Installation walkthrough"
-        url: /docs/installation
+        url: /guide/installation
       - title: "Configuration of the back-office"
-        url: /docs/backoffice
+        url: /guide/backoffice
       - title: "Deployment configurations"
-        url: /docs/deployments
+        url: /guide/deployment-configs
       - title: "Install the docs"
-        url: /docs/install-docs
+        url: /guide/install-docs
 
   - title: Developers
     children:
@@ -65,3 +67,9 @@ docs:
 
   - title: Blog
     url: /posts/
+
+  - title: "Categories"
+    url: /categories/
+
+  - title: "Tags"
+    url: /tags/

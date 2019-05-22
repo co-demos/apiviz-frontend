@@ -2,6 +2,10 @@
 layout : single
 title : LICENCE
 permalink : /meta/license
+# categories:
+#   - documentation
+# tags:
+#   - license
 sidebar:
   nav: "docs"
 ---

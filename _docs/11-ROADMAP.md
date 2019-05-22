@@ -2,6 +2,12 @@
 layout : single 
 title : ROADMAP
 permalink : /dev/roadmap
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
 sidebar:
   nav: "docs"
 ---

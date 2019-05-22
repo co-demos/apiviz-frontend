@@ -2,6 +2,12 @@
 layout : single 
 title : DEPLOYMENT CONFIGURATIONS
 permalink : /meta/changelog
+categories:
+  - documentation
+tags:
+  - meta
+  - deployment
+  - ecosystem
 sidebar:
   nav: "docs"
 ---

@@ -2,6 +2,12 @@
 layout : single 
 title : DEPLOYMENT CONFIGURATIONS
 permalink : /docs/deployments
+# categories:
+#   - documentation
+# tags:
+#   - configuration
+#   - deployment
+#   - ecosystem
 sidebar:
   nav: "docs"
 ---

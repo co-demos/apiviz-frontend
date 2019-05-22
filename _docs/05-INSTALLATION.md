@@ -2,6 +2,11 @@
 layout : single 
 title : INSTALLATION WALKTHROUGH
 permalink : /docs/installation
+categories:
+  - documentation
+tags:
+  - configuration
+  - installation
 sidebar:
   nav: "docs"
 ---

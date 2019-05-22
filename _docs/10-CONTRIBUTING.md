@@ -2,6 +2,12 @@
 layout : single 
 title : CONTRIBUTING GUIDE
 permalink : /dev/contributing
+categories:
+  - documentation
+tags:
+  - meta
+  - contribute
+  - ecosystem
 sidebar:
   nav: "docs"
 ---

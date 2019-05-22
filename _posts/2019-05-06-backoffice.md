@@ -1,9 +1,11 @@
 ---
-layout : single
 title : HOW TO CONFIGURE YOUR APIVIZ INSTANCE
-permalink : /docs/backoffice
-sidebar:
-  nav: "docs"
+categories:
+  - guide
+tags:
+  - documentation
+  - configuration
+  - backoffice
 ---
 
 -----
