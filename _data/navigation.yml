@@ -46,6 +46,8 @@ docs:
 
   - title: Meta
     children:
+      - title: "Credits"
+        url: /meta/credits
       - title: "Change log"
         url: /meta/changelog
       - title: "License"
