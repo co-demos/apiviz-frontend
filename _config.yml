@@ -45,7 +45,8 @@ include:
 #   - Gemfile
 #   - Gemfile.lock
   - node_modules
-  - assets
+  - layouts
+  # - assets
 #   - vendor/bundle/
 #   - vendor/cache/
 #   - vendor/gems/
@@ -62,7 +63,7 @@ plugins:
 
 author:
   name   : "Julien Paris"
-  avatar : "/assets/images/bio-photo.jpg"
+  avatar : "/static/bio-photo.jpg"
   bio    : "Apiviz team"
   links:
     - label: "Website"
@@ -124,6 +125,7 @@ defaults:
 category_archive:
   type: liquid
   path: /categories/
+
 tag_archive:
   type: liquid
   path: /tags/
