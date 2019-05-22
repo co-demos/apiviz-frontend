@@ -2,6 +2,8 @@
 layout : home 
 title : CREDITS
 permalink : /meta/credits
+sidebar:
+  nav: "docs"
 ---
 
 #### ApiViz's team thanks :

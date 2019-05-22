@@ -2,6 +2,8 @@
 layout : home 
 title : DEPLOYMENT CONFIGURATIONS
 permalink : /docs/deployments
+sidebar:
+  nav: "docs"
 ---
 
 

@@ -2,6 +2,8 @@
 layout : home 
 title : CONTRIBUTING GUIDE
 permalink : /dev/contributing
+# sidebar:
+#   nav: "docs"
 ---
 
 

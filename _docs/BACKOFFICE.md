@@ -2,6 +2,8 @@
 layout : default
 title : HOW TO CONFIGURE YOUR APIVIZ INSTANCE
 permalink : /docs/backoffice
+sidebar:
+  nav: "docs"
 ---
 
 

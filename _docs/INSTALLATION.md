@@ -2,6 +2,8 @@
 layout : home 
 title : INSTALLATION WALKTHROUGH
 permalink : /docs/installation
+sidebar:
+  nav: "docs"
 ---
 
 

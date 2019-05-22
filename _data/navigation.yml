@@ -20,25 +20,25 @@ docs:
   - title: The Apiviz project
     children:
       - title: "Presentation"
-        url: /general/presentation/
+        url: /general/presentation
       - title: "The Apiviz ecosystem"
-        url: /general/ecosystem/
+        url: /general/ecosystem
 
   - title: Installation
     children:
       - title: "Installation walkthrough"
-        url: /docs/installation/
+        url: /docs/installation
       - title: "Configuration of the back-office"
-        url: /docs/backoffice/
+        url: /docs/backoffice
       - title: "Deployment configurations"
-        url: /docs/deployments/
+        url: /docs/deployments
 
   - title: Developers
     children:
       - title: "Contributing"
-        url: /dev/contributing/
+        url: /dev/contributing
       - title: "Guidelines"
-        url: /dev/guidelines/
+        url: /dev/guidelines
 
   - title: Meta
     children:
