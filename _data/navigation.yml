@@ -13,8 +13,8 @@ main:
   #   url: /page-archive/
   # - title: "Collections"
   #   url: /collection-archive/
-  # - title: "Sonum carto"
-  #   url: https://carto.societenumerique.gouv.fr/sonum-carto/carte
+  - title: "Repo"
+    url: https://github.com/co-demos/apiviz-frontend
 
 
 # documentation links

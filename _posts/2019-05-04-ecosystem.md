@@ -75,10 +75,10 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 
 | logo | the open source eco-system (aka TADATA!) |
 |    :----:   |          :--- |
-| <img src="../static/logos/logo_apiviz_icon_15.png" alt="apiviz logo"/> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
-| <img src="../static/logos/logo_solidata.png" alt="apiviz logo" /> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects |
-| <img src="../static/logos/logo_auth_microservice.png" alt="apiviz logo"/> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles  |
-| <img src="../static/logos/logo_openscraper_01.png" alt="apiviz logo"/> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
+| <img src="/static/logos/logo_apiviz_icon_15.png" alt="apiviz logo"/> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
+| <img src="/static/logos/logo_solidata.png" alt="solidata logo" /> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects |
+| <img src="/static/logos/logo_auth_microservice.png" alt="toktok logo"/> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles  |
+| <img src="/static/logos/logo_openscraper_01.png" alt="open scraper logo"/> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
 
 -----
 
@@ -87,7 +87,7 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 In the following illustration you can have a general idea of how those several services could work altogether. Check the [`/documentation/configurations`](../documentation/configurations) folder to have a broader look to [other configurations](../documentation/configurations/APIVIZ_CONFIGURATIONS-export.pdf).
 
 
-![SCHEME](../documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg)
+![SCHEME](/documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg)
 
 
 You can also check those several projects and repository to find some layout for your specific new datavisualisation website : 
@@ -97,7 +97,7 @@ You can also check those several projects and repository to find some layout for
 
 ------
 
-**Note** : all the schemas were realized with [VUE - Visual Understanding Environment](https://vue.tufts.edu/index.cfm), an open source mind mapping tool. The source file for the schemas is [here](../documentation/configurations/APIVIZ_CONFIGURATIONS.vue)
+**Note** : all the schemas were realized with [VUE - Visual Understanding Environment](https://vue.tufts.edu/index.cfm), an open source mind mapping tool. The source file for the schemas is [here](https://github.com/co-demos/apiviz-frontend/tree/master/documentation)
 
 
 -----

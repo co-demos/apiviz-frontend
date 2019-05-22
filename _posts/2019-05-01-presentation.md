@@ -20,7 +20,7 @@ If your data is stored somewhere and accessible via an API, ApiViz can transform
 
 ---------
 
-### FEATURES 
+## FEATURES 
 
 ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
   - **navbar** : define the logo, links, and menus in your apiviz instance's navabr. 
@@ -32,7 +32,7 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 --------
 
-### WARNING 
+## WARNING 
 
 **apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
 
