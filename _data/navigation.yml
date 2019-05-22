@@ -1,6 +1,8 @@
 main:
-  - title: "Quick-Start Guide"
+  - title: "Presentation"
     url: /general/presentation
+  - title: "Quick-Start Guide"
+    url: /docs/installation
   # - title: "Posts"
   #   url: /year-archive/
   # - title: "Categories"

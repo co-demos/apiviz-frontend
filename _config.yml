@@ -14,6 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Apiviz documentation
+logo : /static/logos/logo_apiviz_icon_15.png
 email:
 description: >- # this means to ignore newlines until "baseurl:"
   Here comes the docs...

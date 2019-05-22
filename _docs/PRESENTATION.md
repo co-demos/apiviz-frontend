@@ -6,8 +6,12 @@ sidebar:
   nav: "docs"
 ---
 
+![APIVIZ-BRAND](../static/logos/logo_apiviz_15.png)
+
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
+
+---------
 
 ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
   - **navbar** : define the logo, links, and menus in your apiviz instance's navabr. 
@@ -16,6 +20,10 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
   - **data endpoints** : define the data endpoints feeding your apiviz instance and the fields you want to display.
   - **global** : define some metadata for your apiviz instance.
   - **footer** : define the links present in the apiviz instance's footer.
+
+-----
+
+![MAP VIEW](/documentation/screenshots/map-view-sonum-03.png)
 
 --------
 
