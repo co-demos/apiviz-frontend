@@ -35,7 +35,6 @@ timezone: FR # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 include:
   - _pages
   - _docs
-  - _posts
 
 # Plugins (previously gems:)
 plugins:
