@@ -1,6 +1,5 @@
 ---
 title : THE APIVIZ ECOSYSTEM
-# layout: splash
 categories:
   - general
 tags:
@@ -10,6 +9,11 @@ tags:
   - tadata
 toc: true
 toc_label: " contents"
+light:
+  - url: /documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg
+    image_path: /documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg
+    alt: "full details"
+    title: "main data flows"
 ---
 
 -----
@@ -37,7 +41,7 @@ In the following illustration you can have a general idea of how those several s
 
 
 
-![SCHEME](/documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg)
+{% include gallery id="light" caption="click to enlarge illustration" %}
 
 
 
