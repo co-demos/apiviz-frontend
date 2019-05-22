@@ -5,7 +5,7 @@ sidebar:
 ---
 
 
-![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
+![APIVIZ-BRAND](static/logos/logo_apiviz_15.png)
 
 -------
 
