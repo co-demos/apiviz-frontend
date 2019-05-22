@@ -9,14 +9,14 @@ sidebar:
 
 --------
 
-1. Install ruby, Jekyll
+- Install ruby, Jekyll
 
 ``` bash
 gem install jekyll
 ```
 
 ---
-2. Install setup 
+- Install setup 
 
 ``` bash
 gem install bundler
@@ -26,7 +26,7 @@ bundle update
 ```
 
 ---
-3. Launch server 
+- Launch server 
 
 ``` bash
 jekyll serve
