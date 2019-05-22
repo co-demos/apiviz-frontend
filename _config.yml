@@ -14,7 +14,8 @@ plugins:
 repository: "https://github.com/co-demos/apiviz-frontend"
 logo: "/static/logos/logo_apiviz_icon_15.png"
 
-include : ["_data", "_docs"]
+include : 
+  - _docs
 
 defaults:
   # _docs
