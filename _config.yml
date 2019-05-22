@@ -45,25 +45,35 @@ include:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-redirect-from
   - jekyll-gist
   - jekyll-feed
   - jemoji
   - jekyll-include-cache
 
-# author:
-#   name   : "Julien Paris"
-#   avatar : "/assets/images/bio-photo.jpg"
-#   bio    : "My awesome biography constrained to a sentence or two goes here."
-#   links:
-#     - label: "Website"
-#       icon: "fas fa-fw fa-link"
-#       url: "https://"
-#     - label: "Twitter"
-#       icon: "fab fa-fw fa-twitter-square"
-#       url: "https://twitter.com/"
-#     - label: "GitHub"
-#       icon: "fab fa-fw fa-github"
-#       url: "https://github.com/"
+# mimic GitHub Pages with --safe
+whitelist:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-include-cache
+
+author:
+  name   : "Julien Paris"
+  avatar : "/statics/logos/logo_apiviz_icon_15.jpg"
+  bio    : "Apiviz Team"
+  links:
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "https://jpylab.com"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/jparis.py"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/JulienParis"
 
 footer:
   links:
@@ -95,7 +105,6 @@ defaults:
       type: posts
     values:
       layout: single
-      # author_profile: true
       author_profile: true
       read_time: true
       comments: true
