@@ -1,6 +1,6 @@
 main:
   - title: "Quick-Start Guide"
-    url: /docs/presentation
+    url: /general/presentation
   # - title: "Posts"
   #   url: /year-archive/
   # - title: "Categories"
@@ -20,29 +20,29 @@ docs:
   - title: The Apiviz project
     children:
       - title: "Presentation"
-        url: /docs/presentation/
+        url: /general/presentation/
       - title: "The Apiviz ecosystem"
-        url: /docs/ecosystem/
+        url: /general/ecosystem/
 
   - title: Installation
     children:
-      - title: "Installation"
+      - title: "Installation walkthrough"
         url: /docs/installation/
       - title: "Configuration of the back-office"
-        url: /docs/backoffice-configuration/
+        url: /docs/backoffice/
       - title: "Deployment configurations"
         url: /docs/deployments/
 
   - title: Developers
     children:
       - title: "Contributing"
-        url: /docs/contribute/
+        url: /dev/contributing/
       - title: "Guidelines"
-        url: /docs/guidelines/
+        url: /dev/guidelines/
 
   - title: Meta
     children:
       - title: "Change log"
-        url: /docs/changelog/
+        url: /meta/changelog/
       - title: "License"
         url: /LICENCE.md

@@ -1,14 +1,10 @@
 ---
 layout : home 
-title : ecosystem
-permalink : /ecosystem
+title : THE APIVIZ ECOSYSTEM
+permalink : /general/ecosystem
 sidebar:
   nav: "docs"
 ---
-
---------
-
-## THE APIVIZ ECOSYSTEM
 
 ApiViz is designed to **agnosticaly display data** and provide an engine to deploy a **datavisualisation website** without (too much) pain, not regarding to the service(s) serving and storing the data. 
 

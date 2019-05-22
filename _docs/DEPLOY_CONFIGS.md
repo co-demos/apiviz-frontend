@@ -1,14 +1,14 @@
 ---
 layout : home 
-title : deployment
-permalink : /deployment
-sidebar:
-  nav: "docs"
+title : DEPLOYMENT CONFIGURATIONS
+permalink : /docs/deployments
 ---
 
+
+-----
 ## THE APIVIZ ECOSYSTEM - DETAILED SCHEMA
 
-<hr>
+-----
 
 #### OPEN SOURCE SERVICES FOR A SOVEREIGN AND DECENTRALIZED DATA FLOW
 In the following illustration you can grasp a more detailed comprehension of how every application of the ApiViz's "ecosystem" are in dialog one with the other : 

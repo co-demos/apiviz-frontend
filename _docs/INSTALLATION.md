@@ -1,15 +1,9 @@
-
 ---
 layout : home 
-title : installation
-permalink : /installation
-sidebar:
-  nav: "docs"
+title : INSTALLATION WALKTHROUGH
+permalink : /docs/installation
 ---
 
-## INSTALLATION WALKTHROUGH 
-
---------
 
 ## DEVELOPERS
 

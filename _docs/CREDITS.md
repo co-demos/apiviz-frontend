@@ -1,10 +1,8 @@
 ---
 layout : home 
-title : credits
-permalink : /credits
+title : CREDITS
+permalink : /meta/credits
 ---
-
-## CREDITS 
 
 #### ApiViz's team thanks :
 

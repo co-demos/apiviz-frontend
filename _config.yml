@@ -45,20 +45,20 @@ plugins:
   - jemoji
   - jekyll-include-cache
 
-author:
-  name   : "Julien Paris"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
-  links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
+# author:
+#   name   : "Julien Paris"
+#   avatar : "/assets/images/bio-photo.jpg"
+#   bio    : "My awesome biography constrained to a sentence or two goes here."
+#   links:
+#     - label: "Website"
+#       icon: "fas fa-fw fa-link"
+#       url: "https://"
+#     - label: "Twitter"
+#       icon: "fab fa-fw fa-twitter-square"
+#       url: "https://twitter.com/"
+#     - label: "GitHub"
+#       icon: "fab fa-fw fa-github"
+#       url: "https://github.com/"
 
 footer:
   links:
@@ -68,6 +68,7 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/"
+
 
 defaults:
 
@@ -100,6 +101,8 @@ defaults:
     values:
       layout: single
       author_profile: true
+      sidebar:
+        nav: "docs"
 
 category_archive:
   type: liquid

@@ -1,4 +1,9 @@
-# Contributing guide
+---
+layout : home 
+title : CONTRIBUTING GUIDE
+permalink : /dev/contributing
+---
+
 
 **Hello fellow developer/hacker/citizen/peer!**
 
