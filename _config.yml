@@ -78,6 +78,10 @@ defaults:
       path: "_docs"
       type: docs
     values:
+      layout: single
+      read_time: true
+      comments: true
+      share: true
       sidebar:
         nav: "docs"
 

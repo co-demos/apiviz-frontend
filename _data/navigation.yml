@@ -3,8 +3,8 @@ main:
     url: /general/presentation
   - title: "Quick-Start Guide"
     url: /docs/installation
-  # - title: "Posts"
-  #   url: /year-archive/
+  - title: "Blog"
+    url: /year-archive/
   # - title: "Categories"
   #   url: /categories/
   # - title: "Tags"
