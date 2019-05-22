@@ -27,4 +27,4 @@ defaults:
         nav: "docs"
         read_time: true
 
-permalink: /:categories/:title/
+# permalink: /:categories/:title/
