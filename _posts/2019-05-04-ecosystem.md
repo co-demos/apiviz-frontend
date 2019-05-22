@@ -10,55 +10,6 @@ tags:
   - tadata
 toc: true
 toc_label: " contents"
-# read_time: true
-# comments: true
-# share: true
-# related: true
-# sidebar:
-#   nav: "docs"
-# feature_row:
-
-#   - image_path: /static/logos/logo_apiviz_icon_15.png
-#     alt: "Apiviz"
-#     title: "Apiviz"
-#     excerpt: "a high-level webapp for visualisation, a sort of open source CMS for data-visualisation"
-
-#   - image_path: /static/logos/logo_solidata.png
-#     alt: "Solidata"
-#     title: "Solidata"
-#     excerpt: "a service and webapp to 'API-fy' your data and manage open data projects"
-#     url: "https://github.com/entrepreneur-interet-general/solidata_frontend"
-#     btn_label: "Read More"
-#     btn_class: "btn--inverse"
-
-#   - image_path: /static/logos/logo_auth_microservice.png
-#     alt: "Toktok"
-#     title: "TokTok"
-#     excerpt: "a dedicated authentication service to manage users, JWT, and roles"
-#     url: "https://github.com/co-demos/toktok"
-#     btn_label: "Read More"
-#     btn_class: "btn--inverse"
-
-#   - image_path: /static/logos/logo_openscraper_01.png
-#     alt: "Open Scraper"
-#     title: "Open Scraper"
-#     excerpt: "a generic web scraper serving the results of the scraping via its API"
-#     url: "https://github.com/entrepreneur-interet-general/OpenScraper"
-#     btn_label: "Read More"
-#     btn_class: "btn--inverse"
-
-# feature_row:
-#   - image_path: /static/logos/logo_apiviz_icon_15.png
-#     alt: "Apiviz"
-#     title: "Apiviz"
-#     excerpt: "a high-level webapp for visualisation, a sort of open source CMS for data-visualisation"
-#   - image_path: /static/logos/logo_solidata.png
-#     alt: "Solidata"
-#     title: "Solidata"
-#     excerpt: "a service and webapp to 'API-fy' your data and manage open data projects"
-#     url: "https://github.com/entrepreneur-interet-general/solidata_frontend"
-#     btn_label: "Read More"
-#     btn_class: "btn--inverse"
 ---
 
 -----
@@ -71,8 +22,6 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 ## OUR OPEN SOURCE WEBAPPS
 
 
-<!-- {% include feature_row %} -->
-
 | logo | the open source eco-system (aka TADATA!) |
 |    :----:   |          :--- |
 | <img src="/static/logos/logo_apiviz_icon_15.png" alt="apiviz logo"/> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
@@ -84,10 +33,12 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 
 ## OPEN SOURCE SERVICES FOR A SOVEREIGN AND DECENTRALIZED DATA FLOW
 
-In the following illustration you can have a general idea of how those several services could work altogether. Check the [`/documentation/configurations`](../documentation/configurations) folder to have a broader look to [other configurations](../documentation/configurations/APIVIZ_CONFIGURATIONS-export.pdf).
+In the following illustration you can have a general idea of how those several services could work altogether. Check the [`/documentation/configurations`](https://github.com/co-demos/apiviz-frontend/blob/master/documentation/configurations) folder to have a broader look to [other configurations](https://github.com/co-demos/apiviz-frontend/blob/master/documentation/configurations/DATA_WORKFLOW-full.pdf).
+
 
 
 ![SCHEME](/documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg)
+
 
 
 You can also check those several projects and repository to find some layout for your specific new datavisualisation website : 
