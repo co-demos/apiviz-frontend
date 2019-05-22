@@ -46,6 +46,17 @@ include:
 #   - Gemfile.lock
   - node_modules
   - layouts
+  - dist
+  - components
+  - config
+  - middleware
+  - nginx
+  - assets/css
+  - pages
+  - plugins
+  - store
+  - .nuxt
+
   # - assets
 #   - vendor/bundle/
 #   - vendor/cache/
