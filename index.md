@@ -2,7 +2,7 @@
 layout : default
 title : index
 sidebar:
-  nav: "docs"
+  navigation : "docs"
 ---
 
 
