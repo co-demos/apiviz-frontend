@@ -45,7 +45,7 @@ docs:
   - title: Meta
     children:
       - title: "Change log"
-        url: /meta/changelog/
+        url: /meta/changelog
       - title: "License"
         url: /LICENCE.md
 
