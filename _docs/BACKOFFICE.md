@@ -6,7 +6,7 @@ sidebar:
   nav: "docs"
 ---
 
-
+-----
 1. register an user (user data will stored and managed in TokTok, so you'd need to install Toktok locally) ;
 1. make this user an `admin` (in TokTok) ;
 1. log in (`admin` link in the default footer, `/login` route by default) ;

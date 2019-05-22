@@ -6,7 +6,7 @@ sidebar:
   nav: "docs"
 ---
 
-
+-----
 - _Frontend_ : 
     - **[Nuxt.js](https://nuxtjs.org/)** as JS framework upon Vue.js, 
     - **[Vue.js](https://vuejs.org/)** as JS framework, 

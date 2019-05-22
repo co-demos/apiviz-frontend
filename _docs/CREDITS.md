@@ -6,6 +6,7 @@ sidebar:
   nav: "docs"
 ---
 
+-----
 #### ApiViz's team thanks :
 
 - the [EIG](https://entrepreneur-interet-general.etalab.gouv.fr/) program by [Etalab](https://www.etalab.gouv.fr/)

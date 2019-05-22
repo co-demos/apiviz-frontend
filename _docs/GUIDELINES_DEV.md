@@ -6,7 +6,7 @@ sidebar:
   nav: "docs"
 ---
 
-
+-----
 This project is prone to be developped by several developpers, so we agreed on some basic rules...
 
 ## GENERAL 
