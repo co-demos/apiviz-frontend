@@ -1,5 +1,6 @@
 ---
 title : THE APIVIZ ECOSYSTEM
+# layout: splash
 categories:
   - general
 tags:
@@ -9,6 +10,55 @@ tags:
   - tadata
 toc: true
 toc_label: " contents"
+# read_time: true
+# comments: true
+# share: true
+# related: true
+# sidebar:
+#   nav: "docs"
+# feature_row:
+
+#   - image_path: /static/logos/logo_apiviz_icon_15.png
+#     alt: "Apiviz"
+#     title: "Apiviz"
+#     excerpt: "a high-level webapp for visualisation, a sort of open source CMS for data-visualisation"
+
+#   - image_path: /static/logos/logo_solidata.png
+#     alt: "Solidata"
+#     title: "Solidata"
+#     excerpt: "a service and webapp to 'API-fy' your data and manage open data projects"
+#     url: "https://github.com/entrepreneur-interet-general/solidata_frontend"
+#     btn_label: "Read More"
+#     btn_class: "btn--inverse"
+
+#   - image_path: /static/logos/logo_auth_microservice.png
+#     alt: "Toktok"
+#     title: "TokTok"
+#     excerpt: "a dedicated authentication service to manage users, JWT, and roles"
+#     url: "https://github.com/co-demos/toktok"
+#     btn_label: "Read More"
+#     btn_class: "btn--inverse"
+
+#   - image_path: /static/logos/logo_openscraper_01.png
+#     alt: "Open Scraper"
+#     title: "Open Scraper"
+#     excerpt: "a generic web scraper serving the results of the scraping via its API"
+#     url: "https://github.com/entrepreneur-interet-general/OpenScraper"
+#     btn_label: "Read More"
+#     btn_class: "btn--inverse"
+
+# feature_row:
+#   - image_path: /static/logos/logo_apiviz_icon_15.png
+#     alt: "Apiviz"
+#     title: "Apiviz"
+#     excerpt: "a high-level webapp for visualisation, a sort of open source CMS for data-visualisation"
+#   - image_path: /static/logos/logo_solidata.png
+#     alt: "Solidata"
+#     title: "Solidata"
+#     excerpt: "a service and webapp to 'API-fy' your data and manage open data projects"
+#     url: "https://github.com/entrepreneur-interet-general/solidata_frontend"
+#     btn_label: "Read More"
+#     btn_class: "btn--inverse"
 ---
 
 -----
@@ -20,13 +70,15 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 
 ## OUR OPEN SOURCE WEBAPPS
 
-| logo | the open source eco-system ( aka TADATA! ) |
-|    :----:   |          :--- |
-| <img src="/static/logos/logo_apiviz_icon_15.png" height="33"> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
-| <img src="/static/logos/logo_solidata.png" height="33"> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects |
-| <img src="/static/logos/logo_auth_microservice.png" height="33"> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles  |
-| <img src="/static/logos/logo_openscraper_01.png" height="33"> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
 
+<!-- {% include feature_row %} -->
+
+| logo | the open source eco-system (aka TADATA!) |
+|    :----:   |          :--- |
+| <img src="../static/logos/logo_apiviz_icon_15.png" alt="apiviz logo"/> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
+| <img src="../static/logos/logo_solidata.png" alt="apiviz logo" /> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects |
+| <img src="../static/logos/logo_auth_microservice.png" alt="apiviz logo"/> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles  |
+| <img src="../static/logos/logo_openscraper_01.png" alt="apiviz logo"/> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
 
 -----
 
