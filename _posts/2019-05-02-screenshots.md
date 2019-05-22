@@ -19,7 +19,7 @@ toc_sticky: true
 
 displays your geolocalized data, given your configuration set in backoffice
 
-![MAP VIEW](/documentation/screenshots/map-view-sonum-03.png)
+{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="map view" %}
 
 
 ------------
@@ -29,7 +29,7 @@ displays your geolocalized data, given your configuration set in backoffice
 
 (in development) geographical densities of points
 
-![HEATMAP VIEW](/documentation/screenshots/heatmap-view-sonum-02.png)
+{% include figure image_path="/documentation/screenshots/heatmap-view-sonum-02.png" alt="map view" %}
 
 ------------
 
@@ -38,7 +38,7 @@ displays your geolocalized data, given your configuration set in backoffice
 
 displays your data as a cards list, given your configuration set in backoffice
 
-![LIST VIEW](/documentation/screenshots/list-view-apcis-01.png)
+{% include figure image_path="/documentation/screenshots/list-view-apcis-01.png" alt="map view" %}
 
 ------------
 
@@ -47,7 +47,7 @@ displays your data as a cards list, given your configuration set in backoffice
 
 displays your data as a detailed pages, given your configuration set in backoffice
 
-![DETAIL VIEW](/documentation/screenshots/detail-view-sonum-01.png)
+{% include figure image_path="/documentation/screenshots/detail-view-sonum-01.png" alt="detail view" %}
 
 ------------
 
@@ -56,5 +56,5 @@ displays your data as a detailed pages, given your configuration set in backoffi
 
 manage your Apiviz' instance configuration
 
-![ADMIN VIEW](/documentation/screenshots/backoffice-sonum-01.png)
+{% include figure image_path="/documentation/screenshots/backoffice-sonum-01.png" alt="admin view" %}
 

@@ -14,7 +14,7 @@ toc_sticky: true
 
 -----
 
-![APIVIZ-BRAND](/static/logos/logo_apiviz_15.png)
+{% include figure image_path="/static/logos/logo_apiviz_15.png" alt="apiviz logo" %}
 
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
@@ -39,5 +39,4 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 -----
 
-![MAP VIEW](/documentation/screenshots/map-view-sonum-03.png)
-
+{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="apiviz logo" %}
