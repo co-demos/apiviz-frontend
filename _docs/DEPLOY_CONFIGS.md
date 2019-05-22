@@ -1,6 +1,9 @@
 ---
-layout : default
-title : deployment-configs
+layout : home 
+title : deployment
+permalink : /deployment
+sidebar:
+  nav: "docs"
 ---
 
 ## THE APIVIZ ECOSYSTEM - DETAILED SCHEMA

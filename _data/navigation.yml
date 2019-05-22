@@ -1,75 +1,48 @@
 main:
   - title: "Quick-Start Guide"
-    url: /docs/quick-start-guide/
-  - title: "Posts"
-    url: /year-archive/
-  - title: "Categories"
-    url: /categories/
-  - title: "Tags"
-    url: /tags/
-  - title: "Pages"
-    url: /page-archive/
-  - title: "Collections"
-    url: /collection-archive/
-  - title: "External Link"
-    url: https://google.com
+    url: /docs/presentation
+  # - title: "Posts"
+  #   url: /year-archive/
+  # - title: "Categories"
+  #   url: /categories/
+  # - title: "Tags"
+  #   url: /tags/
+  # - title: "Pages"
+  #   url: /page-archive/
+  # - title: "Collections"
+  #   url: /collection-archive/
+  - title: "Sonum carto"
+    url: https://carto.societenumerique.gouv.fr/sonum-carto/carte
 
 
 # documentation links
 docs:
-  - title: Getting Started
+  - title: The Apiviz project
     children:
-      - title: "Quick-Start Guide"
-        url: /docs/quick-start-guide/
-      - title: "Structure"
-        url: /docs/structure/
+      - title: "Presentation"
+        url: /docs/presentation/
+      - title: "The Apiviz ecosystem"
+        url: /docs/ecosystem/
+
+  - title: Installation
+    children:
       - title: "Installation"
         url: /docs/installation/
-      - title: "Upgrading"
-        url: /docs/upgrading/
+      - title: "Configuration of the back-office"
+        url: /docs/backoffice-configuration/
+      - title: "Deployment configurations"
+        url: /docs/deployments/
 
-  - title: Customization
+  - title: Developers
     children:
-      - title: "Configuration"
-        url: /docs/configuration/
-      - title: "Navigation"
-        url: /docs/navigation/
-      - title: "UI Text"
-        url: /docs/ui-text/
-      - title: "Authors"
-        url: /docs/authors/
-      - title: "Layouts"
-        url: /docs/layouts/
-
-  - title: Content
-    children:
-      - title: "Working with Posts"
-        url: /docs/posts/
-      - title: "Working with Pages"
-        url: /docs/pages/
-      - title: "Working with Collections"
-        url: /docs/collections/
-      - title: "Helpers"
-        url: /docs/helpers/
-      - title: "Utility Classes"
-        url: /docs/utility-classes/
-
-  - title: Extras
-    children:
-      - title: "Stylesheets"
-        url: /docs/stylesheets/
-      - title: "JavaScript"
-        url: /docs/javascript/
+      - title: "Contributing"
+        url: /docs/contribute/
+      - title: "Guidelines"
+        url: /docs/guidelines/
 
   - title: Meta
     children:
-      - title: "History"
-        url: /docs/history/
-      - title: "Contributing"
-        url: /docs/contributing/
-      - title: "Old 2.2 Docs"
-        url: /docs/docs-2-2/
+      - title: "Change log"
+        url: /docs/changelog/
       - title: "License"
-        url: /docs/license/
-      - title: "Terms &amp; Privacy Policy"
-        url: /terms/
+        url: /LICENCE.md

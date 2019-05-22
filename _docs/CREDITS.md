@@ -1,3 +1,9 @@
+---
+layout : home 
+title : credits
+permalink : /credits
+---
+
 ## CREDITS 
 
 #### ApiViz's team thanks :

@@ -1,3 +1,10 @@
+---
+layout : home 
+title : ecosystem
+permalink : /ecosystem
+sidebar:
+  nav: "docs"
+---
 
 --------
 

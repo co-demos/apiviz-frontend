@@ -1,7 +1,7 @@
 ---
-layout : default 
+layout : home 
 title : presentation
-permalink : /presentation/screenshots
+permalink : /presentation
 sidebar:
   nav: "docs"
 ---

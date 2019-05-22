@@ -1,4 +1,11 @@
 
+---
+layout : home 
+title : installation
+permalink : /installation
+sidebar:
+  nav: "docs"
+---
 
 ## INSTALLATION WALKTHROUGH 
 

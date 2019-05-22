@@ -1,3 +1,11 @@
+---
+layout : home 
+title : guidelines
+permalink : /guidelines
+sidebar:
+  nav: "docs"
+---
+
 # GUIDELINES FOR DEVELOPMENT
 
 This project is prone to be developped by several developpers, so we agreed on some basic rules...
