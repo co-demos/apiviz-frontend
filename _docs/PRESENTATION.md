@@ -13,6 +13,10 @@ sidebar:
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
+-----
+
+![MAP VIEW](../documentation/screenshots/map-view-sonum-03.png)
+
 ---------
 
 ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
@@ -23,9 +27,7 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
   - **global** : define some metadata for your apiviz instance.
   - **footer** : define the links present in the apiviz instance's footer.
 
------
 
-![MAP VIEW](../documentation/screenshots/map-view-sonum-03.png)
 
 --------
 
