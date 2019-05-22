@@ -18,7 +18,8 @@ masthead_title: "apiviz documentation"
 logo : /static/logos/logo_apiviz_icon_15.png
 email:
 description: >- # this means to ignore newlines until "baseurl:"
-  Here comes the docs...
+  official documentation for Apiviz instanciation, 
+  make a full website from raw data with the Apiviz eco-sytem
 twitter_username: jparis_py
 github_username: JulienParis
 repository: "co-demos/apiviz-frontend"
