@@ -1,6 +1,6 @@
 ---
 layout : home 
-title : BLOG
+title : BLOG POSTS
 permalink : /posts/
 sidebar:
   nav: "docs"

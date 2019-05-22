@@ -38,6 +38,8 @@ docs:
         url: /docs/backoffice
       - title: "Deployment configurations"
         url: /docs/deployments
+      - title: "Install the docs"
+        url: /docs/install-docs
 
   - title: Developers
     children:
