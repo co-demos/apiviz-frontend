@@ -36,7 +36,7 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 
 <br>
 
-| logo | <div style="text-align:center">the open source eco-system ( aka TADATA! )</div> |
+| logo | the open source eco-system ( aka TADATA! ) |
 |    :----:   |          :--- |
 | <img src="./static/logos/logo_apiviz_icon_15.png" height="33"> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation ;   |
 | <img src="./static/logos/logo_solidata.png" height="33"> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects ; |
