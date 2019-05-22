@@ -1,7 +1,7 @@
 main:
   - title: "Presentation"
     url: /general/presentation
-  - title: "Quick-Start Guide"
+  - title: "Quickstart Guide"
     url: /docs/installation
   - title: "Blog"
     url: /posts/
@@ -51,7 +51,7 @@ docs:
       - title: "Change log"
         url: /meta/changelog
       - title: "License"
-        url: /LICENCE.md
+        url: /meta/license
 
   - title: Blog
     url: /posts/
