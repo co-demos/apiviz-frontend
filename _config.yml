@@ -2,8 +2,10 @@ title: Apiviz documentation
 logo: /static/logos/logo_apiviz_icon_15.png
 description: Documentation about Apiviz instanciation
 show_downloads: true
+
 # theme: jekyll-theme-minimal
 remote_them : "mmistakes/minimal-mistakes@4.16.3"
+
 plugins:
   - jekyll-mentions
   - jemoji
@@ -12,7 +14,6 @@ plugins:
   - jekyll-include-cache
 
 repository: "https://github.com/co-demos/apiviz-frontend"
-logo: "/static/logos/logo_apiviz_icon_15.png"
 
 include : 
   - _docs
