@@ -6,13 +6,6 @@ show_downloads: true
 # theme: jekyll-theme-minimal
 remote_them : "mmistakes/minimal-mistakes@4.16.3"
 
-plugins:
-  - jekyll-mentions
-  - jemoji
-  - jekyll-redirect-from
-  - jekyll-sitemap
-  - jekyll-include-cache
-
 repository: "https://github.com/co-demos/apiviz-frontend"
 
 include : 
@@ -29,3 +22,10 @@ defaults:
         read_time: true
 
 # permalink: /:categories/:title/
+
+plugins:
+  - jekyll-mentions
+  - jemoji
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-include-cache
