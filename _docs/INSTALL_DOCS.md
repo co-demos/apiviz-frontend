@@ -16,7 +16,7 @@ gem install jekyll
 ```
 
 ---
-1. Install setup 
+2. Install setup 
 
 ``` bash
 gem install bundler
@@ -26,7 +26,7 @@ bundle update
 ```
 
 ---
-1. Install setup 
+3. Launch server 
 
 ``` bash
 jekyll serve
