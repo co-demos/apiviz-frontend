@@ -4,7 +4,7 @@ main:
   - title: "Quick-Start Guide"
     url: /docs/installation
   - title: "Blog"
-    url: /year-archive/
+    url: /posts/
   # - title: "Categories"
   #   url: /categories/
   # - title: "Tags"
