@@ -20,7 +20,7 @@ If your data is stored somewhere and accessible via an API, ApiViz can transform
 
 
 ##### A global grasp of Apiviz
-- [Presentation](/PRESENTATION.md)
+- [Presentation](/presentation/screenshots)
 - [Ecosystem](/ECOSYSTEM.md)
 
 ##### Install Apiviz
