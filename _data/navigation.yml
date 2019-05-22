@@ -25,6 +25,8 @@ docs:
         url: /general/presentation
       - title: "Screenshots"
         url: /general/screenshots
+      - title: "Gallery"
+        url: /general/gallery
       - title: "The Apiviz ecosystem"
         url: /general/ecosystem
 

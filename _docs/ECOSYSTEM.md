@@ -36,6 +36,8 @@ You can also check those several projects and repository to find some layout for
 - CIS repo ;
 - ... and more to come... 
 
+------
+
 **Note** : all the schemas were realized with [VUE - Visual Understanding Environment](https://vue.tufts.edu/index.cfm), an open source mind mapping tool. The source file for the schemas is [here](../documentation/configurations/APIVIZ_CONFIGURATIONS.vue)
 
 
