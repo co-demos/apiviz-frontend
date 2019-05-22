@@ -1,6 +1,6 @@
-![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
+## FRONTEND
 
-FRONTEND
+![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
 
 -------
 ## PRESENTATION
@@ -46,9 +46,9 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 
 In the following illustration you can have a general idea of how those several services could work altogether. Check the [`/documentation/configurations`](./documentation/configurations) folder to have a broader look to [other configurations](./documentation/configurations/APIVIZ_CONFIGURATIONS-export.pdf).
 
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-details-light.jpg">
-</h2>
+
+![SCHEME](./documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-light.jpg)
+
 
 You can also check those several projects and repository to find some layout for your specific new datavisualisation website : 
 - Sonum repo ;
@@ -193,6 +193,7 @@ $ make down # stop app with Docker
 
 #### MAP VIEW (Sonum client configuration)
 displays your geolocalized data, given your configuration set in backoffice
+
 ![MAP VIEW](./documentation/screenshots/map-view-sonum-03.png)
 
 
@@ -200,32 +201,28 @@ displays your geolocalized data, given your configuration set in backoffice
 
 #### HEATMAP VIEW (Sonum client configuration)
 in development : geographical densities of points
-<h2 align=center>
-	<img src="./documentation/screenshots/heatmap-view-sonum-02.png">
-</h2>
+
+![HEATMAP VIEW](./documentation/screenshots/heatmap-view-sonum-02.png)
 
 ------------
 
 #### LIST VIEW (APCIS client configuration)
 displays your data as a cards list, given your configuration set in backoffice
-<h2 align=center>
-	<img src="./documentation/screenshots/list-view-apcis-01.png">
-</h2>
+
+![LIST VIEW](./documentation/screenshots/list-view-apcis-01.png)
 
 ------------
 
 #### DETAIL VIEW (Sonum client configation)
 displays your data as a detailed pages, given your configuration set in backoffice
-<h2 align=center>
-	<img src="./documentation/screenshots/detail-view-sonum-01.png">
-</h2>
+
+![DETAIL VIEW](./documentation/screenshots/detail-view-sonum-01.png)
 
 ------------
 
 #### ADMIN / BACKOFFICE (in development)
-<h2 align=center>
-	<img src="./documentation/screenshots/backoffice-sonum-01.png">
-</h2>
+
+![ADMIN VIEW](./documentation/screenshots/backoffice-sonum-01.png)
 
 
 
@@ -273,36 +270,28 @@ In the following illustration you can grasp a more detailed comprehension of how
 <hr>
 
 #### GLOBAL BLUEPRINT - MAIN DATA FLOWS AND APPS SERVICES
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-details-full.jpg">
-</h2>
+
+![FULL_DETAILS](./documentation/configurations/APIVIZ-CONFIGURATIONS-export-details-full.jpg)
 
 ---------
 
 ## DEPLOYMENT CONFIGURATIONS
 
-
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-legends.jpg">
-</h2>
+![LEGENDS](./documentation/configurations/APIVIZ-CONFIGURATIONS-export-legends.jpg)
 
 ------
 
 #### DEPLOYMENT AS FULL MUTUALIZED MICROSERVICES SYTEM
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-paas-D.jpg">
-</h2>
+![PAAS_D](./documentation/configurations/APIVIZ-CONFIGURATIONS-export-paas-D.jpg)
 
 ------
 
 #### DEPLOYMENT AS FULL CLIENT SOVEREIGNETY ON SERVICES 
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export-server-C.jpg"> 
-</h2>
+
+![SERVER_C](./documentation/configurations/APIVIZ-CONFIGURATIONS-export-server-C.jpg)
 
 ------
 
 #### ALL DEPLOYMENT OPTIONS
-<h2 align=center>
-	<img src="./documentation/configurations/APIVIZ CONFIGURATIONS-export.jpeg">
-</h2>
+
+![ALL_EXPORTS](./documentation/configurations/APIVIZ-CONFIGURATIONS-export.jpeg)
