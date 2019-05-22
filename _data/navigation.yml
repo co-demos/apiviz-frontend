@@ -23,6 +23,8 @@ docs:
     children:
       - title: "Presentation"
         url: /general/presentation
+      - title: "Screenshots"
+        url: /general/screenshots
       - title: "The Apiviz ecosystem"
         url: /general/ecosystem
 
