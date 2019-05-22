@@ -13,7 +13,7 @@ sidebar:
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
-test addin navbar 
+test adding sidebar 
 
 --------
 
@@ -24,6 +24,8 @@ test addin navbar
 - [Presentation](/docs/presentation/screenshots)
 - [Presentation 2](/presentation/screenshots)
 - [Presentation 3](/_docs/PRESENTATION.md)
+- [Presentation 4](/apiviz-frontend/presentation/screenshots)
+
 - [Ecosystem](/ECOSYSTEM.md)
 
 ##### Install Apiviz
