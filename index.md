@@ -2,7 +2,9 @@
 layout : default
 title : index
 categories : 
-  - index
+  - presentation
+sidebar:
+  nav: "docs"
 ---
 
 
