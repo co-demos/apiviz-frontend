@@ -25,7 +25,7 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 -----
 
-![MAP VIEW](/documentation/screenshots/map-view-sonum-03.png)
+![MAP VIEW](../documentation/screenshots/map-view-sonum-03.png)
 
 --------
 
