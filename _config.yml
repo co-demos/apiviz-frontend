@@ -29,11 +29,12 @@ remote_theme: mmistakes/minimal-mistakes
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: FR # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 include:
   - _pages
   - _docs
+  - _posts
 
 # Plugins (previously gems:)
 plugins:
@@ -58,34 +59,40 @@ author:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
 
 footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://twitter.com/jparis_py"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
 
 defaults:
+
+  # _docs
+  - scope:
+      path: "_docs"
+      type: docs
+    values:
+      sidebar:
+        nav: "docs"
+
   # _posts
   - scope:
       path: ""
       type: posts
     values:
       layout: single
-      author_profile: true
+      # author_profile: true
       read_time: true
       comments: true
       share: true
       related: true
+      sidebar:
+        nav: "docs"
+
   # _pages
   - scope:
       path: "_pages"
