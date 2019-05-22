@@ -48,3 +48,6 @@ docs:
         url: /meta/changelog/
       - title: "License"
         url: /LICENCE.md
+
+  - title: Blog
+    url: /posts/
