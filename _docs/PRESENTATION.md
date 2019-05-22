@@ -6,6 +6,8 @@ sidebar:
   nav: "docs"
 ---
 
+-----
+
 ![APIVIZ-BRAND](../static/logos/logo_apiviz_15.png)
 
 Visualize data coming from an API in a CMS-like app. 

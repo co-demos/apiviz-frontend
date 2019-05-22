@@ -1,7 +1,7 @@
 main:
   - title: "Presentation"
     url: /general/presentation
-  - title: "Quickstart Guide"
+  - title: "Quickstart guide"
     url: /docs/installation
   - title: "Blog"
     url: /posts/
@@ -41,6 +41,8 @@ docs:
         url: /dev/stack
       - title: "Contributing"
         url: /dev/contributing
+      - title: "Roadmap"
+        url: /dev/roadmap
       - title: "Guidelines"
         url: /dev/guidelines
 
