@@ -9,7 +9,7 @@ sidebar:
 
 -------
 
-Visualize data coming from an API in a CMS-like app. 
+Visualize data coming from an API in a CMS-like app...
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
 --------
