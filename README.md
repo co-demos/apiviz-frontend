@@ -1,4 +1,5 @@
 ![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
+
 FRONTEND
 
 -------
@@ -192,9 +193,7 @@ $ make down # stop app with Docker
 
 #### MAP VIEW (Sonum client configuration)
 displays your geolocalized data, given your configuration set in backoffice
-<h2 align=center>
-	<img src="./documentation/screenshots/map-view-sonum-03.png">
-</h2>
+![MAP VIEW](./documentation/screenshots/map-view-sonum-03.png)
 
 
 ------------
