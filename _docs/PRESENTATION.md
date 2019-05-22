@@ -1,6 +1,9 @@
 ---
 layout : default 
 title : presentation
+permalink : /presentation/screenshots
+sidebar:
+  nav: "docs"
 ---
 
 ## PRESENTATION
