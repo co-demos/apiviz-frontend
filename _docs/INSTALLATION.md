@@ -6,16 +6,14 @@ sidebar:
   nav: "docs"
 ---
 
------
-## DEVELOPERS
-
-Please check out our *[guidelines](../GUIDELINES_DEV.md)*
-
-You can also check the *[development roadmap for future features](https://github.com/co-demos/apiviz-frontend/projects/1)*
 
 --------
 
+## WARNING
+
 Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
+
+-------
 
 ## Build setup (with Nuxt)
 
