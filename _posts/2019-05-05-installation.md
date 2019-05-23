@@ -18,9 +18,35 @@ toc_sticky: true
 
 Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
 
+--------
+
+## Build and run 
+
+You have two different options to run (locally) Apiviz on your computer/server : with **Node** or with **Docker**, depending where your heart leans...
+
+--------
+
+### option 1 - Build setup with Docker
+
+```bash
+# install / stop / restart
+make up # run app with Docker
+```
+
+Other options for managing the app with Docker
+
+```bash
+make restart # restart app with Docker
+make down # stop app with Docker
+```
+
+... then check in your browser : [`localhost:3333`](localhost:3333)
+
+see also : [memo for Docker](https://medium.com/the-code-review/clean-out-your-docker-images-containers-and-volumes-with-single-commands-b8e38253c271)
+
 -------
 
-## Build setup (with Nuxt)
+### option 2 - build setup with Node/Nuxt
 
 Note : this configuration needs Node previously installed on your computer/server
 
@@ -53,22 +79,3 @@ npm start
 npm run generate
 ```
 
---------
-
-## Build setup (with Docker)
-
-```bash
-# install / stop / restart
-make up # run app with Docker
-```
-
-Other options for managing the app with Docker
-
-```bash
-make restart # restart app with Docker
-make down # stop app with Docker
-```
-
-... then check in your browser : [`localhost:3333`](localhost:3333)
-
-see also : https://medium.com/the-code-review/clean-out-your-docker-images-containers-and-volumes-with-single-commands-b8e38253c271
