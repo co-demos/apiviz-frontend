@@ -29,8 +29,10 @@ docs:
         url: /general/ecosystem
       - title: "Gallery"
         url: /general/gallery
-  - title: Data flow principles
+  - title: Dataviz principles
     children: 
+      - title: "Basis of a datavisualisation project"
+        url: /lexicon/basic-dataviz-project
       - title: "Inter-operability"
         url: /lexicon/third-services-integration
       - title: "Apiviz data flows"
