@@ -28,6 +28,8 @@ You have two different options to run (locally) Apiviz on your computer/server :
 
 ### option 1 - Build setup with Docker
 
+Note : this configuration needs Docker previously installed on your computer/server
+
 ```bash
 # install / stop / restart
 make up # run app with Docker
