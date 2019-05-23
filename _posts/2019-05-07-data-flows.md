@@ -47,11 +47,11 @@ legends:
 
 Apiviz manages dataflows as follow...
 
----------
+<!-- ---------
 
-### LEGENDS
+### LEGENDS -->
 
-{% include gallery id="legends" caption="click to enlarge illustration" %}
+<!-- {% include gallery id="legends" caption="click to enlarge illustration" %} -->
 
 ------
 
