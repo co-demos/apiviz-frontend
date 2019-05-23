@@ -1,5 +1,6 @@
 ---
 title : SCREENSHOTS
+classes: wide
 categories:
   - general
 tags:
