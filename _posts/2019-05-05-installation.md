@@ -22,6 +22,8 @@ Before anything you need to install **[Apiviz-backend](https://github.com/co-dem
 
 ## Build setup (with Nuxt)
 
+Note : this configuration needs Node previously installed on your computer/server
+
 ```bash
 # install dependencies
 npm install
@@ -29,6 +31,13 @@ npm install
 # serve with hot reload at localhost:3000
 # get env vars from .env file
 npm run dev
+```
+
+... then check in your browser : [`localhost:3000`](localhost:3000)
+
+Other options for deployment :
+
+```bash
 
 # overwrites .env file with env vars from script in package.json
 npm run dev-test
@@ -44,16 +53,18 @@ npm start
 npm run generate
 ```
 
-... then check in your browser : [`localhost:3000`](localhost:3000)
-
 --------
 
 ## Build setup (with Docker)
 
 ```bash
 # install / stop / restart
-
 make up # run app with Docker
+```
+
+Other options for managing the app with Docker
+
+```bash
 make restart # restart app with Docker
 make down # stop app with Docker
 ```

@@ -49,8 +49,8 @@ docs:
         url: /dev/stack
       - title: "Contributing"
         url: /dev/contributing
-      - title: "Roadmap"
-        url: /dev/roadmap
+      - title: "Roadmaps"
+        url: /dev/roadmaps
       - title: "Guidelines"
         url: /dev/guidelines
 
