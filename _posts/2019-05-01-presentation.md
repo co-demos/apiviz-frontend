@@ -39,4 +39,4 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 -----
 
-{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="apiviz logo" %}
+{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="map view" %}
