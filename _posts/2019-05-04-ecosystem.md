@@ -27,13 +27,38 @@ The goal of ApiViz is to **work with any external service** fulfilling those rol
 ## OUR OPEN SOURCE WEBAPPS
 
 
-| logo | the open source eco-system (aka TADATA!) |
-|    :----:   |          :--- |
-| <img src="https://github.com/co-demos/apiviz-frontend/blob/master/static/logos/logo_apiviz_15.png" alt="apiviz logo"/> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation   |
-| <img src="https://github.com/co-demos/apiviz-frontend/blob/master/static/logos/logo_solidata.png" alt="solidata logo" /> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects |
-| <img src="https://github.com/co-demos/apiviz-frontend/blob/master/static/logos/logo_auth_microservice.png" alt="toktok logo"/> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles  |
-| <img src="https://github.com/co-demos/apiviz-frontend/blob/master/static/logos/logo_openscraper_01.png" alt="open scraper logo"/> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
-
+<table>
+  <tbody>   
+    <tr>
+        <td>{% include figure image_path='/static/logos/logo_apiviz_icon_15.png' alt="apiviz logo" %} </td>
+        <td>
+          <a href="https://github.com/co-demos/ApiViz">Apiviz</a> 
+          as the high-level app for visualisation, a sort of open source CMS for data-visualisation
+        </td>
+    </tr>
+    <tr>
+        <td>{% include figure image_path='/static/logos/logo_solidata.png' alt="solidata logo" %}</td>
+        <td>
+          <a href="https://github.com/entrepreneur-interet-general/solidata_frontend">Solidata</a> 
+          to "API-fy" your data and manage open data projects
+        </td>
+    </tr>
+    <tr>
+        <td>{% include figure image_path='/static/logos/logo_auth_microservice.png' alt="toktok logo" %} </td>
+        <td>
+          <a href="https://github.com/co-demos/toktok">TokTok</a> 
+          for a dedicated authentication service to manage users, JWT, and roles 
+        </td>
+    </tr>
+    <tr>
+        <td>{% include figure image_path='/static/logos/logo_openscraper_01.png' alt="open scraper logo" %} </td>
+        <td>
+          <a href="https://github.com/entrepreneur-interet-general/OpenScraper">OpenScraper</a> 
+          is a generic web scraper serving the results of the scraping via its API 
+        </td>
+    </tr>
+  </tbody>
+</table>
 -----
 
 ## OPEN SOURCE SERVICES FOR A SOVEREIGN AND DECENTRALIZED DATA FLOW
