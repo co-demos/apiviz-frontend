@@ -25,13 +25,16 @@ docs:
         url: /general/presentation
       - title: "Screenshots"
         url: /general/screenshots
-      - title: "Main principles"
-        url: /general/data-flows
       - title: "The Apiviz ecosystem"
         url: /general/ecosystem
       - title: "Gallery"
         url: /general/gallery
-
+  - title: Data flow principles
+    children: 
+      - title: "Inter-operability"
+        url: /lexicon/third-services-integration
+      - title: "Apiviz data flows"
+        url: /lexicon/data-flows
   - title: Installation
     children:
       - title: "Installation walkthrough"
