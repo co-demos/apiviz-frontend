@@ -48,3 +48,5 @@ This illustrations shows various possibilities of interoperability between servi
 <!-- {% include figure image_path="/documentation/configurations/DATA_WORKFLOW-details.jpg" %} -->
 
 {% include gallery id="detailInt" caption="click for fullscreen view" %}
+
+**note** : illustration in jpg [here](https://raw.githubusercontent.com/co-demos/apiviz-frontend/master/documentation/configurations/DATA_WORKFLOW-details.jpg)

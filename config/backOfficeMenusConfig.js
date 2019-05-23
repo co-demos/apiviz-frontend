@@ -127,15 +127,24 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'na_logo', 
-          'title' : 'logo' 
+          'title' : 'logo',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'na_links', 
-          'title' : 'links' 
+          'title' : 'links',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'na_btn'  , 
-          'title' : 'call_button' 
+          'title' : 'call_button',
+          'fields' : [
+
+          ]
         },
       ]
     },
@@ -147,15 +156,24 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'ro_home', 
-          'title' : 'home page' 
+          'title' : 'home page',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'ro_data', 
-          'title' : 'datasets pages' 
+          'title' : 'datasets pages',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'ro_statics', 
-          'title' : 'static pages' 
+          'title' : 'static pages',
+          'fields' : [
+
+          ]
         },
       ]
     },
@@ -167,15 +185,24 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'ep_data', 
-          'title' : 'datasets' 
+          'title' : 'datasets',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'ep_user', 
-          'title' : 'user' 
+          'title' : 'user',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'ep_auth', 
-          'title' : 'authentication' 
+          'title' : 'authentication',
+          'fields' : [
+
+          ]
         },
       ]
     },
@@ -187,19 +214,31 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'fo_settings', 
-          'title' : 'settings' 
+          'title' : 'settings',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'fo_contents', 
-          'title' : 'contents' 
+          'title' : 'contents',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'fo_ui', 
-          'title' : 'ui' 
+          'title' : 'ui',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'fo_links', 
-          'title' : 'links' 
+          'title' : 'links',
+          'fields' : [
+
+          ]
         },
       ]
     },
@@ -249,23 +288,38 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'st_colors', 
-          'title' : 'app colors' 
+          'title' : 'app colors',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'st_typo', 
-          'title' : 'app typo' 
+          'title' : 'app typo',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'st_typocolors', 
-          'title' : 'app typo colors' 
+          'title' : 'app typo colors',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'st_banners', 
-          'title' : 'app banners' 
+          'title' : 'app banners',
+          'fields' : [
+
+          ]
         },
         { 
           'tab_code' : 'st_images', 
-          'title' : 'app default images sets' 
+          'title' : 'app default images sets',
+          'fields' : [
+
+          ]
         },
       ]
     },
@@ -290,7 +344,7 @@ export const BackofficeGlobal = Object.freeze({
           ]
         },
       ]
-    }
+    },
   
   ],
 

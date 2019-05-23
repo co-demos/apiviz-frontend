@@ -71,3 +71,4 @@ make down # stop app with Docker
 
 ... then check in your browser : [`localhost:3333`](localhost:3333)
 
+see also : https://medium.com/the-code-review/clean-out-your-docker-images-containers-and-volumes-with-single-commands-b8e38253c271

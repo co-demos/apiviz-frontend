@@ -73,6 +73,7 @@ Apiviz manages dataflows as follow...
 
 {% include gallery id="fulldetails" caption="click to enlarge illustration" %}
 
+**note** : illustration in jpg [here](https://raw.githubusercontent.com/co-demos/apiviz-frontend/master/documentation/configurations/DATA_WORKFLOW-details.jpg)
 
 <!-- ------
 

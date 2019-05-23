@@ -103,8 +103,8 @@
         </div>
         <br /> -->
         
-        <template
-          >
+        <!-- <template
+          > -->
 
           <BackOfficeForm
             v-for="fieldConfig in tabFields()"
@@ -116,7 +116,7 @@
             >
           </BackOfficeForm>
 
-        </template>
+        <!-- </template> -->
 
       </div>
     </div>
