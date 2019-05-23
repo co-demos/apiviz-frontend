@@ -1,5 +1,5 @@
 ---
-title : DEPLOYMENT CONFIGURATIONS
+title : CHANGE LOG
 categories:
   - meta
 tags:
