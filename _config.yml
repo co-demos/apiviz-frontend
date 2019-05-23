@@ -18,8 +18,9 @@ masthead_title: "Apiviz docs"
 logo : /static/logos/logo_apiviz_icon_15.png
 email: codemos.infos@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  official documentation for Apiviz instanciation, 
-  make a full website from raw data with the Apiviz eco-sytem
+  "official documentation for Apiviz : 
+  make a full data-visualisation website 
+  from raw data with the Apiviz eco-sytem"
 twitter_username: jparis_py
 github_username: JulienParis
 repository: "co-demos/apiviz-frontend"
@@ -95,7 +96,7 @@ footer:
       url: "https://twitter.com/jparis_py"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/JulienParis"
+      url: "https://github.com/co-demos"
 
 collections: 
   docs:
