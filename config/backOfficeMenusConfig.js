@@ -1,29 +1,70 @@
 export const BackofficeGlobal = Object.freeze({
   
+  /* 
+    // MODEL CONFIG BACK OFFICE EDITOR
+    { 
+      'config_coll' : 'global',       // DB COLLECTION - ALSO TO CHECK IF IS ACTIVE
+      'title' : 'global settings',    // TITLE IN SIDEBAR
+      "is_divider" : false,           // IS DIVIDER IN SIDEBAR
+      'icon' : 'fas fa-cog',          // ICON IN SIDEBAR
+
+      'tabs'  : [                     // TABS LIST ONCE SIDEBAR SELECTED
+        
+        { 
+          'tab_code' : 'gl_general' , // CODE TAB - TO CHECK IF IS ACTIVE
+          'tab_type' : 'doc',         // TAB EDIT TYPE
+          'title' : 'general',        // TAB TITLE
+          'fields' : [                // LIST FIELDS TO EDIT
+            
+            { 
+              'field' : 'app_title',  // FIELD CODE IN DOCUMENT
+              'title' : 'app title',  // FIELD TITLE TO DISPLAY
+              'type' : 'bloc',        // FIELD TYPE : 'bloc' | 'list'
+              'edit' : [              // LIST SUBFIELDS TO EDIT
+                { 
+                  'subfield' : 'content',   // SUBFIELD TO EDIT
+                  'type' : 'text',          // TYPE OF EDIT BLOC
+                  'list' : false            // IF SUBFIELD CONTENT IS LIST
+                }
+              ], 
+            },
+
+          ]
+        },
+
+      ]
+    },
+  */
+
   // APP CONFIGURATION
   config  : [
 
+    // GLOBAL
     { 'config_coll' : 'global', 
       'title' : 'global settings',
       "is_divider" : false,
       'icon' : 'fas fa-cog',
       'tabs'  : [
         { 'tab_code' : 'gl_general' , 
+        'tab_type' : 'doc',
           'title' : 'general',
           'fields' : [
             { 'field' : 'app_title',
+              'title' : 'app title',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text', 'list' : false}
               ], 
             },
             { 'field' : 'app_description',
+              'title' : 'app description',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
               ], 
             },
             { 'field' : 'app_languages',
+              'title' : 'app languages',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'locale', 'type' : 'text', 'list' : false}, 
@@ -33,27 +74,32 @@ export const BackofficeGlobal = Object.freeze({
           ]
         },
         { 'tab_code' : 'gl_identity', 
+        'tab_type' : 'doc',
           'title' : 'site identity',
           'fields' : [
             { 'field' : 'app_logo',
+              'title' : 'app logo',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false}
               ], 
             },
             { 'field' : 'app_favicon',
+              'title' : 'app favicon',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false}
               ], 
             },
             { 'field' : 'app_welcome',
+              'title' : 'app welcome',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
               ], 
             },
             { 'field' : 'app_pitch',
+              'title' : 'app pitch',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
@@ -61,16 +107,19 @@ export const BackofficeGlobal = Object.freeze({
             }
           ]
         },
-        { 'tab_code' : 'gl_meta', 
+        { 'tab_code' : 'gl_meta',
+        'tab_type' : 'doc', 
           'title' : 'meta',
           'fields' : [
             { 'field' : 'app_keywords',
+              'title' : 'app logo',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text', 'list' : false}
               ], 
             },
             { 'field' : 'app_code',
+              'title' : 'app logo',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false},
@@ -79,10 +128,12 @@ export const BackofficeGlobal = Object.freeze({
             },
           ]
         },
-        { 'tab_code' : 'gl_seo', 
+        { 'tab_code' : 'gl_seo',
+        'tab_type' : 'doc', 
           'title' : 'seo',
           'fields' : [
             { 'field' : 'app_analytics',
+              'title' : 'app analytics',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text', 'list' : false},
@@ -91,6 +142,7 @@ export const BackofficeGlobal = Object.freeze({
               ], 
             },
             { 'field' : 'app_support',
+              'title' : 'app support',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text', 'list' : false},
@@ -99,6 +151,7 @@ export const BackofficeGlobal = Object.freeze({
               ], 
             },
             { 'field' : 'app_indexing',
+              'title' : 'app indexing',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'content', 'type' : 'text', 'list' : false},
@@ -107,11 +160,13 @@ export const BackofficeGlobal = Object.freeze({
             },
           ]
         },
-        { 'tab_code' : 'gl_lang', 
+        { 'tab_code' : 'gl_lang',
+        'tab_type' : 'doc', 
           'title' : 'international',
           'fields' : [
             {
               'field' : 'app_basic_dict',
+              'title' : 'app basic dictionary',
               'type' : 'bloc', 
               'edit' : ['content'], 
             }
@@ -119,7 +174,7 @@ export const BackofficeGlobal = Object.freeze({
         },
       ]
     },
-
+    // NAVBAR
     { 'config_coll' : 'navbar',
       'title' : 'navbar',
       "is_divider" : false,
@@ -127,20 +182,44 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'na_logo', 
-          'title' : 'logo',
+          'tab_type' : 'doc',
+          'title' : 'logo link',
           'fields' : [
-
+            { 'field' : 'app_navbar',
+              'title' : 'app navbar logo',
+              'type' : 'bloc', 
+              'edit' : [
+                {'subfield' : 'logo_to', 'type' : 'text', 'list' : false}
+              ], 
+            },
           ]
         },
         { 
           'tab_code' : 'na_links', 
-          'title' : 'links',
+          'tab_type' : 'doc',
+          'title' : 'links buttons',
           'fields' : [
-
+            { 'field' : 'app_navbar',
+              'title' : 'app navar buttons',
+              'type' : 'bloc', 
+              'edit' : [
+                {
+                  'subfield' : 'links_options.extra_buttons', 
+                  'type' : 'list', 
+                  'object_model' : [
+                    {'subfield' : 'is_divider', 'type' : 'bool', 'list' : false},
+                    {'subfield' : 'is_external_link', 'type' : 'bool', 'list' : false},
+                    {'subfield' : 'link_to', 'type' : 'text', 'list' : false},
+                    {'subfield' : 'link_text', 'type' : 'text', 'list' : true},
+                  ],
+                }
+              ], 
+            },
           ]
         },
         { 
           'tab_code' : 'na_btn'  , 
+          'tab_type' : 'doc',
           'title' : 'call_button',
           'fields' : [
 
@@ -149,6 +228,7 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // ROUTES
     { 'config_coll' : 'routes',
       'title' : 'routes',
       "is_divider" : false,
@@ -156,6 +236,7 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'ro_home', 
+          'tab_type' : 'doc',
           'title' : 'home page',
           'fields' : [
 
@@ -163,6 +244,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'ro_data', 
+          'tab_type' : 'doc',
           'title' : 'datasets pages',
           'fields' : [
 
@@ -178,6 +260,7 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // ENDPOINTS
     { 'config_coll' : 'endpoints',
       'title' : 'API endpoints',
       "is_divider" : false,
@@ -185,6 +268,7 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'ep_data', 
+          'tab_type' : 'doc',
           'title' : 'datasets',
           'fields' : [
 
@@ -192,6 +276,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'ep_user', 
+          'tab_type' : 'doc',
           'title' : 'user',
           'fields' : [
 
@@ -199,6 +284,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'ep_auth', 
+          'tab_type' : 'doc',
           'title' : 'authentication',
           'fields' : [
 
@@ -207,6 +293,7 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // FOOTER
     { 'config_coll' : 'footer',
       'title' : 'footer',
       "is_divider" : false,
@@ -214,6 +301,7 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'fo_settings', 
+          'tab_type' : 'doc',
           'title' : 'settings',
           'fields' : [
 
@@ -221,6 +309,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'fo_contents', 
+          'tab_type' : 'doc',
           'title' : 'contents',
           'fields' : [
 
@@ -228,6 +317,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'fo_ui', 
+          'tab_type' : 'doc',
           'title' : 'ui',
           'fields' : [
 
@@ -235,6 +325,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'fo_links', 
+          'tab_type' : 'doc',
           'title' : 'links',
           'fields' : [
 
@@ -243,6 +334,7 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // SOCIALS
     { 'config_coll' : 'socials',
       'title' : 'socials',
       "is_divider" : false,
@@ -250,9 +342,11 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'so_settings', 
+          'tab_type' : 'doc',
           'title' : 'settings',
           'fields' : [
             { 'field' : 'app_twitter',
+              'title' : 'app twitter',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false},
@@ -261,6 +355,7 @@ export const BackofficeGlobal = Object.freeze({
               ], 
             },
             { 'field' : 'app_facebook',
+              'title' : 'app facebook',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false},
@@ -269,6 +364,7 @@ export const BackofficeGlobal = Object.freeze({
               ], 
             },
             { 'field' : 'app_github',
+              'title' : 'app github',
               'type' : 'bloc', 
               'edit' : [
                 {'subfield' : 'url', 'type' : 'text', 'list' : false},
@@ -281,6 +377,7 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // STYLES
     { 'config_coll' : 'styles',
       'title' : 'styles',
       "is_divider" : false,
@@ -288,6 +385,7 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'st_colors', 
+          'tab_type' : 'doc',
           'title' : 'app colors',
           'fields' : [
 
@@ -295,6 +393,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'st_typo', 
+          'tab_type' : 'doc',
           'title' : 'app typo',
           'fields' : [
 
@@ -302,6 +401,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'st_typocolors', 
+          'tab_type' : 'doc',
           'title' : 'app typo colors',
           'fields' : [
 
@@ -309,6 +409,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'st_banners', 
+          'tab_type' : 'doc',
           'title' : 'app banners',
           'fields' : [
 
@@ -316,6 +417,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'st_images', 
+          'tab_type' : 'doc',
           'title' : 'app default images sets',
           'fields' : [
 
@@ -323,7 +425,8 @@ export const BackofficeGlobal = Object.freeze({
         },
       ]
     },
-
+    
+    // USERS
     { 'config_coll' : 'users',
       'title' : 'users',
       "is_divider" : false,
@@ -331,6 +434,7 @@ export const BackofficeGlobal = Object.freeze({
       'tabs'  : [
         { 
           'tab_code' : 'us_users', 
+          'tab_type' : 'doc',
           'title' : 'users',
           'fields' : [
 
@@ -338,6 +442,7 @@ export const BackofficeGlobal = Object.freeze({
         },
         { 
           'tab_code' : 'us_teams', 
+          'tab_type' : 'doc',
           'title' : 'teams',
           'fields' : [
 

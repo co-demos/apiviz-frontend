@@ -106,15 +106,15 @@
         <!-- <template
           > -->
 
-          <BackOfficeForm
-            v-for="fieldConfig in tabFields()"
-            :key="fieldConfig.field"
-            :configCollection="activeMenu"
-            :currentTab="activeTab"
-            :fieldConfig="fieldConfig"
-            :config="config[activeMenu]"
-            >
-          </BackOfficeForm>
+        <BackOfficeForm
+          v-for="fieldConfig in tabFields()"
+          :key="fieldConfig.field"
+          :configCollection="activeMenu"
+          :currentTab="activeTab"
+          :fieldConfig="fieldConfig"
+          :config="config[activeMenu]"
+          >
+        </BackOfficeForm>
 
         <!-- </template> -->
 
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
 
 import BackOfficeForm from './BackOfficeForm.vue';
@@ -138,7 +138,6 @@ export default {
   },
 
   props: [
-
   ],
 
   data: function () {
@@ -160,6 +159,9 @@ export default {
       log : state => state.log, 
       user : state => state.user.user,
       config: state => state.config.config,
+    }),
+
+    ...mapGetters({
     }),
 
     isUserAdmin () {
@@ -199,11 +201,11 @@ export default {
     getTabConfig() {
       let menuTabs = this.menuTabs(this.activeMenu)
       let activeTab = this.activeTab
-      // console.log('menuTabs : ', menuTabs)
+      // this.log && console.log('menuTabs : ', menuTabs)
       let tabConfig = menuTabs.find(function(tab) {
         return tab.tab_code === activeTab
       });
-      // console.log('tabConfig : ', tabConfig)
+      // this.log && console.log('tabConfig : ', tabConfig)
       return tabConfig
     },
 

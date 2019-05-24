@@ -12,7 +12,8 @@
           class="card-header-title"
           @click="toggleContent"
           >
-          {{ fieldConfig.field }}
+          <!-- TO DO : translate field code -->
+          {{ fieldConfig.title }}
         </a>
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
@@ -29,18 +30,21 @@
         <div class="content">
 
           <!-- DEBUG -->
-          rootUrlBackend : <code>{{ rootUrlBackend }}</code><br>
-          <!-- jwt : <code>{{ jwt }}</code><br> -->
-          jwt.access_token : <code>{{ jwt.access_token }}</code><br>
-          <!-- jwt['access_token'] : <code>{{ jwt['access_token'] }}</code><br> -->
+            rootUrlBackend : <code>{{ rootUrlBackend }}</code><br>
+            <!-- jwt : <code>{{ jwt }}</code><br> -->
+            jwt.access_token : <code>{{ jwt.access_token }}</code><br>
+            <!-- jwt['access_token'] : <code>{{ jwt['access_token'] }}</code><br> -->
 
-          configCollection : <code>{{ configCollection }}</code><br>
-          currentTab : <code>{{ currentTab }}</code><br>
-          fieldConfig : <code>{{ fieldConfig }}</code><br>
-          <!-- config[fieldConfig.field] : <code>{{ config[fieldConfig.field] }}</code><br> -->
-          configBloc : <code>{{ configBloc }}</code><br>
+            configCollection : <code>{{ configCollection }}</code><br>
+            currentTab : <code>{{ currentTab }}</code><br>
+            <!-- fieldConfig : <code>{{ fieldConfig }}</code><br> -->
+            fieldConfig.edit : <code>{{ fieldConfig.edit }}</code><br>
+            <!-- config[fieldConfig.field] : <code>{{ config[fieldConfig.field] }}</code><br> -->
+            <hr>
+            configBloc : <code>{{ configBloc }}</code><br>
           <hr>
 
+            <!-- v-if="fieldConfig.type == 'bloc'" -->
           <form 
             v-on:submit.prevent="sendConfigModif" 
             name="formConfig" 
@@ -148,10 +152,19 @@
             <!-- SUBMIT -->
             <div class="field is-grouped">
               <div class="control">
-                <button class="button is-link">Submit</button>
+                <button class="button is-link">
+                  Test
+                </button>
               </div>
               <div class="control">
-                <button class="button is-text">Cancel</button>
+                <button class="button is-link">
+                  Submit
+                </button>
+              </div>
+              <div class="control">
+                <button class="button is-text">
+                  Cancel
+                </button>
               </div>
             </div>
 
@@ -171,6 +184,8 @@
 
 import { mapState, mapGetters } from 'vuex'
 import axios from 'axios';
+
+import { getObjectDataFromPath } from '~/plugins/utils.js'
 
 export default {
 
