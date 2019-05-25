@@ -69,7 +69,6 @@
     </aside>
 
     <div class="container column 
-
       is-full-mobile 
       is-three-thirds-tablet 
       is-three-quarters-desktop 
@@ -103,21 +102,35 @@
         </div>
         <br /> -->
         
-        <!-- <template
-          > -->
+        <!-- DEBUG -->
+        <div>
+          getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br>
+          getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br>
+        </div>
+        <hr>
 
-        <BackOfficeForm
-          v-for="fieldConfig in tabFields()"
+        <div 
+          v-for="fieldConfig in tabFields"
           :key="fieldConfig.field"
-          :configCollection="activeMenu"
-          :currentTab="activeTab"
-          :fieldConfig="fieldConfig"
-          :config="config[activeMenu]"
           >
-        </BackOfficeForm>
 
-        <!-- </template> -->
+          <!-- DEBUG -->
+          <div>
+            fieldConfig.field : <code>{{ fieldConfig.field }}</code><br>
+            fieldConfig.type : <code>{{ fieldConfig.type }}</code><br>
+          </div>
 
+          <BackOfficeForm
+            v-if="true"
+            :configCollection="activeMenu"
+            :currentTab="activeTab"
+            :fieldConfig="fieldConfig"
+            :config="config[activeMenu]"
+            >
+          </BackOfficeForm>
+
+        </div>
+      
       </div>
     </div>
     
@@ -126,113 +139,129 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
+  import { mapState, mapGetters } from 'vuex'
+  import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
 
-import BackOfficeForm from './BackOfficeForm.vue';
+  import BackOfficeForm from './BackOfficeForm.vue';
 
-export default {
+  export default {
 
-  components: {
-    BackOfficeForm
-  },
-
-  props: [
-  ],
-
-  data: function () {
-
-    return {
-      
-      activeMenu : 'global',
-      activeTab : 'gl_general',
-
-      userMenu : BackofficeGlobal.user,
-      backOfficeMenu : BackofficeGlobal.config,
-
-    }
-  },
-
-  computed: {
-
-    ...mapState({
-      log : state => state.log, 
-      user : state => state.user.user,
-      config: state => state.config.config,
-    }),
-
-    ...mapGetters({
-    }),
-
-    isUserAdmin () {
-      return this.$store.getters['user/getCheckUserRole']('admin')
+    components: {
+      BackOfficeForm
     },
-    isUserStaff () {
-      return this.$store.getters['user/getCheckUserRole']('staff')
-    },
-  },
 
-  mounted(){
-    // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
+    props: [
+    ],
+
+    data: function () {
+
+      return {
+        
+        activeMenu : 'global',
+        activeTab : 'gl_general',
+
+        userMenu : BackofficeGlobal.user,
+        backOfficeMenu : BackofficeGlobal.config,
+
       }
-      else{
-        window.scrollTo(0, 0)
+    },
+
+    computed: {
+
+      ...mapState({
+        log : state => state.log, 
+        user : state => state.user.user,
+        config: state => state.config.config,
+      }),
+
+      ...mapGetters({
+      }),
+
+      tabFields() {
+        let tabConfig = this.getTabConfig
+        return tabConfig.fields
+      },
+
+      getTabConfig() {
+        let menuTabs = this.menuTabs(this.activeMenu)
+        let activeTab = this.activeTab
+        // this.log && console.log('menuTabs : ', menuTabs)
+        let tabConfig = menuTabs.find(function(tab) {
+          return tab.tab_code === activeTab
+        });
+        // this.log && console.log('tabConfig : ', tabConfig)
+        return tabConfig
+      },
+
+      isUserAdmin () {
+        return this.$store.getters['user/getCheckUserRole']('admin')
+      },
+      isUserStaff () {
+        return this.$store.getters['user/getCheckUserRole']('staff')
+      },
+    },
+
+    mounted(){
+      // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+    },
+
+    methods: {
+
+      getMenuConfig(menuConfigField) {
+        let menuConfig = this.backOfficeMenu.find(function(menu) {
+          return menu.config_coll === menuConfigField
+        });
+        return menuConfig
+      },
+
+      menuTabs(menuConfigField) {
+        let menuConfig = this.getMenuConfig(menuConfigField)
+        return menuConfig.tabs
+      },
+
+      // getTabConfig() {
+      //   let menuTabs = this.menuTabs(this.activeMenu)
+      //   let activeTab = this.activeTab
+      //   // this.log && console.log('menuTabs : ', menuTabs)
+      //   let tabConfig = menuTabs.find(function(tab) {
+      //     return tab.tab_code === activeTab
+      //   });
+      //   // this.log && console.log('tabConfig : ', tabConfig)
+      //   return tabConfig
+      // },
+
+      // tabFields() {
+      //   let tabConfig = this.getTabConfig()
+      //   return tabConfig.fields
+      // },
+
+      setActiveMenu(menuConfigField) {
+        this.activeMenu = menuConfigField
+        let menuConfig = this.getMenuConfig(menuConfigField)
+        this.activeTab = menuConfig.tabs[0]['tab_code']
+      },
+
+      setActiveTab(tabCode) {
+        this.activeTab = tabCode
+      },
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
       }
-    }, 100);
-  },
-
-  methods: {
-
-    getMenuConfig(menuConfigField) {
-      let menuConfig = this.backOfficeMenu.find(function(menu) {
-        return menu.config_coll === menuConfigField
-      });
-      return menuConfig
-    },
-
-    menuTabs(menuConfigField) {
-      let menuConfig = this.getMenuConfig(menuConfigField)
-      return menuConfig.tabs
-    },
-
-    getTabConfig() {
-      let menuTabs = this.menuTabs(this.activeMenu)
-      let activeTab = this.activeTab
-      // this.log && console.log('menuTabs : ', menuTabs)
-      let tabConfig = menuTabs.find(function(tab) {
-        return tab.tab_code === activeTab
-      });
-      // this.log && console.log('tabConfig : ', tabConfig)
-      return tabConfig
-    },
-
-    tabFields() {
-      let tabConfig = this.getTabConfig()
-      return tabConfig.fields
-    },
-
-    setActiveMenu(menuConfigField) {
-      this.activeMenu = menuConfigField
-      let menuConfig = this.getMenuConfig(menuConfigField)
-      this.activeTab = menuConfig.tabs[0]['tab_code']
-    },
-
-    setActiveTab(tabCode) {
-      this.activeTab = tabCode
-    },
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
-    },
-
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
     }
+
   }
-
-}
 </script>

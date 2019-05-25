@@ -258,3 +258,25 @@ export function createHeatmapLayer (sourceId, vars) {
   }
   return layerConfig
 }
+
+// GEOJSON LAYERS - CLUSTER COUNTS
+// cf : https://docs.mapbox.com/mapbox-gl-js/example/data-join/
+// cf : 
+export function createChoroplethLayer(sourceId, vars) {
+  let layerConfig = {
+    "id": "choropleth",
+    "type": "fill",
+    "source": sourceId,
+    // "source-layer": sourceId,
+    "paint": {
+      // cf : https://docs.mapbox.com/mapbox-gl-js/style-spec/#layer-paint
+      "fill-color": "#888888",
+      "fill-opacity": 0.6,
+      "fill-outline-color": "rgb(256,256,256)",
+    }
+  }
+  return layerConfig
+}
+
+
+// mapbox actions

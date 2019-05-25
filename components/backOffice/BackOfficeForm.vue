@@ -55,6 +55,8 @@
               :key="index"
               >
 
+              conf : <code>{{ conf }}</code><br>
+
               <!-- text field -->
               <div
                 v-if="conf.type === 'text'" 
