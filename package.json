@@ -34,6 +34,7 @@
     "prunecluster": "^2.1.0",
     "vee-validate": "^2.2.7",
     "vue-choropleth": "^0.2.1",
+    "vue-json-ui-editor": "^1.0.0",
     "vue-mapbox": "^0.4.1",
     "vue2-leaflet": "^2.1.1",
     "vue2-leaflet-markercluster": "^3.0.0"

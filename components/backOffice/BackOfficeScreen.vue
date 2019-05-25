@@ -74,7 +74,6 @@
       is-three-quarters-desktop 
       is-three-quarters-widescreen 
       is-9-fullhd
-
       ">
       <div class="section">
 
@@ -107,27 +106,90 @@
           getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br>
           getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br>
         </div>
-        <hr>
+        <hr><hr>
 
         <div 
-          v-for="fieldConfig in tabFields"
-          :key="fieldConfig.field"
+          v-for="docConfig in tabDocs"
+          :key="docConfig.field"
           >
 
           <!-- DEBUG -->
           <div>
-            fieldConfig.field : <code>{{ fieldConfig.field }}</code><br>
-            fieldConfig.type : <code>{{ fieldConfig.type }}</code><br>
+            activeTab : <code>{{ activeTab }}</code><br>
           </div>
 
-          <BackOfficeForm
-            v-if="true"
-            :configCollection="activeMenu"
-            :currentTab="activeTab"
-            :fieldConfig="fieldConfig"
-            :config="config[activeMenu]"
+
+
+          <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
+          <div 
+            v-if="docConfig.type === 'bloc' "
+            :set="conf = getConfigDoc(docConfig.field)"
             >
-          </BackOfficeForm>
+            <hr>
+            activeMenu : <code>{{ activeMenu }}</code><br>
+            docConfig.type : <code>{{ docConfig.type }}</code><br>
+            docConfig.field : <code>{{ docConfig.field }}</code><br>
+            <!-- config[activeMenu][docConfig.field] : <br><pre><code>{{ JSON.stringify(config[activeMenu][docConfig.field], null, 1) }}</code></pre><br> -->
+            <!-- getConfigDoc(docConfig.field) : <br><pre><code>{{ JSON.stringify(getConfigDoc(docConfig.field), null, 1) }}</code></pre><br> -->
+            <!-- conf : <br><pre><code>{{ JSON.stringify(conf, null, 1) }}</code></pre><br> -->
+            --- ---
+            <div 
+              v-for="confEdit in docConfig.edit"
+              >
+              confEdit : <code>{{ confEdit }}</code><br>
+              confEdit.subfield : <code>{{ confEdit.subfield }}</code><br>
+              confToEdit - all : <br><pre><code>{{ filterObject(conf, [confEdit.subfield]) }}</code></pre></br>
+              <!-- confToEdit : <br><pre><code>{{ configToEdit(conf, confEdit.subfield ) }}</code></pre></br> -->
+              ----
+            </div>
+            <!-- <BackOfficeForm
+              :configCollection="activeMenu"
+              :currentTab="activeTab"
+              :docConfig="docConfig"
+              :config="config[activeMenu]"
+              >
+            </BackOfficeForm> -->
+          </div>
+
+
+          <!-- SUBFIELDS LIST / f.i. navbar links in app_navbar doc-->
+          <div 
+            v-if="docConfig.type === 'blocs_list' "
+            >
+            <hr>
+            activeMenu : <code>{{ activeMenu }}</code><br>
+            docConfig.type : <code>{{ docConfig.type }}</code><br>
+            docConfig.field : <code>{{ docConfig.field }}</code><br>
+            <!-- confToEdit - all : <br><pre><code>{{ filterObject(conf, [confEdit.subfield]) }}</code></pre></br> -->
+            --- ---
+            <div 
+              v-for="confEdit in docConfig.edit"
+              >
+              confEdit : <code>{{ confEdit }}</code><br>
+              confEdit.subfield : <code>{{ confEdit.subfield }}</code><br>
+              <div
+                v-for="subConf in configToEdit(conf, confEdit.subfield )"
+                >
+                subConf  : <br><pre><code>{{ JSON.stringify(subConf, null, 1) }}</code></pre></br>
+                <!-- confToEdit - all : <br><pre><code>{{ filterObject(subConf, [confEdit.subfield]) }}</code></pre></br> -->
+              </div>
+              ---
+            </div>
+          </div>
+
+          <!-- DOCS LIST -->
+          <div 
+            v-if="docConfig.type === 'dos_list' "
+            > 
+            <hr>
+              activeMenu : <code>{{ activeMenu }}</code><br>
+              docConfig.type : <code>{{ docConfig.type }}</code><br>
+              docConfig.field : <code>{{ docConfig.field }}</code><br>
+          </div>
+
+
+
+
 
         </div>
       
@@ -141,6 +203,8 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
   import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
+
+import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 
   import BackOfficeForm from './BackOfficeForm.vue';
 
@@ -177,9 +241,9 @@
       ...mapGetters({
       }),
 
-      tabFields() {
+      tabDocs() {
         let tabConfig = this.getTabConfig
-        return tabConfig.fields
+        return tabConfig.docs
       },
 
       getTabConfig() {
@@ -238,7 +302,7 @@
       //   return tabConfig
       // },
 
-      // tabFields() {
+      // tabDocs() {
       //   let tabConfig = this.getTabConfig()
       //   return tabConfig.fields
       // },
@@ -251,6 +315,18 @@
 
       setActiveTab(tabCode) {
         this.activeTab = tabCode
+      },
+
+      getConfigDoc(field){
+        return this.config[this.activeMenu][field]
+      },
+
+      filterObject(obj, allowedKeys){
+        return filterObjectByKey(obj, allowedKeys)
+      },
+
+      configToEdit(conf, subfield){
+        return getObjectDataFromPath(conf, subfield, '.')
       },
 
       getText(textCode) {
