@@ -103,10 +103,10 @@
         
         <!-- DEBUG -->
         <div>
-          getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br>
-          getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br>
+          <!-- getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br> -->
+          <!-- getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br> -->
         </div>
-        <hr>
+        <!-- <hr> -->
         
         <!-- CONTENTS -->
         <div 
@@ -118,10 +118,39 @@
           <!-- DEBUG -->
           <div>
             <!-- activeTab : <code>{{ activeTab }}</code><br> -->
-            docConfig.type : <code>{{ docConfig.type }}</code><br>
+            <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
             <!-- conf._id : <code>{{ conf._id }}</code><br> -->
           </div>
 
+          <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
+          <div v-if="docConfig.type === 'blocs' " 
+            :set=" subfieldsList = arrayFromObjectsArray(docConfig.edit, 'subfield')">
+            <!-- <hr> -->
+            <!-- activeMenu : <code>{{ activeMenu }}</code><br> -->
+            <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
+            <!-- docConfig.field : <code>{{ docConfig.field }}</code><br> -->
+            <!-- conf : <br><pre><code>{{ JSON.stringify(conf, null, 1) }}</code></pre><br> -->
+            <!-- --- --- -->
+            <div 
+              :set="confToEdit = filterObject( conf, subfieldsList )"
+              >
+              <!-- confEdit : <code>{{ confEdit }}</code><br> -->
+              <!-- confEdit.subfield : <code>{{ confEdit.subfield }}</code><br> -->
+              <!-- confToEdit : <br><pre><code>{{ confToEdit }}</code></pre></br> -->
+              <!-- ---- -->
+              <BackOfficeJSON
+                :configCollection="activeMenu"
+                :docId="conf._id"
+                :docConfigType="docConfig.type"
+                :docConfigField="docConfig.field"
+                :confEdit="docConfig"
+                :confEditTitle="undefined"
+                :confEditSubfield="undefined"
+                :confToEdit="confToEdit"
+                >
+              </BackOfficeJSON>
+            </div>
+          </div>
 
           <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
           <div v-if="docConfig.type === 'bloc' " >
@@ -296,7 +325,7 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
       let currentTab = this.$nuxt.$route.hash
       currentTab = currentTab.substring(1, currentTab.length)
 
-      if (currentMenu === '' ){
+      if (currentMenu === '' || typeof currentMenu === 'undefined' ){
         currentMenu = this.activeMenu
       }
       // this.log && console.log('C-BackOff-index.vue / currentMenu : ', currentMenu )
@@ -348,6 +377,14 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
       pushTabRoute(tabCode){
         this.setActiveTab(tabCode) 
         this.$nuxt.$router.push(this.$nuxt.$route.path + '#' + tabCode )
+      },
+
+      arrayFromObjectsArray(objArray, property){
+        // this.log && console.log('C-BackOff-index.vue / arrayFromObjectsArray / objArray : ', objArray )
+        // this.log && console.log('C-BackOff-index.vue / arrayFromObjectsArray / property : ', property )
+        let array = objArray.map( a => a[property] )
+        // this.log && console.log('C-BackOff-index.vue / arrayFromObjectsArray / array : ', array )
+        return array
       },
 
       getConfigDoc(field){

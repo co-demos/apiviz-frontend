@@ -58,14 +58,14 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_description',
               title : 'app description',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'content', type : 'text-lang', list : false}
               ], 
             },
             { field : 'app_languages',
               title : 'app languages',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'locale', type : 'text', list : false}, 
                 {subfield : 'languages', type : 'text', list : true}
@@ -120,7 +120,7 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_code',
               title : 'app logo',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'url', type : 'text', list : false},
                 {subfield : 'content', type : 'text-lang', list : false}
@@ -134,7 +134,7 @@ export const BackofficeGlobal = Object.freeze({
           docs : [
             { field : 'app_analytics',
               title : 'app analytics',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'content', type : 'text', list : false},
                 {subfield : 'url', type : 'text', list : false},
@@ -143,7 +143,7 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_support',
               title : 'app support',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'content', type : 'text', list : false},
                 {subfield : 'url', type : 'text', list : false},
@@ -152,7 +152,7 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_indexing',
               title : 'app indexing',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'content', type : 'text', list : false},
                 {subfield : 'activated', type : 'bool', list : false}
@@ -167,7 +167,7 @@ export const BackofficeGlobal = Object.freeze({
             {
               field : 'app_basic_dict',
               title : 'app basic dictionary',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'no_data', type : 'text', list : false},
                 {subfield : 'reinit_filters', type : 'text', list : false},
@@ -194,11 +194,10 @@ export const BackofficeGlobal = Object.freeze({
           docs : [
             { field : 'app_navbar',
               title : 'app navbar logo',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
-                { subfield : 'logo_to', 
-                  type : 'text', 
-                }
+                { subfield : 'logo_to'},
+                { subfield : 'ui_options'},
               ], 
             },
           ]
@@ -314,7 +313,14 @@ export const BackofficeGlobal = Object.freeze({
           tab_type : 'docs',
           title : 'settings',
           docs : [
-
+            { field : 'app_footer',
+              title : 'aactive columns',
+              type : 'blocs', 
+              edit : [
+                { subfield : 'active_columns'},
+                { subfield : 'has_credits_footer'},
+              ], 
+            },
           ]
         },
         { 
@@ -322,7 +328,13 @@ export const BackofficeGlobal = Object.freeze({
           tab_type : 'docs',
           title : 'contents',
           docs : [
-
+            { field : 'app_footer',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'contents_fields'},
+              ], 
+            },
           ]
         },
         { 
@@ -330,7 +342,13 @@ export const BackofficeGlobal = Object.freeze({
           tab_type : 'docs',
           title : 'ui',
           docs : [
-
+            { field : 'app_footer',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'ui_options'},
+              ], 
+            },
           ]
         },
         { 
@@ -338,7 +356,13 @@ export const BackofficeGlobal = Object.freeze({
           tab_type : 'docs',
           title : 'links',
           docs : [
-
+            { field : 'app_footer',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'links_options'},
+              ], 
+            },
           ]
         },
       ]
@@ -357,7 +381,7 @@ export const BackofficeGlobal = Object.freeze({
           docs : [
             { field : 'app_twitter',
               title : 'app twitter',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'url', type : 'text', list : false},
                 {subfield : 'tooltip', type : 'text-lang', list : false},
@@ -366,7 +390,7 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_facebook',
               title : 'app facebook',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'url', type : 'text', list : false},
                 {subfield : 'tooltip', type : 'text-lang', list : false},
@@ -375,7 +399,7 @@ export const BackofficeGlobal = Object.freeze({
             },
             { field : 'app_github',
               title : 'app github',
-              type : 'bloc', 
+              type : 'blocs', 
               edit : [
                 {subfield : 'url', type : 'text', list : false},
                 {subfield : 'tooltip', type : 'text-lang', list : false},
@@ -396,41 +420,71 @@ export const BackofficeGlobal = Object.freeze({
         { 
           tab_code : 'st_colors', 
           tab_type : 'docs',
-          title : 'app colors',
+          title : 'colors',
           docs : [
-
+            { field : 'app_colors',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'content'},
+              ], 
+            },
           ]
         },
         { 
           tab_code : 'st_typo', 
           tab_type : 'docs',
-          title : 'app typo',
+          title : 'typo',
           docs : [
-
+            { field : 'app_typo',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'content'},
+              ], 
+            },
           ]
         },
         { 
           tab_code : 'st_typocolors', 
           tab_type : 'docs',
-          title : 'app typo colors',
+          title : 'typo colors',
           docs : [
-
+            { field : 'app_typo_colors',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'content'},
+              ], 
+            },
           ]
         },
         { 
           tab_code : 'st_banners', 
           tab_type : 'docs',
-          title : 'app banners',
+          title : 'banners',
           docs : [
-
+            { field : 'app_banners',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'banners_set'},
+              ], 
+            },
           ]
         },
         { 
           tab_code : 'st_images', 
           tab_type : 'docs',
-          title : 'app default images sets',
+          title : 'default images',
           docs : [
-
+            { field : 'app_search_default_images_sets',
+              title : '',
+              type : 'bloc', 
+              edit : [
+                { subfield : 'images_sets'},
+              ], 
+            },
           ]
         },
       ]

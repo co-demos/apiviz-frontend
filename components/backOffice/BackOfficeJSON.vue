@@ -1,10 +1,7 @@
 <template>
-
   <div>
 
-    <div 
-      class="card"
-      >
+    <div class="card">
       
       <!-- CARD HEADER -->
       <div class="card-header">
@@ -22,9 +19,10 @@
         </a>
       </div>
 
+      <!-- CARD CONTENTS -->
       <div 
         v-show="isOpen"
-        class="card-content"
+        class="card-content is-paddingless"
         >
 
         <div class="content">
@@ -46,14 +44,12 @@
             <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
           </div>
 
-          <br>
-
           <!-- using vue-json-edit -->
-          <JsonEditor 
+          <!-- <JsonEditor 
             :objData="jsonData" 
             v-model="jsonData" 
             >
-          </JsonEditor>
+          </JsonEditor> -->
 
           <!-- using vue-json-tree -->
           <!-- <tree-view
@@ -85,48 +81,64 @@
             @change="onChangeData"
           ></v-json-editor> -->
 
-          <!-- SUBMIT -->
-          <br>
-          <div class="field is-grouped">
+          <!-- using vue-json-editor  ( + + ) -->
+          <vue-json-editor 
+            v-model="jsonData" 
+            :show-btns="false" 
+            @json-change="onChangeData">
+          </vue-json-editor>
 
-            <!-- TEST BTN -->
-            <!-- <div class="control">
-              <button 
-                class="button is-link"
-                >
-                Test
-              </button>
-            </div> -->
 
-            <!-- SUBMIT BTN-->
-            <div class="control">
-              <button 
-                class="button is-link"
-                @click="sendConfigModif()"
-                >
-                Submit
-              </button>
-            </div>
+          <!-- using vue-edit-json  ( + + + ) BUT ERROR AT INSTALL/BUILD -->
+          <!-- <JsonEditor 
+            :is-edit="true" 
+            v-model="jsonData">
+          </JsonEditor> -->
 
-            <!-- CANCEL BTN -->
-            <div class="control">
-              <button 
-                class="button is-text"
-                @click="toggleContent()"
-                >
-                Cancel
-              </button>
-            </div>
-
-          </div>
+          <!-- using vue-json-component ( + ) CLEAN BUT NO EDITING MODE -->
+          <!-- <json-view 
+            :data="jsonData" 
+          /> -->
 
 
         </div>
 
       </div>
 
+      <!-- CARD FOOTER / SUBMIT -->
+      <footer 
+        v-show="isOpen"
+        class="card-footer"
+        >
+
+        <!-- TEST BTN-->
+        <a 
+          class="card-footer-item"
+          >
+          test
+        </a>
+
+        <!-- SUBMIT BTN-->
+        <a 
+          class="card-footer-item"
+          @click="sendConfigModif()"
+          >
+          save
+        </a>
+  
+        <!-- CANCEL BTN -->
+        <a 
+          class="card-footer-item"
+          @click="toggleContent()"
+          >
+          cancel
+        </a>
+
+      </footer>
+
     </div>
-    <br />
+
+    <br>
 
   </div>
 </template>
