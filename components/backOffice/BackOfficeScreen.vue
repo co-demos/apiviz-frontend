@@ -28,16 +28,16 @@
           v-for="uMenu in userMenu"
           :key="uMenu.config_coll"
           >
-          <a 
-            href="#" 
+          <nuxt-link
+            :to="'/backoffice/' + uMenu.config_coll" 
             :class="`${uMenu.config_coll == activeMenu ? 'is-active' : ''}`"
-            @click="setActiveMenu(uMenu.config_coll)"
             >
+            <!-- @click="setActiveMenu(uMenu.config_coll)" -->
             <span class="icon">
               <i :class="uMenu.icon"></i>
             </span> 
             {{ uMenu.title }}
-          </a>
+          </nuxt-link>
         </li>
       </ul>
 
@@ -53,16 +53,16 @@
           v-for="menu in backOfficeMenu"
           :key="menu.config_coll"
           >
-          <a 
-            href="#" 
+          <nuxt-link 
+            :to="'/backoffice/' + menu.config_coll" 
             :class="`${menu.config_coll == activeMenu ? 'is-active' : ''}`"
-            @click="setActiveMenu(menu.config_coll)"
             >
+            <!-- @click="setActiveMenu(menu.config_coll)" -->
             <span class="icon">
               <i :class="menu.icon"></i>
             </span> 
             {{ menu.title }}
-          </a>
+          </nuxt-link>
         </li>
       </ul>
 
@@ -86,8 +86,9 @@
               :class="`${tab.tab_code == activeTab ? 'is-active' : ''}`"
               >
               <a
-                @click="setActiveTab(tab.tab_code)"  
+                @click="setActiveTab(tab.tab_code)" 
                 >
+                <!-- :to="{path : '/backoffice/'+activeMenu, hash : tab.tab_code}"  -->
                 {{ tab.title }}
               </a>
             </li>
@@ -106,16 +107,19 @@
           getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br>
           getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br>
         </div>
-        <hr><hr>
-
+        <hr>
+        
+        <!-- CONTENTS -->
         <div 
           v-for="docConfig in tabDocs"
           :key="docConfig.field"
+          :set="conf = getConfigDoc(docConfig.field)"
           >
 
           <!-- DEBUG -->
           <div>
-            activeTab : <code>{{ activeTab }}</code><br>
+            <!-- activeTab : <code>{{ activeTab }}</code><br> -->
+            <!-- conf._id : <code>{{ conf._id }}</code><br> -->
           </div>
 
 
@@ -123,32 +127,31 @@
           <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
           <div 
             v-if="docConfig.type === 'bloc' "
-            :set="conf = getConfigDoc(docConfig.field)"
             >
-            <hr>
-            activeMenu : <code>{{ activeMenu }}</code><br>
-            docConfig.type : <code>{{ docConfig.type }}</code><br>
-            docConfig.field : <code>{{ docConfig.field }}</code><br>
-            <!-- config[activeMenu][docConfig.field] : <br><pre><code>{{ JSON.stringify(config[activeMenu][docConfig.field], null, 1) }}</code></pre><br> -->
-            <!-- getConfigDoc(docConfig.field) : <br><pre><code>{{ JSON.stringify(getConfigDoc(docConfig.field), null, 1) }}</code></pre><br> -->
+            <!-- <hr> -->
+            <!-- activeMenu : <code>{{ activeMenu }}</code><br> -->
+            <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
+            <!-- docConfig.field : <code>{{ docConfig.field }}</code><br> -->
             <!-- conf : <br><pre><code>{{ JSON.stringify(conf, null, 1) }}</code></pre><br> -->
-            --- ---
+            <!-- --- --- -->
             <div 
               v-for="confEdit in docConfig.edit"
+              :key="confEdit.subfield"
+              :set="confToEdit = filterObject(conf, [confEdit.subfield])"
               >
-              confEdit : <code>{{ confEdit }}</code><br>
-              confEdit.subfield : <code>{{ confEdit.subfield }}</code><br>
-              confToEdit - all : <br><pre><code>{{ filterObject(conf, [confEdit.subfield]) }}</code></pre></br>
-              <!-- confToEdit : <br><pre><code>{{ configToEdit(conf, confEdit.subfield ) }}</code></pre></br> -->
-              ----
+              <!-- confEdit : <code>{{ confEdit }}</code><br> -->
+              <!-- confEdit.subfield : <code>{{ confEdit.subfield }}</code><br> -->
+              <!-- confToEdit : <br><pre><code>{{ confToEdit }}</code></pre></br> -->
+              <!-- ---- -->
+              <BackOfficeJSON
+                :configCollection="activeMenu"
+                :docId="conf._id"
+                :docConfigField="docConfig.field"
+                :confEdit="confEdit"
+                :confToEdit="confToEdit"
+                >
+              </BackOfficeJSON>
             </div>
-            <!-- <BackOfficeForm
-              :configCollection="activeMenu"
-              :currentTab="activeTab"
-              :docConfig="docConfig"
-              :config="config[activeMenu]"
-              >
-            </BackOfficeForm> -->
           </div>
 
 
@@ -156,24 +159,34 @@
           <div 
             v-if="docConfig.type === 'blocs_list' "
             >
-            <hr>
-            activeMenu : <code>{{ activeMenu }}</code><br>
-            docConfig.type : <code>{{ docConfig.type }}</code><br>
-            docConfig.field : <code>{{ docConfig.field }}</code><br>
-            <!-- confToEdit - all : <br><pre><code>{{ filterObject(conf, [confEdit.subfield]) }}</code></pre></br> -->
-            --- ---
+            <!-- <hr> -->
+            <!-- activeMenu : <code>{{ activeMenu }}</code><br> -->
+            <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
+            <!-- docConfig.field : <code>{{ docConfig.field }}</code><br> -->
+            <!-- --- --- -->
             <div 
               v-for="confEdit in docConfig.edit"
+              :key="confEdit.subfield"
+              :set="confToEdit = configToEdit(conf, confEdit.subfield )"
               >
-              confEdit : <code>{{ confEdit }}</code><br>
-              confEdit.subfield : <code>{{ confEdit.subfield }}</code><br>
+              <!-- confEdit : <code>{{ confEdit }}</code><br> -->
+              <!-- confEdit.subfield : <code>{{ confEdit.subfield }}</code><br> -->
               <div
-                v-for="subConf in configToEdit(conf, confEdit.subfield )"
+                v-for="subConf in confToEdit"
+                :key="subConf.subfield"
+                :set="subConfToEdit = filterObject(conf, [subConf.subfield])"
                 >
-                subConf  : <br><pre><code>{{ JSON.stringify(subConf, null, 1) }}</code></pre></br>
-                <!-- confToEdit - all : <br><pre><code>{{ filterObject(subConf, [confEdit.subfield]) }}</code></pre></br> -->
+                <!-- subConf  : <br><pre><code>{{ JSON.stringify(subConf, null, 1) }}</code></pre></br> -->
+                <BackOfficeJSON
+                  :configCollection="activeMenu"
+                  :docId="conf._id"
+                  :docConfigField="docConfig.field"
+                  :confEdit="confEdit"
+                  :confToEdit="confToEdit"
+                  >
+                </BackOfficeJSON>
               </div>
-              ---
+              <!-- --- -->
             </div>
           </div>
 
@@ -207,11 +220,13 @@
 import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 
   import BackOfficeForm from './BackOfficeForm.vue';
+  import BackOfficeJSON from './BackOfficeJSON.vue';
 
   export default {
 
     components: {
-      BackOfficeForm
+      BackOfficeForm,
+      BackOfficeJSON
     },
 
     props: [
@@ -265,7 +280,36 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
       },
     },
 
+    beforeMount : function(){
+      // this.log && console.log('\nC-BackOff-index.vue / beforeMount...')
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : ', this.$nuxt.$sroute )
+      // this.log && console.log('C-BackOff-index.vue / this.userMenu : ', this.userMenu )
+      // this.userMenu = BackofficeGlobal.user
+      // this.backOfficeMenu = BackofficeGlobal.config
+    },
+
     mounted(){
+      this.log && console.log('\nC-BackOff-index.vue / mounted...')
+
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$router : \n', this.$nuxt.$router )
+      this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : \n', this.$nuxt.$route )
+
+      let currentMenu = this.$nuxt.$route.params.pathMatch
+      let currentTab = this.$nuxt.$route.hash
+      currentTab = currentTab.substring(1, currentTab.length)
+
+      if (currentMenu === '' ){
+        currentMenu = this.activeMenu
+      }
+      this.log && console.log('C-BackOff-index.vue / currentMenu : ', currentMenu )
+      this.setActiveMenu(currentMenu)
+      
+      if (currentTab === ''){
+        currentTab = this.activeTab
+      } 
+      this.log && console.log('C-BackOff-index.vue / currentTab : ', currentTab )
+      this.setActiveTab(currentTab)
+
       // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
       const int = setInterval(() => {
         if(window.pageYOffset < 50){
@@ -311,9 +355,11 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
         this.activeMenu = menuConfigField
         let menuConfig = this.getMenuConfig(menuConfigField)
         this.activeTab = menuConfig.tabs[0]['tab_code']
+        // this.$nuxt.$router.push('/backoffice/'+menuConfigField)
       },
 
       setActiveTab(tabCode) {
+        this.log && console.log('C-BackOff-index.vue / setActiveTab / tabCode : ', tabCode )
         this.activeTab = tabCode
       },
 
@@ -325,7 +371,7 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
         return filterObjectByKey(obj, allowedKeys)
       },
 
-      configToEdit(conf, subfield){
+      configToEdit(conf, subfield, ){
         return getObjectDataFromPath(conf, subfield, '.')
       },
 

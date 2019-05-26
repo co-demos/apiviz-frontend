@@ -14,8 +14,11 @@ export default function ({ store, route, redirect }) {
   ]
 
   let path = route.path
-  // log && console.log('-M3- getRouteConfig / path : ', path)
+  log && console.log('-M3- getRouteConfig / path : ', path)
 
+  if (path.startsWith('/backoffice') ){
+    path = '/backoffice'
+  }
   let previousIsMapSearch = store.getters['search/getIsMapSearch']
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
