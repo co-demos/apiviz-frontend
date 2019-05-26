@@ -168,8 +168,16 @@ export const BackofficeGlobal = Object.freeze({
               field : 'app_basic_dict',
               title : 'app basic dictionary',
               type : 'bloc', 
-              edit : ['content'], 
-            }
+              edit : [
+                {subfield : 'no_data', type : 'text', list : false},
+                {subfield : 'reinit_filters', type : 'text', list : false},
+                {subfield : 'no_abstract', type : 'text', list : false},
+                {subfield : 'no_address', type : 'text', list : false},
+                {subfield : 'source', type : 'text', list : false},
+                {subfield : 'back_to_results', type : 'text', list : false},
+                {subfield : 'see_website', type : 'text', list : false},
+              ], 
+            },
           ]
         },
       ]

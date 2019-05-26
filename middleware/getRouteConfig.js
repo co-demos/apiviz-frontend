@@ -3,7 +3,7 @@ export default function ({ store, route, redirect }) {
   
   const log = store.state.log 
 
-  log && console.log('\n-M3- getRouteConfig...')
+  // log && console.log('\n-M3- getRouteConfig...')
   
   const DynamicComponents = [ 
     'DynamicList' , 
@@ -14,7 +14,7 @@ export default function ({ store, route, redirect }) {
   ]
 
   let path = route.path
-  log && console.log('-M3- getRouteConfig / path : ', path)
+  // log && console.log('-M3- getRouteConfig / path : ', path)
 
   if (path.startsWith('/backoffice') ){
     path = '/backoffice'

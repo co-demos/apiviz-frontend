@@ -13,7 +13,7 @@
           @click="toggleContent"
           >
           <!-- TO DO : translate field code -->
-          {{ configCollection }} > {{ docConfigField }} > {{ confEdit.subfield }}
+          {{ configCollection }} > {{ docConfigField }} > {{ confEditTitle }}
         </a>
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
@@ -33,6 +33,7 @@
           configCollection : <code>{{ configCollection }}</code></br>
           docId : <code>{{ docId }}</code></br>
           docConfigField : <code>{{ docConfigField }}</code></br>
+          docConfigType : <code>{{ docConfigType }}</code></br>
           confEdit : <code>{{ confEdit }}</code></br>
           confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br>
 
@@ -59,8 +60,10 @@ export default {
   props: [
     'configCollection',
     'docId',
+    'docConfigType',
     'docConfigField',
     'confEdit',
+    'confEditTitle',
     'confToEdit'
   ],
 

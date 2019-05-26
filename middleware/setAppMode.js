@@ -3,7 +3,7 @@ export default function ({ store }) {
 
   const log = store.state.log 
 
-  log && console.log('\n---------------------')
+  // log && console.log('\n-M1- --- SetAppMode ---')
   // console.log('-- setAppMode...')
 
   if ( typeof(store.getters.getApivizFrontUUID) === 'undefined' ){

@@ -86,9 +86,8 @@
               :class="`${tab.tab_code == activeTab ? 'is-active' : ''}`"
               >
               <a
-                @click="setActiveTab(tab.tab_code)" 
+                @click="pushTabRoute(tab.tab_code)" 
                 >
-                <!-- :to="{path : '/backoffice/'+activeMenu, hash : tab.tab_code}"  -->
                 {{ tab.title }}
               </a>
             </li>
@@ -146,7 +145,9 @@
               <BackOfficeJSON
                 :configCollection="activeMenu"
                 :docId="conf._id"
+                :docConfigType="docConfig.type"
                 :docConfigField="docConfig.field"
+                :confEditTitle="confEdit.subfield"
                 :confEdit="confEdit"
                 :confToEdit="confToEdit"
                 >
@@ -167,22 +168,24 @@
             <div 
               v-for="confEdit in docConfig.edit"
               :key="confEdit.subfield"
-              :set="confToEdit = configToEdit(conf, confEdit.subfield )"
+              :set="confToEditList = configToEdit(conf, confEdit.subfield )"
               >
               <!-- confEdit : <code>{{ confEdit }}</code><br> -->
               <!-- confEdit.subfield : <code>{{ confEdit.subfield }}</code><br> -->
               <div
-                v-for="subConf in confToEdit"
-                :key="subConf.subfield"
+                v-for="(subConf, index) in confToEditList"
+                :key="index"
                 :set="subConfToEdit = filterObject(conf, [subConf.subfield])"
                 >
                 <!-- subConf  : <br><pre><code>{{ JSON.stringify(subConf, null, 1) }}</code></pre></br> -->
                 <BackOfficeJSON
                   :configCollection="activeMenu"
                   :docId="conf._id"
+                  :docConfigType="docConfig.type"
                   :docConfigField="docConfig.field"
-                  :confEdit="confEdit"
-                  :confToEdit="confToEdit"
+                  :confEditTitle="confEdit.subfield + '.' + index"
+                  :confEdit="confEdit.object_model"
+                  :confToEdit="subConf"
                   >
                 </BackOfficeJSON>
               </div>
@@ -289,10 +292,10 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
     },
 
     mounted(){
-      this.log && console.log('\nC-BackOff-index.vue / mounted...')
+      // this.log && console.log('\nC-BackOff-index.vue / mounted...')
 
       // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$router : \n', this.$nuxt.$router )
-      this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : \n', this.$nuxt.$route )
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : \n', this.$nuxt.$route )
 
       let currentMenu = this.$nuxt.$route.params.pathMatch
       let currentTab = this.$nuxt.$route.hash
@@ -301,13 +304,13 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
       if (currentMenu === '' ){
         currentMenu = this.activeMenu
       }
-      this.log && console.log('C-BackOff-index.vue / currentMenu : ', currentMenu )
+      // this.log && console.log('C-BackOff-index.vue / currentMenu : ', currentMenu )
       this.setActiveMenu(currentMenu)
       
       if (currentTab === ''){
         currentTab = this.activeTab
       } 
-      this.log && console.log('C-BackOff-index.vue / currentTab : ', currentTab )
+      // this.log && console.log('C-BackOff-index.vue / currentTab : ', currentTab )
       this.setActiveTab(currentTab)
 
       // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
@@ -335,22 +338,6 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
         return menuConfig.tabs
       },
 
-      // getTabConfig() {
-      //   let menuTabs = this.menuTabs(this.activeMenu)
-      //   let activeTab = this.activeTab
-      //   // this.log && console.log('menuTabs : ', menuTabs)
-      //   let tabConfig = menuTabs.find(function(tab) {
-      //     return tab.tab_code === activeTab
-      //   });
-      //   // this.log && console.log('tabConfig : ', tabConfig)
-      //   return tabConfig
-      // },
-
-      // tabDocs() {
-      //   let tabConfig = this.getTabConfig()
-      //   return tabConfig.fields
-      // },
-
       setActiveMenu(menuConfigField) {
         this.activeMenu = menuConfigField
         let menuConfig = this.getMenuConfig(menuConfigField)
@@ -359,8 +346,13 @@ import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
       },
 
       setActiveTab(tabCode) {
-        this.log && console.log('C-BackOff-index.vue / setActiveTab / tabCode : ', tabCode )
+        // this.log && console.log('C-BackOff-index.vue / setActiveTab / tabCode : ', tabCode )
         this.activeTab = tabCode
+      },
+
+      pushTabRoute(tabCode){
+        this.setActiveTab(tabCode) 
+        this.$nuxt.$router.push(this.$nuxt.$route.path + '#' + tabCode )
       },
 
       getConfigDoc(field){
