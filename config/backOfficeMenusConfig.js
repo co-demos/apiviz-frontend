@@ -227,13 +227,13 @@ export const BackofficeGlobal = Object.freeze({
             },
           ]
         },
-        { tab_code : 'na_btn'  , 
-          tab_type : 'docs',
-          title : 'call_button',
-          docs : [
+        // { tab_code : 'na_btn'  , 
+        //   tab_type : 'docs',
+        //   title : 'call_button',
+        //   docs : [
 
-          ]
-        },
+        //   ]
+        // },
       ]
     },
 

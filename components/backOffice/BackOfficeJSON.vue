@@ -30,12 +30,96 @@
         <div class="content">
 
           <!-- DEBUGGING -->
-          configCollection : <code>{{ configCollection }}</code></br>
-          docId : <code>{{ docId }}</code></br>
-          docConfigField : <code>{{ docConfigField }}</code></br>
-          docConfigType : <code>{{ docConfigType }}</code></br>
-          confEdit : <code>{{ confEdit }}</code></br>
-          confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br>
+          <div v-show="isDebug">
+            <!-- configCollection : <code>{{ configCollection }}</code></br> -->
+            
+            <!-- docConfigType : <code>{{ docConfigType }}</code></br> -->
+            
+            <!-- docId : <code>{{ docId }}</code></br> -->
+            <!-- docConfigField : <code>{{ docConfigField }}</code></br> -->
+            
+            <!-- confEdit : <code>{{ confEdit }}</code></br> -->
+            <!-- confEditSubfield : <code>{{ confEditSubfield }}</code></br> -->
+            <!-- confEditTitle : <code>{{ confEditTitle }}</code></br> -->
+
+            <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
+            <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
+          </div>
+
+          <br>
+
+          <!-- using vue-json-edit -->
+          <JsonEditor 
+            :objData="jsonData" 
+            v-model="jsonData" 
+            >
+          </JsonEditor>
+
+          <!-- using vue-json-tree -->
+          <!-- <tree-view
+           :data="jsonData" 
+           :options="{ 
+              maxDepth: 7, 
+              rootObjectKey: confEditSubfield, 
+              modifiable: true,
+              link: false
+            }"
+            @change-data="onChangeData"
+            >
+          </tree-view> -->
+
+          <!-- using vue-json-edit -->
+          <!-- <json-editor 
+            ref="JsonEditor" 
+            :schema="schema" 
+            v-model="testJsonData"
+            > -->
+              <!-- <button @click="submit">submit</button>
+              <button @click="reset">Reset</button> -->
+          <!-- </json-editor> -->
+
+          <!-- using vue-json-editor-block -->
+          <!-- <v-json-editor
+            :data="jsonData"
+            :editable="true"
+            @change="onChangeData"
+          ></v-json-editor> -->
+
+          <!-- SUBMIT -->
+          <br>
+          <div class="field is-grouped">
+
+            <!-- TEST BTN -->
+            <!-- <div class="control">
+              <button 
+                class="button is-link"
+                >
+                Test
+              </button>
+            </div> -->
+
+            <!-- SUBMIT BTN-->
+            <div class="control">
+              <button 
+                class="button is-link"
+                @click="sendConfigModif()"
+                >
+                Submit
+              </button>
+            </div>
+
+            <!-- CANCEL BTN -->
+            <div class="control">
+              <button 
+                class="button is-text"
+                @click="toggleContent()"
+                >
+                Cancel
+              </button>
+            </div>
+
+          </div>
+
 
         </div>
 
@@ -48,6 +132,19 @@
 </template>
 
 <script>
+
+const SCHEMA = {
+  type: 'object',
+  title: 'vue-json-editor demo',
+  properties: {
+    name: {
+      type: 'string',
+    },
+    email: {
+      type: 'string',
+    },
+  },
+};
 
 import { mapState, mapGetters } from 'vuex'
 import axios from 'axios';
@@ -63,6 +160,7 @@ export default {
     'docConfigType',
     'docConfigField',
     'confEdit',
+    'confEditSubfield',
     'confEditTitle',
     'confToEdit'
   ],
@@ -70,10 +168,17 @@ export default {
   data: function () {
 
     return {
-      isOpen : false,
-      customformError : '',
+      isDebug : true, 
 
-      isDefault : undefined,
+      isOpen : false,
+
+      jsonData : undefined,
+
+      schema: SCHEMA,
+      testJsonData : {
+        name: 'Yourtion',
+      },
+
     }
   },
   computed : {
@@ -91,6 +196,7 @@ export default {
   },
 
   beforeMount(){
+    this.jsonData = this.confToEdit
   },
 
   methods : {
@@ -101,6 +207,10 @@ export default {
 
     getText(textCode) {
       return this.$store.getters['config/defaultText']({txt:textCode})
+    },
+
+    onChangeData: function(data) {
+      this.jsonData = data
     },
 
     sendConfigModif(e){
@@ -118,9 +228,9 @@ export default {
         // TO DO 
         test : 'test payload',
         token : this.jwt.access_token,
-        // uuid : this.apivizFrontUUID,
         doc_id : this.docId,
-        // doc_data : this.configBloc
+        doc_subfield : this.confEditSubfield,
+        doc_data : this.jsonData
       }
 
       // build request URL

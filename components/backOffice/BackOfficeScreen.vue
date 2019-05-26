@@ -118,15 +118,13 @@
           <!-- DEBUG -->
           <div>
             <!-- activeTab : <code>{{ activeTab }}</code><br> -->
+            docConfig.type : <code>{{ docConfig.type }}</code><br>
             <!-- conf._id : <code>{{ conf._id }}</code><br> -->
           </div>
 
 
-
           <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
-          <div 
-            v-if="docConfig.type === 'bloc' "
-            >
+          <div v-if="docConfig.type === 'bloc' " >
             <!-- <hr> -->
             <!-- activeMenu : <code>{{ activeMenu }}</code><br> -->
             <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
@@ -147,19 +145,17 @@
                 :docId="conf._id"
                 :docConfigType="docConfig.type"
                 :docConfigField="docConfig.field"
-                :confEditTitle="confEdit.subfield"
                 :confEdit="confEdit"
+                :confEditTitle="confEdit.subfield"
+                :confEditSubfield="confEdit.subfield"
                 :confToEdit="confToEdit"
                 >
               </BackOfficeJSON>
             </div>
           </div>
 
-
-          <!-- SUBFIELDS LIST / f.i. navbar links in app_navbar doc-->
-          <div 
-            v-if="docConfig.type === 'blocs_list' "
-            >
+          <!-- SUBFIELDS LIST / f.i. navbar links in app_navbar doc -->
+          <div v-if="docConfig.type === 'blocs_list' " >
             <!-- <hr> -->
             <!-- activeMenu : <code>{{ activeMenu }}</code><br> -->
             <!-- docConfig.type : <code>{{ docConfig.type }}</code><br> -->
@@ -183,6 +179,7 @@
                   :docId="conf._id"
                   :docConfigType="docConfig.type"
                   :docConfigField="docConfig.field"
+                  :confEditSubfield="confEdit.subfield"
                   :confEditTitle="confEdit.subfield + '.' + index"
                   :confEdit="confEdit.object_model"
                   :confToEdit="subConf"
@@ -193,10 +190,8 @@
             </div>
           </div>
 
-          <!-- DOCS LIST -->
-          <div 
-            v-if="docConfig.type === 'dos_list' "
-            > 
+          <!-- DOCS LIST / f.i. endpoints docs in endpoints collection -->
+          <div v-if="docConfig.type === 'dos_list' " > 
             <hr>
               activeMenu : <code>{{ activeMenu }}</code><br>
               docConfig.type : <code>{{ docConfig.type }}</code><br>

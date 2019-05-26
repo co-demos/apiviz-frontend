@@ -90,6 +90,7 @@ export default {
     '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+    '~/plugins/json-editor',
     { src: '~/plugins/mapbox', mode: 'client' },
   ],
 
