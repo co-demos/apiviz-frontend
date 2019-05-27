@@ -22,7 +22,15 @@
           <div 
             :class="`${ link.has_dropdown ? 'navbar-link is-arrowless' : '' } ${ isItemActive(link) ? 'has-text-primary' : '' }`"
             >
-            <span :class="`${ isItemActive(link) ? 'is-underlined' : '' }`">
+            <span 
+              v-if="link.icon_class && link.icon_class !==''" 
+              class="icon"
+              >
+                <i :class="link.icon_class"></i>
+            </span>
+            <span 
+              :class="`${ isItemActive(link) ? 'is-underlined' : '' }`"
+              >
               {{ translate(link, 'link_text' ) }}
             </span>
           </div>
@@ -121,7 +129,9 @@
         >
 
         <a class="navbar-link is-arrowless">
-          <span class="icon is-large">
+          <span 
+            :class="`icon is-large`"
+            >
             <i class="far fa-user-circle"></i>
           </span>
         </a>

@@ -10,7 +10,7 @@
           >
 
           <h3 class="has-text-left has-text-primary"> 
-            {{ translate(footerLinks(block_pos), 'title_block') }}
+            {{ translate( footerLinks(block_pos), 'title_block' ) }}
           </h3>
 
           <template 
@@ -20,8 +20,8 @@
               <li 
                 v-for="(link, index) in footerLinks(block_pos)['links']"
                 :key="index"
-              >
-                <a :href="link.link_to" target="_blank"> 
+                >
+                <a :href="link.link_to" :target="`${ link.is_external_link ? '_blank' : ''}`"> 
                   {{ translate(link, 'link_text') }}
                 </a>
               </li>
@@ -34,10 +34,11 @@
             <br>
             <div class="content">
               <template  
-                  v-for="(icon, index) in appSocials"
+                v-for="(icon, index) in appSocials"
                 >
                 <!-- {{ icon }} -->
                 <a
+                  v-if="icon.in_footer"
                   class="button is-primary" 
                   :key="index"
                   :href="icon.url" 
