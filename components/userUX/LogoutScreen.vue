@@ -14,14 +14,25 @@
               {{ getText('disconnect_msg') }}
             </h3>
             <div class="box">
-              <router-link 
+
+              <nuxt-link 
+                class="button is-block is-primary is-fullwidth" 
+                :to="'/'"
+                >
+                home
+              </nuxt-link>
+        
+              <br>
+        
+              <nuxt-link 
                 class="button is-block is-primary is-fullwidth" 
                 type="submit" 
                 :to="'/login'"
                 >
                 <!-- RECONNECT -->
                 {{ getText('reconnect') }}
-              </router-link>
+              </nuxt-link>
+
             </div>
           </div>
 
@@ -33,6 +44,16 @@
               {{ getText('want_disconnect') }}
             </h3>
             <div class="box">
+
+              <button
+                class="button is-block is-primary is-fullwidth" 
+                @click="goBack"
+                >
+                back
+              </button>
+
+              <br>
+
               <button 
                 class="button is-block is-primary is-fullwidth" 
                 type="submit" 

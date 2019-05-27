@@ -5,13 +5,26 @@
       
       <!-- CARD HEADER -->
       <div class="card-header">
+
         <a 
           class="card-header-title"
           @click="toggleContent"
           >
+
+          {{ configCollection }} 
+
           <!-- TO DO : translate field code -->
-          {{ configCollection }} > {{ docConfigField }} > {{ confEditTitle }}
+          <span v-if="!['blocs_list'].includes(docConfig.type)">
+            &nbsp; > {{ confEditSubfield }} 
+          </span>
+
+          <span v-if="docConfig.type !== 'docs_list' && confEditTitle !== '' ">
+            &nbsp; > {{ confEditTitle }} 
+          </span>
+
         </a>
+
+
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -22,10 +35,20 @@
       <!-- CARD CONTENTS -->
       <div 
         v-show="isOpen"
-        class="card-content is-paddingless"
         >
 
-        <div class="content">
+        <div 
+          class="card-content"
+          >
+          <span class="icon">
+            <i class="fas fa-info-circle"></i>
+          </span>
+          {{ docHelp }}
+        </div>
+
+        <div 
+          class="card-content is-paddingless"
+          >
 
           <!-- DEBUGGING -->
           <div v-show="isDebug">
@@ -83,7 +106,7 @@
 
           <!-- using vue-json-editor  ( + + ) -->
           <vue-json-editor 
-            v-model="jsonData" 
+            v-model="confToEdit" 
             :show-btns="false" 
             @json-change="onChangeData">
           </vue-json-editor>
@@ -111,11 +134,26 @@
         class="card-footer"
         >
 
+        <!-- DELETE BTN-->
+        <a v-if="docConfig.add_delete"
+          class="card-footer-item"
+          @click="deleteElement()"
+          >
+          <span class="icon">
+            <i class="fas fa-trash-alt"></i>
+          </span>
+          <span>delete</span>
+        </a>
+
         <!-- TEST BTN-->
         <a 
           class="card-footer-item"
+          @click="testConfigModif()"
           >
-          test
+          <span class="icon">
+            <i class="fas fa-eye"></i>
+          </span>
+          <span>test</span>
         </a>
 
         <!-- SUBMIT BTN-->
@@ -123,7 +161,10 @@
           class="card-footer-item"
           @click="sendConfigModif()"
           >
-          save
+          <span class="icon">
+            <i class="far fa-save"></i>
+          </span>
+          <span>save</span>
         </a>
   
         <!-- CANCEL BTN -->
@@ -131,7 +172,10 @@
           class="card-footer-item"
           @click="toggleContent()"
           >
-          cancel
+          <span class="icon">
+            <i class="fas fa-times"></i>
+          </span>
+          <span>cancel</span>
         </a>
 
       </footer>
@@ -145,124 +189,118 @@
 
 <script>
 
-const SCHEMA = {
-  type: 'object',
-  title: 'vue-json-editor demo',
-  properties: {
-    name: {
-      type: 'string',
+  import { mapState, mapGetters } from 'vuex'
+  import axios from 'axios';
+
+  export default {
+
+    components: {
     },
-    email: {
-      type: 'string',
+
+    props: [
+      'configCollection',
+      'docId',
+      'docHelp',
+
+      'docConfig',
+
+      'confEdit',
+      'confEditSubfield',
+      'confEditTitle',
+      'confToEdit'
+    ],
+
+    data: function () {
+
+      return {
+        isDebug : true, 
+
+        isOpen : false,
+
+        jsonData : undefined,
+
+      }
     },
-  },
-};
+    computed : {
 
-import { mapState, mapGetters } from 'vuex'
-import axios from 'axios';
+      ...mapState({
+        log : state => state.log, 
+        jwt : state => state.user.jwt,
+      }),
 
-export default {
+      ...mapGetters({
+        apivizFrontUUID : 'getApivizFrontUUID',
+        rootUrlBackend: 'getRootUrlBackend',
+        displayableItem : 'search/getDisplayedProject'
+      })
+    },
 
-  components: {
-  },
+    beforeMount(){
+      // this.jsonData = this.confToEdit
+    },
 
-  props: [
-    'configCollection',
-    'docId',
-    'docConfigType',
-    'docConfigField',
-    'confEdit',
-    'confEditSubfield',
-    'confEditTitle',
-    'confToEdit'
-  ],
-
-  data: function () {
-
-    return {
-      isDebug : true, 
-
-      isOpen : false,
-
-      jsonData : undefined,
-
-      schema: SCHEMA,
-      testJsonData : {
-        name: 'Yourtion',
+    methods : {
+      
+      toggleContent() {
+        this.isOpen = !this.isOpen
       },
 
-    }
-  },
-  computed : {
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
 
-    ...mapState({
-      log : state => state.log, 
-      jwt : state => state.user.jwt,
-    }),
+      onChangeData: function(data) {
+        this.jsonData = data
+      },
 
-    ...mapGetters({
-      apivizFrontUUID : 'getApivizFrontUUID',
-      rootUrlBackend: 'getRootUrlBackend',
-      displayableItem : 'search/getDisplayedProject'
-    })
-  },
+      sendConfigModif(e){
 
-  beforeMount(){
-    this.jsonData = this.confToEdit
-  },
+        let currentColl = this.configCollection
+        let argsConfig = ''
+        if (currentColl === 'routes' || currentColl === 'endpoints'){
+          argsConfig = '&as_list=true'
+        } 
 
-  methods : {
-    
-    toggleContent() {
-      this.isOpen = !this.isOpen
-    },
+        this.customformError = ''
+        e.preventDefault()
 
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
-    },
+        let payload = {
+          // TO DO 
+          test : 'test payload',
+          token : this.jwt.access_token,
+          doc_id : this.docId,
+          doc_subfield : this.confEditSubfield,
+          doc_data : this.jsonData
+        }
 
-    onChangeData: function(data) {
-      this.jsonData = data
-    },
+        // build request URL
+        let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
+        this.log && console.log('requestUrl : ', requestUrl)
 
-    sendConfigModif(e){
+        // post request
+        axios
+          .post( requestUrl, payload )
+          .catch( (error) => {
+            this.log && console.log(error)
+            this.customformError = 'Modif failed'
+          })
+          .then(response => 
+            this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+          )
 
-      let currentColl = this.configCollection
-      let argsConfig = ''
-      if (currentColl === 'routes' || currentColl === 'endpoints'){
-        argsConfig = '&as_list=true'
-      } 
+      },
 
-      this.customformError = ''
-      e.preventDefault()
-
-      let payload = {
+      testConfigModif(){
         // TO DO 
-        test : 'test payload',
-        token : this.jwt.access_token,
-        doc_id : this.docId,
-        doc_subfield : this.confEditSubfield,
-        doc_data : this.jsonData
-      }
+        this.log && console.log("\nC-BackOfficeJSON / testConfigModif ... ")
+      },
 
-      // build request URL
-      let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
-      this.log && console.log('requestUrl : ', requestUrl)
-
-      // post request
-      axios
-        .post( requestUrl, payload )
-        .catch( (error) => {
-          this.log && console.log(error)
-          this.customformError = 'Modif failed'
-        })
-        .then(response => 
-          this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
-        )
-
+      deleteElement(){
+        // TO DO 
+        this.log && console.log("\nC-BackOfficeJSON / deleteElement ... ")
+      },
     }
   }
-}
 </script>
 
 <style>

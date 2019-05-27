@@ -1,7 +1,9 @@
 import axios from 'axios'
+import Cookie from 'js-cookie'
+
 import {  
   getObjectDataFromPath,
-  } from '~/plugins/utils.js';
+} from '~/plugins/utils.js'
 
 export const state = () => ({
 
@@ -46,7 +48,7 @@ export const mutations = {
     console.log('tokens : ', tokens)
     // state.jwt = (tokens && tokens.access_token && tokens.refresh_token) ? tokens : undefined
     state.jwt = tokens
-    state.log && console.log('S-user-M-setTokesn / state.jwt : ', state.jwt)
+    state.log && console.log('S-user-M-setTokens / state.jwt : ', state.jwt)
   },
   setInfos (state, {infos}) {
     state.user.infos = (infos && infos.email) ? infos : undefined
@@ -98,6 +100,13 @@ export const actions = {
     // let role = (r && r.data && r.data.data && r.data.data.auth && r.data.data.auth.role) ? r.data.data.auth.role : undefined
     let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
 
+    // set cookies
+    Cookie.set("access_token",  tokens.access_token )
+    Cookie.set("refresh_token", tokens.refresh_token )
+    Cookie.set("user_name", infos.name )
+    Cookie.set("user_email", infos.email )
+
+    // commit to store's state
     commit('setTokens', {tokens})
     commit('setInfos',  {infos})
     commit('setRole',   {role})
@@ -108,6 +117,12 @@ export const actions = {
   },
   
   logout({commit}){
+
+    Cookie.remove('access_token');
+    Cookie.remove('refresh_token');
+    Cookie.remove('user_name');
+    Cookie.remove("user_email");
+
     commit('setTokens', {})
     commit('setInfos',  {})
     commit('setRole',   {})

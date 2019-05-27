@@ -502,7 +502,7 @@ export default {
       //  CHOROPLETH
       // 0 - adding layer to display choropleth
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - choropleth - layer / choroplethConfig : ", choroplethConfig)
-      mapboxMap.addLayer(choroplethConfig)
+      // mapboxMap.addLayer(choroplethConfig)
 
 
       //  HEATMAP
