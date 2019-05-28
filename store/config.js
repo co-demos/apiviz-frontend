@@ -228,7 +228,6 @@ export const mutations = {
 
   setConfig(state, {type,result}) {
     // state.log && console.log("S-setConfig ... result : ", result)
-    // state.log && console.log("result : ", result)
     state.config[type] = result
   },
   setLocalRouteConfig(state, routeConfig) {
@@ -309,6 +308,36 @@ export const actions = {
       console.log('S-config-A-editConfig / response : \n', response)
       // reset config after update
       // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+      return response
+      }
+    )
+
+  },
+
+  deleteConfig({state, getters, rootGetters}, request){
+
+    state.log && console.log("S-config-A-deleteConfig / request : \n", request)
+
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    const currentColl = request.currentColl
+    const docId = request.doc_id
+    const accessToken = request.token
+
+    // build request URL
+    let requestUrl = rootURLbackend+'/config/'+currentColl+"/"+docId+"?uuid="+apivizFrontUUID
+    state.log && console.log('S-config-A-deleteConfig / requestUrl : ', requestUrl)
+
+    // post update request
+   return axios
+    .delete( requestUrl, {data : {token : accessToken} } )
+    .catch( (error) => {
+      console.log(error)
+    })
+    .then(response => {
+      console.log('S-config-A-deleteConfig / response : \n', response)
+      // reset config after update
       return response
       }
     )

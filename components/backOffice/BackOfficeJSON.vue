@@ -125,6 +125,9 @@
               <li>
                 modify the values
               </li>
+              <li>
+                check 'is_default' as False (experimental). This 
+              </li>
               <li v-show="docConfig.canAddKeys">
                 add new key(s) at your own risk
               </li>
@@ -237,7 +240,7 @@
         </a>
 
         <!-- TEST BTN-->
-        <a 
+        <!-- <a 
           class="card-footer-item"
           @click="testConfigModif()"
           >
@@ -245,7 +248,7 @@
             <i class="fas fa-eye"></i>
           </span>
           <span>test</span>
-        </a>
+        </a> -->
 
         <!-- SUBMIT BTN-->
         <a 
@@ -378,15 +381,11 @@
         this.customformError = ''
 
         let currentColl = this.configCollection
-        let argsConfig = ''
-        if (currentColl === 'routes' || currentColl === 'endpoints'){
-          argsConfig = '&as_list=true'
-        } 
 
         // remap docConfig
-        let editConfig = {
-          editType : this.docConfig.type,
-        }
+        // let editConfig = {
+        //   editType : this.docConfig.type,
+        // }
 
         // build payload
         let payload = {
@@ -404,31 +403,24 @@
           currentColl : currentColl,
           payload : payload,
         }
-        // // build request URL
-        // let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
-        // this.log && console.log('C-BackOfficeJSON / sendConfigModif / requestUrl : ', requestUrl)
 
-        // // post request
-        // axios
-        //   .post( requestUrl, payload )
-        //   .catch( (error) => {
-        //     this.isLoading = false
-        //     this.log && console.log(error)
-        //     this.customformError = 'Modif failed'
-        //   })
-        //   .then(response => 
-        //     this.isLoading = false
-        //     // reset config after update
-        //     // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
-        //   )
         this.$store.dispatch('config/editConfig', updateRequest)
           .then( resp => {
+
             this.isLoading = false
             // console.log('C-BackOfficeJSON / sendConfigModif / resp', resp)
             console.log('C-BackOfficeJSON / sendConfigModif / resp.data', resp.data)
+            
+            // retrieve back the config on 
+            let needArgs = ['routes', 'tabs', 'endpoints']
+            let dispatchConfig = {
+              type : currentColl,    
+              configTypeEndpoint : currentColl, 
+              args : ( needArgs.includes(currentColl) ? '&as_list=true' : '' )
             }
-          )
-
+            this.$store.dispatch('config/getConfigType', dispatchConfig )
+            console.log('C-BackOfficeJSON / sendConfigModif / config/getConfigType END...')
+          })
       },
 
       testConfigModif(){
@@ -440,8 +432,37 @@
         this.log && console.log("\nC-BackOfficeJSON / deleteElement ... ")
         // TO DO 
         // open confirm delete modal
+        this.isLoading = true
 
-        this.toggleModal()
+        let currentColl = this.configCollection
+
+        // build deleteRequest
+        let deleteRequest = {
+          currentColl : currentColl,
+          doc_id : this.docId,
+          token : this.jwt.access_token,
+        }
+        this.log && console.log('C-BackOfficeJSON / deleteElement / deleteRequest : \n', deleteRequest)
+
+        this.$store.dispatch('config/deleteConfig', deleteRequest)
+          .then( resp => {
+
+            this.isLoading = false
+            this.toggleModal()
+
+            console.log('C-BackOfficeJSON / deleteElement / resp.data', resp.data)
+            
+            // retrieve back the config on 
+            let needArgs = ['routes', 'tabs', 'endpoints']
+            let dispatchConfig = {
+              type : currentColl,    
+              configTypeEndpoint : currentColl, 
+              args : ( needArgs.includes(currentColl) ? '&as_list=true' : '' )
+            }
+            this.$store.dispatch('config/getConfigType', dispatchConfig )
+            console.log('C-BackOfficeJSON / deleteElement / config/getConfigType END...')
+          })
+
 
       },
     }
