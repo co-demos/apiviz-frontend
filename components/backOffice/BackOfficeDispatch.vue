@@ -22,8 +22,8 @@
       </BackOfficeJSON>
     </div>
 
-    <!-- SUBFIELDS LIST / f.i. navbar links in app_navbar doc -->
-    <div v-if="docConfig.type === 'blocs_list' " 
+    <!-- DEPRECATED (FOR NOW) // SUBFIELDS LIST / f.i. navbar links in app_navbar doc -->
+    <div v-if="docConfig.type === 'blocs_list' "  
       >
 
       <!-- LOOP DOCCONFIG EDIT -->

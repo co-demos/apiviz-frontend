@@ -119,7 +119,7 @@
                 add new key(s) at your own risk
               </li>
               <li v-show="docConfig.canAddToList">
-                add new enntries to the lists (but beware to respect the format)
+                add new entries to the lists (but beware to respect the format)
               </li>
               <li v-show="!docConfig.canModifKeys">
                 modifying the keys will not be taken into accoun
@@ -195,17 +195,17 @@
 
         </div>
 
-          <!-- DEBUGGING -->
-        <div v-show="isDebug" class="card-content">
-          apivizFrontUUID : <code>{{ apivizFrontUUID }}</code></br>            
-          configCollection : <code>{{ configCollection }}</code></br>            
-          docId : <code>{{ docId }}</code></br>
-          docConfig.type : <code>{{ docConfig.type }}</code></br>
-          confEditSubfield : <code>{{ confEditSubfield }}</code></br>
+        <!-- DEBUGGING -->
+        <!-- <div v-show="isDebug" class="card-content"> -->
+          <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code></br>             -->
+          <!-- configCollection : <code>{{ configCollection }}</code></br>             -->
+          <!-- docId : <code>{{ docId }}</code></br> -->
+          <!-- docConfig.type : <code>{{ docConfig.type }}</code></br> -->
+          <!-- confEditSubfield : <code>{{ confEditSubfield }}</code></br> -->
           <!-- docConfig : <br><pre><code>{{ JSON.stringify(docConfig, null, 1) }}</code></pre></br> -->
           <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
           <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
-        </div>
+        <!-- </div> -->
 
       </div>
 
@@ -383,7 +383,7 @@
           doc_coll : this.configCollection,
           // doc_uuid : this.apivizFrontUUID,
           doc_id : this.docId,
-          doc_subfield : this.confEditSubfield,
+          // doc_subfield : this.confEditSubfield,
           doc_config : this.docConfig,
           doc_data : (this.jsonData ? this.jsonData : this.confToEdit )
         }
