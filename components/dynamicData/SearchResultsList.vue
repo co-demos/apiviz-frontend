@@ -116,7 +116,7 @@ export default {
   },
 
   watch: {
-    projects(prev, next){
+    projects(next, prev){
       this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount'];
     }
   },

@@ -105,8 +105,9 @@
         <!-- DOCUMENTATION modal -->
         <BackOfficeDocModal
           :currentColl="activeMenu"
-          :currentTab="activeTab"
+          :currentTab="getTabConfig"
         />
+          <!-- :currentTab="activeTab" -->
         <br>
 
         <!-- JSON CONTENTS -->
@@ -118,6 +119,7 @@
           <!-- JSON data -->
           <BackOfficeDispatch
             :activeMenu="activeMenu"
+            :currentTab="getTabConfig"
             :docConfig="docConfig"
             :conf="getConfigDocs(docConfig)"
           >

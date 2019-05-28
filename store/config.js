@@ -40,7 +40,7 @@ export const getters = {
       });
     },
     getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
-      state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / endpointType : ", endpointType)
+      // state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / endpointType : ", endpointType)
       let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
       // state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
       return allAuthEndpoints.find(function(r) {
@@ -255,14 +255,14 @@ export const mutations = {
 export const actions = {
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    // state.log && console.log("getConfigType / type : ", type)
+    // state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
     return axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
     .then(response => {
-      // state.log && console.log("\ngetConfigType / type : ", type)
-      // state.log && console.log("getConfigType / response : ", response)
+      // state.log && console.log("\nS-config-A-getConfigType / getConfigType / type : ", type)
+      // state.log && console.log("S-config-A-getConfigType / getConfigType / response : ", response)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
       commit('setConfig', {type:type,result:app_config}); 
       return app_config
@@ -285,6 +285,34 @@ export const actions = {
     return Promise.all(arr)
   },
 
+  editConfig({state, getters, rootGetters}, request){
 
+    state.log && console.log("S-config-A-editConfig / request : \n", request)
+
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    const currentColl = request.currentColl
+    const payload = request.payload
+
+    // build request URL
+    let requestUrl = rootURLbackend+'/config/'+currentColl+"?uuid="+apivizFrontUUID
+    state.log && console.log('S-config-A-editConfig / requestUrl : ', requestUrl)
+
+    // post update request
+   return axios
+    .post( requestUrl, payload )
+    .catch( (error) => {
+      console.log(error)
+    })
+    .then(response => {
+      console.log('S-config-A-editConfig / response : \n', response)
+      // reset config after update
+      // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+      return response
+      }
+    )
+
+  }
 
 }

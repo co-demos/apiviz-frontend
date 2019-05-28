@@ -87,24 +87,49 @@
         >
 
         <!-- HELPER AND DEBUGGING -->
-        <div 
-          class="card-content"
-          >
-          <span class="icon">
-            <i class="fas fa-info-circle"></i>
-          </span>
-          {{ docHelp }}
+        <div class="card-content">
 
-          <!-- DEBUGGING -->
-          <div v-show="isDebug">
-            <br>
-            apivizFrontUUID : <code>{{ apivizFrontUUID }}</code></br>            
-            configCollection : <code>{{ configCollection }}</code></br>            
-            docId : <code>{{ docId }}</code></br>
-            <!-- docConfig : <br><pre><code>{{ JSON.stringify(docConfig, null, 1) }}</code></pre></br> -->
-            <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
-            <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
+          <!-- FIELD'S HELP -->
+          <p>
+            <span class="icon">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span>{{ docHelp }}</span>
+          </p>
+
+          <!-- WARNINGS -->
+          <div class="content has-text-danger">
+            <hr>
+            <p>
+              <span class="icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+              <span>
+                you can do the following (experimental) : 
+              </span>
+            </p>
+            <ul>
+              <li v-show="docConfig.add_delete">
+                delete or duplicate this element
+              </li>
+              <li>
+                modify the values
+              </li>
+              <li v-show="docConfig.canAddKeys">
+                add new key(s) at your own risk
+              </li>
+              <li v-show="docConfig.canAddToList">
+                add new enntries to the lists (but beware to respect the format)
+              </li>
+              <li v-show="!docConfig.canModifKeys">
+                modifying the keys will not be taken into accoun
+              </li>
+              <li v-show="docConfig.canModifKeys">
+                modify the existing keys (at your own risk
+              </li>
+            </ul>
           </div>
+
         </div>
 
         <!-- JSON EDITOR -->
@@ -114,7 +139,7 @@
 
           <!-- using vue-json-editor  ( + + ) -->
           <vue-json-editor 
-            v-model="confToEdit" 
+            v-model="jsonData" 
             :show-btns="false" 
             @json-change="onChangeData">
           </vue-json-editor>
@@ -170,6 +195,18 @@
 
         </div>
 
+          <!-- DEBUGGING -->
+        <div v-show="isDebug" class="card-content">
+          apivizFrontUUID : <code>{{ apivizFrontUUID }}</code></br>            
+          configCollection : <code>{{ configCollection }}</code></br>            
+          docId : <code>{{ docId }}</code></br>
+          docConfig.type : <code>{{ docConfig.type }}</code></br>
+          confEditSubfield : <code>{{ confEditSubfield }}</code></br>
+          <!-- docConfig : <br><pre><code>{{ JSON.stringify(docConfig, null, 1) }}</code></pre></br> -->
+          <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
+          <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
+        </div>
+
       </div>
 
       <!-- CARD FOOTER / SUBMIT -->
@@ -207,7 +244,7 @@
           >
           <span class="icon">
             <i 
-              :class="`${isLoading ? 'fa-spinner fa-pulse' : 'far fa-save'}`">
+              :class="`${isLoading ? 'fas fa-spinner fa-pulse' : 'far fa-save'}`">
             </i>
           </span>
           <span v-show="!isLoading">
@@ -247,6 +284,7 @@
 
     props: [
       'configCollection',
+      'currentTab',
       'docId',
       'docHelp',
 
@@ -268,6 +306,17 @@
       }
     },
 
+    watch : {
+      confToEdit(next, prev) {
+        // this.log && console.log('C-BackOfficeJSON / watch / confToEdit / prev : \n', prev)
+        // this.log && console.log('C-BackOfficeJSON / watch / confToEdit / next : \n', next)
+        this.jsonData = next
+      },
+      currentTab(next, prev) {
+        this.isOpen = false
+      },
+    },
+
     computed : {
 
       ...mapState({
@@ -283,7 +332,8 @@
     },
 
     beforeMount(){
-      // this.jsonData = this.confToEdit
+      // this.log && console.log('C-BackOfficeJSON / beforeMount / this.confToEdit : \n', this.confToEdit)
+      this.jsonData = this.confToEdit
     },
 
     methods : {
@@ -304,6 +354,11 @@
         this.jsonData = data
       },
 
+      // arrayFromObjectsArray(objArray, property){
+      //   let array = objArray.map( a => a[property] )
+      //   return array
+      // },
+
       sendConfigModif(){
 
         this.log && console.log("--- --- ---")
@@ -317,35 +372,50 @@
           argsConfig = '&as_list=true'
         } 
 
+        // remap docConfig
+        let editConfig = {
+          editType : this.docConfig.type,
+        }
+
+        // build payload
         let payload = {
-          // TO DO 
           token : this.jwt.access_token,
-          add_element : this.add_element,
           doc_coll : this.configCollection,
-          doc_uuid : this.apivizFrontUUID,
+          // doc_uuid : this.apivizFrontUUID,
           doc_id : this.docId,
           doc_subfield : this.confEditSubfield,
           doc_config : this.docConfig,
-          doc_data : this.jsonData
+          doc_data : (this.jsonData ? this.jsonData : this.confToEdit )
         }
         this.log && console.log('C-BackOfficeJSON / sendConfigModif / payload : \n', payload)
 
-        // build request URL
-        let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
-        this.log && console.log('C-BackOfficeJSON / sendConfigModif / requestUrl : ', requestUrl)
+        let updateRequest = {
+          currentColl : currentColl,
+          payload : payload,
+        }
+        // // build request URL
+        // let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
+        // this.log && console.log('C-BackOfficeJSON / sendConfigModif / requestUrl : ', requestUrl)
 
-        // post request
-        axios
-          .post( requestUrl, payload )
-          .catch( (error) => {
+        // // post request
+        // axios
+        //   .post( requestUrl, payload )
+        //   .catch( (error) => {
+        //     this.isLoading = false
+        //     this.log && console.log(error)
+        //     this.customformError = 'Modif failed'
+        //   })
+        //   .then(response => 
+        //     this.isLoading = false
+        //     // reset config after update
+        //     // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+        //   )
+        this.$store.dispatch('config/editConfig', updateRequest)
+          .then( resp => {
             this.isLoading = false
-            this.log && console.log(error)
-            this.customformError = 'Modif failed'
-          })
-          .then(response => 
-            this.isLoading = false
-            // reset config after update
-            // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+            // console.log('C-BackOfficeJSON / sendConfigModif / resp', resp)
+            console.log('C-BackOfficeJSON / sendConfigModif / resp.data', resp.data)
+            }
           )
 
       },

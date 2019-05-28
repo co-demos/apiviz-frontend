@@ -66,6 +66,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : 'app_languages',
               title : '',
               type : 'blocs', 
+              canAddToList : true,
               edit : [
                 {subfield : 'locale'}, 
                 {subfield : 'languages', type : 'text', list : true}
@@ -168,6 +169,7 @@ export const BackofficeGlobal = Object.freeze({
               field : 'app_basic_dict',
               title : '',
               type : 'blocs', 
+              canAddKeys : true,
               edit : [
                 {subfield : 'no_data'},
                 {subfield : 'reinit_filters'},
@@ -218,6 +220,7 @@ export const BackofficeGlobal = Object.freeze({
         },
       ]
     },
+    
     // NAVBAR
     { config_coll : 'navbar',
       title : 'navbar',
@@ -279,6 +282,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '',
               title : 'dynamic routes',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'is_dynamic', is : [true] },
                 { field : 'dynamic_template', isNot : ['DynamicStatic', 'Login', 'Register', 'Logout', 'BackOffice'] },
@@ -302,6 +306,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '',
               title : 'static routes',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'dynamic_template', is : ['DynamicStatic'] },
               ],
@@ -324,6 +329,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '',
               title : 'auth routes',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'is_dynamic', is : [true] },
                 { field : 'dynamic_template', is : ['Login', 'Register', 'Logout', 'BackOffice'] },
@@ -355,6 +361,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '-',
               title : 'data filters',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'data_type', is : ['data'] },
                 { field : 'endpoint_type', is : ['filters'] },
@@ -378,6 +385,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '-',
               title : 'data endpoints',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'data_type', is : ['data'] },
                 { field : 'endpoint_type', isNot : ['filters'] },
@@ -401,6 +409,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '-',
               title : 'auth endpoints',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'endpoint_type', is : ['auth_root'] },
               ],
@@ -422,6 +431,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : '-',
               title : 'user endpoints',
               type : 'docs_list', 
+              canAddToList : true,
               list_filters : [
                 { field : 'data_type', is : ['user'] },
                 { field : 'endpoint_type', isNot : ['auth_root'] },
@@ -573,6 +583,7 @@ export const BackofficeGlobal = Object.freeze({
             { field : 'app_banners',
               title : 'banners',
               type : 'blocs', 
+              canAddToList : true,
               edit : [
                 { subfield : 'banners_set'},
               ], 
@@ -582,6 +593,7 @@ export const BackofficeGlobal = Object.freeze({
         { tab_code : 'st_images', 
           tab_type : 'docs',
           title : 'default images',
+          canAddToList : true,
           docs : [
             { field : 'app_search_default_images_sets',
               title : 'images',

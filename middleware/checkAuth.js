@@ -19,14 +19,14 @@ export default function ({ req, store, route, redirect }) {
 
   // retrieving cookie 
 	if ( process.server ) {
-    log && console.log("- - - checkTokens : process.server == TRUE ") 
+    // log && console.log("-M4-checkAuth / process.server == TRUE ") 
     if ( req.headers.cookie ) {
-      log && console.log("- - - checkTokens (server-side) : COOKIE DETECTED ")
+      // log && console.log("-M4-checkAuth / (server-side) : COOKIE DETECTED ")
       cookie = req.headers.cookie ;
     }
   } 
   else {
-    log && console.log("- - - checkTokens : process.server == FALSE ") ; 
+    // log && console.log("-M4-checkAuth / process.server == FALSE ") ; 
 		cookie = document.cookie ;
   }
   

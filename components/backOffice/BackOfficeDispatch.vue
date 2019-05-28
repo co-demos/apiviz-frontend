@@ -7,6 +7,7 @@
       >
       <BackOfficeJSON
         :configCollection="activeMenu"
+        :currentTab="currentTab"
         :docId="conf._id"
         :docHelp="conf.help"
 
@@ -35,6 +36,7 @@
           >
           <BackOfficeJSON
             :configCollection="activeMenu"
+            :currentTab="currentTab"
             :docId="conf._id"
             :docHelp="subConf[docConfig.help_field]"
 
@@ -62,6 +64,7 @@
         >
         <BackOfficeJSON
           :configCollection="activeMenu"
+          :currentTab="currentTab"
           :docId="docConf._id"
           :docHelp="docConf[docConfig.help_field]"
 
@@ -90,7 +93,7 @@
           <i class="fas fa-plus"></i>
         </span>
         <span>
-          Add element
+          Add {{ currentTab.title }}
         </span>
       </a>
     </div>
@@ -115,6 +118,7 @@
     props: [
       'activeMenu',
       'docConfig',
+      'currentTab',
       'conf'
     ],
 
@@ -175,7 +179,7 @@
       },
 
       filterObjectOut(obj, notAllowedKeys){
-        // this.log && console.log("\nC-BackOfficeDispatch / filterObject / allowedKeys :", allowedKeys)
+        // this.log && console.log("\nC-BackOfficeDispatch / filterObjectOut / notAllowedKeys :", notAllowedKeys)
         let allowedKeys = Object.keys(obj).filter( k => !notAllowedKeys.includes(k))
         return filterObjectByKey(obj, allowedKeys)
       },
