@@ -19,6 +19,7 @@
         v-if="user.isLoggedin"
         class="menu-label is-hidden-touch"
         >
+        <!-- TO DO : translate this -->
         PREFERENCES
       </p>
       <ul 
@@ -98,22 +99,28 @@
         <!-- DEBUG -->
         <div>
           <!-- getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br> -->
-          <!-- getTabConfig.tab_type : <code>{{ getTabConfig.tab_type }}</code><br> -->
-        </div>
         <!-- <hr> -->
-        
-        <!-- CONTENTS -->
+        </div>
+
+        <!-- DOCUMENTATION modal -->
+        <BackOfficeDocModal
+          :currentColl="activeMenu"
+          :currentTab="activeTab"
+        />
+        <br>
+
+        <!-- JSON CONTENTS -->
         <div 
           v-for="(docConfig, indexTabDoc) in tabDocs"
           :key="indexTabDoc"
           >
 
+          <!-- JSON data -->
           <BackOfficeDispatch
             :activeMenu="activeMenu"
             :docConfig="docConfig"
             :conf="getConfigDocs(docConfig)"
           >
-
           </BackOfficeDispatch>
 
         </div>
@@ -131,6 +138,7 @@
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 
+  import BackOfficeDocModal from './BackOfficeDocModal.vue';
   import BackOfficeDispatch from './BackOfficeDispatch.vue';
   // import BackOfficeForm from './BackOfficeForm.vue';
   // import BackOfficeJSON from './BackOfficeJSON.vue';
@@ -141,6 +149,7 @@
       // BackOfficeForm,
       // BackOfficeJSON,
       BackOfficeDispatch,
+      BackOfficeDocModal,
     },
 
     props: [

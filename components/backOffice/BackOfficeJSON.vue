@@ -1,6 +1,55 @@
 <template>
   <div>
 
+    <!-- DIALOG MODAL DELETE-->
+    <div 
+      v-if="docConfig.add_delete"
+      :class="`modal ${isModalOpen ? 'is-active' : ''}`"
+      >
+      <div class="modal-background"></div>
+      <div class="modal-card">
+
+        <header class="modal-card-head">
+          <p class="modal-card-title has-text-centered">
+            Are you sure you want to delete this element ? 
+          </p>
+          <!-- <button 
+            class="delete" 
+            aria-label="close"
+            @click="toggleModal()"
+            >
+          </button> -->
+        </header>
+
+        <!-- <section class="modal-card-body has-text-centered">
+          <h2>
+            Are you sure you want to delete this element ? 
+          </h2>
+        </section> -->
+
+        <footer class="modal-card-foot">
+          <a class="card-footer-item"
+            @click="toggleModal()"
+            >
+            <span class="icon">
+              <i class="fas fa-times"></i>
+            </span>
+            <span>cancel</span>
+          </a>
+          <a class="card-footer-item"
+            @click="deleteElement()"
+            >
+            <span class="icon">
+              <i class="fas fa-trash-alt"></i>
+            </span>
+            <span>delete</span>
+          </a>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- CARD -->
     <div class="card">
       
       <!-- CARD HEADER -->
@@ -37,6 +86,7 @@
         v-show="isOpen"
         >
 
+        <!-- HELPER AND DEBUGGING -->
         <div 
           class="card-content"
           >
@@ -44,28 +94,30 @@
             <i class="fas fa-info-circle"></i>
           </span>
           {{ docHelp }}
+
+          <!-- DEBUGGING -->
+          <div v-show="isDebug">
+            <br>
+            apivizFrontUUID : <code>{{ apivizFrontUUID }}</code></br>            
+            configCollection : <code>{{ configCollection }}</code></br>            
+            docId : <code>{{ docId }}</code></br>
+            <!-- docConfig : <br><pre><code>{{ JSON.stringify(docConfig, null, 1) }}</code></pre></br> -->
+            <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
+            <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
+          </div>
         </div>
 
+        <!-- JSON EDITOR -->
         <div 
           class="card-content is-paddingless"
           >
 
-          <!-- DEBUGGING -->
-          <div v-show="isDebug">
-            <!-- configCollection : <code>{{ configCollection }}</code></br> -->
-            
-            <!-- docConfigType : <code>{{ docConfigType }}</code></br> -->
-            
-            <!-- docId : <code>{{ docId }}</code></br> -->
-            <!-- docConfigField : <code>{{ docConfigField }}</code></br> -->
-            
-            <!-- confEdit : <code>{{ confEdit }}</code></br> -->
-            <!-- confEditSubfield : <code>{{ confEditSubfield }}</code></br> -->
-            <!-- confEditTitle : <code>{{ confEditTitle }}</code></br> -->
-
-            <!-- confToEdit  : <br><pre><code>{{ JSON.stringify(confToEdit, null, 1) }}</code></pre></br> -->
-            <!-- jsonData  : <br><pre><code>{{ JSON.stringify(jsonData, null, 1) }}</code></pre></br> -->
-          </div>
+          <!-- using vue-json-editor  ( + + ) -->
+          <vue-json-editor 
+            v-model="confToEdit" 
+            :show-btns="false" 
+            @json-change="onChangeData">
+          </vue-json-editor>
 
           <!-- using vue-json-edit -->
           <!-- <JsonEditor 
@@ -104,14 +156,6 @@
             @change="onChangeData"
           ></v-json-editor> -->
 
-          <!-- using vue-json-editor  ( + + ) -->
-          <vue-json-editor 
-            v-model="confToEdit" 
-            :show-btns="false" 
-            @json-change="onChangeData">
-          </vue-json-editor>
-
-
           <!-- using vue-edit-json  ( + + + ) BUT ERROR AT INSTALL/BUILD -->
           <!-- <JsonEditor 
             :is-edit="true" 
@@ -137,7 +181,7 @@
         <!-- DELETE BTN-->
         <a v-if="docConfig.add_delete"
           class="card-footer-item"
-          @click="deleteElement()"
+          @click="toggleModal()"
           >
           <span class="icon">
             <i class="fas fa-trash-alt"></i>
@@ -162,9 +206,13 @@
           @click="sendConfigModif()"
           >
           <span class="icon">
-            <i class="far fa-save"></i>
+            <i 
+              :class="`${isLoading ? 'fa-spinner fa-pulse' : 'far fa-save'}`">
+            </i>
           </span>
-          <span>save</span>
+          <span v-show="!isLoading">
+            save
+          </span>
         </a>
   
         <!-- CANCEL BTN -->
@@ -211,16 +259,15 @@
     ],
 
     data: function () {
-
       return {
         isDebug : true, 
-
         isOpen : false,
-
         jsonData : undefined,
-
+        isModalOpen : false,
+        isLoading : false,
       }
     },
+
     computed : {
 
       ...mapState({
@@ -245,6 +292,10 @@
         this.isOpen = !this.isOpen
       },
 
+      toggleModal() {
+        this.isModalOpen = !this.isModalOpen
+      },
+
       getText(textCode) {
         return this.$store.getters['config/defaultText']({txt:textCode})
       },
@@ -253,7 +304,12 @@
         this.jsonData = data
       },
 
-      sendConfigModif(e){
+      sendConfigModif(){
+
+        this.log && console.log("--- --- ---")
+
+        this.isLoading = true
+        this.customformError = ''
 
         let currentColl = this.configCollection
         let argsConfig = ''
@@ -261,31 +317,35 @@
           argsConfig = '&as_list=true'
         } 
 
-        this.customformError = ''
-        e.preventDefault()
-
         let payload = {
           // TO DO 
-          test : 'test payload',
           token : this.jwt.access_token,
+          add_element : this.add_element,
+          doc_coll : this.configCollection,
+          doc_uuid : this.apivizFrontUUID,
           doc_id : this.docId,
           doc_subfield : this.confEditSubfield,
+          doc_config : this.docConfig,
           doc_data : this.jsonData
         }
+        this.log && console.log('C-BackOfficeJSON / sendConfigModif / payload : \n', payload)
 
         // build request URL
         let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
-        this.log && console.log('requestUrl : ', requestUrl)
+        this.log && console.log('C-BackOfficeJSON / sendConfigModif / requestUrl : ', requestUrl)
 
         // post request
         axios
           .post( requestUrl, payload )
           .catch( (error) => {
+            this.isLoading = false
             this.log && console.log(error)
             this.customformError = 'Modif failed'
           })
           .then(response => 
-            this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+            this.isLoading = false
+            // reset config after update
+            // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
           )
 
       },
@@ -296,8 +356,12 @@
       },
 
       deleteElement(){
-        // TO DO 
         this.log && console.log("\nC-BackOfficeJSON / deleteElement ... ")
+        // TO DO 
+        // open confirm delete modal
+
+        this.toggleModal()
+
       },
     }
   }

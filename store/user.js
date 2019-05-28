@@ -45,10 +45,10 @@ export const getters = {
 export const mutations = {
 
   setTokens (state, {tokens} ) {
-    console.log('tokens : ', tokens)
+    // state.log && console.log('S-user-M-setTokens / tokens : ', tokens)
     // state.jwt = (tokens && tokens.access_token && tokens.refresh_token) ? tokens : undefined
     state.jwt = tokens
-    state.log && console.log('S-user-M-setTokens / state.jwt : ', state.jwt)
+    // state.log && console.log('S-user-M-setTokens / state.jwt : ', state.jwt)
   },
   setInfos (state, {infos}) {
     state.user.infos = (infos && infos.email) ? infos : undefined
@@ -62,8 +62,72 @@ export const mutations = {
 
 export const actions = {
 
-  // USER-RELATED
-  saveLoginInfos({state, commit, getters}, {APIresponse}){
+  // set USER INFOS
+  saveUserInfos({state, commit, getters}, response){
+
+    const authConfig = getters.getConfirmTokenConfig
+    // state.log && console.log("S-user-A-saveUserInfos / authConfig : ", authConfig )
+
+    const userIdPath = authConfig.resp_fields.user_id.path
+    const userNamePath = authConfig.resp_fields.user_name.path
+    const userSurnamePath = authConfig.resp_fields.user_surname.path
+    const userPseudoPath = authConfig.resp_fields.user_pseudo.path
+    const userEmailPath = authConfig.resp_fields.user_email.path
+    
+    let infos = ( response && response.data ) ? {
+      name    : getObjectDataFromPath(response.data, userNamePath), 
+      surname : getObjectDataFromPath(response.data, userSurnamePath), 
+      email   : getObjectDataFromPath(response.data, userEmailPath), 
+      id      : getObjectDataFromPath(response.data, userIdPath), 
+      pseudo  : getObjectDataFromPath(response.data, userPseudoPath), 
+    } : undefined 
+    // state.log && console.log("S-user-A-saveUserInfos / infos : ", infos )
+
+    // set cookies
+    Cookie.set("user_name", infos.name )
+    Cookie.set("user_email", infos.email )
+
+    // commit to store's state
+    commit('setInfos',  {infos})
+  },
+
+  // set USER ROLE 
+  saveUserRole({state, commit, getters}, response){
+
+    const authConfig = getters.getConfirmTokenConfig
+    const userRolePath = authConfig.resp_fields.user_role.path
+    let role = ( response && response.data ) ? getObjectDataFromPath(response.data, userRolePath) : undefined
+    // state.log && console.log("S-user-A-saveUserRole / role : ", role )
+        
+    // commit to store's state
+    commit('setRole', {role})
+  },
+
+  // set USER TOKENS
+  saveUserTokens({state, commit, getters}, response){
+
+    const authConfig = getters.getConfirmTokenConfig
+    // state.log && console.log("S-user-A-saveUserTokens / authConfig ", authConfig )
+
+    const accessTokenPath = authConfig.resp_fields.access_token.path
+    const refreshTokenPath = authConfig.resp_fields.refresh_token.path
+    let tokens = (response && response.data ) ? { 
+      access_token   : getObjectDataFromPath(response.data, accessTokenPath), 
+      refresh_token : getObjectDataFromPath(response.data, refreshTokenPath), 
+    } : undefined ;
+
+    // state.log && console.log("S-user-A-saveUserTokens / tokens ", tokens )
+    // set cookies
+    Cookie.set("access_token",  tokens.access_token )
+    Cookie.set("refresh_token", tokens.refresh_token )
+
+    // commit to store's state
+    commit('setTokens', {tokens})
+
+  },
+
+  // LOGIN USER
+  saveLoginInfos({state, commit, getters, dispatch}, {APIresponse}){
 
     let r = APIresponse
     state.log && console.log("\nS-user-A-saveLoginInfos / r = APIresponse : \n", r )
@@ -71,45 +135,44 @@ export const actions = {
     const authConfig = getters.getConfirmTokenConfig
     state.log && console.log("S-user-A-saveLoginInfos / authConfig ", authConfig )
 
-    const accessTokenPath = authConfig.resp_fields.access_token.path
-    const refreshTokenPath = authConfig.resp_fields.refresh_token.path
-    const userRolePath = authConfig.resp_fields.user_role.path
-    const userIdPath = authConfig.resp_fields.user_id.path
-    const userNamePath = authConfig.resp_fields.user_name.path
-    const userSurnamePath = authConfig.resp_fields.user_surname.path
-    const userPseudoPath = authConfig.resp_fields.user_pseudo.path
-    const userEmailPath = authConfig.resp_fields.user_email.path
+    // tokens
+    dispatch('saveUserTokens', r)
+    // const accessTokenPath = authConfig.resp_fields.access_token.path
+    // const refreshTokenPath = authConfig.resp_fields.refresh_token.path
+    // let tokens = (r && r.data ) ? { 
+    //   access_token   : getObjectDataFromPath(r.data, accessTokenPath), 
+    //   refresh_token : getObjectDataFromPath(r.data, refreshTokenPath), 
+    // } : undefined ;
+    // state.log && console.log("S-user-A-saveLoginInfos / tokens ", tokens )
+    // Cookie.set("access_token",  tokens.access_token )
+    // Cookie.set("refresh_token", tokens.refresh_token )
+    // commit('setTokens', {tokens})
+    
+    // infos
+    dispatch('saveUserInfos', r)
+    // const userNamePath = authConfig.resp_fields.user_name.path
+    // const userSurnamePath = authConfig.resp_fields.user_surname.path
+    // const userEmailPath = authConfig.resp_fields.user_email.path
+    // const userPseudoPath = authConfig.resp_fields.user_pseudo.path
+    // const userIdPath = authConfig.resp_fields.user_id.path
+    // let infos = ( r && r.data ) ? {
+    //   name    : getObjectDataFromPath(r.data, userNamePath), 
+    //   surname : getObjectDataFromPath(r.data, userSurnamePath), 
+    //   email   : getObjectDataFromPath(r.data, userEmailPath), 
+    //   id      : getObjectDataFromPath(r.data, userIdPath), 
+    //   pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
+    // } : undefined ;
+    // state.log && console.log("S-user-A-saveLoginInfos / infos ", infos )
+    // Cookie.set("user_name", infos.name )
+    // Cookie.set("user_email", infos.email )
+    // commit('setInfos',  {infos})
+    
+    // role
+    dispatch('saveUserRole', r)
+    // const userRolePath = authConfig.resp_fields.user_role.path
+    // let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
+    // commit('setRole',   {role})
 
-    // let tokens = (r && r.data && r.data.data && r.data.data.tokens) ? r.data.data.tokens : undefined
-    let tokens = (r && r.data ) ? { 
-      access_token   : getObjectDataFromPath(r.data, accessTokenPath), 
-      refresh_token : getObjectDataFromPath(r.data, refreshTokenPath), 
-    } : undefined ;
-    state.log && console.log("S-user-A-saveLoginInfos / tokens ", tokens )
-
-    // let infos = (r && r.data && r.data.data && r.data.data.infos) ? r.data.data.infos : undefined
-    let infos = ( r && r.data ) ? {
-        name    : getObjectDataFromPath(r.data, userNamePath), 
-        surname : getObjectDataFromPath(r.data, userSurnamePath), 
-        email   : getObjectDataFromPath(r.data, userEmailPath), 
-        id      : getObjectDataFromPath(r.data, userIdPath), 
-        pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
-    } : undefined ;
-    state.log && console.log("S-user-A-saveLoginInfos / infos ", infos )
-
-    // let role = (r && r.data && r.data.data && r.data.data.auth && r.data.data.auth.role) ? r.data.data.auth.role : undefined
-    let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
-
-    // set cookies
-    Cookie.set("access_token",  tokens.access_token )
-    Cookie.set("refresh_token", tokens.refresh_token )
-    Cookie.set("user_name", infos.name )
-    Cookie.set("user_email", infos.email )
-
-    // commit to store's state
-    commit('setTokens', {tokens})
-    commit('setInfos',  {infos})
-    commit('setRole',   {role})
 
     // test user role
     state.log && console.log('S-user-A-saveLoginInfos / then... getCheckUserRole - guest : ', getters.getCheckUserRole('guest'))

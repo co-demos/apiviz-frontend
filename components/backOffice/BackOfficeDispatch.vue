@@ -25,22 +25,6 @@
     <div v-if="docConfig.type === 'blocs_list' " 
       >
 
-      <!-- ADD BTN -->
-      <div v-if="docConfig.add_delete"
-        class="addButton has-text-centered" 
-        >
-        <a class="button is-primary"
-          @click="addElement(docConfig)"
-          >
-          <span class="icon">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>
-            Add element
-          </span>
-        </a>
-      </div>
-
       <!-- LOOP DOCCONFIG EDIT -->
       <div v-for="confEdit in docConfig.edit"
         :key="confEdit.subfield"
@@ -71,21 +55,6 @@
     <!-- DOCS LIST / f.i. endpoints docs in endpoints collection -->
     <div v-if="docConfig.type === 'docs_list' " 
       > 
-      <!-- ADD BTN -->
-      <div v-if="docConfig.add_delete"
-        class="addButton has-text-centered" 
-        >
-        <a class="button is-primary"
-          @click="addElement(docConfig)"
-          >
-          <span class="icon">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>
-            Add element
-          </span>
-        </a>
-      </div>
 
       <!-- LOOP CONF DOCS -->
       <div v-for="(docConf, index) in conf"
@@ -107,6 +76,23 @@
         </BackOfficeJSON>
       </div>
       
+    </div>
+
+
+    <!-- ADD ELEMENT BTN -->
+    <div v-if="docConfig.add_delete"
+      class="addButton has-text-centered" 
+      >
+      <a class="button is-primary"
+        @click="addElement(docConfig)"
+        >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>
+          Add element
+        </span>
+      </a>
     </div>
 
   </div>
