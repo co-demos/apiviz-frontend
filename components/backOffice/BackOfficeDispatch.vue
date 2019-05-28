@@ -23,11 +23,11 @@
     </div>
 
     <!-- DEPRECATED (FOR NOW) // SUBFIELDS LIST / f.i. navbar links in app_navbar doc -->
-    <div v-if="docConfig.type === 'blocs_list' "  
-      >
+    <!-- <div v-if="docConfig.type === 'blocs_list' ">   -->
+      
 
       <!-- LOOP DOCCONFIG EDIT -->
-      <div v-for="confEdit in docConfig.edit"
+      <!-- <div v-for="confEdit in docConfig.edit"
         :key="confEdit.subfield"
         >
         <div
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-    </div>
+    </div> -->
 
     <!-- DOCS LIST / f.i. endpoints docs in endpoints collection -->
     <div v-if="docConfig.type === 'docs_list' " 

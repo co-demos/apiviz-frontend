@@ -53,7 +53,7 @@
     <div class="card">
       
       <!-- CARD HEADER -->
-      <div class="card-header">
+      <div class="card-header has-background-white-ter">
 
         <a 
           class="card-header-title"
@@ -76,7 +76,7 @@
 
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
+            <i :class="`fas fa-angle-${ isOpen ? 'up' : 'down'}`" aria-hidden="true"></i>
           </span>
         </a>
       </div>
@@ -98,16 +98,26 @@
           </p>
 
           <!-- WARNINGS -->
-          <div class="content has-text-danger">
-            <hr>
-            <p>
+          <hr>
+          <p class="has-text-danger">
+            <span class="icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            <span>
+              you can do the following (experimental) : 
+            </span>
+            <a class="button is-small is-rounded is-outlined is-danger"
+              @click="isWarningOpen = !isWarningOpen"
+              >
               <span class="icon">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i :class="`far fa-eye${isWarningOpen ? '-slash' : '' }`"></i>
               </span>
-              <span>
-                you can do the following (experimental) : 
-              </span>
-            </p>
+            </a>
+          </p>
+          <div 
+            v-show="isWarningOpen" 
+            class="content has-text-danger"
+            >
             <ul>
               <li v-show="docConfig.add_delete">
                 delete or duplicate this element
@@ -300,6 +310,7 @@
       return {
         isDebug : true, 
         isOpen : false,
+        isWarningOpen : false,
         jsonData : undefined,
         isModalOpen : false,
         isLoading : false,

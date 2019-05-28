@@ -179,7 +179,7 @@ export const BackofficeGlobal = Object.freeze({
           docs : [
             {
               field : 'app_basic_dict',
-              title : 'basic dict default',
+              title : 'basic dict as default',
               type : 'blocs', 
               edit : [
                 {subfield : 'is_default'},
