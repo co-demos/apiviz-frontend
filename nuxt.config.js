@@ -43,6 +43,7 @@ export default {
       'setAppMode',
       'getAppConfig',
       'checkAuth',
+      'collapseNavbar',
     ],
     // scrollBehavior: function (to, from, savedPosition) {
     //   return { x: 0, y: 0 }

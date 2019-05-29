@@ -16,8 +16,8 @@
       <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
       <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
     
+        <!-- :NavbarConfig="navbarConfig" -->
       <NavBarContent 
-        :NavbarLinks="navbarConfig.links_options"
         :localRouteConfig="localRouteConfig"
       ></NavBarContent>
 

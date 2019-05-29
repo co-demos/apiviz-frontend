@@ -41,7 +41,8 @@
           >
           <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
             <span>
-              {{ filter.fullname }}
+              <!-- {{ filter.fullname }} -->
+              {{ translate(filter, 'fullname_i' ) }}
             </span>
           </a>
 
@@ -65,7 +66,8 @@
                   @change="changeFilter"
                   >
                 <label :for="choice.name">
-                  {{ choice.fullname }}
+                  <!-- {{ choice.fullname }} -->
+                  {{ translate(choice, 'fullname_i' ) }}
                 </label>
               </div>
             </a>
@@ -89,101 +91,108 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
-export default {
+  export default {
 
-  name: 'SearchWithFilters',
+    name: 'SearchWithFilters',
 
-  beforeMount : function(){
-    // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
-  },
+    beforeMount : function(){
+      // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+    },
 
-  mounted(){
+    mounted(){
 
-    // this.log && console.log('C-SearchWithFilters / mounted...')
+      // this.log && console.log('C-SearchWithFilters / mounted...')
 
-    if(!this.$store.state.search.search.answer.result){
-      // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
-      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
-    }
-
-    // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
-  },
-
-  computed: {
-
-    ...mapState({
-      log : 'log', 
-      locale : state => state.locale,
-      // selectedFilters: state => state.search.search.question.selectedFilters,
-      // filterDescriptions: state => state.search.filterDescriptions
-    }),
-
-    ...mapGetters({
-      selectedFilters : 'search/getSelectedFilters',
-      filterDescriptions : 'search/getFilterDescriptions'
-    }),
-
-    searchedText: {
-      // get () { return this.$store.state.search.search.question.query },
-      get () { return this.$store.getters['search/getSearchQuestionQuery'] },
-      set (value) {
-        // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
-        this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
+      if(!this.$store.state.search.search.answer.result){
+        // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
       }
+
+      // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
     },
 
-    endpointConfigFilters() {
-      // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
-      let configFilter = this.$store.getters['config/getEndpointConfigFilters']
-      return configFilter
-    }
+    computed: {
 
-  },
+      ...mapState({
+        log : 'log', 
+        locale : state => state.locale,
+        // selectedFilters: state => state.search.search.question.selectedFilters,
+        // filterDescriptions: state => state.search.filterDescriptions
+      }),
 
-  methods: {
+      ...mapGetters({
+        selectedFilters : 'search/getSelectedFilters',
+        filterDescriptions : 'search/getFilterDescriptions'
+      }),
 
-    collapseChoices(filterName){
-      // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
-      let element = this.$refs[filterName][0]
-      // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
-      element.classList.toggle("hide-choices")
+      searchedText: {
+        // get () { return this.$store.state.search.search.question.query },
+        get () { return this.$store.getters['search/getSearchQuestionQuery'] },
+        set (value) {
+          // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
+          this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
+        }
+      },
+
+      endpointConfigFilters() {
+        // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
+        let configFilter = this.$store.getters['config/getEndpointConfigFilters']
+        return configFilter
+      }
+
     },
 
-    emptyOneFilter({filter}){
-      this.$store.dispatch( 'search/emptyOneFilter', {filter} )
-    },
-    changeFilter({target}){
-      this.$store.dispatch(
-        'search/toggleFilter',
-        {filter: target.getAttribute('data-filter'), value: target.getAttribute('data-choice')}
-      )
+    methods: {
+
+      collapseChoices(filterName){
+        // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
+        let element = this.$refs[filterName][0]
+        // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
+        element.classList.toggle("hide-choices")
+      },
+
+      emptyOneFilter({filter}){
+        this.$store.dispatch( 'search/emptyOneFilter', {filter} )
+      },
+      changeFilter({target}){
+        this.$store.dispatch(
+          'search/toggleFilter',
+          {filter: target.getAttribute('data-filter'), value: target.getAttribute('data-choice')}
+        )
+      },
+
+      searchTextChanged(){
+        this.log && console.log('C-SearchWithFilters / searchTextChanged...')
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+      },
+
+      translate( textsToTranslate, listField ) {
+        // this.log && console.log('C-SearchWithFilters / translate / listField : ', listField )
+        // this.log && console.log('C-SearchWithFilters / translate / textsToTranslate : ', textsToTranslate )
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
+
+      isFilterFromSelectedFiltersBold(filterName){
+        return false
+        // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
+      },
+      isFilterFromSelectedFiltersChecked(filterName){
+        //  :checked="selectedFilters.get(filter.name).has(choice.name)"
+        return false
+        // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
+      },
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
     },
 
-    searchTextChanged(){
-      this.log && console.log('C-SearchWithFilters / searchTextChanged...')
-      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
-    },
 
-    translate( textsToTranslate, listField ) {
-      let listTexts = textsToTranslate[listField]
-      // return this.$store.getters['getTranslation']({ texts : listTexts })
-      return this.$Translate( listTexts, this.locale, 'text')
-    },
-    isFilterFromSelectedFiltersBold(filterName){
-      return false
-      // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
-    },
-    isFilterFromSelectedFiltersChecked(filterName){
-      //  :checked="selectedFilters.get(filter.name).has(choice.name)"
-      return false
-      // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
-    },
-  },
-
-
-}
+  }
 </script>
 
 <style lang="scss" scoped>

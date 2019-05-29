@@ -65,20 +65,14 @@
 
 
     <!-- DEBUGGING -->
-    <section class="container">
-      <div class="container">
+    <!-- <section class="container"> -->
+      <!-- <div class="container"> -->
 
-        <br><br><br>
+        <!-- <br><br><br> -->
 
-        <!-- <h1 class="title">
-          apiviz-nuxt
-        </h1>
-        <h2 class="subtitle">
-          Migrating apiviz frontend as SPA Nuxt project
-        </h2> -->
+        <!-- <hr> -->
+        <!-- <div> -->
 
-        <hr>
-        <div>
           <!-- (console) log : <code>{{ log }}</code><br> -->
           <!-- runMode : <code>{{ runMode }}</code><br> -->
           <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br> -->
@@ -94,27 +88,33 @@
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- config.socials.app_facebook : <br><code>{{ config.socials.app_facebook }}</code><br> -->
-          localRouteConfig.field : <code>{{ localRouteConfig.field }}</code><br> 
-          localRouteConfig.dynamic_template : <code>{{ localRouteConfig.dynamic_template }}</code><br> 
+          <!-- localRouteConfig.field : <code>{{ localRouteConfig.field }}</code><br>  -->
+          <!-- localRouteConfig.dynamic_template : <code>{{ localRouteConfig.dynamic_template }}</code><br>  -->
           <!-- localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>  -->
-          <hr>
-          currentDatasetURI : <code>{{ currentDatasetURI }}</code><br> 
+
+          <!-- <hr> -->
+          
+          <!-- currentDatasetURI : <code>{{ currentDatasetURI }}</code><br>  -->
           <!-- localEndpointConfig : <code>{{ localEndpointConfig }}</code><br>  -->
           <!-- localFiltersConfig : <br><pre><code>{{ JSON.stringify(localFiltersConfig, null, 1) }}</code></pre><br>  -->
-          <hr>
+
+          <!-- <hr> -->
+          
           <!-- datasetFilters : <br><pre><code>{{ JSON.stringify(datasetFilters, null, 1) }}</code></pre><br> -->
           
           <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions, null, 1) }}</code></pre><br> -->
-          search.dataset_uri : <code>{{ search.dataset_uri }}</code><br> 
-          search.endpoint_type : <code>{{ search.endpoint_type }}</code><br> 
+          <!-- search.dataset_uri : <code>{{ search.dataset_uri }}</code><br>  -->
+          <!-- search.endpoint_type : <code>{{ search.endpoint_type }}</code><br>  -->
           <!-- search.endpoint : <br><pre><code>{{ JSON.stringify(search.endpoint, null, 1) }}</code></pre><br>  -->
 
 
           <!-- search.config : <br><pre><code>{{ JSON.stringify(search.config, null, 1) }}</code></pre><br> -->
-          search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br>
-          search.answer.result.total : <code>{{ search.answer.result ? search.answer.result.total : "nothing yet" }}</code><br>
+          <!-- search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br> -->
+          <!-- search.answer.result.total : <code>{{ search.answer.result ? search.answer.result.total : "nothing yet" }}</code><br> -->
           <!-- search.answer : <br><pre><code>{{ JSON.stringify(search.answer, null, 1) }}</code></pre><br> -->
-          <hr>
+          
+          <!-- <hr> -->
+          
           <!-- jwt : <br><code>{{ jwt }}</code><br> -->
           <!-- user : <br><code>{{ user }}</code><br> -->
           <!-- <hr> -->
@@ -122,9 +122,9 @@
           <!-- has_credits_footer : <code>{{ has_credits_footer }}</code><br> -->
           <!-- <hr> -->
           <!-- search : <br><code>{{ search }}</code><hr> -->
-        </div>
-      </div>
-    </section>
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </section> -->
 
 
 

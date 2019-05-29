@@ -213,8 +213,12 @@ export const getters = {
       // default texts fields are :
       // 'reinit_filters', 'no_abstract', 'no_address'
       // 'source', 'no_info'
+
+      // state.log && console.log("S-config-G-defaultText / field : ", field )
       
       const f = field.txt
+      // state.log && console.log("S-config-G-defaultText / f : ", f )
+
       const noAbstractDict = state.config.global.app_basic_dict[f]
       // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
       let text = noAbstractDict.find(t=>t.locale == rootState.locale )
@@ -284,7 +288,7 @@ export const actions = {
     return Promise.all(arr)
   },
 
-  editConfig({state, getters, rootGetters}, request){
+  editConfig({commit, state, getters, rootGetters}, request){
 
     state.log && console.log("S-config-A-editConfig / request : \n", request)
 
@@ -298,8 +302,14 @@ export const actions = {
     let requestUrl = rootURLbackend+'/config/'+currentColl+"?uuid="+apivizFrontUUID
     state.log && console.log('S-config-A-editConfig / requestUrl : ', requestUrl)
 
+    // INTERNATIONALIZATION
+    if (currentColl === 'global' ) {
+      let appLocales = getters['getAppLocales']
+      commit('setLocale', appLocales.locale, { root: true })
+    }
+
     // post update request
-   return axios
+    return axios
     .post( requestUrl, payload )
     .catch( (error) => {
       console.log(error)

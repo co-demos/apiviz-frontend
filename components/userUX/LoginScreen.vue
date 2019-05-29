@@ -21,7 +21,7 @@
 
             <!-- main login form -->
             <div class="box">
-              <FormLogin/>
+              <LoginForm/>
             </div>
 
             <div class="columns is-mobile is-centered">
@@ -59,7 +59,7 @@
             </p>
 
             <div class="box">
-              <FormLogin/>
+              <LoginForm/>
             </div>
 
           </div>
@@ -73,48 +73,48 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
-import FormLogin from './LoginForm.vue';
+  import LoginForm from '~/components/userUX/LoginForm.vue'
 
-export default {
+  export default {
 
-  components: {
-    FormLogin
-  },
-
-  props: [
-  ],
-
-  computed: mapState({
-    log : state => state.log, 
-    user: state => state.user.user,
-    jwt: state => state.user.jwt,
-  }),
-
-  mounted(){
-    // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
-      }
-      else{
-        window.scrollTo(0, 0)
-      }
-    }, 100);
-  },
-
-  methods: {
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
+    components: {
+      LoginForm
     },
 
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
-    }
-  }
+    props: [
+    ],
 
-}
+    computed: mapState({
+      log : state => state.log, 
+      user: state => state.user.user,
+      jwt: state => state.user.jwt,
+    }),
+
+    mounted(){
+      // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+    },
+
+    methods: {
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
+      }
+    }
+
+  }
 </script>

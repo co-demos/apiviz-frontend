@@ -15,13 +15,26 @@
             </h3>
             <div class="box">
 
-              <nuxt-link 
+              <!-- <nuxt-link 
                 class="button is-block is-primary is-fullwidth" 
                 :to="'/'"
                 >
                 home
-              </nuxt-link>
+              </nuxt-link> -->
         
+              <button
+                class="button is-block is-primary is-fullwidth" 
+                @click="goBack"
+                >
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  Back
+                </span>
+              </button>
+
+
               <br>
         
               <nuxt-link 
@@ -30,7 +43,12 @@
                 :to="'/login'"
                 >
                 <!-- RECONNECT -->
-                {{ getText('reconnect') }}
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>
+                  {{ getText('reconnect') }}
+                </span>
               </nuxt-link>
 
             </div>
@@ -49,7 +67,12 @@
                 class="button is-block is-primary is-fullwidth" 
                 @click="goBack"
                 >
-                back
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  Back
+                </span>
               </button>
 
               <br>
@@ -58,7 +81,12 @@
                 class="button is-block is-primary is-fullwidth" 
                 type="submit" 
                 @click="sendLogout">
-                {{ getText('disconnect') }}
+                <span class="icon">
+                  <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>
+                  {{ getText('disconnect') }}
+                </span>
               </button>
             </div>
           </div>

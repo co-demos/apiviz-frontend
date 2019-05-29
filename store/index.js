@@ -84,7 +84,15 @@ export const mutations = {
     switchNavbarMenu(state){
       state.showNav = !state.showNav
     },
+    setShowNavbar(state, value){
+      state.showNav = value
+    },
 
+    // INTERNATIONALIZATION
+    setLocale(state, loc){
+      state.log && console.log("S-index-M-setLocale / loc :", loc )
+      state.locale = loc
+    },
 }
 
 export const actions = {

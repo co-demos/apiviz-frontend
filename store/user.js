@@ -26,6 +26,10 @@ export const state = () => ({
 
 export const getters = {
 
+  getUser: state => {
+    return state.user
+  },
+
   getConfirmTokenConfig : (state, getters, rootState) => {
     return rootState.config.config.endpoints.find(function(r) {
       return r.field === 'app_data_API_user_auth'

@@ -1,6 +1,11 @@
 <template>
   <div>
 
+    <!-- NAVBAR -->
+    <NavBar 
+      v-if="has_navbar"
+    ></NavBar>
+
     <!-- REGISTER ROUTES -->
     <RegisterScreen 
     ></RegisterScreen>
@@ -12,13 +17,15 @@
 import { mapState, mapGetters } from 'vuex'
 
 import RegisterScreen from '~/components/userUX/RegisterScreen.vue';
+import NavBar from '~/components/dynamicUx/NavBar.vue';
 
 export default {
   
   components: {
 
     RegisterScreen,
-
+    NavBar, 
+    
   },
 
   middleware : [

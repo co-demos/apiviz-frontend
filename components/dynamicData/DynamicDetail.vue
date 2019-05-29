@@ -54,7 +54,7 @@
               <!-- BLOCK ADDRESS -->
               <p id="block-address" v-if="isPositionFilled('block_address')">
                 <span class="icon">
-                  <img class="image is-16x16" src="/static/icons/icon_pin.svg">
+                  <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
                 </span>
                 {{ matchProjectWithConfig('block_address')}}
               </p>

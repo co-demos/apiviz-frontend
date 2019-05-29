@@ -8,11 +8,11 @@
 
 
     <!-- BACKOFFICE ROUTES -->
-      <!-- v-if="localRouteConfig.dynamic_template == 'BackOffice' " -->
-    <BackOfficeScreen 
+      <!-- v-if="localRouteConfig.dynamic_template == 'Preferences' " -->
+    <PreferencesScreen 
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
-    ></BackOfficeScreen>
+    ></PreferencesScreen>
 
 
     <!-- FOOTERS -->
@@ -30,9 +30,6 @@
 
 
 
-
-
-
   </div>
 </template>
 
@@ -45,7 +42,7 @@ import { mapState, mapGetters } from 'vuex'
 import NavBar from '~/components/dynamicUx/NavBar.vue';
 import Footer from '~/components/dynamicUx/Footer.vue';
 
-import BackOfficeScreen  from '~/components/BackOffice/BackOfficeScreen.vue';
+import PreferencesScreen  from '~/components/UserUX/PreferencesScreen.vue';
 
 
 export default {
@@ -53,23 +50,18 @@ export default {
   components: {
     NavBar, 
     Footer, 
-    BackOfficeScreen
+    PreferencesScreen
   },
 
   middleware : [
     'getRouteConfig',
-    'checkBackOffice',
+    'checkUser',
   ],
 
   beforeMount : function(){
-    // this.log && console.log('\nP-BackOff-index.vue / beforeMount...')
-    // this.log && console.log('P-BackOff-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
-    // this.log && console.log('P-BackOff-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
-    // let authorizedRolesForBackOffice = ['admin', 'staff']
-    // if ( !authorizedRolesForBackOffice.includes(this.user.role) ) {
-    //   this.$nuxt.$router.push('/login')
-    // }  
-
+    // this.log && console.log('\nP-Preferences-index.vue / beforeMount...')
+    // this.log && console.log('P-Preferences-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
+    // this.log && console.log('P-Preferences-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
   },
 
   data () {

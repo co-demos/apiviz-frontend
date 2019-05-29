@@ -52,6 +52,8 @@ import FormRegister from './RegisterForm.vue';
 
 export default {
 
+  name: 'RegisterScreen',
+
   components: {
     FormRegister
   },

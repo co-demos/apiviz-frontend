@@ -4,48 +4,18 @@
   <section class="main-content skip-navbar columns is-fullheight">
     
     <!-- SIDE MENU -->
-      <!-- is-2 is-mobile is-fullheight  -->
-    <aside class="column 
+    <aside class="column noPaddingBottom
     
       is-full-mobile 
-      is-one-third-tablet 
+      is-3-tablet 
       is-3-desktop 
       is-3-widescreen 
       is-2-fullhd
 
       section">
-      
-      <p 
-        v-if="user.isLoggedin"
-        class="menu-label is-hidden-touch"
-        >
-        <!-- TO DO : translate this -->
-        PREFERENCES
-      </p>
-      <ul 
-        v-if="user.isLoggedin"
-        class="menu-list">
-        <li 
-          v-for="uMenu in userMenu"
-          :key="uMenu.config_coll"
-          >
-          <nuxt-link
-            :to="'/backoffice/' + uMenu.config_coll" 
-            :class="`${uMenu.config_coll == activeMenu ? 'is-active' : ''}`"
-            >
-            <!-- @click="setActiveMenu(uMenu.config_coll)" -->
-            <span class="icon">
-              <i :class="uMenu.icon"></i>
-            </span> 
-            {{ uMenu.title }}
-          </nuxt-link>
-        </li>
-      </ul>
 
-      <p 
-        class="menu-label is-hidden-touch"
-        >
-        APP SETTINGS
+      <p class="menu-label" >
+        {{ getText('menu_app_settings') }}
       </p>
 
       <!-- MENUS -->
@@ -62,16 +32,19 @@
             <span class="icon">
               <i :class="menu.icon"></i>
             </span> 
-            {{ menu.title }}
+            <!-- {{ menu.title }} -->
+            {{ getText(menu.code) }}
           </nuxt-link>
         </li>
       </ul>
 
+      <hr class="is-hidden-tablet menu-ender">
+
     </aside>
 
-    <div class="container column 
+    <div class="container column noMarginLeft
       is-full-mobile 
-      is-three-thirds-tablet 
+      is-7-tablet 
       is-8-desktop 
       is-8-widescreen 
       is-8-fullhd
@@ -90,7 +63,8 @@
               <a
                 @click="pushTabRoute(tab.tab_code)" 
                 >
-                {{ tab.title }}
+                <!-- {{ tab.title }} -->
+                {{ getText(tab.tab_code) }}
               </a>
             </li>
           </ul>
@@ -99,7 +73,14 @@
         <!-- DEBUG -->
         <div>
           <!-- getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br> -->
-        <!-- <hr> -->
+          
+          <!-- <div class=" is-hidden-mobile "> is-hidden-mobile </div>
+          <div class=" is-hidden-tablet-only "> is-hidden-tablet-only </div>
+          <div class=" is-hidden-desktop-only ">  is-hidden-desktop-only </div>
+          <div class=" is-hidden-widescreen-only ">  is-hidden-widescreen-only </div>
+          <div class=" is-hidden-fullhd ">  is-hidden-fullhd  </div> -->
+          
+          <!-- <hr> -->
         </div>
 
         <!-- DOCUMENTATION modal -->
@@ -164,7 +145,6 @@
         activeMenu : 'global',
         activeTab : 'gl_general',
 
-        userMenu : BackofficeGlobal.user,
         backOfficeMenu : BackofficeGlobal.config,
 
       }
@@ -208,8 +188,6 @@
     beforeMount : function(){
       // this.log && console.log('\nC-BackOff-index.vue / beforeMount...')
       // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : ', this.$nuxt.$sroute )
-      // this.log && console.log('C-BackOff-index.vue / this.userMenu : ', this.userMenu )
-      // this.userMenu = BackofficeGlobal.user
       // this.backOfficeMenu = BackofficeGlobal.config
     },
 
@@ -327,3 +305,19 @@
 
   }
 </script>
+
+<style scoped>
+
+  .noMarginLeft {
+    margin-left : 0rem
+  }
+
+  .noPaddingBottom {
+    padding-bottom : 0rem
+  }
+
+  hr.menu-ender{
+    margin: 1.5em 0em 0em 0em ;
+  }
+
+</style>

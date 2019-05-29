@@ -19,6 +19,9 @@ export default function ({ store, route, redirect }) {
   if (path.startsWith('/backoffice') ){
     path = '/backoffice'
   }
+  if (path.startsWith('/preferences') ){
+    path = '/preferences'
+  }
   let previousIsMapSearch = store.getters['search/getIsMapSearch']
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)

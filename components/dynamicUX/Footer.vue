@@ -80,12 +80,15 @@ export default {
   ],
 
   computed : {
+
     ...mapState ({
       locale : state => state.locale
     }),
+
     footerUI() {
       return this.footerConfig.ui_options
     },
+    
   },
 
   methods : {

@@ -11,7 +11,7 @@
           <i class="fas fa-book"></i>
         </span>
         <span>
-          Documentation
+          {{ getText('documentation') }}
         </span>
       </a>
     </div>
@@ -99,6 +99,10 @@
         this.isModalOpen = !this.isModalOpen
       },
 
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+      
     }
 
   }

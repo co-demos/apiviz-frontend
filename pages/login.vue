@@ -1,6 +1,11 @@
 <template>
   <div>
 
+    <!-- NAVBAR -->
+    <NavBar 
+      v-if="has_navbar"
+    ></NavBar>
+
     <!-- LOGIN/LOGOUT/REGISTER ROUTES -->
     <LoginScreen 
     ></LoginScreen>
@@ -12,12 +17,14 @@
 import { mapState, mapGetters } from 'vuex'
 
 import LoginScreen from '~/components/userUX/LoginScreen.vue';
+import NavBar from '~/components/dynamicUx/NavBar.vue';
 
 export default {
   
   components: {
 
     LoginScreen,
+    NavBar,
 
   },
 
@@ -41,7 +48,7 @@ export default {
     }),
 
     ...mapGetters({
-
+      has_navbar : 'config/hasNavbar',
     }),
 
   },

@@ -49,10 +49,6 @@ export default {
       log : state => state.log, 
       showNav : state => state.showNav
     }),
-    
-    // showNav() {
-    //   return this.$store.getters.getNavbarVisibility
-    // },
 
     ...mapGetters({
       logo : 'config/getNavbarLogo',

@@ -27,7 +27,11 @@ export default function ({ store, route, redirect }) {
         const authUrlRoot = authUrlRoots.root_url[runMode]
         // log && console.log("--M2-- getAppConfig / authUrlRoot : ", authUrlRoot);
         store.commit('setAuthUrlRoot', authUrlRoot)
-        
+
+        // INTERNATIONALIZATION
+        let appLocales = store.getters['config/getAppLocales']
+        store.commit('setLocale', appLocales.locale)
+
       })
 
       .catch(() => {

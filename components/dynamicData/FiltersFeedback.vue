@@ -5,7 +5,10 @@
 
         <a class="button is-small" @click="clearAllFilters">
           <span>
-            effacer les filtres
+            
+            {{ getText('reinit_filters') }}
+            <!-- effacer les filtres -->
+
           </span>
 
           <span class="icon is-small">
@@ -38,51 +41,60 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
-export default {
+  export default {
 
-  name: 'FiltersFeedback',
+    name: 'FiltersFeedback',
 
-  beforeMount : function(){
-    // this.log && console.log('\nC-FiltersFeedback / beforeMount...')
-  },
+    beforeMount : function(){
+      // this.log && console.log('\nC-FiltersFeedback / beforeMount...')
+    },
 
-  computed: {
+    computed: {
 
-    ...mapState({
-      log : 'log',
-      locale : state => state.locale,
-      // filterDescriptions: state => state.search.filterDescriptions,
-      selectedFilters: state => {
-        const {selectedFilters} = state.search.search.question
-        const filters = []
-        for(const [filter, values] of selectedFilters){
-          for(const value of values){
-              filters.push({filter, value})
+      ...mapState({
+        log : 'log',
+        locale : state => state.locale,
+        // filterDescriptions: state => state.search.filterDescriptions,
+        selectedFilters: state => {
+          const {selectedFilters} = state.search.search.question
+          const filters = []
+          for(const [filter, values] of selectedFilters){
+            for(const value of values){
+                filters.push({filter, value})
+            }
           }
+          return filters
         }
-        return filters
-      }
-    }),
+      }),
 
-    ...mapGetters({
-      filterDescriptions : 'search/getFilterDescriptions'
-    }),
-  },
-
-  methods: {
-
-    clearAllFilters(){
-      this.$store.dispatch( 'search/clearAllFilters' )
+      ...mapGetters({
+        filterDescriptions : 'search/getFilterDescriptions'
+      }),
     },
-    clearFilter({filter, value}){
-      this.$store.dispatch( 'search/toggleFilter', {filter, value} )
-    },
+
+    methods: {
+
+      clearAllFilters(){
+        this.$store.dispatch( 'search/clearAllFilters' )
+      },
+      clearFilter({filter, value}){
+        this.$store.dispatch( 'search/toggleFilter', {filter, value} )
+      },
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      translate( textsToTranslate, listField ) {
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
+
+    }
 
   }
-
-}
 </script>
 
 <style scoped>

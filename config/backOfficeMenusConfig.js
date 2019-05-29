@@ -41,6 +41,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // GLOBAL
     { config_coll : 'global', 
+      code : 'bo_global',
       title : 'global settings',
       is_divider : false,
       icon : 'fas fa-cog',
@@ -71,6 +72,7 @@ export const BackofficeGlobal = Object.freeze({
               canAddToList : true,
               edit : [
                 {subfield : 'locale'}, 
+                {subfield : 'is_multi_lang'},
                 {subfield : 'languages'},
                 {subfield : 'is_default'},
               ], 
@@ -243,11 +245,12 @@ export const BackofficeGlobal = Object.freeze({
     
     // NAVBAR
     { config_coll : 'navbar',
+      code : 'bo_navbar',
       title : 'navbar',
       is_divider : false,
       icon : 'fas fa-bars',
       tabs  : [
-        { tab_code : 'na_logo', 
+        { tab_code : 'na_global', 
           tab_type : 'docs',
           title : 'navbar settings',
           docs : [
@@ -303,6 +306,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // ROUTES
     { config_coll : 'routes',
+      code : 'bo_routes',
       title : 'routes',
       is_divider : false,
       icon : 'far fa-sticky-note',
@@ -354,7 +358,7 @@ export const BackofficeGlobal = Object.freeze({
             }
           ]
         },
-        { tab_code : 'ro_auth', 
+        { tab_code : 'ro_user', 
           tab_type : 'docs_list',
           title : 'auth routes',
           docs : [
@@ -382,6 +386,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // ENDPOINTS
     { config_coll : 'endpoints',
+      code : 'bo_endpoints',
       title : 'API endpoints',
       is_divider : false,
       icon : 'fas fa-database',
@@ -485,6 +490,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // FOOTER
     { config_coll : 'footer',
+      code : 'bo_footer',
       title : 'footer',
       is_divider : false,
       icon : 'fas fa-link',
@@ -525,6 +531,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // SOCIALS
     { config_coll : 'socials',
+      code : 'bo_socials',
       title : 'socials',
       is_divider : false,
       icon : 'fas fa-share-alt',
@@ -570,6 +577,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // STYLES
     { config_coll : 'styles',
+      code : 'bo_styles',
       title : 'styles',
       is_divider : false,
       icon : 'fas fa-paint-brush',
@@ -651,6 +659,7 @@ export const BackofficeGlobal = Object.freeze({
     
     // USERS
     { config_coll : 'users',
+      code : 'bo_users',
       title : 'users',
       is_divider : false,
       icon : 'fas fa-users',
@@ -674,21 +683,5 @@ export const BackofficeGlobal = Object.freeze({
   
   ],
 
-  // USER PREFERENCES
-  user : [
-
-    { config_coll : 'u_infos', 
-      title : 'infos',
-      is_divider : false,
-      icon : 'far fa-user',
-    },
-
-    { config_coll : 'u_password', 
-      title : 'password',
-      is_divider : false,
-      icon : 'fas fa-unlock',
-    },
-
-  ],
 
 })
