@@ -82,7 +82,7 @@ export const getters = {
     },
     hasCreditsFooter : (state) => {
       // state.log && console.log('S-config-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
-      return (state.localRouteConfig.has_credits_footer) ? state.localRouteConfig.has_credits_footer : false 
+      return state.config.footer.app_footer.has_credits_footer
     },
     getFooterConfig : state => {
       return (state.config.footer) ? state.config.footer.app_footer : undefined 

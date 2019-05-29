@@ -56,6 +56,10 @@ export const getters = {
     //   // return textFromLocale( textsData.texts, locale, textField )
     //   return this.$Translate( textsData.texts, state.locale, textField )
     // },
+    getCurrentLocale : state => {
+      console.log( "...I'm locale... ", state.locale )
+      return state.locale
+    },
 
 
 

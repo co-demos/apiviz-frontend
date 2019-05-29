@@ -6,20 +6,15 @@
       v-if="has_navbar"
     ></NavBar>
 
-
-    <!-- BACKOFFICE ROUTES -->
-      <!-- v-if="localRouteConfig.dynamic_template == 'Preferences' " -->
+    <!-- PREFERENCES ROUTES -->
     <PreferencesScreen 
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
     ></PreferencesScreen>
 
-
     <!-- FOOTERS -->
     <Footer 
       v-if="has_footer"
-      :footerConfig="footerConfig" 
-      :appSocials="socialsConfig" 
     ></Footer>
 
     <!-- PROJECT's PARTNERS FOOTER -->
@@ -28,21 +23,17 @@
       :templateURL="footerConfig.credits_footer_url"
     ></DynamicStaticRaw>
 
-
-
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-// default nuxt boilerplate ....
-// import Logo from '~/components/Logo.vue'
-
 import NavBar from '~/components/dynamicUx/NavBar.vue';
 import Footer from '~/components/dynamicUx/Footer.vue';
 
 import PreferencesScreen  from '~/components/UserUX/PreferencesScreen.vue';
+import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 
 
 export default {
@@ -50,7 +41,8 @@ export default {
   components: {
     NavBar, 
     Footer, 
-    PreferencesScreen
+    PreferencesScreen,
+    DynamicStaticRaw
   },
 
   middleware : [
@@ -101,13 +93,13 @@ export default {
       localEndpointConfig : 'config/getLocalEndpointConfig',
       localFiltersConfig : 'config/getLocalFiltersConfig',
       currentDatasetURI : 'config/getCurrentDatasetURI',
+      footerConfig : 'config/getFooterConfig',
 
       has_navbar : 'config/hasNavbar',
       has_footer : 'config/hasFooter',
       has_credits_footer : 'config/hasCreditsFooter',
       has_banner : 'config/hasBanner',
-      footerConfig : 'config/getFooterConfig',
-      socialsConfig : 'config/getSocialsConfig',
+
     }),
 
   },

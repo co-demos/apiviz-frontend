@@ -41,8 +41,7 @@
           >
           <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
             <span>
-              <!-- {{ filter.fullname }} -->
-              {{ translate(filter, 'fullname_i' ) }}
+              {{ translate(filter, 'filter_title' ) }}
             </span>
           </a>
 
@@ -66,8 +65,7 @@
                   @change="changeFilter"
                   >
                 <label :for="choice.name">
-                  <!-- {{ choice.fullname }} -->
-                  {{ translate(choice, 'fullname_i' ) }}
+                  {{ translate(choice, 'choice_title' ) }}
                 </label>
               </div>
             </a>

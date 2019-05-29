@@ -694,7 +694,7 @@ export default {
 
     img, .icon{
       height: 1.5em;
-      transform: translateY(0.3em);
+      transform: translateY(0.1em);
     }
 
     span{

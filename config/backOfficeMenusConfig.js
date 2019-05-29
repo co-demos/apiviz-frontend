@@ -503,8 +503,8 @@ export const BackofficeGlobal = Object.freeze({
               title : 'footer settings',
               type : 'blocs', 
               edit : [
-                {subfield : 'active_columns'},
-                {subfield : 'has_credits_footer'},
+                // {subfield : 'active_columns'},
+                // {subfield : 'has_credits_footer'},
                 {subfield : 'ui_options'},
                 {subfield : 'contents_fields'},
                 {subfield : 'is_default'},
