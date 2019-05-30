@@ -68,7 +68,12 @@
         type="submit" 
         >
         <!-- @click="sendLoginForm" -->
-        {{ getText('connect') }}
+        <span class="icon">
+          <i class="fas fa-sign-in-alt"></i>
+        </span>
+        <span>
+          {{ getText('connect') }}
+        </span>
       </button>
 
     </form>
@@ -77,24 +82,43 @@
     <div
       v-if="isUserAdmin || isUserStaff" 
       >
+
+      <button
+        v-if="user.isLoggedin" 
+        class="button is-block is-primary is-fullwidth" 
+        @click="goBack"
+        >
+        <span class="icon">
+          <i class="fas fa-arrow-left"></i>
+        </span>
+        <span>
+          Back
+        </span>
+      </button>
+      <br>
+
       <nuxt-link
         class="button is-block is-primary is-fullwidth" 
         :to="'/backoffice'"
         >
-        back office
+        <span class="icon">
+          <i class="fas fa-cog"></i>
+        </span>
+        <span>
+          Back office
+        </span>
       </nuxt-link>
       <br>
+      
     </div>
 
-    <nuxt-link 
+    <!-- <nuxt-link 
       v-if="user.isLoggedin" 
       class="button is-block is-primary is-fullwidth" 
       :to="'/'"
       >
       home
-    </nuxt-link>
-
-    <br>
+    </nuxt-link> -->
 
     <button 
       v-if="user.isLoggedin" 
@@ -102,7 +126,12 @@
       type="submit" 
       @click="sendLogout"
       >
-      {{ getText('disconnect') }}
+      <span class="icon">
+        <i class="fas fa-sign-out-alt"></i>
+      </span>
+      <span>
+        {{ getText('disconnect') }}
+      </span>
     </button>
 
   </div>
@@ -110,10 +139,11 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import axios from 'axios';
-
+import axios from 'axios'
 
 export default {
+
+  name: 'LoginForm',
 
   data: function () {
     return {
@@ -123,6 +153,18 @@ export default {
       customformError: ''
     }
   },
+
+  // watch: {
+  //   user(prev, next){
+  //     this.log && console.log("C-LoginForm / next : ", next)
+  //     if (next.role !== 'admin'){
+  //       this.$router.push('/')
+  //     }
+  //     else if (next.role === 'admin'){
+  //       this.$router.push('/backoffice')
+  //     }
+  //   }
+  // },
 
   computed: {
 
@@ -157,14 +199,14 @@ export default {
       const urlAuthLoginSuffix = urlAuthLogin.root_url
       this.log && console.log("C-LoginForm / urlAuthLoginSuffix : ", urlAuthLoginSuffix)
 
+      let authUrl = urlAuthRoot + urlAuthLoginSuffix
+      this.log && console.log("C-LoginForm / authUrl : ", authUrl)
+
       let payload = {
         email : this.userEmail,
         pwd : this.userPassword
       }
       this.log && console.log("C-LoginForm / payload : ", payload)
-
-      let authUrl = urlAuthRoot + urlAuthLoginSuffix
-      this.log && console.log("C-LoginForm / authUrl : ", authUrl)
 
       axios
         .post( authUrl, payload )
@@ -175,6 +217,17 @@ export default {
         .then( response => {
           this.log && console.log("C-LoginForm / response : ", response)
           this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
+          
+          let router = this.$router
+
+          // if (this.user.role !== 'admin'){
+          //   router.push('/')
+          // }
+          // else if (this.user.role === 'admin'){
+          //   setInterval( function( ){ 
+          //     router.push('/backoffice')
+          //   }, 3000)
+          // }
         })
       this.userPassword = ''
     },
@@ -184,7 +237,20 @@ export default {
       this.userEmail = ''
       this.userPassword = ''
       this.$store.dispatch('user/logout')
-      this.$router.push('logout')
+
+      let router = this.$router
+
+      router.push('logout')
+
+      // redirect after logout (3 seconds)
+      // setInterval( function( ){ 
+      //   router.push('/')
+      // }, 3000)
+    },
+
+    goBack(e){
+      e.preventDefault()
+      this.$router.back()
     },
 
   }

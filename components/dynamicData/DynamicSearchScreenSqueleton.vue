@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import SearchWithFilters from './SearchWithFilters.vue';
-import FiltersFeedback from './FiltersFeedback.vue';
+import SearchWithFilters from './SearchWithFilters.vue'
+import FiltersFeedback from './FiltersFeedback.vue'
 
 export default {
   

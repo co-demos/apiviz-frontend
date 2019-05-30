@@ -5,6 +5,20 @@ export const state = () => ({
   // CONSOLE LOG ALLOWED 
   log: process.env.ConsoleLog,
 
+  // FOR NEW INSTANCES - DEFAULT MODELS
+  apivizModels : {
+    modelUuids : [
+      // { name : 'SoNum', 
+      //   uuid : 'c5efafab-1733-4ad1-9eb8-d529bc87c481',
+      //   preview : '/previews/map-view-sonum-03.png',
+      // },
+      // { name : 'APCIS', 
+      //   uuid : 'f0a482da-28be-4929-a443-f22ecb03ee68',
+      //   preview : '/previews/list-view-apcis-01.png',
+      // },
+    ],
+  },
+
   // APIVIZ CONFIG
   config : {
     'global' : undefined,
@@ -27,6 +41,12 @@ export const state = () => ({
 
 export const getters = {
 
+  // NEW INSTANCES 
+  // - - - - - - - - - - - - - - - //
+    getApivizModels : state => {
+      return state.apivizModels
+    },
+
   // APP CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getConfig : state => {
@@ -40,7 +60,7 @@ export const getters = {
       });
     },
     getEndpointConfigAuthSpecific : (state, getters) => (endpointType) => {
-      state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / endpointType : ", endpointType)
+      // state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / endpointType : ", endpointType)
       let allAuthEndpoints =  getters.getEndpointConfigAuthUsers
       // state.log && console.log("S-config-G-getEndpointConfigAuthSpecific / allAuthEndpoints", allAuthEndpoints)
       return allAuthEndpoints.find(function(r) {
@@ -82,7 +102,7 @@ export const getters = {
     },
     hasCreditsFooter : (state) => {
       // state.log && console.log('S-config-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
-      return (state.localRouteConfig.has_credits_footer) ? state.localRouteConfig.has_credits_footer : false 
+      return state.config.footer.app_footer.has_credits_footer
     },
     getFooterConfig : state => {
       return (state.config.footer) ? state.config.footer.app_footer : undefined 
@@ -213,8 +233,12 @@ export const getters = {
       // default texts fields are :
       // 'reinit_filters', 'no_abstract', 'no_address'
       // 'source', 'no_info'
+
+      // state.log && console.log("S-config-G-defaultText / field : ", field )
       
       const f = field.txt
+      // state.log && console.log("S-config-G-defaultText / f : ", f )
+
       const noAbstractDict = state.config.global.app_basic_dict[f]
       // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
       let text = noAbstractDict.find(t=>t.locale == rootState.locale )
@@ -226,9 +250,12 @@ export const getters = {
 
 export const mutations = {
 
+  setDefaultApivizModels(state, models) {
+    state.apivizModels.modelUuids = models
+  },
+
   setConfig(state, {type,result}) {
     // state.log && console.log("S-setConfig ... result : ", result)
-    // state.log && console.log("result : ", result)
     state.config[type] = result
   },
   setLocalRouteConfig(state, routeConfig) {
@@ -255,14 +282,14 @@ export const mutations = {
 export const actions = {
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    // state.log && console.log("getConfigType / type : ", type)
+    // state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
     return axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
     .then(response => {
-      // state.log && console.log("\ngetConfigType / type : ", type)
-      // state.log && console.log("getConfigType / response : ", response)
+      // state.log && console.log("\nS-config-A-getConfigType / getConfigType / type : ", type)
+      // state.log && console.log("S-config-A-getConfigType / getConfigType / response : ", response)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
       commit('setConfig', {type:type,result:app_config}); 
       return app_config
@@ -285,6 +312,151 @@ export const actions = {
     return Promise.all(arr)
   },
 
+  editConfig({commit, state, getters, rootGetters}, request){
 
+    state.log && console.log("S-config-A-editConfig / request : \n", request)
+
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    const currentColl = request.currentColl
+    const payload = request.payload
+
+    // build request URL
+    let requestUrl = rootURLbackend+'/config/'+currentColl+"?uuid="+apivizFrontUUID
+    state.log && console.log('S-config-A-editConfig / requestUrl : ', requestUrl)
+
+    // INTERNATIONALIZATION
+    if (currentColl === 'global' ) {
+      let appLocales = getters['getAppLocales']
+      commit('setLocale', appLocales.locale, { root: true })
+    }
+
+    // post update request
+    return axios
+    .post( requestUrl, payload )
+    .catch( (error) => {
+      console.log('S-config-A-editConfig / error :', error)
+    })
+    .then(response => {
+      console.log('S-config-A-editConfig / response : \n', response)
+      // reset config after update
+      // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+      return response
+      }
+    )
+
+  },
+
+  deleteConfig({state, getters, rootGetters}, request){
+
+    state.log && console.log("S-config-A-deleteConfig / request : \n", request)
+
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    const currentColl = request.currentColl
+    const docId = request.doc_id
+    const accessToken = request.token
+
+    // build request URL
+    let requestUrl = rootURLbackend+'/config/'+currentColl+"/"+docId+"?uuid="+apivizFrontUUID
+    state.log && console.log('S-config-A-deleteConfig / requestUrl : ', requestUrl)
+
+    // post update request
+   return axios
+    .delete( requestUrl, {data : {token : accessToken} } )
+    .catch( (error) => {
+      console.log('S-config-A-deleteConfig / error :', error)
+    })
+    .then(response => {
+      console.log('S-config-A-deleteConfig / response : \n', response)
+      // reset config after update
+      return response
+      }
+    )
+
+  },
+
+
+  // - - - - - - - - - - - - - //
+  // New config given UUID
+  // - - - - - - - - - - - - - //
+
+  getDefaultApivizModels({commit, state, getters, rootGetters}){
+
+    // state.log && console.log("S-config-A-getDefaultApivizModels ...")
+
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/get_default_models'
+    // state.log && console.log('S-config-A-getDefaultApivizModels / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    axios.get(requestUrl)
+    .catch( (error) => {
+      state.log && console.log('S-config-A-getDefaultApivizModels / error :', error)
+    })
+    .then(response => {
+      // state.log && console.log('S-config-A-getDefaultApivizModels / response.data : \n', response.data)
+      let defaultModels = response.data.models
+      commit('setDefaultApivizModels', defaultModels)
+    })
+
+  },
+
+  getModelFromUuid({state, getters, rootGetters}, uuid){
+    state.log && console.log("S-config-A-getModelFromUuid / uuid :", uuid)
+    
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/get_config_model/'+uuid
+    // state.log && console.log('S-config-A-getModelFromUuid / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    return axios.get(requestUrl)
+    .catch( (error) => {
+      state.log &&console.log('S-config-A-getModelFromUuid / error :', error)
+    })
+    .then(response => {
+      // state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
+      return response
+    })
+
+  },
+
+  createNewConfig({state, getters, rootGetters}, request){
+    
+    // state.log && console.log("S-config-A-createNewConfig / request : \n", request)
+
+    // retrieve current uuid
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    // prepare the payload with uuid to copy
+    let payload = {
+      new_uuid : apivizFrontUUID,
+      model_uuid : request.modelUuid,
+      new_title : request.new_title,
+      new_logoUrl : request.new_logoUrl,
+    } 
+    // state.log && console.log("S-config-A-createNewConfig / payload : \n", payload)
+    
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/create_new_config'
+    // state.log && console.log('S-config-A-createNewConfig / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    return axios.post( requestUrl, payload )
+    .catch( (error) => {
+      state.log &&console.log('S-config-A-createNewConfig / error :', error)
+    })
+    .then(response => {
+      // state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
+      return response
+      }
+    )
+
+  }
 
 }

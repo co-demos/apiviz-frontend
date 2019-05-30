@@ -62,7 +62,7 @@ export default {
 
     rawHtml(newRawHtml, oldRawHtml){
       if (oldRawHtml == '' && newRawHtml != ''){
-        this.log && console.log("rawHtml is not blank anymore")
+        // this.log && console.log("rawHtml is not blank anymore")
         this.loadExtScript()
       }
       else{
@@ -76,7 +76,7 @@ export default {
   },
 
   mounted(){
-    this.log && console.log("C-DynamicStatic / mounted ... ")
+    // this.log && console.log("C-DynamicStatic / mounted ... ")
     this.getRawHtml()
   },
 

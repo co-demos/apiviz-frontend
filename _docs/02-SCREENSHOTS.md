@@ -48,5 +48,5 @@ displays your data as a detailed pages, given your configuration set in backoffi
 
 #### ADMIN / BACKOFFICE (in development)
 
-![ADMIN VIEW](../documentation/screenshots/backoffice-sonum-01.png)
+![BACK OFFICE VIEW](../documentation/screenshots/backoffice-sonum-02.png)
 

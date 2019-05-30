@@ -42,6 +42,8 @@ export default {
     middleware: [
       'setAppMode',
       'getAppConfig',
+      'checkAuth',
+      'collapseNavbar',
     ],
     // scrollBehavior: function (to, from, savedPosition) {
     //   return { x: 0, y: 0 }
@@ -90,6 +92,7 @@ export default {
     '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+    '~/plugins/json-editor',
     { src: '~/plugins/mapbox', mode: 'client' },
   ],
 

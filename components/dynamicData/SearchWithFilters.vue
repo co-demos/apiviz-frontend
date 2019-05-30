@@ -22,38 +22,40 @@
         </span>
       </div>
 
-
       <!-- INPUT FILTERS -->
       <hr class="is-flex-touch filters-delimiter">
+
       <div class="navbar-end has-background-white "> <!-- is-hidden-touch (to completely hide from mobile)-->
 
-
+        <!-- LOOP FILTERS LISTS -->
         <span v-for="filter in filterDescriptions"
+          class="navbar-item navbar-item-filter has-dropdown is-hoverable has-text-centered"
           :key="filter.name"
           :id="filter.name"
           href="#"
-          class="navbar-item navbar-item-filter has-dropdown is-hoverable "
           >
 
-          <a 
-            :class='["navbar-link", {"has-text-weight-semibold" : selectedFilters.get(filter.name).size >= 1 } ]'
+          <!-- FILTER TITLE - MAIN DROPDOWN -->
+          <a :class="`navbar-link is-arrrowless ${ selectedFilters.get(filter.name).size >= 1 ? 'has-text-weight-semibold' : '' } `"
             @click="collapseChoices(filter.name)"
-          >
-          <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
+            >
+            <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
             <span>
-              {{ filter.fullname }}
+              {{ translate(filter, 'filter_title' ) }}
             </span>
           </a>
 
+          <!-- CHOICES CONTAINER -->
           <div  
             :id="filter.name" 
             :ref="filter.name"
-            class="navbar-dropdown is-right hide-choices"
-            > <!-- here make it collapsable -->
+            class="navbar-dropdown is-right hide-choices no-padding-bottom"
+            > 
+            <!-- here make it collapsable -->
 
-            <a
+            <!-- LOOP CHOICES -->
+            <a v-for="choice in filter.choices" :key="choice.name"
               class="navbar-item"
-              v-for="choice in filter.choices" :key="choice.name"
               >
               <div class="field is-narrow">
                 <input 	class="is-checkradio is-default is-normal"
@@ -65,22 +67,29 @@
                   @change="changeFilter"
                   >
                 <label :for="choice.name">
-                  {{ choice.fullname }}
+                  {{ translate(choice, 'choice_title' ) }}
                 </label>
               </div>
             </a>
 
-            <div class="navbar-item">
-              <button class="button is-text is-fullwidth has-text-primary"
+            <!-- RESET FILTER BTN -->
+            <hr class="end-choices">
+
+            <div class="reset-btn">
+              <button class="button is-text no-underline is-fullwidth has-text-grey"
                 :data-filter="filter.name"
                 @click="emptyOneFilter({filter: filter.name})"
-              >
-                {{translate(endpointConfigFilters, 'reset' )}}
+                >
+                <span>
+                  {{ translate(endpointConfigFilters, 'reset' ) }}
+                </span>
               </button>
             </div>
 
           </div>
-        <hr class="is-flex-touch filters-delimiter">
+
+          <hr class="is-flex-touch filters-delimiter">
+
         </span>
       </div>
 
@@ -89,101 +98,108 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
-export default {
+  export default {
 
-  name: 'SearchWithFilters',
+    name: 'SearchWithFilters',
 
-  beforeMount : function(){
-    // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
-  },
+    beforeMount : function(){
+      // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+    },
 
-  mounted(){
+    mounted(){
 
-    // this.log && console.log('C-SearchWithFilters / mounted...')
+      // this.log && console.log('C-SearchWithFilters / mounted...')
 
-    if(!this.$store.state.search.search.answer.result){
-      // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
-      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
-    }
-
-    // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
-  },
-
-  computed: {
-
-    ...mapState({
-      log : 'log', 
-      locale : state => state.locale,
-      // selectedFilters: state => state.search.search.question.selectedFilters,
-      // filterDescriptions: state => state.search.filterDescriptions
-    }),
-
-    ...mapGetters({
-      selectedFilters : 'search/getSelectedFilters',
-      filterDescriptions : 'search/getFilterDescriptions'
-    }),
-
-    searchedText: {
-      // get () { return this.$store.state.search.search.question.query },
-      get () { return this.$store.getters['search/getSearchQuestionQuery'] },
-      set (value) {
-        // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
-        this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
+      if(!this.$store.state.search.search.answer.result){
+        // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
       }
+
+      // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
     },
 
-    endpointConfigFilters() {
-      // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
-      let configFilter = this.$store.getters['config/getEndpointConfigFilters']
-      return configFilter
-    }
+    computed: {
 
-  },
+      ...mapState({
+        log : 'log', 
+        locale : state => state.locale,
+        // selectedFilters: state => state.search.search.question.selectedFilters,
+        // filterDescriptions: state => state.search.filterDescriptions
+      }),
 
-  methods: {
+      ...mapGetters({
+        selectedFilters : 'search/getSelectedFilters',
+        filterDescriptions : 'search/getFilterDescriptions'
+      }),
 
-    collapseChoices(filterName){
-      // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
-      let element = this.$refs[filterName][0]
-      // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
-      element.classList.toggle("hide-choices")
+      searchedText: {
+        // get () { return this.$store.state.search.search.question.query },
+        get () { return this.$store.getters['search/getSearchQuestionQuery'] },
+        set (value) {
+          // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
+          this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
+        }
+      },
+
+      endpointConfigFilters() {
+        // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
+        let configFilter = this.$store.getters['config/getEndpointConfigFilters']
+        return configFilter
+      }
+
     },
 
-    emptyOneFilter({filter}){
-      this.$store.dispatch( 'search/emptyOneFilter', {filter} )
-    },
-    changeFilter({target}){
-      this.$store.dispatch(
-        'search/toggleFilter',
-        {filter: target.getAttribute('data-filter'), value: target.getAttribute('data-choice')}
-      )
+    methods: {
+
+      collapseChoices(filterName){
+        // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
+        let element = this.$refs[filterName][0]
+        // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
+        element.classList.toggle("hide-choices")
+      },
+
+      emptyOneFilter({filter}){
+        this.$store.dispatch( 'search/emptyOneFilter', {filter} )
+      },
+      changeFilter({target}){
+        this.$store.dispatch(
+          'search/toggleFilter',
+          {filter: target.getAttribute('data-filter'), value: target.getAttribute('data-choice')}
+        )
+      },
+
+      searchTextChanged(){
+        this.log && console.log('C-SearchWithFilters / searchTextChanged...')
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+      },
+
+      translate( textsToTranslate, listField ) {
+        // this.log && console.log('C-SearchWithFilters / translate / listField : ', listField )
+        // this.log && console.log('C-SearchWithFilters / translate / textsToTranslate : ', textsToTranslate )
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
+
+      isFilterFromSelectedFiltersBold(filterName){
+        return false
+        // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
+      },
+      isFilterFromSelectedFiltersChecked(filterName){
+        //  :checked="selectedFilters.get(filter.name).has(choice.name)"
+        return false
+        // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
+      },
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
     },
 
-    searchTextChanged(){
-      this.log && console.log('C-SearchWithFilters / searchTextChanged...')
-      this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
-    },
 
-    translate( textsToTranslate, listField ) {
-      let listTexts = textsToTranslate[listField]
-      // return this.$store.getters['getTranslation']({ texts : listTexts })
-      return this.$Translate( listTexts, this.locale, 'text')
-    },
-    isFilterFromSelectedFiltersBold(filterName){
-      return false
-      // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
-    },
-    isFilterFromSelectedFiltersChecked(filterName){
-      //  :checked="selectedFilters.get(filter.name).has(choice.name)"
-      return false
-      // return (this.selectedFilters.get(filterName)) ? this.selectedFilters.get(filterName) : undefined
-    },
-  },
-
-
-}
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -192,14 +208,19 @@ export default {
   @import '../../assets/css/apiviz-misc.scss';
   @import '../../assets/css/rem.scss';
 
+
+  .getFilterTitle{
+    margin-left : 0.3em;
+  }
+
   .hide-choices{
     display: none;
   }
+
   .filters-delimiter{
     margin:0em;
     background-color: $apiviz-primary;
   }
-
 
   .search-bar {
     top: $apiviz-navbar-height;
@@ -207,7 +228,7 @@ export default {
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 
-    .search{
+    .search {
       flex: 1;
 
       display: flex;
@@ -232,25 +253,32 @@ export default {
       }
     }
 
-    .navbar-end{
+    .navbar-end {
 
-      .navbar-link::after{
-        content: url("/static/icons/icon_chevron3.svg");
-        border: 0;
-
-        transform: none;
-
-        margin-right: -0.5em;
-        width: rem(20px);
-
-        right: 1em;
-        top: 47%;
-      }
-
-      .navbar-item{
-        padding: 0.2em 0.2em;
+      .navbar-item {
+        // padding: 0.2em 0.2em ;
         border-left: 1px solid #CBCBCB;
+
+        .navbar-dropdown{
+          padding-bottom : 0em;
+
+          .navbar-item{
+            padding: 0.2em 0.2em 0.2em 0.7em ;
+          }
+          hr.end-choices {
+            margin-top: 0.7em;
+            margin-bottom: 0em;
+          }
+        }
       }
+      .reset-btn{
+        margin-top: 0em;
+
+        .no-underline {
+          text-decoration: none ;
+        }
+      }
+
     }
   }
 

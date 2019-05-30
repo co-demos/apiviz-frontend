@@ -248,3 +248,19 @@ export function getObjectDataFromPath(obj, path, splitter='/') {
     return ""
   }
 }
+
+export function filterObjectByKey(raw, allowedKeys ) {
+  // console.log("+ + + filterObjectByKey / raw : \n", raw )
+  // console.log("+ + + filterObjectByKey / allowedKeys : ", allowedKeys )
+  const filtered = Object.keys(raw)
+    .filter(key => allowedKeys.includes(key))
+    .reduce((obj, key) => {
+      return {
+        ...obj,
+        [key]: raw[key]
+      };
+    }, {});
+  // console.log("+ + + filterObjectByKey / filtered : \n", filtered )
+  // console.log()
+  return filtered
+}

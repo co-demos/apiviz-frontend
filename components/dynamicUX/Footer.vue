@@ -3,49 +3,49 @@
     <div class="container">
       <div class="columns">
 
-
+        <!-- LOOP FOOTER BLOCKS -->
         <div class="column is-3 is-offset-1"
-          v-for="(block_pos, index) in ['block_center_left', 'block_center_right','block_right']"
+          v-for="(block_pos, index) in blocksList"
           :key="index"
           >
 
+          <!-- BLOCK TITLE -->
           <h3 class="has-text-left has-text-primary"> 
-            {{ translate(footerLinks(block_pos), 'title_block') }}
+            {{ translate( footerLinks(block_pos), 'title_block' ) }}
           </h3>
 
-          <template 
-            v-if="isVisible( footerLinks(block_pos) )"
-            >
+          <template v-if="isVisible( footerLinks(block_pos) )" >
             <ul>
-              <li 
-                v-for="(link, index) in footerLinks(block_pos)['links']"
+              <!-- LOOP LINKS -->
+              <li v-for="(link, index) in footerLinks(block_pos)['links']"
                 :key="index"
-              >
-                <a :href="link.link_to" target="_blank"> 
+                >
+
+                <a v-if="link.is_visible && link.link_type == 'text' " :href="link.link_to" :target="`${ link.is_external_link ? '_blank' : ''}`"> 
                   {{ translate(link, 'link_text') }}
                 </a>
+
+                <hr v-if="link.is_visible && link.link_type === 'divider' ">
+
               </li>
             </ul>
           </template>
 
           <!-- ADD SOCIAL AT THE END -->
-          <template v-if="block_pos === 'block_right' ">
-            
+          <template v-if="HasSocials(block_pos)">
             <br>
+            <hr> 
             <div class="content">
-              <template  
-                  v-for="(icon, index) in appSocials"
-                >
-                <!-- {{ icon }} -->
-                <a
+              <!-- LOOP SOCIALS -->
+              <template  v-for="(icon, index) in appSocials">
+                <!-- ICONS SOCIAL -->
+                <a v-if="icon.in_footer"
                   class="button is-primary" 
                   :key="index"
                   :href="icon.url" 
-                >
+                  >
                   <span class="icon">
-                    <i 
-                      :class="icon.icon_class"
-                    ></i>
+                    <i :class="icon.icon_class"></i>
                   </span>
                 </a>
                 &nbsp;&nbsp;&nbsp;
@@ -64,7 +64,7 @@
 
 <script>
 
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 // import MailchimpSubscribe from './MailchimpSubscribe.vue'
 
 export default {
@@ -74,17 +74,31 @@ export default {
   },
 
   props : [
-    'footerConfig',
-    'appSocials'
+    // 'footerConfig',
+    // 'appSocials'
   ],
 
+  data : () => {
+    return   {
+      blocksList : ['block_center_left', 'block_center_right','block_right'],
+    }
+  },
+
   computed : {
+
     ...mapState ({
       locale : state => state.locale
     }),
+
+    ...mapGetters ({
+      footerConfig : 'config/getFooterConfig',
+      appSocials : 'config/getSocialsConfig',
+    }),
+
     footerUI() {
       return this.footerConfig.ui_options
     },
+
   },
 
   methods : {
@@ -94,10 +108,10 @@ export default {
       let blockLinks = allLinks[position]
       return blockLinks
     },
-    footerContents(position) {
-      let allContents = this.footerConfig.contents_fields
-      let blockContents = allContents[position]
-      return blockContents
+
+    HasSocials(position) {
+      let blockLinks = this.footerLinks(position)
+      return blockLinks.has_socials
     },
 
     isVisible(block) {

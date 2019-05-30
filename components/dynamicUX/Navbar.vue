@@ -1,5 +1,10 @@
 <template>
-  <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
+  <nav 
+    :class="`navbar is-fixed-top ${ navbarConfig.ui_options.background_color.bulma_color ? 'is-'+navbarConfig.ui_options.background_color.bulma_color : 'is-white'}`"
+    role="navigation" 
+    aria-label="main navigation"
+    >
+
 
     <div class="container">
         
@@ -11,8 +16,8 @@
       <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
       <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
     
+        <!-- :NavbarConfig="navbarConfig" -->
       <NavBarContent 
-        :NavbarLinks="navbarConfig.links_options"
         :localRouteConfig="localRouteConfig"
       ></NavBarContent>
 

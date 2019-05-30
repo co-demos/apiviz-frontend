@@ -107,6 +107,8 @@
         :mapStyle.sync="mapStyle"
         :center="center"
         :zoom="zoom"
+        :maxZoom="maxZoom"
+        :minZoom="minZoom"
         @load="onMapLoaded"
         ref='mapboxDiv'
         >
@@ -184,15 +186,20 @@ import mapboxgl from 'mapbox-gl'
 // import { getItemById } from '~/plugins/utils.js';
 
 import { StylesOSM } from '../../config/mapboxVectorStyles.js'
-import {  getStyleJSON, 
-          createGeoJSONSource, 
-          createClusterCirclesLayer, 
-          createClusterCountLayer, 
-          createClusterUnclusteredLayer,
-          createAllPoints,
-          createHeatmapLayer
-        } from '~/plugins/mapbox.js';
-import { createGeoJsonDataPoints } from '~/plugins/geoJson.js';
+import {  
+  getStyleJSON, 
+  createGeoJSONSource, 
+  createClusterCirclesLayer, 
+  createClusterCountLayer, 
+  createClusterUnclusteredLayer,
+  createAllPoints,
+  createHeatmapLayer,
+  createChoroplethLayer
+} from '~/plugins/mapbox.js';
+import { 
+  geoJsonBasesUrls,
+  createGeoJsonDataPoints
+} from '~/plugins/geoJson.js';
 
 
 export default {
@@ -241,13 +248,14 @@ export default {
 
       // MAPBOX SETUP
       preferCanvas: true,
-      zoom: 6,
-      maxZoom: 18,
-      minZoom: 2,
       currentZoom: 6,
 
-      center: GeoCenters.FRANCE_CENTER,
-      currentCenter: GeoCenters.FRANCE_CENTER,
+      zoom: GeoCenters.FRANCE.zoom,
+      maxZoom: GeoCenters.FRANCE.maxZoom,
+      minZoom: GeoCenters.FRANCE.minZoom,
+
+      center: GeoCenters.FRANCE.center,
+      currentCenter: GeoCenters.FRANCE.center,
 
       // url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
       // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contibutors',
@@ -258,7 +266,8 @@ export default {
       // mapStyle: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
 
       // mapStyle : StylesOSM.ShittyPlanet, // OK but shitty 
-      mapStyle : StylesOSM.testRasterPositron, // OK better
+      // mapStyle : StylesOSM.testRasterPositron, // OK better
+      mapStyle : StylesOSM.testRasterVoyager, // OK better
 
       // mapStyle : StylesOSM.testRasterOSM,
       // mapStyle : StylesOSM.testVectorStyle,
@@ -440,12 +449,39 @@ export default {
     },
 
     createAddGeoJsonSource(geoJson){
+
+      let mapbox = this.map
+      
       let allPointsSource = createGeoJSONSource(geoJson, { isCluster: false, clusterMaxZoom: 14, clusterRadius: 75 })
       let geoJsonSource = createGeoJSONSource(geoJson, { isCluster: true, clusterMaxZoom: 14, clusterRadius: 75 })
       // this.geoJsonSource = geoJsonSource
       // this.log && console.log("C-SearchResultsMapbox / createMapItems / geoJsonSource :", geoJsonSource)
-      this.map.addSource( 'allPointsSource', allPointsSource)
-      this.map.addSource( 'clusterSource', geoJsonSource)
+      mapbox.addSource( 'allPointsSource', allPointsSource)
+      mapbox.addSource( 'clusterSource', geoJsonSource)
+      
+
+
+      // - - - - - - - -  //
+      // TEST CHORROPLETH //
+
+      // cf : https://github.com/gregoiredavid/france-geojson
+      // cf : https://geojson-maps.ash.ms/
+      // cf : https://restcountries.eu/#api-endpoints-all
+
+      let choroplethId = "choroSource"
+
+      // let urlChoropleth = geoJsonBasesUrls.WORLD.local
+      let urlChoropleth = geoJsonBasesUrls.EUROPE.FRANCE.departements.allSimple
+
+      window.setInterval(function() {
+        mapbox.getSource(choroplethId).setData(urlChoropleth);
+      }, 3000)
+      mapbox.addSource( choroplethId, {
+        type: 'geojson',
+        data: urlChoropleth
+      })
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / mapbox :", mapbox)
+
     },
 
     createAddGeoJsonLayers(geoJsonSourceId) {
@@ -461,8 +497,15 @@ export default {
       let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, {})
       let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, {})
 
+      let choroplethConfig = createChoroplethLayer('choroSource', {})
 
-      //  HEEATMAP
+      //  CHOROPLETH
+      // 0 - adding layer to display choropleth
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - choropleth - layer / choroplethConfig : ", choroplethConfig)
+      // mapboxMap.addLayer(choroplethConfig)
+
+
+      //  HEATMAP
       // 0 - adding layer to display heatmap
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - heatmap - layer ")
       // mapboxMap.addLayer(heatmapLayerConfig)
@@ -628,6 +671,7 @@ export default {
       this.createAddGeoJsonLayers( { clusterId : 'clusterSource', allPointsId : 'allPointsSource' } )
       this.isClusterSet = true
       // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+
     },
 
     updateSourceData(itemsForMap){
@@ -637,6 +681,7 @@ export default {
         let geoJson = createGeoJsonDataPoints(itemsForMap)
         this.map.getSource('clusterSource').setData(geoJson)
         this.map.getSource('allPointsSource').setData(geoJson)
+        // TO DO : update choropleth
       }
     },
 

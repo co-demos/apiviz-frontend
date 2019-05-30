@@ -55,7 +55,7 @@ displays your data as a detailed pages, given your configuration set in backoffi
 ## ADMIN / BACKOFFICE 
 (in development)
 
-manage your Apiviz' instance configuration
+manage and modify your Apiviz' instance configuration from the back office
 
-{% include figure image_path="/documentation/screenshots/backoffice-sonum-01.png" alt="admin view" %}
+{% include figure image_path="/documentation/screenshots/backoffice-sonum-02.png" alt="admin view" %}
 

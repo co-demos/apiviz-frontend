@@ -11,14 +11,12 @@
       v-if="has_banner"
       :dynamicTemplate="localRouteConfig.dynamic_template"
     ></DynamicBanner> 
-      <!-- :template_url="this.getCurrentBanner.template_url" -->
 
 
     <!-- REMOTE STATICS -->
     <DynamicStatic 
       v-if=" localRouteConfig.dynamic_template == 'DynamicStatic' "
     ></DynamicStatic>
-      <!-- :routeConfig="localRouteConfig" -->
 
     <!-- LOCAL TEST STATIC -->
     <!-- <DynamicStaticTest 
@@ -52,8 +50,6 @@
     <!-- FOOTERS -->
     <Footer 
       v-if="has_footer"
-      :footerConfig="footerConfig" 
-      :appSocials="socialsConfig" 
     ></Footer>
 
     <!-- PROJECT's PARTNERS FOOTER -->
@@ -62,23 +58,15 @@
       :templateURL="footerConfig.credits_footer_url"
     ></DynamicStaticRaw>
 
-
-
     <!-- DEBUGGING -->
-    <section class="container">
-      <div class="container">
+    <!-- <section class="container"> -->
+      <!-- <div class="container"> -->
 
-        <br><br><br>
+        <!-- <br><br><br> -->
 
-        <!-- <h1 class="title">
-          apiviz-nuxt
-        </h1>
-        <h2 class="subtitle">
-          Migrating apiviz frontend as SPA Nuxt project
-        </h2> -->
+        <!-- <hr> -->
+        <!-- <div> -->
 
-        <hr>
-        <div>
           <!-- (console) log : <code>{{ log }}</code><br> -->
           <!-- runMode : <code>{{ runMode }}</code><br> -->
           <!-- apivizFrontUUID : <code>{{ apivizFrontUUID }}</code><br> -->
@@ -94,27 +82,33 @@
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- navbarConfig.logo_to : <br><code>{{ navbarConfig.logo_to }}</code><br> -->
           <!-- config.socials.app_facebook : <br><code>{{ config.socials.app_facebook }}</code><br> -->
-          localRouteConfig.field : <code>{{ localRouteConfig.field }}</code><br> 
-          localRouteConfig.dynamic_template : <code>{{ localRouteConfig.dynamic_template }}</code><br> 
+          <!-- localRouteConfig.field : <code>{{ localRouteConfig.field }}</code><br>  -->
+          <!-- localRouteConfig.dynamic_template : <code>{{ localRouteConfig.dynamic_template }}</code><br>  -->
           <!-- localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>  -->
-          <hr>
-          currentDatasetURI : <code>{{ currentDatasetURI }}</code><br> 
+
+          <!-- <hr> -->
+          
+          <!-- currentDatasetURI : <code>{{ currentDatasetURI }}</code><br>  -->
           <!-- localEndpointConfig : <code>{{ localEndpointConfig }}</code><br>  -->
           <!-- localFiltersConfig : <br><pre><code>{{ JSON.stringify(localFiltersConfig, null, 1) }}</code></pre><br>  -->
-          <hr>
+
+          <!-- <hr> -->
+          
           <!-- datasetFilters : <br><pre><code>{{ JSON.stringify(datasetFilters, null, 1) }}</code></pre><br> -->
           
           <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions, null, 1) }}</code></pre><br> -->
-          search.dataset_uri : <code>{{ search.dataset_uri }}</code><br> 
-          search.endpoint_type : <code>{{ search.endpoint_type }}</code><br> 
+          <!-- search.dataset_uri : <code>{{ search.dataset_uri }}</code><br>  -->
+          <!-- search.endpoint_type : <code>{{ search.endpoint_type }}</code><br>  -->
           <!-- search.endpoint : <br><pre><code>{{ JSON.stringify(search.endpoint, null, 1) }}</code></pre><br>  -->
 
 
           <!-- search.config : <br><pre><code>{{ JSON.stringify(search.config, null, 1) }}</code></pre><br> -->
-          search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br>
-          search.answer.result.total : <code>{{ search.answer.result ? search.answer.result.total : "nothing yet" }}</code><br>
+          <!-- search.question : <br><pre><code>{{ JSON.stringify(search.question, null, 1) }}</code></pre><br> -->
+          <!-- search.answer.result.total : <code>{{ search.answer.result ? search.answer.result.total : "nothing yet" }}</code><br> -->
           <!-- search.answer : <br><pre><code>{{ JSON.stringify(search.answer, null, 1) }}</code></pre><br> -->
-          <hr>
+          
+          <!-- <hr> -->
+          
           <!-- jwt : <br><code>{{ jwt }}</code><br> -->
           <!-- user : <br><code>{{ user }}</code><br> -->
           <!-- <hr> -->
@@ -122,9 +116,9 @@
           <!-- has_credits_footer : <code>{{ has_credits_footer }}</code><br> -->
           <!-- <hr> -->
           <!-- search : <br><code>{{ search }}</code><hr> -->
-        </div>
-      </div>
-    </section>
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </section> -->
 
 
 
@@ -134,16 +128,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-// default nuxt boilerplate ....
-// import Logo from '~/components/Logo.vue'
+import NavBar from '~/components/dynamicUx/NavBar.vue'
+import Footer from '~/components/dynamicUx/Footer.vue'
 
-import NavBar from '~/components/dynamicUx/NavBar.vue';
-import Footer from '~/components/dynamicUx/Footer.vue';
-
-import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue';
-import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue';
-import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue';
-// import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue';
+import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue'
+import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue'
+import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
+// import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue'
 
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
@@ -179,10 +170,6 @@ export default {
 
   data () {
     return {
-      // localRouteConfig : undefined,
-      // localEndpointConfig : undefined,
-      // localFiltersConfig : undefined,
-      // currentDatasetURI : undefined,
     }
   },
 
@@ -219,12 +206,13 @@ export default {
       localFiltersConfig : 'config/getLocalFiltersConfig',
       currentDatasetURI : 'config/getCurrentDatasetURI',
 
+      footerConfig : 'config/getFooterConfig',
+
       has_navbar : 'config/hasNavbar',
       has_footer : 'config/hasFooter',
       has_credits_footer : 'config/hasCreditsFooter',
       has_banner : 'config/hasBanner',
-      footerConfig : 'config/getFooterConfig',
-      socialsConfig : 'config/getSocialsConfig',
+
     }),
 
   },

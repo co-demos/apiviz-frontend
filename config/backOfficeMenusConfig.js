@@ -1,375 +1,545 @@
 export const BackofficeGlobal = Object.freeze({
-  
-  /* 
-    // MODEL CONFIG BACK OFFICE EDITOR
-    { 
-      'config_coll' : 'global',       // DB COLLECTION - ALSO TO CHECK IF IS ACTIVE
-      'title' : 'global settings',    // TITLE IN SIDEBAR
-      "is_divider" : false,           // IS DIVIDER IN SIDEBAR
-      'icon' : 'fas fa-cog',          // ICON IN SIDEBAR
-
-      'tabs'  : [                     // TABS LIST ONCE SIDEBAR SELECTED
-        
-        { 
-          'tab_code' : 'gl_general' , // CODE TAB - TO CHECK IF IS ACTIVE
-          'tab_type' : 'doc',         // TAB EDIT TYPE
-          'title' : 'general',        // TAB TITLE
-          'fields' : [                // LIST FIELDS TO EDIT
-            
-            { 
-              'field' : 'app_title',  // FIELD CODE IN DOCUMENT
-              'title' : 'app title',  // FIELD TITLE TO DISPLAY
-              'type' : 'bloc',        // FIELD TYPE : 'bloc' | 'list'
-              'edit' : [              // LIST SUBFIELDS TO EDIT
-                { 
-                  'subfield' : 'content',   // SUBFIELD TO EDIT
-                  'type' : 'text',          // TYPE OF EDIT BLOC
-                  'list' : false            // IF SUBFIELD CONTENT IS LIST
-                }
-              ], 
-            },
-
-          ]
-        },
-
-      ]
-    },
-  */
 
   // APP CONFIGURATION
   config  : [
 
     // GLOBAL
-    { 'config_coll' : 'global', 
-      'title' : 'global settings',
-      "is_divider" : false,
-      'icon' : 'fas fa-cog',
-      'tabs'  : [
-        { 'tab_code' : 'gl_general' , 
-        'tab_type' : 'doc',
-          'title' : 'general',
-          'fields' : [
-            { 'field' : 'app_title',
-              'title' : 'app title',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text', 'list' : false}
+    { config_coll : 'global', 
+      activated : true, 
+      code : 'bo_global',
+      title : 'global settings',
+      is_divider : false,
+      icon : 'fas fa-cog',
+      tabs  : [
+        { tab_code : 'gl_general' , 
+          tab_type : 'docs',
+          title : 'general',
+          docs : [
+            { field : 'app_title',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                {subfield : 'can_be_used_as_model'},
+                {subfield : 'image_preview'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_description',
-              'title' : 'app description',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
+            { field : 'app_description',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_languages',
-              'title' : 'app languages',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'locale', 'type' : 'text', 'list' : false}, 
-                {'subfield' : 'languages', 'type' : 'text', 'list' : true}
+            { field : 'app_languages',
+              title : '',
+              type : 'blocs', 
+              canAddToList : true,
+              edit : [
+                {subfield : 'locale'}, 
+                {subfield : 'is_multi_lang'},
+                {subfield : 'languages'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
         },
-        { 'tab_code' : 'gl_identity', 
-        'tab_type' : 'doc',
-          'title' : 'site identity',
-          'fields' : [
-            { 'field' : 'app_logo',
-              'title' : 'app logo',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false}
+        { tab_code : 'gl_identity', 
+          tab_type : 'docs',
+          title : 'site identity',
+          docs : [
+            { field : 'app_logo',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_favicon',
-              'title' : 'app favicon',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false}
+            { field : 'app_favicon',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_welcome',
-              'title' : 'app welcome',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
+            { field : 'app_welcome',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_pitch',
-              'title' : 'app pitch',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
+            { field : 'app_pitch',
+              title : 'app pitch',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
               ], 
             }
           ]
         },
-        { 'tab_code' : 'gl_meta',
-        'tab_type' : 'doc', 
-          'title' : 'meta',
-          'fields' : [
-            { 'field' : 'app_keywords',
-              'title' : 'app logo',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text', 'list' : false}
+        { tab_code : 'gl_meta',
+          tab_type : 'docs', 
+          title : 'meta',
+          docs : [
+            { field : 'app_keywords',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_code',
-              'title' : 'app logo',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'content', 'type' : 'text-lang', 'list' : false}
-              ], 
-            },
-          ]
-        },
-        { 'tab_code' : 'gl_seo',
-        'tab_type' : 'doc', 
-          'title' : 'seo',
-          'fields' : [
-            { 'field' : 'app_analytics',
-              'title' : 'app analytics',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text', 'list' : false},
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'activated', 'type' : 'bool', 'list' : false}
-              ], 
-            },
-            { 'field' : 'app_support',
-              'title' : 'app support',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text', 'list' : false},
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'activated', 'type' : 'bool', 'list' : false}
-              ], 
-            },
-            { 'field' : 'app_indexing',
-              'title' : 'app indexing',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'content', 'type' : 'text', 'list' : false},
-                {'subfield' : 'activated', 'type' : 'bool', 'list' : false}
+            { field : 'app_code',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
         },
-        { 'tab_code' : 'gl_lang',
-        'tab_type' : 'doc', 
-          'title' : 'international',
-          'fields' : [
+        { tab_code : 'gl_seo',
+          tab_type : 'docs', 
+          title : 'seo',
+          docs : [
+            { field : 'app_analytics',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                {subfield : 'url'},
+                {subfield : 'activated'},
+                //{subfield : 'is_default'},
+              ], 
+            },
+            { field : 'app_support',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                {subfield : 'url'},
+                {subfield : 'activated'},
+                //{subfield : 'is_default'},
+              ], 
+            },
+            { field : 'app_indexing',
+              title : '',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                {subfield : 'activated'},
+                //{subfield : 'is_default'},
+              ], 
+            },
+          ]
+        },
+        { tab_code : 'gl_lang',
+          tab_type : 'docs', 
+          title : 'international',
+          docs : [
+            // {
+            //   field : 'app_basic_dict',
+            //   title : 'basic dict as default',
+            //   type : 'blocs', 
+            //   edit : [
+            //     //{subfield : 'is_default'},
+            //   ], 
+            // },
             {
-              'field' : 'app_basic_dict',
-              'title' : 'app basic dictionary',
-              'type' : 'bloc', 
-              'edit' : ['content'], 
-            }
+              field : 'app_basic_dict',
+              title : 'basic dict values',
+              type : 'blocs', 
+              canAddKeys : true,
+              edit : [
+                {subfield : 'no_data'},
+                {subfield : 'reinit_filters'},
+                {subfield : 'no_abstract'},
+                {subfield : 'no_address'},
+                {subfield : 'source'},
+                {subfield : 'back_to_results'},
+                {subfield : 'see_website'},
+                {subfield : 'see_contact'},
+                {subfield : 'see_website'},
+                {subfield : 'share_link'},
+                {subfield : 'infos'},
+                {subfield : 'open_infos'},
+                {subfield : 'more_infos'},
+                {subfield : 'name'},
+                {subfield : 'surname'},
+                {subfield : 'tel'},
+                {subfield : 'period'},
+                {subfield : 'services'},
+                {subfield : 'dowload_file'},
+                {subfield : 'hello'},
+                {subfield : 'pref_user'},
+                {subfield : 'backoffice'},
+                {subfield : 'email'},
+                {subfield : 'login'},
+                {subfield : 'connect'},
+                {subfield : 'connected'},
+                {subfield : 'reconnect'},
+                {subfield : 'disconnect'},
+                {subfield : 'disconnect_msg'},
+                {subfield : 'want_disconnect'},
+                {subfield : 'is_account'},
+                {subfield : 'no_account'},
+                {subfield : 'register'},
+                {subfield : 'is_registered'},
+                {subfield : 'logout'},
+                {subfield : 'name'},
+                {subfield : 'surname'},
+                {subfield : 'password'},
+                {subfield : 'password_bis'},
+                {subfield : 'remember_me'},
+                {subfield : 'forgot_password'},
+                {subfield : 'create_account'},
+                {subfield : 'accept_cgu'},
+              ], 
+            },
           ]
         },
       ]
     },
+    
     // NAVBAR
-    { 'config_coll' : 'navbar',
-      'title' : 'navbar',
-      "is_divider" : false,
-      'icon' : 'fas fa-bars',
-      'tabs'  : [
-        { 
-          'tab_code' : 'na_logo', 
-          'tab_type' : 'doc',
-          'title' : 'logo link',
-          'fields' : [
-            { 'field' : 'app_navbar',
-              'title' : 'app navbar logo',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'logo_to', 'type' : 'text', 'list' : false}
+    { config_coll : 'navbar',
+      activated : true, 
+      code : 'bo_navbar',
+      title : 'navbar',
+      is_divider : false,
+      icon : 'fas fa-bars',
+      tabs  : [
+        { tab_code : 'na_global', 
+          tab_type : 'docs',
+          title : 'navbar settings',
+          docs : [
+            { field : 'app_navbar',
+              title : 'settings',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                {subfield : 'logo_to'},
+                {subfield : 'ui_options'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
         },
-        { 
-          'tab_code' : 'na_links', 
-          'tab_type' : 'doc',
-          'title' : 'links buttons',
-          'fields' : [
-            { 'field' : 'app_navbar',
-              'title' : 'app navar buttons',
-              'type' : 'bloc', 
-              'edit' : [
-                {
-                  'subfield' : 'links_options.extra_buttons', 
-                  'type' : 'list', 
-                  'object_model' : [
-                    {'subfield' : 'is_divider', 'type' : 'bool', 'list' : false},
-                    {'subfield' : 'is_external_link', 'type' : 'bool', 'list' : false},
-                    {'subfield' : 'link_to', 'type' : 'text', 'list' : false},
-                    {'subfield' : 'link_text', 'type' : 'text', 'list' : true},
-                  ],
-                }
-              ], 
+        { tab_code : 'na_links', 
+          tab_type : 'docs',
+          title : 'navbar links',
+          docs : [
+            { field : 'app_navbar', // doc retrieved in collection
+              title : 'navar buttons',
+              type : 'blocs', 
+              canAddToList : true,
+              help_field : 'help',
+              edit : [
+                {subfield : 'links_options'}, 
+                //{subfield : 'is_default'},
+              ],
             },
-          ]
-        },
-        { 
-          'tab_code' : 'na_btn'  , 
-          'tab_type' : 'doc',
-          'title' : 'call_button',
-          'fields' : [
-
+            // { field : 'app_navbar', // doc retrieved in collection
+            //   title : 'navar buttons',
+            //   type : 'blocs_list', 
+            //   add_delete : true,
+            //   help_field : 'help',
+            //   edit : [
+            //     {
+            //       subfield : 'links_options.extra_buttons', 
+            //       // list_filters : [
+            //       // ],
+            //       object_model : [
+            //         {subfield : 'is_divider'},
+            //         {subfield : 'is_external_link'},
+            //         {subfield : 'link_to'},
+            //         {subfield : 'link_text'},
+            //       ],
+            //     }
+            //   ], 
+            // },
           ]
         },
       ]
     },
 
     // ROUTES
-    { 'config_coll' : 'routes',
-      'title' : 'routes',
-      "is_divider" : false,
-      'icon' : 'far fa-sticky-note',
-      'tabs'  : [
-        { 
-          'tab_code' : 'ro_home', 
-          'tab_type' : 'doc',
-          'title' : 'home page',
-          'fields' : [
-
+    { config_coll : 'routes',
+      activated : true, 
+      code : 'bo_routes',
+      title : 'routes',
+      is_divider : false,
+      icon : 'far fa-sticky-note',
+      tabs  : [
+        { tab_code : 'ro_data', 
+          tab_type : 'docs_list',
+          title : 'datasets routes',
+          docs : [
+            { field : '',
+              title : 'dynamic routes',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'is_dynamic', is : [true] },
+                { field : 'dynamic_template', isNot : ['DynamicStatic', 'Login', 'Register', 'Logout', 'BackOffice'] },
+              ],
+              help_field : 'route_description',
+              add_delete : true,
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
-        { 
-          'tab_code' : 'ro_data', 
-          'tab_type' : 'doc',
-          'title' : 'datasets pages',
-          'fields' : [
-
+        { tab_code : 'ro_statics', 
+          tab_type : 'docs_list',
+          title : 'static routes',
+          docs : [
+            { field : '',
+              title : 'static routes',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'dynamic_template', is : ['DynamicStatic'] },
+              ],
+              help_field : 'route_description',
+              add_delete : true,
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
-        { 
-          'tab_code' : 'ro_statics', 
-          'title' : 'static pages',
-          'fields' : [
-
+        { tab_code : 'ro_user', 
+          tab_type : 'docs_list',
+          title : 'auth routes',
+          docs : [
+            { field : '',
+              title : 'auth routes',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'is_dynamic', is : [true] },
+                { field : 'dynamic_template', is : ['Login', 'Register', 'Logout', 'BackOffice'] },
+              ],
+              help_field : 'route_description',
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
       ]
     },
 
     // ENDPOINTS
-    { 'config_coll' : 'endpoints',
-      'title' : 'API endpoints',
-      "is_divider" : false,
-      'icon' : 'fas fa-database',
-      'tabs'  : [
-        { 
-          'tab_code' : 'ep_data', 
-          'tab_type' : 'doc',
-          'title' : 'datasets',
-          'fields' : [
-
+    { config_coll : 'endpoints',
+      activated : true, 
+      code : 'bo_endpoints',
+      title : 'API endpoints',
+      is_divider : false,
+      icon : 'fas fa-database',
+      tabs  : [
+        { tab_code : 'ep_data_filters', 
+          tab_type : 'docs_list',
+          title : 'filters',
+          docs : [
+            { field : '-',
+              title : 'data filters',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'data_type', is : ['data'] },
+                { field : 'endpoint_type', is : ['filters'] },
+              ],
+              help_field : 'content',
+              add_delete : true,
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
-        { 
-          'tab_code' : 'ep_user', 
-          'tab_type' : 'doc',
-          'title' : 'user',
-          'fields' : [
-
+        { tab_code : 'ep_data', 
+          tab_type : 'docs_list',
+          title : 'datasets',
+          docs : [
+            { field : '-',
+              title : 'data endpoints',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'data_type', is : ['data'] },
+                { field : 'endpoint_type', isNot : ['filters'] },
+              ],
+              help_field : 'content',
+              add_delete : true,
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
-        { 
-          'tab_code' : 'ep_auth', 
-          'tab_type' : 'doc',
-          'title' : 'authentication',
-          'fields' : [
-
+        { tab_code : 'ep_auth', 
+          tab_type : 'docs_list',
+          title : 'authentication',
+          docs : [
+            { field : '-',
+              title : 'auth endpoints',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'endpoint_type', is : ['auth_root'] },
+              ],
+              help_field : 'content',
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
           ]
         },
+        { tab_code : 'ep_user', 
+          tab_type : 'docs_list',
+          title : 'user',
+          docs : [
+            { field : '-',
+              title : 'user endpoints',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+                { field : 'data_type', is : ['user'] },
+                { field : 'endpoint_type', isNot : ['auth_root'] },
+              ],
+              help_field : 'content',
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                // //{subfield : 'is_default'},
+                {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
+          ]
+        },
+
       ]
     },
 
     // FOOTER
-    { 'config_coll' : 'footer',
-      'title' : 'footer',
-      "is_divider" : false,
-      'icon' : 'fas fa-link',
-      'tabs'  : [
-        { 
-          'tab_code' : 'fo_settings', 
-          'tab_type' : 'doc',
-          'title' : 'settings',
-          'fields' : [
-
+    { config_coll : 'footer',
+      activated : true, 
+      code : 'bo_footer',
+      title : 'footer',
+      is_divider : false,
+      icon : 'fas fa-link',
+      tabs  : [
+        { tab_code : 'fo_settings', 
+          tab_type : 'docs',
+          title : 'settings',
+          docs : [
+            { field : 'app_footer',
+              title : 'footer settings',
+              type : 'blocs', 
+              edit : [
+                // {subfield : 'active_columns'},
+                // {subfield : 'has_credits_footer'},
+                {subfield : 'ui_options'},
+                {subfield : 'contents_fields'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
-        { 
-          'tab_code' : 'fo_contents', 
-          'tab_type' : 'doc',
-          'title' : 'contents',
-          'fields' : [
-
-          ]
-        },
-        { 
-          'tab_code' : 'fo_ui', 
-          'tab_type' : 'doc',
-          'title' : 'ui',
-          'fields' : [
-
-          ]
-        },
-        { 
-          'tab_code' : 'fo_links', 
-          'tab_type' : 'doc',
-          'title' : 'links',
-          'fields' : [
-
+        { tab_code : 'fo_links', 
+          tab_type : 'docs',
+          title : 'links',
+          docs : [
+            { field : 'app_footer',
+              title : 'footer links',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'links_options'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
       ]
     },
 
     // SOCIALS
-    { 'config_coll' : 'socials',
-      'title' : 'socials',
-      "is_divider" : false,
-      'icon' : 'fas fa-share-alt',
-      'tabs'  : [
-        { 
-          'tab_code' : 'so_settings', 
-          'tab_type' : 'doc',
-          'title' : 'settings',
-          'fields' : [
-            { 'field' : 'app_twitter',
-              'title' : 'app twitter',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'tooltip', 'type' : 'text-lang', 'list' : false},
-                {'subfield' : 'in_footer', 'type' : 'bool', 'list' : false},
+    { config_coll : 'socials',
+      activated : true, 
+      code : 'bo_socials',
+      title : 'socials',
+      is_divider : false,
+      icon : 'fas fa-share-alt',
+      tabs  : [
+        { tab_code : 'so_settings', 
+          tab_type : 'docs',
+          title : 'socials links',
+          docs : [
+            { field : 'app_twitter',
+              title : 'app twitter',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                {subfield : 'tooltip'},
+                {subfield : 'in_footer'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_facebook',
-              'title' : 'app facebook',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'tooltip', 'type' : 'text-lang', 'list' : false},
-                {'subfield' : 'in_footer', 'type' : 'bool', 'list' : false},
+            { field : 'app_facebook',
+              title : 'app facebook',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                {subfield : 'tooltip'},
+                {subfield : 'in_footer'},
+                //{subfield : 'is_default'},
               ], 
             },
-            { 'field' : 'app_github',
-              'title' : 'app github',
-              'type' : 'bloc', 
-              'edit' : [
-                {'subfield' : 'url', 'type' : 'text', 'list' : false},
-                {'subfield' : 'tooltip', 'type' : 'text-lang', 'list' : false},
-                {'subfield' : 'in_footer', 'type' : 'bool', 'list' : false},
+            { field : 'app_github',
+              title : 'app github',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'url'},
+                {subfield : 'tooltip'},
+                {subfield : 'in_footer'},
+                //{subfield : 'is_default'},
               ], 
             },
           ] 
@@ -378,73 +548,107 @@ export const BackofficeGlobal = Object.freeze({
     },
 
     // STYLES
-    { 'config_coll' : 'styles',
-      'title' : 'styles',
-      "is_divider" : false,
-      'icon' : 'fas fa-paint-brush',
-      'tabs'  : [
-        { 
-          'tab_code' : 'st_colors', 
-          'tab_type' : 'doc',
-          'title' : 'app colors',
-          'fields' : [
-
+    { config_coll : 'styles',
+      activated : true, 
+      code : 'bo_styles',
+      title : 'styles',
+      is_divider : false,
+      icon : 'fas fa-paint-brush',
+      tabs  : [
+        { tab_code : 'st_colors', 
+          tab_type : 'docs',
+          title : 'colors',
+          docs : [
+            { field : 'app_colors',
+              title : 'colors',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
-        { 
-          'tab_code' : 'st_typo', 
-          'tab_type' : 'doc',
-          'title' : 'app typo',
-          'fields' : [
-
+        { tab_code : 'st_typo', 
+          tab_type : 'docs',
+          title : 'typo',
+          docs : [
+            { field : 'app_typo',
+              title : 'typos',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
-        { 
-          'tab_code' : 'st_typocolors', 
-          'tab_type' : 'doc',
-          'title' : 'app typo colors',
-          'fields' : [
-
+        { tab_code : 'st_typocolors', 
+          tab_type : 'docs',
+          title : 'typo colors',
+          docs : [
+            { field : 'app_typo_colors',
+              title : 'typo colors',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'content'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
-        { 
-          'tab_code' : 'st_banners', 
-          'tab_type' : 'doc',
-          'title' : 'app banners',
-          'fields' : [
-
+        { tab_code : 'st_banners', 
+          tab_type : 'docs',
+          title : 'banners',
+          docs : [
+            { field : 'app_banners',
+              title : 'banners',
+              type : 'blocs', 
+              canAddToList : true,
+              edit : [
+                {subfield : 'banners_set'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
-        { 
-          'tab_code' : 'st_images', 
-          'tab_type' : 'doc',
-          'title' : 'app default images sets',
-          'fields' : [
-
+        { tab_code : 'st_images', 
+          tab_type : 'docs',
+          title : 'default images',
+          canAddToList : true,
+          docs : [
+            { field : 'app_search_default_images_sets',
+              title : 'images',
+              type : 'blocs', 
+              edit : [
+                {subfield : 'images_sets'},
+                //{subfield : 'is_default'},
+              ], 
+            },
           ]
         },
       ]
     },
     
     // USERS
-    { 'config_coll' : 'users',
-      'title' : 'users',
-      "is_divider" : false,
-      'icon' : 'fas fa-users',
-      'tabs'  : [
-        { 
-          'tab_code' : 'us_users', 
-          'tab_type' : 'doc',
-          'title' : 'users',
-          'fields' : [
+    { config_coll : 'users',
+      activated : true, 
+      code : 'bo_users',
+      title : 'users',
+      is_divider : false,
+      icon : 'fas fa-users',
+      tabs  : [
+        { tab_code : 'us_users', 
+          tab_type : 'docs',
+          title : 'users',
+          docs : [
 
           ]
         },
-        { 
-          'tab_code' : 'us_teams', 
-          'tab_type' : 'doc',
-          'title' : 'teams',
-          'fields' : [
+        { tab_code : 'us_teams', 
+          tab_type : 'docs',
+          title : 'teams',
+          docs : [
 
           ]
         },
@@ -453,21 +657,5 @@ export const BackofficeGlobal = Object.freeze({
   
   ],
 
-  // USER PREFERENCES
-  user : [
-
-    { 'config_coll' : 'u_infos', 
-      'title' : 'infos',
-      "is_divider" : false,
-      'icon' : 'far fa-user',
-    },
-
-    { 'config_coll' : 'u_password', 
-      'title' : 'password',
-      "is_divider" : false,
-      'icon' : 'fas fa-unlock',
-    },
-
-  ],
 
 })

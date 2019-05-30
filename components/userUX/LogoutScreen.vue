@@ -14,14 +14,43 @@
               {{ getText('disconnect_msg') }}
             </h3>
             <div class="box">
-              <router-link 
+
+              <!-- <nuxt-link 
+                class="button is-block is-primary is-fullwidth" 
+                :to="'/'"
+                >
+                home
+              </nuxt-link> -->
+        
+              <button
+                class="button is-block is-primary is-fullwidth" 
+                @click="goBack"
+                >
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  Back
+                </span>
+              </button>
+
+
+              <br>
+        
+              <nuxt-link 
                 class="button is-block is-primary is-fullwidth" 
                 type="submit" 
                 :to="'/login'"
                 >
                 <!-- RECONNECT -->
-                {{ getText('reconnect') }}
-              </router-link>
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>
+                  {{ getText('reconnect') }}
+                </span>
+              </nuxt-link>
+
             </div>
           </div>
 
@@ -33,11 +62,31 @@
               {{ getText('want_disconnect') }}
             </h3>
             <div class="box">
+
+              <button
+                class="button is-block is-primary is-fullwidth" 
+                @click="goBack"
+                >
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  Back
+                </span>
+              </button>
+
+              <br>
+
               <button 
                 class="button is-block is-primary is-fullwidth" 
                 type="submit" 
                 @click="sendLogout">
-                {{ getText('disconnect') }}
+                <span class="icon">
+                  <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>
+                  {{ getText('disconnect') }}
+                </span>
               </button>
             </div>
           </div>
