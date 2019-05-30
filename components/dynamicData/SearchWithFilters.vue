@@ -22,7 +22,6 @@
         </span>
       </div>
 
-
       <!-- INPUT FILTERS -->
       <hr class="is-flex-touch filters-delimiter">
 
