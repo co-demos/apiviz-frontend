@@ -127,12 +127,12 @@
         :class="`navbar-item is-hoverable has-dropdown no-padding-right`"
         >
         <!-- LOCALES BTN -->
-        <a :class="`navbar-link is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
+        <a :class="`navbar-link is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
           >
           {{ locale }}
         </a>
 
-        <div class="navbar-dropdown is-right">
+        <div class="navbar-dropdown">
 
           <!-- LOOP LOCALES -->
           <a v-for="(loc, index) in languages.languages" 

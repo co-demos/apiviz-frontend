@@ -1,46 +1,11 @@
 export const BackofficeGlobal = Object.freeze({
-  
-  /* 
-    // MODEL CONFIG BACK OFFICE EDITOR
-    { 
-      config_coll : 'global',       // DB COLLECTION - ALSO TO CHECK IF IS ACTIVE
-      title : 'global settings',    // TITLE IN SIDEBAR
-      is_divider : false,           // IS DIVIDER IN SIDEBAR
-      icon : 'fas fa-cog',          // ICON IN SIDEBAR
-
-      tabs  : [                     // TABS LIST ONCE SIDEBAR SELECTED
-        
-        { 
-          tab_code : 'gl_general' , // CODE TAB - TO CHECK IF IS ACTIVE
-          tab_type : 'docs',        // TAB EDIT TYPE
-          title : 'general',        // TAB TITLE
-          docs : [                  // LIST DOCS TO EDIT
-            
-            { 
-              field : 'app_title',  // FIELD CODE IN DOCUMENT
-              title : 'app title',  // FIELD TITLE TO DISPLAY
-              type : 'blocs',        // FIELD TYPE : 'blocs' | 'list'
-              edit : [              // LIST SUBFIELDS TO EDIT
-                { 
-                  subfield : 'content',   // SUBFIELD TO EDIT
-                  type : 'text',          // TYPE OF EDIT BLOC
-                  'list' : false          // IF SUBFIELD CONTENT IS LIST
-                }
-              ], 
-            },
-
-          ]
-        },
-
-      ]
-    },
-  */
 
   // APP CONFIGURATION
   config  : [
 
     // GLOBAL
     { config_coll : 'global', 
+      activated : true, 
       code : 'bo_global',
       title : 'global settings',
       is_divider : false,
@@ -245,6 +210,7 @@ export const BackofficeGlobal = Object.freeze({
     
     // NAVBAR
     { config_coll : 'navbar',
+      activated : true, 
       code : 'bo_navbar',
       title : 'navbar',
       is_divider : false,
@@ -306,6 +272,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // ROUTES
     { config_coll : 'routes',
+      activated : true, 
       code : 'bo_routes',
       title : 'routes',
       is_divider : false,
@@ -386,6 +353,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // ENDPOINTS
     { config_coll : 'endpoints',
+      activated : true, 
       code : 'bo_endpoints',
       title : 'API endpoints',
       is_divider : false,
@@ -490,6 +458,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // FOOTER
     { config_coll : 'footer',
+      activated : true, 
       code : 'bo_footer',
       title : 'footer',
       is_divider : false,
@@ -531,6 +500,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // SOCIALS
     { config_coll : 'socials',
+      activated : true, 
       code : 'bo_socials',
       title : 'socials',
       is_divider : false,
@@ -577,6 +547,7 @@ export const BackofficeGlobal = Object.freeze({
 
     // STYLES
     { config_coll : 'styles',
+      activated : true, 
       code : 'bo_styles',
       title : 'styles',
       is_divider : false,
@@ -659,6 +630,7 @@ export const BackofficeGlobal = Object.freeze({
     
     // USERS
     { config_coll : 'users',
+      activated : true, 
       code : 'bo_users',
       title : 'users',
       is_divider : false,

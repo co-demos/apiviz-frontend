@@ -7,7 +7,7 @@
     <aside class="column noPaddingBottom
     
       is-full-mobile 
-      is-3-tablet 
+      is-4-tablet 
       is-3-desktop 
       is-3-widescreen 
       is-2-fullhd
@@ -20,12 +20,12 @@
 
       <!-- MENUS -->
       <ul class="menu-list">
-        <li 
-          v-for="menu in backOfficeMenu"
+        <li v-for="menu in backOfficeMenu"
           :key="menu.config_coll"
           >
           <nuxt-link 
             :to="'/backoffice/' + menu.config_coll" 
+            :event=" !menu.activated ? '' : 'click'"
             :class="`${menu.config_coll == activeMenu ? 'is-active' : ''}`"
             >
             <!-- @click="setActiveMenu(menu.config_coll)" -->

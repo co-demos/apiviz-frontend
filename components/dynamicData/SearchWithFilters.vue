@@ -25,35 +25,38 @@
 
       <!-- INPUT FILTERS -->
       <hr class="is-flex-touch filters-delimiter">
+
       <div class="navbar-end has-background-white "> <!-- is-hidden-touch (to completely hide from mobile)-->
 
-
+        <!-- LOOP FILTERS LISTS -->
         <span v-for="filter in filterDescriptions"
+          class="navbar-item navbar-item-filter has-dropdown is-hoverable has-text-centered"
           :key="filter.name"
           :id="filter.name"
           href="#"
-          class="navbar-item navbar-item-filter has-dropdown is-hoverable "
           >
 
-          <a 
-            :class='["navbar-link", {"has-text-weight-semibold" : selectedFilters.get(filter.name).size >= 1 } ]'
+          <!-- FILTER TITLE - MAIN DROPDOWN -->
+          <a :class="`navbar-link is-arrrowless ${ selectedFilters.get(filter.name).size >= 1 ? 'has-text-weight-semibold' : '' } `"
             @click="collapseChoices(filter.name)"
-          >
-          <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
+            >
+            <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
             <span>
               {{ translate(filter, 'filter_title' ) }}
             </span>
           </a>
 
+          <!-- CHOICES CONTAINER -->
           <div  
             :id="filter.name" 
             :ref="filter.name"
-            class="navbar-dropdown is-right hide-choices"
-            > <!-- here make it collapsable -->
+            class="navbar-dropdown is-right hide-choices no-padding-bottom"
+            > 
+            <!-- here make it collapsable -->
 
-            <a
+            <!-- LOOP CHOICES -->
+            <a v-for="choice in filter.choices" :key="choice.name"
               class="navbar-item"
-              v-for="choice in filter.choices" :key="choice.name"
               >
               <div class="field is-narrow">
                 <input 	class="is-checkradio is-default is-normal"
@@ -70,17 +73,24 @@
               </div>
             </a>
 
-            <div class="navbar-item">
-              <button class="button is-text is-fullwidth has-text-primary"
+            <!-- RESET FILTER BTN -->
+            <hr class="end-choices">
+
+            <div class="reset-btn">
+              <button class="button is-text no-underline is-fullwidth has-text-grey"
                 :data-filter="filter.name"
                 @click="emptyOneFilter({filter: filter.name})"
-              >
-                {{translate(endpointConfigFilters, 'reset' )}}
+                >
+                <span>
+                  {{ translate(endpointConfigFilters, 'reset' ) }}
+                </span>
               </button>
             </div>
 
           </div>
-        <hr class="is-flex-touch filters-delimiter">
+
+          <hr class="is-flex-touch filters-delimiter">
+
         </span>
       </div>
 
@@ -199,14 +209,19 @@
   @import '../../assets/css/apiviz-misc.scss';
   @import '../../assets/css/rem.scss';
 
+
+  .getFilterTitle{
+    margin-left : 0.3em;
+  }
+
   .hide-choices{
     display: none;
   }
+
   .filters-delimiter{
     margin:0em;
     background-color: $apiviz-primary;
   }
-
 
   .search-bar {
     top: $apiviz-navbar-height;
@@ -214,7 +229,7 @@
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 
-    .search{
+    .search {
       flex: 1;
 
       display: flex;
@@ -239,25 +254,32 @@
       }
     }
 
-    .navbar-end{
+    .navbar-end {
 
-      .navbar-link::after{
-        content: url("/static/icons/icon_chevron3.svg");
-        border: 0;
-
-        transform: none;
-
-        margin-right: -0.5em;
-        width: rem(20px);
-
-        right: 1em;
-        top: 47%;
-      }
-
-      .navbar-item{
-        padding: 0.2em 0.2em;
+      .navbar-item {
+        // padding: 0.2em 0.2em ;
         border-left: 1px solid #CBCBCB;
+
+        .navbar-dropdown{
+          padding-bottom : 0em;
+
+          .navbar-item{
+            padding: 0.2em 0.2em 0.2em 0.7em ;
+          }
+          hr.end-choices {
+            margin-top: 0.7em;
+            margin-bottom: 0em;
+          }
+        }
       }
+      .reset-btn{
+        margin-top: 0em;
+
+        .no-underline {
+          text-decoration: none ;
+        }
+      }
+
     }
   }
 

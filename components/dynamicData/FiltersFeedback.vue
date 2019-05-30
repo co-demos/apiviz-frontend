@@ -1,14 +1,12 @@
 <template>
-    <section class="filter-feedback" v-if="selectedFilters.length >= 1">
+    <section class="filter-feedback" v-show="selectedFilters.length >= 1">
       
       <div class="container inline-filters">
 
+        <!-- REINIT FILTERS -->
         <a class="button is-small" @click="clearAllFilters">
           <span>
-            
             {{ getText('reinit_filters') }}
-            <!-- effacer les filtres -->
-
           </span>
 
           <span class="icon is-small">
@@ -16,19 +14,20 @@
           </span>
         </a>
 
-        <a 
-          v-for="{filter, value} in selectedFilters" :key="filter+value"
+        <!-- LOOP SELECTED FILTERS -->
+        <a v-for="{filter, value} in selectedFilters" :key="filter+value"
           class="button is-small is-grey" 
           @click="clearFilter({filter, value})"
           >
           <span>
-            {{
+            <!-- {{
               filterDescriptions
                 .find(f => f.name === filter)
                 .choices
                 .find(c => c.name === value)
                 .fullname
-            }}
+            }} -->
+            {{ getFilterTitle(filter, value) }}
           </span>
 
           <span class="icon is-small">
@@ -54,7 +53,9 @@
     computed: {
 
       ...mapState({
+
         log : 'log',
+
         locale : state => state.locale,
         // filterDescriptions: state => state.search.filterDescriptions,
         selectedFilters: state => {
@@ -79,8 +80,15 @@
       clearAllFilters(){
         this.$store.dispatch( 'search/clearAllFilters' )
       },
+
       clearFilter({filter, value}){
         this.$store.dispatch( 'search/toggleFilter', {filter, value} )
+      },
+
+      getFilterTitle(filter, value){
+        let filterData = this.filterDescriptions.find(f => f.name === filter)
+        let filerTexts = filterData.choices.find(c => c.name === value)
+        return this.translate(filerTexts, 'choice_title' )
       },
 
       getText(textCode) {
@@ -103,6 +111,7 @@
     width: 100%;
     /* background-color: #F6F6F6; */
     background-color: white;
+    padding-bottom : 0em !important;
     /* border-top: 1px solid; */
     /* border-top-color: #40529d; */
     /* top : -1px; */

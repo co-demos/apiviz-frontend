@@ -7,7 +7,7 @@
     <aside class="column noPaddingBottom
     
       is-full-mobile 
-      is-3-tablet 
+      is-4-tablet 
       is-3-desktop 
       is-3-widescreen 
       is-3-fullhd
