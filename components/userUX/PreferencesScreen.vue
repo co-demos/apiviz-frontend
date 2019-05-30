@@ -104,7 +104,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import { PreferencesGlobal } from '~/config/preferencesMenusConfig.js';
+  import { PreferencesGlobal } from '~/config/preferencesMenusConfig.js'
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 

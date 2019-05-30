@@ -5,6 +5,20 @@ export const state = () => ({
   // CONSOLE LOG ALLOWED 
   log: process.env.ConsoleLog,
 
+  // FOR NEW INSTANCES - DEFAULT MODELS
+  apivizModels : {
+    modelUuids : [
+      // { name : 'SoNum', 
+      //   uuid : 'c5efafab-1733-4ad1-9eb8-d529bc87c481',
+      //   preview : '/previews/map-view-sonum-03.png',
+      // },
+      // { name : 'APCIS', 
+      //   uuid : 'f0a482da-28be-4929-a443-f22ecb03ee68',
+      //   preview : '/previews/list-view-apcis-01.png',
+      // },
+    ],
+  },
+
   // APIVIZ CONFIG
   config : {
     'global' : undefined,
@@ -26,6 +40,12 @@ export const state = () => ({
 })
 
 export const getters = {
+
+  // NEW INSTANCES 
+  // - - - - - - - - - - - - - - - //
+    getApivizModels : state => {
+      return state.apivizModels
+    },
 
   // APP CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
@@ -230,6 +250,10 @@ export const getters = {
 
 export const mutations = {
 
+  setDefaultApivizModels(state, models) {
+    state.apivizModels.modelUuids = models
+  },
+
   setConfig(state, {type,result}) {
     // state.log && console.log("S-setConfig ... result : ", result)
     state.config[type] = result
@@ -312,7 +336,7 @@ export const actions = {
     return axios
     .post( requestUrl, payload )
     .catch( (error) => {
-      console.log(error)
+      console.log('S-config-A-editConfig / error :', error)
     })
     .then(response => {
       console.log('S-config-A-editConfig / response : \n', response)
@@ -343,11 +367,92 @@ export const actions = {
    return axios
     .delete( requestUrl, {data : {token : accessToken} } )
     .catch( (error) => {
-      console.log(error)
+      console.log('S-config-A-deleteConfig / error :', error)
     })
     .then(response => {
       console.log('S-config-A-deleteConfig / response : \n', response)
       // reset config after update
+      return response
+      }
+    )
+
+  },
+
+
+  // - - - - - - - - - - - - - //
+  // New config given UUID
+  // - - - - - - - - - - - - - //
+
+  getDefaultApivizModels({commit, state, getters, rootGetters}){
+
+    // state.log && console.log("S-config-A-getDefaultApivizModels ...")
+
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/get_default_models'
+    // state.log && console.log('S-config-A-getDefaultApivizModels / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    axios.get(requestUrl)
+    .catch( (error) => {
+      state.log && console.log('S-config-A-getDefaultApivizModels / error :', error)
+    })
+    .then(response => {
+      // state.log && console.log('S-config-A-getDefaultApivizModels / response.data : \n', response.data)
+      let defaultModels = response.data.models
+      commit('setDefaultApivizModels', defaultModels)
+    })
+
+  },
+
+  getModelFromUuid({state, getters, rootGetters}, uuid){
+    state.log && console.log("S-config-A-getModelFromUuid / uuid :", uuid)
+    
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/get_config_model/'+uuid
+    // state.log && console.log('S-config-A-getModelFromUuid / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    return axios.get(requestUrl)
+    .catch( (error) => {
+      state.log &&console.log('S-config-A-getModelFromUuid / error :', error)
+    })
+    .then(response => {
+      // state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
+      return response
+    })
+
+  },
+
+  createNewConfig({state, getters, rootGetters}, request){
+    
+    // state.log && console.log("S-config-A-createNewConfig / request : \n", request)
+
+    // retrieve current uuid
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    // prepare the payload with uuid to copy
+    let payload = {
+      new_uuid : apivizFrontUUID,
+      model_uuid : request.modelUuid,
+      new_title : request.new_title,
+      new_logoUrl : request.new_logoUrl,
+    } 
+    // state.log && console.log("S-config-A-createNewConfig / payload : \n", payload)
+    
+    // build request URL
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    let requestUrl = rootURLbackend+'/create_new_config'
+    // state.log && console.log('S-config-A-createNewConfig / requestUrl : ', requestUrl)
+    
+    // send axios request to backend
+    return axios.post( requestUrl, payload )
+    .catch( (error) => {
+      state.log &&console.log('S-config-A-createNewConfig / error :', error)
+    })
+    .then(response => {
+      // state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
       return response
       }
     )

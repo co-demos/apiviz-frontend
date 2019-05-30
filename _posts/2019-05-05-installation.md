@@ -20,6 +20,23 @@ Before anything you need to install **[Apiviz-backend](https://github.com/co-dem
 
 --------
 
+## Set an new UUID
+
+### Generate a new UUID
+
+you can use online websites like [Online UUID Generator](https://www.uuidgenerator.net/) to do so
+
+### Create a `.env` file at the root and copy your UUID within
+
+your `.env` fiel content
+
+```shell
+NUXT_APIVIZ_UUID=<your-UUID>
+NUXT_BACKEND_MODE=default
+```
+
+--------
+
 ## Build and run 
 
 You have two different options to run (locally) Apiviz on your computer/server : with **Node** or with **Docker**, depending where your heart leans...
@@ -80,4 +97,19 @@ npm start
 # generate static project
 npm run generate
 ```
+
+
+----- 
+
+## A new website from scratch based on a model
+
+If you generated a new UUID (not based on the default UUID from the original repo) you should now see the Apiviz instance creation form.
+
+You just have now to follow the instructions to generate a brand new data visualisation website
+
+-------
+
+{% include figure image_path="/documentation/screenshots/new_instance-01.png" alt="admin view" %}
+
+{% include figure image_path="/documentation/screenshots/new_instance-02.png" alt="admin view" %}
 

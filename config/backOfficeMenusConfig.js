@@ -20,7 +20,9 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                {subfield : 'can_be_used_as_model'},
+                {subfield : 'image_preview'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_description',
@@ -28,7 +30,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_languages',
@@ -39,7 +41,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'locale'}, 
                 {subfield : 'is_multi_lang'},
                 {subfield : 'languages'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -53,7 +55,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'url'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_favicon',
@@ -61,7 +63,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'url'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_welcome',
@@ -69,7 +71,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_pitch',
@@ -77,7 +79,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             }
           ]
@@ -91,7 +93,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_code',
@@ -100,7 +102,7 @@ export const BackofficeGlobal = Object.freeze({
               edit : [
                 {subfield : 'url'},
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -116,7 +118,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'content'},
                 {subfield : 'url'},
                 {subfield : 'activated'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_support',
@@ -126,7 +128,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'content'},
                 {subfield : 'url'},
                 {subfield : 'activated'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_indexing',
@@ -135,7 +137,7 @@ export const BackofficeGlobal = Object.freeze({
               edit : [
                 {subfield : 'content'},
                 {subfield : 'activated'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -144,14 +146,14 @@ export const BackofficeGlobal = Object.freeze({
           tab_type : 'docs', 
           title : 'international',
           docs : [
-            {
-              field : 'app_basic_dict',
-              title : 'basic dict as default',
-              type : 'blocs', 
-              edit : [
-                {subfield : 'is_default'},
-              ], 
-            },
+            // {
+            //   field : 'app_basic_dict',
+            //   title : 'basic dict as default',
+            //   type : 'blocs', 
+            //   edit : [
+            //     //{subfield : 'is_default'},
+            //   ], 
+            // },
             {
               field : 'app_basic_dict',
               title : 'basic dict values',
@@ -227,7 +229,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'content'},
                 {subfield : 'logo_to'},
                 {subfield : 'ui_options'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -243,7 +245,7 @@ export const BackofficeGlobal = Object.freeze({
               help_field : 'help',
               edit : [
                 {subfield : 'links_options'}, 
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ],
             },
             // { field : 'app_navbar', // doc retrieved in collection
@@ -295,7 +297,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -318,7 +320,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -341,7 +343,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -376,7 +378,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -400,7 +402,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -422,7 +424,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -445,7 +447,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // {subfield : 'is_default'},
+                // //{subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -476,7 +478,7 @@ export const BackofficeGlobal = Object.freeze({
                 // {subfield : 'has_credits_footer'},
                 {subfield : 'ui_options'},
                 {subfield : 'contents_fields'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -490,7 +492,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'links_options'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -517,7 +519,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'url'},
                 {subfield : 'tooltip'},
                 {subfield : 'in_footer'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_facebook',
@@ -527,7 +529,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'url'},
                 {subfield : 'tooltip'},
                 {subfield : 'in_footer'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
             { field : 'app_github',
@@ -537,7 +539,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : 'url'},
                 {subfield : 'tooltip'},
                 {subfield : 'in_footer'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ] 
@@ -562,7 +564,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -576,7 +578,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -590,7 +592,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -605,7 +607,7 @@ export const BackofficeGlobal = Object.freeze({
               canAddToList : true,
               edit : [
                 {subfield : 'banners_set'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]
@@ -620,7 +622,7 @@ export const BackofficeGlobal = Object.freeze({
               type : 'blocs', 
               edit : [
                 {subfield : 'images_sets'},
-                {subfield : 'is_default'},
+                //{subfield : 'is_default'},
               ], 
             },
           ]

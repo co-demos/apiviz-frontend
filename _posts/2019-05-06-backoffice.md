@@ -23,7 +23,15 @@ toc_sticky: true
 ## Go to the back office
 
 1. log in (`admin` link in the default footer, `/login` route by default) ;
-1. go to the `/backoffice` route by clicking on the button `back office`;
+1. go to the `/backoffice` route by clicking on the button `back office`. You should now see this ...
+
+
+--------
+
+{% include figure image_path="/documentation/screenshots/backoffice-sonum-05.png" alt="admin view" %}
+
+-----------
+
 1. set up your ApiViz configuration : 
     
     - set up the global variables ; 
@@ -34,7 +42,7 @@ toc_sticky: true
     - set up your navbar ; 
     - set up your footer ;
 
-1. save your configuration ;
+1. save your configuration. You should immediatly see the result.
 
 ## (optional) redeploy
 

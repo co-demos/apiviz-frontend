@@ -1,9 +1,9 @@
 
-export default function ({ store }) {
+export default function ({ store, route }) {
 
   const log = store.state.log 
 
-  // log && console.log('\n-M1- --- SetAppMode ---')
+  log && console.log('\n-M1- --- SetAppMode ---')
   // console.log('-- setAppMode...')
 
   if ( typeof(store.getters.getApivizFrontUUID) === 'undefined' ){

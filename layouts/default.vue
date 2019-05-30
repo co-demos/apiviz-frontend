@@ -22,7 +22,6 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 export default {
   
   components: {
-    // NavBar, 
     DynamicStaticRaw,
   },
 
