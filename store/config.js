@@ -401,7 +401,7 @@ export const actions = {
       state.log && console.log('S-config-A-getDefaultApivizModels / error :', error)
     })
     .then(response => {
-      // state.log && console.log('S-config-A-getDefaultApivizModels / response.data : \n', response.data)
+      state.log && console.log('S-config-A-getDefaultApivizModels / response.data : \n', response.data)
       let defaultModels = response.data.models
       commit('setDefaultApivizModels', defaultModels)
     })

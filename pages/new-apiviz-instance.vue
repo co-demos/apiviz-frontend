@@ -9,25 +9,89 @@
 
 <template>
   <div>
+
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+        <a class="navbar-item" 
+          href="/new-apiviz-instance">
+          <img 
+            src="/logos/logo_apiviz_icon_15.png" 
+            height="28"
+            >
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+
+
+          <a class="navbar-item"
+            href="/https://co-demos.github.io/apiviz-frontend"
+            >
+            {{ basicDict.docs[locale]}}
+          </a>
+
+        </div>
+
+        <div class="navbar-end">
+
+          <a class="navbar-item tooltip is-tooltip-bottom" 
+            :data-tooltip="basicDict.repo[locale]"
+            href="/"
+            >
+            <!-- {{ basicDict.repo[locale]}} -->
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+          </a>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-uppercase">
+              {{ locale }}
+            </a>
+            <div class="navbar-dropdown">
+              <a v-for="loc in listLocales" class="navbar-item is-uppercase"
+                @click="locale = loc">
+                {{ loc }}
+              </a>
+            </div>
+          </div>
+        
+        </div>
+
+      </div>
+    </nav>
+
+
     <!-- WELCOME PAGE -->
-    <section class="hero is-primary is-primary-b">
+    <!-- <section class="hero is-primary is-primary-b">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            Welcome to Apiviz
+            {{ basicDict.welcome_1[locale]}}
           </h1>
           <h2 class="subtitle">
-            select a model to create a brand new apiviz website 
+            {{ basicDict.welcome_2[locale]}}
           </h2>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- SELECT MODEL FORM -->
     <section class="hero skip-navbar is-fullheight">
         <div class="container">
           <div class="columns is-vcentered is-centered">
             <div class="column is-two-thirds">
+
+            <br><br>
 
             <!-- APIVIZ LOGO -->
             <figure class="image">
@@ -39,19 +103,34 @@
             <div class="notification is-primary is-primary-b has-text-centered more-padding">
               
               <p class="is-uppercase is-bold">
-                Create a new data visualisation website <br>in a few clicks with Apiviz !<br>
+                <!-- Create a new data visualisation website  -->
+                {{ basicDict.intro_1a[locale]}}
+                <br>
+                {{ basicDict.intro_1b[locale]}}
+                <!-- in a few clicks with Apiviz ! -->
+                <br>
               </p><br>
               <p>
-                To do so you can start with an 
-                <a href="#currentUUID">existing model</a>
-                and then modify it from the back-office<br>
-              </p><br>
-              <p>
-                Apiviz is an 
-                <a href="https://github.com/co-demos/apiviz-frontend" target="_blank">
-                open source project
+                <!-- To do so you can start with an  -->
+                {{ basicDict.intro_2a[locale]}}
+                <a href="#currentUUID">
+                  {{ basicDict.intro_2b[locale]}}
+                  <!-- existing model -->
                 </a>
-                <br> so you can also use the source code instead of the saas service
+                {{ basicDict.intro_2c[locale]}}
+                <!-- and then modify it from the back-office -->
+                <br>
+              </p><br>
+              <p>
+                <!-- Apiviz is an  -->
+                {{ basicDict.intro_3a[locale]}}
+                <a href="https://github.com/co-demos/apiviz-frontend" target="_blank">
+                <!-- open source project -->
+                {{ basicDict.open_source_pr[locale]}}
+                </a>
+                <br> 
+                {{ basicDict.intro_3b[locale]}}
+                <!-- so you can also use the source code instead of the saas service -->
               </p><br>
 
               <div class="columns is-centered is-8">
@@ -66,7 +145,8 @@
                       <i class="fab fa-github"></i>
                     </span>
                     <span>
-                      Check the repo
+                      <!-- Check the repo -->
+                      {{ basicDict.check_repo[locale]}}
                     </span>
                   </a>
                 </div>
@@ -81,7 +161,8 @@
                       <i class="fas fa-book"></i>
                     </span>
                     <span>
-                      Check the documentation
+                      {{ basicDict.check_docs[locale]}}
+                      <!-- Check the documentation -->
                     </span>
                   </a>
                 </div>
@@ -99,16 +180,19 @@
             </h2> -->
 
             <!-- FEEDBACK CURRENT UUID -->
-            <div class="is-divider" data-content="your current UUID"></div>
+            <!-- <div class="is-divider" 
+              :data-content="basicDict.div_1[locale]">
+            </div>
             <div class="content has-text-centered">
               <span>
                 <code>{{ currentApivizFrontUUID }}</code>
               </span>
             </div>
+            <br> -->
 
             <!-- CUSTOM DIVIDER -->
-            <div class="is-divider" data-content="create your datavisualisation website from a model"></div>
-            <br><br>
+            <div class="is-divider" 
+              :data-content="basicDict.div_2[locale]"></div>
 
             <!-- SELECT MODEL -->
             <div class="columns is-centered">
@@ -117,7 +201,11 @@
               <div class="column is-half">
                 <div class="field is-block">
                   <label class="label has-text-centered">
-                    select a default model <br>for your new apiviz website
+                    <!-- select a default model  -->
+                    {{ basicDict.select_1a[locale]}}
+                    <br>
+                    <!-- for your new apiviz website -->
+                    {{ basicDict.select_1b[locale]}}
                   </label>
                   <div class="control">
                     <div class="select is-fullwidth is-primary is-primary-b ">
@@ -126,7 +214,8 @@
 
                         <option  
                           :value="null" disabled>
-                          Please select a model
+                          <!-- Please select a model -->
+                          {{ basicDict.select_1c[locale]}}
                         </option>
 
                         <option 
@@ -150,7 +239,11 @@
               <div class="column is-half">
                 <label class="label has-text-centered">
                   <span>
-                    you already have <br> a model's UUID
+                    <!-- you already have  -->
+                    {{ basicDict.uuid_1a[locale]}}
+                    <br> 
+                    <!-- a model's UUID -->
+                    {{ basicDict.uuid_1b[locale]}}
                   </span>
                   <span class="icon tooltip" 
                     data-tooltip="f.i. Sonum website uuid: c5efafab-1733-4ad1-9eb8-d529bc87c481"
@@ -180,7 +273,8 @@
                   </p>
                 </div>
                 <p v-show="invalidModel" class="help is-danger">
-                  This model is invalid
+                  <!-- This model is invalid -->
+                  {{ basicDict.uuid_invalid[locale]}}
                 </p>
 
               </div>
@@ -189,23 +283,37 @@
 
             <!-- FEEDBACK CHOICE -->
             <div class="content has-text-centered">
-              model's name : 
+              {{ basicDict.feedback_1[locale]}}
+              <span>
+                <code>{{ currentApivizFrontUUID }}</code>
+              </span><br>
+
+              <br>
+
+              <!-- model's name :  -->
+              {{ basicDict.feedback_1a[locale]}}
               <span v-if="selectedModel">
                 <code>{{ selectedModel.name }}</code>
-              </span><br>
-              model's UUID : 
+              </span>
+              <span v-else><code> - </code></span>
+              <br>
+              <!-- model's UUID :  -->
+              {{ basicDict.feedback_1b[locale]}}
               <span v-if="selectedModel">
                 <code>{{ selectedModel.uuid }}</code>
               </span>
+              <span v-else><code> - </code></span>
             </div
 
             <br>
+
 
             <!-- IMAGE PREVIEW OF SELECTED MODEL -->
             <div class="box">
               <div v-if="!selectedModel">
                 <div class="has-text-centered">
-                  ( preview of the selected model )
+                  <!-- ( preview of the selected model ) -->
+                  {{ basicDict.feedback_preview[locale]}}  
                 </div>
               </div>
               <figure v-if="selectedModel" class="image">
@@ -213,12 +321,39 @@
               </figure>
             </div>
 
-            <br>
+            <br v-if="!selectedModel">
+
+
+            <!-- TAGS -->
+            <div v-if="selectedModel" class="content has-text-centered">
+              <!-- <div class="is-divider" 
+                :data-content="basicDict.div_3[locale]">
+              </div>
+              <br> -->
+              <div v-for="( distincts, dfield) in selectedModel.distincts">
+                <!-- <label class="label has-text-centered">
+                  {{ basicDict[dfield][locale] }}
+                </label> -->
+                <div class="is-divider" 
+                  :data-content="basicDict.tags_1a[locale] + ' ' + basicDict[dfield][locale]">
+                </div>
+                <div class="tags">
+                  <span v-for="d in distincts" class="tag is-primary">
+                    {{ d }}
+                  </span>
+                </div>
+              </div>
+            </div>
 
             <!-- CHOOSE A TITLE -->
+            <div class="is-divider" 
+              :data-content="basicDict.div_4[locale]">
+            </div>
+
             <div class="field">
               <label class="label has-text-centered">
-                Your new website title
+                <!-- The title of your new website  -->
+                {{ basicDict.title_1a[locale] }}
               </label>
               <div class="control">
                 <input 
@@ -233,13 +368,17 @@
 
             <!-- CHOOSE A LOGO URL -->
             <label class="label has-text-centered">
-              Your new website logo
+              <!-- Your new website logo -->
+              {{ basicDict.logo_1a[locale] }}
             </label>
             <div class="columns">
 
               <!-- LOGO URL -->
               <div class="column is-half">
-                <p class="has-text-centered" style="margin-bottom:0.5em">enter your logo url</p>
+                <p class="has-text-centered" style="margin-bottom:0.5em">
+                  <!-- enter your logo url -->
+                  {{ basicDict.logo_1b[locale] }}
+                </p>
                 <div class="field">
                   <div class="control">
                     <textarea 
@@ -254,7 +393,10 @@
 
               <!-- LOGO PREVIEW -->
               <div class="column is-half">
-                <p class="has-text-centered" style="margin-bottom:0.5em">your logo preview</p>
+                <p class="has-text-centered" style="margin-bottom:0.5em">
+                  <!-- your logo preview -->
+                  {{ basicDict.logo_1c[locale] }}
+                </p>
                 <div class="box">
                   <figure class="image">
                     <img 
@@ -265,7 +407,10 @@
 
             </div>
 
-            <br><br>
+            <br>
+            <hr>
+            <br>
+            <br>
 
             <!-- CREATE BUTTON -->
             <div v-if="!isCreated" class="columns is-centered">
@@ -277,8 +422,11 @@
                   <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                   </span>
-                  <span>
-                    Create your new Apiviz website
+                  <span v-if="selectedModel">
+                    {{ basicDict.create_1a[locale] }}
+                  </span>
+                  <span v-else>
+                    {{ basicDict.create_1b[locale] }}
                   </span>
                 </a>
               </div>
@@ -296,7 +444,8 @@
                     <i class="fas fa-external-link-alt"></i>
                   </span>
                   <span>
-                    See your new Apiviz website
+                    <!-- See your new Apiviz website -->
+                    {{ basicDict.goto_1a[locale] }}
                   </span>
                 </a>
               </div>
@@ -333,6 +482,8 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
 
+  import { BasicDictionnary } from "~/config/basicDict.js" 
+
   export default {
     
     layout: 'basicLayout',
@@ -352,6 +503,9 @@
     data () {
       return {
 
+        locale : 'en',
+        listLocales : ['en', 'fr'],
+
         errorMessage : undefined,
         errorModalOpen : false,
 
@@ -365,6 +519,9 @@
         searchUuid : undefined,
         new_title : 'my new Apiviz website',
         new_logoUrl : 'https://github.com/co-demos/carto-sonum/blob/master/logos/logo%2Bmarianne_typo%20sombre%404x.png?raw=true',
+
+        basicDict : BasicDictionnary, 
+    
       }
     },
 
@@ -417,11 +574,12 @@
           // this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / model \n : ',model)
 
           if (  model !== null ){
-            this.selectedModel = {
-              name : model.content,
-              preview : model.image_preview,
-              uuid : model.apiviz_front_uuid
-            }
+            // this.selectedModel = {
+            //   name : model.content,
+            //   preview : model.image_preview,
+            //   uuid : model.apiviz_front_uuid
+            // }
+            this.selectedModel = model
             this.invalidModel = false
           } else {
             this.invalidModel = true

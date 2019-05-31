@@ -41,7 +41,7 @@ Vue.use(vueJsonEditor);
 
 // + 
 // cf : https://github.com/tylerkrupicka/vue-json-component
-// note : clean but nno editing
+// note : clean but no editing
 // import JSONView from "vue-json-component";
 // Vue.use(JSONView)
 
