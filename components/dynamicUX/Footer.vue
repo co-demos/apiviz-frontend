@@ -10,7 +10,7 @@
           >
 
           <!-- BLOCK TITLE -->
-          <h3 class="has-text-left has-text-primary"> 
+          <h3 class="has-text-left has-text-primary has-text-primary-c"> 
             {{ translate( footerLinks(block_pos), 'title_block' ) }}
           </h3>
 

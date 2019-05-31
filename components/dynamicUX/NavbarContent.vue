@@ -19,7 +19,7 @@
 
           <!-- MAIN LINK -->
           <div 
-            :class="`${ link.has_dropdown ? 'navbar-link is-arrowless' : '' } ${ isItemActive(link) ? 'has-text-primary' : '' }`"
+            :class="`${ link.has_dropdown ? 'navbar-link is-arrowless' : '' } ${ isItemActive(link) ? 'has-text-primary has-text-primary-c' : '' }`"
             >
             <span 
               v-if="link.icon_class && link.icon_class !==''" 

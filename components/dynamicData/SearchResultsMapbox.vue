@@ -51,7 +51,7 @@
                 v-show="!displayedProject"
                 >
                 <div 
-                  class="column is-12 has-text-centered has-text-primary"
+                  class="column is-12 has-text-centered has-text-primary has-text-primary-c"
                   >
                   <div 
                     class="lds-roller"
@@ -59,7 +59,7 @@
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                   </div>
                 </div>
-                <!-- <div class="column is-12 has-text-centered has-text-primary">
+                <!-- <div class="column is-12 has-text-centered has-text-primary has-text-primary-c">
                   <span class="icon app-loader">
                     <i class="fas fa-spinner fa-pulse fa-3x"></i>
                   </span>

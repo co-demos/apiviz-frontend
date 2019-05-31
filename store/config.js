@@ -83,9 +83,6 @@ export const getters = {
     getStylesConfigColors : state => {
       return state.config.styles.app_colors.content
     },
-    // getStylesConfigColorsTypo : state => {
-    //   return state.config.styles.app_typo_colors.content
-    // },
 
   // NAVBAR RELATED
     hasNavbar : (state) => {      

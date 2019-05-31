@@ -94,7 +94,7 @@
             <br id="currentUUID">
             
             <!-- FORM INTRO -->
-            <!-- <h2 class="has-text-centered is-uppercase is-bold has-text-primary">
+            <!-- <h2 class="has-text-centered is-uppercase is-bold has-text-primary has-text-primary-c">
               create your datavisualisation website
             </h2> -->
 
