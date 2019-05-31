@@ -4,7 +4,7 @@
     <div
       class="has-text-centered" 
       >
-      <a class="button is-fullwidth is-primary is-outlined"
+      <a class="button is-fullwidth is-primary is-outlined is-primary-b "
         @click="toggleModal()"
         >
         <span class="icon">
@@ -33,7 +33,7 @@
                   check our documentation here 
                 </p>
 
-                <a class="button is-primary" 
+                <a class="button is-primary is-primary-b" 
                   href="https://co-demos.github.io/apiviz-frontend/guide/backoffice/" 
                   target="/_blank"
                   >

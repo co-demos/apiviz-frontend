@@ -50,7 +50,7 @@
     <br>
 
     <!-- SEND NEW PASSWORD -->
-    <button class="button is-block is-primary is-fullwidth " 
+    <button class="button is-block is-primary is-primary-b is-fullwidth " 
       :disabled="!enableBtn" 
       @click="sendNewPassword()"
       >

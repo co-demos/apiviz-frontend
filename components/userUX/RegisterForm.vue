@@ -120,7 +120,7 @@
             <span>{{ errors.first('userAcceptCGU') }}</span>
             <label for="userAcceptCGU">
 
-              <a class="modal-button has-text-primary" data-target="modal_legal" aria-haspopup="true">
+              <a class="modal-button has-text-primary has-text-primary-c" data-target="modal_legal" aria-haspopup="true">
                 <!-- CGU BOX -->
                 {{ getText('accept_cgu') }}
               </a>
@@ -132,7 +132,7 @@
         <br>
 
         <!-- SUBMIT -->
-      	<button class="button is-block is-primary is-fullwidth " 
+      	<button class="button is-block is-primary is-primary-b is-fullwidth " 
           :disabled="!enableBtn" 
           type="submit"
           >
@@ -148,7 +148,7 @@
       </form>
 
       <p 
-        class="button is-block is-primary is-fullwidth" 
+        class="button is-block is-primary is-primary-b is-fullwidth" 
         type="submit" 
         v-if="user.isLoggedin"
         >

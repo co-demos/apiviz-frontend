@@ -64,7 +64,7 @@
       <br>
 
       <button 
-        class="button is-block is-primary is-fullwidth" 
+        class="button is-block is-primary is-primary-b is-fullwidth" 
         type="submit" 
         >
         <!-- @click="sendLoginForm" -->
@@ -85,7 +85,7 @@
 
       <button
         v-if="user.isLoggedin" 
-        class="button is-block is-primary is-fullwidth" 
+        class="button is-block is-primary is-primary-b is-fullwidth" 
         @click="goBack"
         >
         <span class="icon">
@@ -98,7 +98,7 @@
       <br>
 
       <nuxt-link
-        class="button is-block is-primary is-fullwidth" 
+        class="button is-block is-fullwidth is-primary is-primary-b" 
         :to="'/backoffice'"
         >
         <span class="icon">
@@ -114,7 +114,7 @@
 
     <!-- <nuxt-link 
       v-if="user.isLoggedin" 
-      class="button is-block is-primary is-fullwidth" 
+      class="button is-block is-primary is-primary-b is-fullwidth" 
       :to="'/'"
       >
       home
@@ -122,7 +122,7 @@
 
     <button 
       v-if="user.isLoggedin" 
-      class="button is-block is-primary is-fullwidth" 
+      class="button is-block is-primary is-primary-b is-fullwidth" 
       type="submit" 
       @click="sendLogout"
       >

@@ -5,7 +5,7 @@
     <NavBar 
       v-if="has_navbar"
     ></NavBar>
-
+    
     <!-- BANNER -->
     <DynamicBanner 
       v-if="has_banner"
@@ -46,6 +46,9 @@
     ></DynamicDetail>
 
 
+    <!-- <span class="is-primary is-primary-c"> 
+      COLOR TEST 
+    </span> -->
 
     <!-- FOOTERS -->
     <Footer 
@@ -159,7 +162,7 @@ export default {
   },
 
   middleware : [
-    'getRouteConfig',
+    // 'getRouteConfig',
   ],
 
   beforeMount : function(){

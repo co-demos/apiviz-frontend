@@ -10,7 +10,7 @@
     <!-- BUTTON TO CLOSE PREVIEW -->
     <div class="buttons is-right">
       <button 
-        class="button close is-primary is-inverted" 
+        class="button close is-primary is-primary-b is-inverted" 
         @click="disableBanners"
         >
         <span class="icon is-small">

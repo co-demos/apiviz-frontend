@@ -35,9 +35,9 @@
       <div class="no-result error" v-if="total === 0">
         <img src="/static/illustrations/erreur_no_results.png">
         <div>
-          <h1 class="title is-1 is-primary">Aucun projet trouvé !</h1>
+          <h1 class="title is-1 is-primary is-primary-b">Aucun projet trouvé !</h1>
           <p>Pour obtenir plus de résultats, modifier vos critères de recherche</p>
-          <button v-if="hasSelectedFilters" href="/" class="button is-primary is-outlined" @click="clearAllFilters">
+          <button v-if="hasSelectedFilters" href="/" class="button is-primary is-primary-b is-outlined" @click="clearAllFilters">
             Supprimer tous les filtres
           </button>
         </div>

@@ -86,7 +86,7 @@
     <div v-if="docConfig.add_delete"
       class="addButton has-text-centered" 
       >
-      <a class="button is-primary"
+      <a class="button is-primary is-primary-b"
         @click="addElement(docConfig)"
         >
         <span class="icon">

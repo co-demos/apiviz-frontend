@@ -99,14 +99,14 @@
 
           <!-- WARNINGS -->
           <hr>
-          <p class="has-text-danger">
+          <p class="has-text-danger has-text-danger-c">
             <span class="icon">
               <i class="fas fa-exclamation-triangle"></i>
             </span>
             <span>
               you can do the following (experimental) : 
             </span>
-            <a class="button is-small is-rounded is-outlined is-danger"
+            <a class="button is-small is-rounded is-outlined is-danger is-danger-b"
               @click="isWarningOpen = !isWarningOpen"
               >
               <span class="icon">
@@ -116,7 +116,7 @@
           </p>
           <div 
             v-show="isWarningOpen" 
-            class="content has-text-danger"
+            class="content has-text-danger has-text-danger-c"
             >
             <ul>
               <li v-show="docConfig.add_delete">

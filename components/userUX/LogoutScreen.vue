@@ -16,14 +16,14 @@
             <div class="box">
 
               <!-- <nuxt-link 
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 :to="'/'"
                 >
                 home
               </nuxt-link> -->
         
               <button
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 @click="goBack"
                 >
                 <span class="icon">
@@ -38,7 +38,7 @@
               <br>
         
               <nuxt-link 
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 type="submit" 
                 :to="'/login'"
                 >
@@ -64,7 +64,7 @@
             <div class="box">
 
               <button
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 @click="goBack"
                 >
                 <span class="icon">
@@ -78,7 +78,7 @@
               <br>
 
               <button 
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 type="submit" 
                 @click="sendLogout">
                 <span class="icon">

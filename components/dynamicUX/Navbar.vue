@@ -1,6 +1,6 @@
 <template>
   <nav 
-    :class="`navbar is-fixed-top ${ navbarConfig.ui_options.background_color.bulma_color ? 'is-'+navbarConfig.ui_options.background_color.bulma_color : 'is-white'}`"
+    :class="`navbar is-fixed-top ${ navbarConfig.ui_options.background_color.bulma_color ? 'is-'+navbarConfig.ui_options.background_color.bulma_color : 'is-white'} has-bottom-border `"
     role="navigation" 
     aria-label="main navigation"
     >

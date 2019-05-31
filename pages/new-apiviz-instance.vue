@@ -10,7 +10,7 @@
 <template>
   <div>
     <!-- WELCOME PAGE -->
-    <section class="hero is-primary">
+    <section class="hero is-primary is-primary-b">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -36,7 +36,7 @@
             <br><br>
 
             <!-- INTRODUCTION -->
-            <div class="notification is-primary has-text-centered more-padding">
+            <div class="notification is-primary is-primary-b has-text-centered more-padding">
               
               <p class="is-uppercase is-bold">
                 Create a new data visualisation website <br>in a few clicks with Apiviz !<br>
@@ -49,16 +49,16 @@
               <p>
                 Apiviz is an 
                 <a href="https://github.com/co-demos/apiviz-frontend" target="_blank">
-                open source 
+                open source project
                 </a>
-                so you can also use the source code instead of the saas service
+                <br> so you can also use the source code instead of the saas service
               </p><br>
 
               <div class="columns is-centered is-8">
 
                 <!-- REPO -->
                 <div class="column -is-half">
-                  <a class="button is-primary is-outlined is-fullwidth"
+                  <a class="button is-primary is-primary-b is-outlined is-fullwidth"
                     href="https://github.com/co-demos/apiviz-frontend" 
                     target="/_blank"
                     >
@@ -73,7 +73,7 @@
 
                 <!-- DOCS -->
                 <div class="column -is-half">
-                  <a class="button is-primary is-outlined is-fullwidth"
+                  <a class="button is-primary is-primary-b is-outlined is-fullwidth"
                     href="https://co-demos.github.io/apiviz-frontend" 
                     target="/_blank"
                     >
@@ -120,7 +120,7 @@
                     select a default model <br>for your new apiviz website
                   </label>
                   <div class="control">
-                    <div class="select is-fullwidth is-primary">
+                    <div class="select is-fullwidth is-primary is-primary-b ">
 
                       <select v-model="selectedModel">
 
@@ -168,7 +168,7 @@
                       placeholder="enter an UUID">
                   </p>
                   <p class="control">
-                    <a :class="`${searchLoading ? 'is-loading' : ''} button is-primary is-outlined`"
+                    <a :class="`${searchLoading ? 'is-loading' : ''} button is-primary is-primary-b is-outlined`"
                       :disabled="!searchUuid"
                       @click="getUUIDmodel()"
                       >
@@ -271,7 +271,7 @@
             <div v-if="!isCreated" class="columns is-centered">
               <div class="column is-12">
                 <a :disabled="!selectedModel"
-                  :class="`${createLoading? 'is-loading' : ''} button is-primary is-rounded is-medium is-fullwidth`"
+                  :class="`${createLoading? 'is-loading' : ''} button is-primary is-primary-b is-rounded is-medium is-fullwidth`"
                   @click="createApivizInstance()"
                   >
                   <span class="icon">

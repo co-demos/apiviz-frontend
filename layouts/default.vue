@@ -1,12 +1,37 @@
 <template>
   <div>
 
+
     <nuxt />
 
     <!-- CREDITS CODEMOS / REMOTE FOOTER -->
     <DynamicStaticRaw 
       :templateURL="codemosCreditsUrls[locale]"
     ></DynamicStaticRaw>
+
+
+    <DynamicCSS/>
+
+
+    <!-- DEBUGGING COLORS -->
+    <!-- <span class="has-text-primary has-text-primary-c"> 
+      COLOR TEST PRIMARY
+    </span><br>
+    <span class="has-text-info has-text-info-c"> 
+      COLOR TEST INFO
+    </span><br>
+    <a> 
+      COLOR TEST LINK
+    </a><br>
+
+    <a class="button is-primary is-primary-b">
+      COLOR TEST BTN PRIMARY
+    </a><br>
+
+    <a class="button is-primary is-outlined is-primary-b">
+      COLOR TEST BTN PRIMARY outlined
+    </a><br> -->
+
 
   </div>
 </template>
@@ -18,11 +43,17 @@
 import { mapState, mapGetters } from 'vuex'
 
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
+import DynamicCSS  from '~/components/dynamicUX/DynamicCSS.vue'
 
 export default {
   
+  middleware : [
+    'getRouteConfig',
+  ] ,
+
   components: {
     DynamicStaticRaw,
+    DynamicCSS
   },
 
   data () {
@@ -33,7 +64,7 @@ export default {
         es : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
         de : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
         tr : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
-      }
+      },
     }
   },
 
@@ -45,6 +76,10 @@ export default {
 
     ...mapGetters({
       locale : 'getCurrentLocale',
+      // styles : 'config/getStylesConfig',
+      // appColors : 'config/getStylesConfigColors',
+      // appTypoColors : 'config/getStylesConfigColorsTypo',
+
     })
   },
 

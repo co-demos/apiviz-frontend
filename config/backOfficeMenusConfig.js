@@ -583,20 +583,20 @@ export const BackofficeGlobal = Object.freeze({
             },
           ]
         },
-        { tab_code : 'st_typocolors', 
-          tab_type : 'docs',
-          title : 'typo colors',
-          docs : [
-            { field : 'app_typo_colors',
-              title : 'typo colors',
-              type : 'blocs', 
-              edit : [
-                {subfield : 'content'},
-                //{subfield : 'is_default'},
-              ], 
-            },
-          ]
-        },
+        // { tab_code : 'st_typocolors', 
+        //   tab_type : 'docs',
+        //   title : 'typo colors',
+        //   docs : [
+        //     { field : 'app_typo_colors',
+        //       title : 'typo colors',
+        //       type : 'blocs', 
+        //       edit : [
+        //         {subfield : 'content'},
+        //         //{subfield : 'is_default'},
+        //       ], 
+        //     },
+        //   ]
+        // },
         { tab_code : 'st_banners', 
           tab_type : 'docs',
           title : 'banners',

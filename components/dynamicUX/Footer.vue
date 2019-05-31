@@ -40,7 +40,7 @@
               <template  v-for="(icon, index) in appSocials">
                 <!-- ICONS SOCIAL -->
                 <a v-if="icon.in_footer"
-                  class="button is-primary" 
+                  class="button is-primary is-primary-b" 
                   :key="index"
                   :href="icon.url" 
                   >

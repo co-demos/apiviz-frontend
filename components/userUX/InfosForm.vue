@@ -178,7 +178,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <button class="button is-primary is-block is-fullwidth">
+            <button class="button is-primary is-primary-b is-block is-fullwidth">
               <span class="icon">
                 <i class="far fa-save"></i>
               </span>
