@@ -125,9 +125,6 @@
               <li>
                 modify the values
               </li>
-              <li>
-                check 'is_default' as False (experimental). This 
-              </li>
               <li v-show="docConfig.canAddKeys">
                 add new key(s) at your own risk
               </li>
