@@ -30,7 +30,8 @@
                   <i class="fas fa-arrow-left"></i>
                 </span>
                 <span>
-                  Back
+                  <!-- Back -->
+                  {{ basicDict.bo_back[locale] }}
                 </span>
               </button>
 
@@ -71,7 +72,8 @@
                   <i class="fas fa-arrow-left"></i>
                 </span>
                 <span>
-                  Back
+                  <!-- Back -->
+                  {{ basicDict.bo_back[locale] }}
                 </span>
               </button>
 
@@ -100,56 +102,65 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
-export default {
-  
-  components: {
-  },
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
-  props: [
-  ],
+  export default {
+    
+    components: {
+    },
 
-  computed: {
+    props: [
+    ],
 
-    ...mapState({
-      log : state => state.log, 
-      user: state => state.user.user,
-    }),
-
-  },
-
-  mounted(){
-
-    // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
-      } else {
-        window.scrollTo(0, 0)
+    data : () => {
+      return {
+        basicDict : BasicDictionnary, 
       }
-    }, 100);
+    },
+    
+    computed: {
 
-  },
+      ...mapState({
+        log : state => state.log, 
+        locale : state => state.locale,
+        user: state => state.user.user,
+      }),
 
-  methods: {
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
     },
 
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
+    mounted(){
+
+      // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        } else {
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+
     },
 
-    sendLogout(e){
-      e.preventDefault()
-      this.userEmail = ''
-      this.userPassword = ''
-      this.$store.dispatch('user/logout')
+    methods: {
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
+      },
+
+      sendLogout(e){
+        e.preventDefault()
+        this.userEmail = ''
+        this.userPassword = ''
+        this.$store.dispatch('user/logout')
+      }
     }
-  }
 
-}
+  }
 </script>

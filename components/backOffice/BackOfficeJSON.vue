@@ -11,21 +11,10 @@
 
         <header class="modal-card-head">
           <p class="modal-card-title has-text-centered">
-            Are you sure you want to delete this element ? 
+            <!-- Are you sure you want to delete this element ?  -->
+            {{ basicDict.bo_delete_confirm_1a[locale] }}
           </p>
-          <!-- <button 
-            class="delete" 
-            aria-label="close"
-            @click="toggleModal()"
-            >
-          </button> -->
         </header>
-
-        <!-- <section class="modal-card-body has-text-centered">
-          <h2>
-            Are you sure you want to delete this element ? 
-          </h2>
-        </section> -->
 
         <footer class="modal-card-foot">
           <a class="card-footer-item"
@@ -42,7 +31,10 @@
             <span class="icon">
               <i class="fas fa-trash-alt"></i>
             </span>
-            <span>delete</span>
+            <span>
+              <!-- delete -->
+              {{ basicDict.bo_delete_btn[locale] }}
+            </span>
           </a>
         </footer>
 
@@ -104,7 +96,8 @@
               <i class="fas fa-exclamation-triangle"></i>
             </span>
             <span>
-              you can do the following (experimental) : 
+              <!-- you can do the following (experimental) :  -->
+              {{ basicDict.bo_helper_1a[locale] }}
             </span>
             <a class="button is-small is-rounded is-outlined is-danger is-danger-b"
               @click="isWarningOpen = !isWarningOpen"
@@ -120,22 +113,28 @@
             >
             <ul>
               <li v-show="docConfig.add_delete">
-                delete or duplicate this element
+                <!-- delete or duplicate this element -->
+                {{ basicDict.bo_helper_2a[locale] }}
               </li>
               <li>
-                modify the values
+                <!-- modify the values -->
+                {{ basicDict.bo_helper_2b[locale] }}
               </li>
               <li v-show="docConfig.canAddKeys">
-                add new key(s) at your own risk
+                <!-- add new key(s) at your own risk -->
+                {{ basicDict.bo_helper_2c[locale] }}
               </li>
               <li v-show="docConfig.canAddToList">
-                add new entries to the lists (but beware to respect the format)
+                <!-- add new entries to the lists (but beware to respect the format) -->
+                {{ basicDict.bo_helper_2d[locale] }}
               </li>
               <li v-show="!docConfig.canModifKeys">
-                modifying the keys will not be taken into accoun
+                <!-- modifying the keys will not be taken into accoun -->
+                {{ basicDict.bo_helper_2e[locale] }}
               </li>
               <li v-show="docConfig.canModifKeys">
-                modify the existing keys (at your own risk
+                <!-- modify the existing keys (at your own risk -->
+                {{ basicDict.bo_helper_2f[locale] }}
               </li>
             </ul>
           </div>
@@ -233,7 +232,10 @@
           <span class="icon">
             <i class="fas fa-trash-alt"></i>
           </span>
-          <span>delete</span>
+          <span>
+            <!-- delete -->
+            {{ basicDict.bo_delete[locale] }}
+          </span>
         </a>
 
         <!-- TEST BTN-->
@@ -244,7 +246,9 @@
           <span class="icon">
             <i class="fas fa-eye"></i>
           </span>
-          <span>test</span>
+          <span>
+            {{ basicDict.bo_test[locale] }}
+          </span>
         </a> -->
 
         <!-- SUBMIT BTN-->
@@ -258,7 +262,8 @@
             </i>
           </span>
           <span v-show="!isLoading">
-            save
+            <!-- save -->
+            {{ basicDict.bo_save[locale] }}
           </span>
         </a>
   
@@ -270,7 +275,10 @@
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
-          <span>cancel</span>
+          <span>
+            <!-- cancel -->
+            {{ basicDict.bo_cancel[locale] }}
+          </span>
         </a>
 
       </footer>
@@ -286,6 +294,8 @@
 
   import { mapState, mapGetters } from 'vuex'
   import axios from 'axios';
+
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
 
@@ -314,6 +324,7 @@
         jsonData : undefined,
         isModalOpen : false,
         isLoading : false,
+        basicDict : BasicDictionnary, 
       }
     },
 
@@ -332,6 +343,7 @@
 
       ...mapState({
         log : state => state.log, 
+        locale : state => state.locale,
         jwt : state => state.user.jwt,
       }),
 

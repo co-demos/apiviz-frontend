@@ -30,11 +30,16 @@
               <div class="content has-text-centered">
                 
                 <p>
-                  To know more about the 
-                  <strong>{{ currentColl }}</strong> 
-                  settings
+                  <!-- To know more about the  -->
+                  {{ basicDict.modal_doc_1a[locale] }}
+                  <strong>
+                    {{ currentColl }}
+                  </strong> 
+                  <!-- settings -->
+                  {{ basicDict.modal_doc_1b[locale] }}
                   <br>
-                  check our documentation here 
+                  <!-- check our documentation here  -->
+                  {{ basicDict.modal_doc_1c[locale] }}
                 </p>
 
                 <a class="button is-primary is-primary-b" 
@@ -45,7 +50,8 @@
                     <i class="fas fa-book"></i>
                   </span>
                   <span>
-                    apiviz documentation website
+                    <!-- apiviz documentation website -->
+                    {{ basicDict.modal_doc_1d[locale] }}
                   </span>
                 </a>
               </div>
@@ -82,6 +88,7 @@
     data: function () {
       return {
         isModalOpen : false,
+        basicDict : BasicDictionnary, 
       }
     },
 
@@ -89,6 +96,7 @@
 
       ...mapState({
         log : state => state.log, 
+        locale : state => state.locale, 
         jwt : state => state.user.jwt,
       }),
 

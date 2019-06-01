@@ -75,7 +75,7 @@ export const BackofficeGlobal = Object.freeze({
               ], 
             },
             { field : 'app_pitch',
-              title : 'app pitch',
+              title : '',
               type : 'blocs', 
               edit : [
                 {subfield : 'content'},
@@ -297,7 +297,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -320,7 +320,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -343,7 +343,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -378,7 +378,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -402,7 +402,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -424,7 +424,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
@@ -447,7 +447,7 @@ export const BackofficeGlobal = Object.freeze({
               fields_not_in_model : [
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
-                // //{subfield : 'is_default'},
+                {subfield : 'is_default'},
                 {subfield : 'help'},
                 {subfield : 'app_version'},
               ],

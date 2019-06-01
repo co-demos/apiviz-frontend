@@ -92,7 +92,8 @@
           <i class="fas fa-arrow-left"></i>
         </span>
         <span>
-          Back
+          <!-- Back -->
+          {{ basicDict.bo_back[locale] }}
         </span>
       </button>
       <br>
@@ -105,7 +106,8 @@
           <i class="fas fa-cog"></i>
         </span>
         <span>
-          Back office
+          <!-- Back office -->
+          {{ basicDict.bo_title[locale] }}
         </span>
       </nuxt-link>
       <br>
@@ -138,121 +140,125 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import axios from 'axios'
+  import { mapState, mapGetters } from 'vuex'
+  import axios from 'axios'
 
-export default {
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
-  name: 'LoginForm',
+  export default {
 
-  data: function () {
-    return {
-      userEmail: '',
-      userPassword: '',
-      userRememberMe: true,
-      customformError: ''
-    }
-  },
+    name: 'LoginForm',
 
-  // watch: {
-  //   user(prev, next){
-  //     this.log && console.log("C-LoginForm / next : ", next)
-  //     if (next.role !== 'admin'){
-  //       this.$router.push('/')
-  //     }
-  //     else if (next.role === 'admin'){
-  //       this.$router.push('/backoffice')
-  //     }
-  //   }
-  // },
-
-  computed: {
-
-    ...mapState({
-      log : state => state.log, 
-      user: state => state.user.user,
-      jwt: state => state.user.jwt,
-    }),
-
-    isUserAdmin () {
-      return this.$store.getters['user/getCheckUserRole']('admin')
-    },
-    
-    isUserStaff () {
-      return this.$store.getters['user/getCheckUserRole']('staff')
-    },
-  },
-  methods: {
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
-    },
-
-    sendLoginForm(e){
-      this.customformError = ''
-      e.preventDefault()
-
-      const urlAuthRoot = this.$store.getters['getRootUrlAuth']
-      this.log && console.log("C-LoginForm / urlAuthRoot : ", urlAuthRoot)
-
-      const urlAuthLogin = this.$store.getters['config/getEndpointConfigAuthSpecific']('login')
-      const urlAuthLoginSuffix = urlAuthLogin.root_url
-      this.log && console.log("C-LoginForm / urlAuthLoginSuffix : ", urlAuthLoginSuffix)
-
-      let authUrl = urlAuthRoot + urlAuthLoginSuffix
-      this.log && console.log("C-LoginForm / authUrl : ", authUrl)
-
-      let payload = {
-        email : this.userEmail,
-        pwd : this.userPassword
+    data: function () {
+      return {
+        userEmail: '',
+        userPassword: '',
+        userRememberMe: true,
+        customformError: '',
+        basicDict : BasicDictionnary, 
       }
-      this.log && console.log("C-LoginForm / payload : ", payload)
-
-      axios
-        .post( authUrl, payload )
-        .catch( (error) => {
-          console.log(error)
-          this.customformError = 'Login failed'
-        })
-        .then( response => {
-          this.log && console.log("C-LoginForm / response : ", response)
-          this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
-          
-          let router = this.$router
-
-          // if (this.user.role !== 'admin'){
-          //   router.push('/')
-          // }
-          // else if (this.user.role === 'admin'){
-          //   setInterval( function( ){ 
-          //     router.push('/backoffice')
-          //   }, 3000)
-          // }
-        })
-      this.userPassword = ''
     },
 
-    sendLogout(e){
-      e.preventDefault()
-      this.userEmail = ''
-      this.userPassword = ''
-      this.$store.dispatch('user/logout')
+    // watch: {
+    //   user(prev, next){
+    //     this.log && console.log("C-LoginForm / next : ", next)
+    //     if (next.role !== 'admin'){
+    //       this.$router.push('/')
+    //     }
+    //     else if (next.role === 'admin'){
+    //       this.$router.push('/backoffice')
+    //     }
+    //   }
+    // },
 
-      let router = this.$router
+    computed: {
 
-      router.push('logout')
+      ...mapState({
+        log : state => state.log, 
+        locale : state => state.locale,
+        user: state => state.user.user,
+        jwt: state => state.user.jwt,
+      }),
 
-      // redirect after logout (3 seconds)
-      // setInterval( function( ){ 
-      //   router.push('/')
-      // }, 3000)
+      isUserAdmin () {
+        return this.$store.getters['user/getCheckUserRole']('admin')
+      },
+      
+      isUserStaff () {
+        return this.$store.getters['user/getCheckUserRole']('staff')
+      },
     },
+    methods: {
 
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
-    },
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
 
+      sendLoginForm(e){
+        this.customformError = ''
+        e.preventDefault()
+
+        const urlAuthRoot = this.$store.getters['getRootUrlAuth']
+        this.log && console.log("C-LoginForm / urlAuthRoot : ", urlAuthRoot)
+
+        const urlAuthLogin = this.$store.getters['config/getEndpointConfigAuthSpecific']('login')
+        const urlAuthLoginSuffix = urlAuthLogin.root_url
+        this.log && console.log("C-LoginForm / urlAuthLoginSuffix : ", urlAuthLoginSuffix)
+
+        let authUrl = urlAuthRoot + urlAuthLoginSuffix
+        this.log && console.log("C-LoginForm / authUrl : ", authUrl)
+
+        let payload = {
+          email : this.userEmail,
+          pwd : this.userPassword
+        }
+        this.log && console.log("C-LoginForm / payload : ", payload)
+
+        axios
+          .post( authUrl, payload )
+          .catch( (error) => {
+            console.log(error)
+            this.customformError = 'Login failed'
+          })
+          .then( response => {
+            this.log && console.log("C-LoginForm / response : ", response)
+            this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
+            
+            let router = this.$router
+
+            // if (this.user.role !== 'admin'){
+            //   router.push('/')
+            // }
+            // else if (this.user.role === 'admin'){
+            //   setInterval( function( ){ 
+            //     router.push('/backoffice')
+            //   }, 3000)
+            // }
+          })
+        this.userPassword = ''
+      },
+
+      sendLogout(e){
+        e.preventDefault()
+        this.userEmail = ''
+        this.userPassword = ''
+        this.$store.dispatch('user/logout')
+
+        let router = this.$router
+
+        router.push('logout')
+
+        // redirect after logout (3 seconds)
+        // setInterval( function( ){ 
+        //   router.push('/')
+        // }, 3000)
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
+      },
+
+    }
   }
-}
 </script>

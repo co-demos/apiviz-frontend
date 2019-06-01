@@ -178,4 +178,88 @@ export const BasicDictionnary = {
     fr : "projet open source"
   },
 
+
+  // FOR BACK OFFICE
+
+  modal_doc_1a : {
+    en : 'To know more about the',
+    fr : 'Pour en savoir plus sur les réglages de la configuration'
+  },
+  modal_doc_1b : {
+    en : 'settings',
+    fr : ''
+  },
+  modal_doc_1c : {
+    en : 'check our documentation here ',
+    fr : 'consultez notre documentation ici'
+  },
+  modal_doc_1d : {
+    en : 'apiviz documentation website',
+    fr : "site de documentation d'Apiviz"
+  },
+
+  bo_delete_confirm_1a : {
+    en : 'Are you sure you want to delete this element ? ',
+    fr : 'Êtes-vous certain.e de vouloir supprimer ce document ?',
+  },
+  bo_delete_btn : {
+    en : 'yes, delete? ',
+    fr : 'oui, supprimer',
+  },
+
+  bo_helper_1a : {
+    en : 'you can do the following (experimental) :',
+    fr : 'vous pouvez faire les opérations suivantes (expérimental) :',
+  },
+  bo_helper_2a : {
+    en : 'delete or duplicate this element ',
+    fr : 'supprimer ou dupliquer ce document',
+  },
+  bo_helper_2b : {
+    en : 'modify the values',
+    fr : 'modifier les valeurs',
+  },
+  bo_helper_2c : {
+    en : 'add new key(s) at your own risk',
+    fr : 'ajouter de nouvelles entrées (à votre propre rique)',
+  },
+  bo_helper_2d : {
+    en : 'add new entries to the lists (but beware to respect the format)',
+    fr : 'ajouter une nouvelle entrée aux listes (attention de respecter le format)',
+  },
+  bo_helper_2e : {
+    en : 'modifying the keys will not be taken into account',
+    fr : 'modifier les champs clés ne sera pas pris en compte',
+  },
+  bo_helper_2f : {
+    en : 'modify the existing keys (at your own risk)',
+    fr : 'modifier les champs clés existants (à votre propre risque)',
+  },
+
+  bo_test : {
+    en : 'test',
+    fr : 'tester',
+  },
+  bo_delete : {
+    en : 'delete',
+    fr : 'supprimer',
+  },
+  bo_save : {
+    en : 'save',
+    fr : 'enregistrer',
+  },
+  bo_cancel : {
+    en : 'cancel',
+    fr : 'annuler',
+  },
+
+  bo_title : {
+    en : 'Back office',
+    fr : 'Espace de configuration',
+  },
+  bo_back : {
+    en : 'Back to previous page',
+    fr : 'Retour à la page précédente',
+  },
+
 }
