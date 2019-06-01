@@ -5,7 +5,7 @@
       <div class="navbar-brand">
 
         <a class="navbar-item" 
-          href="/new-apiviz-instance">
+          href="#top">
           <img 
             src="/logos/logo_apiviz_icon_15.png" 
             height="28"
@@ -33,13 +33,23 @@
 
         <!-- NAV START -->
         <div class="navbar-start">
-          <a class="navbar-item">
+          <a class="navbar-item"
+            href="#top">
             {{ basicDict.welcome_nav[locale] }}
           </a>
         </div> 
 
         <!-- NAV END -->
         <div class="navbar-end">
+
+          <!-- QUICK START -->
+          <a class="navbar-item is-uppercase"
+            href="#currentUUID"
+            >
+            <span>
+              {{ basicDict.quick_start[locale] }}
+            </span>
+          </a>
 
           <!-- LOCALES -->
           <div class="navbar-item has-dropdown is-hoverable">
@@ -81,7 +91,7 @@
     </nav>
 
     <!-- SELECT MODEL FORM -->
-    <section class="hero skip-navbar is-fullheight">
+    <section id="top" class="hero skip-navbar is-fullheight">
       <div class="container">
         <div class="columns is-vcentered is-centered">
           <div class="column is-two-thirds">
@@ -276,7 +286,7 @@
                   {{ basicDict.feedback_preview[locale]}}  
                 </div>
               </div>
-              <figure v-if="selectedModel" class="image">
+              <figure v-if="selectedModel && selectedModel.preview" class="image">
                 <img :src="selectedModel.preview">
               </figure>
             </div>
@@ -328,7 +338,7 @@
 
               <!-- LOGO URL -->
               <div class="column is-half">
-                <p class="has-text-centered" style="margin-bottom:0.5em">
+                <p class="has-text-centered has-text-grey" style="margin-bottom:0.5em">
                   {{ basicDict.logo_1b[locale] }}
                 </p>
                 <div class="field">
@@ -345,7 +355,7 @@
 
               <!-- LOGO PREVIEW -->
               <div class="column is-half">
-                <p class="has-text-centered" style="margin-bottom:0.5em">
+                <p class="has-text-centered has-text-grey" style="margin-bottom:0.5em">
                   {{ basicDict.logo_1c[locale] }}
                 </p>
                 <div class="box">
@@ -395,7 +405,6 @@
                     <i class="fas fa-external-link-alt"></i>
                   </span>
                   <span>
-                    <!-- See your new Apiviz website -->
                     {{ basicDict.goto_1a[locale] }}
                   </span>
                 </a>

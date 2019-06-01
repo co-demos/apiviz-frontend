@@ -5,7 +5,10 @@ export const BasicDictionnary = {
     en : "Welcome to the Apiviz dataviz website generator",
     fr : "Bienvenue sur le générateur de site de datavisualisation Apiviz"
   },
-
+  quick_start : {
+    en : "Quick start",
+    fr : "Commencer"
+  },
   // WELCOME
   welcome_1 : {
     en : "Welcome to Apiviz",
