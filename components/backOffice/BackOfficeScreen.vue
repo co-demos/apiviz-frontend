@@ -1,7 +1,7 @@
 <template>
 
   <!-- cf : https://codepen.io/andreich1980/pen/OmobJQ -->
-  <section class="main-content skip-navbar columns is-fullheight">
+  <section class="main-content skip-navbar has-background-white-ter columns is-fullheight no-margin-bottom">
     
     <!-- SIDE MENU -->
     <aside class="column noPaddingBottom
@@ -319,6 +319,12 @@
 
   hr.menu-ender{
     margin: 1.5em 0em 0em 0em ;
+  }
+
+  .no-margin-bottom{
+    margin-bottom : 0em;
+    padding : 2em;
+    border : 1px solid;
   }
 
 </style>

@@ -20,128 +20,134 @@
 
     <!-- DIALOG MODAL INFOS-->
     <div :class="`modal ${isModalOpen ? 'is-active' : ''}`">
-      <div class="modal-background"></div>
-      
-      <div class="modal-card large-modal">
 
+      <div class="columns is-vcentered is-gapless large-modal">
 
-      <!-- ADD DOC CARD CONTENT -->
-      <div class="card">
+        <div class="modal-background"></div>
+        
+        <!-- ADD DOC CARD CONTENT -->
+        <div class="modal-card no-margin">
 
-        <!-- HEADER -->
-        <header class="modal-card-head has-text-centered">
-          <p class="modal-card-title">
-            {{ basicDict.bo_duplicate_title[locale] }}
-          </p>
-          <button class="delete" 
-            aria-label="close"
-            @click="toggleModal()"
-            >
-          </button>
-        </header>
+          <!-- HEADER -->
+          <header class="modal-card-head has-text-centered">
+            <p class="modal-card-title">
+              {{ basicDict.bo_duplicate_title[locale] }}
+            </p>
+            <button class="delete" 
+              aria-label="close"
+              @click="toggleModal()"
+              >
+            </button>
+          </header>
 
-        <!-- CONTENT -->
-        <section class="modal-card-body more-padding">
-        <!-- <div class="card-content"> -->
+          <!-- CONTENT -->
+          <section class="modal-card-body more-padding">
 
-          <!-- FIRST SECTION -->
-          <div class="content has-text-centered">
+            <!-- FIRST SECTION -->
+            <div class="content has-text-centered">
 
-            <!-- INTRO TEXT -->
-            {{ basicDict.bo_duplicate_intro[locale]}}
+              <!-- INTRO TEXT -->
+              {{ basicDict.bo_duplicate_intro_1a[locale]}}
+              <br>
+              {{ basicDict.bo_duplicate_intro_1b[locale]}}
 
-            <!-- CUSTOM DIVIDER -->
-            <div class="is-divider" 
-              :data-content="basicDict.bo_duplicate_select_helper[locale]">
-            </div>
-
-            <!-- SELECT A DOC -->
-            <div class="columns is-centered">
-              <div class="column is-half">
-
-                <div class="field is-block">
-
-                  <div class="control">
-                    <div class="select is-fullwidth is-primary is-primary-b ">
-                      <select v-model="selectedDoc">
-
-                        <option  
-                          :value="null" disabled>
-                          {{ basicDict.bo_duplicate_select_placeholder[locale]}}
-                        </option>
-
-                        <option 
-                          v-for="(conf, index) in conf" 
-                          :key="index"
-                          :value="filterObjectOut( conf, subfieldsListOut )"
-                          >
-                          {{ conf.field }}
-                        </option>
-
-                      </select>
-                    </div>
-                  </div>
-                
-                </div>
-
+              <!-- CUSTOM DIVIDER -->
+              <div class="is-divider" 
+                :data-content="basicDict.bo_duplicate_select_helper[locale]">
               </div>
+
+              <!-- SELECT A DOC -->
+              <div class="columns is-centered">
+                <div class="column is-half">
+
+                  <div class="field is-block">
+
+                    <div class="control">
+                      <div class="select is-fullwidth is-primary is-primary-b ">
+                        <select v-model="selectedDoc">
+
+                          <option  
+                            :value="undefined" disabled>
+                            {{ basicDict.bo_duplicate_select_placeholder[locale]}}
+                          </option>
+
+                          <option 
+                            v-for="(conf, index) in conf" 
+                            :key="index"
+                            :value="filterObjectOut( conf, subfieldsListOut )"
+                            >
+                            {{ conf.field }}
+                          </option>
+
+                        </select>
+                      </div>
+                    </div>
+                  
+                  </div>
+
+                </div>
+              </div>
+
             </div>
 
-          </div>
+            <!-- DOC PREVIEW -->
+            <div v-if="selectedDoc" class="content">
 
-          <!-- DOC PREVIEW -->
-          <div v-if="selectedDoc" class="content">
+              <div class="is-divider" 
+                :data-content="basicDict.bo_duplicate_edit_helper[locale]">
+              </div>
 
-            <div class="is-divider" 
-              :data-content="basicDict.bo_duplicate_edit_helper[locale]">
+              <!-- JSON EDITOR (scrollable) -->
+              <vue-json-editor 
+                class="is-scrollable"
+                v-model="jsonData" 
+                :show-btns="false" 
+                @json-change="onChangeData">
+              </vue-json-editor>
+
             </div>
 
-            <!-- JSON EDITOR (scrollable) -->
-            <vue-json-editor 
-              class="is-scrollable"
-              v-model="jsonData" 
-              :show-btns="false" 
-              @json-change="onChangeData">
-            </vue-json-editor>
+            <br>
+          </section>
 
-          </div>
+          <!-- FOOTER -->
+          <footer class="modal-card-foot no-padding">
 
-        <!-- </div> -->
-        </section>
+            <!-- ADD / SAVE BTN -->
+            <a class="card-footer-item button is-text no-decoration"
+              :disabled="!jsonData"
+              @click="sendDuplicateDoc()"
+              >
+              <span class="icon">
+                <i 
+                  :class="`${isLoading ? 'fas fa-spinner fa-pulse' : 'far fa-save'}`">
+                </i>
+              </span>
+              <span v-show="!isLoading">
+                <span v-if="jsonData">
+                  {{ basicDict.bo_save[locale] }}
+                </span>
+                <span v-else>
+                  {{ basicDict.bo_duplicate_select_placeholder[locale] }}
+                </span>
+              </span>
+            </a>
 
-        <!-- FOOTER -->
-        <footer class="modal-card-foot no-padding">
+            <!-- CANCEL BTN -->
+            <a class="card-footer-item"
+              @click="selectedDoc = undefined ; toggleModal()"
+              >
+              <span class="icon">
+                <i class="fas fa-times"></i>
+              </span>
+              <span>
+                {{ basicDict.bo_cancel[locale] }}
+              </span>
+            </a>
 
-          <!-- ADD / SAVE BTN -->
-          <a href="#" class="card-footer-item"
-            @click="sendDuplicateDoc()"
-            >
-            <span class="icon">
-              <i 
-                :class="`${isLoading ? 'fas fa-spinner fa-pulse' : 'far fa-save'}`">
-              </i>
-            </span>
-            <span v-show="!isLoading">
-              {{ basicDict.bo_save[locale] }}
-            </span>
-          </a>
+          </footer>
 
-          <!-- CANCEL BTN -->
-          <a class="card-footer-item"
-            @click="toggleModal()"
-            >
-            <span class="icon">
-              <i class="fas fa-times"></i>
-            </span>
-            <span>
-              {{ basicDict.bo_cancel[locale] }}
-            </span>
-          </a>
-
-        </footer>
-
-      </div>
-
+        </div>
 
       
       </div>
@@ -288,13 +294,23 @@
   .addButton {
     margin-bottom: 1rem;
   }
+  .no-decoration{
+    text-decoration : none;
+  }
   .large-modal{
-    width : 95%%;
+    width : 95%;
     height: 95%;
     /* margin : 40px; */
   }
+  /* .is-vertical-center {
+    display: flex;
+    align-items: center;
+  } */
   .modal-card-body.more-padding{
     padding : 2em ;
+  }
+  .no-margin{
+    margin: auto;
   }
   .no-padding {
     padding : 0em;

@@ -469,7 +469,7 @@ export const actions = {
       state.log &&console.log('S-config-A-getModelFromUuid / error :', error)
     })
     .then(response => {
-      // state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
+      state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
       return response
     })
 

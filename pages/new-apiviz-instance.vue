@@ -487,6 +487,17 @@
       // this.log && console.log('\nP-new-apiviz-instance.vue / beforeMount...')
     },
 
+    watch : {
+      selectedModel(next, prev){
+        if (next && next.uuid ){
+          this.searchUuid = next.uuid
+        }
+        else {
+          this.searchUuid = undefined
+        }
+      }
+    },
+
     data () {
       return {
 
@@ -561,12 +572,12 @@
           // this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / model \n : ',model)
 
           if (  model !== null ){
+            this.selectedModel = model
             // this.selectedModel = {
             //   name : model.content,
             //   preview : model.image_preview,
             //   uuid : model.apiviz_front_uuid
             // }
-            this.selectedModel = model
             this.invalidModel = false
           } else {
             this.invalidModel = true

@@ -10,11 +10,27 @@
 
         <header class="modal-card-head">
           <p class="modal-card-title has-text-centered">
-            {{ basicDict.bo_delete_confirm_1a[locale] }}
+            <span class="icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            <span>
+              {{ basicDict.bo_warning[locale] }}
+            </span>
+            <span class="icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
           </p>
         </header>
 
-        <footer class="modal-card-foot">
+        <!-- CONTENT -->
+        <section class="modal-card-body more-padding">
+          <!-- CONFIRM DELETE TEXT -->
+          <div class="content has-text-centered ">
+            {{ basicDict.bo_delete_confirm_1a[locale] }}
+          </div>
+        </section>
+
+        <footer class="modal-card-foot no-padding">
           <a class="card-footer-item"
             @click="toggleModal()"
             >
@@ -42,7 +58,7 @@
     <div class="card">
       
       <!-- CARD HEADER -->
-      <div class="card-header has-background-white-ter">
+      <div class="card-header has-background-grey-lighter">
 
         <a class="card-header-title"
           @click="toggleContent"
@@ -217,19 +233,6 @@
         class="card-footer"
         >
 
-        <!-- DELETE BTN-->
-        <a v-if="docConfig.add_delete"
-          class="card-footer-item"
-          @click="toggleModal()"
-          >
-          <span class="icon">
-            <i class="fas fa-trash-alt"></i>
-          </span>
-          <span>
-            {{ basicDict.bo_delete[locale] }}
-          </span>
-        </a>
-
         <!-- TEST BTN-->
         <!-- <a 
           class="card-footer-item"
@@ -257,6 +260,19 @@
           </span>
         </a>
   
+        <!-- DELETE BTN-->
+        <a v-if="docConfig.add_delete"
+          class="card-footer-item"
+          @click="toggleModal()"
+          >
+          <span class="icon">
+            <i class="fas fa-trash-alt"></i>
+          </span>
+          <span>
+            {{ basicDict.bo_delete[locale] }}
+          </span>
+        </a>
+
         <!-- CANCEL BTN -->
         <a class="card-footer-item"
           @click="toggleContent()"
@@ -470,5 +486,11 @@
   .JSON-scrollable{
     max-height : 400px;
     overflow-y: auto;
+  }
+  .more-padding{
+    padding: 2.5em;
+  }
+  .no-padding {
+    padding : 0em;
   }
 </style>

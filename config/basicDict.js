@@ -244,6 +244,10 @@ export const BasicDictionnary = {
     en : 'test',
     fr : 'tester',
   },
+  bo_warning : {
+    en : 'warning',
+    fr : 'attention',
+  },
   bo_delete : {
     en : 'delete',
     fr : 'supprimer',
@@ -257,8 +261,8 @@ export const BasicDictionnary = {
     fr : 'annuler',
   },
   bo_add : {
-    en : 'add a ',
-    fr : 'ajouter un.e ',
+    en : 'add a document ',
+    fr : 'ajouter un document ',
   },
 
   // duplicate
@@ -266,13 +270,17 @@ export const BasicDictionnary = {
     en : 'Duplicate a document ',
     fr : 'Dupliquer un document',
   },
-  bo_duplicate_intro : {
-    en : 'You can add a new document to this collection by duplicating an existing onne',
-    fr : 'Vous pouvez ajouter un document à cette collection en dupliquant un document existant',
+  bo_duplicate_intro_1a : {
+    en : 'You can add a new document to this collection',
+    fr : 'Vous pouvez ajouter un document à cette collection',
+  },
+  bo_duplicate_intro_1b : {
+    en : 'by duplicating an existing one',
+    fr : 'en dupliquant un document existant',
   },
   bo_duplicate_select_helper : {
     en : 'Select the document you want to duplicate',
-    fr : 'Sélectionnner le document que vous souhaitez dupliquer',
+    fr : 'Sélectionner le document que vous souhaitez dupliquer',
   },
   bo_duplicate_edit_helper : {
     en : 'You can edit the selected document before sending it',
@@ -280,9 +288,8 @@ export const BasicDictionnary = {
   },
   bo_duplicate_select_placeholder : {
     en : 'Select a document ',
-    fr : 'Sélectionnner un document',
+    fr : 'Sélectionner un document',
   },
-
 
   bo_title : {
     en : 'Back office',
