@@ -104,7 +104,7 @@ export const getters = {
       return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
     },
     hasCreditsFooter : (state) => {
-      // state.log && console.log('S-config-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
+      // state.log && console.log('S-config-G-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
       return state.config.footer.app_footer.has_credits_footer
     },
     getFooterConfig : state => {
@@ -116,11 +116,11 @@ export const getters = {
 
   // BANNER RELATED
     hasBanner : state => {      
-      // state.log && console.log('S-config-hasBanner ... state.localRouteConfig : \n', state.localRouteConfig)
+      // state.log && console.log('S-config-G-hasBanner ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false 
     },
     getCurrentBanner : (state, getters) => {
-      // state.log && console.log('S-config-getCurrentBanner ...')
+      // state.log && console.log('S-config-G-getCurrentBanner ...')
       let bannersSet = getters.getStylesConfig.app_banners.banners_set
       const routeBannerUri = state.localRouteConfig.banner.banner_uri
       let resultSet = bannersSet.find(function(b) {
@@ -132,12 +132,12 @@ export const getters = {
 
     // TABS RELATED
     hasTabs : state => {      
-      state.log && console.log('S-config-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
+      // state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false 
     },
     getTabConfig : (state) => (tabUri) => {
-      state.log && console.log('S-config-getTabConfig ... tabUri : ', tabUri)
-      state.log && console.log('S-config-getTabConfig ... state.config.tabs : \n', state.config.tabs)
+      // state.log && console.log('S-config-G-getTabConfig ... tabUri : ', tabUri)
+      // state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
       let tabConfig = state.config.tabs.find( tab => {
         return tab.tab_uri = tabUri
       }) 
@@ -147,6 +147,11 @@ export const getters = {
 
   // ROUTE CONFIG GETTERS
     // - - - - - - - - - - - - - - - //
+    getRouteConfigByField : (state) => (field) => {
+      return state.config.routes.find(function(r){
+        return r.field === field
+      })
+    },
     getCurrentRouteConfig : (state) => (currentRoute) => {
       try {
         return state.config.routes.find(function(r) {

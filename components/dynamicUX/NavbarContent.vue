@@ -209,6 +209,18 @@
 
       </div>
 
+      <!-- LOGIN BUTTON -->
+      <div v-if="navbarConfig.has_login && !user.isLoggedin"
+        :class="`navbar-item has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
+        >
+        <a class="navbar-link is-arrowless"
+          :href="loginRoute.urls[0]"
+          >
+          <span :class="`icon is-large ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`">
+            <i class="fas fa-sign-in-alt"></i>
+          </span>
+        </a>
+      </div>
 
     </div>
 
@@ -252,6 +264,10 @@
         showNav : 'getNavbarVisibility',
         navbarConfig : 'config/getNavbarConfig',
       }),
+
+      loginRoute() {
+        return this.$store.getters['config/getRouteConfigByField']('app_login')
+      },
 
       isUserAdmin () {
         return this.$store.getters['user/getCheckUserRole']('admin')

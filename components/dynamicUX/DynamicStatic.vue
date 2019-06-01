@@ -1,19 +1,18 @@
 <template>
 
-    <!-- DEBUGGING -->
-    <!-- <div>
-        - localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>
-        - appConfig : <br><code>{{ this.appConfig }}</code><br>
-    </div>-->
+  <!-- DEBUGGING -->
+  <!-- <div>
+      - localRouteConfig : <br><code>{{ localRouteConfig }}</code><br>
+      - appConfig : <br><code>{{ this.appConfig }}</code><br>
+  </div>-->
 
-    <!-- MAIN PART -->
-    <div class="skip-navbar">
+  <!-- MAIN PART -->
+  <div class="skip-navbar">
 
-      <span v-html="rawHtml"></span>
+    <span v-html="rawHtml"></span>
 
-    </div>
+  </div>
 
-  <!-- </section> -->
 </template>
 
 <script>
@@ -95,7 +94,7 @@ export default {
 
       // here we go fetch the raw HTML content of a webpage
       let template_url = (this.localRouteConfig && this.localRouteConfig.template_url) ? this.localRouteConfig.template_url : 'https://co-demos.com/error'
-      this.log && console.log('template_url : ', template_url)
+      // this.log && console.log('C-DynamicStatic / getRawHtml / template_url : ', template_url)
       let head = {
         headers: {
         //  'Access-Control-Allow-Origin': '*', // Uncommented, to try
@@ -130,7 +129,7 @@ export default {
 
       // ACTIVATE CAROUSELS
       if (this.localRouteConfig && this.localRouteConfig.has_carousel){
-        this.log && console.log("load carousel from utils");
+        this.log && console.log("C-DynamicStatic / loadExtScript / load carousel from utils");
         loadScript("https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js", activateCarousel);
         
         // activateCarousel() 

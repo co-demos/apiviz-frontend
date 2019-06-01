@@ -94,7 +94,7 @@ export const mutations = {
 
     // INTERNATIONALIZATION
     setLocale(state, loc){
-      state.log && console.log("S-index-M-setLocale / loc :", loc )
+      // state.log && console.log("S-index-M-setLocale / loc :", loc )
       state.locale = loc
     },
 }

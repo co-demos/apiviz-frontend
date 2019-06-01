@@ -56,6 +56,22 @@ export default {
     DynamicCSS
   },
 
+  head(){ 
+    
+    let global = this.globalConfig
+
+    return {
+      title: global.app_title.content || 'apiviz...',
+      // meta: [
+
+      // ],
+      link: [
+        // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+        { rel: 'icon', href: global.app_favicon.url, sizes: '32x32' },
+      ],
+    }
+  },
+
   data () {
     return {
       codemosCreditsUrls : {
@@ -76,6 +92,7 @@ export default {
 
     ...mapGetters({
       locale : 'getCurrentLocale',
+      globalConfig : 'config/getGlobalConfig',
       // styles : 'config/getStylesConfig',
       // appColors : 'config/getStylesConfigColors',
       // appTypoColors : 'config/getStylesConfigColorsTypo',

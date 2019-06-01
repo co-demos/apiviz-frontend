@@ -37,7 +37,7 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 
 
 export default {
-  
+
   components: {
     NavBar, 
     Footer, 
@@ -73,9 +73,7 @@ export default {
       rootUrlAuth : state => state.rootUrlAuth,
       locale : state => state.locale,
 
-      // config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,
-      // globalConfig : state => state.config.global,
 
       search : state => state.search.search,
       filterDescriptions : state => state.search.filterDescriptions,
@@ -88,7 +86,7 @@ export default {
 
     ...mapGetters({
 
-      globalConfig : 'config/getGlobalConfig',
+      // globalConfig : 'config/getGlobalConfig',
 
       localEndpointConfig : 'config/getLocalEndpointConfig',
       localFiltersConfig : 'config/getLocalFiltersConfig',

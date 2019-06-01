@@ -84,12 +84,13 @@
         </div>
 
         <!-- DOCUMENTATION modal -->
+        <br>
         <BackOfficeDocModal
           :currentColl="activeMenu"
           :currentTab="getTabConfig"
         />
           <!-- :currentTab="activeTab" -->
-        <br>
+        <br><br>
 
         <!-- JSON CONTENTS -->
         <div 

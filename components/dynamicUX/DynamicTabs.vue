@@ -3,7 +3,7 @@
   <div class="container">
 
     <template v-if="tabConfig && tabConfig.top_margin > 0">
-      <br v-for="extra_margin in tabConfig.top_margin" >
+      <br v-for="extra_margin in tabConfig.top_margin" :key="extra_margin">
     </template>
 
     <div v-if="tabConfig" :class="`tabs is-centered ${skipNavbar ? 'skip-navbar' : ''}`">

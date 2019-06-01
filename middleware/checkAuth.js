@@ -57,7 +57,7 @@ export default function ({ req, store, route, redirect }) {
         // log && console.log("-M4-checkAuth / urlAuthConfirmSuffix : ", urlAuthConfirmSuffix)
     
         let authUrl = urlAuthRoot + urlAuthConfirmSuffix
-        log && console.log("-M4-checkAuth / authUrl : ", authUrl)
+        // log && console.log("-M4- checkAuth / authUrl : ", authUrl)
     
         let header = {
           'headers': { 

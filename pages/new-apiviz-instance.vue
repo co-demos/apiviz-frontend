@@ -58,7 +58,8 @@
               {{ locale }}
             </a>
             <div class="navbar-dropdown">
-              <a v-for="loc in listLocales" class="navbar-item is-uppercase"
+              <a v-for="(loc, index) in listLocales" class="navbar-item is-uppercase"
+                :key="index"
                 @click="locale = loc">
                 {{ loc }}
               </a>
@@ -330,7 +331,7 @@
                 :data-content="basicDict.div_3[locale]">
               </div>
               <br> -->
-              <div v-for="( distincts, dfield) in selectedModel.distincts">
+              <div v-for="(distincts, dfield) in selectedModel.distincts" :key="dfield">
                 <!-- <label class="label has-text-centered">
                   {{ basicDict[dfield][locale] }}
                 </label> -->
@@ -338,7 +339,7 @@
                   :data-content="basicDict.tags_1a[locale] + ' ' + basicDict[dfield][locale]">
                 </div>
                 <div class="tags">
-                  <span v-for="d in distincts" class="tag is-primary">
+                  <span v-for="(d, indexD) in distincts" class="tag is-primary" :key="indexD">
                     {{ d }}
                   </span>
                 </div>

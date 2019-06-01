@@ -6,7 +6,7 @@
     >
 
 
-    <div class="container">
+    <!-- <div class="container"> -->
         
       <Brand 
         :logoTo="navbarConfig.logo_to"
@@ -21,7 +21,7 @@
         :localRouteConfig="localRouteConfig"
       ></NavBarContent>
 
-    </div>
+    <!-- </div> -->
 
 
   </nav>

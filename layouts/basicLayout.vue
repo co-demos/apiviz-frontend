@@ -5,7 +5,8 @@
 
     <DynamicStaticRaw 
       :templateURL="'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html'"
-    ></DynamicStaticRaw>
+      >
+    </DynamicStaticRaw>
 
   </div>
 </template>
@@ -22,6 +23,20 @@
     
     components: {
       DynamicStaticRaw,
+    },
+
+    head(){ 
+      
+      return {
+        title: 'ApiViz',
+        // meta: [
+
+        // ],
+        link: [
+          // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+          { rel: 'icon', href: '/logos/logo_apiviz_icon_15.png', sizes: '21x32' },
+        ],
+      }
     },
 
     data () {

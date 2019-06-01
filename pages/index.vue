@@ -163,7 +163,8 @@ export default {
 
       // ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+        // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+        { rel: 'icon', href: global.app_favicon.url, sizes: '32x32' },
       ],
     }
   },

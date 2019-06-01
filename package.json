@@ -13,12 +13,14 @@
     "dev-prod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=production nuxt",
 
     "build": "nuxt build",
+    "build-docker": "NUXT_BACKEND_MODE=default_docker nuxt build",
     "build-prod": "NUXT_BACKEND_MODE=production nuxt build",
     "build-preprod": "NUXT_CONSOLELOG=preprod NUXT_BACKEND_MODE=preprod nuxt build",
 
     "start": "nuxt start",
     
     "generate": "nuxt generate",
+    "generate-docker": "NUXT_BACKEND_MODE=default_docker nuxt generate",
     "generate-prod": "NUXT_BACKEND_MODE=production nuxt generate",
     "generate-preprod": "NUXT_CONSOLELOG=preprod NUXT_BACKEND_MODE=preprod nuxt generate"
   },

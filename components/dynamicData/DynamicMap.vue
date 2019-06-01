@@ -18,9 +18,9 @@
 import { mapState } from 'vuex'
 
 import DynamicSearchScreenSqueleton from './DynamicSearchScreenSqueleton.vue'
-import SearchResultsMaps from './SearchResultsMaps.vue';
-import SearchResultsMapbox from './SearchResultsMapbox.vue';
 
+// import SearchResultsMaps from './SearchResultsMaps.vue';
+import SearchResultsMapbox from './SearchResultsMapbox.vue';
 
 export default {
 
@@ -38,7 +38,7 @@ export default {
 
   components: {
     DynamicSearchScreenSqueleton, 
-    SearchResultsMaps,
+    // SearchResultsMaps,
     SearchResultsMapbox,
   },
 

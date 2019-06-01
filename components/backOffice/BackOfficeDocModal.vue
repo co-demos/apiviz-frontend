@@ -1,6 +1,7 @@
 <template>
   <div>
 
+    <!-- BUTTON DOCUMENTATION -->
     <div
       class="has-text-centered" 
       >
@@ -29,7 +30,10 @@
               <div class="content has-text-centered">
                 
                 <p>
-                  To know more about the <strong>{{ currentColl }}</strong> settings <br>
+                  To know more about the 
+                  <strong>{{ currentColl }}</strong> 
+                  settings
+                  <br>
                   check our documentation here 
                 </p>
 
@@ -65,6 +69,8 @@
 <script>
 
   import { mapState, mapGetters } from 'vuex'
+  
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
 

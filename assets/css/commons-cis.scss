@@ -692,7 +692,7 @@ ul.members{
     color: inherit;
     position: relative;
     text-decoration: none;
-    padding-bottom: 0.4em;
+    // padding-bottom: 0.4em;
     &:hover{
         color: inherit;
     }
@@ -723,7 +723,7 @@ ul.members{
 html[lang="fr"] nav #navbar-main .navbar-item [lang="fr"],
 html[lang="en"] nav #navbar-main .navbar-item [lang="en"] {
 	font-weight: bold;
-	padding-bottom: 0.3em;
+	// padding-bottom: 0.3em;
 	border-bottom: 1px solid $apiviz-primary;
 }
 
