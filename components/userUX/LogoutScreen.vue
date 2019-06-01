@@ -119,7 +119,7 @@
         basicDict : BasicDictionnary, 
       }
     },
-    
+
     computed: {
 
       ...mapState({

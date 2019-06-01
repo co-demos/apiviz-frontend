@@ -215,6 +215,10 @@ export const BasicDictionnary = {
     en : 'delete or duplicate this element ',
     fr : 'supprimer ou dupliquer ce document',
   },
+  bo_helper_2a_ : {
+    en : "beware to create an original value for the following fields : 'field' (and 'tab_uri') ",
+    fr : "prenez garde à bien créer une nouvelle valeur pour les champs suivants : 'field' (et 'tab_uri')",
+  },
   bo_helper_2b : {
     en : 'modify the values',
     fr : 'modifier les valeurs',
@@ -252,6 +256,33 @@ export const BasicDictionnary = {
     en : 'cancel',
     fr : 'annuler',
   },
+  bo_add : {
+    en : 'add a ',
+    fr : 'ajouter un.e ',
+  },
+
+  // duplicate
+  bo_duplicate_title : {
+    en : 'Duplicate a document ',
+    fr : 'Dupliquer un document',
+  },
+  bo_duplicate_intro : {
+    en : 'You can add a new document to this collection by duplicating an existing onne',
+    fr : 'Vous pouvez ajouter un document à cette collection en dupliquant un document existant',
+  },
+  bo_duplicate_select_helper : {
+    en : 'Select the document you want to duplicate',
+    fr : 'Sélectionnner le document que vous souhaitez dupliquer',
+  },
+  bo_duplicate_edit_helper : {
+    en : 'You can edit the selected document before sending it',
+    fr : "Vous pouvez éditer le document avant de l'envoyer",
+  },
+  bo_duplicate_select_placeholder : {
+    en : 'Select a document ',
+    fr : 'Sélectionnner un document',
+  },
+
 
   bo_title : {
     en : 'Back office',

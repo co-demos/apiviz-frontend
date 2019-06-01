@@ -304,7 +304,7 @@ export const mutations = {
 export const actions = {
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    // state.log && console.log("S-config-A-getConfigType / type : ", type)
+    state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
@@ -400,6 +400,34 @@ export const actions = {
 
   },
 
+  addConfigDoc({commit, state, getters, rootGetters}, request){
+
+    state.log && console.log("S-config-A-addConfigDoc / request : \n", request)
+
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    
+    const currentColl = request.currentColl
+    const payload = request.payload
+    payload['apiviz_front_uuid'] = apivizFrontUUID
+
+    // build request URL
+    let requestUrl = rootURLbackend+'/add_document/'+currentColl
+    state.log && console.log('S-config-A-addConfigDoc / requestUrl : ', requestUrl)
+
+    // post update request
+    return axios
+    .post( requestUrl, payload )
+    .catch( (error) => {
+      console.log('S-config-A-addConfigDoc / error :', error)
+    })
+    .then(response => {
+      console.log('S-config-A-addConfigDoc / response : \n', response)
+      return response
+      }
+    )
+
+  },
 
   // - - - - - - - - - - - - - //
   // New config given UUID

@@ -2,6 +2,7 @@
 
   <div>
 
+
     <!-- SIMPLE BLOC EDIT / f.i app_languages doc -->
     <div v-if="docConfig.type === 'blocs' " 
       >
@@ -83,7 +84,7 @@
 
 
     <!-- ADD ELEMENT BTN -->
-    <div v-if="docConfig.add_delete"
+    <!-- <div v-if="docConfig.add_delete"
       class="addButton has-text-centered" 
       >
       <a class="button is-primary is-primary-b"
@@ -93,10 +94,23 @@
           <i class="fas fa-plus"></i>
         </span>
         <span>
-          Add {{ currentTab.title }}
+          {{ basicDict.bo_add[locale] }}
+          {{ currentTab.title }}
         </span>
       </a>
-    </div>
+    </div> -->
+
+    <BackOfficeAddDocModal
+      v-if="docConfig.add_delete"
+      :currentColl="activeMenu"
+      :currentTab="currentTab"
+      :docConfig="docConfig"
+      :conf="conf"
+    >
+    </BackOfficeAddDocModal>
+
+
+
 
   </div>
 
@@ -106,13 +120,16 @@
   import { mapState, mapGetters } from 'vuex'
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   import BackOfficeJSON from './BackOfficeJSON.vue';
+  import BackOfficeAddDocModal from './BackOfficeAddDocModal.vue';
 
   export default {
 
     components: {
-      BackOfficeJSON
+      BackOfficeJSON,
+      BackOfficeAddDocModal
     },
 
     props: [
@@ -124,6 +141,7 @@
 
     data: function () {
       return {
+        basicDict : BasicDictionnary, 
       }
     },
 
@@ -188,17 +206,11 @@
         return getObjectDataFromPath(conf, subfield, '.')
       },
 
-      addElement(docConfig){
-        // TO DO 
-        this.log && console.log("\nC-BackOfficeDispatch / addElement / docConfig :", docConfig)
-      },
+      // addElement(docConfig){
+      //   // TO DO 
+      //   this.log && console.log("\nC-BackOfficeDispatch / addElement / docConfig :", docConfig)
+      // },
     }
 
   }
 </script>
-
-<style scoped>
-  .addButton {
-    margin-bottom: 1rem;
-  }
-</style>

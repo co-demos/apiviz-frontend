@@ -71,26 +71,11 @@
       </div>
     </nav>
 
-
-    <!-- WELCOME PAGE -->
-    <!-- <section class="hero is-primary is-primary-b">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            {{ basicDict.welcome_1[locale]}}
-          </h1>
-          <h2 class="subtitle">
-            {{ basicDict.welcome_2[locale]}}
-          </h2>
-        </div>
-      </div>
-    </section> -->
-
     <!-- SELECT MODEL FORM -->
     <section class="hero skip-navbar is-fullheight">
-        <div class="container">
-          <div class="columns is-vcentered is-centered">
-            <div class="column is-two-thirds">
+      <div class="container">
+        <div class="columns is-vcentered is-centered">
+          <div class="column is-two-thirds">
 
             <br><br>
 
@@ -193,7 +178,8 @@
 
             <!-- CUSTOM DIVIDER -->
             <div class="is-divider" 
-              :data-content="basicDict.div_2[locale]"></div>
+              :data-content="basicDict.div_2[locale]">
+            </div>
 
             <!-- SELECT MODEL -->
             <div class="columns is-centered">
@@ -304,7 +290,7 @@
                 <code>{{ selectedModel.uuid }}</code>
               </span>
               <span v-else><code> - </code></span>
-            </div
+            </div>
 
             <br>
 

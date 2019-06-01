@@ -2,8 +2,7 @@
   <div>
 
     <!-- DIALOG MODAL DELETE-->
-    <div 
-      v-if="docConfig.add_delete"
+    <div v-if="docConfig.add_delete"
       :class="`modal ${isModalOpen ? 'is-active' : ''}`"
       >
       <div class="modal-background"></div>
@@ -11,7 +10,6 @@
 
         <header class="modal-card-head">
           <p class="modal-card-title has-text-centered">
-            <!-- Are you sure you want to delete this element ?  -->
             {{ basicDict.bo_delete_confirm_1a[locale] }}
           </p>
         </header>
@@ -32,7 +30,6 @@
               <i class="fas fa-trash-alt"></i>
             </span>
             <span>
-              <!-- delete -->
               {{ basicDict.bo_delete_btn[locale] }}
             </span>
           </a>
@@ -47,8 +44,7 @@
       <!-- CARD HEADER -->
       <div class="card-header has-background-white-ter">
 
-        <a 
-          class="card-header-title"
+        <a class="card-header-title"
           @click="toggleContent"
           >
 
@@ -96,7 +92,6 @@
               <i class="fas fa-exclamation-triangle"></i>
             </span>
             <span>
-              <!-- you can do the following (experimental) :  -->
               {{ basicDict.bo_helper_1a[locale] }}
             </span>
             <a class="button is-small is-rounded is-outlined is-danger is-danger-b"
@@ -113,27 +108,24 @@
             >
             <ul>
               <li v-show="docConfig.add_delete">
-                <!-- delete or duplicate this element -->
                 {{ basicDict.bo_helper_2a[locale] }}
               </li>
+              <li v-show="docConfig.add_delete">
+                {{ basicDict.bo_helper_2a_[locale] }}
+              </li>
               <li>
-                <!-- modify the values -->
                 {{ basicDict.bo_helper_2b[locale] }}
               </li>
               <li v-show="docConfig.canAddKeys">
-                <!-- add new key(s) at your own risk -->
                 {{ basicDict.bo_helper_2c[locale] }}
               </li>
               <li v-show="docConfig.canAddToList">
-                <!-- add new entries to the lists (but beware to respect the format) -->
                 {{ basicDict.bo_helper_2d[locale] }}
               </li>
               <li v-show="!docConfig.canModifKeys">
-                <!-- modifying the keys will not be taken into accoun -->
                 {{ basicDict.bo_helper_2e[locale] }}
               </li>
               <li v-show="docConfig.canModifKeys">
-                <!-- modify the existing keys (at your own risk -->
                 {{ basicDict.bo_helper_2f[locale] }}
               </li>
             </ul>
@@ -148,6 +140,7 @@
 
           <!-- using vue-json-editor  ( + + ) -->
           <vue-json-editor 
+            class="JSON-scrollable"
             v-model="jsonData" 
             :show-btns="false" 
             @json-change="onChangeData">
@@ -233,7 +226,6 @@
             <i class="fas fa-trash-alt"></i>
           </span>
           <span>
-            <!-- delete -->
             {{ basicDict.bo_delete[locale] }}
           </span>
         </a>
@@ -251,9 +243,8 @@
           </span>
         </a> -->
 
-        <!-- SUBMIT BTN-->
-        <a 
-          class="card-footer-item"
+        <!-- SUBMIT / SAVE BTN-->
+        <a class="card-footer-item"
           @click="sendConfigModif()"
           >
           <span class="icon">
@@ -262,21 +253,18 @@
             </i>
           </span>
           <span v-show="!isLoading">
-            <!-- save -->
             {{ basicDict.bo_save[locale] }}
           </span>
         </a>
   
         <!-- CANCEL BTN -->
-        <a 
-          class="card-footer-item"
+        <a class="card-footer-item"
           @click="toggleContent()"
           >
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
           <span>
-            <!-- cancel -->
             {{ basicDict.bo_cancel[locale] }}
           </span>
         </a>
@@ -293,7 +281,7 @@
 <script>
 
   import { mapState, mapGetters } from 'vuex'
-  import axios from 'axios';
+  import axios from 'axios'
 
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
@@ -478,6 +466,9 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .JSON-scrollable{
+    max-height : 400px;
+    overflow-y: auto;
+  }
 </style>

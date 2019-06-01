@@ -272,6 +272,39 @@ export const BackofficeGlobal = Object.freeze({
       ]
     },
 
+    // TABS
+    { config_coll : 'tabs',
+      activated : true, 
+      code : 'bo_tabs',
+      title : 'tabs',
+      is_divider : false,
+      icon : 'fas fa-ellipsis-h',
+      tabs  : [
+        { tab_code : 'ta_tabs', 
+          tab_type : 'docs_list',
+          title : 'tabs',
+          docs : [
+            { field : '',
+              title : 'dynamic tabs',
+              type : 'docs_list', 
+              canAddToList : true,
+              list_filters : [
+              ],
+              help_field : 'help',
+              add_delete : true,
+              fields_not_in_model : [
+                {subfield : '_id'},
+                {subfield : 'apiviz_front_uuid'},
+                {subfield : 'is_default'},
+                // {subfield : 'help'},
+                {subfield : 'app_version'},
+              ],
+            }
+          ]
+        },
+      ]
+    },
+
     // ROUTES
     { config_coll : 'routes',
       activated : true, 
@@ -298,7 +331,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
@@ -321,7 +354,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
@@ -344,7 +377,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
@@ -379,7 +412,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
@@ -425,7 +458,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
@@ -448,7 +481,7 @@ export const BackofficeGlobal = Object.freeze({
                 {subfield : '_id'},
                 {subfield : 'apiviz_front_uuid'},
                 {subfield : 'is_default'},
-                {subfield : 'help'},
+                // {subfield : 'help'},
                 {subfield : 'app_version'},
               ],
             }
