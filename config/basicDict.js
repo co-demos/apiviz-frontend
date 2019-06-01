@@ -1,5 +1,11 @@
 export const BasicDictionnary = {
 
+  // WELCOME NAV
+  welcome_nav : {
+    en : "Welcome to the Apiviz dataviz website generator",
+    fr : "Bienvenue sur le générateur de site de datavisualisation Apiviz"
+  },
+
   // WELCOME
   welcome_1 : {
     en : "Welcome to Apiviz",

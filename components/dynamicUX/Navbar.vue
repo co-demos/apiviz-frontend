@@ -4,25 +4,19 @@
     role="navigation" 
     aria-label="main navigation"
     >
-
-
-    <!-- <div class="container"> -->
         
-      <Brand 
-        :logoTo="navbarConfig.logo_to"
-      ></Brand>
+    <Brand 
+      :logoTo="navbarConfig.logo_to"
+    ></Brand>
 
-      <!-- DEBUGGING -->
-      <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
-      <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
-    
-        <!-- :NavbarConfig="navbarConfig" -->
-      <NavBarContent 
-        :localRouteConfig="localRouteConfig"
-      ></NavBarContent>
-
-    <!-- </div> -->
-
+    <!-- DEBUGGING -->
+    <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
+    <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
+  
+      <!-- :NavbarConfig="navbarConfig" -->
+    <NavBarContent 
+      :localRouteConfig="localRouteConfig"
+    ></NavBarContent>
 
   </nav>
 </template>

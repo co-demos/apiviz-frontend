@@ -5,7 +5,7 @@
     <div
       class="has-text-centered" 
       >
-      <a class="button is-fullwidth is-primary is-outlined is-primary-b "
+      <a class="button is-fullwidth is-grey is-outlined"
         @click="toggleModal()"
         >
         <span class="icon">

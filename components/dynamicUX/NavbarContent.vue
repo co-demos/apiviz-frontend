@@ -84,7 +84,6 @@
       
       </template>
 
-
       <!-- BUTTONS LINKS -->
       <div class="buttons">
 
@@ -121,7 +120,6 @@
 
       </div>
 
-
       <!-- LOCALES -->
       <div v-if="languages.is_multi_lang"
         :class="`navbar-item is-hoverable has-dropdown no-padding-right`"
@@ -145,7 +143,6 @@
 
         </div>
       </div>
-
 
       <!-- USER DROPDOWN -->
       <div v-if="user.isLoggedin"
