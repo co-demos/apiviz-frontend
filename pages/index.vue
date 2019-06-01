@@ -12,6 +12,12 @@
       :dynamicTemplate="localRouteConfig.dynamic_template"
     ></DynamicBanner> 
 
+    <!-- TABS -->
+    <DynamicTabs 
+      v-if="has_tabs"
+      :skipNavbar="has_navbar"
+      :tabsUri="localRouteConfig.tabs_uri"
+    ></DynamicTabs> 
 
     <!-- REMOTE STATICS -->
     <DynamicStatic 
@@ -134,6 +140,8 @@ import { mapState, mapGetters } from 'vuex'
 import NavBar from '~/components/dynamicUx/NavBar.vue'
 import Footer from '~/components/dynamicUx/Footer.vue'
 
+import DynamicTabs       from '~/components/dynamicUX/DynamicTabs.vue'
+
 import DynamicBanner     from '~/components/dynamicUX/DynamicBanner.vue'
 import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
@@ -145,10 +153,27 @@ import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 
 export default {
   
+  head(){ 
+    
+    let global = this.globalConfig
+
+    return {
+      title: global.app_title.content,
+      // meta: [
+
+      // ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+      ],
+    }
+  },
+
   components: {
 
     NavBar, 
     Footer, 
+
+    DynamicTabs,
 
     DynamicBanner,
     DynamicStatic, 
@@ -215,6 +240,7 @@ export default {
       has_footer : 'config/hasFooter',
       has_credits_footer : 'config/hasCreditsFooter',
       has_banner : 'config/hasBanner',
+      has_tabs : 'config/hasTabs',
 
     }),
 

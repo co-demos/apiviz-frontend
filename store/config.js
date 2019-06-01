@@ -130,6 +130,20 @@ export const getters = {
       return resultSet
     },
 
+    // TABS RELATED
+    hasTabs : state => {      
+      state.log && console.log('S-config-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
+      return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false 
+    },
+    getTabConfig : (state) => (tabUri) => {
+      state.log && console.log('S-config-getTabConfig ... tabUri : ', tabUri)
+      state.log && console.log('S-config-getTabConfig ... state.config.tabs : \n', state.config.tabs)
+      let tabConfig = state.config.tabs.find( tab => {
+        return tab.tab_uri = tabUri
+      }) 
+      return tabConfig
+    },
+
 
   // ROUTE CONFIG GETTERS
     // - - - - - - - - - - - - - - - //
