@@ -128,6 +128,28 @@ export const BasicDictionnary = {
     fr : "types de points d'API"
   },
 
+  // SPECS
+  app_colors : {
+    en : "model's colors ",
+    fr : "couleurs du modèle"
+  },
+  app_colors_class : {
+    en : "colors class",
+    fr : "classe couleur"
+  },
+  app_colors_color : {
+    en : "color",
+    fr : "couleur"
+  },
+  app_colors_code : {
+    en : "color code ",
+    fr : "code couleur"
+  },
+  app_languages : {
+    en : "model's languages ",
+    fr : "langues du modèle"
+  },
+
   // TITLE
   title_1a : {
     en : "title of your new website ",

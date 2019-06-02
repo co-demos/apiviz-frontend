@@ -113,7 +113,7 @@
 
         <!-- CONTENTS -->
         <div class="columns is-vcentered is-centered">
-          <div class="column is-9">
+          <div :class="`column is-${showSteps ? 10 : 9 }`">
 
             <!-- INTRODUCTION -->
             <div v-show="!showSteps">
@@ -499,7 +499,7 @@
                   <div class="columns">
                     
                     <!-- TITLE + TAGS -->
-                    <div class="column is-half">
+                    <div class="column is-one-third">
 
                       <!-- REPEAT TITLE -->
                       <div class="is-divider" 
@@ -520,25 +520,10 @@
                         </figure>
                       </div>
 
-                      <!-- MODEL'S TAGS -->
-                      <div v-if="selectedModel" class="content has-text-centered">
-
-                        <div v-for="(distincts, dfield) in selectedModel.distincts" :key="dfield">
-
-                          <div class="is-divider" 
-                            :data-content="basicDict.tags_1a[locale] + ' ' + basicDict[dfield][locale]">
-                          </div>
-                          <div class="tags">
-                            <span v-for="(d, indexD) in distincts" class="tag is-primary" :key="indexD">
-                              {{ d }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     
                     <!-- IMAGE PREVIEW OF SELECTED MODEL -->
-                    <div class="column is-half">
+                    <div class="column is-one-third">
 
                       <!-- MODEL'S PREVIEW -->
                       <div class="is-divider" 
@@ -554,6 +539,84 @@
                           <img :src="selectedModel.preview">
                         </figure>
                       </div>
+
+                      <!-- MODEL'S TAGS -->
+                      <div v-if="selectedModel" class="content has-text-centered">
+                        <div v-for="(distincts, dfield) in selectedModel.distincts" :key="dfield">
+                          <div class="is-divider" 
+                            :data-content="basicDict.tags_1a[locale] + ' ' + basicDict[dfield][locale]">
+                          </div>
+                          <div class="tags">
+                            <span v-for="(d, indexD) in distincts" class="tag is-primary" :key="indexD">
+                              {{ d }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <!-- SPECS OF SELECTED MODEL -->
+                    <div class="column is-one-third">
+
+                      <!-- MODEL'S SPECS -->
+                      <div v-if="selectedModel" class="content has-text-centered">
+                        <div v-for="(specs, sfield) in selectedModel.specs" :key="sfield">
+                         
+                          <div class="is-divider" 
+                            :data-content="basicDict[sfield][locale]">
+                          </div>
+
+                          <div v-if="sfield in specsRenderer">
+
+                            <div v-if="specsRenderer[sfield]['render'] === 'colorsLoop'">
+                              <table class="table is-bordered is-size-7">
+                                <thead>
+                                  <tr>
+                                    <th>{{ basicDict.app_colors_class[locale]}}</th>
+                                    <th>{{ basicDict.app_colors_color[locale]}}</th>
+                                    <th>{{ basicDict.app_colors_code[locale]}}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr v-for="(color, colClass) in specs[ specsRenderer[sfield]['field'] ]">
+                                    <td>
+                                      <code>{{ colClass }}</code>
+                                    </td>
+                                    <td class="has-text-centered">
+                                      <span class="bd-color" :style="'background : ' + color">
+                                      </span>
+                                    </td>
+                                    <td class="has-text-centered">
+                                      <code>
+                                        {{ color }}
+                                      </code>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div v-else-if=" specsRenderer[sfield]['render'] === 'tagsList'">
+                              <div class="tags">
+                                <span v-for="(s, indexS) in specs[ specsRenderer[sfield]['field'] ]" class="tag is-primary" :key="indexS">
+                                  {{ s }}
+                                </span>
+                              </div>
+
+                            </div>
+
+                            <div v-else>
+                              <code>
+                                ...{{ specs[ specsRenderer[sfield]['field'] ] }}
+                              </code>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+
                     </div>
 
                   </div>
@@ -688,6 +751,10 @@
         new_logoUrl : 'https://github.com/co-demos/carto-sonum/blob/master/logos/logo%2Bmarianne_typo%20sombre%404x.png?raw=true',
 
         basicDict : BasicDictionnary, 
+        specsRenderer : {
+          app_colors : { field: "content", render : 'colorsLoop' },
+          app_languages : { field: "languages", render : 'tagsList' },
+        },
 
         bulmaExtensions: {},
   
@@ -811,5 +878,14 @@
   }
   .more-padding{
     padding: 2.5em;
+  }
+  .bd-color {
+    border-radius: 2px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.1);
+    display: inline-block;
+    float: left;
+    height: 24px;
+    margin-right: 8px;
+    width: 24px;
   }
 </style>
