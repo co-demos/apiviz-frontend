@@ -116,8 +116,8 @@ export const BasicDictionnary = {
 
   // TAGS
   tags_1a : {
-    en : "model's options about : ",
-    fr : "options du modèle pour :"
+    en : "model's options : ",
+    fr : "options du modèle :"
   },
   dynamic_template : {
     en : "route types",

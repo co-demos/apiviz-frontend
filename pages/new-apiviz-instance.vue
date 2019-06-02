@@ -381,10 +381,13 @@
 
                   </div>
 
+                  <hr class="no-bottom-margin">
                 </div>
 
                 <!-- STEPS 2 / TITLE -->
                 <div class="step-content has-text-centered">
+
+                  <br>
 
                   <!-- CHOOSE A TITLE -->
                   <div class="field is-horizontal">
@@ -406,12 +409,15 @@
                       </div>
                     </div>
                   </div>
+                  <br>
 
+                  <hr class="no-bottom-margin">
 
                 </div>
 
                 <!-- STEPS 3 / CHOOSE A LOGO URL -->
                 <div class="step-content has-text-centered">
+
                   <!-- <label class="label has-text-centered">
                     {{ basicDict.logo_1a[locale] }}
                   </label> -->
@@ -449,6 +455,9 @@
                     </div>
 
                   </div>
+
+                  <hr class="no-bottom-margin">
+
                 </div>
 
                 <!-- STEPS 4 / CREATE BUTTON -->
@@ -621,7 +630,7 @@
 
                   </div>
                   
-
+                  <hr class="no-bottom-margin">
 
                 </div>
 
@@ -878,6 +887,9 @@
   }
   .more-padding{
     padding: 2.5em;
+  }
+  .no-bottom-margin {
+    margin-bottom : 0em;
   }
   .bd-color {
     border-radius: 2px;
