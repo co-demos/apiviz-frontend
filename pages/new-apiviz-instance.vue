@@ -4,14 +4,17 @@
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
 
+        <!-- LOGO -->
         <a class="navbar-item" 
-          href="#top">
+          href="#top"
+          >
           <img 
             src="/logos/logo_apiviz_icon_15.png" 
             height="28"
             >
         </a>
 
+        <!-- BURGER -->
         <a 
           role="button" 
           :class="`navbar-burger ${ showNav ? 'is-active' : '' }`"
@@ -27,6 +30,7 @@
 
       </div>
 
+      <!-- NNAVBAR ITEMS -->
       <div id="navbarNewInstance" 
         :class="`navbar-menu ${ showNav ? 'is-active' : '' }`"
         >
@@ -34,7 +38,9 @@
         <!-- NAV START -->
         <div class="navbar-start">
           <a class="navbar-item"
-            href="#top">
+            @click="showSteps=false"
+            >
+            <!-- href="#top" -->
             {{ basicDict.welcome_nav[locale] }}
           </a>
         </div> 
@@ -44,8 +50,9 @@
 
           <!-- QUICK START -->
           <a class="navbar-item is-uppercase"
-            href="#currentUUID"
+            @click="showSteps=true"
             >
+            <!-- href="#currentUUID" -->
             <span>
               {{ basicDict.quick_start[locale] }}
             </span>
@@ -93,115 +100,160 @@
     <!-- SELECT MODEL FORM -->
     <section id="top" class="hero skip-navbar is-fullheight">
       <div class="container">
+
+        <!-- APIVIZ LOGO -->
         <div class="columns is-vcentered is-centered">
-          <div class="column is-9">
-
-            <br><br>
-
-            <!-- APIVIZ LOGO -->
+          <div :class="`column is-${showSteps ? 3 : 6 }`">
+            <br>
             <figure class="image">
               <img src="/logos/logo_apiviz_15.png">
             </figure>
-            <br><br>
+          </div>
+        </div>
+
+        <!-- CONTENTS -->
+        <div class="columns is-vcentered is-centered">
+          <div class="column is-9">
 
             <!-- INTRODUCTION -->
-            <div class="notification is-primary is-primary-b has-text-centered more-padding">
-              
-              <p class="is-uppercase is-bold">
-                {{ basicDict.intro_1a[locale]}}
-                <br>
-                {{ basicDict.intro_1b[locale]}}
-                <br>
-              </p><br>
-              <p>
-                {{ basicDict.intro_2a[locale]}}
-                <a href="#currentUUID">
-                  {{ basicDict.intro_2b[locale]}}
-                </a>
-                {{ basicDict.intro_2c[locale]}}
-                <br>
-              </p><br>
-              <p>
-                {{ basicDict.intro_3a[locale]}}
-                <a href="https://github.com/co-demos/apiviz-frontend" target="_blank">
-                {{ basicDict.open_source_pr[locale]}}
-                </a>
-                <br> 
-                {{ basicDict.intro_3b[locale]}}
-              </p><br>
+            <div v-show="!showSteps">
+              <br>
 
-              <div class="columns is-centered is-8">
+              <div class="notification is-primary is-primary-b has-text-centered">
+                
+                <p class="is-uppercase is-bold">
+                  {{ basicDict.intro_1a[locale]}}
+                  <br>
+                  {{ basicDict.intro_1b[locale]}}
+                  <br>
+                </p>
 
-                <!-- REPO -->
-                <div class="column -is-half">
-                  <a class="button is-primary is-primary-b is-outlined is-fullwidth"
-                    href="https://github.com/co-demos/apiviz-frontend" 
-                    target="/_blank"
-                    >
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>
-                      {{ basicDict.check_repo[locale]}}
-                    </span>
-                  </a>
+              </div>
+
+              <div class="has-text-centered">
+
+                <br>
+
+                <div class="columns is-centered">
+
+                  <!-- TEXT / start with model -->
+                  <div class="column -is-half">
+                    <p>
+                      {{ basicDict.intro_2a[locale]}}
+                      <a @click="showSteps=true">
+                        {{ basicDict.intro_2b[locale]}}
+                      </a>
+                      {{ basicDict.intro_2c[locale]}}
+                      <br>
+                    </p><br>
+                  </div>
+
+                  <!-- FEEDBACK UUID -->
+                  <div class="column -is-half">
+                    <div class="content has-text-centered">
+                      {{ basicDict.feedback_1[locale]}} 
+                      <br>
+                      <span>
+                        <code>{{ currentApivizFrontUUID }}</code>
+                      </span>
+                      <br>
+                    </div>
+                  </div>
+
                 </div>
 
-                <!-- DOCS -->
-                <div class="column -is-half">
-                  <a class="button is-primary is-primary-b is-outlined is-fullwidth"
-                    href="https://co-demos.github.io/apiviz-frontend" 
-                    target="/_blank"
-                    >
-                    <span class="icon">
-                      <i class="fas fa-book"></i>
-                    </span>
-                    <span>
-                      {{ basicDict.check_docs[locale]}}
-                    </span>
-                  </a>
+
+                <!-- QUICK START -->
+                <a class="button is-primary is-primary-b is-outlined is-large is-rounded is-fullwidth"
+                  @click="showSteps=true"
+                  >
+                  <span class="icon is-medium">
+                    <i class="far fa-play-circle"></i>
+                  </span>
+                  <span class="is-uppercase">
+                    {{ basicDict.quick_start[locale] }}
+                  </span>
+                </a>
+
+                <br>
+                <br>
+                <br>
+
+                <!-- EXTRA TEXTS AND LINKS -->
+                <div class="columns is-centered is-8">
+
+                  <!-- TEXT / apiviz is open source  -->
+                  <div class="column -is-half">
+                    <p>
+                      {{ basicDict.intro_3a[locale]}}
+                      <a href="https://github.com/co-demos/apiviz-frontend" target="_blank">
+                      {{ basicDict.open_source_pr[locale]}}
+                      </a>
+                      <br> 
+                      {{ basicDict.intro_3b[locale]}}
+                    </p>
+                  </div>
+
+                  <div class="column -is-half">
+
+                    <!-- REPO -->
+                    <a class="button is-grey is-grey-b is-outlined is-fullwidth"
+                      href="https://github.com/co-demos/apiviz-frontend" 
+                      target="/_blank"
+                      >
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>
+                        {{ basicDict.check_repo[locale]}}
+                      </span>
+                    </a>
+                    <br>
+                    <!-- DOCS -->
+                    <a class="button is-grey is-grey-b is-outlined is-fullwidth"
+                      href="https://co-demos.github.io/apiviz-frontend" 
+                      target="/_blank"
+                      >
+                      <span class="icon">
+                        <i class="fas fa-book"></i>
+                      </span>
+                      <span>
+                        {{ basicDict.check_docs[locale]}}
+                      </span>
+                    </a>
+                  </div>
+
                 </div>
 
               </div>
-              
+            
             </div>
 
-            <br id="currentUUID">
-
-            <!-- FEEDBACK CHOICE -->
-            <div class="content has-text-centered">
-              {{ basicDict.feedback_1[locale]}}
-              <span>
-                <code>{{ currentApivizFrontUUID }}</code>
-              </span>
-              <br>
-            </div>
-
-            <br>
 
             <!-- STEPPER -->
             <div 
+              v-show="showSteps"
               ref="thisSteps" 
               class="steps" 
               id="stepGenerator"
               >
-
-              <!-- STE ITEMS -->
-              <div class="step-item is-active is-success">
+              
+              <!-- STEPS ITEMS -->
+              <div class="step-item is-succes">
                 <div class="step-marker">1</div>
-                <div class="step-details">
-                  <p class="step-title">
-                    <!-- Your website title -->
-                    {{ basicDict.step_title[locale] }}
-                  </p>
-                </div>
-              </div>
-              <div class="step-item">
-                <div class="step-marker">2</div>
                 <div class="step-details">
                   <p class="step-title">
                     <!-- Select a model -->
                     {{ basicDict.step_model[locale] }}
+                  </p>
+                </div>
+              </div>
+              <div class="step-item is-active">
+                <div class="step-marker">2</div>
+                <div class="step-details">
+                  <p class="step-title">
+                    <!-- Your website title -->
+                    {{ basicDict.step_title[locale] }}
                   </p>
                 </div>
               </div>
@@ -227,35 +279,8 @@
               <!-- STEP CONTENTS -->
               <div class="steps-content">
 
-                <!-- STEPS 1 / TITLE -->
+                <!-- STEPS 1 / SELECT MODEL -->
                 <div class="step-content has-text-centered is-active">
-
-                  <!-- CHOOSE A TITLE -->
-                  <div class="field is-horizontal">
-                    <div class="field-label" style="flex-grow : 3">
-                      <label class="label">
-                        {{ basicDict.title_1a[locale] }}
-                      </label>
-                    </div>
-                    <div class="field-body">
-                      <div class="field">
-                    <div class="control">
-                      <input 
-                        class="input has-text-centered" 
-                        v-model="new_title"
-                        type="text" 
-                        placeholder="The title of your new website"
-                        >
-                    </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-
-                <!-- STEPS 2 / SELECT MODEL -->
-                <div class="step-content has-text-centered">
                   <div class="columns is-centered">
                     
                     <!-- MODEL SELECTION / UUID -->
@@ -358,6 +383,33 @@
 
                 </div>
 
+                <!-- STEPS 2 / TITLE -->
+                <div class="step-content has-text-centered">
+
+                  <!-- CHOOSE A TITLE -->
+                  <div class="field is-horizontal">
+                    <div class="field-label" style="flex-grow : 3">
+                      <label class="label">
+                        {{ basicDict.title_1a[locale] }}
+                      </label>
+                    </div>
+                    <div class="field-body">
+                      <div class="field">
+                    <div class="control">
+                      <input 
+                        class="input has-text-centered" 
+                        v-model="new_title"
+                        type="text" 
+                        placeholder="The title of your new website"
+                        >
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
                 <!-- STEPS 3 / CHOOSE A LOGO URL -->
                 <div class="step-content has-text-centered">
                   <!-- <label class="label has-text-centered">
@@ -373,7 +425,8 @@
                       <div class="field">
                         <div class="control">
                           <textarea 
-                            class="textarea" 
+                            class="textarea is-small"
+                             rows="5" 
                             v-model="new_logoUrl"
                             placeholder="the url of your logo's image"
                             >
@@ -407,7 +460,7 @@
                   <div v-if="!isCreated" class="columns is-centered">
                     <div class="column is-12">
                       <a :disabled="!selectedModel"
-                        :class="`${createLoading? 'is-loading' : ''} button is-primary is-primary-b is-rounded is-medium is-fullwidth`"
+                        :class="`button ${createLoading? 'is-loading' : ''} ${ selectedModel ? 'is-primary is-primary-b' : 'is-grey is-grey-b'} is-rounded is-medium is-fullwidth`"
                         @click="createApivizInstance()"
                         >
                         <span class="icon">
@@ -442,11 +495,32 @@
 
                   <br>
 
-
+                  <!-- RESUME -->
                   <div class="columns">
                     
-                    <!-- TAGS -->
+                    <!-- TITLE + TAGS -->
                     <div class="column is-half">
+
+                      <!-- REPEAT TITLE -->
+                      <div class="is-divider" 
+                        :data-content="basicDict.title_1a[locale]">
+                      </div>
+                      <p class="content hast-text-centered">
+                        <strong>{{ new_title }}</strong>
+                      </p>
+
+                      <!-- REPEAT LOGO -->
+                      <div class="is-divider" 
+                        :data-content="basicDict.logo_1c[locale]">
+                      </div>
+                      <div class="box">
+                        <figure class="image">
+                          <img 
+                            :src="new_logoUrl">
+                        </figure>
+                      </div>
+
+                      <!-- MODEL'S TAGS -->
                       <div v-if="selectedModel" class="content has-text-centered">
 
                         <div v-for="(distincts, dfield) in selectedModel.distincts" :key="dfield">
@@ -465,6 +539,8 @@
                     
                     <!-- IMAGE PREVIEW OF SELECTED MODEL -->
                     <div class="column is-half">
+
+                      <!-- MODEL'S PREVIEW -->
                       <div class="is-divider" 
                         :data-content="basicDict.feedback_preview[locale]">
                       </div>
@@ -518,14 +594,8 @@
             </div>
 
 
-
-
-
-
-
-
             <!-- DEBUGGING -->
-            <br>
+            <!-- <br> -->
               <!-- (console) log : <code>{{ log }}</code><br> -->
               <!-- runMode : <code>{{ runMode }}</code><br> -->
               <!-- currentApivizFrontUUID : <code>{{ currentApivizFrontUUID }}</code><br> -->
@@ -545,12 +615,16 @@
       </div>
     </section>
 
+    <br>
+    <br>
+    <!-- <br> -->
+    <!-- 
     <br><br><br>
     <br><br><br>
     <br><br><br>
     <br><br><br>
-    <br><br><br>
-    <br><br><br>
+    <br><br><br> 
+    -->
 
   </div>
 </template>
@@ -596,6 +670,8 @@
         locale : 'en',
         listLocales : ['en', 'fr'],
         showNav : false,
+
+        showSteps : false,
 
         errorMessage : undefined,
         errorModalOpen : false,

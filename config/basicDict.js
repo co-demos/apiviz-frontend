@@ -130,8 +130,8 @@ export const BasicDictionnary = {
 
   // TITLE
   title_1a : {
-    en : "The title of your new website ",
-    fr : "Le titre de votre nouveau site"
+    en : "title of your new website ",
+    fr : "titre de votre nouveau site"
   },
 
   // LOGO
