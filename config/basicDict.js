@@ -172,8 +172,8 @@ export const BasicDictionnary = {
 
   // CREATE
   create_1a : {
-    en : "Generate your new website with Apiviz",
-    fr : "Générez votre nouveau site avec Apiviz"
+    en : "Generate your new website",
+    fr : "Générez votre nouveau site"
   },
   create_1b : {
     en : "Choose a model first",

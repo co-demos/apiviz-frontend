@@ -5,7 +5,7 @@
     <div
       class="has-text-centered" 
       >
-      <a class="button is-fullwidth is-grey is-outlined"
+      <a class="button is-grey is-normal is-rounded is-outlined"
         @click="toggleModal()"
         >
         <span class="icon">
@@ -42,7 +42,7 @@
                   {{ basicDict.modal_doc_1c[locale] }}
                 </p>
 
-                <a class="button is-primary is-primary-b" 
+                <a class="button is-primary is-primary-b is-rounded" 
                   href="https://co-demos.github.io/apiviz-frontend/guide/backoffice/" 
                   target="/_blank"
                   >
