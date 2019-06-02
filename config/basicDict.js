@@ -50,7 +50,7 @@ export const BasicDictionnary = {
     fr : "vous pouvez donc réutiliser le code source de l'application au lieu du service en saas "
   },
 
-  // DIVIDER
+  // DIVIDERS
   div_1 : {
     en : "your current UUID",
     fr : "votre UUID actuel"
@@ -110,8 +110,8 @@ export const BasicDictionnary = {
     fr : "UUID du modèle : "
   },
   feedback_preview : {
-    en : "( preview of the selected model )",
-    fr : "( prévisualisation du modèle sélectionné)"
+    en : "preview of the selected model",
+    fr : "prévisualisation du modèle sélectionné"
   },
 
   // TAGS
@@ -187,6 +187,35 @@ export const BasicDictionnary = {
     fr : "projet open source"
   },
 
+  // STEPPERS
+  step_title: {
+    en : "your title",
+    fr : "votre titre"
+  },
+  step_model: {
+    en : "your model",
+    fr : "votre modèle"
+  },
+  step_logo: {
+    en : "your logo",
+    fr : "votre logo"
+  },
+  step_finish: {
+    en : "generate",
+    fr : "générer"
+  },
+  docs: {
+    en : "documentation",
+    fr : "documentation"
+  },
+  next: {
+    en : "next",
+    fr : "suivant"
+  },
+  previous: {
+    en : "previous",
+    fr : "précédent"
+  },
 
   // FOR BACK OFFICE
 
