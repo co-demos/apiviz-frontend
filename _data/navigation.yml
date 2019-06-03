@@ -1,6 +1,6 @@
 main:
   - title: "Presentation"
-    url: /general/presentation
+    url: /general/overview
   - title: "Quickstart guide"
     url: /guide/installation
   - title: "Blog"
@@ -21,8 +21,8 @@ main:
 docs:
   - title: The Apiviz project
     children:
-      - title: "Presentation"
-        url: /general/presentation
+      - title: "Overview"
+        url: /general/overview
       - title: "Screenshots"
         url: /general/screenshots
       - title: "The Apiviz ecosystem"
