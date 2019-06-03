@@ -31,7 +31,7 @@ If your data is stored somewhere and accessible via an API, ApiViz can transform
 
 ## FEATURES 
 
-### dataviz website generator 
+### Dataviz website generator 
 
 ApiViz includes "out-the-box" a website generator to create an original datavisualisation website from scratch using a template (model): 
 
@@ -40,7 +40,7 @@ ApiViz includes "out-the-box" a website generator to create an original datavisu
 
 ------
 
-### data views 
+### Data views 
 
 Apiviz is a CMS for datavisualisation website, so it includes various rendering views for your data. Apiviz allows to display several datasets.
 
@@ -55,16 +55,21 @@ All views share a common search navbar with :
     - plain text search ; 
     - filters ;
 
-You can also add static pages by linking routes to raw html files hosted elsewhere (for instance on Github or Gitlab). 
-
-All of the above is customizable from the back office
+All of the above is customizable from the Apiviz's back office.
 
 {% include figure image_path="/documentation/screenshots/list-view-sonum-01.png" alt="map view" %}
 
+------
+
+### Static pages 
+
+You can also add static pages by linking routes to raw html files hosted elsewhere (for instance on Github or Gitlab). Just note that Apiviz uses Bulma as a CSS framework.
+
+All of the above is customizable from the Apiviz's back office.
 
 ------
 
-### user interface
+### User interface
 
 Apiviz includes the classical user interfaces : 
 
@@ -76,7 +81,7 @@ Apiviz includes the classical user interfaces :
 
 ------
 
-### back office
+### Back office
 
 ApiViz also includes "out-the-box" a back-office to fully configure your original datavisualisation website : 
 
@@ -92,7 +97,7 @@ ApiViz also includes "out-the-box" a back-office to fully configure your origina
 
 ------
 
-### more to come ...
+### And more to come ...
 
 In the near future we will also include the following features (see the [roadmaps](/dev/roadmaps) ) :
 

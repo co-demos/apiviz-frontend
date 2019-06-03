@@ -112,7 +112,7 @@ If you generated a new UUID (not based on the default UUID from the original rep
 
 -------
 
-Now you just have to follow the instructions to generate a brand new data visualisation website, and in a couple of steps you website will be set up ...
+Now you just have to follow the instructions to generate a brand new data visualisation website, and in a couple of steps your website will be set up ...
 
 {% include figure image_path="/documentation/screenshots/new_instance-02.png" alt="admin view" %}
 
