@@ -4,6 +4,7 @@ categories:
   - guide
 tags:
   - documentation
+  - tutorial
   - configuration
   - installation
 toc: true
