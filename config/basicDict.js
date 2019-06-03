@@ -263,7 +263,7 @@ export const BasicDictionnary = {
     fr : 'Êtes-vous certain.e de vouloir supprimer ce document ?',
   },
   bo_delete_btn : {
-    en : 'yes, delete? ',
+    en : 'yes, delete',
     fr : 'oui, supprimer',
   },
 

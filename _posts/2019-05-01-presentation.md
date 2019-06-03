@@ -19,17 +19,7 @@ toc_sticky: true
 Visualize data coming from an API in a CMS-like app. 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
----------
-
-## FEATURES 
-
-ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website : 
-  - **navbar** : define the logo, links, and menus in your apiviz instance's navabr. 
-  - **styles** : define the CSS styles for your apiviz instance.
-  - **routes** : define the pages and routes of your apiviz instance, either statics contents or data views.
-  - **data endpoints** : define the data endpoints feeding your apiviz instance and the fields you want to display.
-  - **global** : define some metadata for your apiviz instance.
-  - **footer** : define the links present in the apiviz instance's footer.
+{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="map view" %}
 
 --------
 
@@ -37,6 +27,79 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 **apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
 
------
+---------
 
-{% include figure image_path="/documentation/screenshots/map-view-sonum-03.png" alt="map view" %}
+## FEATURES 
+
+### dataviz website generator 
+
+ApiViz includes "out-the-box" a website generator to create an original datavisualisation website from scratch using a template (model): 
+
+{% include figure image_path="/documentation/screenshots/new_instance-02.png" alt="map view" %}
+
+
+------
+
+### data views 
+
+Apiviz is a CMS for datavisualisation website, so it includes various rendering views for your data. Apiviz allows to display several datasets.
+
+For each of you dataset you will be able to view your data as :
+
+    - a list of items (your data) ;
+    - a detailed view for each item ;
+    - a map view for your geolocalized data ;
+
+All views share a common search navbar with :
+
+    - plain text search ; 
+    - filters ;
+
+All of the above is customizable from the back office
+
+{% include figure image_path="/documentation/screenshots/list-view-sonum-01.png" alt="map view" %}
+
+
+------
+
+### user interface
+
+Apiviz includes the classical user interfaces : 
+
+    - login
+    - register 
+    - logout
+
+{% include figure image_path="/documentation/screenshots/backoffice-login-01.png" alt="map view" %}
+
+------
+
+### back office
+
+ApiViz also includes "out-the-box" a back-office to fully configure your original datavisualisation website : 
+
+{% include figure image_path="/documentation/screenshots/backoffice-sonum-06.png" alt="map view" %}
+
+  - **navbar** : define the logo, links, and menus in your apiviz instance's navabr. 
+  - **styles** : define the CSS styles for your apiviz instance.
+  - **routes** : define the pages and routes of your apiviz instance, either statics contents or data views.
+  - **data endpoints** : define the data endpoints feeding your apiviz instance and the fields you want to display.
+  - **global** : define some metadata for your apiviz instance.
+  - **footer** : define the links present in the apiviz instance's footer.
+
+
+------
+
+### more to come ...
+
+In the near future we will also include the following features (see the [roadmaps](/dev/roadmaps) ) :
+
+    - a time slider in the search navbar ;
+    - a chart view as a complementary data view ; 
+    - a table view as a complementary data view ; 
+    - buttons to export the displayed data or the whole dataset ;
+    - interfaces to modify your data / datasets directly from Apiviz ;
+    - manage user's preferennces ; 
+    - add favorite items for a logged user ; 
+
+

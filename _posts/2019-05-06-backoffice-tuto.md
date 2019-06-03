@@ -16,7 +16,7 @@ toc_sticky: true
 
 ## Introduction
 
-The back office is a major feature of Apiviz. It allows you to completely customize your website, from top to bottom. Still, configuring a website is a hard task given the number of variables it implies : footer, navbar, data, and so on...
+The back office is a major feature of Apiviz. It allows you to completely customize your website online, from top to bottom. Still, configuring a website is a hard task given the number of variables it implies : footer, navbar, data, and so on...
 
 So we tried to simplify this task by organizing the things to customize in specific families, all accessible and editable from a single back-office space.
 

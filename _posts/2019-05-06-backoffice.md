@@ -42,6 +42,7 @@ toc_sticky: true
 
 - set up your ApiViz configuration : 
     
+  ```
     - set up the global variables ; 
     - set up your data endpoints ; 
     - set up your authentication endpoints ; 
@@ -49,6 +50,7 @@ toc_sticky: true
     - set up the styles ;
     - set up your navbar ; 
     - set up your footer ;
+  ```
 
 
 - save your configuration. You should immediatly see the result.  
