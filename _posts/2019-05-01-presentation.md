@@ -55,6 +55,8 @@ All views share a common search navbar with :
     - plain text search ; 
     - filters ;
 
+You can also add static pages by linking routes to raw html files hosted elsewhere (for instance on Github or Gitlab). 
+
 All of the above is customizable from the back office
 
 {% include figure image_path="/documentation/screenshots/list-view-sonum-01.png" alt="map view" %}
