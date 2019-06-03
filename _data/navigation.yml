@@ -43,8 +43,10 @@ docs:
     children:
       - title: "Installation walkthrough"
         url: /guide/installation
-      - title: "Configuration of the back-office"
+      - title: "Access the back-office"
         url: /guide/backoffice
+      - title: "Back-office tutorial"
+        url: /guide/backoffice-tuto
       - title: "Deployment configurations"
         url: /guide/deployment-configs
       - title: "Install the docs"

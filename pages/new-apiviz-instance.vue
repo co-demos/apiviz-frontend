@@ -180,7 +180,7 @@
                 <br>
 
                 <!-- EXTRA TEXTS AND LINKS -->
-                <div class="columns is-centered is-8">
+                <div class="columns is-centered is-vcentered is-8">
 
                   <!-- TEXT / apiviz is open source  -->
                   <div class="column -is-half">
@@ -197,7 +197,7 @@
                   <div class="column -is-half">
 
                     <!-- REPO -->
-                    <a class="button is-grey is-grey-b is-outlined is-fullwidth"
+                    <a class="button is-grey is-grey-b is-outlined is-rounded is-fullwidth"
                       href="https://github.com/co-demos/apiviz-frontend" 
                       target="/_blank"
                       >
@@ -210,7 +210,7 @@
                     </a>
                     <br>
                     <!-- DOCS -->
-                    <a class="button is-grey is-grey-b is-outlined is-fullwidth"
+                    <a class="button is-grey is-grey-b is-outlined is-rounded is-fullwidth"
                       href="https://co-demos.github.io/apiviz-frontend" 
                       target="/_blank"
                       >

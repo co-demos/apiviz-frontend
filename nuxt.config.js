@@ -32,7 +32,7 @@ export default {
   // buildDir: 'src', // default : '.nuxt'
 
   server: {
-    // port: 8800, // default: 3000
+    port: 3001, // default: 3000
     // host: 'localhost' // '0.0.0.0', // default: localhost
   },
 

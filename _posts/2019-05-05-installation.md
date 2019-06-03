@@ -103,13 +103,13 @@ npm run generate
 
 ## A new website from scratch based on a model
 
-If you generated a new UUID (not based on the default UUID from the original repo) you should now see the Apiviz instance creation form.
+If you generated a new UUID (not based on the default UUID from the original repo) you should now see the Apiviz instance creation form (aka the dataviz website generator).
 
-You just have now to follow the instructions to generate a brand new data visualisation website
+{% include figure image_path="/documentation/screenshots/new_instance-01.png" alt="admin view" %}
 
 -------
 
-{% include figure image_path="/documentation/screenshots/new_instance-01.png" alt="admin view" %}
+Now you just have to follow the instructions to generate a brand new data visualisation website, and in a couple of steps you website will be set up ...
 
 {% include figure image_path="/documentation/screenshots/new_instance-02.png" alt="admin view" %}
 
