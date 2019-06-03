@@ -1,5 +1,5 @@
 main:
-  - title: "Presentation"
+  - title: "Overview"
     url: /general/overview
   - title: "Quickstart guide"
     url: /guide/installation
