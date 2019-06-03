@@ -32,6 +32,8 @@ your `.env` fiel content
 
 ```shell
 NUXT_APIVIZ_UUID=<your-UUID>
+DEPLOY_ENV=NETLIFY
+APIVIZ_REPO=/apiviz-frontend/
 NUXT_BACKEND_MODE=default
 ```
 
