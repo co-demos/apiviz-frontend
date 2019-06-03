@@ -108,5 +108,6 @@ In the near future we will also include the following features (see the [roadmap
     - interfaces to modify your data / datasets directly from Apiviz ;
     - manage user's preferennces ; 
     - add favorite items for a logged user ; 
+    - reset / change your Apiviz configuration from a template ; 
 
 
