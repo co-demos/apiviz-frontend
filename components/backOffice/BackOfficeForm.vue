@@ -13,7 +13,7 @@
           @click="toggleContent"
           >
           <!-- TO DO : translate field code -->
-          {{ fieldConfig.title }}
+          {{ docConfig.title }}
         </a>
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
@@ -29,7 +29,7 @@
 
         <div class="content">
 
-          <!-- DEBUG -->
+          <!-- DEBUGGING -->
             rootUrlBackend : <code>{{ rootUrlBackend }}</code><br>
             <!-- jwt : <code>{{ jwt }}</code><br> -->
             jwt.access_token : <code>{{ jwt.access_token }}</code><br>
@@ -37,96 +37,111 @@
 
             configCollection : <code>{{ configCollection }}</code><br>
             currentTab : <code>{{ currentTab }}</code><br>
-            <!-- fieldConfig : <code>{{ fieldConfig }}</code><br> -->
-            fieldConfig.edit : <code>{{ fieldConfig.edit }}</code><br>
-            <!-- config[fieldConfig.field] : <code>{{ config[fieldConfig.field] }}</code><br> -->
-            <hr>
-            configBloc : <code>{{ configBloc }}</code><br>
+            <!-- docConfig : <code>{{ docConfig }}</code><br> -->
+            <!-- docConfig.edit : <br><pre><code>{{ JSON.stringify(docConfig.edit, null, 1) }}</code></pre><br> -->
+            <!-- config[docConfig.field] : <code>{{ config[docConfig.field] }}</code><br> -->
+            <!-- <hr> -->
+            <!-- configBloc : <br><pre><code>{{ JSON.stringify(configBloc, null, 1) }}</code></pre><code> -->
           <hr>
 
-            <!-- v-if="fieldConfig.type == 'bloc'" -->
+            <!-- v-if="docConfig.type == 'bloc'" -->
           <form 
             v-on:submit.prevent="sendConfigModif" 
             name="formConfig" 
             >
-
+            
+            <!-- LOOP EDIT FIELDS LIST -->
             <div
-              v-for="(conf, index) in fieldConfig.edit" 
+              v-for="(editConf, index) in docConfig.edit" 
               :key="index"
               >
 
-              <!-- text field -->
-              <div
-                v-if="conf.type === 'text'" 
-                class="field">
-                <label class="label">{{conf.subfield}}</label>
-                <div class="control">
-                  <input 
-                    :value="configBloc[conf.subfield]"
-                    class="input" 
-                    type="text" 
-                    placeholder="Text input"
-                    >
-                </div>
-                <p class="help">
-                  {{ configBloc['help'] }}
-                </p>
-              </div>
+              <!-- DEBUGGING -->
+              <!-- editConf : <code>{{ editConf }}</code><br> -->
+              editConf in docConfig.edit: <br><pre><code>{{ JSON.stringify(editConf, null, 1) }}</code></pre><br>
+              configToEdit(editConf.subfield) : <br><pre><code>{{ JSON.stringify( configToEdit(editConf.subfield), null, 1) }}</code></pre><br>
 
-              <!-- select field -->
+              <!-- CREATE FIELDS TO EDIT IF ANY -->
               <div
-                v-if="conf.type === 'select'" 
-                class="field">
-                <label class="label">Subject</label>
-                <div class="control">
-                  <div class="select">
-                    <select>
-                      <option>Select dropdown</option>
-                      <option>With options</option>
-                    </select>
+                v-for="conf in getDocSubfieldsToEdit(editConf)" 
+                :key="conf.subfield"
+              >
+
+                  <!-- text field -->
+                  <div
+                    v-if="conf.type === 'text'" 
+                    class="field">
+                    <label class="label">{{conf.subfield}}</label>
+                    <div class="control">
+                      <input 
+                        :value="configBloc[conf.subfield]"
+                        class="input" 
+                        type="text" 
+                        placeholder="Text input"
+                        >
+                    </div>
+                    <p class="help">
+                      {{ configBloc['help'] }}
+                    </p>
                   </div>
-                </div>
+
+                  <!-- select field -->
+                  <div
+                    v-if="conf.type === 'select'" 
+                    class="field">
+                    <label class="label">Subject</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option>Select dropdown</option>
+                          <option>With options</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- textarea field -->
+                  <div
+                    v-if="conf.type === 'textarea'" 
+                    class="field">
+                    <label class="label">Message</label>
+                    <div class="control">
+                      <textarea class="textarea" placeholder="Textarea"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- check field -->
+                  <div
+                    v-if="conf.type === 'check'" 
+                    class="field">
+                    <div class="control">
+                      <label class="checkbox">
+                        <input 
+                          type="checkbox"
+                        >
+                        I agree to the <a href="#">terms and conditions</a>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- radio field -->
+                  <div
+                    v-if="conf.type === 'bool'" 
+                    class="field">
+                    <div class="control">
+                      <label class="radio">
+                        <input type="radio" name="question">
+                        Yes
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="question">
+                        No
+                      </label>
+                    </div>
+                  </div>
+
               </div>
 
-              <!-- textarea field -->
-              <div
-                v-if="conf.type === 'textarea'" 
-                class="field">
-                <label class="label">Message</label>
-                <div class="control">
-                  <textarea class="textarea" placeholder="Textarea"></textarea>
-                </div>
-              </div>
-
-              <!-- check field -->
-              <div
-                v-if="conf.type === 'check'" 
-                class="field">
-                <div class="control">
-                  <label class="checkbox">
-                    <input 
-                      type="checkbox"
-                    >
-                    I agree to the <a href="#">terms and conditions</a>
-                  </label>
-                </div>
-              </div>
-
-              <!-- radio field -->
-              <div
-                v-if="conf.type === 'bool'" 
-                class="field">
-                <div class="control">
-                  <label class="radio">
-                    <input type="radio" name="question">
-                    Yes
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="question">
-                    No
-                  </label>
-                </div>
-              </div>
 
               <br> 
             </div>
@@ -195,7 +210,7 @@ export default {
   props: [
     'configCollection',
     'currentTab',
-    'fieldConfig',
+    'docConfig',
     'config'
   ],
 
@@ -226,7 +241,7 @@ export default {
   },
 
   beforeMount(){
-    let configBloc = this.config[this.fieldConfig.field]
+    let configBloc = this.config[this.docConfig.field]
     this.configBloc = configBloc
     this.isDefault = configBloc['is_default']
     this.docId = configBloc._id
@@ -236,6 +251,19 @@ export default {
     
     toggleContent() {
       this.isOpen = !this.isOpen
+    },
+
+    configToEdit(subfield){
+      return getObjectDataFromPath(this.configBloc, subfield, '.')
+    },
+    getDocSubfieldsToEdit(editConf){
+      this.log && console.log('C-BackOfficeForm / editConf : ', editConf)
+      if (editConf.type === 'sublist' ){
+        let tempEdit = editConf.object_model
+        return tempEdit
+      } else {
+        return editConf.edit
+      }
     },
 
     getText(textCode) {
@@ -264,13 +292,13 @@ export default {
 
       // build request URL
       let requestUrl = this.rootUrlBackend+'/config/'+currentColl+"?uuid="+this.apivizFrontUUID
-      console.log('requestUrl : ', requestUrl)
+      this.log && console.log('requestUrl : ', requestUrl)
 
       // post request
       axios
         .post( requestUrl, payload )
         .catch( (error) => {
-          console.log(error)
+          this.log && console.log(error)
           this.customformError = 'Modif failed'
         })
         .then(response => 

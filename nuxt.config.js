@@ -3,21 +3,36 @@ import pkg from './package'
 require('dotenv').config()
 
 // console.log('>>> nuxt.config.js / process.env :\n', process.env)
-console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID :\n', process.env.NUXT_APIVIZ_UUID)
-console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE :\n', process.env.NUXT_BACKEND_MODE)
+console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID : ', process.env.NUXT_APIVIZ_UUID)
 
-console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', process.env.NUXT_CONSOLELOG)
-const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
+const envBackendMode = process.env.NUXT_BACKEND_MODE || 'default'
+console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE : ', envBackendMode)
+
 const logAllowed = ['dev', 'preprod']
-console.log('>>> nuxt.config.js / consoleLogMode :', consoleLogMode)
+const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
+console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', consoleLogMode)
+
+// cf : https://nuxtjs.org/faq/github-pages/
+const envApivizRepo = process.env.APIVIZ_REPO || undefined
+console.log('>>> nuxt.config.js / process.env.APIVIZ_REPO :', envApivizRepo)
+const envDeployEnv = process.env.DEPLOY_ENV || undefined
+console.log('>>> nuxt.config.js / process.env.DEPLOY_ENV :', envDeployEnv)
+const routerBase = envApivizRepo && envDeployEnv === 'GH_PAGES' ? {
+  router: {
+    base: envApivizRepo
+  }
+} : {}
 
 export default {
+
   mode: 'spa',
+
+  ...routerBase,
 
   // buildDir: 'src', // default : '.nuxt'
 
   server: {
-    // port: 8800, // default: 3000
+    port: 3001, // default: 3000
     // host: 'localhost' // '0.0.0.0', // default: localhost
   },
 
@@ -30,7 +45,7 @@ export default {
     // ApivizUUID : "c5efafab-1733-4ad1-9eb8-d529bc87c481", // config SONUM
     // ApivizUUID : "f0a482da-28be-4929-a443-f22ecb03ee68", // config APCIS
     ApivizUUID : process.env.NUXT_APIVIZ_UUID,
-    BackendMode : process.env.NUXT_BACKEND_MODE || 'default',
+    BackendMode : envBackendMode ,
     ConsoleLog: logAllowed.includes(consoleLogMode),
   },
 
@@ -42,6 +57,8 @@ export default {
     middleware: [
       'setAppMode',
       'getAppConfig',
+      'checkAuth',
+      'collapseNavbar',
     ],
     // scrollBehavior: function (to, from, savedPosition) {
     //   return { x: 0, y: 0 }
@@ -52,15 +69,15 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: pkg.name + ' v.' + pkg.version,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-    ]
+    // link: [
+    //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    // ]
   },
 
   /*
@@ -90,6 +107,7 @@ export default {
     '~/plugins/translate',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+    '~/plugins/json-editor',
     { src: '~/plugins/mapbox', mode: 'client' },
   ],
 

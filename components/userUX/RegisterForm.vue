@@ -37,8 +37,8 @@
           <div class="control has-icons-left">
             <input 
               class="input" 
-              v-validate="'required'" name
-              ="userSurname" 
+              v-validate="'required'" 
+              name="userSurname" 
               type="text" 
               :placeholder="getText('surname')" 
               v-model="userSurname"
@@ -120,7 +120,7 @@
             <span>{{ errors.first('userAcceptCGU') }}</span>
             <label for="userAcceptCGU">
 
-              <a class="modal-button has-text-primary" data-target="modal_legal" aria-haspopup="true">
+              <a class="modal-button has-text-primary has-text-primary-c" data-target="modal_legal" aria-haspopup="true">
                 <!-- CGU BOX -->
                 {{ getText('accept_cgu') }}
               </a>
@@ -132,18 +132,23 @@
         <br>
 
         <!-- SUBMIT -->
-      	<button class="button is-block is-primary is-fullwidth " 
+      	<button class="button is-block is-primary is-primary-b is-fullwidth " 
           :disabled="!enableBtn" 
           type="submit"
           >
       		<!-- REGISTER -->
-          {{ getText('register') }}
+          <span class="icon">
+            <i class="fas fa-sign-in-alt"></i>
+          </span>
+          <span>
+            {{ getText('register') }}
+          </span>
       	</button>
 
       </form>
 
       <p 
-        class="button is-block is-primary is-fullwidth" 
+        class="button is-block is-primary is-primary-b is-fullwidth" 
         type="submit" 
         v-if="user.isLoggedin"
         >
@@ -155,105 +160,107 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import axios from 'axios';
+  import { mapState } from 'vuex'
+  import axios from 'axios';
 
-export default {
+  export default {
 
-  data: function () {
-    return {
-      userName: '',
-      userSurname: '',
-      userEmail: '',
-      userPassword: '',
-      userAcceptCGU: '',
-      customformError: ''
-    }
-  },
+    name: 'RegisterForm',
 
-  computed: {
-
-    ...mapState({
-      log : state => state.log, 
-      user: state => state.user.user,
-    }),
-    
-    enableBtn() {
-      return (this.errors.all().length === 0) ? true : false
-    }
-  },
-
-  methods: {
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
+    data: function () {
+      return {
+        userName: '',
+        userSurname: '',
+        userEmail: '',
+        userPassword: '',
+        userAcceptCGU: '',
+        customformError: ''
+      }
     },
 
-    sendRegisterForm(e){
-      this.customformError = ''
-      e.preventDefault()
+    computed: {
 
-      this.$validator.validate().then(boo => {
-        // if some fields in the form aren't properly filled
-        if (!boo) {
-            this.customformError = 'Register failed - ' + this.errors.all();
-        } else {
+      ...mapState({
+        log : state => state.log, 
+        user: state => state.user.user,
+      }),
+      
+      enableBtn() {
+        return (this.errors.all().length === 0) ? true : false
+      }
+    },
 
-          // if the form looks good, we send it to the backend
-          const urlAuthRoot = this.$store.getters['getRootUrlAuth']
+    methods: {
 
-          const urlAuthRegister = this.$store.getters['config/getEndpointConfigAuthSpecific']('register')
-          const urlAuthRegisterSuffix = urlAuthRegister.root_url
-          this.log && console.log("C-RegisterForm / urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
 
-          let authUrl = urlAuthRoot + urlAuthLoginSuffix
-          this.log && console.log("C-RegisterForm / authUrl : ", authUrl)
+      sendRegisterForm(e){
+        this.customformError = ''
+        e.preventDefault()
 
-          let payload = {
-            name: this.userName,
-            surname: this.userSurname,
-            email:this.userEmail,
-            pwd:this.userPassword,
-            lang: "fr",
-            agreement: this.userAcceptCGU
-          }
-          axios
-            .post( urlAuthRoot + urlAuthRegisterSuffix, payload)
-            .then(response =>
-            {
-              // case where code is 200 => success
-              this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
-              this.$router.push('login')
-            })
-            .catch( error =>
-            {
-              // in case we catch something, let's display it for easier debug
-              try {
-                let msg = (error.response && error.response.data && error.response.data.msg) ? ' - ' + error.response.data.msg : ''
-                switch (error.response.status) {
-                  case 401:
-                    this.customformError = 'Register failed' + msg
-                    break;
-                  default:
-                    this.log && console.log('C-RegisterForm / error unkown',error,Object.keys(error));
-                    this.customformError = 'Register failed - contact the webmaster'
-                    break;
-                }
-              } catch (e) {
-                this.log && console.log('C-RegisterForm / we cannot read the error message from the API',e);
-                this.customformError = 'Register failed'
-              }
-            })
-            .then(() =>
+        this.$validator.validate().then(boo => {
+          // if some fields in the form aren't properly filled
+          if (!boo) {
+              this.customformError = 'Register failed - ' + this.errors.all();
+          } else {
+
+            // if the form looks good, we send it to the backend
+            const urlAuthRoot = this.$store.getters['getRootUrlAuth']
+
+            const urlAuthRegister = this.$store.getters['config/getEndpointConfigAuthSpecific']('register')
+            const urlAuthRegisterSuffix = urlAuthRegister.root_url
+            this.log && console.log("C-RegisterForm / urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
+
+            let authUrl = urlAuthRoot + urlAuthLoginSuffix
+            this.log && console.log("C-RegisterForm / authUrl : ", authUrl)
+
+            let payload = {
+              name: this.userName,
+              surname: this.userSurname,
+              email:this.userEmail,
+              pwd:this.userPassword,
+              lang: "fr",
+              agreement: this.userAcceptCGU
+            }
+            axios
+              .post( urlAuthRoot + urlAuthRegisterSuffix, payload)
+              .then(response =>
               {
-                // in the end, if we need to do something
-                this.userPassword = ''
-                this.userConfirmPassword = ''
-              }
-            )
-          }
-        });
+                // case where code is 200 => success
+                this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
+                this.$router.push('login')
+              })
+              .catch( error =>
+              {
+                // in case we catch something, let's display it for easier debug
+                try {
+                  let msg = (error.response && error.response.data && error.response.data.msg) ? ' - ' + error.response.data.msg : ''
+                  switch (error.response.status) {
+                    case 401:
+                      this.customformError = 'Register failed' + msg
+                      break;
+                    default:
+                      this.log && console.log('C-RegisterForm / error unkown',error,Object.keys(error));
+                      this.customformError = 'Register failed - contact the webmaster'
+                      break;
+                  }
+                } catch (e) {
+                  this.log && console.log('C-RegisterForm / we cannot read the error message from the API',e);
+                  this.customformError = 'Register failed'
+                }
+              })
+              .then(() =>
+                {
+                  // in the end, if we need to do something
+                  this.userPassword = ''
+                  this.userConfirmPassword = ''
+                }
+              )
+            }
+          });
+      }
     }
   }
-}
 </script>

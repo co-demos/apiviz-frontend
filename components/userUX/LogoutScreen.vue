@@ -14,14 +14,44 @@
               {{ getText('disconnect_msg') }}
             </h3>
             <div class="box">
-              <router-link 
-                class="button is-block is-primary is-fullwidth" 
+
+              <!-- <nuxt-link 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
+                :to="'/'"
+                >
+                home
+              </nuxt-link> -->
+        
+              <button
+                class="button is-block is-primary is-primary-b is-fullwidth" 
+                @click="goBack"
+                >
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  <!-- Back -->
+                  {{ basicDict.bo_back[locale] }}
+                </span>
+              </button>
+
+
+              <br>
+        
+              <nuxt-link 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 type="submit" 
                 :to="'/login'"
                 >
                 <!-- RECONNECT -->
-                {{ getText('reconnect') }}
-              </router-link>
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>
+                  {{ getText('reconnect') }}
+                </span>
+              </nuxt-link>
+
             </div>
           </div>
 
@@ -33,11 +63,32 @@
               {{ getText('want_disconnect') }}
             </h3>
             <div class="box">
+
+              <button
+                class="button is-block is-primary is-primary-b is-fullwidth" 
+                @click="goBack"
+                >
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                  <!-- Back -->
+                  {{ basicDict.bo_back[locale] }}
+                </span>
+              </button>
+
+              <br>
+
               <button 
-                class="button is-block is-primary is-fullwidth" 
+                class="button is-block is-primary is-primary-b is-fullwidth" 
                 type="submit" 
                 @click="sendLogout">
-                {{ getText('disconnect') }}
+                <span class="icon">
+                  <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>
+                  {{ getText('disconnect') }}
+                </span>
               </button>
             </div>
           </div>
@@ -51,56 +102,65 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
-export default {
-  
-  components: {
-  },
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
-  props: [
-  ],
+  export default {
+    
+    components: {
+    },
 
-  computed: {
+    props: [
+    ],
 
-    ...mapState({
-      log : state => state.log, 
-      user: state => state.user.user,
-    }),
-
-  },
-
-  mounted(){
-
-    // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
-      } else {
-        window.scrollTo(0, 0)
+    data : () => {
+      return {
+        basicDict : BasicDictionnary, 
       }
-    }, 100);
-
-  },
-
-  methods: {
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
     },
 
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
+    computed: {
+
+      ...mapState({
+        log : state => state.log, 
+        locale : state => state.locale,
+        user: state => state.user.user,
+      }),
+
     },
 
-    sendLogout(e){
-      e.preventDefault()
-      this.userEmail = ''
-      this.userPassword = ''
-      this.$store.dispatch('user/logout')
+    mounted(){
+
+      // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        } else {
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+
+    },
+
+    methods: {
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
+      },
+
+      sendLogout(e){
+        e.preventDefault()
+        this.userEmail = ''
+        this.userPassword = ''
+        this.$store.dispatch('user/logout')
+      }
     }
-  }
 
-}
+  }
 </script>

@@ -1,82 +1,55 @@
 <template>
 
   <!-- cf : https://codepen.io/andreich1980/pen/OmobJQ -->
-  <section class="main-content skip-navbar columns is-fullheight">
+  <section class="main-content skip-navbar has-background-white-ter columns is-fullheight no-margin-bottom">
     
     <!-- SIDE MENU -->
-      <!-- is-2 is-mobile is-fullheight  -->
-    <aside class="column 
+    <aside class="column noPaddingBottom
     
       is-full-mobile 
-      is-one-third-tablet 
-      is-one-quarter-desktop 
-      is-one-quarter-widescreen 
-      is-3-fullhd
+      is-4-tablet 
+      is-3-desktop 
+      is-3-widescreen 
+      is-2-fullhd
 
       section">
-      
-      <p 
-        v-if="user.isLoggedin"
-        class="menu-label is-hidden-touch"
-        >
-        PREFERENCES
-      </p>
-      <ul 
-        v-if="user.isLoggedin"
-        class="menu-list">
-        <li 
-          v-for="uMenu in userMenu"
-          :key="uMenu.config_coll"
-          >
-          <a 
-            href="#" 
-            :class="`${uMenu.config_coll == activeMenu ? 'is-active' : ''}`"
-            @click="setActiveMenu(uMenu.config_coll)"
-            >
-            <span class="icon">
-              <i :class="uMenu.icon"></i>
-            </span> 
-            {{ uMenu.title }}
-          </a>
-        </li>
-      </ul>
 
-      <p 
-        class="menu-label is-hidden-touch"
-        >
-        APP SETTINGS
+      <p class="menu-label" >
+        {{ getText('menu_app_settings') }}
       </p>
 
       <!-- MENUS -->
       <ul class="menu-list">
-        <li 
-          v-for="menu in backOfficeMenu"
+        <li v-for="menu in backOfficeMenu"
           :key="menu.config_coll"
           >
-          <a 
-            href="#" 
+          <nuxt-link 
+            :to="'/backoffice/' + menu.config_coll" 
+            :event=" !menu.activated ? '' : 'click'"
             :class="`${menu.config_coll == activeMenu ? 'is-active' : ''}`"
-            @click="setActiveMenu(menu.config_coll)"
             >
+            <!-- @click="setActiveMenu(menu.config_coll)" -->
             <span class="icon">
               <i :class="menu.icon"></i>
             </span> 
-            {{ menu.title }}
-          </a>
+            <!-- {{ menu.title }} -->
+            {{ getText(menu.code) }}
+          </nuxt-link>
         </li>
       </ul>
 
+      <hr class="is-hidden-tablet menu-ender">
+
     </aside>
 
-    <div class="container column 
-
+    <div class="container column noMarginLeft
       is-full-mobile 
-      is-three-thirds-tablet 
-      is-three-quarters-desktop 
-      is-three-quarters-widescreen 
-      is-9-fullhd
-
-      ">
+      is-7-tablet 
+      is-8-desktop 
+      is-8-widescreen 
+      is-8-fullhd
+      "
+      >
       <div class="section">
 
         <!-- TABS -->
@@ -88,36 +61,54 @@
               :class="`${tab.tab_code == activeTab ? 'is-active' : ''}`"
               >
               <a
-                @click="setActiveTab(tab.tab_code)"  
+                @click="pushTabRoute(tab.tab_code)" 
                 >
-                {{ tab.title }}
+                <!-- {{ tab.title }} -->
+                {{ getText(tab.tab_code) }}
               </a>
             </li>
           </ul>
         </div>
-
-        <!-- CONTENTS -->
-        <!-- <div class="card">
-          <div class="card-header"><p class="card-header-title">Header</p></div>
-          <div class="card-content"><div class="content">Content</div></div>
-        </div>
-        <br /> -->
         
-        <!-- <template
-          > -->
+        <!-- DEBUG -->
+        <div>
+          <!-- getTabConfig.tab_code : <code>{{ getTabConfig.tab_code }}</code><br> -->
+          
+          <!-- <div class=" is-hidden-mobile "> is-hidden-mobile </div>
+          <div class=" is-hidden-tablet-only "> is-hidden-tablet-only </div>
+          <div class=" is-hidden-desktop-only ">  is-hidden-desktop-only </div>
+          <div class=" is-hidden-widescreen-only ">  is-hidden-widescreen-only </div>
+          <div class=" is-hidden-fullhd ">  is-hidden-fullhd  </div> -->
+          
+          <!-- <hr> -->
+        </div>
 
-        <BackOfficeForm
-          v-for="fieldConfig in tabFields()"
-          :key="fieldConfig.field"
-          :configCollection="activeMenu"
-          :currentTab="activeTab"
-          :fieldConfig="fieldConfig"
-          :config="config[activeMenu]"
+        <!-- DOCUMENTATION modal -->
+        <br>
+        <BackOfficeDocModal
+          :currentColl="activeMenu"
+          :currentTab="getTabConfig"
+        />
+          <!-- :currentTab="activeTab" -->
+        <br><br>
+
+        <!-- JSON CONTENTS -->
+        <div 
+          v-for="(docConfig, indexTabDoc) in tabDocs"
+          :key="indexTabDoc"
           >
-        </BackOfficeForm>
 
-        <!-- </template> -->
+          <!-- JSON data -->
+          <BackOfficeDispatch
+            :activeMenu="activeMenu"
+            :currentTab="getTabConfig"
+            :docConfig="docConfig"
+            :conf="getConfigDocs(docConfig)"
+          >
+          </BackOfficeDispatch>
 
+        </div>
+      
       </div>
     </div>
     
@@ -126,113 +117,214 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
+  import { mapState, mapGetters } from 'vuex'
+  import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
 
-import BackOfficeForm from './BackOfficeForm.vue';
+  import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 
-export default {
+  import BackOfficeDocModal from './BackOfficeDocModal.vue';
+  import BackOfficeDispatch from './BackOfficeDispatch.vue';
+  // import BackOfficeForm from './BackOfficeForm.vue';
+  // import BackOfficeJSON from './BackOfficeJSON.vue';
 
-  components: {
-    BackOfficeForm
-  },
+  export default {
 
-  props: [
-  ],
+    components: {
+      // BackOfficeForm,
+      // BackOfficeJSON,
+      BackOfficeDispatch,
+      BackOfficeDocModal,
+    },
 
-  data: function () {
+    props: [
+    ],
 
-    return {
+    data: function () {
+
+      return {
+        
+        activeMenu : 'global',
+        activeTab : 'gl_general',
+
+        backOfficeMenu : BackofficeGlobal.config,
+
+      }
+    },
+
+    computed: {
+
+      ...mapState({
+        log : state => state.log, 
+        user : state => state.user.user,
+        config: state => state.config.config,
+      }),
+
+      ...mapGetters({
+      }),
+
+      tabDocs() {
+        let tabConfig = this.getTabConfig
+        return tabConfig.docs
+      },
+
+      getTabConfig() {
+        let menuTabs = this.menuTabs(this.activeMenu)
+        let activeTab = this.activeTab
+        // this.log && console.log('menuTabs : ', menuTabs)
+        let tabConfig = menuTabs.find(function(tab) {
+          return tab.tab_code === activeTab
+        });
+        // this.log && console.log('tabConfig : ', tabConfig)
+        return tabConfig
+      },
+
+      isUserAdmin () {
+        return this.$store.getters['user/getCheckUserRole']('admin')
+      },
+      isUserStaff () {
+        return this.$store.getters['user/getCheckUserRole']('staff')
+      },
+    },
+
+    beforeMount : function(){
+      // this.log && console.log('\nC-BackOff-index.vue / beforeMount...')
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : ', this.$nuxt.$sroute )
+      // this.backOfficeMenu = BackofficeGlobal.config
+    },
+
+    mounted(){
+      // this.log && console.log('\nC-BackOff-index.vue / mounted...')
+
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$router : \n', this.$nuxt.$router )
+      // this.log && console.log('C-BackOff-index.vue / this.$nuxt.$route : \n', this.$nuxt.$route )
+
+      let currentMenu = this.$nuxt.$route.params.pathMatch
+      let currentTab = this.$nuxt.$route.hash
+      currentTab = currentTab.substring(1, currentTab.length)
+
+      if (currentMenu === '' || typeof currentMenu === 'undefined' ){
+        currentMenu = this.activeMenu
+      }
+      // this.log && console.log('C-BackOff-index.vue / currentMenu : ', currentMenu )
+      this.setActiveMenu(currentMenu)
       
-      activeMenu : 'global',
-      activeTab : 'gl_general',
+      if (currentTab === ''){
+        currentTab = this.activeTab
 
-      userMenu : BackofficeGlobal.user,
-      backOfficeMenu : BackofficeGlobal.config,
+      } 
+      // this.log && console.log('C-BackOff-index.vue / currentTab : ', currentTab )
+      this.setActiveTab(currentTab)
 
-    }
-  },
-
-  computed: {
-
-    ...mapState({
-      log : state => state.log, 
-      user : state => state.user.user,
-      config: state => state.config.config,
-    }),
-
-    ...mapGetters({
-    }),
-
-    isUserAdmin () {
-      return this.$store.getters['user/getCheckUserRole']('admin')
+      // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100);
     },
-    isUserStaff () {
-      return this.$store.getters['user/getCheckUserRole']('staff')
-    },
-  },
 
-  mounted(){
-    // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
+    methods: {
+
+      getMenuConfig(menuConfigField) {
+        let menuConfig = this.backOfficeMenu.find(function(menu) {
+          return menu.config_coll === menuConfigField
+        });
+        return menuConfig
+      },
+
+      menuTabs(menuConfigField) {
+        let menuConfig = this.getMenuConfig(menuConfigField)
+        return menuConfig.tabs
+      },
+
+      setActiveMenu(menuConfigField) {
+        this.activeMenu = menuConfigField
+        let menuConfig = this.getMenuConfig(menuConfigField)
+        this.activeTab = menuConfig.tabs[0]['tab_code']
+        // this.$nuxt.$router.push('/backoffice/'+menuConfigField)
+      },
+
+      setActiveTab(tabCode) {
+        // this.log && console.log('C-BackOff-index.vue / setActiveTab / tabCode : ', tabCode )
+        this.activeTab = tabCode
+      },
+
+      pushTabRoute(tabCode){
+        this.setActiveTab(tabCode) 
+        this.$nuxt.$router.push(this.$nuxt.$route.path + '#' + tabCode )
+      },
+
+
+      // DOC || DOCS TO EDIT
+      getConfigDocs(docConfig){
+
+        let docs = this.config[this.activeMenu]
+        // this.log && console.log('\nC-BackOfficeScreen / getConfigDocs / docs : \n', docs)
+
+        // return one doc given its field
+        const oneDocEditTypes = ['bloc', 'blocs', 'blocs_list']
+        if ( oneDocEditTypes.includes(docConfig.type) ){
+          return docs[docConfig.field]
+        } 
+
+        // return docs list given list_filters
+        else if ( docConfig.type == 'docs_list') {
+
+          const list_filters = docConfig.list_filters
+          // this.log && console.log('\nC-BackOfficeScreen / getConfigDocs / list_filters : ', list_filters)
+
+          let filteredDocs = docs.filter( function (doc) {
+            let docOk = 0 
+            list_filters.forEach(function (f) {
+              if ( f.is && !f.is.includes(doc[f.field]) ){
+                docOk += 1
+              } else if ( f.isNot && f.isNot.includes(doc[f.field]) )  {
+                docOk += 1
+              }
+            })
+            return !docOk > 0
+          })
+          return filteredDocs
+
+        }
+
+      },
+
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      goBack(e){
+        e.preventDefault()
+        this.$router.back()
       }
-      else{
-        window.scrollTo(0, 0)
-      }
-    }, 100);
-  },
-
-  methods: {
-
-    getMenuConfig(menuConfigField) {
-      let menuConfig = this.backOfficeMenu.find(function(menu) {
-        return menu.config_coll === menuConfigField
-      });
-      return menuConfig
-    },
-
-    menuTabs(menuConfigField) {
-      let menuConfig = this.getMenuConfig(menuConfigField)
-      return menuConfig.tabs
-    },
-
-    getTabConfig() {
-      let menuTabs = this.menuTabs(this.activeMenu)
-      let activeTab = this.activeTab
-      // this.log && console.log('menuTabs : ', menuTabs)
-      let tabConfig = menuTabs.find(function(tab) {
-        return tab.tab_code === activeTab
-      });
-      // this.log && console.log('tabConfig : ', tabConfig)
-      return tabConfig
-    },
-
-    tabFields() {
-      let tabConfig = this.getTabConfig()
-      return tabConfig.fields
-    },
-
-    setActiveMenu(menuConfigField) {
-      this.activeMenu = menuConfigField
-      let menuConfig = this.getMenuConfig(menuConfigField)
-      this.activeTab = menuConfig.tabs[0]['tab_code']
-    },
-
-    setActiveTab(tabCode) {
-      this.activeTab = tabCode
-    },
-
-    getText(textCode) {
-      return this.$store.getters['config/defaultText']({txt:textCode})
-    },
-
-    goBack(e){
-      e.preventDefault()
-      this.$router.back()
     }
+
+  }
+</script>
+
+<style scoped>
+
+  .noMarginLeft {
+    margin-left : 0rem
   }
 
-}
-</script>
+  .noPaddingBottom {
+    padding-bottom : 0rem
+  }
+
+  hr.menu-ender{
+    margin: 1.5em 0em 0em 0em ;
+  }
+
+  .no-margin-bottom{
+    margin-bottom : 0em;
+    padding : 2em;
+    border : 1px solid;
+  }
+
+</style>

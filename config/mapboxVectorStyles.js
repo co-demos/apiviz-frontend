@@ -58,6 +58,7 @@ export const StylesOSM = {
                 "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 "http://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
             ],
+            "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', 
             "tileSize": 256
         }
     },
@@ -69,7 +70,8 @@ export const StylesOSM = {
         "maxzoom": 22
     }]
   },
-  
+
+
   testVectorStyle : {
     "version": 8,
     "name": "Positron",
@@ -2385,13 +2387,8 @@ export const StylesOSM = {
 
 
 
-  
+  // cf : https://leaflet-extras.github.io/leaflet-providers/preview/
   testRasterPositron : {
-    //   var CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    // 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    // 	subdomains: 'abcd',
-    // 	maxZoom: 19
-    // });
     "version": 8,
 
     // cf : http://jsfiddle.net/brianssheldon/wm18a33d/27/
@@ -2412,6 +2409,7 @@ export const StylesOSM = {
           "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
           "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
         ],
+        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         "tileSize": 256
       }
     },
@@ -2419,7 +2417,40 @@ export const StylesOSM = {
       "id": "simple-tiles",
       "type": "raster",
       "source": "simple-tiles",
-      "minzoom": 0,
+      "minzoom": 2,
+      "maxzoom": 19
+    }]
+  },
+
+  // cf : https://leaflet-extras.github.io/leaflet-providers/preview/
+  testRasterVoyager : {
+    "version": 8,
+
+    // cf : http://jsfiddle.net/brianssheldon/wm18a33d/27/
+    // cf :  http://glfonts.lukasmartinelli.ch
+    // cf : https://github.com/openmaptiles/fonts
+    "glyphs": "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+    "sources": {
+      "simple-tiles": {
+        "type": "raster",
+        // point to our third-party tiles. Note that some examples
+        // show a "url" property. This only applies to tilesets with
+        // corresponding TileJSON (such as mapbox tiles). 
+        "tiles": [
+          "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        ],
+        "attribution": '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        "tileSize": 256
+      }
+    },
+    "layers": [{
+      "id": "simple-tiles",
+      "type": "raster",
+      "source": "simple-tiles",
+      "minzoom": 2,
       "maxzoom": 19
     }]
   },

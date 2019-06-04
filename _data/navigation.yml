@@ -1,6 +1,6 @@
 main:
-  - title: "Presentation"
-    url: /general/presentation
+  - title: "Overview"
+    url: /general/overview
   - title: "Quickstart guide"
     url: /guide/installation
   - title: "Blog"
@@ -21,12 +21,14 @@ main:
 docs:
   - title: The Apiviz project
     children:
-      - title: "Presentation"
-        url: /general/presentation
+      - title: "Overview"
+        url: /general/overview
       - title: "Screenshots"
         url: /general/screenshots
       - title: "The Apiviz ecosystem"
         url: /general/ecosystem
+      - title: "Apiviz backend"
+        url: https://co-demos.github.io/apiviz-backend/
       - title: "Gallery"
         url: /general/gallery
   - title: Dataviz principles
@@ -41,8 +43,10 @@ docs:
     children:
       - title: "Installation walkthrough"
         url: /guide/installation
-      - title: "Configuration of the back-office"
+      - title: "Access the back-office"
         url: /guide/backoffice
+      - title: "Back-office tutorial"
+        url: /guide/backoffice-tuto
       - title: "Deployment configurations"
         url: /guide/deployment-configs
       - title: "Install the docs"

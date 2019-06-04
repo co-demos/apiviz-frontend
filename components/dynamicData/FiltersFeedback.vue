@@ -1,11 +1,12 @@
 <template>
-    <section class="filter-feedback" v-if="selectedFilters.length >= 1">
+    <section class="filter-feedback" v-show="selectedFilters.length >= 1">
       
       <div class="container inline-filters">
 
+        <!-- REINIT FILTERS -->
         <a class="button is-small" @click="clearAllFilters">
           <span>
-            effacer les filtres
+            {{ getText('reinit_filters') }}
           </span>
 
           <span class="icon is-small">
@@ -13,19 +14,20 @@
           </span>
         </a>
 
-        <a 
-          v-for="{filter, value} in selectedFilters" :key="filter+value"
+        <!-- LOOP SELECTED FILTERS -->
+        <a v-for="{filter, value} in selectedFilters" :key="filter+value"
           class="button is-small is-grey" 
           @click="clearFilter({filter, value})"
           >
           <span>
-            {{
+            <!-- {{
               filterDescriptions
                 .find(f => f.name === filter)
                 .choices
                 .find(c => c.name === value)
                 .fullname
-            }}
+            }} -->
+            {{ getFilterTitle(filter, value) }}
           </span>
 
           <span class="icon is-small">
@@ -38,51 +40,69 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
-export default {
+  export default {
 
-  name: 'FiltersFeedback',
+    name: 'FiltersFeedback',
 
-  beforeMount : function(){
-    // this.log && console.log('\nC-FiltersFeedback / beforeMount...')
-  },
+    beforeMount : function(){
+      // this.log && console.log('\nC-FiltersFeedback / beforeMount...')
+    },
 
-  computed: {
+    computed: {
 
-    ...mapState({
-      log : 'log',
-      locale : state => state.locale,
-      // filterDescriptions: state => state.search.filterDescriptions,
-      selectedFilters: state => {
-        const {selectedFilters} = state.search.search.question
-        const filters = []
-        for(const [filter, values] of selectedFilters){
-          for(const value of values){
-              filters.push({filter, value})
+      ...mapState({
+
+        log : 'log',
+
+        locale : state => state.locale,
+        // filterDescriptions: state => state.search.filterDescriptions,
+        selectedFilters: state => {
+          const {selectedFilters} = state.search.search.question
+          const filters = []
+          for(const [filter, values] of selectedFilters){
+            for(const value of values){
+                filters.push({filter, value})
+            }
           }
+          return filters
         }
-        return filters
-      }
-    }),
+      }),
 
-    ...mapGetters({
-      filterDescriptions : 'search/getFilterDescriptions'
-    }),
-  },
-
-  methods: {
-
-    clearAllFilters(){
-      this.$store.dispatch( 'search/clearAllFilters' )
+      ...mapGetters({
+        filterDescriptions : 'search/getFilterDescriptions'
+      }),
     },
-    clearFilter({filter, value}){
-      this.$store.dispatch( 'search/toggleFilter', {filter, value} )
-    },
+
+    methods: {
+
+      clearAllFilters(){
+        this.$store.dispatch( 'search/clearAllFilters' )
+      },
+
+      clearFilter({filter, value}){
+        this.$store.dispatch( 'search/toggleFilter', {filter, value} )
+      },
+
+      getFilterTitle(filter, value){
+        let filterData = this.filterDescriptions.find(f => f.name === filter)
+        let filerTexts = filterData.choices.find(c => c.name === value)
+        return this.translate(filerTexts, 'choice_title' )
+      },
+
+      getText(textCode) {
+        return this.$store.getters['config/defaultText']({txt:textCode})
+      },
+
+      translate( textsToTranslate, listField ) {
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
+
+    }
 
   }
-
-}
 </script>
 
 <style scoped>
@@ -91,6 +111,7 @@ export default {
     width: 100%;
     /* background-color: #F6F6F6; */
     background-color: white;
+    padding-bottom : 0em !important;
     /* border-top: 1px solid; */
     /* border-top-color: #40529d; */
     /* top : -1px; */

@@ -1,23 +1,22 @@
 <template>
-  <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
-
-    <div class="container">
+  <nav 
+    :class="`navbar is-fixed-top ${ navbarConfig.ui_options.background_color.bulma_color ? 'is-'+navbarConfig.ui_options.background_color.bulma_color : 'is-white'} has-bottom-border `"
+    role="navigation" 
+    aria-label="main navigation"
+    >
         
-      <Brand 
-        :logoTo="navbarConfig.logo_to"
-      ></Brand>
+    <Brand 
+      :logoTo="navbarConfig.logo_to"
+    ></Brand>
 
-      <!-- DEBUGGING -->
-      <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
-      <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
-    
-      <NavBarContent 
-        :NavbarLinks="navbarConfig.links_options"
-        :localRouteConfig="localRouteConfig"
-      ></NavBarContent>
-
-    </div>
-
+    <!-- DEBUGGING -->
+    <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->
+    <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
+  
+      <!-- :NavbarConfig="navbarConfig" -->
+    <NavBarContent 
+      :localRouteConfig="localRouteConfig"
+    ></NavBarContent>
 
   </nav>
 </template>

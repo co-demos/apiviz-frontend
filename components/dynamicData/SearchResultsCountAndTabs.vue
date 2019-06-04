@@ -26,7 +26,7 @@
         v-if="typeof endpointConfigList !== 'undefined'"
         :disabled="endpointConfigList.is_disabled" 
         :to="endpointConfigUrlToList.urls[0]" 
-        :class="['button has-text-centered', view === VIEW_LIST ? 'is-selected is-primary' : undefined]" 
+        :class="['button has-text-centered', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : undefined]" 
         >
         <!-- <img :src="`~/assets/icons/${view === VIEW_LIST ? 'icon_list_blanc.svg': 'icon_list.svg'}`"> -->
         <span class="icon">
@@ -40,7 +40,7 @@
         v-if="typeof endpointConfigMap !== 'undefined'"
         :disabled="endpointConfigMap.is_disabled" 
         :to="endpointConfigUrlToMap.urls[0]" 
-        :class="['button has-text-centered', view === VIEW_MAP ? 'is-selected is-primary' : undefined]" 
+        :class="['button has-text-centered', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined]" 
         >
         <!-- <img :src="`~/assets/icons/${view === VIEW_MAP ? 'icon_map_blanc.svg': 'icon_map.svg'}`"> -->
         <span class="icon">
@@ -54,7 +54,7 @@
         v-if="typeof endpointConfigUrlToStat !== 'undefined'"
         :disabled="endpointConfigStat.is_disabled" 
         :to="endpointConfigUrlToStat.urls[0]" 
-        :class="['button', view === VIEW_MAP ? 'is-selected is-primary' : undefined]" 
+        :class="['button', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined]" 
         >
         <img src="~/assets/icons/icon_dataviz.svg">
         <span>{{ translate(configTabs('tab_stat')) }}</span>

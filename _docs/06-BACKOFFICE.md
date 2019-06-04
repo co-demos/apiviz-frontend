@@ -16,6 +16,8 @@ sidebar:
 1. make this user an `admin` (in TokTok) ;
 1. log in (`admin` link in the default footer, `/login` route by default) ;
 1. go to the `/backoffice` route by clicking on the button ;
+
+
 1. set up your ApiViz configuration : 
     
     - set up the global variables ; 

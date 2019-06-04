@@ -36,7 +36,7 @@
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
                 <span 
                   v-if="getCustomBlockTitle('block_main_tags')"
-                  class="has-text-weight-semibold has-text-primary" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                   >
                   {{ getCustomBlockTitle('block_main_tags') }}
                 </span>
@@ -54,7 +54,7 @@
               <!-- BLOCK ADDRESS -->
               <p id="block-address" v-if="isPositionFilled('block_address')">
                 <span class="icon">
-                  <img class="image is-16x16" src="/static/icons/icon_pin.svg">
+                  <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
                 </span>
                 {{ matchProjectWithConfig('block_address')}}
               </p>
@@ -63,7 +63,7 @@
               <p id="block-pre-abstract" v-if="isPositionFilled('block_pre_abstract')">
                 <span 
                   v-if="getCustomBlockTitle('block_pre_abstract')"
-                  class="has-text-weight-semibold has-text-primary" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                   >
                   {{ getCustomBlockTitle('block_pre_abstract') }}
                   <br><br>
@@ -75,7 +75,7 @@
               <p id="block-abstract" v-if="isPositionFilled('block_abstract')">
                 <span 
                   v-if="getCustomBlockTitle('block_abstract')"
-                  class="has-text-weight-semibold has-text-primary" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                   >
                   {{ getCustomBlockTitle('block_abstract') }}
                   <br><br>
@@ -92,7 +92,7 @@
               <p id="block-post-abstract-1" v-if="isPositionFilled('block_post_abstract_1')">
                 <span 
                   v-if="getCustomBlockTitle('block_post_abstract_1')"
-                  class="has-text-weight-semibold has-text-primary" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                   >
                   {{ getCustomBlockTitle('block_post_abstract_1') }}
                   <br><br>
@@ -104,7 +104,7 @@
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
                 <span 
                   v-if="getCustomBlockTitle('block_post_abstract_2')"
-                  class="has-text-weight-semibold has-text-primary" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                   >
                   {{ getCustomBlockTitle('block_post_abstract_2') }}
                   <br><br>
@@ -145,7 +145,7 @@
                 <div class="column is-12">
                   <div>
                     <span  
-                      class="has-text-weight-semibold has-text-primary">
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       {{ servicesData }} : <br><br>
                     </span>
                     <span>
@@ -163,7 +163,7 @@
                   <div>
                     <span 
                       v-if="getCustomBlockTitle('block_left_bottom_2')"
-                      class="has-text-weight-semibold has-text-primary" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                       >
                       {{ getCustomBlockTitle('block_left_bottom_2') }}
                       <br><br>
@@ -222,7 +222,7 @@
               <div class="columns">
                 <div class="column is-12">
                   <div>
-                    <span class="has-text-weight-semibold has-text-primary">
+                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       {{ sourceData }} : 
                     </span>
                     <span>
@@ -241,7 +241,7 @@
                   <div>
                     <span 
                       v-if="getCustomBlockTitle('block_scale_tags')"
-                      class="has-text-weight-semibold has-text-primary" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                       >
                       {{ getCustomBlockTitle('block_scale_tags') }}
                     </span>
@@ -257,7 +257,7 @@
                   <div id="block-scale-2">
                     <span 
                       v-if="getCustomBlockTitle('block_scale_2')"
-                      class="has-text-weight-semibold has-text-primary" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                       >
                       {{ getCustomBlockTitle('block_scale_2') }} 
                     </span>
@@ -283,7 +283,7 @@
               <div class="columns">
                 <div class="column is-12">
                   <div>
-                    <span class="has-text-weight-semibold has-text-primary">
+                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       {{ periodData }} : 
                     </span>
                     <span>
@@ -357,7 +357,7 @@
                 <div class="column is-12">
                   
                   <div>
-                    <span class="has-text-weight-semibold has-text-primary">
+                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       {{ infosData }} : <br><br>
                     </span>
                   </div>
@@ -405,7 +405,7 @@
                   <div>
                     <span 
                       v-if="getCustomBlockTitle('block_right_bottom_1')"
-                      class="has-text-weight-semibold has-text-primary" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                       >
                       {{ getCustomBlockTitle('block_right_bottom_1') }}
                       <br><br>
@@ -419,7 +419,7 @@
                     <br>
                     <span 
                       v-if="getCustomBlockTitle('block_right_bottom_2')"
-                      class="has-text-weight-semibold has-text-primary" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
                       >
                       {{ getCustomBlockTitle('block_right_bottom_2') }}
                       <br><br>
@@ -694,7 +694,7 @@ export default {
 
     img, .icon{
       height: 1.5em;
-      transform: translateY(0.3em);
+      transform: translateY(0.1em);
     }
 
     span{

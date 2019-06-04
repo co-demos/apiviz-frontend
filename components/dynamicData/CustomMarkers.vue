@@ -167,12 +167,12 @@ export default {
 
   watch: {
 
-    projects(old){
+    projects(next, prev){
       if (this.projects && this.projects.length > 0) {
         this.reDraw()
       }
     },
-    itemsForMap(prev, next){
+    itemsForMap(next, prev){
       if (next && next.length > 0) {
         this.reDraw()
       }
