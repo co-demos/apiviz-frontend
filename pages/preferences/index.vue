@@ -32,7 +32,7 @@ import { mapState, mapGetters } from 'vuex'
 import Navbar from '~/components/dynamicUX/Navbar.vue';
 import Footer from '~/components/dynamicUX/Footer.vue';
 
-import PreferencesScreen  from '~/components/UserUX/PreferencesScreen.vue';
+import PreferencesScreen  from '~/components/userUX/PreferencesScreen.vue';
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 
 
