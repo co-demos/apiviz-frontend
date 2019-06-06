@@ -4,8 +4,10 @@
       
 
       <!-- INPUT TEXT -->
-      <div class="search control is-expanded">
-        <div class="image-container"><img src="/static/icons/icon_search_violet.svg"></div>
+      <div class="search control has-icons-left has-icons-right is-expanded">
+        <!-- <div class="image-container">
+          <img src="/static/icons/icon_search_violet.svg">
+        </div> -->
         <input
           type="search"
           v-model="searchedText"
@@ -13,6 +15,9 @@
           :placeholder="translate(endpointConfigFilters, 'placeholder' )"
           @input="searchTextChanged"
           >
+        <span class="icon is-large is-left has-text-grey-light">
+          <i class="fas fa-search"></i>
+        </span>
         <span 
           v-show="searchedText !== ''"
           class="icon is-large is-right has-text-grey-light"
