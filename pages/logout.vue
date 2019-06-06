@@ -2,9 +2,9 @@
   <div>
 
     <!-- NAVBAR -->
-    <NavBar 
+    <Navbar 
       v-if="has_navbar"
-    ></NavBar>
+    ></Navbar>
     
     <!-- LOGOUT ROUTES -->
     <LogoutScreen 
@@ -17,14 +17,14 @@
 import { mapState, mapGetters } from 'vuex'
 
 import LogoutScreen from '~/components/userUX/LogoutScreen.vue';
-import NavBar from '~/components/dynamicUX/Navbar.vue';
+import Navbar from '~/components/dynamicUX/Navbar.vue';
 
 export default {
   
   components: {
 
     LogoutScreen,
-    NavBar, 
+    Navbar, 
   },
 
   middleware : [

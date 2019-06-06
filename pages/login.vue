@@ -2,9 +2,9 @@
   <div>
 
     <!-- NAVBAR -->
-    <NavBar 
+    <Navbar 
       v-if="has_navbar"
-    ></NavBar>
+    ></Navbar>
 
     <!-- LOGIN/LOGOUT/REGISTER ROUTES -->
     <LoginScreen 
@@ -17,14 +17,14 @@
 import { mapState, mapGetters } from 'vuex'
 
 import LoginScreen from '~/components/userUX/LoginScreen.vue';
-import NavBar from '~/components/dynamicUX/Navbar.vue';
+import Navbar from '~/components/dynamicUX/Navbar.vue';
 
 export default {
   
   components: {
 
     LoginScreen,
-    NavBar,
+    Navbar,
 
   },
 

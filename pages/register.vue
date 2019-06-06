@@ -2,9 +2,9 @@
   <div>
 
     <!-- NAVBAR -->
-    <NavBar 
+    <Navbar 
       v-if="has_navbar"
-    ></NavBar>
+    ></Navbar>
 
     <!-- REGISTER ROUTES -->
     <RegisterScreen 
@@ -16,15 +16,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import RegisterScreen from '~/components/userUX/RegisterScreen.vue';
-import NavBar from '~/components/dynamicUX/Navbar.vue';
+import RegisterScreen from '~/components/userUX/RegisterScreen.vue'
+import Navbar from '~/components/dynamicUX/Navbar.vue'
 
 export default {
   
   components: {
 
     RegisterScreen,
-    NavBar, 
+    Navbar, 
     
   },
 

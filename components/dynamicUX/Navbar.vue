@@ -14,23 +14,25 @@
     <!-- currentRouteConfig : <code>{{ currentRouteConfig.field }}</code> -->
   
       <!-- :NavbarConfig="navbarConfig" -->
-    <NavBarContent 
+    <NavbarContent 
       :localRouteConfig="localRouteConfig"
-    ></NavBarContent>
+    ></NavbarContent>
 
   </nav>
 </template>
 
 <script>
 import Brand from './Brand.vue';
-import NavBarContent from './NavbarContent.vue';
-import { mapState, mapGetters } from 'vuex';
+import NavbarContent from './NavbarContent.vue'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
 
+  name: 'Navbar',
+
   components: {
     Brand,
-    NavBarContent
+    NavbarContent
   },
   
   props: [

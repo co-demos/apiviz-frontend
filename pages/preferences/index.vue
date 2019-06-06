@@ -2,9 +2,9 @@
   <div>
 
     <!-- NAVBAR -->
-    <NavBar 
+    <Navbar 
       v-if="has_navbar"
-    ></NavBar>
+    ></Navbar>
 
     <!-- PREFERENCES ROUTES -->
     <PreferencesScreen 
@@ -29,7 +29,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import NavBar from '~/components/dynamicUX/Navbar.vue';
+import Navbar from '~/components/dynamicUX/Navbar.vue';
 import Footer from '~/components/dynamicUX/Footer.vue';
 
 import PreferencesScreen  from '~/components/UserUX/PreferencesScreen.vue';
@@ -39,7 +39,7 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 export default {
 
   components: {
-    NavBar, 
+    Navbar, 
     Footer, 
     PreferencesScreen,
     DynamicStaticRaw

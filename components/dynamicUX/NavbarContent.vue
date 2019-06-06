@@ -231,6 +231,9 @@
 
   export default {
 
+    name: 'NavbarContent',
+
+
     props : [
       // 'NavbarConfig',
       'localRouteConfig'
