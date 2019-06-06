@@ -29,8 +29,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import NavBar from '~/components/dynamicUx/NavBar.vue';
-import Footer from '~/components/dynamicUx/Footer.vue';
+import NavBar from '~/components/dynamicUX/NavBar.vue';
+import Footer from '~/components/dynamicUX/Footer.vue';
 
 import PreferencesScreen  from '~/components/UserUX/PreferencesScreen.vue';
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
