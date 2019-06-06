@@ -13,11 +13,11 @@ export const apiBackendConfigs = Object.freeze({
   },
 
   preprod : {
-    rootURL: 'http://preprod.apiviz.net/backend/api',
+    rootURL: 'https://preprod.apiviz.net/backend/api',
   },
 
   production : {
-    rootURL: 'http://apiviz.net/backend/api',
+    rootURL: 'https://apiviz.net/backend/api',
   }
 
 })
