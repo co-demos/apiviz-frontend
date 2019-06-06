@@ -32,7 +32,7 @@ import { mapState, mapGetters } from 'vuex'
 import Navbar from '~/components/dynamicUX/Navbar.vue';
 import Footer from '~/components/dynamicUX/Footer.vue';
 
-import BackOfficeScreen  from '~/components/BackOffice/BackOfficeScreen.vue';
+import BackOfficeScreen  from '~/components/backOffice/BackOfficeScreen.vue';
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 
 

@@ -79,6 +79,8 @@
 
   export default {
 
+    name: 'LoginScreen',
+
     components: {
       LoginForm
     },
