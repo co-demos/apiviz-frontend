@@ -31,9 +31,14 @@ network-stop:
 ### ============ ###
 
 nuxt: 
-	${DC} -f ${DC}-nuxt.yml up --build -d
+	${DC} -f ${DC}-nuxt.yml up --build 
 nuxt-stop:
 	${DC} -f ${DC}-nuxt.yml down
+
+nuxt-prod: 
+	${DC} -f ${DC}-nuxt-prod.yml up --build -d
+nuxt-prod-stop:
+	${DC} -f ${DC}-nuxt-prod.yml down
 
 ### ============================= ###
 ### main make / docker commands
@@ -43,3 +48,8 @@ nuxt-stop:
 up: network nuxt
 down: nuxt-stop network-stop
 restart: down up
+
+# nuxt building
+up-prod: network nuxt-prod
+down-prod: nuxt-prod-stop network-stop
+restart-prod: down-prod up-prod

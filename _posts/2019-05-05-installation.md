@@ -62,7 +62,7 @@ make restart # restart app with Docker
 make down # stop app with Docker
 ```
 
-... then check in your browser : [`localhost:3333`](localhost:3333)
+... then check in your browser : [`localhost:3001`](localhost:3001)
 
 see also : [memo for Docker](https://medium.com/the-code-review/clean-out-your-docker-images-containers-and-volumes-with-single-commands-b8e38253c271)
 
@@ -81,7 +81,7 @@ npm install
 npm run dev
 ```
 
-... then check in your browser : [`localhost:3000`](localhost:3000)
+... then check in your browser : [`localhost:3001`](localhost:3001)
 
 Other options for deployment :
 
