@@ -137,7 +137,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import NavBar from '~/components/dynamicUX/NavBar.vue'
+import NavBar from '~/components/dynamicUX/Navbar.vue'
 import Footer from '~/components/dynamicUX/Footer.vue'
 
 import DynamicTabs       from '~/components/dynamicUX/DynamicTabs.vue'
