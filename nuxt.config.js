@@ -103,6 +103,7 @@ export default {
   cf : https://nuxtjs.org/api/configuration-plugins
   */
   plugins: [
+    {src: '~plugins/vee-validate.js', ssr: false},
     // '~/plugins/axios',
     '~/plugins/translate',
     // '~/plugins/checkTokens',
@@ -162,6 +163,7 @@ export default {
   build: {
     vendors : [
       'axios',
+      // 'vee-validate',
       'mapbox-gl'
     ],
 
