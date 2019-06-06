@@ -17,7 +17,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 import RegisterScreen from '~/components/userUX/RegisterScreen.vue';
-import NavBar from '~/components/dynamicUX/NavBar.vue';
+import NavBar from '~/components/dynamicUX/Navbar.vue';
 
 export default {
   
