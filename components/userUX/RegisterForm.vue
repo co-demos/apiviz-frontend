@@ -229,7 +229,7 @@
               agreement: this.userAcceptCGU,
               locale: currentLocale,
               u_data : {
-                apiviz_front_uuid : apivizFrontUUID,
+                apiviz_front_uuid : [apivizFrontUUID],
               }
             }
 
