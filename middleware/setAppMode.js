@@ -20,4 +20,11 @@ export default function ({ store, route, redirect }) {
     // log && console.log('--M1-- setAppMode / store.state.runMode : ', store.state.runMode )
   }
 
+  if ( typeof(store.getters.getAuthMode) === 'undefined' ){
+    log && console.log('-M1- setAppMode / setting authMode')
+    // log && console.log('--M1-- setAppMode / process.env.AuthMode : ', process.env.AuthMode )
+    store.commit('setAuthMode', process.env.AuthMode )
+    // log && console.log('--M1-- setAppMode / store.state.authMode : ', store.state.authMode )
+  }
+
 }

@@ -10,6 +10,7 @@ export const state = () => ({
 
   // APP MODE : default | preprod | prod
   runMode : undefined,
+  authMode : undefined,
   rootUrlBackend : undefined,
   rootUrlAuth : undefined,
 
@@ -33,6 +34,10 @@ export const getters = {
     getRunMode : state => {
       // console.log( "...I'm on a run mode... ", state.runMode )
       return state.runMode
+    },
+    getAuthMode : state => {
+      // console.log( "...I'm on a auth mode... ", state.authMode )
+      return state.authMode
     },
     getRootUrlBackend : state => {
       // console.log( "...I'm roooot... ", state.rootUrlBackend )
@@ -76,6 +81,9 @@ export const mutations = {
       state.runMode = runMode
       const roots = apiBackendConfigs[runMode]
       state.rootUrlBackend = roots.rootURL
+    },
+    setAuthMode( state, authMode ){
+      state.authMode = authMode
     },
     setAuthUrlRoot( state, urlRoot ){
       state.rootUrlAuth = urlRoot

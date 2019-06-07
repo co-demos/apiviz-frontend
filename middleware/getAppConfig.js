@@ -23,13 +23,13 @@ export default function ({ store, route, redirect }) {
         store.dispatch('config/getConfigAll')
         .then(() => {
 
-          const runMode = store.getters.getRunMode
-          // log && console.log("-M2- getAppConfig / after getConfigAll ... runMode : ", runMode);
+          const authMode = store.getters.getAuthMode
+          // log && console.log("-M2- getAppConfig / after getConfigAll ... authMode : ", authMode);
 
           let authUrlRoots = store.getters['config/getEndpointConfigAuthSpecific']('auth_root')
           // log && console.log("-M2- getAppConfig / authUrlRoots : ", authUrlRoots);
 
-          const authUrlRoot = authUrlRoots.root_url[runMode]
+          const authUrlRoot = authUrlRoots.root_url[authMode]
           // log && console.log("-M2- getAppConfig / authUrlRoot : ", authUrlRoot);
           store.commit('setAuthUrlRoot', authUrlRoot)
 

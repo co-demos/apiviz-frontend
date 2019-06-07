@@ -8,6 +8,10 @@ console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID : ', process.env.
 const envBackendMode = process.env.NUXT_BACKEND_MODE || 'default'
 console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE : ', envBackendMode)
 
+const envAuthMode = process.env.NUXT_AUTH_MODE || 'default'
+console.log('>>> nuxt.config.js / process.env.NUXT_AUTH_MODE : ', envAuthMode)
+
+
 const logAllowed = ['dev', 'preprod']
 const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
 console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', consoleLogMode)
@@ -45,8 +49,9 @@ export default {
     // ApivizUUID : "c5efafab-1733-4ad1-9eb8-d529bc87c481", // config SONUM
     // ApivizUUID : "f0a482da-28be-4929-a443-f22ecb03ee68", // config APCIS
     ApivizUUID : process.env.NUXT_APIVIZ_UUID,
-    BackendMode : envBackendMode ,
+    BackendMode : envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
+    AuthMode : envAuthMode,
   },
 
   /*
