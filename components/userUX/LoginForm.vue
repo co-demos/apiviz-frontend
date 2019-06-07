@@ -205,17 +205,31 @@
         const urlAuthLoginSuffix = urlAuthLogin.root_url
         this.log && console.log("C-LoginForm / urlAuthLoginSuffix : ", urlAuthLoginSuffix)
 
+        const urlAuthLoginArgs = urlAuthLogin.args_options
+        this.log && console.log("C-LoginForm / urlAuthLoginArgs : ", urlAuthLoginArgs)
+
         let authUrl = urlAuthRoot + urlAuthLoginSuffix
         this.log && console.log("C-LoginForm / authUrl : ", authUrl)
 
         let payload = {
-          email : this.userEmail,
-          pwd : this.userPassword
+          email    : this.userEmail,
+          password : this.userPassword
         }
-        this.log && console.log("C-LoginForm / payload : ", payload)
+        // this.log && console.log("C-LoginForm / payload : ", payload)
+
+        let tempPayload = {}
+        for ( const appArg of Object.keys(payload) ){
+          // this.log && console.log("C-LoginForm / appArg : ", appArg)
+          let authArgObj = urlAuthLoginArgs.find( a => {
+            return a.app_arg === appArg
+          })
+          // this.log && console.log("C-LoginForm / authArgObj : ", authArgObj)
+          tempPayload[ authArgObj.arg ] = payload[appArg]
+        }
+        this.log && console.log("C-LoginForm / tempPayload : ", tempPayload)
 
         axios
-          .post( authUrl, payload )
+          .post( authUrl, tempPayload )
           .catch( (error) => {
             console.log(error)
             this.customformError = 'Login failed'

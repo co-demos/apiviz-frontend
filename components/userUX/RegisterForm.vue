@@ -208,10 +208,15 @@
 
             // if the form looks good, we send it to the backend
             const urlAuthRoot = this.$store.getters['getRootUrlAuth']
+            const apivizFrontUUID = this.$store.getters['getApivizFrontUUID']
+            const currentLocale = this.$store.getters['getCurrentLocale']
 
             const urlAuthRegister = this.$store.getters['config/getEndpointConfigAuthSpecific']('register')
             const urlAuthRegisterSuffix = urlAuthRegister.root_url
             this.log && console.log("C-RegisterForm / urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
+            
+            const urlAuthRegisterArgs = urlAuthRegister.args_options
+            this.log && console.log("C-RegisterForm / urlAuthRegisterArgs : ", urlAuthRegisterArgs)
 
             let authUrl = urlAuthRoot + urlAuthRegisterSuffix
             this.log && console.log("C-RegisterForm / authUrl : ", authUrl)
@@ -219,17 +224,32 @@
             let payload = {
               name: this.userName,
               surname: this.userSurname,
-              email:this.userEmail,
-              pwd:this.userPassword,
-              lang: "fr",
-              agreement: this.userAcceptCGU
+              email: this.userEmail,
+              password: this.userPassword,
+              agreement: this.userAcceptCGU,
+              locale: currentLocale,
+              u_data : {
+                apiviz_front_uuid : apivizFrontUUID,
+              }
             }
+
+            let tempPayload = {}
+            for ( const appArg of Object.keys(payload) ){
+              // this.log && console.log("C-RegisterForm / appArg : ", appArg)
+              let authArgObj = urlAuthRegisterArgs.find( a => {
+                return a.app_arg === appArg
+              })
+              // this.log && console.log("C-RegisterForm / authArgObj : ", authArgObj)
+              tempPayload[ authArgObj.arg ] = payload[appArg]
+            }
+            this.log && console.log("C-RegisterForm / tempPayload : ", tempPayload)
+
             axios
-              .post( urlAuthRoot + urlAuthRegisterSuffix, payload)
+              .post( urlAuthRoot + urlAuthRegisterSuffix, tempPayload)
               .then(response =>
               {
                 // case where code is 200 => success
-                this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
+                this.$store.dispatch('user/saveLoginInfos',{ APIresponse:response })
                 this.$router.push('login')
               })
               .catch( error =>
