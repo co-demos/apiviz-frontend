@@ -21,6 +21,8 @@ import Navbar from '~/components/dynamicUX/Navbar.vue';
 
 export default {
   
+  name: 'login',
+
   components: {
 
     LoginScreen,
@@ -33,7 +35,7 @@ export default {
   ],
 
   beforeMount : function(){
-    // this.log && console.log('\nP-login.vue / beforeMount...')
+    this.log && console.log('\nP-login.vue / beforeMount...')
   },
 
   data () {

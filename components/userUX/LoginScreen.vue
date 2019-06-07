@@ -95,6 +95,7 @@
     }),
 
     mounted(){
+      this.log && console.log('\nC-LoginScreen.vue / mounted...')
       // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
       const int = setInterval(() => {
         if(window.pageYOffset < 50){
