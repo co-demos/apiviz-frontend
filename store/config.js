@@ -338,11 +338,13 @@ export const actions = {
 
     state.log && console.log("S-config-A-editConfig / request : \n", request)
 
+    const authMode = rootGetters['getAuthMode']
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     
     const currentColl = request.currentColl
-    const payload = request.payload
+    let payload = request.payload
+    payload['auth_mode'] = authMode
 
     // build request URL
     let requestUrl = rootURLbackend+'/config/'+currentColl+"?uuid="+apivizFrontUUID
@@ -374,6 +376,7 @@ export const actions = {
 
     state.log && console.log("S-config-A-deleteConfig / request : \n", request)
 
+    const authMode = rootGetters['getAuthMode']
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     
@@ -385,9 +388,16 @@ export const actions = {
     let requestUrl = rootURLbackend+'/config/'+currentColl+"/"+docId+"?uuid="+apivizFrontUUID
     state.log && console.log('S-config-A-deleteConfig / requestUrl : ', requestUrl)
 
+    let payload = {
+      data : {
+        token : accessToken,
+        auth_mode : authMode,
+      }
+    }
+
     // post update request
    return axios
-    .delete( requestUrl, {data : {token : accessToken} } )
+    .delete( requestUrl, payload )
     .catch( (error) => {
       console.log('S-config-A-deleteConfig / error :', error)
     })
@@ -404,12 +414,14 @@ export const actions = {
 
     state.log && console.log("S-config-A-addConfigDoc / request : \n", request)
 
+    const authMode = rootGetters['getAuthMode']
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     
     const currentColl = request.currentColl
     const payload = request.payload
     payload['apiviz_front_uuid'] = apivizFrontUUID
+    payload['auth_mode'] = authMode
 
     // build request URL
     let requestUrl = rootURLbackend+'/add_document/'+currentColl
