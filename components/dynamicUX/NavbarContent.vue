@@ -122,7 +122,7 @@
 
       <!-- LOCALES -->
       <div v-if="languages.is_multi_lang"
-        :class="`navbar-item is-hoverable has-dropdown no-padding-right`"
+        :class="`navbar-item is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
         >
         <!-- LOCALES BTN -->
         <a :class="`navbar-link is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
