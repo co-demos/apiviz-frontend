@@ -213,7 +213,7 @@
             const urlAuthRegisterSuffix = urlAuthRegister.root_url
             this.log && console.log("C-RegisterForm / urlAuthRegisterSuffix : ", urlAuthRegisterSuffix)
 
-            let authUrl = urlAuthRoot + urlAuthLoginSuffix
+            let authUrl = urlAuthRoot + urlAuthRegisterSuffix
             this.log && console.log("C-RegisterForm / authUrl : ", authUrl)
 
             let payload = {
