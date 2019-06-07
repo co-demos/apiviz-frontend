@@ -1,19 +1,5 @@
 [[redirects]]
-  from = "/login"
-  to = "/index.html"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
-
-[[redirects]]
-  from = "/register"
-  to = "/index.html"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
-
-[[redirects]]
-  from = "/logout"
+  from = "/*"
   to = "/index.html"
   status = 200
   force = true
