@@ -132,16 +132,17 @@ export const getters = {
 
     // TABS RELATED
     hasTabs : state => {      
-      // state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
+      state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false 
     },
-    getTabConfig : (state) => (tabUri) => {
-      // state.log && console.log('S-config-G-getTabConfig ... tabUri : ', tabUri)
-      // state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
-      let tabConfig = state.config.tabs.find( tab => {
-        return tab.tab_uri = tabUri
+    getTabConfig : (state) => (tabsUri) => {
+      state.log && console.log('S-config-G-getTabConfig ... tabsUri : ', tabsUri)
+      state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
+      let tabsConfig = state.config.tabs.find( tabs => {
+        return tabs.tabs_uri == tabsUri
       }) 
-      return tabConfig
+      state.log && console.log('S-config-G-getTabConfig ... tabsConfig : \n', tabsConfig)
+      return tabsConfig
     },
 
 
@@ -311,8 +312,9 @@ export const actions = {
     return axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
     .then(response => {
       // state.log && console.log("\nS-config-A-getConfigType / getConfigType / type : ", type)
-      // state.log && console.log("S-config-A-getConfigType / getConfigType / response : ", response)
+      // state.log && console.log("S-config-A-getConfigType / getConfigType / response.data : ", response.data)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
+      state.log && console.log("S-config-A-getConfigType / getConfigType / type : "+ type + " / app_config ", app_config)
       commit('setConfig', {type:type,result:app_config}); 
       return app_config
     })
@@ -329,7 +331,7 @@ export const actions = {
     arr.push(dispatch('getConfigType',{type:'footer',    configTypeEndpoint:'footer', args:''}) )
     arr.push(dispatch('getConfigType',{type:'navbar',    configTypeEndpoint:'navbar', args:''}) )
     arr.push(dispatch('getConfigType',{type:'routes',    configTypeEndpoint:'routes', args:'&as_list=true'}) )
-    arr.push(dispatch('getConfigType',{type:'tabs',      configTypeEndpoint:'tabs', args:'&as_list=true'}) )
+    arr.push(dispatch('getConfigType',{type:'tabs',      configTypeEndpoint:'tabs',   args:'&as_list=true'}) )
     arr.push(dispatch('getConfigType',{type:'endpoints', configTypeEndpoint:'endpoints', args:'&as_list=true'}) )
     return Promise.all(arr)
   },

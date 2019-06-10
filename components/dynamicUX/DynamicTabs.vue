@@ -2,13 +2,13 @@
 
   <div class="container">
 
-    <template v-if="tabConfig && tabConfig.top_margin > 0">
-      <br v-for="extra_margin in tabConfig.top_margin" :key="extra_margin">
+    <template v-if="tabConfig && tabConfig.ui_options.top_margin.value > 0">
+      <br v-for="extra_margin in tabConfig.ui_options.top_margin.value" :key="extra_margin">
     </template>
 
-    <div v-if="tabConfig" :class="`tabs is-centered ${skipNavbar ? 'skip-navbar' : ''}`">
+    <div v-if="tabConfig" :class="`tabs ${tabConfig.ui_options.size.value} ${tabConfig.ui_options.position.value} ${skipNavbar ? 'skip-navbar' : ''}`">
       
-      <ul>
+      <ul :class="`${tabConfig.ui_options.class.value}`">
 
         <li v-for="(tab, index) in tabConfig.tabs_options" 
           :key="index"
@@ -30,9 +30,13 @@
       </ul>
     </div>
 
+    <template v-if="tabConfig && tabConfig.ui_options.bottom_margin.value > 0">
+      <br v-for="extra_margin in tabConfig.ui_options.bottom_margin.value" :key="extra_margin">
+    </template>
+
     <!-- DEBUGGING  -->
-    <!-- tabsUri : <code>{{ tabsUri}}</code><br>
-    tabConfig : <br> <pre><code>{{ JSON.stringify(tabConfig, null, 1)}}</code></pre><br> -->
+    <!-- tabsUri : <code>{{ tabsUri }}</code><br> -->
+    <!-- tabConfig : <br> <pre><code>{{ JSON.stringify(tabConfig, null, 1)}}</code></pre><br> -->
 
   </div>
 
@@ -55,11 +59,14 @@ export default {
   data : function() {
     return {
       activeTab : undefined,
+      currentTabConfig : undefined,
     }
   },
 
   beforeMount : function(){
     // this.log && console.log('\nC-DynamicTabs / beforeMount...')
+    // this.log && console.log('C-DynamicTabs / beforeMount / this.tabsUri : ', this.tabsUri)
+    // this.log && console.log('C-DynamicTabs / beforeMount / this.tabConfig : \n', this.tabConfig)
   },
 
   mounted : function(){
@@ -69,13 +76,12 @@ export default {
   computed: {
 
     ...mapState({
-      log : 'log',
-      // user: state => state.user.user,
-      locale: 'locale',
+      log : state => state.log,
+      locale: state => state.locale,
     }),
 
-    ...mapGetters({
-      }),
+    // ...mapGetters({
+    // }),
 
     currentRoutePath() {
       return this.$route.path
@@ -89,22 +95,19 @@ export default {
 
   watch : {
 
+    tabsUri(newVal, oldVal){
+      this.log && console.log("C-DynamicTabs / watch : tabsUri ...")
+      let currentTabConfig = this.tabConfig
+      this.log && console.log("C-DynamicTabs / watch : tabsUri / currentTabConfig : ", currentTabConfig)
+    }
+
   },
 
-  beforeMount : function(){
-    // this.log && console.log("\nC-DynamicTabs / beforeMount ... ")
-  },
-
-  mounted(){
-    // this.log && console.log("C-DynamicTabs / mounted ... ")
-  },
 
   methods: {
 
     translate( textsToTranslate, listField ) {
-    // this.log && console.log("C-DynamicTabs / mounted ... ")
       let listTexts = textsToTranslate[listField]
-    // this.log && console.log("C-DynamicTabs / mounted ... ")
       return this.$Translate( listTexts, this.locale, 'text')
     },
 

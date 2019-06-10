@@ -8,7 +8,7 @@
   </div>-->
 
   <!-- MAIN PART -->
-  <div class="skip-navbar">
+  <div :class="`${ skipNavbar ? 'skip-navbar' : ''}`">
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script> -->
 
@@ -26,7 +26,7 @@ import axios from 'axios'
 // import VRuntimeTemplate from "v-runtime-template" ;
 // import AppMessage from "./AppMessage" ;
 
-import { loadScript } from '~/plugins/utils'
+import { loadScript, chooseTemplate } from '~/plugins/utils'
 import { mapState, mapGetters } from 'vuex'
 
 // import { bulmaSteps } from '@/node_modules/bulma-extensions/dist/js/bulma-extensions.min.js'
@@ -70,6 +70,8 @@ export default {
     return   {
       rawHtml : '',
 
+      errorHtml : '<br><br>there is an <strong> Error </strong><br><br>',
+
       bulmaExtensions: {}
     }
   },
@@ -84,14 +86,30 @@ export default {
 
     ...mapGetters({
       localRouteConfig : 'config/getLocalRouteConfig',
+      has_navbar : 'config/hasNavbar',
+      has_tabs : 'config/hasTabs',
     }),
+
+    skipNavbar(){
+      if (this.has_tabs){
+        return false
+      } else {
+        return this.has_navbar
+      }
+    },
 
   },
 
   watch : {
 
-    localRouteConfig(old){
+    localRouteConfig(newVal, oldVal){
       // this.log && console.log("\n - - DynamicStatic / watch / localRouteConfig ... ")
+      this.rawHtml = ''
+      this.getRawHtml()
+    },
+
+    locale(newVal, oldVal){
+      // this.log && console.log("\n - - DynamicStatic / watch / locale ... ")
       this.rawHtml = ''
       this.getRawHtml()
     },
@@ -102,7 +120,7 @@ export default {
         this.loadExtScript()
       }
       else {
-        this.log && console.log(oldRawHtml, newRawHtml)
+        // this.log && console.log(oldRawHtml, newRawHtml)
       }
     }
   },
@@ -125,11 +143,13 @@ export default {
       this.rawHtml = ''
 
       // here we go fetch the raw HTML content of a webpage
-      let template_url = (this.localRouteConfig && this.localRouteConfig.template_url) ? this.localRouteConfig.template_url : 'https://co-demos.com/error'
+      // let template_url = (this.localRouteConfig && this.localRouteConfig.template_url) ? this.localRouteConfig.template_url : 'https://co-demos.com/error'
+      let template_url = (this.localRouteConfig && this.localRouteConfig.template_urls) ? chooseTemplate(this.localRouteConfig.template_urls, this.locale) : "https://raw.githubusercontent.com/co-demos/structure/master/pages-html/tools-fr.html"
       this.log && console.log('C-DynamicStatic / getRawHtml / template_url : ', template_url)
 
       // FETCH DISTANT HTML FILE
-      // if ( !isHtmlLocal && process.server) {
+      if (template_url){
+
         let head = {
           headers: {
           //  'Access-Control-Allow-Origin': '*', // Uncommented, to try
@@ -137,17 +157,14 @@ export default {
           }
         }
         axios.get(template_url, head)
-          .then( (response) => {
-            // this.log && console.log(response);
-            this.rawHtml = (response && response.data) ? response.data : '<br><br>there is an Error <br><br>'},
-          )
-          .catch( (err) => {this.rawHtml = '<br><br>there is an <strong> Error </strong><br><br>'} )
-      
-      // }
+        .then( (response) => {
+          // this.log && console.log(response);
+          this.rawHtml = (response && response.data) ? response.data : this.errorHtml},
+        )
+        .catch( (err) => {this.rawHtml = this.errorHtml} )
 
-      // else {
+      }
 
-      // }
 
     },
 
