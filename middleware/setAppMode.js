@@ -27,4 +27,11 @@ export default function ({ store, route, redirect }) {
     // log && console.log('--M1-- setAppMode / store.state.authMode : ', store.state.authMode )
   }
 
+  // if ( typeof(store.getters.getStaticHtmlMode) === 'undefined' ){
+  //   log && console.log('-M1- setAppMode / setting staticHtmlMode')
+  //   // log && console.log('--M1-- setAppMode / process.env.HtmlFilesMode : ', process.env.HtmlFilesMode )
+  //   store.commit('setStaticHtmlMode', process.env.HtmlFilesMode )
+  //   // log && console.log('--M1-- setAppMode / store.state.staticHtmlMode : ', store.state.staticHtmlMode )
+  // }
+
 }

@@ -765,7 +765,7 @@
           app_languages : { field: "languages", render : 'tagsList' },
         },
 
-        bulmaExtensions: {},
+        // bulmaExtensions: {},
   
       }
     },

@@ -8,6 +8,9 @@ export const state = () => ({
   // APIVIZ FRONTEND UUID
   apivizFrontUUID : undefined,
 
+  // HTML FILES
+  // staticHtmlMode : undefined,
+
   // APP MODE : default | preprod | prod
   runMode : undefined,
   authMode : undefined,
@@ -40,13 +43,17 @@ export const getters = {
       return state.authMode
     },
     getRootUrlBackend : state => {
-      // console.log( "...I'm roooot... ", state.rootUrlBackend )
+      // console.log( "...I'm roooot url backend... ", state.rootUrlBackend )
       return state.rootUrlBackend
     },
     getRootUrlAuth : state => {
-      // console.log( "...I'm roooot auth... ", state.rootUrlAuth )
+      // console.log( "...I'm roooot url auth... ", state.rootUrlAuth )
       return state.rootUrlAuth
     },
+    // getStaticHtmlMode : state => {
+    //   // console.log( "...I'm staticHtmlMode... ", state.staticHtmlMode )
+    //   return state.staticHtmlMode
+    // },
 
   // UX GETTERS
     getNavbarVisibility : state => {
@@ -62,7 +69,7 @@ export const getters = {
     //   return this.$Translate( textsData.texts, state.locale, textField )
     // },
     getCurrentLocale : state => {
-      console.log( "...I'm locale... ", state.locale )
+      // console.log( "...I'm locale... ", state.locale )
       return state.locale
     },
 
@@ -88,6 +95,9 @@ export const mutations = {
     setAuthUrlRoot( state, urlRoot ){
       state.rootUrlAuth = urlRoot
     },
+    // setStaticHtmlMode( state, htmlMode ){
+    //   state.staticHtmlMode = htmlMode
+    // },
 
   // UX OPTIONS-RELATED
     disableBanners(state){

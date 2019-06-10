@@ -11,6 +11,8 @@ console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE : ', envBackendM
 const envAuthMode = process.env.NUXT_AUTH_MODE || 'default'
 console.log('>>> nuxt.config.js / process.env.NUXT_AUTH_MODE : ', envAuthMode)
 
+// const htmlFilesMode = process.env.NUXT_HTML_FILES || 'distant'
+// console.log('>>> nuxt.config.js / process.env.NUXT_HTML_FILES : ', htmlFilesMode)
 
 const logAllowed = ['dev', 'preprod']
 const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
@@ -52,6 +54,7 @@ export default {
     BackendMode : envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
     AuthMode : envAuthMode,
+    // HtmlFilesMode : htmlFilesMode,
   },
 
   /*
@@ -166,6 +169,11 @@ export default {
   ** Build configuration
   */
   build: {
+
+    extend(config, { isDev, isClient }) {
+      config.resolve.alias["vue"] = "vue/dist/vue.common";
+    },
+
     vendors : [
       'axios',
       // 'vee-validate',

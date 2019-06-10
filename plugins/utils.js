@@ -24,14 +24,21 @@ catch(e){
 
 
 // To load external librairies in components
-export function loadScript(url, callback){
+export function loadScript(url, type, callback){
+
   console.log("try to load script:", url);
+
   var script = document.createElement('script');
-  script.type = "text/javascript";
   script.src = url;
 
-  script.onreadystatechange = callback;
-  script.onload = callback;
+  if (type !== undefined ){
+    script.type = "text/javascript";
+  }
+  
+  if (callback !== undefined){
+    script.onreadystatechange = callback;
+    script.onload = callback;
+  }
 
   document.head.appendChild(script);
 }
@@ -50,11 +57,18 @@ export function activateCarousel(slidesNumber=2, isInfinite=true, hasPagination=
     // pagination: hasPagination
   });
 
-    // "hacky" way to get custom icons
+  // "hacky" way to get custom icons
   document.getElementsByClassName("slider-navigation-previous")[0].childNodes[0].remove();
   document.getElementsByClassName("slider-navigation-next")[0].childNodes[0].remove();
 }
 
+export function activateBulmaExtension(extension, pointer, options){
+  console.log("plugins / utils / activate extension from utils")
+  console.log("plugins / utils / activate extension from utils / options : \n", options)
+  let bulmaExtension = extension.attach( pointer, options) 
+  console.log("plugins / utils / activate extension from utils / bulmaExtension : \n", bulmaExtension)
+  return bulmaExtension
+}
 
 // SEARCH RELATED
 

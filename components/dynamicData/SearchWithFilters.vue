@@ -34,7 +34,7 @@
 
         <!-- LOOP FILTERS LISTS -->
         <span v-for="filter in filterDescriptions"
-          class="navbar-item navbar-item-filter has-dropdown is-hoverable has-text-centered"
+          class="navbar-item navbar-item-filter has-dropdown is-hoverable"
           :key="filter.name"
           :id="filter.name"
           href="#"

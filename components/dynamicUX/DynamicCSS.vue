@@ -28,15 +28,15 @@
         }
         .is-{{ cCode }}-b.is-inverted{
           color : {{ appColors[cCode] }} !important ;
-          background-color : transparent !important ;
+          background-color : white !important ;
         }
         .is-{{ cCode }}-b:focus{
-          background-color : transparent !important ;
+          background-color : white !important ;
           color : {{ appColors[cCode] }} !important ;
           border-color : {{ appColors[cCode] }} !important ;
         }
         .is-{{ cCode }}-b:hover{
-          background-color : transparent !important ;
+          background-color : white !important ;
           color : {{ appColors[cCode] }} !important ;
           border-color : {{ appColors[cCode] }} !important ;
         }
@@ -48,12 +48,12 @@
         }
         .is-{{ cCode }}-b.is-outlined:focus {
           background-color : {{ appColors[cCode] }} !important ;
-          border-color : transparent !important ;
+          border-color : white !important ;
           color : white !important ;
         }
         .is-{{ cCode }}-b.is-outlined:hover{
           background-color : {{ appColors[cCode] }} !important ;
-          border-color : transparent !important ;
+          border-color : white !important ;
           color : white !important ;
         }
 

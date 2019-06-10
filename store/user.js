@@ -55,6 +55,7 @@ export const mutations = {
     // state.log && console.log('S-user-M-setTokens / state.jwt : ', state.jwt)
   },
   setInfos (state, {infos}) {
+    state.log && console.log('S-user-M-setInfos / infos : ', infos)
     state.user.infos = (infos && infos.email) ? infos : undefined
     state.user.isLoggedin = (infos && infos.email) ? true : false
   },
@@ -92,7 +93,7 @@ export const actions = {
     Cookie.set("user_email", infos.email )
 
     // commit to store's state
-    commit('setInfos',  {infos})
+    commit('setInfos',  { infos })
   },
 
   // set USER ROLE 

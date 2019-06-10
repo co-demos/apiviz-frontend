@@ -21,7 +21,7 @@
 
     <!-- REMOTE STATICS -->
     <DynamicStatic 
-      v-if=" localRouteConfig.dynamic_template == 'DynamicStatic' "
+      v-if="localRouteConfig.dynamic_template == 'DynamicStatic' "
     ></DynamicStatic>
 
     <!-- LOCAL TEST STATIC -->
