@@ -583,27 +583,12 @@ export default {
     },
 
     itemImage(fieldBlock){
-
       let image = this.matchProjectWithConfig(fieldBlock)
-      
       if ( !image ){
         let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
-        let images_set  = (d) ? d.images_set : undefined
-
-        if (images_set && images_set.length > 0) {
-          const textureCount = images_set.length + 1
-          let id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
-          let tail = id % images_set.length + 1;
-          let imageObj = images_set.find(function(i){
-            return i.dft_text === 'img_'+tail;
-          })
-          image = imageObj.src_image
-        } else {
-          image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
-        }
+        let image_default = getDefaultImage(d, this.displayableItem)
+        image = image_default
       }
-      // return this.$store.getters['search/getImageUrl']({item: this.displayableItem, position: fieldBlock})
-      // return this.item
       return image
     },
 

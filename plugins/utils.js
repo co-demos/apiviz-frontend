@@ -310,14 +310,18 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   const contentField = contentFields.find(f=> f.position == fieldBlock)
   
   // const log = true
-  let blocksToLog = [
+  let blocktags = [
     'block_tags',
-    'block_abstract',
+    'block_rb1_tags',
+  ]
+  let blocksToLog = [
+    // 'block_tags',
+    // 'block_abstract',
     // 'block_image',
   ]
   let typesToLog = [
     // 'object',
-    'list',
+    // 'list',
     // 'list_tags'
   ]
   
@@ -343,81 +347,80 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
       const trimming = contentField.field_format.trim
       log && console.log("getItemContent / trimming : ", trimming)
       
-
-      // DEALING WITH LIST-LIKE RESULTS (TAGS)
-
-      // slice tags in array
-      if ( field_format.type === 'list_tags' ){
-        log && console.log("getItemContent / list_tags content ", content)
-        content = content.map( tag => {
-          let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
-          const tail = ( trimming && tag.length > trimming) ? '...' : ''
-          // log && console.log("getItemContent / trim : ", trim)
-          return tag.slice(0, trim) + tail
-        })
-        // log && console.log("getItemContent / content B : ", content)
-        return content
-      }
-
-
-      // DEALING WITH LIST TO STRING RESULTS
-
-      // get item from array if type == list 
-      else if ( field_format.type === 'list'){
-
-        log && console.log("getItemContent / list content : ", content)
-
-        let begin = field_format.retrieve[0]
-
-        // choose in array
-        if ( begin === -1 ){
-          content = content.join(' ')
-        } 
-        else if ( field_format.retrieve.length === 1 ) {
-          content = content[ begin ]
-        }
-        else {
-          let end = field_format.retrieve[1] ? field_format.retrieve[1] : content.length
-          content = content.slice( begin, end )
-          content = content.join(' ')
-        }
-
-        log && console.log("getItemContent / content C : ", content)
+      try {
         
-        // string is tag-like and needs to be splitten
-        if ( contentField.is_tag_like ) {
-          content = content.split(contentField.tags_separator).filter(c => c != "")
+        // DEALING WITH LIST-LIKE RESULTS (TAGS)
+        // slice tags in array
+        if ( field_format.type === 'list_tags' ){
+          log && console.log("getItemContent / list_tags content ", content)
           content = content.map( tag => {
-            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-            const tail = ( trimming && content.length > trimming ) ? '...' : ''
+            let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+            const tail = ( trimming && tag.length > trimming) ? '...' : ''
+            // log && console.log("getItemContent / trim : ", trim)
             return tag.slice(0, trim) + tail
           })
-          return content
-        } 
-
-        // trim string
-        else {
-          log && console.log("getItemContent / string content : ", content)
-          let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-          log && console.log("getItemContent / trim : ", trim)
-          const tail = ( trimming && content.length > trimming) ? '...' : '';
-          content = content.slice(0, trim) + tail
+          // log && console.log("getItemContent / content B : ", content)
           return content
         }
 
+        // DEALING WITH LIST TO STRING RESULTS
+        // get item from array if type == list 
+        else if ( field_format.type === 'list'){
+  
+          log && console.log("getItemContent / list content : ", content)
+  
+          let begin = field_format.retrieve[0]
+  
+          // choose in array
+          if ( begin === -1 ){
+            content = content.join(' ')
+          } 
+          else if ( field_format.retrieve.length === 1 ) {
+            content = content[ begin ]
+          }
+          else {
+            let end = field_format.retrieve[1] ? field_format.retrieve[1] : content.length
+            content = content.slice( begin, end )
+            content = content.join(' ')
+          }
+  
+          log && console.log("getItemContent / content C : ", content)
+          
+          // string is tag-like and needs to be splitten
+          if ( contentField.is_tag_like ) {
+            content = content.split(contentField.tags_separator).filter(c => c != "")
+            content = content.map( tag => {
+              let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+              const tail = ( trimming && content.length > trimming ) ? '...' : ''
+              return tag.slice(0, trim) + tail
+            })
+            return content
+          } 
+  
+          // trim string
+          else {
+            log && console.log("getItemContent / string content : ", content)
+            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+            log && console.log("getItemContent / trim : ", trim)
+            const tail = ( trimming && content.length > trimming) ? '...' : '';
+            content = content.slice(0, trim) + tail
+            return content
+          }
+  
+        }
+  
+        // DEALING WITH NATIVE STRING RESULTS
+        else if ( field_format.type === 'object' ) {
+          log && console.log("getItemContent / object content : ", content)
+          let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+          const tail = ( trimming && content.length > trimming )? '...' : '' ;
+          content = content.slice(0, trim) + tail        
+          return content
+        }
+
+      } catch(e){
+        content = noData
       }
-
-
-      // DEALING WITH NATIVE STRING RESULTS
-
-      else if ( field_format.type === 'object' ) {
-        log && console.log("getItemContent / object content : ", content)
-        let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-        const tail = ( trimming && content.length > trimming )? '' : '...' ;
-        content = content.slice(0, trim) + tail        
-        return content
-      }
-
 
     } 
     
@@ -425,6 +428,9 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
       // content is none
       if ( fieldBlock === 'block_image'){
         return undefined
+      }
+      else if ( blocktags.includes(fieldBlock) ) {
+        return [ noData ]
       }
       else {
         return noData
