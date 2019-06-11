@@ -594,7 +594,7 @@ export default {
 
     matchProjectWithConfig(fieldBlock) {
 
-      console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
+      // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
 
       return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData)
 

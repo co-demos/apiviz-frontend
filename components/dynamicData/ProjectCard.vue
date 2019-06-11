@@ -163,6 +163,7 @@ export default {
     },
 
     matchItemWithConfig(fieldBlock) {
+      
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
 
       return getItemContent(fieldBlock, this.item, this.contentFields, this.noData)
