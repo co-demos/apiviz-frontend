@@ -34,12 +34,14 @@ export function chooseTemplate(templates, locale){
 }
 
 // To load external librairies in components
-export function loadScript(url, type, callback){
+export function loadScript(url, type, script_id, callback){
 
-  console.log("try to load script:", url);
+  // console.log("loadScript / script_id :", script_id);
+  // console.log("loadScript / url :", url);
 
   var script = document.createElement('script');
   script.src = url;
+  script.id = script_id;
 
   if (type !== undefined ){
     script.type = "text/javascript";
@@ -51,6 +53,20 @@ export function loadScript(url, type, callback){
   }
 
   document.head.appendChild(script);
+}
+
+export function deleteScript(script_id){
+
+  try {
+    // console.log("deleteScript / script_id :", script_id);
+    var elem = document.getElementById(script_id)
+    // console.log("deleteScript / elem:", elem);
+  
+    elem.parentNode.removeChild(elem)
+  } catch(error) {
+    console.log("deleteScript / error:", error);
+  }
+
 }
 
 // To activate carousels from components
@@ -287,4 +303,159 @@ export function filterObjectByKey(raw, allowedKeys ) {
   // console.log("+ + + filterObjectByKey / filtered : \n", filtered )
   // console.log()
   return filtered
+}
+
+export function getItemContent(fieldBlock, displayableItem, contentFields, noData){
+  
+  const contentField = contentFields.find(f=> f.position == fieldBlock)
+  
+  // const log = true
+  let blocksToLog = [
+    'block_tags',
+    'block_abstract',
+    // 'block_image',
+  ]
+  let typesToLog = [
+    // 'object',
+    'list',
+    // 'list_tags'
+  ]
+  
+  if ( contentField && contentField.is_visible ){
+
+    const field = contentField.field
+    const field_format = contentField.field_format
+
+    const log = typesToLog.includes(field_format.type) && blocksToLog.includes(fieldBlock)
+    // const log = blocksToLog.includes(fieldBlock)
+    // const log = contentField && contentField.field_format.type === 'list_tags'
+    
+    log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
+
+    
+    // log && console.log("getItemContent / field_format : ", field_format)
+    
+    let content = displayableItem[field]
+    log && console.log("getItemContent / content A : ", content)
+    
+    if ( content && content !== "None" && content !== "" ){
+
+      const trimming = contentField.field_format.trim
+      log && console.log("getItemContent / trimming : ", trimming)
+      
+
+      // DEALING WITH LIST-LIKE RESULTS (TAGS)
+
+      // slice tags in array
+      if ( field_format.type === 'list_tags' ){
+        log && console.log("getItemContent / list_tags content ", content)
+        content = content.map( tag => {
+          let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+          const tail = ( trimming && tag.length > trimming) ? '...' : ''
+          // log && console.log("getItemContent / trim : ", trim)
+          return tag.slice(0, trim) + tail
+        })
+        // log && console.log("getItemContent / content B : ", content)
+        return content
+      }
+
+
+      // DEALING WITH LIST TO STRING RESULTS
+
+      // get item from array if type == list 
+      else if ( field_format.type === 'list'){
+
+        log && console.log("getItemContent / list content : ", content)
+
+        let begin = field_format.retrieve[0]
+
+        // choose in array
+        if ( begin === -1 ){
+          content = content.join(' ')
+        } 
+        else if ( field_format.retrieve.length === 1 ) {
+          content = content[ begin ]
+        }
+        else {
+          let end = field_format.retrieve[1] ? field_format.retrieve[1] : content.length
+          content = content.slice( begin, end )
+          content = content.join(' ')
+        }
+
+        log && console.log("getItemContent / content C : ", content)
+        
+        // string is tag-like and needs to be splitten
+        if ( contentField.is_tag_like ) {
+          content = content.split(contentField.tags_separator).filter(c => c != "")
+          content = content.map( tag => {
+            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+            const tail = ( trimming && content.length > trimming ) ? '...' : ''
+            return tag.slice(0, trim) + tail
+          })
+          return content
+        } 
+
+        // trim string
+        else {
+          log && console.log("getItemContent / string content : ", content)
+          let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+          log && console.log("getItemContent / trim : ", trim)
+          const tail = ( trimming && content.length > trimming) ? '...' : '';
+          content = content.slice(0, trim) + tail
+          return content
+        }
+
+      }
+
+
+      // DEALING WITH NATIVE STRING RESULTS
+
+      else if ( field_format.type === 'object' ) {
+        log && console.log("getItemContent / object content : ", content)
+        let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+        const tail = ( trimming && content.length > trimming )? '' : '...' ;
+        content = content.slice(0, trim) + tail        
+        return content
+      }
+
+
+    } 
+    
+    else {
+      // content is none
+      if ( fieldBlock === 'block_image'){
+        return undefined
+      }
+      else {
+        return noData
+      }
+    }
+
+  } 
+  else {
+    // no contentField or is_visible === false
+    return undefined
+  }
+
+}
+
+export function getDefaultImage(defaultImages, item){
+
+  let d = defaultImages
+  let image
+  let images_set  = (d) ? d.images_set : undefined
+
+  if (images_set && images_set.length > 0) {
+    const textureCount = images_set.length + 1
+    let id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
+    let tail = id % images_set.length + 1;
+    let imageObj = images_set.find(function(i){
+      return i.dft_text === 'img_'+tail;
+    })
+    image = imageObj.src_image
+  } else {
+    image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
+  }
+  return image
+
 }

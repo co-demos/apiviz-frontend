@@ -21,9 +21,10 @@
         >
         <img 
           class="proj-card-img" 
-          :src="itemInfos.image" 
+          :src="itemImage('block_image')" 
           :alt="itemInfos.title" 
         >
+          <!-- :src="matchItemWithConfig('block_image')" -->
       </router-link>
 
       <!-- BLOCK ADDRESS -->
@@ -51,9 +52,11 @@
         </p>
 
         <!-- BLOCK ABSTRACT -->
-        <div class="content" v-if="projectAbstract()">
+        <!-- <div class="content" v-if="projectAbstract()"> -->
+        <div class="content" v-if="matchItemWithConfig('block_abstract')">
           <p class="subtitle is-6">
-            {{ projectAbstract() }}
+            <!-- {{ projectAbstract() }} -->
+            {{ matchItemWithConfig('block_abstract') }}
           </p>
         </div>
 
@@ -65,9 +68,14 @@
         </div>
 
         <!-- BLOCK TAGS -->
-        <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
+        <!-- <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
           <span v-for="tag in itemInfos.tags" class="tag" :key="tag">
               {{ tag }}
+          </span>
+        </div> -->
+        <div class="content" v-if="matchItemWithConfig('block_tags')">
+          <span v-for="(tag, i) in matchItemWithConfig('block_tags')" class="tag" :key="tag+i">
+            {{ tag }}
           </span>
         </div>
 
@@ -78,7 +86,9 @@
 </template>
 
 <script>
+
 import { mapState, mapGetters } from "vuex";
+import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -148,41 +158,90 @@ export default {
 
   methods : {
 
+    getDefaultText(txt_code){
+      return this.$store.getters['config/defaultText']({txt:txt_code})
+    },
+
     matchItemWithConfig(fieldBlock) {
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
-      const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-      if (contentField) {
-        const field = contentField.field
-        return this.item[field]
-      }
-      else {
-        return undefined
-      }
+
+      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData)
+
+      /*
+        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
+        if (contentField) {
+          const field = contentField.field
+          return this.item[field]
+        }
+        else {
+          return undefined
+        }
+      */
+
+
+
     },
+
+    // itemImage(fieldBlock){
+    //   return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
+    //   // return this.item
+    // },
+
     itemImage(fieldBlock){
-      return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
+
+      let image = this.matchItemWithConfig(fieldBlock)
+      
+      if ( !image ){
+
+        let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
+        let image_default = getDefaultImage(d, this.item)
+        //   let images_set  = (d) ? d.images_set : undefined
+  
+        //   if (images_set && images_set.length > 0) {
+        //     const textureCount = images_set.length + 1
+        //     let id = (this.item.id) ? parseInt(this.item.id.substr(this.item.id.length - 6), 16) % textureCount : 111111111111111111
+        //     let tail = id % images_set.length + 1;
+        //     let imageObj = images_set.find(function(i){
+        //       return i.dft_text === 'img_'+tail;
+        //     })
+        //     image = imageObj.src_image
+        //   } else {
+        //     image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
+        //   }
+        // }
+        image = image_default
+      }
+
+      // return this.$store.getters['search/getImageUrl']({item: this.displayableItem, position: fieldBlock})
       // return this.item
+      return image
     },
+
     projectId() {
       return this.matchItemWithConfig('block_id')
     },
+
     projectAbstract() {
       let fullAbstract = this.matchItemWithConfig('block_abstract')
-      fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
-      const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
-      return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
+      // fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
+      // const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
+      // return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
+      return fullAbstract
     },
-    projectInfo(field) {
-      let fullInfo = this.matchItemWithConfig(field)
-      fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
-      return fullInfo
-    },
+
+    // projectInfo(field) {
+    //   let fullInfo = this.matchItemWithConfig(field)
+    //   fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
+    //   return fullInfo
+    // },
+
     projectAddress() {
       let fullAddress = this.matchItemWithConfig('block_address')
       // this.log && console.log('C-ProjectCard / fullAddress : ', fullAddress)
       let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
       return address
     },
+
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
       // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)

@@ -26,7 +26,7 @@ import axios from 'axios'
 // import VRuntimeTemplate from "v-runtime-template" ;
 // import AppMessage from "./AppMessage" ;
 
-import { loadScript, chooseTemplate } from '~/plugins/utils'
+import { loadScript, deleteScript, chooseTemplate } from '~/plugins/utils'
 import { mapState, mapGetters } from 'vuex'
 
 // import { bulmaSteps } from '@/node_modules/bulma-extensions/dist/js/bulma-extensions.min.js'
@@ -59,12 +59,36 @@ export default {
     if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
       for ( let ext_script of this.localRouteConfig.ext_script_urls ){
         if ( ext_script.at_mount ) {
-          loadScript(ext_script.url, ext_script.type, undefined)
+          loadScript(ext_script.url, ext_script.type, ext_script.script_id, undefined)
         }
       }
     }
   },
 
+  beforeUpdate : function(){
+    this.log && console.log("\nC-DynamicStatic / beforeUpdate ... ")
+    for ( let ext_script of this.localRouteConfig.ext_script_urls  ){
+      deleteScript(ext_script.script_id)
+    }
+    if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
+      for ( let ext_script of this.localRouteConfig.ext_script_urls ){
+        if ( ext_script.at_mount ) {
+          loadScript(ext_script.url, ext_script.type, ext_script.script_id, undefined)
+        }
+      }
+    }
+  },
+
+  beforeDestroy : function(){
+    this.log && console.log("\nC-DynamicStatic / beforeDestroy ... ")
+    try {
+      for ( let ext_script of this.localRouteConfig.ext_script_urls  ){
+        deleteScript(ext_script.script_id)
+      }
+    } catch(error) {
+      this.log && console.log("\nC-DynamicStatic / beforeDestroy / error :", error)
+    }
+  },
 
   data: () => {
     return   {
@@ -186,7 +210,7 @@ export default {
           this.log && console.log("C-DynamicStatic / loadExtScript / ext_script : ", ext_script)
 
           if ( !ext_script.at_mount ){
-            loadScript(ext_script.url, ext_script.type, undefined)
+            loadScript(ext_script.url, ext_script.type, ext_script.script_id, undefined)
           }
 
         }

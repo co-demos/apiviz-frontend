@@ -4,20 +4,22 @@
       <div class="columns">
 
         <!-- LOOP FOOTER BLOCKS -->
-        <div class="column is-3 is-offset-1"
-          v-for="(block_pos, index) in blocksList"
+        <div :class="`column is-${columnsDivisions} is-offset-1`"
+          v-for="(block, index) in visibleBlocks"
           :key="index"
           >
 
           <!-- BLOCK TITLE -->
-          <h3 class="has-text-left has-text-primary has-text-primary-c"> 
-            {{ translate( footerLinks(block_pos), 'title_block' ) }}
+          <h3 v-if="block.title_visible"
+            class="has-text-left has-text-primary has-text-primary-c"
+            > 
+            {{ translate( footerLinks(block.position), 'title_block' ) }}
           </h3>
 
-          <template v-if="isVisible( footerLinks(block_pos) )" >
+          <!-- LOOP LINKS -->
+          <template v-if="isVisible( footerLinks(block.position) )" >
             <ul>
-              <!-- LOOP LINKS -->
-              <li v-for="(link, index) in footerLinks(block_pos)['links']"
+              <li v-for="(link, index) in footerLinks(block.position)['links']"
                 :key="index"
                 >
 
@@ -32,12 +34,14 @@
           </template>
 
           <!-- ADD SOCIAL AT THE END -->
-          <template v-if="HasSocials(block_pos)">
+          <template v-if="hasSocials(block.position)">
             <br>
             <hr> 
-            <div class="content">
+            <div class="content has-text-centered">
+
               <!-- LOOP SOCIALS -->
               <template  v-for="(icon, index) in appSocials">
+
                 <!-- ICONS SOCIAL -->
                 <a v-if="icon.in_footer"
                   class="button is-primary is-primary-b" 
@@ -48,8 +52,10 @@
                     <i :class="icon.icon_class"></i>
                   </span>
                 </a>
+                
                 &nbsp;&nbsp;&nbsp;
               </template>
+
             </div>
 
           </template>
@@ -80,7 +86,12 @@ export default {
 
   data : () => {
     return   {
-      blocksList : ['block_center_left', 'block_center_right','block_right'],
+      blocksList : [
+        'block_top_left', 
+        'block_top_center_left', 
+        'block_top_center_right',
+        'block_top_right'
+      ],
     }
   },
 
@@ -99,17 +110,47 @@ export default {
       return this.footerConfig.ui_options
     },
 
+    visibleBlocks() {
+      let visibleColumns = this.footerConfig.links_options.filter(block => {
+        return block.is_visible
+      })
+      // console.log("visibleColumns : ", visibleColumns)
+      return visibleColumns
+    },
+
+    lengthLinksOptions() {
+      return Object.keys(this.visibleBlocks).length
+    },
+
+    columnsDivisions(){
+      if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
+        return 8
+      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
+        return 5
+      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
+        return 3
+      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
+        return 2
+      } 
+   }
+
   },
 
   methods : {
 
     footerLinks(position) {
-      let allLinks = this.footerConfig.links_options
-      let blockLinks = allLinks[position]
+      // console.log("position : ", position)
+      // let allLinks = this.footerConfig.links_options
+      // let blockLinks = allLinks[position]
+      let blockLinks = this.footerConfig.links_options.find( block =>{
+        // console.log("block : ", block)
+        return block.position == position
+      })
+      // console.log("blockLinks : ", blockLinks)
       return blockLinks
     },
 
-    HasSocials(position) {
+    hasSocials(position) {
       let blockLinks = this.footerLinks(position)
       return blockLinks.has_socials
     },
@@ -120,6 +161,8 @@ export default {
     },
 
     translate( textsToTranslate, listField ) {
+      // console.log("textsToTranslate : ", textsToTranslate)
+      // console.log("listField : ", listField)
       let listTexts = textsToTranslate[listField]
       return this.$Translate( listTexts, this.locale, 'text')
     },

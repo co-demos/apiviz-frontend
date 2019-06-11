@@ -11,7 +11,8 @@
             <i class="fas fa-arrow-left"></i>
           </span>
           <span>
-            {{ backToResults }}
+            <!-- {{ backToResults }} -->
+            {{ getDefaultText('back_to_results') }}
           </span>
         </a>
 
@@ -28,8 +29,7 @@
 
               <!-- BLOCK TITLE -->
               <h1 id="block-title" class="title is-3">
-                <!-- {{projectFormatted.title}} -->
-                 {{ matchProjectWithConfig('block_title')}}
+                {{ matchProjectWithConfig('block_title')}}
               </h1>
 
               <!-- BLOCK MAIN TAGS -->
@@ -88,7 +88,7 @@
                 <p>{{ matchProjectWithConfig('block_partners')}}</p>
               </div>
 
-              <!-- BLOCK POST ABSTRACT -->
+              <!-- BLOCK POST ABSTRACT 1 -->
               <p id="block-post-abstract-1" v-if="isPositionFilled('block_post_abstract_1')">
                 <span 
                   v-if="getCustomBlockTitle('block_post_abstract_1')"
@@ -100,7 +100,7 @@
                 {{ matchProjectWithConfig('block_post_abstract_1')}}
               </p>
 
-              <!-- BLOCK POST ABSTRACT -->
+              <!-- BLOCK POST ABSTRACT 2 -->
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
                 <span 
                   v-if="getCustomBlockTitle('block_post_abstract_2')"
@@ -112,6 +112,7 @@
                 {{ matchProjectWithConfig('block_post_abstract_2')}}
               </p>
 
+              <!-- BLOCK WEBSITE / CONTACT -->
               <div class="columns">
 
                 <!-- BLOCK WEBSITE -->
@@ -121,7 +122,8 @@
                     :class="matchProjectWithConfig('block_wesite') === noData ? 'disabled has-text-grey' : '' "
                     :href="matchProjectWithConfig('block_wesite') === noData ? '' : matchProjectWithConfig('block_wesite') "
                     target="_blank">
-                    {{ seeWebsite }}
+                    <!-- {{ seeWebsite }} -->
+                    {{ getDefaultText('see_website') }}
                   </a>
                 </div>
                 
@@ -132,7 +134,8 @@
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
                     :href="matchProjectWithConfig('block_wesite') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
                     target="_blank">
-                    {{ seeContact }}
+                    <!-- {{ seeContact }} -->
+                    {{ getDefaultText('see_contact') }}
                   </a>
                 </div>
               </div>
@@ -146,7 +149,9 @@
                   <div>
                     <span  
                       class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      {{ servicesData }} : <br><br>
+                      <!-- {{ servicesData }}  -->
+                      {{ getDefaultText('services') }}
+                      : <br><br>
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_services')}}
@@ -184,16 +189,16 @@
           <div class="column is-5">
 
             <!-- BLOCK MAIN ILLUSTRATION -->
-            <a 
-              id="block-illustration" 
+            <a id="block-illustration" 
               :href="matchProjectWithConfig('block_wesite')" 
               target="_blank"
               >
               <img
                 class="illustration"
-                :src="itemImage('card_img_main')"
+                :src="itemImage('block_image')"
                 :alt="matchProjectWithConfig('block_title')"
               />
+                <!-- :src="matchProjectWithConfig('block_image')" -->
             </a>
 
             <!-- BLOCK FILE -->
@@ -209,7 +214,8 @@
                         <i class="fas fa-download"></i>
                       </span>
                       <span>
-                        {{ downloadFile }}
+                        <!-- {{ downloadFile }} -->
+                        {{ getDefaultText('dowload_file') }}
                       </span>
                     </a>
                   </div>
@@ -223,7 +229,9 @@
                 <div class="column is-12">
                   <div>
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      {{ sourceData }} : 
+                      <!-- {{ sourceData }}  -->
+                      {{ getDefaultText('source') }}
+                      : 
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_src')}}
@@ -277,14 +285,15 @@
               </div>
             </div>
 
-
             <!-- BLOCK PERIOD -->
             <div class="added" id="block-period" v-if="isPositionFilled('block_period')">
               <div class="columns">
                 <div class="column is-12">
                   <div>
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      {{ periodData }} : 
+                      <!-- {{ periodData }}  -->
+                      {{ getDefaultText('period') }}
+                      : 
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_period')}}
@@ -301,7 +310,9 @@
 
                   <div>
                     <span class="has-text-weight-semibold">
-                      {{ seeContact }} : 
+                      <!-- {{ seeContact }}  -->
+                      {{ getDefaultText('see_contact') }}
+                      : 
                     </span>
                   </div>
                   <br>
@@ -358,7 +369,9 @@
                   
                   <div>
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      {{ infosData }} : <br><br>
+                      <!-- {{ infosData }}  -->
+                      {{ getDefaultText('infos') }}
+                      : <br><br>
                     </span>
                   </div>
 
@@ -367,7 +380,9 @@
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      {{ infosTel }} : 
+                      <!-- {{ infosTel }}  -->
+                      {{ getDefaultText('tel') }}
+                      : 
                       {{ matchProjectWithConfig('block_tel')}} <br>
                     </span>
                   </div>
@@ -377,7 +392,9 @@
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      {{ infosOpen }} : <br>
+                      <!-- {{ infosOpen }}  -->
+                      {{ getDefaultText('open_infos') }}
+                      : <br>
                       {{ matchProjectWithConfig('block_open_infos')}} <br>
                     </span>
                   </div>
@@ -387,7 +404,9 @@
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      {{ infosMore }} : 
+                      <!-- {{ infosMore }}  -->
+                      {{ getDefaultText('more_innfos') }}
+                      : 
                       {{ matchProjectWithConfig('block_infos_pract')}}
                     </span>
                   </div>
@@ -398,11 +417,31 @@
             </div>
 
             <!-- BLOCK RIGHT BOTTOM 1 -->
-            <div class="added" id="block-RB1" v-if="isPositionFilled('block_right_bottom_1')">
+            <div class="added" id="block-RB1" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
               <div class="columns">
                 <div class="column is-12">
 
+                  <!-- BLOCK RB1 TAGS -->
+                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
+                    <span 
+                      v-if="getCustomBlockTitle('block_rb1_tags')"
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      >
+                      {{ getCustomBlockTitle('block_rb1_tags') }}
+                    </span>
+                    <br><br>
+                    <span 
+                      class="tag" 
+                      v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
+                      :key="tag + i"
+                      >
+                      {{ tag }}
+                    </span>
+                    <br><br>
+                  </div>
+
                   <div>
+
                     <span 
                       v-if="getCustomBlockTitle('block_right_bottom_1')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c" 
@@ -410,13 +449,16 @@
                       {{ getCustomBlockTitle('block_right_bottom_1') }}
                       <br><br>
                     </span>
+
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_1')}}
                     </span>
+
                   </div>
 
                   <div v-if="isPositionFilled('block_right_bottom_2')">
                     <br>
+
                     <span 
                       v-if="getCustomBlockTitle('block_right_bottom_2')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c" 
@@ -424,9 +466,11 @@
                       {{ getCustomBlockTitle('block_right_bottom_2') }}
                       <br><br>
                     </span>
+
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_2')}}
                     </span>
+
                   </div>
                 </div>
               </div>
@@ -452,6 +496,7 @@ import { mapState, mapGetters } from 'vuex'
 import NotFoundError from './NotFoundError.vue';
 
 // import { getItemById } from '~/plugins/utils.js';
+import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
 
 export default {
 
@@ -493,21 +538,13 @@ export default {
     }, 100);
 
     this.$store.dispatch('search/searchOne', this.$route.query.id)
-    
-    // LEGACY
-    // getItemById(this.$route.query.id, this.$store.state.search.search.endpoint)
-    // .then(item => {
-    //   // console.log(" - - DynamicDetail / item : \n ", item)
-    //   // this.$store.commit('setDisplayedProject', {item})
-    //   this.displayableItem = item
-    // })
-    // .catch(function(err) { this.isError = true ; console.error('item route error', err) })
+
   },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
       user: state => state.user.user,
     }),
@@ -517,9 +554,9 @@ export default {
     }),
 
     // default texts
-    backToResults() {
-      return this.$store.getters['config/defaultText']({txt:'back_to_results'})
-    },
+    // backToResults() {
+    //   return this.$store.getters['config/defaultText']({txt:'back_to_results'})
+    // },
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
@@ -531,86 +568,100 @@ export default {
     noData() {
       return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
-    noAbstractText() {
-      return this.$store.getters['config/defaultText']({txt:'no_abstract'})
-    },
-    noInfos() {
-      return this.$store.getters['config/defaultText']({txt:'no_info'})
-    },
-    noAddress() {
-      return this.$store.getters['config/defaultText']({txt:'no_address'})
-    },
-
-    // TEXT TRANSLATORS - FIELD TITLES
-    seeWebsite() {
-      return this.$store.getters['config/defaultText']({txt:'see_website'})
-    },
-    seeContact() {
-      return this.$store.getters['config/defaultText']({txt:'see_contact'})
-    },
-    shareLink() {
-      return this.$store.getters['config/defaultText']({txt:'share_link'})
-    },
-    sourceData() {
-      return this.$store.getters['config/defaultText']({txt:'source'})
-    },
-    periodData() {
-      return this.$store.getters['config/defaultText']({txt:'period'})
-    },
-    infosData() {
-      return this.$store.getters['config/defaultText']({txt:'infos'})
-    },
-    infosTel() {
-      return this.$store.getters['config/defaultText']({txt:'tel'})
-    },
-    infosOpen() {
-      return this.$store.getters['config/defaultText']({txt:'open_infos'})
-    },
-    infosMore() {
-      return this.$store.getters['config/defaultText']({txt:'more_infos'})
-    },
-    servicesData() {
-      return this.$store.getters['config/defaultText']({txt:'services'})
-    },
-    downloadFile() {
-      return this.$store.getters['config/defaultText']({txt:'dowload_file'})
-    },
 
   },
 
   methods : {
+    
+    getDefaultText(txt_code){
+      return this.$store.getters['config/defaultText']({txt:txt_code})
+    },
 
     isPositionFilled(fieldBlock){
-      // console.log("isPositionFilled /  fieldBlock :", fieldBlock)
+      // this.log && console.log("isPositionFilled /  fieldBlock :", fieldBlock)
       return this.listOfPositions.indexOf(fieldBlock) !== -1
     },
 
     itemImage(fieldBlock){
-      return this.$store.getters['search/getImageUrl']({item: this.displayableItem, position: fieldBlock})
+
+      let image = this.matchProjectWithConfig(fieldBlock)
+      
+      if ( !image ){
+        let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
+        let images_set  = (d) ? d.images_set : undefined
+
+        if (images_set && images_set.length > 0) {
+          const textureCount = images_set.length + 1
+          let id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
+          let tail = id % images_set.length + 1;
+          let imageObj = images_set.find(function(i){
+            return i.dft_text === 'img_'+tail;
+          })
+          image = imageObj.src_image
+        } else {
+          image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
+        }
+      }
+      // return this.$store.getters['search/getImageUrl']({item: this.displayableItem, position: fieldBlock})
       // return this.item
+      return image
     },
+
     matchProjectWithConfig(fieldBlock) {
-      const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-      // console.log("contentField : ", contentField)
-      if (contentField){
-        const field = contentField.field
-        let content = this.displayableItem[field]
-        // console.log("content : ", content)
-        if ( content && content !== "None" && content !== "" ){
-          if (contentField.is_tag_like) {
-            content = content.split(contentField.tags_separator).filter(c => c != "")
-            return content
+
+      console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
+
+      return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData)
+
+      /*
+        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
+        // this.log && console.log("C-DynamicDetail / matchProjectWithConfig / contentField : ", contentField)
+
+        if (contentField){
+
+          const field = contentField.field
+          const field_format = contentField.field_format
+          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / field_format : ", field_format)
+
+          let content = this.displayableItem[field]
+          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
+
+          if ( content && content !== "None" && content !== "" ){
+            
+            if ( field_format.type === 'list'){
+              let begin = field_format.retrieve[0]
+              if ( begin === -1){
+                content = content
+              } 
+              else if ( field_format.retrieve.length === 1 ) {
+                content = content[ begin ]
+              }
+              else {
+                let end = field_format.retrieve[1] || content.length
+                content = content.slice( begin, end )
+              }
+            }
+            
+            this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
+
+            if (contentField.is_tag_like) {
+              content = content.split(contentField.tags_separator).filter(c => c != "")
+              return content
+            } else {
+              return content
+            }
+
           } else {
-            return content
+            // this.log && console.log("content is None | null ...")
+            // this.log && console.log("this.noData : ", this.noData)
+            return this.noData
           }
         } else {
-          // console.log("content is None | null ...")
-          // console.log("this.noData : ", this.noData)
-          return this.noData
+          return undefined
         }
-      } else {
-        return undefined
-      }
+      */
+
+      
     },
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
@@ -624,25 +675,6 @@ export default {
     projectId() {
       return this.matchProjectWithConfig('block_id')
     },
-
-    // projectAbstract() {
-    //   let fullAbstract = this.matchProjectWithConfig('block_abstract')
-    //   fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
-    //   const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
-    //   return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
-    // },
-    // projectInfo(field) {
-    //   let fullInfo = this.matchProjectWithConfig(field)
-    //   fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
-    //   return fullInfo
-    // },
-    // projectAddress() {
-    //   let fullAddress = this.matchProjectWithConfig('block_address')
-    //   // console.log('fullAddress : ', fullAddress)
-    //   let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
-    //   return address
-    // },
-
 
     goBack(e){
       e.preventDefault()

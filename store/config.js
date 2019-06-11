@@ -132,16 +132,16 @@ export const getters = {
 
     // TABS RELATED
     hasTabs : state => {      
-      state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
+      // state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
       return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false 
     },
     getTabConfig : (state) => (tabsUri) => {
-      state.log && console.log('S-config-G-getTabConfig ... tabsUri : ', tabsUri)
-      state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
+      // state.log && console.log('S-config-G-getTabConfig ... tabsUri : ', tabsUri)
+      // state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
       let tabsConfig = state.config.tabs.find( tabs => {
         return tabs.tabs_uri == tabsUri
       }) 
-      state.log && console.log('S-config-G-getTabConfig ... tabsConfig : \n', tabsConfig)
+      // state.log && console.log('S-config-G-getTabConfig ... tabsConfig : \n', tabsConfig)
       return tabsConfig
     },
 
@@ -305,7 +305,7 @@ export const mutations = {
 export const actions = {
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    state.log && console.log("S-config-A-getConfigType / type : ", type)
+    // state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
@@ -314,7 +314,7 @@ export const actions = {
       // state.log && console.log("\nS-config-A-getConfigType / getConfigType / type : ", type)
       // state.log && console.log("S-config-A-getConfigType / getConfigType / response.data : ", response.data)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
-      state.log && console.log("S-config-A-getConfigType / getConfigType / type : "+ type + " / app_config ", app_config)
+      // state.log && console.log("S-config-A-getConfigType / getConfigType / type : "+ type + " / app_config ", app_config)
       commit('setConfig', {type:type,result:app_config}); 
       return app_config
     })

@@ -2,16 +2,16 @@
 
   <div class="container">
 
-    <template v-if="tabConfig && tabConfig.ui_options.top_margin.value > 0">
-      <br v-for="extra_margin in tabConfig.ui_options.top_margin.value" :key="extra_margin">
-    </template>
-
-    <div v-if="tabConfig" :class="`tabs ${tabConfig.ui_options.size.value} ${tabConfig.ui_options.position.value} ${skipNavbar ? 'skip-navbar' : ''}`">
+    <div 
+      v-if="tabConfig" 
+      :class="`tabs ${tabConfig.ui_options.size.value} ${tabConfig.ui_options.position.value} ${skipNavbar ? 'skip-navbar' : ''}`"
+      :style="`margin-top:${tabConfig.ui_options.top_margin.value}rem; margin-bottom:${tabConfig.ui_options.bottom_margin.value}rem`"
+      >
       
       <ul :class="`${tabConfig.ui_options.class.value}`">
 
-        <li v-for="(tab, index) in tabConfig.tabs_options" 
-          :key="index"
+        <li v-for="tab in tabConfig.tabs_options" 
+          :key="tab.tab_code"
           :class="`${ tab.link_to === currentRoutePath ? 'is-active' : ''}`"
           >
           <nuxt-link
@@ -29,10 +29,6 @@
 
       </ul>
     </div>
-
-    <template v-if="tabConfig && tabConfig.ui_options.bottom_margin.value > 0">
-      <br v-for="extra_margin in tabConfig.ui_options.bottom_margin.value" :key="extra_margin">
-    </template>
 
     <!-- DEBUGGING  -->
     <!-- tabsUri : <code>{{ tabsUri }}</code><br> -->

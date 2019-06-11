@@ -39,11 +39,15 @@ export const state = () => ({
     // QUERY FROM USER
     question: {
       query: new URL(location).searchParams.get('text') || '',
+
       forMap : false,
+
       onlyGeocoded : true,
+
       shuffleSeed : 1234,
       page:1,
       perPage:100,
+
       selectedDatasetFilters: undefined,
       selectedFilters: new Map(),
     },
@@ -259,6 +263,19 @@ export const mutations = {
       // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
       state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
       // state.log && console.log("S-search-setIsMapSearch / state.search : ", state.search )
+    },
+
+    setSearchQuestion(state, localEndpointConfig){
+      state.log && console.log("S-search-setSearchQuestion / state.search.question : ", state.search.question )
+      let argOptions = localEndpointConfig.args_options
+      state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
+      let authorizedDefaultArgs = [ 'page', 'perPage', 'shuffleSeed' ]
+      argOptions.forEach( arg => {
+        let appArg = arg.app_arg
+        if ( authorizedDefaultArgs.includes(appArg) ) {
+          state.search.question[appArg] = arg.default
+        }
+      })
     },
 
   // GENERAL
