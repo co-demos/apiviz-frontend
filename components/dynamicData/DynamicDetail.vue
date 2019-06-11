@@ -645,7 +645,6 @@ export default {
           return undefined
         }
       */
-
       
     },
     getCustomBlockTitle(fieldBlock){
