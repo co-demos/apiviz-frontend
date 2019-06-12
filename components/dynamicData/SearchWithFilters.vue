@@ -50,7 +50,7 @@
           v-show="textQuery !== ''"
           >
           <a class="button is-large is-right has-text-grey-light"
-            @click="textQuery=''; searchTextChanged"
+            @click="clearQuery"
             >
             <span class="icon">
               <i class="fas fa-times"></i>
@@ -203,6 +203,11 @@
         let element = this.$refs[filterName][0]
         // console.log("C-SearchWithFilters / collapseChoices / element : ", element)
         element.classList.toggle("hide-choices")
+      },
+
+      clearQuery(){
+        this.textQuery = ''
+        this.searchTextChanged()
       },
 
       emptyOneFilter({filter}){
