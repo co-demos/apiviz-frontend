@@ -20,14 +20,14 @@
 
         <SearchResultsCountAndTabs 
           :view="VIEW_MAP" 
-          :open="!!showCard"
+          :open="showCard"
           >
           
           <!-- HIGHLIGHTED ITEM  -->
           <div 
             class="highlighted-project" 
             v-if="showCard" 
-            slot="project"
+            slot="item"
             >
             
             <!-- BUTTON TO CLOSE PREVIEW -->
@@ -391,14 +391,19 @@ export default {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
       }
 
-    }
+    },
 
+    // displayedProject(next, prev){
+    //   this.log && console.log('\nC-SearchResultsMapbox / watch - displayedProject ...')
+    //   this.log && console.log('C-SearchResultsMapbox / watch - next : ', next)
+    //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
+    // },
   },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
     }),
 
@@ -704,7 +709,7 @@ export default {
     },
     highlightItem(item) {
 
-      // this.log && console.log("C-SearchResultsMapbox / highlightItem / i : ", i)
+      this.log && console.log("C-SearchResultsMapbox / highlightItem / item : ", item)
       // show loader 
       this.showCard = true
       // this.itemLoaded = false

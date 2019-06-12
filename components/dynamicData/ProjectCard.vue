@@ -118,15 +118,23 @@ export default {
     // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
   },
-  // mounted : function () {
+  mounted : function () {
     // this.log && console.log('\nC-ProjectCard / mounted...')
     // this.log && console.log('\nC-ProjectCard / this.routeConfig : ', this.routeConfig)
-  // },
+  },
+
+  watch : {
+
+    // item(next, prev){
+    //   this.log && console.log('\nC-ProjectCard / watch - item ...')
+    //   this.log && console.log('\nC-ProjectCard / watch - next :', next)
+    // },
+  },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
     }),
 

@@ -405,7 +405,7 @@
                     </span>
                     <span>
                       <!-- {{ infosMore }}  -->
-                      {{ getDefaultText('more_innfos') }}
+                      {{ getDefaultText('more_infos') }}
                       : 
                       {{ matchProjectWithConfig('block_infos_pract')}}
                     </span>

@@ -315,12 +315,12 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     'block_rb1_tags',
   ]
   let blocksToLog = [
-    // 'block_tags',
+    'block_tags',
     // 'block_abstract',
     // 'block_image',
   ]
   let typesToLog = [
-    // 'object',
+    'object',
     // 'list',
     // 'list_tags'
   ]
@@ -352,7 +352,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
         // DEALING WITH LIST-LIKE RESULTS (TAGS)
         // slice tags in array
         if ( field_format.type === 'list_tags' ){
-          log && console.log("getItemContent / list_tags content ", content)
+          // log && console.log("getItemContent / list_tags content ", content)
           content = content.map( tag => {
             let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
             const tail = ( trimming && tag.length > trimming) ? '...' : ''
@@ -399,9 +399,9 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   
           // trim string
           else {
-            log && console.log("getItemContent / string content : ", content)
+            // log && console.log("getItemContent / string content : ", content)
             let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-            log && console.log("getItemContent / trim : ", trim)
+            // log && console.log("getItemContent / trim : ", trim)
             const tail = ( trimming && content.length > trimming) ? '...' : '';
             content = content.slice(0, trim) + tail
             return content
@@ -411,6 +411,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   
         // DEALING WITH NATIVE STRING RESULTS
         else if ( field_format.type === 'object' ) {
+          log && console.log("getItemContent / object content : ", content)
+
           // string is tag-like and needs to be splitten
           if ( contentField.is_tag_like ) {
             content = content.split(contentField.tags_separator).filter(c => c != "")
@@ -419,12 +421,14 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
+            // log && console.log("getItemContent / object content is_tag_like : ", content)
             return content
           } else {
-            log && console.log("getItemContent / object content : ", content)
+            // log && console.log("getItemContent / object content : ", content)
             let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
             const tail = ( trimming && content.length > trimming )? '...' : '' ;
             content = content.slice(0, trim) + tail        
+            log && console.log("getItemContent / object content not tag like : ", content)
             return content
           }
         }

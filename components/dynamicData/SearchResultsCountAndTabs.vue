@@ -14,7 +14,9 @@
         </span>
       </div>
 
-      <!-- <slot name="project"/> -->
+      <!-- SLOT FOR MAP'S ITEM CARD -->
+      <slot name="item"/>
+
     </div>
 
     <div v-if="endpointConfigFilters.has_shuffle"
@@ -101,17 +103,17 @@ export default {
   },
 
   beforeMount : function(){
-    // this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
+    this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
   },
 
   mounted(){
-
+    this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
   },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
       // pending: state => !!state.search.search.answer.pendingAbort,
       // total: state => state.search.search.answer.result && state.search.search.answer.result.total
