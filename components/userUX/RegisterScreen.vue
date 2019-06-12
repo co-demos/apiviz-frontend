@@ -19,10 +19,10 @@
             </div>
 
             <p class="has-text-grey">              
-              <router-link :to="'/login'">
+              <nuxt-link :to="'/login'">
                 <!-- CREATE ACCOUNT -->
                 {{ getText('connect') }}
-              </router-link>
+              </nuxt-link>
             </p>
 
           </div>

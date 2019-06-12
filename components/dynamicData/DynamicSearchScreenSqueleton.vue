@@ -4,7 +4,6 @@
       :filtersConfig="filtersConfig"
     />
     <main :class="mainClass">
-      <!-- TEMPORARILY COMMENTED -->
       <FiltersFeedback/>
       <slot/>
     </main>

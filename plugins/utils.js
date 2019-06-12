@@ -390,8 +390,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
           if ( contentField.is_tag_like ) {
             content = content.split(contentField.tags_separator).filter(c => c != "")
             content = content.map( tag => {
-              let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-              const tail = ( trimming && content.length > trimming ) ? '...' : ''
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
             return content
@@ -411,11 +411,22 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   
         // DEALING WITH NATIVE STRING RESULTS
         else if ( field_format.type === 'object' ) {
-          log && console.log("getItemContent / object content : ", content)
-          let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
-          const tail = ( trimming && content.length > trimming )? '...' : '' ;
-          content = content.slice(0, trim) + tail        
-          return content
+          // string is tag-like and needs to be splitten
+          if ( contentField.is_tag_like ) {
+            content = content.split(contentField.tags_separator).filter(c => c != "")
+            content = content.map( tag => {
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              const tail = ( trimming && tag.length > trimming ) ? '...' : ''
+              return tag.slice(0, trim) + tail
+            })
+            return content
+          } else {
+            log && console.log("getItemContent / object content : ", content)
+            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+            const tail = ( trimming && content.length > trimming )? '...' : '' ;
+            content = content.slice(0, trim) + tail        
+            return content
+          }
         }
 
       } catch(e){

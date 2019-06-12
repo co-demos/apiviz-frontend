@@ -67,13 +67,15 @@ export default {
 
   beforeUpdate : function(){
     this.log && console.log("\nC-DynamicStatic / beforeUpdate ... ")
-    for ( let ext_script of this.localRouteConfig.ext_script_urls  ){
-      deleteScript(ext_script.script_id)
-    }
     if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
-      for ( let ext_script of this.localRouteConfig.ext_script_urls ){
-        if ( ext_script.at_mount ) {
-          loadScript(ext_script.url, ext_script.type, ext_script.script_id, undefined)
+      for ( let ext_script of this.localRouteConfig.ext_script_urls  ){
+        deleteScript(ext_script.script_id)
+      }
+      if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
+        for ( let ext_script of this.localRouteConfig.ext_script_urls ){
+          if ( ext_script.at_mount ) {
+            loadScript(ext_script.url, ext_script.type, ext_script.script_id, undefined)
+          }
         }
       }
     }

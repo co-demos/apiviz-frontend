@@ -13,7 +13,16 @@ export default function ({ store, route, redirect }) {
     // 'DynamicListDense' 
   ]
 
+  
   let path = route.path
+
+  let queryLocale = route.query.locale
+  if ( queryLocale ){
+    log && console.log('-M3- getRouteConfig / queryLocale : ', queryLocale)
+    store.commit('setLocale', queryLocale )
+  }
+
+  // log && console.log('-M3- getRouteConfig / route : ', route)
   log && console.log('-M3- getRouteConfig / path : ', path)
 
   if (path.startsWith('/backoffice') ){
@@ -37,6 +46,12 @@ export default function ({ store, route, redirect }) {
     store.commit('config/setLocalRouteConfig', currentRouteConfig)
     // check if route is dynamic data
     if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
+      
+      let searchedText = route.query.text
+      if ( searchedText ){
+        log && console.log('-M3- getRouteConfig / searchedText : ', searchedText)
+        store.commit('search/setSearchedText', {searchedText})
+      }
       
       // log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
       store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
@@ -70,9 +85,13 @@ export default function ({ store, route, redirect }) {
         store.commit('search/setSearchQuestion', localEndpointConfig)
         // log && console.log('-M3- getRouteConfig / finished ...')
   
-      } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
+      // } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
+      } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' ) {
         store.commit('search/clearResults')
-        store.dispatch('search/search')
+        if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+          log && console.log('-M3- getRouteConfig / dispatching search ...')
+          store.dispatch('search/search')
+        }
       }
   
     }

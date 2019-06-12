@@ -15,7 +15,7 @@
       <!-- </div> -->
 
       <!-- BLOCK IMAGE -->
-      <router-link 
+      <nuxt-link 
         :to="`/${dataset_uri}/detail?id=${matchItemWithConfig('block_id')}`" 
         class="card-image"
         >
@@ -25,7 +25,7 @@
           :alt="itemInfos.title" 
         >
           <!-- :src="matchItemWithConfig('block_image')" -->
-      </router-link>
+      </nuxt-link>
 
       <!-- BLOCK ADDRESS -->
       <div class="card-content">
@@ -46,9 +46,9 @@
 
         <!-- BLOCK TITLE -->
         <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_id')">
-          <router-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
+          <nuxt-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
             {{ matchItemWithConfig('block_title')}}
-          </router-link>
+          </nuxt-link>
         </p>
 
         <!-- BLOCK ABSTRACT -->
@@ -163,7 +163,7 @@ export default {
     },
 
     matchItemWithConfig(fieldBlock) {
-      
+
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
 
       return getItemContent(fieldBlock, this.item, this.contentFields, this.noData)

@@ -1,30 +1,62 @@
 <template>
   <div class="search-bar navbar is-white is-fixed-top" role="menubar" aria-label="filters navigation">
+    
     <div class="container">
       
-
       <!-- INPUT TEXT -->
-      <div class="search control has-icons-left has-icons-right is-expanded">
-        <!-- <div class="image-container">
-          <img src="/static/icons/icon_search_violet.svg">
-        </div> -->
-        <input
-          type="search"
-          v-model="searchedText"
-          class="input is-large is-light input-navbar"
-          :placeholder="translate(endpointConfigFilters, 'placeholder' )"
-          @input="searchTextChanged"
+      <!-- <div class="field has-addons no-margin">
+
+        <div class="search control has-icons-left ">
+          <input
+            type="search"
+            v-model="textQuery"
+            class="input is-large is-light input-navbar"
+            :placeholder="translate(endpointConfigFilters, 'placeholder' )"
+            @input="searchTextChanged"
+            >
+          <span class="icon is-large is-left has-text-grey-light">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+
+        <p class="search control">
+          <a 
+            v-show="textQuery !== ''"
+            class="icon is-large is-right has-text-grey-light"
+            @click="textQuery=''; searchTextChanged"
+            >
+            <i class="fas fa-times"></i>
+          </a>
+        </p>
+
+      </div> -->
+
+      <div class="field is-large has-addons field-centered">
+        <p class="control is-expanded has-icons-left">
+
+          <input
+            type="search"
+            v-model="textQuery"
+            class="input is-large is-light input-navbar"
+            :placeholder="translate(endpointConfigFilters, 'placeholder' )"
+            @input="searchTextChanged"
+            >
+
+          <span class="icon is-large is-left has-text-grey-light">
+            <i class="fas fa-search"></i>
+          </span>
+        </p>
+        <p class="control"
+          v-show="textQuery !== ''"
           >
-        <span class="icon is-large is-left has-text-grey-light">
-          <i class="fas fa-search"></i>
-        </span>
-        <span 
-          v-show="searchedText !== ''"
-          class="icon is-large is-right has-text-grey-light"
-          @click="searchedText=''"
-          >
-          <i class="fas fa-times"></i>
-        </span>
+          <a class="button is-large is-right has-text-grey-light"
+            @click="textQuery=''; searchTextChanged"
+            >
+            <span class="icon">
+              <i class="fas fa-times"></i>
+            </span>
+          </a>
+        </p>
       </div>
 
       <!-- INPUT FILTERS -->
@@ -60,7 +92,7 @@
 
             <!-- LOOP CHOICES -->
             <a v-for="choice in filter.choices" :key="choice.name"
-              class="navbar-item"
+              class="navbar-item no-border"
               >
               <div class="field is-narrow">
                 <input 	class="is-checkradio is-default is-normal"
@@ -71,7 +103,7 @@
                   :data-choice="choice.name"
                   @change="changeFilter"
                   >
-                <label :for="choice.name">
+                <label :for="choice.name" class="dense-label">
                   {{ translate(choice, 'choice_title' ) }}
                 </label>
               </div>
@@ -109,17 +141,25 @@
 
     name: 'SearchWithFilters',
 
+    data : () => {
+      return {
+        textQuery : '',
+      }
+    },
+
     beforeMount : function(){
       // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+      this.textQuery = this.searchedText
     },
 
     mounted(){
 
       // this.log && console.log('C-SearchWithFilters / mounted...')
 
-      if(!this.$store.state.search.search.answer.result){
+      if( !this.$store.state.search.search.answer.result ){
         // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
-        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+        // this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.textQuery})
       }
 
       // this.log && console.log('\nC-SearchWithFilters / mounted finished ...')
@@ -128,7 +168,7 @@
     computed: {
 
       ...mapState({
-        log : 'log', 
+        log : state => state.log, 
         locale : state => state.locale,
         // selectedFilters: state => state.search.search.question.selectedFilters,
         // filterDescriptions: state => state.search.filterDescriptions
@@ -136,17 +176,17 @@
 
       ...mapGetters({
         selectedFilters : 'search/getSelectedFilters',
-        filterDescriptions : 'search/getFilterDescriptions'
+        filterDescriptions : 'search/getFilterDescriptions',
+        searchedText : 'search/getSearchQuestionQuery'
       }),
 
-      searchedText: {
-        // get () { return this.$store.state.search.search.question.query },
-        get () { return this.$store.getters['search/getSearchQuestionQuery'] },
-        set (value) {
-          // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
-          this.$store.dispatch('search/searchedTextChanged', {searchedText: value})
-        }
-      },
+      // searchedText: {
+      //   get () { return this.$store.getters['search/getSearchQuestionQuery'] },
+      //   // set (value) {
+      //   //   // this.log && console.log('\nC-SearchWithFilters / searchedText dispatching ...')
+      //   //   this.$store.dispatch('search/searchedTextChanged', { searchedText: value })
+      //   // }
+      // },
 
       endpointConfigFilters() {
         // this.log && console.log('C-SearchWithFilters / endpointConfigFilters() ...')
@@ -177,7 +217,8 @@
 
       searchTextChanged(){
         this.log && console.log('C-SearchWithFilters / searchTextChanged...')
-        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+        // this.$store.dispatch('search/searchedTextChanged', {searchedText: this.searchedText})
+        this.$store.dispatch('search/searchedTextChanged', {searchedText: this.textQuery})
       },
 
       translate( textsToTranslate, listField ) {
@@ -213,6 +254,9 @@
   @import '../../assets/css/apiviz-misc.scss';
   @import '../../assets/css/rem.scss';
 
+  .no-margin{
+    margin: 0;
+  }
 
   .getFilterTitle{
     margin-left : 0.3em;
@@ -228,34 +272,56 @@
   }
 
   .search-bar {
+    
     top: $apiviz-navbar-height;
     height: $apiviz-search-bar-height;
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 
-    .search {
-      flex: 1;
+    .field-centered{
+      justify-content: center;
+    }
 
-      display: flex;
-      flex-direction: row;
-      //justify-content: center;
-      align-items: center;
+    .field {
 
-      .image-container{
+      // .search {
+
+        flex: 1;
+        // height: $apiviz-search-bar-height;
+
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        // justify-content: center;
         align-items: center;
+        margin-bottom: 0;
 
-        img{
-            width: rem(36px);
+        // .image-container{
+        //   display: flex;
+        //   flex-direction: row;
+        //   justify-content: center;
+        //   align-items: center;
+
+        //   img{
+        //       width: rem(36px);
+        //   }
+        // }
+
+        input[type="search"]{
+          height: 100%;
+          border: 0;
         }
-      }
+        a {
+          height: 100%;
+          border: 0;
+        }
 
-      input[type="search"]{
-        height: 100%;
-        border: 0;
-      }
+        .dense-label{
+          padding: 0.15rem 0.5rem 0.1rem 2rem;
+          margin : 0.1em 0em 0.1em 0em;
+          border : none;
+        }
+
+      // }
     }
 
     .navbar-end {
@@ -268,7 +334,10 @@
           padding-bottom : 0em;
 
           .navbar-item{
-            padding: 0.2em 0.2em 0.2em 0.7em ;
+            padding: 0em 0.1em 0em 0.7em ;
+          }
+          .navbar-item.no-border{
+          border-left: none;
           }
           hr.end-choices {
             margin-top: 0.7em;

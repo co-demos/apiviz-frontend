@@ -520,14 +520,19 @@ export default {
   },
 
   beforeMount: function () {
-    console.log("\n - - DynamicDetail / beforeMount ... ")
+    this.log && console.log("\n - - DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
+
+    // this.log && console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
+    // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
+    // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
 
   },
 
   mounted(){
+
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    console.log(" - - DynamicDetail / mounted... ")
+    this.log && console.log(" - - DynamicDetail / mounted... ")
     const int = setInterval(() => {
       if(window.pageYOffset < 50){
         clearInterval(int)
@@ -537,7 +542,11 @@ export default {
       }
     }, 100);
 
-    this.$store.dispatch('search/searchOne', this.$route.query.id)
+    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
+    this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    if (this.$nuxt.$route.query.id) {
+      this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
+    }
 
   },
 
@@ -560,7 +569,7 @@ export default {
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
-      // console.log("listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
+      // this.log && console.log("listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
       return this.contentFields.map( c => c.position )
     },
 

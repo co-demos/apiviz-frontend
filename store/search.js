@@ -38,7 +38,7 @@ export const state = () => ({
 
     // QUERY FROM USER
     question: {
-      query: new URL(location).searchParams.get('text') || '',
+      query: '', // new URL(location).searchParams.get('text') || '',
 
       forMap : false,
 
@@ -111,7 +111,7 @@ export const getters = {
       return state.search.dataset_uri
     },
     getSearchQuestionQuery : state => {
-      return state.search.question.Query
+      return state.search.question.query
     },
 
   // RESULTS RELATED
@@ -259,16 +259,24 @@ export const mutations = {
       state.log && console.log("S-search-M-setMap / map : ", map )
       // state.mapbox.map = map
     },
+
     setIsMapSearch (state, routeConfig) {
       // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
       state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
       // state.log && console.log("S-search-setIsMapSearch / state.search : ", state.search )
     },
 
+  // GENERAL
+    setSearchConfig(state, {type,result}) {
+      state.search.config[type] = result
+    },
+
     setSearchQuestion(state, localEndpointConfig){
-      state.log && console.log("S-search-setSearchQuestion / state.search.question : ", state.search.question )
+      // state.log && console.log("S-search-setSearchQuestion / state.search.question : ", state.search.question )
+
       let argOptions = localEndpointConfig.args_options
-      state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
+      // state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
+
       let authorizedDefaultArgs = [ 'page', 'perPage', 'shuffleSeed' ]
       argOptions.forEach( arg => {
         let appArg = arg.app_arg
@@ -276,11 +284,6 @@ export const mutations = {
           state.search.question[appArg] = arg.default
         }
       })
-    },
-
-  // GENERAL
-    setSearchConfig(state, {type,result}) {
-      state.search.config[type] = result
     },
 
   // FILTERS-RELATED
@@ -436,7 +439,7 @@ export const actions = {
 
   // FOR QUERY SEARCH FILTERS
     toggleFilter({state, commit, dispatch, getters}, {filter, value}){
-      // state.log && console.log("\n// toggleFilter ..." )
+      state.log && console.log("\n// toggleFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
       // state.log && console.log("// toggleFilter / selectedFilters : ", selectedFilters);
       const selectedValues = selectedFilters.get(filter)
@@ -450,7 +453,7 @@ export const actions = {
     },
   
     emptyOneFilter({state, commit, dispatch, getters}, {filter}){
-      // state.log && console.log("\n// emptyOneFilter ..." )
+      state.log && console.log("\n// emptyOneFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
       selectedFilters.set(filter, new Set())
   
@@ -459,14 +462,14 @@ export const actions = {
     },
   
     clearAllFilters({state, commit, dispatch}){
-      // state.log && console.log("S-search-A-clearAllFilters ..." )
+      state.log && console.log("S-search-A-clearAllFilters ..." )
       commit('clearAllFilters')
       dispatch('search')
     },
 
   // FOR QUERY SEARCH TEXT
     searchedTextChanged({state, commit, dispatch}, {searchedText}){
-      // state.log && console.log("\nS-search-A-searchedTextChanged ..." )
+      state.log && console.log("\nS-search-A-searchedTextChanged ..." )
       commit('setSearchedText', {searchedText})
       dispatch('search')
     },
@@ -505,22 +508,21 @@ export const actions = {
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
-        // .then(({projects, total}) => {
-        .then(( response ) => {
-          state.log && console.log("S-search-A-search / response : \n", response )
-          // state.log && console.log("S-search-A-search / total : \n", total )
-          // state.log && console.log("S-search-A-search / projects : \n", projects )
+      .then(( response ) => {
+        state.log && console.log("S-search-A-search / response : \n", response )
+        // state.log && console.log("S-search-A-search / total : \n", total )
+        // state.log && console.log("S-search-A-search / projects : \n", projects )
 
-          // if search is for map either fill resultMap if empty or do nothing
-          commit('setSearchResult', {result: { projects : response.projects, total : response.total }})
-          // commit('setSearchResult', {result: {projects, total}})
-          // commit ('setSearchResultMap', {resultMap: {projects, total}})
-        })
-        .catch(error => {
-          // don't report aborted fetch as errors
-          if (error.name !== 'AbortError')
-            commit('setSearchError', {error})
-        })
+        // if search is for map either fill resultMap if empty or do nothing
+        commit('setSearchResult', {result: { projects : response.projects, total : response.total }})
+        // commit('setSearchResult', {result: {projects, total}})
+        // commit ('setSearchResultMap', {resultMap: {projects, total}})
+      })
+      .catch(error => {
+        // don't report aborted fetch as errors
+        if (error.name !== 'AbortError')
+          commit('setSearchError', {error})
+      })
     },
 
     searchOne({state, commit, dispatch, getters}, id ){
@@ -528,7 +530,7 @@ export const actions = {
       commit('clearDisplayedProject')
 
       state.log && console.log("\nS-search-A-searchOne ..." )
-      // state.log && console.log("\nS-search-A-searchOne / id : ", id )
+      state.log && console.log("S-search-A-searchOne / id : ", id )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
@@ -546,16 +548,16 @@ export const actions = {
       commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
-        .then(( response ) => {
-          console.log("S-search-A-searchOne / response : \n", response )
-          // commit('setDisplayedProject', { result: { projects, total }})
-          commit('setDisplayedProject', {result: { projects : response.projects, total : response.total }})
-        })
-        .catch(error => {
-          // don't report aborted fetch as errors
-          if (error.name !== 'AbortError')
-            commit('setSearchError', {error})
-        })
+      .then(( response ) => {
+        state.log && console.log("S-search-A-searchOne / response : \n", response )
+        // commit('setDisplayedProject', { result: { projects, total }})
+        commit('setDisplayedProject', {result: { projects : response.projects, total : response.total }})
+      })
+      .catch(error => {
+        // don't report aborted fetch as errors
+        if (error.name !== 'AbortError')
+          commit('setSearchError', {error})
+      })
 
     },
 }
