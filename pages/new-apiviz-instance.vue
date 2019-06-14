@@ -83,7 +83,7 @@
           </a>
 
           <!-- REPO LINK -->
-          <a class="navbar-item tooltip is-tooltip-bottom" 
+          <a class="navbar-item tooltip is-tooltip-left" 
             :data-tooltip="basicDict.repo[locale]"
             href="https://github.com/co-demos/apiviz-frontend"
             >
@@ -329,7 +329,7 @@
                       </div>
                       <br>
 
-                      <div class="is-divider" data-content="OR"></div>
+                      <div class="is-divider" :data-content="basicDict.or[locale]"></div>
 
                       <!-- ENTER UUID -->
                       <label class="label has-text-centered">
@@ -351,7 +351,7 @@
                             v-model="searchUuid"
                             class="input" 
                             type="text" 
-                            placeholder="enter an UUID">
+                            :placeholder="basicDict.uuid_1c[locale]">
                         </p>
                         <p class="control">
                           <a :class="`${searchLoading ? 'is-loading' : ''} button is-primary is-primary-b is-outlined`"
@@ -508,18 +508,20 @@
                   <!-- CREATE NEW CONFIG BTN -->
                   <div v-if="!isCreated" class="columns is-centered">
                     <div class="column is-12">
-                      <a :disabled="!selectedModel"
-                        :class="`button ${createLoading? 'is-loading' : ''} ${ selectedModel ? 'is-primary is-primary-b' : 'is-grey is-grey-b'} is-rounded is-medium is-fullwidth`"
+                      <a :disabled="!hasAllFields"
+                        :class="`button ${createLoading? 'is-loading' : ''} ${ hasAllFields ? 'is-primary is-primary-b' : 'is-grey is-grey-b'} is-rounded is-medium is-fullwidth`"
                         @click="createApivizInstance()"
                         >
                         <span class="icon">
                           <i class="fas fa-plus-circle"></i>
                         </span>
-                        <span v-if="selectedModel">
+                        <span v-if="hasAllFields">
                           {{ basicDict.create_1a[locale] }}
                         </span>
                         <span v-else>
-                          {{ basicDict.create_1b[locale] }}
+                          <span v-if="!selectedModel">{{ basicDict.create_1b[locale] }}</span>
+                          <span v-else-if="!new_admin_email">{{ basicDict.create_1c[locale] }}</span>
+                          <span v-else>{{ basicDict.create_1d[locale] }}</span>
                         </span>
                       </a>
                     </div>
@@ -780,7 +782,13 @@
       return {
 
         locale : 'en',
-        listLocales : ['en', 'fr'],
+        listLocales : [
+          'en', 
+          'fr', 
+          'es', 
+          // 'de', 
+          // 'tr'
+        ],
         showNav : false,
 
         showSteps : false,
@@ -829,13 +837,17 @@
       ...mapGetters({
         apivizModels : 'config/getApivizModels',
       }),
+
+      hasAllFields(){
+        return this.new_admin_email && this.selectedModel
+      },
       
       builtRequest() {
         return {
           modelUuid : (this.selectedModel ? this.selectedModel.uuid : ''),
           new_title : this.new_title,
-          new_admin : this.new_admin_email,
           new_logoUrl : this.new_logoUrl,
+          new_admin : this.new_admin_email,
         }
       },
 
