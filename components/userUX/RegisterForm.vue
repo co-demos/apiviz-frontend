@@ -197,9 +197,9 @@
 
     methods: {
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
 
       sendRegisterForm(e){
         this.customformError = ''

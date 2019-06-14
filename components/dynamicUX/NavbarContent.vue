@@ -293,9 +293,9 @@
         this.activeLocales = false
       },
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
       loadExternalURL(link_to){
         console.log("loadExternalURL / link_to : ", link_to)
         var win = window.open(link_to, '_blank');
