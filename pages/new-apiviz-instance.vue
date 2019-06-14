@@ -783,8 +783,8 @@
 
         locale : 'en',
         listLocales : [
-          'en', 
           'fr', 
+          'en', 
           'es', 
           // 'de', 
           // 'tr'
