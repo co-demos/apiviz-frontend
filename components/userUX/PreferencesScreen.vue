@@ -107,6 +107,7 @@
   import { PreferencesGlobal } from '~/config/preferencesMenusConfig.js'
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   import InfosForm from './InfosForm.vue'
   import PasswordForm from './PasswordForm.vue'

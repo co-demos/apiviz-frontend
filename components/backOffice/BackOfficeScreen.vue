@@ -15,7 +15,8 @@
       section">
 
       <p class="menu-label" >
-        {{ getText('menu_app_settings') }}
+        <!-- {{ getText('menu_app_settings') }} -->
+        {{ basicDict['menu_app_settings'][locale]}}
       </p>
 
       <!-- MENUS -->
@@ -33,7 +34,9 @@
               <i :class="menu.icon"></i>
             </span> 
             <!-- {{ menu.title }} -->
-            {{ getText(menu.code) }}
+            <!-- {{ getText(menu.code) }} -->
+            {{ basicDict[menu.code][locale] }}
+
           </nuxt-link>
         </li>
       </ul>
@@ -64,7 +67,8 @@
                 @click="pushTabRoute(tab.tab_code)" 
                 >
                 <!-- {{ tab.title }} -->
-                {{ getText(tab.tab_code) }}
+                <!-- {{ getText(tab.tab_code) }} -->
+                {{ basicDict[tab.tab_code][locale] }}
               </a>
             </li>
           </ul>
@@ -119,6 +123,7 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
   import { BackofficeGlobal } from '~/config/backOfficeMenusConfig.js';
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
 
@@ -147,6 +152,7 @@
         activeTab : 'gl_general',
 
         backOfficeMenu : BackofficeGlobal.config,
+        basicDict : BasicDictionnary, 
 
       }
     },
@@ -155,6 +161,7 @@
 
       ...mapState({
         log : state => state.log, 
+        locale : state => state.locale,
         user : state => state.user.user,
         config: state => state.config.config,
       }),
@@ -294,9 +301,9 @@
       },
 
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
 
       goBack(e){
         e.preventDefault()

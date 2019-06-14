@@ -4,7 +4,8 @@
     <h5 class="title has-text-grey"
       v-if="!user.isLoggedin"
       >
-      {{ getText('login') }}
+      <!-- {{ getText('login') }} -->
+      {{ basicDict.login[locale] }}
     </h5>
 
     <form 
@@ -20,9 +21,10 @@
             v-model="userEmail"
             v-validate="'required|email'" 
             name="userEmail" 
-            :placeholder="getText('email')"
+            :placeholder="basicDict.email[locale]"
             type="email" 
             >
+            <!-- :placeholder="getText('email')" -->
           <span>{{ errors.first('userEmail') }}</span>
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
@@ -36,9 +38,10 @@
             v-validate="'required'" 
             v-model="userPassword"
             name="userPassword" 
-            :placeholder="getText('password')"
+            :placeholder="basicDict.password[locale]"
             type="password" 
             >
+            <!-- :placeholder="getText('password')" -->
           <span>{{ errors.first('userPassword') }}</span>
           <span class="icon is-small is-left">
             <i class="fas fa-key"></i>
@@ -56,7 +59,8 @@
           >
           <label for="checkbox">
             <!-- remember me -->
-            {{ getText('remember_me') }}
+            <!-- {{ getText('remember_me') }} -->
+            {{ basicDict.remember_me[locale] }}
           </label>
         <!-- </div> -->
       </div>
@@ -72,7 +76,8 @@
           <i class="fas fa-sign-in-alt"></i>
         </span>
         <span>
-          {{ getText('connect') }}
+          <!-- {{ getText('connect') }} -->
+          {{ basicDict.connect[locale] }}
         </span>
       </button>
 
@@ -132,7 +137,8 @@
         <i class="fas fa-sign-out-alt"></i>
       </span>
       <span>
-        {{ getText('disconnect') }}
+        <!-- {{ getText('disconnect') }} -->
+        {{ basicDict.disconnect[locale] }}
       </span>
     </button>
 
@@ -190,9 +196,9 @@
     },
     methods: {
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
 
       sendLoginForm(e){
         this.customformError = ''

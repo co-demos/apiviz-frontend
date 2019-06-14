@@ -11,7 +11,8 @@
             v-if="!user.isLoggedin">
             <h3 class="title has-text-grey">
               <!-- YOU'VE BEEN DISCONNECTED -->
-              {{ getText('disconnect_msg') }}
+              <!-- {{ getText('disconnect_msg') }} -->
+              {{ basicDict.want_disconnect[locale] }}
             </h3>
             <div class="box">
 
@@ -48,7 +49,8 @@
                   <i class="fas fa-sign-in-alt"></i>
                 </span>
                 <span>
-                  {{ getText('reconnect') }}
+                  <!-- {{ getText('reconnect') }} -->
+                  {{ basicDict.reconnect[locale] }}
                 </span>
               </nuxt-link>
 
@@ -60,7 +62,9 @@
             v-if="user.isLoggedin">
             <h3 class="title has-text-grey">
               <!-- DO YOU WANT TO DISCONNECT ? -->
-              {{ getText('want_disconnect') }}
+              <!-- {{ getText('want_disconnect') }} -->
+              {{ basicDict.want_disconnect[locale] }}
+
             </h3>
             <div class="box">
 
@@ -87,7 +91,8 @@
                   <i class="fas fa-sign-out-alt"></i>
                 </span>
                 <span>
-                  {{ getText('disconnect') }}
+                  <!-- {{ getText('disconnect') }} -->
+                  {{ basicDict.disconnect[locale] }}
                 </span>
               </button>
             </div>
@@ -145,9 +150,9 @@
 
     methods: {
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
 
       goBack(e){
         e.preventDefault()
