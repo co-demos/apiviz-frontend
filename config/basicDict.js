@@ -155,6 +155,10 @@ export const BasicDictionnary = {
     en : "title of your new website ",
     fr : "titre de votre nouveau site"
   },
+  title_1b : {
+    en : "the title of your new website ",
+    fr : "le titre de votre nouveau site"
+  },
 
   // LOGO
   logo_1a : {
@@ -168,6 +172,16 @@ export const BasicDictionnary = {
   logo_1c : {
     en : "preview of your logo",
     fr : "prévisualisation de votre logo"
+  },
+
+  // EMAIL
+  email_1a : {
+    en : "your email (you will use to log as admin) ",
+    fr : "votre email (qui vous servira pour vous connecter en tant qu'admin)"
+  },
+  email_1b : {
+    en : "the email you will use to log as an admin",
+    fr : "l'email qui vous servira pour vous connecter en tant qu'admin"
   },
 
   // CREATE
@@ -221,6 +235,10 @@ export const BasicDictionnary = {
   step_logo: {
     en : "your logo",
     fr : "votre logo"
+  },
+  step_email: {
+    en : "your admin email",
+    fr : "votre email d'admin"
   },
   step_finish: {
     en : "generate",

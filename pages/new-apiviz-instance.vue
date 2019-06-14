@@ -270,6 +270,15 @@
                 <div class="step-marker">4</div>
                 <div class="step-details">
                   <p class="step-title">
+                    <!-- Your email -->
+                    {{ basicDict.step_email[locale] }}
+                  </p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">5</div>
+                <div class="step-details">
+                  <p class="step-title">
                     <!-- Finish -->
                     {{ basicDict.step_finish[locale] }}
                   </p>
@@ -403,7 +412,7 @@
                         class="input has-text-centered" 
                         v-model="new_title"
                         type="text" 
-                        placeholder="The title of your new website"
+                        :placeholder="basicDict.title_1b[locale]"
                         >
                     </div>
                       </div>
@@ -460,7 +469,38 @@
 
                 </div>
 
-                <!-- STEPS 4 / CREATE BUTTON -->
+                <!-- STEPS 4 / EMAIL -->
+                <div class="step-content has-text-centered">
+
+                  <br>
+
+                  <!-- CHOOSE AN EMAIL -->
+                  <div class="field is-horizontal">
+                    <div class="field-label" style="flex-grow : 3">
+                      <label class="label">
+                        {{ basicDict.email_1a[locale] }}
+                      </label>
+                    </div>
+                    <div class="field-body">
+                      <div class="field">
+                    <div class="control">
+                      <input 
+                        class="input has-text-centered" 
+                        v-model="new_admin_email"
+                        type="email" 
+                        :placeholder="basicDict.email_1b[locale]"
+                        >
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+
+                  <hr class="no-bottom-margin">
+
+                </div>
+
+                <!-- STEPS 5 / CREATE BUTTON -->
                 <div class="step-content has-text-centered">
                   
                   <br> 
@@ -758,6 +798,7 @@
         searchUuid : undefined,
         new_title : 'my new Apiviz website',
         new_logoUrl : 'https://github.com/co-demos/carto-sonum/blob/master/logos/logo%2Bmarianne_typo%20sombre%404x.png?raw=true',
+        new_admin_email : '',
 
         basicDict : BasicDictionnary, 
         specsRenderer : {
@@ -793,6 +834,7 @@
         return {
           modelUuid : (this.selectedModel ? this.selectedModel.uuid : ''),
           new_title : this.new_title,
+          new_admin : this.new_admin_email,
           new_logoUrl : this.new_logoUrl,
         }
       },
@@ -830,11 +872,6 @@
 
           if (  model !== null ){
             this.selectedModel = model
-            // this.selectedModel = {
-            //   name : model.content,
-            //   preview : model.image_preview,
-            //   uuid : model.apiviz_front_uuid
-            // }
             this.invalidModel = false
           } else {
             this.invalidModel = true

@@ -502,6 +502,7 @@ export const actions = {
       model_uuid : request.modelUuid,
       new_title : request.new_title,
       new_logoUrl : request.new_logoUrl,
+      model_admin_email : request.new_admin,
     } 
     // state.log && console.log("S-config-A-createNewConfig / payload : \n", payload)
     
