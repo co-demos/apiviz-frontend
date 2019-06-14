@@ -219,7 +219,7 @@ export const BasicDictionnary = {
       tr : "to do tr",
       fr : "types de routes",
     },
-    esdpoint_type : {
+    endpoint_type : {
       en : "data endpoint types",
       es : "tipos de puntos de API",
       de : "to do de",
