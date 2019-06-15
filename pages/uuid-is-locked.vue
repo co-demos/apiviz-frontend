@@ -5,14 +5,14 @@
       <div class="navbar-brand">
 
         <!-- LOGO -->
-        <a class="navbar-item" 
-          href="#top"
+        <nuxt-link class="navbar-item" 
+            to="/"
           >
           <img 
             src="/logos/logo_apiviz_icon_15.png" 
             height="28"
             >
-        </a>
+        </nuxt-link>
 
         <!-- BURGER -->
         <a 
@@ -37,12 +37,13 @@
 
         <!-- NAV START -->
         <div class="navbar-start">
-          <a class="navbar-item"
-            @click="showSteps=false"
+          <nuxt-link 
+            class="navbar-item"
+            to="/"
             >
             <!-- href="#top" -->
             {{ basicDict.welcome_1[locale] }}
-          </a>
+          </nuxt-link>
         </div> 
 
         <!-- NAV END -->
