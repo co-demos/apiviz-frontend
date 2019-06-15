@@ -242,7 +242,8 @@
                   >
                 </button>
                 <p class="has-text-centered">
-                {{ responseMessage }}
+                  <!-- {{ responseMessage }} -->
+                  {{ basicDict[responseMsgCode][locale] }}
                 </p>
               </div>
               <br>
@@ -860,6 +861,7 @@
         responseMessage : undefined,
         responseStatus : 200,
         responseModalOpen : true,
+        responseMsgCode : 'empty_dict',
 
         searchLoading : false,
         createLoading : false,
@@ -965,6 +967,7 @@
           this.errorModadOpen = true
           this.errorMessage = error
           this.responseStatus = 500
+          this.responseMsgCode = 'error_1a'
         })
 
       },
@@ -987,6 +990,7 @@
           this.responseModadOpen = true
           this.responseMessage = resp.data.msg
           this.responseStatus = resp.data.status
+          this.responseMsgCode = resp.data.msg_code
 
         })
         .catch((error) => {
@@ -995,6 +999,7 @@
           this.responseModadOpen = true
           this.responseMessage = error
           this.responseStatus = 500
+          this.responseMsgCode = 'error_1a'
         })
 
       },

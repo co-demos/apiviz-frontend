@@ -1,5 +1,13 @@
 export const BasicDictionnary = {
 
+  empty_dict : {
+    en : " ",
+    es : " ",
+    de : " ",
+    tr : " ",
+    fr : " ",
+  },
+
   // UUID NOT AUTHORIZED 
   uuid_blocked : {
     en : "Sorry, this UUID exists but is blocked",
@@ -15,6 +23,44 @@ export const BasicDictionnary = {
     tr : "to do tr",
     fr : "Merci de contacter la team Apiviz ou votre administrateur système",
   },
+
+  // ERRORS / RESPONSES BACKEND
+  error_1a : {
+    en : "Error during process",
+    es : "Error durante el proceso",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Erreur du process",
+  },
+  instance_used_1a : {
+    en : "you can't use this model..",
+    es : "Error durante el proceso",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Erreur du process",
+  },
+  uuid_is_current_1a : {
+    en : "your current uuid is already used... ",
+    es : "Error durante el proceso",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Erreur du process",
+  },
+  instane_created_1a : {
+    en : "your current uuid is already used... ",
+    es : "Error durante el proceso",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Erreur du process",
+  },
+  instane_deleted_1a : {
+    en : "your apiviz instance has been deleted... ",
+    es : "Error durante el proceso",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Erreur du process",
+  },
+
   // WELCOME NAV
     welcome_nav : {
       en : "Welcome to the Apiviz dataviz website generator",
