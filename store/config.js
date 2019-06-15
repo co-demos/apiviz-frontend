@@ -1,5 +1,16 @@
 import axios from 'axios'
 
+const emptyConfig = {
+  'global' : undefined,
+  'styles' : undefined,
+  'socials' : undefined,
+  'footer' : undefined,
+  'navbar' : undefined,
+  'routes' : undefined,
+  'tabs' : undefined,
+  'endpoints' : undefined,
+}
+
 export const state = () => ({
 
   // CONSOLE LOG ALLOWED 
@@ -20,16 +31,19 @@ export const state = () => ({
   },
 
   // APIVIZ CONFIG
-  config : {
-    'global' : undefined,
-    'styles' : undefined,
-    'socials' : undefined,
-    'footer' : undefined,
-    'navbar' : undefined,
-    'routes' : undefined,
-    'tabs' : undefined,
-    'endpoints' : undefined,
-  },
+  uuidAuth : undefined,
+  isConfigComplete : false,
+  config : emptyConfig,
+  // config : {
+  //   'global' : undefined,
+  //   'styles' : undefined,
+  //   'socials' : undefined,
+  //   'footer' : undefined,
+  //   'navbar' : undefined,
+  //   'routes' : undefined,
+  //   'tabs' : undefined,
+  //   'endpoints' : undefined,
+  // },
 
   localRouteConfig : undefined,
 
@@ -50,8 +64,16 @@ export const getters = {
   // APP CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getConfig : state => {
-      state.log && console.log( "S-config-G-getConfig / here comes the app config : \n", state.config )
+      // state.log && console.log( "S-config-G-getConfig / here comes the app config : \n", state.config )
       return state.config
+    },
+    getUuidAuth : state => {
+      // state.log && console.log( "S-config-G-getUuidAuth / here comes the uuidAuth : \n", state.uuidAuth )
+      return state.uuidAuth
+    },
+    getIsConfigComplete : state => {
+      // state.log && console.log( "S-config-G-getConfig / getIsConfigComplet / isConfigComplete :", isConfigComplete )
+      return state.isConfigComplete
     },
     getEndpointConfigAuthUsers : state => {
       // state.log && console.log("S-config-G-getEndpointConfigAuthUsers...")
@@ -193,8 +215,9 @@ export const getters = {
   // ENDPOINTS CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getEndpointConfig : (state, getters, rootState, rootGetters) => {
-      // state.log && console.log("\nS-config-getEndpointConfig - state.config.endpoints : \n", state.config.endpoints)
-      // state.log && console.log("S-config-getEndpointConfig - rootState.search.search.dataset_uri : ", rootState.search.search.dataset_uri)
+      state.log && console.log("\nS-config-getEndpointConfig - state.config.endpoints : \n", state.config.endpoints)
+      state.log && console.log("S-config-getEndpointConfig - rootState.search.search.dataset_uri : ", rootState.search.search.dataset_uri)
+      state.log && console.log("S-config-getEndpointConfig - rootState.search.search.endpoint_type : ", rootState.search.search.endpoint_type)
       // state.log && console.log("S-config-getEndpointConfig - rootGetters['search/getSearchDatasetURI'] : ", rootGetters['search/getSearchDatasetURI'])
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === rootState.search.search.endpoint_type
@@ -278,13 +301,21 @@ export const mutations = {
   },
 
   setConfig(state, {type,result}) {
-    // state.log && console.log("S-setConfig ... result : ", result)
+    // state.log && console.log("S-config-M-setConfig ... result : ", result)
     state.config[type] = result
   },
+  setUuidAuth(state, uuidAuth) {
+    // state.log && console.log( "S-config-M-setUuidAuth / uuidAuth : \n", uuidAuth )
+    state.uuidAuth = uuidAuth
+  },
+  setIsConfigComplete(state, isComplete) {
+    // state.log && console.log("S-config-M-setIsConfigComplete ... isComplete : ", isComplete)
+    state.isConfigComplete = isComplete
+  },
   setLocalRouteConfig(state, routeConfig) {
-    // state.log && console.log("S-config-setLocalRouteConfig...")
+    // state.log && console.log("S-config-M-setLocalRouteConfig...")
     state.localRouteConfig = routeConfig
-    // state.log && console.log("S-config-setLocalRouteConfig / state.localRouteConfig : ", state.localRouteConfig)
+    // state.log && console.log("S-config-M-setLocalRouteConfig / state.localRouteConfig : ", state.localRouteConfig)
   },
   setLocalEndpointConfig(state, localEndpointConfig) {
     // state.log && console.log("S-config-M-setLocalEndpointConfig...")
@@ -292,47 +323,111 @@ export const mutations = {
     state.localEndpointConfig = localEndpointConfig
   },
   setCurrentDatasetURI(state, currentDatasetURI) {
-    // state.log && console.log("S-config-setCurrentDatasetURI...")
+    // state.log && console.log("S-config-M-setCurrentDatasetURI...")
     state.currentDatasetURI = currentDatasetURI
   },
   setLocalFiltersConfig(state, localFiltersConfig) {
-    // state.log && console.log("S-config-setLocalFiltersConfig...")
+    // state.log && console.log("S-config-M-setLocalFiltersConfig...")
     state.localFiltersConfig = localFiltersConfig
   },
+
+  // completly reset/empty config 
+  resetConfig(state){
+    state.log && console.log("S-config-M-resetConfig...")
+    state.config = emptyConfig
+    state.isComplete = false
+  }
 
 }
 
 export const actions = {
 
+  // - - - - - - - - - - - - - //
+  // UUID - RELATED
+  // - - - - - - - - - - - - - //
+
+  checkUuidAuth({commit, state, getters, rootGetters}){
+
+    state.log && console.log("S-config-A-checkUuidAuth ... ")
+    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const apivizFrontUUID = rootGetters['getApivizFrontUUID']
+    const authMode = rootGetters['getAuthMode']
+
+    // get user access token if any
+    const userAccessToken = rootGetters['user/getAccessToken']
+
+    let firstArgs = "?auth_mode="+authMode+"&token="+userAccessToken
+
+    let fullUrl   = rootURLbackend+'/check_uuid/'+apivizFrontUUID+firstArgs
+    state.log && console.log("S-config-A-getConfigType / fullUrl : ", fullUrl)
+
+    // get one apiviz instance's auth options
+    return axios
+    .get(fullUrl)
+    .then(response => {
+      // state.log && console.log("S-config-A-checkUuidAuth / response.data : ", response.data)
+      return response.data
+    })
+    .catch( err => 
+      console.log('there was an error trying to fetch UUID auth document', err) 
+    )
+
+  },
+
+  // - - - - - - - - - - - - - //
+  // CONFIG - RELATED
+  // - - - - - - - - - - - - - //
+
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
+    
     // state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
-    // return this.$axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
-    return axios.get(rootURLbackend+'/config/'+configTypeEndpoint+"?uuid="+apivizFrontUUID+args)
+
+    const authMode = rootGetters['getAuthMode']
+    // state.log && console.log("S-config-A-getConfigType / authMode : ", authMode)
+    
+    // get user access token if any
+    const userAccessToken = rootGetters['user/getAccessToken']
+    // state.log && console.log("S-config-A-getConfigType / userAccessToken : ", userAccessToken)
+
+    let firstArgs = configTypeEndpoint+"?uuid="+apivizFrontUUID+"&auth_mode="+authMode+"&token="+userAccessToken
+    let fullUrl   = rootURLbackend+'/config/'+firstArgs+args
+    state.log && console.log("S-config-A-getConfigType / fullUrl : ", fullUrl)
+
+    // get one collection's config items
+    return axios
+    .get(fullUrl)
     .then(response => {
-      // state.log && console.log("\nS-config-A-getConfigType / getConfigType / type : ", type)
-      // state.log && console.log("S-config-A-getConfigType / getConfigType / response.data : ", response.data)
+      // state.log && console.log("\nS-config-A-getConfigType / type : ", type)
+      state.log && console.log("S-config-A-getConfigType / type -", type," - response.data : ", response.data)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
-      // state.log && console.log("S-config-A-getConfigType / getConfigType / type : "+ type + " / app_config ", app_config)
+      // state.log && console.log("S-config-A-getConfigType / type : "+ type + " / app_config ", app_config)
       commit('setConfig', {type:type,result:app_config}); 
       return app_config
     })
     .catch( err => 
-      console.log('there was an error trying to fetch some configuration file', err) 
+      state.log && console.log('there was an error trying to fetch some configuration file', err) 
     )
   },
 
-  getConfigAll({dispatch}) {
+
+  getConfigAll({dispatch}, loginRoute=false) {
+
     let arr = []
-    arr.push(dispatch('getConfigType',{type:'global',    configTypeEndpoint:'global', args:''}) )
-    arr.push(dispatch('getConfigType',{type:'styles',    configTypeEndpoint:'styles', args:''}) )
-    arr.push(dispatch('getConfigType',{type:'socials',   configTypeEndpoint:'socials', args:''}) )
-    arr.push(dispatch('getConfigType',{type:'footer',    configTypeEndpoint:'footer', args:''}) )
-    arr.push(dispatch('getConfigType',{type:'navbar',    configTypeEndpoint:'navbar', args:''}) )
-    arr.push(dispatch('getConfigType',{type:'routes',    configTypeEndpoint:'routes', args:'&as_list=true'}) )
-    arr.push(dispatch('getConfigType',{type:'tabs',      configTypeEndpoint:'tabs',   args:'&as_list=true'}) )
-    arr.push(dispatch('getConfigType',{type:'endpoints', configTypeEndpoint:'endpoints', args:'&as_list=true'}) )
+
+    // get all configuration (all collections) as a list of promises
+    arr.push(dispatch('getConfigType',{type:'global',    configTypeEndpoint:'global',  args:'&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'styles',    configTypeEndpoint:'styles',  args:'&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'socials',   configTypeEndpoint:'socials', args:'&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'footer',    configTypeEndpoint:'footer',  args:'&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'navbar',    configTypeEndpoint:'navbar',  args:'&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'tabs',      configTypeEndpoint:'tabs',    args:'&as_list=true&log_route='+loginRoute}) )
+    arr.push(dispatch('getConfigType',{type:'routes',    configTypeEndpoint:'routes',  args:'&as_list=true&log_route='+loginRoute}) )
+    
+    // protect endpoints config for private apiviz instances : don't retrieve "data_type" == "data" endpoints, juste "data_type" == "user"
+    arr.push(dispatch('getConfigType',{type:'endpoints', configTypeEndpoint:'endpoints', args:'&as_list=true&log_route='+loginRoute}) )
+
     return Promise.all(arr)
   },
 
@@ -340,8 +435,8 @@ export const actions = {
 
     state.log && console.log("S-config-A-editConfig / request : \n", request)
 
-    const authMode = rootGetters['getAuthMode']
-    const rootURLbackend = rootGetters['getRootUrlBackend']
+    const authMode        = rootGetters['getAuthMode']
+    const rootURLbackend  = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
     
     const currentColl = request.currentColl
@@ -362,15 +457,12 @@ export const actions = {
     return axios
     .post( requestUrl, payload )
     .catch( (error) => {
-      console.log('S-config-A-editConfig / error :', error)
+      state.log && console.log('S-config-A-editConfig / error :', error)
     })
     .then(response => {
-      console.log('S-config-A-editConfig / response : \n', response)
-      // reset config after update
-      // this.$store.dispatch('config/getConfigType',{type:currentColl, configTypeEndpoint:currentColl, args:argsConfig}) 
+      state.log && console.log('S-config-A-editConfig / response : \n', response)
       return response
-      }
-    )
+    })
 
   },
 
@@ -401,10 +493,10 @@ export const actions = {
    return axios
     .delete( requestUrl, payload )
     .catch( (error) => {
-      console.log('S-config-A-deleteConfig / error :', error)
+      state.log && console.log('S-config-A-deleteConfig / error :', error)
     })
     .then(response => {
-      console.log('S-config-A-deleteConfig / response : \n', response)
+      state.log && console.log('S-config-A-deleteConfig / response : \n', response)
       // reset config after update
       return response
       }
@@ -433,18 +525,23 @@ export const actions = {
     return axios
     .post( requestUrl, payload )
     .catch( (error) => {
-      console.log('S-config-A-addConfigDoc / error :', error)
+      state.log && console.log('S-config-A-addConfigDoc / error :', error)
     })
     .then(response => {
-      console.log('S-config-A-addConfigDoc / response : \n', response)
+      state.log && console.log('S-config-A-addConfigDoc / response : \n', response)
       return response
       }
     )
 
   },
 
+  resetConfig({state, commit}){
+    state.log && console.log("S-config-A-resetConfig ... ")
+    commit('resetConfig')
+  },
+
   // - - - - - - - - - - - - - //
-  // New config given UUID
+  // NEW CONFIG GIVEN UUID - RELATED
   // - - - - - - - - - - - - - //
 
   getDefaultApivizModels({commit, state, getters, rootGetters}){
@@ -480,10 +577,10 @@ export const actions = {
     // send axios request to backend
     return axios.get(requestUrl)
     .catch( (error) => {
-      state.log &&console.log('S-config-A-getModelFromUuid / error :', error)
+      state.log && console.log('S-config-A-getModelFromUuid / error :', error)
     })
     .then(response => {
-      state.log &&console.log('S-config-A-createNewConfig / response.data : \n', response.data)
+      state.log && console.log('S-config-A-createNewConfig / response.data : \n', response.data)
       return response
     })
 

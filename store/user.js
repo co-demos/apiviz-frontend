@@ -5,22 +5,34 @@ import {
   getObjectDataFromPath,
 } from '~/plugins/utils.js'
 
+const defaultUserInfos = {
+  infos: undefined,
+  role: undefined,
+  isLoggedin: false
+}
+const defaultJwt = {
+  access_token : undefined,
+  refresh_token : undefined,
+}
+
 export const state = () => ({
 
   // CONSOLE LOG ALLOWED 
   log: process.env.ConsoleLog,
 
   // USER-RELATED
-  user : {
-    infos: undefined,
-    role: undefined,
-    isLoggedin: false
-  },
+  user : defaultUserInfos,
+  // user : {
+  //   infos: undefined,
+  //   role: undefined,
+  //   isLoggedin: false
+  // },
 
-  jwt : {
-    access_token : undefined,
-    refresh_token : undefined,
-  },
+  jwt : defaultJwt,
+  // jwt : {
+  //   access_token : undefined,
+  //   refresh_token : undefined,
+  // },
 
 })
 
@@ -44,12 +56,24 @@ export const getters = {
     return roleUserToCheck === userRole
   },
 
+  getAccessToken : (state) => {
+    state.log && console.log('S-user-G-getAccesToken / state : ', state)
+    let token = ( typeof state.jwt !== 'undefined' && state.jwt.access_token === undefined) ? '' : state.jwt.access_token 
+    // state.log && console.log('S-user-G-getAccesToken / token : ', token)
+    return token
+  },
+
+  getRefreshToken : (state) => {
+    let token = ( typeof state.jwt !== 'undefined' && state.jwt.refresh_token === undefined) ? '' : state.jwt.refresh_token 
+    return token
+  },
+
 }
 
 export const mutations = {
 
   setTokens (state, {tokens} ) {
-    // state.log && console.log('S-user-M-setTokens / tokens : ', tokens)
+    state.log && console.log('S-user-M-setTokens / tokens : ', tokens)
     // state.jwt = (tokens && tokens.access_token && tokens.refresh_token) ? tokens : undefined
     state.jwt = tokens
     // state.log && console.log('S-user-M-setTokens / state.jwt : ', state.jwt)
@@ -117,7 +141,7 @@ export const actions = {
     const accessTokenPath = authConfig.resp_fields.access_token.path
     const refreshTokenPath = authConfig.resp_fields.refresh_token.path
     let tokens = (response && response.data ) ? { 
-      access_token   : getObjectDataFromPath(response.data, accessTokenPath), 
+      access_token : getObjectDataFromPath(response.data, accessTokenPath), 
       refresh_token : getObjectDataFromPath(response.data, refreshTokenPath), 
     } : undefined ;
 
@@ -184,16 +208,38 @@ export const actions = {
     state.log && console.log('S-user-A-saveLoginInfos / then... getCheckUserRole - admin : ', getters.getCheckUserRole('admin'))
   },
   
-  logout({commit}){
+  logout({state, getters, commit, dispatch, rootGetters}){
 
-    Cookie.remove('access_token');
-    Cookie.remove('refresh_token');
-    Cookie.remove('user_name');
-    Cookie.remove("user_email");
+    Cookie.remove('access_token')
+    Cookie.remove('refresh_token')
+    Cookie.remove('user_name')
+    Cookie.remove("user_email")
 
-    commit('setTokens', {})
-    commit('setInfos',  {})
+    // commit('setTokens', { tokens : { access_token: undefined, refresh_token : undefined } })
+    commit('setTokens', { tokens : defaultJwt })
+    commit('setInfos',  { })
+
     commit('setRole',   {})
+
+    // prevent abuses by emptying config of private apiviz instances
+    let uuidAuthDoc = rootGetters['config/getUuidAuth']
+    state.log && console.log('S-user-A-logout / uuidAuthDoc : ', uuidAuthDoc)
+    let isUuidPrivate = uuidAuthDoc.private_instance
+    state.log && console.log('S-user-A-logout / isUuidPrivate : ', isUuidPrivate)
+
+    if( isUuidPrivate ){
+      
+      // reset config
+      state.log && console.log("S-user-A-logout / before dispatch('config/resetConfig') ")
+      dispatch( 'config/resetConfig', null, { root : true })
+
+      // redirect to login
+      state.log && console.log("S-user-A-logout / before redirecting to /login ")
+      this.$router.push('/login')
+
+    }
+    return
+
   },
 
 }

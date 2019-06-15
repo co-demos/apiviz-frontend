@@ -559,7 +559,7 @@ export default {
     }),
 
     ...mapGetters({
-      displayableItem : 'search/getDisplayedProject'
+      displayableItem : 'search/getDisplayedProject',
     }),
 
     // default texts

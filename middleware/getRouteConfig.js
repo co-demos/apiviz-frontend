@@ -37,7 +37,7 @@ export default function ({ store, route, redirect }) {
   // log && console.log('-M3- getRouteConfig / currentRouteConfig : ', currentRouteConfig)
 
   // reroute to error if currentRouteConfig is undefined
-  if ( currentRouteConfig === undefined ){
+  if ( typeof currentRouteConfig === 'undefined' ){
     redirect('/')
   }
 
@@ -61,8 +61,8 @@ export default function ({ store, route, redirect }) {
       // log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
   
       let localEndpointConfig = store.getters['config/getEndpointConfig']
-      store.commit('config/setLocalEndpointConfig', localEndpointConfig)
       // log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
+      store.commit('config/setLocalEndpointConfig', localEndpointConfig)
   
       let currentDatasetURI = localEndpointConfig.dataset_uri
       store.commit('config/setCurrentDatasetURI', currentDatasetURI)

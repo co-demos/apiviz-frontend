@@ -12,7 +12,7 @@
             <h3 class="title has-text-grey">
               <!-- YOU'VE BEEN DISCONNECTED -->
               <!-- {{ getText('disconnect_msg') }} -->
-              {{ basicDict.want_disconnect[locale] }}
+              {{ basicDict.disconnect_msg[locale] }}
             </h3>
             <div class="box">
 
@@ -107,7 +107,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
@@ -132,6 +132,10 @@
         locale : state => state.locale,
         user: state => state.user.user,
       }),
+
+      ...mapGetters({
+        isConfigComplete : 'config/getIsConfigComplete',
+      })
 
     },
 
@@ -164,6 +168,16 @@
         this.userEmail = ''
         this.userPassword = ''
         this.$store.dispatch('user/logout')
+        .then(() => {
+          this.log && console.log('C-LogoutScreen-sendLogout / after then...')
+          let isConfigComplete = this.isConfigComplete
+          if ( !isConfigComplete ) {
+            // this.$$nuxt.$router.push('/login')
+          }
+        })
+        .catch(err => {
+          this.log && console.log('C-LogoutScreen-sendLogout / err :', err)
+        })
       }
     }
 

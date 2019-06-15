@@ -30,7 +30,7 @@
 
       </div>
 
-      <!-- NNAVBAR ITEMS -->
+      <!-- NAVBAR ITEMS -->
       <div id="navbarNewInstance" 
         :class="`navbar-menu ${ showNav ? 'is-active' : '' }`"
         >
@@ -630,7 +630,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr v-for="(color, colClass) in specs[ specsRenderer[sfield]['field'] ]">
+                                  <tr v-for="(color, colClass) in specs[ specsRenderer[sfield]['field'] ]" :key="colClass">
                                     <td>
                                       <code>{{ colClass }}</code>
                                     </td>
@@ -783,9 +783,9 @@
 
         locale : 'en',
         listLocales : [
-          'fr', 
           'en', 
           'es', 
+          'fr', 
           // 'de', 
           // 'tr'
         ],

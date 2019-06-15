@@ -1,5 +1,20 @@
 export const BasicDictionnary = {
 
+  // UUID NOT AUTHORIZED 
+  uuid_blocked : {
+    en : "Sorry, this UUID exists but is blocked",
+    es : "Lo sentamos, este UUID existe pero esta bloqueado",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Désolé, cet UUID existe mais est bloqué",
+  },
+  contact_team : {
+    en : "Please contact the Apiviz team or your admin sys",
+    es : "Por favor contacte el Apiviz team o sea su adminn sys",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Merci de contacter la team Apiviz ou votre administrateur système",
+  },
   // WELCOME NAV
     welcome_nav : {
       en : "Welcome to the Apiviz dataviz website generator",
@@ -700,8 +715,8 @@ export const BasicDictionnary = {
     fr : "Se déconnecter",
   },
   disconnect_msg : { 
-    en : "successfully disconnected",
-    es : "se disconecto con exito",
+    en : "you successfully disconnected",
+    es : "se disconectó con exito",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Vous avez été déconnecté.e avec succès",
@@ -712,6 +727,13 @@ export const BasicDictionnary = {
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Voulez-vous vous déconnecter?",
+  },
+  want_reconnect: { 
+    en : "Do you want to reconnect?",
+    es : "¿Queréis reconectarse?",
+    tr : "yapılmamış",
+    de : "ungemacht",
+    fr : "Voulez-vous vous reconnecter?",
   },
   is_account     : { 
     en : "You already have an account?",
