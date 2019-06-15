@@ -319,6 +319,41 @@ export const BasicDictionnary = {
     },
 
   // EMAIL
+    admin_1a : {
+      en : "admin infos ",
+      es : "infos admin",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "infos admin",
+    },
+    name_1a : {
+      en : "your name ",
+      es : "su nombre",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "votre prénom",
+    },
+    name_1b : {
+      en : "your name as the first admin",
+      es : "su nombre de admin",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "votre prénom de premier admin",
+    },
+    surname_1a : {
+      en : "your surname ",
+      es : "su apellido",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "votre nom de famille",
+    },
+    surname_1b : {
+      en : "your surname as the first admin",
+      es : "su apellido de admin",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "votre nom de famille ",
+    },
     email_1a : {
       en : "your email ",
       es : "su email",
@@ -333,7 +368,6 @@ export const BasicDictionnary = {
       tr : "to do tr",
       fr : "l'email qui vous servira pour vous connecter en tant que premier admin",
     },
-
   // CREATE
     create_1a : {
       en : "Generate your new website",

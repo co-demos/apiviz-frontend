@@ -600,6 +600,8 @@ export const actions = {
       new_title : request.new_title,
       new_logoUrl : request.new_logoUrl,
       model_admin_email : request.new_admin,
+      model_admin_name : request.new_admin_name,
+      model_admin_surname : request.new_admin_surname,
     } 
     // state.log && console.log("S-config-A-createNewConfig / payload : \n", payload)
     

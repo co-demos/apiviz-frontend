@@ -469,31 +469,74 @@
 
                 </div>
 
-                <!-- STEPS 4 / EMAIL -->
+                <!-- STEPS 4 / ADMIN NAME / SURNAME / EMAIL  -->
                 <div class="step-content has-text-centered">
 
                   <br>
 
-                  <!-- CHOOSE AN EMAIL -->
-                  <div class="field is-horizontal">
-                    <div class="field-label" style="flex-grow : 3">
-                      <label class="label">
-                        {{ basicDict.email_1a[locale] }}
-                      </label>
-                    </div>
-                    <div class="field-body">
-                      <div class="field">
-                    <div class="control">
-                      <input 
-                        class="input has-text-centered" 
-                        v-model="new_admin_email"
-                        type="email" 
-                        :placeholder="basicDict.email_1b[locale]"
-                        >
-                    </div>
+                  <!-- CHOOSE AN ADMIN NAME / SURNAME / EMAIL -->
+                  <div class="columns is-centered">
+                    <div class="column is-8">
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.name_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_name"
+                            type="text" 
+                            :placeholder="basicDict.name_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.surname_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_surname"
+                            type="text" 
+                            :placeholder="basicDict.surname_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.email_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_email"
+                            type="email" 
+                            :placeholder="basicDict.email_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
                   <br>
 
                   <hr class="no-bottom-margin">
@@ -571,6 +614,17 @@
                         </figure>
                       </div>
 
+                      <!-- REPEAT ADMIN INFOS -->
+                      <div class="is-divider" 
+                        :data-content="basicDict.admin_1a[locale]">
+                      </div>
+                      <p class="content hast-text-centered">
+                        {{ new_admin_name }} 
+                        <strong>{{ new_admin_surname }}</strong>
+                      </p>
+                      <p class="content hast-text-centered">
+                        {{ new_admin_email }}
+                      </p>
                     </div>
                     
                     <!-- IMAGE PREVIEW OF SELECTED MODEL -->
@@ -807,6 +861,8 @@
         new_title : 'my new Apiviz website',
         new_logoUrl : 'https://github.com/co-demos/carto-sonum/blob/master/logos/logo%2Bmarianne_typo%20sombre%404x.png?raw=true',
         new_admin_email : '',
+        new_admin_name : '',
+        new_admin_surname : '',
 
         basicDict : BasicDictionnary, 
         specsRenderer : {
@@ -848,6 +904,8 @@
           new_title : this.new_title,
           new_logoUrl : this.new_logoUrl,
           new_admin : this.new_admin_email,
+          new_admin_name : this.new_admin_name,
+          new_admin_surname : this.new_admin_surname,
         }
       },
 
