@@ -230,6 +230,24 @@
             </div>
 
 
+            <!-- STEPPER RESPONSE MESSAGE -->
+            <div 
+              v-show="responseMessage && responseModalOpen "
+              >
+              <div 
+                :class="`notification ${ responseStatus === 200 ? 'is-info' : 'is-danger'}`">
+                <button 
+                  class="delete"
+                  @click="responseModalOpen = false"
+                  >
+                </button>
+                <p class="has-text-centered">
+                {{ responseMessage }}
+                </p>
+              </div>
+              <br>
+            </div>
+
             <!-- STEPPER -->
             <div 
               v-show="showSteps"
@@ -785,14 +803,6 @@
 
     <br>
     <br>
-    <!-- <br> -->
-    <!-- 
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br> 
-    -->
 
   </div>
 </template>
@@ -847,8 +857,9 @@
 
         showSteps : false,
 
-        errorMessage : undefined,
-        errorModalOpen : false,
+        responseMessage : undefined,
+        responseStatus : 200,
+        responseModalOpen : true,
 
         searchLoading : false,
         createLoading : false,
@@ -951,7 +962,9 @@
         .catch((error) =>{
           this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / error : ', error)
           this.searchLoading = false
+          this.errorModadOpen = true
           this.errorMessage = error
+          this.responseStatus = 500
         })
 
       },
@@ -968,13 +981,20 @@
         // this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / request \n : ', request)
         this.$store.dispatch('config/createNewConfig', request)
         .then( resp => {
-          // this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / resp.data \n : ', resp.data)
+          this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / resp.data \n : ', resp.data)
           this.createLoading = false
+
+          this.responseModadOpen = true
+          this.responseMessage = resp.data.msg
+          this.responseStatus = resp.data.status
+
         })
         .catch((error) => {
           this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / error : ', error)
           this.createLoading = false
-          this.errorMessage = error
+          this.responseModadOpen = true
+          this.responseMessage = error
+          this.responseStatus = 500
         })
 
       },
