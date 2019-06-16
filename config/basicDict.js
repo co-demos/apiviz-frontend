@@ -1,5 +1,6 @@
 export const BasicDictionnary = {
 
+  // DEFAULT STRINGS
   empty_dict : {
     en : " ",
     es : " ",
