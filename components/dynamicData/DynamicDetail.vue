@@ -553,7 +553,7 @@ export default {
   computed: {
 
     ...mapState({
-      log : state => state.log, 
+      log: state => state.log, 
       locale : state => state.locale,
       user: state => state.user.user,
     }),

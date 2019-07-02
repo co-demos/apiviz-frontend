@@ -253,7 +253,7 @@ export const getters = {
       });
     },
     getEndpointConfigStat : (state, getters, rootState) => {
-      // state.log && console.log("S-config-getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
+      state.log && console.log("S-config-getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'stat'
         && r.dataset_uri === rootState.search.search.dataset_uri;
@@ -287,7 +287,7 @@ export const getters = {
 
       const noAbstractDict = state.config.global.app_basic_dict[f]
       // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
-      let text = noAbstractDict.find(t=>t.locale == rootState.locale )
+      let text = noAbstractDict.find( t=>t.locale == rootState.locale )
       return text.text
     },
 

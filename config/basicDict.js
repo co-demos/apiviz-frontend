@@ -9,6 +9,59 @@ export const BasicDictionnary = {
     fr : " ",
   },
 
+  // TABS VIEWS 
+  tab_map : {
+    en : "map",
+    es : "mapa",
+    de : "Karte",
+    tr : "harita",
+    fr : "carte",
+  },
+  tab_list : {
+    en : "list",
+    es : "lista",
+    de : "Liste",
+    tr : "liste",
+    fr : "liste",
+  },
+  tab_stat : {
+    en : "stats",
+    es : "datos",
+    de : "statis",
+    tr : "istat",
+    fr : "données",
+  },
+
+  // 
+  request_loading : {
+    en : "request is pending...",
+    es : "búsqueda está pendiente...",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Recherche en cours...",
+  },
+  no_results : {
+    en : "No results",
+    es : "No resultados",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Pas de résultats",
+  },
+  no_results_help : {
+    en : "For more results, please change your search criterias",
+    es : "Para tener mas resultados, cambie sus criterios",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Pour obtenir plus de résultats, modifiez vos critères de recherche",
+  },
+  delete_all_filters : {
+    en : "Delete all filters",
+    es : "Suprimir todos los fieltros",
+    de : "to do de",
+    tr : "to do tr",
+    fr : "Supprimer tous les filtres",
+  },
+
   // UUID NOT AUTHORIZED 
   uuid_blocked : {
     en : "Sorry, this UUID exists but is blocked",

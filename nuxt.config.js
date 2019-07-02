@@ -118,6 +118,7 @@ export default {
     // '~/plugins/utils',
     '~/plugins/json-editor',
     { src: '~/plugins/mapbox', mode: 'client' },
+    { src: '~/plugins/apexCharts', mode: 'client' },
   ],
 
   /*

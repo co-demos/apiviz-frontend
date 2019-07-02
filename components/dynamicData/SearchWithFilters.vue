@@ -148,7 +148,7 @@
     },
 
     beforeMount : function(){
-      // this.log && console.log('\nC-SearchWithFilters / beforeMount...')
+      this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
     },
 

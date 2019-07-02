@@ -1,5 +1,5 @@
 <template>
-  <section class="search-results-list">
+  <section class="search-results-stats">
 
     <!-- DEBUGGING -->
     <!-- <div class="container"> -->
@@ -18,21 +18,24 @@
 
     <div class="container" v-if="!pending">
       <SearchResultsCountAndTabs 
-        :view="VIEW_LIST"
+        :view="VIEW_STAT"
       />
 
-      <div class="columns" v-if="total > 0" >
-        <div class="column is-3" v-for="(itemsColumn, i) in projectColumns" :key="i">
-          <div class="columns is-multiline">
-            <ProjectCard 
-              v-for="item in itemsColumn" 
-              :key="item.id" 
-              :item="item"
-              :contentFields="projectContentsFields"
-              :view="VIEW_LIST"
-              />
-          </div>
-        </div>
+      <!-- <div class="columns" v-if="total > 0" > -->
+      <div class="columns" >
+
+
+
+
+        TEST STATS
+        <br>
+
+        <apexchart width="500" type="line" :options="options" :series="series_line"></apexchart>
+        <br>
+        <apexchart width="380" type="donut" :options="{}" :series="series_doughnut"></apexchart>
+
+
+
       </div>
 
       <div class="no-result error" v-if="total === 0">
@@ -60,21 +63,20 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
 
-  import ProjectCard from './ProjectCard.vue'
   import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 
-  import { VIEW_LIST } from '../../config/constants.js'
+  import { VIEW_STAT } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
+
 
   let scrollListener;
 
   export default {
 
-    name: 'SearchResultsList',
+    name: 'SearchResultsStats',
 
     components: {
-      ProjectCard,
-      SearchResultsCountAndTabs
+      SearchResultsCountAndTabs,
     },
 
     props: [
@@ -99,9 +101,29 @@
 
     data(){
       return {
-        VIEW_LIST,
+        VIEW_STAT,
         showCount: undefined,
+
         basicDict : BasicDictionnary, 
+
+
+        // TEST DATA FOR APEX CHARTS
+        options: {
+          chart: {
+            id: 'vuechart-example'
+          },
+          xaxis: {
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          }
+        },
+        series_line: [{
+          name: 'series-1',
+          data: [30, 40, 45, 50, 49, 60, 70, 91]
+        }],
+        series_doughnut: [44, 55, 41, 17, 15]
+        // END TEST DATA FOR APEX CHARTS
+
+
       }
     },
 
@@ -140,11 +162,11 @@
       },
 
       ...mapState({
-        log : 'log', 
+        log : state => state.log, 
         locale : state => state.locale,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
-        total: state => state.search.search.answer.result && state.search.search.answer.result.total,
+        // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
         hasSelectedFilters: state => {
           const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
           // console.log('C-SearchResultsList / selectedFilters : ', selectedFilters)
@@ -157,32 +179,8 @@
 
       ...mapGetters({
         pending : 'search/getPending',
-        projects : 'search/getResults',
         total : 'search/getResultsCount',
       }),
-
-      projectColumns(){
-
-        // this.log && console.log('\nC-SearchResultsList / projectColumns ...')
-
-        // const {projects} = this.$store.state.search.search.answer.result;
-        const {projects} = this.$store.getters['search/getResultObject']
-        // this.log && console.log('C-SearchResultsList / projectColumns / projects : ', projects)
-
-        const getSearchConfigColumnCount = this.$store.getters['search/getSearchConfigColumnCount']
-        // this.log && console.log('C-SearchResultsList / projectColumns / getSearchConfigColumnCount : ', getSearchConfigColumnCount)
-
-        if ( projects && getSearchConfigColumnCount ){
-          const columnsData = Array(getSearchConfigColumnCount).fill().map(() => []);
-
-          projects.slice(0, this.showCount).forEach((p, i) => {
-              columnsData[i%getSearchConfigColumnCount].push(p);
-          })
-
-          // this.log && console.log('C-SearchResultsList / projectColumns / columnsData : ', columnsData)
-          return columnsData
-        }
-      },
 
 
 
@@ -205,7 +203,7 @@
 <style scoped>
 
   /* TODO SASS : make a variable out of this background-value. Also used in SearchResultsCountAndTabs */
-  .search-results-list{
+  .search-results-stats{
       background-color: #F6F6F6;
       width: 100%;
 

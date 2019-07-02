@@ -9,7 +9,7 @@ export default function ({ store, route, redirect }) {
     'DynamicList' , 
     'DynamicDetail' , 
     'DynamicMap' , 
-    // 'DynamicStat', 
+    'DynamicStats', 
     // 'DynamicListDense' 
   ]
 
@@ -44,6 +44,7 @@ export default function ({ store, route, redirect }) {
   else {
 
     store.commit('config/setLocalRouteConfig', currentRouteConfig)
+
     // check if route is dynamic data
     if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
       
@@ -58,15 +59,15 @@ export default function ({ store, route, redirect }) {
   
       // get current dataset_uri for comparison
       let previousDatasetURI = store.getters['config/getCurrentDatasetURI']
-      // log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
+      log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
   
       let localEndpointConfig = store.getters['config/getEndpointConfig']
-      // log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
+      log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
       store.commit('config/setLocalEndpointConfig', localEndpointConfig)
   
       let currentDatasetURI = localEndpointConfig.dataset_uri
       store.commit('config/setCurrentDatasetURI', currentDatasetURI)
-      // log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
+      log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
   
       // rebuild filter if dataset_uri had changed
       if ( previousDatasetURI !== currentDatasetURI ){

@@ -1,18 +1,18 @@
-<!-- Tufts VUE 3.3.0 concept-map (DATA_WORKFLOW.vue) 2019-06-27 -->
+<!-- Tufts VUE 3.3.0 concept-map (DATA_WORKFLOW_02.vue) 2019-06-27 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/Resources/Java/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Thu Jun 27 12:56:50 CEST 2019 by jpy on platform Mac OS X 10.14.5 in JVM 9.0.4+11 -->
+<!-- Do Not Remove: Saved date Thu Jun 27 12:58:21 CEST 2019 by jpy on platform Mac OS X 10.14.5 in JVM 9.0.4+11 -->
 <!-- Do Not Remove: Saving version @(#)VUE: built October 8 2015 at 1658 by tomadm on Linux 2.6.32-504.23.4.el6.x86_64 i386 JVM 1.7.0_21-b11(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
-    label="DATA_WORKFLOW.vue" created="1557058466769" x="0.0" y="0.0"
+    label="DATA_WORKFLOW_02.vue" created="1557058466769" x="0.0" y="0.0"
     width="7156.4854" height="5085.9775" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1561633010707" size="379529"
-        spec="/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW.vue"
+    <resource referenceCreated="1561633101370"
+        spec="/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW_02.vue"
         type="1" xsi:type="URLResource">
-        <title>DATA_WORKFLOW.vue</title>
-        <property key="File" value="/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW.vue"/>
+        <title>DATA_WORKFLOW_02.vue</title>
+        <property key="File" value="/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW_02.vue"/>
     </resource>
     <fillColor>#FFFFFF</fillColor>
     <strokeColor>#404040</strokeColor>
@@ -7391,5 +7391,5 @@
     <date>2019-05-05</date>
     <modelVersion>6</modelVersion>
     <saveLocation>/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations</saveLocation>
-    <saveFile>/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW.vue</saveFile>
+    <saveFile>/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/DATA_WORKFLOW_02.vue</saveFile>
 </LW-MAP>

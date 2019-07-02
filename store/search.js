@@ -41,6 +41,7 @@ export const state = () => ({
       query: '', // new URL(location).searchParams.get('text') || '',
 
       forMap : false,
+      forStats : false,
 
       onlyGeocoded : true,
 

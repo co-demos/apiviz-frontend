@@ -3,6 +3,7 @@
   <!-- <div :class="`count-and-tabs ${ view == VIEW_MAP ? 'is-map' : 'is-not-map'}`"> -->
   <div :class="`count-and-tabs`">
 
+    <!-- FEEEDBACK COUNT -->
     <div :class="['result-count-parent', open ? 'open' : undefined]">
 
       <div class="results-count">
@@ -19,6 +20,8 @@
 
     </div>
 
+
+    <!-- SHUFFLER -->
     <div v-if="endpointConfigFilters.has_shuffle"
       :class="['result-count-parent', open ? 'open' : undefined]">
       <div class="">
@@ -32,6 +35,7 @@
       </div>
     </div>
 
+
     <!-- DEBUGGING -->
     <!-- <div class="container"> -->
       <!-- -- SearchResultsCountAndTabs --<br> -->
@@ -39,10 +43,13 @@
       <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
     <!-- </div> -->
 
+
+    <!-- BTNS VIEWS -->
     <div class="buttons has-addons is-right">
 
+      <!-- BTN LIST -->
       <nuxt-link 
-        v-if="typeof endpointConfigList !== 'undefined'"
+        v-if="typeof endpointConfigList !== 'undefined' && endpointConfigList.is_visible"
         :disabled="endpointConfigList.is_disabled" 
         :to="endpointConfigUrlToList.urls[0]" 
         :class="['button has-text-centered', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : undefined]" 
@@ -50,11 +57,15 @@
         <span class="icon">
           <i class="fas fa-th-large"></i>
         </span>
-        <span>{{ translate(configTabs('tab_list')) }}</span>
+        <span>
+          <!-- {{ translate(configTabs('tab_list')) }} -->
+          {{ basicDict.tab_list[locale] }}
+        </span>
       </nuxt-link>
 
+      <!-- BTN MAP -->
       <nuxt-link
-        v-if="typeof endpointConfigMap !== 'undefined'"
+        v-if="typeof endpointConfigMap !== 'undefined' && endpointConfigMap.is_visible"
         :disabled="endpointConfigMap.is_disabled" 
         :to="endpointConfigUrlToMap.urls[0]" 
         :class="['button has-text-centered', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined]" 
@@ -62,18 +73,27 @@
         <span class="icon">
           <i class="far fa-map"></i>
         </span>
-        <span>{{ translate(configTabs('tab_map')) }}</span>
+        <span>
+          <!-- {{ translate(configTabs('tab_map')) }} -->
+          {{ basicDict.tab_map[locale] }}
+        </span>
       </nuxt-link>
 
-      <!-- <nuxt-link
-        v-if="typeof endpointConfigUrlToStat !== 'undefined'"
+      <!-- BTN STATS -->
+      <nuxt-link
+        v-if="typeof endpointConfigStat !== 'undefined' && endpointConfigStat.is_visible"
         :disabled="endpointConfigStat.is_disabled" 
         :to="endpointConfigUrlToStat.urls[0]" 
-        :class="['button', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined]" 
+        :class="['button has-text-centered', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : undefined]" 
         >
-        <img src="~/assets/icons/icon_dataviz.svg">
-        <span>{{ translate(configTabs('tab_stat')) }}</span>
-      </nuxt-link> -->
+        <span class="icon">
+          <i class="far fa-chart-bar"></i>
+        </span>
+        <span>
+          <!-- {{ translate(configTabs('tab_stat')) }} -->
+          {{ basicDict.tab_stat[locale] }}
+        </span>
+      </nuxt-link>
 
     </div>
 
@@ -81,85 +101,97 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
 
-import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
+  import { mapState, mapGetters } from 'vuex'
 
-export default {
+  import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
-  name: 'SearchResultsCountAndTabs',
-  
-  props: [
-    'view', 
-    'open'
-  ],
+  export default {
 
-  data(){
-    return {
-      VIEW_MAP, 
-      VIEW_LIST,
-      VIEW_STAT,
-    }
-  },
+    name: 'SearchResultsCountAndTabs',
+    
+    props: [
+      'view', 
+      'open'
+    ],
 
-  beforeMount : function(){
-    this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
-  },
+    data(){
+      return {
 
-  mounted(){
-    this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
-  },
+        VIEW_MAP, 
+        VIEW_LIST,
+        VIEW_STAT,
 
-  computed: {
+        basicDict : BasicDictionnary, 
 
-    ...mapState({
-      log : state => state.log, 
-      locale : state => state.locale,
-      // pending: state => !!state.search.search.answer.pendingAbort,
-      // total: state => state.search.search.answer.result && state.search.search.answer.result.total
-    }),
-
-    ...mapGetters({
-      pending : 'search/getPending',
-      total : 'search/getResultsCount',
-
-      endpointConfigFilters : 'config/getEndpointConfigFilters',
-      endpointConfigList : 'config/getEndpointConfigList',
-      endpointConfigMap : 'config/getEndpointConfigMap',
-      endpointConfigDetail : 'config/getEndpointConfigDetail',
-      endpointConfigStat : 'config/getEndpointConfigStat',
-
-      endpointConfigUrlToList : 'config/getRouteConfigListForDataset',
-      endpointConfigUrlToMap : 'config/getRouteConfigMapForDataset',
-    }),
-
-  },
-
-  methods : {
-
-    configTabs(tabField) {
-      let tabsConf = this.$store.state.config.config.global.app_screen_tabs
-      return tabsConf[tabField]
+      }
     },
 
-    reShuffle() {
-
-    },
-    translate( textsToTranslate ) {
-      let listTexts = textsToTranslate.link_text
-      return this.$Translate( listTexts, this.locale, 'text')
-      // return this.$store.getters.getTranslation({ texts : listTexts })
+    beforeMount : function(){
+      this.log && console.log('\nC-SearchResultsCountAndTabs / beforeMount...')
     },
 
-    translateBis( textsToTranslate, listField ) {
-      let listTexts = textsToTranslate[listField]
-      return this.$Translate( listTexts, this.locale, 'text')
-      // return this.$store.getters.getTranslation({ texts : listTexts })
+    mounted(){
+      this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
+    },
+
+    computed: {
+
+      ...mapState({
+        log : state => state.log, 
+        locale : state => state.locale,
+        // pending: state => !!state.search.search.answer.pendingAbort,
+        // total: state => state.search.search.answer.result && state.search.search.answer.result.total
+      }),
+
+      ...mapGetters({
+        pending : 'search/getPending',
+        total : 'search/getResultsCount',
+
+        endpointConfigFilters : 'config/getEndpointConfigFilters',
+
+        endpointConfigDetail : 'config/getEndpointConfigDetail',
+
+        endpointConfigList : 'config/getEndpointConfigList',
+        endpointConfigMap  : 'config/getEndpointConfigMap',
+        endpointConfigStat : 'config/getEndpointConfigStat',
+
+        endpointConfigUrlToList : 'config/getRouteConfigListForDataset',
+        endpointConfigUrlToMap  : 'config/getRouteConfigMapForDataset',
+        endpointConfigUrlToStat : 'config/getRouteConfigStatForDataset',
+      }),
+
+    },
+
+    methods : {
+
+      // configTabs(tabField) {
+      //   let tabsConf = this.$store.state.config.config.global.app_screen_tabs
+      //   return tabsConf[tabField]
+      // },
+
+      reShuffle() {
+        // TO DO 
+      },
+
+      // translate( textsToTranslate ) {
+      //   let listTexts = textsToTranslate.link_text
+      //   return this.$Translate( listTexts, this.locale, 'text')
+      // },
+
+      translateBis( textsToTranslate, listField ) {
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
+
+      getDefaultText(txt_code){
+        return this.$store.getters['config/defaultText']({txt:txt_code})
+      },
+
     }
 
   }
-
-}
 </script>
 
 <style lang="scss" scoped>

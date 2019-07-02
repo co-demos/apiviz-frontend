@@ -200,8 +200,8 @@ export function searchItems(url=undefined, responsePaths=undefined){
 export function searchEndpointGenerator(obj) {
   if (!obj) { throw 'error in searchEndpointGenerator: no parameter defined' }
 
-  // console.log("+ + + searchEndpointGenerator / ...")
-  // console.log("+ + + searchEndpointGenerator / obj : \n ", obj)
+  console.log("+ + + searchEndpointGenerator / ...")
+  console.log("+ + + searchEndpointGenerator / obj : \n ", obj)
 
   // endpoint config related
   const endpointConfig = obj.endpointConfig
@@ -214,15 +214,25 @@ export function searchEndpointGenerator(obj) {
   // base query to be completed with args + questions
   let baseQuery = endpointConfig.root_url + '?'
 
-  const appArgs = ['query', 'forMap', 'page', 'perPage', 'onlyGeocoded', 'itemId', 'shuffleSeed' ]
+  const appArgs = [
+    'query', 
+    'forMap', 
+    'forStats', 
+    'page', 
+    'perPage', 
+    'onlyGeocoded', 
+    'itemId', 
+    'shuffleSeed' 
+  ]
   
   // loop in routeArgs + queries then append to baseQuery
   let argsArray = []
   for (let key in endpointConfigArgs ) {
     const EndpointArg = endpointConfigArgs[key]
     // console.log("+ + + searchEndpointGenerator / EndpointArg : ", EndpointArg)
+    // if ( !EndpointArg.optional || appArgs.includes(EndpointArg.app_arg) ){
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
-      if ( questionParams[EndpointArg.app_arg] ) {
+        if ( questionParams[EndpointArg.app_arg] ) {
         let argString = EndpointArg.arg + '=' + questionParams[EndpointArg.app_arg]
         argsArray.push(argString)
       }
