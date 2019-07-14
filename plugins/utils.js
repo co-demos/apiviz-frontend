@@ -1,5 +1,8 @@
 
-// console.log('+ + + plugins/utils... ')
+console.log('+ + + plugins/utils... ')
+
+import axios from 'axios'
+const CancelToken = axios.CancelToken;
 
 // feature test for AbortController that works in Safari 12
 let abortableFetchSupported = false;
@@ -22,6 +25,7 @@ catch(e){
   abortableFetchSupported = false;
 }
 
+// choose error template if needed
 export function chooseTemplate(templates, locale){
   if (templates) {
     let template = templates.find(t => {
@@ -100,7 +104,7 @@ export function activateBulmaExtension(extension, pointer, options){
 
 // TO DO => COMMENT ALL THAT SHIT / getItemById
 // server-side end-point to get only one project
-  export function getItemById(id, endpointConfig){
+  export function getItemById(id, endpointConfig, userAccessToken, endpointAuthConfig){
 
     // const url = searchEnpointCreator({
     //   page:1,
@@ -111,14 +115,20 @@ export function activateBulmaExtension(extension, pointer, options){
     console.log("\nPL-getItemById ..." )
     console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
 
-    const url = searchEndpointGenerator({
+    const enndPointUrlAndPayload = searchEndpointGenerator({
       endpointConfig : endpointConfig,
       questionParams : { itemId : id },
       selectedFilters : [],
+      authConfig : endpointAuthConfig,
+      accesToken : userAccessToken
     })
+    let url = enndPointUrlAndPayload.requestUrl
     console.log("\PL-getItemById / url : ", url )
 
-    return fetch(url)
+    let payload = enndPointUrlAndPayload.requestPayload
+    console.log("\PL-getItemById / payload : ", payload )
+
+    return fetch( url )
     .then(r => r.json())
     .then(({data, query}) =>
       data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
@@ -140,53 +150,90 @@ export function resolvePathString(path, obj=self, separator='/') {
 
 }
 
-export function searchItems(url=undefined, responsePaths=undefined){
+// export function searchItems( url=undefined, responsePaths=undefined, endpointRawConfig=undefined ){
+export function searchItems( endpointGenerated=undefined, endpointRawConfig=undefined ){
 
-  console.log("\n+ + + searchItems ... ");
+  console.log("\n+ + + searchItems ... ")
+  console.log("+ + + searchItems / endpointGenerated : ", endpointGenerated)
+  console.log("+ + + searchItems / endpointRawConfig : ", endpointRawConfig)
 
-  console.log("+ + + searchItems / url : ", url);
+  let fetchHeader = endpointGenerated.requestHeader
+  console.log("+ + + searchItems / fetchHeader : ", fetchHeader)
+
+  let fetchUrl = endpointGenerated.requestUrl
+  console.log("+ + + searchItems / fetchUrl : ", fetchUrl)
+
+  let fetchPayload = endpointGenerated.requestPayload
+  console.log("+ + + searchItems / fetchPayload : ", fetchPayload)
+
+  let fetchMethod = endpointRawConfig.method
+  console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
+
+  let responsePaths = endpointRawConfig.resp_fields
+  console.log("+ + + searchItems / responsePaths : ", responsePaths)
 
   // abort fetch if this is supported
   // abort manually when response arrives otherwise
   const ac = abortableFetchSupported ? new AbortController() : undefined
   let searchAborted = false
 
+  // set up fetch options
+  let fetchOptions = { 
+    method : fetchMethod,
+    signal: ac.signal,
+    header : fetchHeader
+  }
+  // set up axios options
+  let axiosOptions = {
+    url : fetchUrl,
+    method : fetchMethod,
+    header : fetchHeader
+  }
+
+  let payloadJson = JSON.stringify( fetchPayload )
+  if ( fetchMethod !== 'GET' ){
+    fetchOptions['body'] = payloadJson
+    axiosOptions['data'] = payloadJson
+  } 
+
+
+  // try {
+  //   console.log("+ + + searchItems / (axios) sending request...")
+  //   axios( axiosOptions )
+  //   .then( response => {
+  //     console.log("+ + + searchItems / (axios) response : ", response)
+  //   })
+  // }
+  // catch(error){
+  //   console.log("+ + + searchItems / (axios) error : ", error)
+  // }
+
   return {
     abort(){
       searchAborted = true
-      if(ac)
-          ac.abort()
+      if( ac )
+        ac.abort()
     },
-    promise: (ac ? fetch(url, {signal: ac.signal} ) : fetch(url))
+    promise: ( ac ? fetch( fetchUrl, fetchOptions ) : fetch(fetchUrl) )
     .then(r => r.json())
     .then(({data, query}) => {
-      if(searchAborted){
+      if ( searchAborted ){
         const error = new Error('Search aborted')
         error.name = 'AbortError'
         throw error
       }
-      else{
+      else {
         // console.log("+ + + searchItems (response) / data :", data);
         
         // read responsePath and populate dataStrcture correspondingly
         // console.log("+ + + searchItems / responsePaths : ", responsePaths);
-        let responseProjects = resolvePathString(responsePaths.projects.path, data, '/')
+        let responseProjects = resolvePathString( responsePaths.projects.path, data, '/')
         // console.log("+ + + searchItems / responseProjects : ", responseProjects);
-        let responseTotal = resolvePathString(responsePaths.total.path, data, '/')
+        let responseTotal = resolvePathString( responsePaths.total.path, data, '/')
         let dataStructure = {
           projects : responseProjects,
           total : responseTotal
         }
-
-        // return {
-        //   projects: data
-        //   && data.data_raw
-        //   && data.data_raw.f_data
-        //   && Array.isArray(data.data_raw.f_data)
-        //   ? data.data_raw.f_data
-        //   : [],
-        //   total: (data && data.data_raw && data.data_raw.f_data_count) ? data.data_raw.f_data_count : 0
-        // }
 
         return dataStructure
 
@@ -197,19 +244,74 @@ export function searchItems(url=undefined, responsePaths=undefined){
 
 }
 
-export function searchEndpointGenerator(obj) {
-  if (!obj) { throw 'error in searchEndpointGenerator: no parameter defined' }
+
+
+export function buildRequestHeader( token, endpointConfigHeaderAuth ){
+  console.log("+ + + buildRequestHeader / token : ", token)
+  console.log("+ + + buildRequestHeader / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
+  let header = {}
+  for (let header_arg of endpointConfigHeaderAuth ){
+    console.log("+ + + buildRequestHeader / token : ", token)
+    header[ header_arg.header_field ] = header_arg.header_value
+    if ( header_arg.is_var && header_arg.app_var_name === 'token' ){
+      header[ header_arg.header_field ] = header_arg.header_value_prefix + token
+    }
+  }
+  return header
+}
+
+export function buildRequestPayload( endpointConfig ){
+  console.log("+ + + buildRequestPayload / endpointConfig : \n ", endpointConfig)
+  let payloadIsArray = endpointConfig.payload_format === 'list'
+  let payload = payloadIsArray ? [] : {}
+  for (let payloadArg of endpointConfig.payload_args ){
+    if ( payloadIsArray ) {
+      let payloadItem = {}
+      for ( let payloadSubArg of payloadArg){
+        let payloadValue = payloadSubArg.payload_value
+        payloadItem[ payloadSubArg.payload_field ] = payloadValue
+      }
+      payload.push( payloadItem )
+    }
+    else {
+      payload[ payloadArg.payload_field ] = payloadArg.payload_value
+    }
+  }
+  return payload 
+}
+
+export function searchEndpointGenerator( obj ) {
+  if ( !obj ) { throw 'error in searchEndpointGenerator: no parameter defined' }
 
   console.log("+ + + searchEndpointGenerator / ...")
   console.log("+ + + searchEndpointGenerator / obj : \n ", obj)
 
   // endpoint config related
   const endpointConfig = obj.endpointConfig
+  console.log("+ + + searchEndpointGenerator / endpointConfig : ", endpointConfig)
+
+  const endpointConfigHeaderAuth = obj.authConfig.request_header_auth_options
+  console.log("+ + + searchEndpointGenerator / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
+
   const endpointConfigArgs = endpointConfig.args_options
+  console.log("+ + + searchEndpointGenerator / endpointConfigArgs : ", endpointConfigArgs)
+
+  let fetchMethod = endpointConfig.method
+  console.log("+ + + searchEndpointGenerator / fetchMethod : ", fetchMethod)
 
   // question related
   const questionParams = obj.questionParams
+  console.log("+ + + searchEndpointGenerator / questionParams : ", questionParams)
+
   const selectedFilters = obj.selectedFilters
+  console.log("+ + + searchEndpointGenerator / selectedFilters : ", selectedFilters)
+
+  const accessToken = obj.accesToken
+  console.log("+ + + searchEndpointGenerator / accessToken : ", accessToken)
+
+  let fetchPayloadOptions = endpointConfig.payload_options
+  console.log("+ + + searchEndpointGenerator / fetchPayloadOptions : ", fetchPayloadOptions)
+
 
   // base query to be completed with args + questions
   let baseQuery = endpointConfig.root_url + '?'
@@ -254,10 +356,23 @@ export function searchEndpointGenerator(obj) {
   let argsLongString = argsArray.join('&')
   baseQuery += argsLongString
 
-
   // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
 
-  return baseQuery
+  // build header from endpointConfig
+  let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth ) 
+
+  // build payload from endpointConfig
+  let payload = buildRequestPayload( fetchPayloadOptions )
+
+  let enndPointUrlAndPayload = {
+    requestHeader : header,
+    requestUrl : baseQuery,
+    requestPayload : payload
+  }
+  console.log("+ + + searchEndpointGenerator / enndPointUrlAndPayload : ", enndPointUrlAndPayload)
+
+  // return baseQuery
+  return enndPointUrlAndPayload
 }
 
 // FILTER RELATED

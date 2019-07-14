@@ -10,7 +10,9 @@ export default function ({ store, route, redirect }) {
     'DynamicDetail' , 
     'DynamicMap' , 
     'DynamicStats', 
-    // 'DynamicListDense' 
+
+    // TO DO 
+    'DynamicListDense' 
   ]
 
   
@@ -87,14 +89,24 @@ export default function ({ store, route, redirect }) {
         // log && console.log('-M3- getRouteConfig / finished ...')
   
       // } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
-      } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' ) {
+      } 
+
+      // else if ( currentRouteConfig.dynamic_template != 'DynamicMap' ) {
+      //   store.commit('search/clearResults')
+      //   if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+      //     log && console.log('-M3- getRouteConfig / dispatching search ...')
+      //     store.dispatch('search/search')
+      //   }
+      // }
+  
+      else {
         store.commit('search/clearResults')
         if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
           log && console.log('-M3- getRouteConfig / dispatching search ...')
           store.dispatch('search/search')
         }
       }
-  
+
     }
 
   }

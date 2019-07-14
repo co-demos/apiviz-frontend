@@ -29,7 +29,7 @@ export default {
   ],
 
   beforeMount : function(){
-    this.log && console.log('\nC-DynamicList / beforeMount...')
+    this.log && console.log('\nC-DynamicStats / beforeMount...')
   },
 
   data: () => {

@@ -224,6 +224,13 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
+    getEndpointConfigByType : (state, getters, rootState) => (endpointType) => {
+      // state.log && console.log("S-config-getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
+      return state.config.endpoints.find(function(r) {
+        return r.endpoint_type === endpointType
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+    },
     getEndpointConfigFilters : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {

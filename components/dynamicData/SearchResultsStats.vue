@@ -92,44 +92,16 @@
       //   console.log("\n - - SearchResultsList / created ... ")
     // },
     beforeMount : function(){
-      // this.log && console.log('\nC-SearchResultsList / beforeMount...')
-      // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
-      // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
-      // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
+      this.log && console.log('\nC-SearchResultsStats / beforeMount...')
+      // this.log && console.log("C-SearchResultsStas / this.routeConfig : \n ", this.routeConfig)
+      // this.log && console.log("C-SearchResultsStas / this.projectContentsFields : \n ", this.projectContentsFields)
+      // this.log && console.log("C-SearchResultsStas / this.$store.state.search : \n ", this.$store.state.search)
       // this.projectContentsFields = this.routeConfig.content_fields
-    },
-
-    data(){
-      return {
-        VIEW_STAT,
-        showCount: undefined,
-
-        basicDict : BasicDictionnary, 
-
-
-        // TEST DATA FOR APEX CHARTS
-        options: {
-          chart: {
-            id: 'vuechart-example'
-          },
-          xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-          }
-        },
-        series_line: [{
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
-        }],
-        series_doughnut: [44, 55, 41, 17, 15]
-        // END TEST DATA FOR APEX CHARTS
-
-
-      }
     },
 
     mounted(){
 
-      // this.log && console.log('Cs-SearchResultsList / mounted ...')
+      // this.log && console.log('Cs-SearchResultsStas / mounted ...')
 
       this.$store.dispatch('search/setSearchConfigDisplay');
       this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
@@ -155,6 +127,35 @@
       }
     },
 
+
+    data(){
+      return {
+        VIEW_STAT,
+        showCount: undefined,
+
+        basicDict : BasicDictionnary, 
+
+        // TO VARIABILIZE
+        // TEST DATA FOR APEX CHARTS
+        options: {
+          chart: {
+            id: 'vuechart-example'
+          },
+          xaxis: {
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          }
+        },
+        series_line: [{
+          name: 'series-1',
+          data: [30, 40, 45, 50, 49, 60, 70, 91]
+        }],
+        series_doughnut: [44, 55, 41, 17, 15]
+        // END TEST DATA FOR APEX CHARTS
+
+
+      }
+    },
+
     computed: {
 
       projectContentsFields() {
@@ -169,7 +170,7 @@
         // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
         hasSelectedFilters: state => {
           const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
-          // console.log('C-SearchResultsList / selectedFilters : ', selectedFilters)
+          // console.log('C-SearchResultsStas / selectedFilters : ', selectedFilters)
           if(!selectedFilters)
               return false;
 

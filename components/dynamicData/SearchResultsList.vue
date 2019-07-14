@@ -22,7 +22,10 @@
       />
 
       <div class="columns" v-if="total > 0" >
-        <div class="column is-3" v-for="(itemsColumn, i) in projectColumns" :key="i">
+        <div class="column is-3" 
+          v-for="(itemsColumn, i) in projectColumns" 
+          :key="i"
+          >
           <div class="columns is-multiline">
             <ProjectCard 
               v-for="item in itemsColumn" 
@@ -97,14 +100,6 @@
       // this.projectContentsFields = this.routeConfig.content_fields
     },
 
-    data(){
-      return {
-        VIEW_LIST,
-        showCount: undefined,
-        basicDict : BasicDictionnary, 
-      }
-    },
-
     mounted(){
 
       // this.log && console.log('Cs-SearchResultsList / mounted ...')
@@ -133,6 +128,14 @@
       }
     },
 
+    data(){
+      return {
+        VIEW_LIST,
+        showCount: undefined,
+        basicDict : BasicDictionnary, 
+      }
+    },
+    
     computed: {
 
       projectContentsFields() {

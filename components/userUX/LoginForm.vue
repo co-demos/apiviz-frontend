@@ -264,9 +264,9 @@
         this.userPassword = ''
         this.$store.dispatch('user/logout')
 
-        let router = this.$router
+        // let router = this.$router
 
-        router.push('logout')
+        this.$router.push('logout')
 
         // redirect after logout (3 seconds)
         // setInterval( function( ){ 

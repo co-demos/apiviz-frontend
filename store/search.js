@@ -471,41 +471,54 @@ export const actions = {
   // FOR QUERY SEARCH TEXT
     searchedTextChanged({state, commit, dispatch}, {searchedText}){
       state.log && console.log("\nS-search-A-searchedTextChanged ..." )
-      commit('setSearchedText', {searchedText})
+      commit('setSearchedText', {searchedText} )
       dispatch('search')
     },
 
 
-
+  // + - + - + - + - + - // 
   // MAIN SEARCH ACTION
-    search({state, commit, dispatch, getters}){
+  // + - + - + - + - + - // 
+    search({state, commit, dispatch, getters, rootGetters}){
 
-      // state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+      state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
       
-      const search = state.search;
+      const search = state.search
       // state.log && console.log("S-search-A-search / search : ", search )
 
-      const selectedFilters = createSelectedFiltersForSearch(getters.getSelectedFilters)
-      // state.log && console.log('S-search-A-search / selectedFilters',selectedFilters);
+      const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
+      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
       // abort previous search if any
       if(search.answer.pendingAbort){
         search.answer.pendingAbort.abort()
       }
+      
+      const endpointRawConfig = state.search.endpoint
+      const responsePaths = endpointRawConfig.resp_fields
+      state.log && console.log("S-sesarch-A-search / responsePaths : \n", responsePaths )
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
-        endpointConfig : state.search.endpoint,
+        endpointConfig : endpointRawConfig,
         questionParams : state.search.question,
         selectedFilters : selectedFilters,
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
       })
-      // state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
-
-      // TO DO - CHANGE FETCH --> USE AXIOS
+      state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
+      
+      
+      // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
       // perform search --> !!! only request map search if map search results empty in store !!! 
-      const responsePaths = state.search.endpoint.resp_fields
-      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
-      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
+      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
@@ -515,37 +528,47 @@ export const actions = {
         // state.log && console.log("S-search-A-search / projects : \n", projects )
 
         // if search is for map either fill resultMap if empty or do nothing
-        commit('setSearchResult', {result: { projects : response.projects, total : response.total }})
+        commit('setSearchResult', { result: { projects : response.projects, total : response.total }})
         // commit('setSearchResult', {result: {projects, total}})
         // commit ('setSearchResultMap', {resultMap: {projects, total}})
       })
       .catch(error => {
         // don't report aborted fetch as errors
         if (error.name !== 'AbortError')
-          commit('setSearchError', {error})
+          commit('setSearchError', { error })
       })
     },
 
-    searchOne({state, commit, dispatch, getters}, id ){
+    searchOne({state, commit, dispatch, getters, rootGetters}, id ){
 
       commit('clearDisplayedProject')
 
       state.log && console.log("\nS-search-A-searchOne ..." )
       state.log && console.log("S-search-A-searchOne / id : ", id )
 
+      const endpointRawConfig = state.search.endpoint
+      const responsePaths = state.search.endpoint.resp_fields
+      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
+
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
-        endpointConfig : state.search.endpoint,
-        questionParams : { itemId : id },
+        endpointConfig : endpointRawConfig,
+        questionParams : state.search.question,
         selectedFilters : [],
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
       })
-      // state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
-
-      const responsePaths = state.search.endpoint.resp_fields
-      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+      state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
 
       // TO DO - CHANGE FETCH --> USE AXIOS
-      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
+      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
