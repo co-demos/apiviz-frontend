@@ -2,7 +2,8 @@
 console.log('+ + + plugins/utils... ')
 
 import axios from 'axios'
-const CancelToken = axios.CancelToken;
+const CancelToken = axios.CancelToken
+const source = CancelToken.source()
 
 // feature test for AbortController that works in Safari 12
 let abortableFetchSupported = false;
@@ -104,49 +105,110 @@ export function activateBulmaExtension(extension, pointer, options){
 
 // TO DO => COMMENT ALL THAT SHIT / getItemById
 // server-side end-point to get only one project
-  export function getItemById(id, endpointConfig, userAccessToken, endpointAuthConfig){
+export function getItemById(id, endpointConfig, userAccessToken, endpointAuthConfig){
 
-    // const url = searchEnpointCreator({
-    //   page:1,
-    //   per_page:1,
-    //   baseUrl:root_url,
-    //   item_id:id
-    // })
-    console.log("\nPL-getItemById ..." )
-    console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
+  // const url = searchEnpointCreator({
+  //   page:1,
+  //   per_page:1,
+  //   baseUrl:root_url,
+  //   item_id:id
+  // })
+  console.log("\nPL-getItemById ..." )
+  console.log("\PL-getItemById / endpointConfig : ", endpointConfig )
 
-    const enndPointUrlAndPayload = searchEndpointGenerator({
-      endpointConfig : endpointConfig,
-      questionParams : { itemId : id },
-      selectedFilters : [],
-      authConfig : endpointAuthConfig,
-      accesToken : userAccessToken
-    })
-    let url = enndPointUrlAndPayload.requestUrl
-    console.log("\PL-getItemById / url : ", url )
+  const endPointUrlAndPayload = searchEndpointGenerator({
+    endpointConfig : endpointConfig,
+    questionParams : { itemId : id },
+    selectedFilters : [],
+    authConfig : endpointAuthConfig,
+    accesToken : userAccessToken
+  })
+  let url = endPointUrlAndPayload.requestUrl
+  console.log("\PL-getItemById / url : ", url )
 
-    let payload = enndPointUrlAndPayload.requestPayload
-    console.log("\PL-getItemById / payload : ", payload )
+  let payload = endPointUrlAndPayload.requestPayload
+  console.log("\PL-getItemById / payload : ", payload )
 
-    return fetch( url )
-    .then(r => r.json())
-    .then(({data, query}) =>
-      data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
-        ? data.data_raw.f_data[0]
-        : undefined
-    )
+  return fetch( url )
+  .then(r => r.json())
+  .then(({data, query}) =>
+    data && data.data_raw && data.data_raw.f_data  && Array.isArray(data.data_raw.f_data)
+      ? data.data_raw.f_data[0]
+      : undefined
+  )
+}
+
+
+// source: https://github.com/jashkenas/underscore/blob/master/underscore.js#L1320
+// export function isObject(obj) {
+//   var type = typeof obj;
+//   return type === 'function' || type === 'object' && !!obj;
+// }
+
+// export function iterationCopy(src) {
+//   // let target = new Object()
+//   let target = {}
+//   for (let prop in src) {
+//     if (src.hasOwnProperty(prop)) {
+//       // if the value is a nested object, recursively copy all it's properties
+//       if (isObject(src[prop])) {
+//         target[prop] = iterationCopy(src[prop])
+//       } else {
+//         target[prop] = src[prop]
+//       }
+//     }
+//   }
+//   return target;
+// }
+
+export const setValueToField = (fields, value) => {
+  const reducer = (acc, item, index, arr) => ({ [item]: index + 1 < arr.length ? acc : value });
+  return fields.reduceRight(reducer, {});
+};
+
+export function objectFromPath( obj, path, separator='/'){
+
+  console.log("+ + + objectFromPath / path : ", path)
+  let object 
+
+  if ( path ){
+
+    var properties = Array.isArray(path) ? path : path.split(separator)
+    console.log("+ + + objectFromPath / properties : ", properties)
+
+    object = properties.reduce((prev, curr) => prev && prev[curr], obj)
+    console.log("+ + + objectFromPath / object : ", object)
+
+  } else {
+    object = obj
   }
 
+  return object
+} 
+
 // cf : https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
-export function resolvePathString(path, obj=self, separator='/') {
-  // console.log("\n+ + + resolvePathString ... ");
-  // console.log("+ + + resolvePathString / path : ", path);
-  // console.log("+ + + resolvePathString / obj : ", obj);
+export function resolvePathString( respField , respFieldsPaths, obj=self, separator='/') {
 
-  var properties = Array.isArray(path) ? path : path.split(separator)
-  // console.log("+ + + resolvePathString / properties : ", properties);
+  console.log("\n+ + + resolvePathString / respField : ", respField)
+  console.log("+ + + resolvePathString / respFieldsPaths : ", respFieldsPaths)
 
-  return properties.reduce((prev, curr) => prev && prev[curr], obj)
+  try {
+    let path = respFieldsPaths[ respField  ].path
+  
+    // console.log("\n+ + + resolvePathString ... ");
+    console.log("+ + + resolvePathString / path : ", path)
+    console.log("+ + + resolvePathString / obj : ", obj)
+  
+    // var properties = Array.isArray(path) ? path : path.split(separator)
+    // console.log("+ + + resolvePathString / properties : ", properties);
+    // let dataObject = properties.reduce((prev, curr) => prev && prev[curr], obj)
+    let dataObject = objectFromPath( obj, path, separator )
+
+    return dataObject
+  } 
+  catch {
+    return {}
+  }
 
 }
 
@@ -157,7 +219,16 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / endpointGenerated : ", endpointGenerated)
   console.log("+ + + searchItems / endpointRawConfig : ", endpointRawConfig)
 
+  let methodsWithPayload = [ "POST", "PUT", "PATCH" ]
+  let fetchMethod = endpointRawConfig.method
+  console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
+
   let fetchHeader = endpointGenerated.requestHeader
+  // let fetchHeader = {
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/json',
+  //   // "Access-Control-Allow-Origin" : "*",
+  // }
   console.log("+ + + searchItems / fetchHeader : ", fetchHeader)
 
   let fetchUrl = endpointGenerated.requestUrl
@@ -165,9 +236,6 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
 
   let fetchPayload = endpointGenerated.requestPayload
   console.log("+ + + searchItems / fetchPayload : ", fetchPayload)
-
-  let fetchMethod = endpointRawConfig.method
-  console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
 
   let responsePaths = endpointRawConfig.resp_fields
   console.log("+ + + searchItems / responsePaths : ", responsePaths)
@@ -186,28 +254,71 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   // set up axios options
   let axiosOptions = {
     url : fetchUrl,
-    method : fetchMethod,
+    method : fetchMethod.toLowerCase(),
     header : fetchHeader
   }
 
   let payloadJson = JSON.stringify( fetchPayload )
-  if ( fetchMethod !== 'GET' ){
-    fetchOptions['body'] = payloadJson
-    axiosOptions['data'] = payloadJson
-  } 
+  console.log("+ + + searchItems / payloadJson : ", payloadJson)
+  if ( methodsWithPayload.includes(fetchMethod) ){
+    fetchOptions.body = payloadJson
+    // fetchOptions.body = fetchPayload
+    axiosOptions.data = payloadJson
+  }
 
+  console.log("+ + + searchItems / fetchOptions : ", fetchOptions)
+  console.log("+ + + searchItems / axiosOptions : ", axiosOptions)
+  console.log("+ + + searchItems / ac : ", ac)
 
   // try {
-  //   console.log("+ + + searchItems / (axios) sending request...")
-  //   axios( axiosOptions )
-  //   .then( response => {
-  //     console.log("+ + + searchItems / (axios) response : ", response)
-  //   })
+    return {
+      abort(){
+        searchAborted = true
+        if( ac )
+          ac.abort()
+      },
+      promise : axios({
+        method: fetchMethod.toLowerCase(),
+        url: fetchUrl,
+        data : payloadJson,
+        headers : fetchHeader,
+        // headers: {
+        //   'Accept' : 'application/json',
+        //   'Content-Type' : 'application/json'
+        // }
+      })
+      .then( resp => {
+        console.log("+ + + searchItems / (axios) / resp :", resp);
+        console.log("+ + + searchItems / (axios) / responsePaths : ", responsePaths);
+
+        let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
+        console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
+
+        let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
+        console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
+
+        let responseStats = resolvePathString( 'stats', responsePaths, resp.data, '/')
+        console.log("+ + + searchItems / (axios) / responseStats : ", responseStats);
+
+        // TO DO => remap responseStats ...
+
+        let dataStructure = {
+          projects : responseProjects,
+          stats : responseStats,
+          total : responseTotal
+        }
+        return dataStructure  
+      })
+      .catch( err => {
+        console.log("+ + + searchItems / (axios)  err :", err);
+      })
+    }
   // }
   // catch(error){
   //   console.log("+ + + searchItems / (axios) error : ", error)
   // }
 
+  /*
   return {
     abort(){
       searchAborted = true
@@ -215,21 +326,22 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
         ac.abort()
     },
     promise: ( ac ? fetch( fetchUrl, fetchOptions ) : fetch(fetchUrl) )
+    // promise: ( ac ? fetch( fetchUrl, fetchOptions ) : fetch(fetchUrl, fetchOptions) )
+    // promise : axios( axiosOptions )
     .then(r => r.json())
-    .then(({data, query}) => {
+    .then(( resp ) => {
+      console.log("+ + + searchItems / (fetch) / resp :", resp);
       if ( searchAborted ){
         const error = new Error('Search aborted')
         error.name = 'AbortError'
         throw error
       }
       else {
-        // console.log("+ + + searchItems (response) / data :", data);
-        
         // read responsePath and populate dataStrcture correspondingly
-        // console.log("+ + + searchItems / responsePaths : ", responsePaths);
-        let responseProjects = resolvePathString( responsePaths.projects.path, data, '/')
-        // console.log("+ + + searchItems / responseProjects : ", responseProjects);
-        let responseTotal = resolvePathString( responsePaths.total.path, data, '/')
+        console.log("+ + + searchItems / (fetch) / responsePaths : ", responsePaths);
+        let responseProjects = resolvePathString( responsePaths.projects.path, resp, '/')
+        console.log("+ + + searchItems / (fetch) / responseProjects : ", responseProjects);
+        let responseTotal = resolvePathString( responsePaths.total.path, resp, '/')
         let dataStructure = {
           projects : responseProjects,
           total : responseTotal
@@ -239,44 +351,78 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
 
       }
     })
-
   }
+  */
 
 }
 
 
 
 export function buildRequestHeader( token, endpointConfigHeaderAuth ){
+
   console.log("+ + + buildRequestHeader / token : ", token)
   console.log("+ + + buildRequestHeader / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
-  let header = {}
+  
+  let headers = {}
+  // let headers = {
+  //   'Accept' : 'application/json',
+  //   'Content-Type' : 'application/json',
+  //   'Authorization' : ""
+  // }
+  // let myHeaders = new Headers()
+
   for (let header_arg of endpointConfigHeaderAuth ){
-    console.log("+ + + buildRequestHeader / token : ", token)
-    header[ header_arg.header_field ] = header_arg.header_value
-    if ( header_arg.is_var && header_arg.app_var_name === 'token' ){
-      header[ header_arg.header_field ] = header_arg.header_value_prefix + token
+
+    // let headerField = header_arg.header_field
+    let headerField = header_arg.header_field
+    console.log("+ + + buildRequestHeader / headerField : ", headerField)
+
+    let headerVal = header_arg.header_value
+    console.log("+ + + buildRequestHeader / headerVal : ", headerVal)
+
+    if ( headerVal && header_arg.app_var_name !== 'token' ) {
+      headers[ headerField ] = headerVal
     }
+
+    if ( header_arg.is_var && header_arg.app_var_name === 'token' && token ){
+      headers[ headerField ] = header_arg.header_value_prefix + token
+      headerVal = header_arg.header_value_prefix + token
+    }
+    // myHeaders.append( headerField, headerVal )
+    // myHeaders[ headerField ] = headerVal 
+
   }
-  return header
+
+  // myHeaders.append('Content-Type', 'application/json')
+
+  // console.log("+ + + buildRequestHeader / myHeaders : ", myHeaders)
+  // return myHeaders
+  
+  console.log("+ + + buildRequestHeader / headers : ", headers)
+  return headers
 }
 
 export function buildRequestPayload( endpointConfig ){
+
   console.log("+ + + buildRequestPayload / endpointConfig : \n ", endpointConfig)
-  let payloadIsArray = endpointConfig.payload_format === 'list'
-  let payload = payloadIsArray ? [] : {}
-  for (let payloadArg of endpointConfig.payload_args ){
-    if ( payloadIsArray ) {
-      let payloadItem = {}
-      for ( let payloadSubArg of payloadArg){
-        let payloadValue = payloadSubArg.payload_value
-        payloadItem[ payloadSubArg.payload_field ] = payloadValue
-      }
-      payload.push( payloadItem )
-    }
-    else {
-      payload[ payloadArg.payload_field ] = payloadArg.payload_value
-    }
-  }
+
+  // let payloadIsArray = endpointConfig.payload_format === 'list'
+  // let payload = payloadIsArray ? [] : {}
+  let payload = endpointConfig.payload_queries
+  // for (let payloadArg of endpointConfig.payload_args ){
+  //   if ( payloadIsArray ) {
+
+  //     let payloadItem = {}
+  //     for ( let payloadSubArg of payloadArg ){
+  //       let payloadValue = payloadSubArg.payload_value
+  //       payloadItem[ payloadSubArg.payload_field ] = payloadValue
+  //     }
+  //     payload.push( payloadItem )
+  //   }
+  //   else {
+  //     payload[ payloadArg.payload_field ] = payloadArg.payload_value
+  //   }
+  // }
   return payload 
 }
 
@@ -362,17 +508,17 @@ export function searchEndpointGenerator( obj ) {
   let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth ) 
 
   // build payload from endpointConfig
-  let payload = buildRequestPayload( fetchPayloadOptions )
+  let payload = fetchPayloadOptions && buildRequestPayload( fetchPayloadOptions )
 
-  let enndPointUrlAndPayload = {
+  let endPointUrlAndPayload = {
     requestHeader : header,
     requestUrl : baseQuery,
     requestPayload : payload
   }
-  console.log("+ + + searchEndpointGenerator / enndPointUrlAndPayload : ", enndPointUrlAndPayload)
+  console.log("+ + + searchEndpointGenerator / endPointUrlAndPayload : ", endPointUrlAndPayload)
 
   // return baseQuery
-  return enndPointUrlAndPayload
+  return endPointUrlAndPayload
 }
 
 // FILTER RELATED
@@ -459,13 +605,13 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     // const log = blocksToLog.includes(fieldBlock)
     // const log = contentField && contentField.field_format.type === 'list_tags'
     
-    log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
+    // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
 
     
     // log && console.log("getItemContent / field_format : ", field_format)
     
     let content = displayableItem[field]
-    log && console.log("getItemContent / content A : ", content)
+    // log && console.log("getItemContent / content A : ", content)
     
     if ( content && content !== "None" && content !== "" ){
 

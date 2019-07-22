@@ -36,7 +36,7 @@ export default function ({ store, route, redirect }) {
   let previousIsMapSearch = store.getters['search/getIsMapSearch']
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
-  // log && console.log('-M3- getRouteConfig / currentRouteConfig : ', currentRouteConfig)
+  log && console.log('-M3- getRouteConfig / currentRouteConfig : ', currentRouteConfig)
 
   // reroute to error if currentRouteConfig is undefined
   if ( typeof currentRouteConfig === 'undefined' ){
@@ -48,7 +48,8 @@ export default function ({ store, route, redirect }) {
     store.commit('config/setLocalRouteConfig', currentRouteConfig)
 
     // check if route is dynamic data
-    if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
+    // if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
+    if( DynamicComponents.includes(currentRouteConfig.dynamic_template) ) {
       
       let searchedText = route.query.text
       if ( searchedText ){
@@ -101,6 +102,7 @@ export default function ({ store, route, redirect }) {
   
       else {
         store.commit('search/clearResults')
+        // store.dispatch('search/search')
         if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
           log && console.log('-M3- getRouteConfig / dispatching search ...')
           store.dispatch('search/search')

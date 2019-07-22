@@ -242,7 +242,7 @@
           })
           .then( response => {
             this.log && console.log("C-LoginForm / response : ", response)
-            this.$store.dispatch('user/saveLoginInfos',{APIresponse:response})
+            this.$store.dispatch('user/saveLoginInfos',{ APIresponse:response })
             
             let router = this.$router
 

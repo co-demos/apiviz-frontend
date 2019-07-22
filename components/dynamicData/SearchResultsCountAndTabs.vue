@@ -4,9 +4,14 @@
   <div :class="`count-and-tabs`">
 
     <!-- FEEEDBACK COUNT -->
-    <div :class="['result-count-parent', open ? 'open' : undefined]">
+    <div 
+      :class="['result-count-parent', open ? 'open' : undefined]"
+      >
 
-      <div class="results-count">
+      <div 
+        v-if="view != VIEW_STAT"
+        class="results-count"
+        >
         <span class="nb">
           {{ pending ? '?' : total }}
         </span> 
@@ -45,7 +50,9 @@
 
 
     <!-- BTNS VIEWS -->
-    <div class="buttons has-addons is-right">
+    <div 
+      class="buttons has-addons is-right"
+      >
 
       <!-- BTN LIST -->
       <nuxt-link 
@@ -57,7 +64,7 @@
         <span class="icon">
           <i class="fas fa-th-large"></i>
         </span>
-        <span>
+        <span class="is-hidden-touch">
           <!-- {{ translate(configTabs('tab_list')) }} -->
           {{ basicDict.tab_list[locale] }}
         </span>
@@ -73,7 +80,7 @@
         <span class="icon">
           <i class="far fa-map"></i>
         </span>
-        <span>
+        <span class="is-hidden-touch">
           <!-- {{ translate(configTabs('tab_map')) }} -->
           {{ basicDict.tab_map[locale] }}
         </span>
@@ -89,7 +96,7 @@
         <span class="icon">
           <i class="far fa-chart-bar"></i>
         </span>
-        <span>
+        <span class="is-hidden-touch">
           <!-- {{ translate(configTabs('tab_stat')) }} -->
           {{ basicDict.tab_stat[locale] }}
         </span>

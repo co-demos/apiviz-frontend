@@ -127,6 +127,11 @@ export const getters = {
       // state.log && console.log("\nS-search-G-getResults ..." )
       return state.search.answer.result && state.search.answer.result.projects
     },
+    getResultsStats : (state) => {
+      state.log && console.log("\nS-search-G-getResultsStats ..." )
+      state.log && console.log("\nS-search-G-getResultsStats / state.search.answer.results", state.search.answer.results )
+      return state.search.answer.result && state.search.answer.result.stats
+    },
     getResultsList : (state) => {
       // state.log && console.log("\nS-search-G-getResultsList ..." )
       return state.search.answer.result ? state.search.answer.result.projects : undefined
@@ -366,6 +371,7 @@ export const mutations = {
         error
       }
     },
+    
     setDisplayedProject(state, {result}){
       state.displayedProject = result.projects[0]
       state.search.answer.pendingAbort = undefined
@@ -521,6 +527,7 @@ export const actions = {
       const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
+      // searchItems( endpointGenerated, endpointRawConfig )
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-search / response : \n", response )
@@ -528,7 +535,11 @@ export const actions = {
         // state.log && console.log("S-search-A-search / projects : \n", projects )
 
         // if search is for map either fill resultMap if empty or do nothing
-        commit('setSearchResult', { result: { projects : response.projects, total : response.total }})
+        commit('setSearchResult', { result: { 
+          projects : response.projects, 
+          stats : response.stats, 
+          total : response.total 
+        }})
         // commit('setSearchResult', {result: {projects, total}})
         // commit ('setSearchResultMap', {resultMap: {projects, total}})
       })
@@ -569,13 +580,18 @@ export const actions = {
 
       // TO DO - CHANGE FETCH --> USE AXIOS
       const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
-      commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
+      // commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
+      commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
         // commit('setDisplayedProject', { result: { projects, total }})
-        commit('setDisplayedProject', {result: { projects : response.projects, total : response.total }})
+        commit('setDisplayedProject', { result: { 
+          projects : response.projects, 
+          stats : response.stats,
+          total : response.total 
+        }})
       })
       .catch(error => {
         // don't report aborted fetch as errors
