@@ -24,15 +24,18 @@
         :view="VIEW_STAT"
         />
 
+      <br>
+
       <!-- MAIN CHART COMPONENT -->
       <div
         v-if="stats"
-        class="columns is-multiline"
+        class="columns is-multiline is-8"
         >
 
         <div 
           v-for="(chart, index) in chartsList"
           :key="chart.serie_id"
+          :class="`column is-${ chart.col_size }`"
           >
 
           <ApexChartComponent
@@ -115,7 +118,7 @@
   import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
   import ApexChartComponent from './ApexChartComponent.vue'
 
-  import {  objectFromPath } from '~/plugins/utils.js';
+  import {  objectFromPath, isEmpty } from '~/plugins/utils.js';
 
   import { VIEW_STAT } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
@@ -219,13 +222,18 @@
         return this.routeConfig.charts_list
       },
 
+      isStatsEmpty(){
+        return isEmpty(this.stats)
+      }
+
 
     },
 
     methods: {
       
       getCurrentRawSerie( serieId ) {
-        let rawSerie = this.stats && this.stats.find( serie => {
+        this.log && console.log('\nC-SearchResultsStats-getCurrentRawSerie / this.stats : ', this.stats)
+        let rawSerie = !this.isStatsEmpty && this.stats.find( serie => {
           return serie.serie_id === serieId
         })
 

@@ -11,7 +11,8 @@
         border-bottom-color : {{ appColors['navbar-border-color'] }} !important;
       }
     </style>
-        <!-- color : {{appColors['link-hover']}} -->
+      <!-- color : {{appColors['link-hover']}} -->
+
     <style v-for="(cCode, index) in colorCodes" 
       :key="index"
       type="text/css"

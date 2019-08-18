@@ -60,6 +60,13 @@ export function loadScript(url, type, script_id, callback){
   document.head.appendChild(script);
 }
 
+export function isEmpty(obj) {
+  for(var prop in obj) {
+      if(obj.hasOwnProperty(prop)) return false;
+  }
+  return true;
+}
+
 export function deleteScript(script_id){
 
   try {

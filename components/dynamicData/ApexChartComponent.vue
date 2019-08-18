@@ -3,13 +3,16 @@
   <!-- MAIN CHART COMPONENT -->
   <div 
     v-if="stats"
-    class="columns is-multiline"
     >
+    <!-- class="columns is-multiline" -->
 
-    <div class="is-divider column is-12" :data-content="chart.serie_id"></div>
+    <!-- <div 
+      class="is-divider column is-12" 
+      :data-content="chart.serie_id"
+    ></div> -->
 
+      <!-- :class="`column is-${ chart.col_size }`" -->
     <apexchart 
-      :class="`column is-${ chart.col_size }`"
       :type="chart.chart_type" 
       :height="chart.height"
 
@@ -20,16 +23,17 @@
       <!-- :series="buildChartSeries(chart)" -->
     </apexChart>
     
-    <div class="column is-4">
+    <!-- <div class="column is-4">
       chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br>
       stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br>
-    </div>
-    <div class="column is-4">
-      refinedSeries : <br><pre><code>{{ JSON.stringify( refinedSeries, null, 1) }}</code></pre><br>
-      refinedOptions : <br><pre><code>{{ JSON.stringify( refinedOptions, null, 1) }}</code></pre><br>
+    </div> -->
+    
+    <!-- <div class="column is-4"> -->
+      <!-- refinedSeries : <br><pre><code>{{ JSON.stringify( refinedSeries, null, 1) }}</code></pre><br> -->
+      <!-- refinedOptions : <br><pre><code>{{ JSON.stringify( refinedOptions, null, 1) }}</code></pre><br> -->
       <!-- buildChartSeries(chart) : <br><pre><code>{{ JSON.stringify(buildChartSeries(chart), null, 1) }}</code></pre><br> -->
       <!-- buildChartOptions(chart) : <br><pre><code>{{ JSON.stringify(buildChartOptions(chart), null, 1) }}</code></pre><br> -->
-    </div>
+    <!-- </div> -->
 
   </div>
   

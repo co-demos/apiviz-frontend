@@ -71,12 +71,14 @@ export default function ({ store, route, redirect }) {
       let currentDatasetURI = localEndpointConfig.dataset_uri
       store.commit('config/setCurrentDatasetURI', currentDatasetURI)
       log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
-  
+
+      store.commit('search/clearResults')
+
       // rebuild filter if dataset_uri had changed
       if ( previousDatasetURI !== currentDatasetURI ){
   
         // clear previous results
-        store.commit('search/clearResults')
+        // store.commit('search/clearResults')
   
         log && console.log('-M3- getRouteConfig / rebuilding filters...')
   
@@ -101,7 +103,7 @@ export default function ({ store, route, redirect }) {
       // }
   
       else {
-        store.commit('search/clearResults')
+        // store.commit('search/clearResults')
         // store.dispatch('search/search')
         if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
           log && console.log('-M3- getRouteConfig / dispatching search ...')

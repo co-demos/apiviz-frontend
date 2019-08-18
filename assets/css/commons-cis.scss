@@ -104,13 +104,13 @@ main{
 }
 
 .grey-bg-img{
-    // this image should be of color $cis-primary
-    background-image: url(https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/HP_section_3.png);
-    background-size: cover;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  // this image should be of color $cis-primary
+  background-image: url(https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/HP_section_3.png);
+  background-size: cover;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .grey-bg-plain{
