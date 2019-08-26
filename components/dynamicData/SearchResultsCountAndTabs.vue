@@ -59,9 +59,9 @@
         v-if="typeof endpointConfigList !== 'undefined' && endpointConfigList.is_visible"
         :disabled="endpointConfigList.is_disabled" 
         :to="endpointConfigUrlToList.urls[0]" 
-        :class="['button has-text-centered', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : undefined]" 
+        :class="['has-text-centered button ', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
         >
-        <span class="icon">
+        <span class="icon has-text-centered is-marginless">
           <i class="fas fa-th-large"></i>
         </span>
         <span class="is-hidden-touch">
@@ -75,9 +75,9 @@
         v-if="typeof endpointConfigMap !== 'undefined' && endpointConfigMap.is_visible"
         :disabled="endpointConfigMap.is_disabled" 
         :to="endpointConfigUrlToMap.urls[0]" 
-        :class="['button has-text-centered', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined]" 
+        :class="['has-text-centered button ', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
         >
-        <span class="icon">
+        <span class="icon has-text-centered is-marginless">
           <i class="far fa-map"></i>
         </span>
         <span class="is-hidden-touch">
@@ -91,9 +91,9 @@
         v-if="typeof endpointConfigStat !== 'undefined' && endpointConfigStat.is_visible"
         :disabled="endpointConfigStat.is_disabled" 
         :to="endpointConfigUrlToStat.urls[0]" 
-        :class="['button has-text-centered', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : undefined]" 
+        :class="['has-text-centered button ', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
         >
-        <span class="icon">
+        <span class="icon has-text-centered is-marginless">
           <i class="far fa-chart-bar"></i>
         </span>
         <span class="is-hidden-touch">
@@ -110,6 +110,7 @@
 <script>
 
   import { mapState, mapGetters } from 'vuex'
+  import { isMobile } from 'mobile-device-detect'
 
   import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
@@ -131,8 +132,20 @@
         VIEW_STAT,
 
         basicDict : BasicDictionnary, 
+        smallButtons : false,
 
       }
+    },
+
+    created() {
+      window.addEventListener("resize", this.winWidth)
+      // window.addEventListener('resize', this.handleResize)
+      this.winWidth()
+    },
+
+    destroyed() {
+      window.removeEventListener("resize", this.winWidth)
+      // window.removeEventListener('resize', this.handleResize)
     },
 
     beforeMount : function(){
@@ -177,6 +190,15 @@
       //   let tabsConf = this.$store.state.config.config.global.app_screen_tabs
       //   return tabsConf[tabField]
       // },
+
+      winWidth() {
+        var w = window.innerWidth
+        if (w < 1090) {
+          this.smallButtons = true
+        } else {
+          this.smallButtons = false
+        }
+      },
 
       reShuffle() {
         // TO DO 
@@ -241,25 +263,26 @@
       align-items: center;
 
       .nb{
-          color: $apiviz-primary;
-          font-size: 1.3em;
-          font-weight: bold;
-          margin-right: 0.5em;
+        color: $apiviz-primary;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-right: 0.5em;
       }
     }
   }
 
   .buttons{
-    & > *{
-      width: 7em;
+
+    & > * {
+      // width: 7em;
       // justify-content: left;
 
       img{
-          max-height: 1.5em;
+        max-height: 1.5em;
       }
 
       span{
-          margin-left: 0.2em;
+        margin-left: 0.2em;
       }
 
     }

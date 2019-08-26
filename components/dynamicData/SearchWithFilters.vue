@@ -4,65 +4,79 @@
     <div class="container">
       
       <!-- INPUT TEXT -->
-      <!-- <div class="field has-addons no-margin">
+      <div class="navbar-start"> <!-- is-hidden-touch (to completely hide from mobile)-->
+      
+        <div class="columns is-gapless is-mobile">
 
-        <div class="search control has-icons-left ">
-          <input
-            type="search"
-            v-model="textQuery"
-            class="input is-large is-light input-navbar"
-            :placeholder="translate(endpointConfigFilters, 'placeholder' )"
-            @input="searchTextChanged"
+          <div :class="`column is-${ showFiltersSwitch ? '10' : '12' }`">
+            <div class="navbar-item is-paddingless">
+              <div class="field is-large has-addons field-centered">
+
+                <p class="control is-expanded has-icons-left">
+
+                  <input
+                    type="search"
+                    v-model="textQuery"
+                    class="input is-large is-light input-navbar"
+                    @input="searchTextChanged"
+                    :placeholder="translate(endpointConfigFilters, 'placeholder' )"
+                    >
+                    <!-- :placeholder="`WW : ${ windowWidth } / SFS : ${ showFiltersSwitch }`" -->
+
+                  <span class="icon is-large is-left has-text-grey-light">
+                    <i class="fas fa-search"></i>
+                  </span>
+
+                </p>
+
+                <p class="control"
+                  v-show="textQuery !== ''"
+                  >
+                  <a class="button is-large is-right has-text-grey-light"
+                    @click="clearQuery"
+                    >
+                    <span class="icon">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </a>
+                </p>
+
+              </div>
+            </div>
+          </div>
+
+          <div 
+            v-if="showFiltersSwitch"
+            :class="`column is-1 is-centered`"
             >
-          <span class="icon is-large is-left has-text-grey-light">
-            <i class="fas fa-search"></i>
-          </span>
+            <div class="navbar-item navbar-item-filter has-text-centered">
+              <a class="button is-white "
+                @click="SwitchFilters()"
+                >
+                <span :class="`icon`">
+                  <i class="fas fa-filter"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
         </div>
 
-        <p class="search control">
-          <a 
-            v-show="textQuery !== ''"
-            class="icon is-large is-right has-text-grey-light"
-            @click="textQuery=''; searchTextChanged"
-            >
-            <i class="fas fa-times"></i>
-          </a>
-        </p>
-
-      </div> -->
-
-      <div class="field is-large has-addons field-centered">
-        <p class="control is-expanded has-icons-left">
-
-          <input
-            type="search"
-            v-model="textQuery"
-            class="input is-large is-light input-navbar"
-            :placeholder="translate(endpointConfigFilters, 'placeholder' )"
-            @input="searchTextChanged"
-            >
-
-          <span class="icon is-large is-left has-text-grey-light">
-            <i class="fas fa-search"></i>
-          </span>
-        </p>
-        <p class="control"
-          v-show="textQuery !== ''"
-          >
-          <a class="button is-large is-right has-text-grey-light"
-            @click="clearQuery"
-            >
-            <span class="icon">
-              <i class="fas fa-times"></i>
-            </span>
-          </a>
-        </p>
       </div>
 
-      <!-- INPUT FILTERS -->
-      <hr class="is-flex-touch filters-delimiter">
 
-      <div class="navbar-end has-background-white "> <!-- is-hidden-touch (to completely hide from mobile)-->
+
+      <!-- INPUT FILTERS -->
+      <hr 
+        v-if="showFiltersSwitch && showFilters"
+        class="is-flex-touch filters-delimiter"
+      >
+
+      <div 
+        v-if="showFilters"
+        class="navbar-end has-background-white"
+        > <!-- is-hidden-touch (to completely hide from mobile)-->
+
 
         <!-- LOOP FILTERS LISTS -->
         <span v-for="filter in filterDescriptions"
@@ -128,6 +142,7 @@
           <hr class="is-flex-touch filters-delimiter">
 
         </span>
+
       </div>
 
     </div>
@@ -144,17 +159,40 @@
     data : () => {
       return {
         textQuery : '',
+        showFiltersSwitch : true,
+        showFiltersSwitch_ : true,
+        showFilters : true,
+        windowWidth : 0,
+        // window: {
+        //   width: 0,
+        //   height: 0
+        // }
       }
     },
 
-    beforeMount : function(){
+    created() {
+      window.addEventListener("resize", this.winWidth)
+      // window.addEventListener('resize', this.handleResize)
+      this.winWidth()
+    },
+
+    destroyed() {
+      window.removeEventListener("resize", this.winWidth)
+      // window.removeEventListener('resize', this.handleResize)
+    },
+
+    beforeMount(){
       this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
     },
 
     mounted(){
 
+      // document.addEventListener("resize", this.winWidth)
+      // this.winWidth()
+
       // this.log && console.log('C-SearchWithFilters / mounted...')
+      // this.winWidth()
 
       if( !this.$store.state.search.search.answer.result ){
         // this.log && console.log('C-SearchWithFilters / dispatching [search/searchedTextChanged]...')
@@ -197,6 +235,27 @@
     },
 
     methods: {
+
+      SwitchFilters(){
+        this.showFilters = !this.showFilters
+      },
+
+      winWidth() {
+        var w = window.innerWidth
+        this.windowWidth = window.innerWidth
+        if (w < 1090) {
+          this.showFiltersSwitch = true
+          this.showFilters = false
+        } else {
+          this.showFiltersSwitch = false
+          this.showFilters = true
+        }
+      },
+
+      // handleResize() {
+      //   this.window.width = window.innerWidth;
+      //   this.window.height = window.innerHeight;
+      // },
 
       collapseChoices(filterName){
         // console.log("C-SearchWithFilters / collapseChoices / filterName : ", filterName)
