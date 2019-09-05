@@ -37,7 +37,7 @@
           :key="chart.serie_id"
           :class="`column is-${ chart.col_size }`"
           >
-
+          <!-- {{ chart }} -->
           <ApexChartComponent
             v-if="chart.is_activated"
             :chart="chart"

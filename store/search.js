@@ -345,6 +345,7 @@ export const mutations = {
       }
     },
     setSearchPending(state, {pendingAbort}){
+      state.log && console.log('S-search-M-setSearchPending... ')
       state.search.answer = {
         pendingAbort,
         result: undefined,
@@ -373,6 +374,7 @@ export const mutations = {
     },
     
     setDisplayedProject(state, {result}){
+      state.log && console.log('S-search-M-setDisplayedProject / result ', result)
       state.displayedProject = result.projects[0]
       state.search.answer.pendingAbort = undefined
     },
@@ -557,21 +559,30 @@ export const actions = {
       state.log && console.log("\nS-search-A-searchOne ..." )
       state.log && console.log("S-search-A-searchOne / id : ", id )
 
-      const endpointRawConfig = state.search.endpoint
+      // get specifically endpoint for detail infos
+      const endpointCurrentConfig = state.search.endpoint
+      const endpointRawConfig = rootGetters['config/getEndpointConfigByType']('detail')
+      state.log && console.log("S-search-A-searchOne / endpointRawConfig : \n", endpointRawConfig )
+
+
       const responsePaths = state.search.endpoint.resp_fields
-      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+      state.log && console.log("S-search-A-searchOne / responsePaths : \n", responsePaths )
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-sesarch-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
+
+      // append itemId to question
+      let question = state.search.question
+      question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
-        questionParams : state.search.question,
+        questionParams : question,
         selectedFilters : [],
         authConfig : endpointAuthConfig,
         accessToken : userAccessToken
@@ -580,8 +591,12 @@ export const actions = {
 
       // TO DO - CHANGE FETCH --> USE AXIOS
       const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
-      // commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
-      commit('setSearchPending', { pendingAbort: searchPendingAbort })
+
+      if ( endpointCurrentConfig && endpointCurrentConfig.endpoint_type === 'map' ){
+        commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
+      } else {
+        commit('setSearchPending', { pendingAbort: searchPendingAbort })
+      }
 
       searchPendingAbort.promise
       .then(( response ) => {

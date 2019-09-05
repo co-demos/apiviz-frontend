@@ -104,11 +104,15 @@ export default function ({ store, route, redirect }) {
   
       else {
         // store.commit('search/clearResults')
-        // store.dispatch('search/search')
-        if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
-          log && console.log('-M3- getRouteConfig / dispatching search ...')
-          store.dispatch('search/search')
-        }
+        log && console.log('-M3- getRouteConfig / same dataset URI ... ')
+
+        store.dispatch('search/search')
+
+        // if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+        //   log && console.log('-M3- getRouteConfig / dispatching search ...')
+        //   store.dispatch('search/search')
+        // }
+
       }
 
     }

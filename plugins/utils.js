@@ -173,6 +173,17 @@ export const setValueToField = (fields, value) => {
   return fields.reduceRight(reducer, {});
 };
 
+export function setValueToNestedObject(obj, path, value, separator='/') {
+  const pList = path.split(separator);
+  const key = pList.pop();
+  const pointer = pList.reduce((accumulator, currentValue) => {
+    if (accumulator[currentValue] === undefined) accumulator[currentValue] = {};
+    return accumulator[currentValue];
+  }, obj);
+  pointer[key] = value;
+  return obj;
+}
+
 export function objectFromPath( obj, path, separator='/'){
 
   console.log("+ + + objectFromPath / path : ", path)

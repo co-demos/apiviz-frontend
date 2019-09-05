@@ -27,6 +27,10 @@
       chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br>
       stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br>
     </div> -->
+
+    <!-- - rawSerie : <code> {{ rawSerie }} </code><br> -->
+    <!-- - refinedSeries : <code> {{ refinedSeries }} </code><br> -->
+    <!-- - refinedOptions : <code> {{ refinedOptions }} </code><br> -->
     
     <!-- <div class="column is-4"> -->
       <!-- refinedSeries : <br><pre><code>{{ JSON.stringify( refinedSeries, null, 1) }}</code></pre><br> -->
@@ -46,6 +50,7 @@
     objectFromPath, 
     // iterationCopy,
     setValueToField,
+    setValueToNestedObject,
     } from '~/plugins/utils.js';
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
@@ -151,13 +156,21 @@
         let dataPath = dataMapping.serie_path
         let dataNameField = dataMapping.serie_name_field
         let dataSerieSettings = dataMapping.serie_data
+
         let dataValueField = dataSerieSettings.data_value
 
         let serieChartOptions = dataMapping.serie_chart_options
+        
+        let labelsMapping = dataSerieSettings.labels_mapping
+        let labelsPath = labelsMapping && labelsMapping.chart_options_label_path
+        let labelsDict = labelsMapping && labelsMapping.labels_dict
+        let chartOptionsLabels = objectFromPath( chartOptions, labelsPath )
+        let newLabels = chartOptionsLabels && chartOptionsLabels.length > 0 ? chartOptionsLabels : []
 
         let dataObject = objectFromPath( rawSerie, dataPath )
-        this.log && console.log('C-ApexChartComponent-buildChartSeries / dataObject :', dataObject)
+        this.log && console.log('C-ApexChartComponent-buildChartSeries / dataObject A :', dataObject)
 
+        this.log && console.log('C-ApexChartComponent-buildChartSeries / serieChartOptions A :', serieChartOptions)
         // add infos to chartOptions
         if ( serieChartOptions && serieChartOptions.length > 0 ){
 
@@ -179,11 +192,18 @@
 
           }
         }
+        this.log && console.log('C-ApexChartComponent-buildChartSeries / dataObject B :', dataObject)
+        this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptions B :', chartOptions)
 
         let dataObjectRefined = dataObject.map( item => {
           
           this.log && console.log('C-ApexChartComponent-buildChartSeries / map / item :', item)
           const container = {}
+
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / map / dataSerieSettings :', dataSerieSettings)
+          let labelField = dataSerieSettings.label_field 
+          let needLabelsRemap = dataSerieSettings.need_labels_remap 
+          // let fieldName = dataSerieSettings.label_field
 
           // remap serie name
           container.name = item[ dataNameField ]
@@ -192,24 +212,27 @@
           let serieData = objectFromPath( item, dataSerieSettings.subpath )
           this.log && console.log('C-ApexChartComponent-buildChartSeries / map / serieData :', serieData)
 
+
           // add missing fields
           if ( dataSerieSettings.add_missing_values ){
 
             let missingFields = dataSerieSettings.missing_data_by.val_fields_list
             // this.log && console.log('C-ApexChartComponent-buildChartSeries / map / add_missing_values / missingFields :', missingFields)
 
-            let fieldName = dataSerieSettings.missing_data_by.val_field
-            // this.log && console.log('C-ApexChartComponent-buildChartSeries / map / add_missing_values / fieldName :', fieldName)
-            
+            // this.log && console.log('C-ApexChartComponent-buildChartSeries / map / add_missing_values / labelField :', labelField)
+            // let labelField = dataSerieSettings.missing_data_by.val_field
+
             let existingFields = serieData.map( data => {
-              return data[ fieldName ]
+              return data[ labelField ]
             })
+            newLabels = existingFields
+            needLabelsRemap = true
 
             for ( let field of missingFields ) {
               if ( !existingFields.includes(field) ) {
                 let missingData = {}
                 missingData[ dataValueField ] = 0 
-                missingData[ fieldName ] = field
+                missingData[ labelField ] = field
                 serieData.push( missingData )
               } 
             }
@@ -219,14 +242,29 @@
           // need sorting
           if ( dataSerieSettings.need_sorting ) {
             let sortingField = dataSerieSettings.sorting_by.sort_field
-            // this.log && console.log('C-ApexChartComponent-buildChartSeries / map / sorting / sortingField :', sortingField)
+            this.log && console.log('C-ApexChartComponent-buildChartSeries / map / sorting / sortingField :', sortingField)
             serieData = serieData.sort( (a,b) => ( a[ sortingField ] > b[ sortingField ] ) ? 1 : -1 )
+            needLabelsRemap = true
           }
           this.log && console.log('C-ApexChartComponent-buildChartSeries / map / (after need_sorting) serieData :', serieData)
 
+          // update labels list
+          if ( needLabelsRemap ) {
+            this.log && console.log('C-ApexChartComponent-buildChartSeries / needs_labels_remap... ')
+            newLabels = serieData.map( data => {
+              return data[ labelField ]
+            })
+            this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptions A : ', chartOptions)
+            chartOptions = setValueToNestedObject(chartOptions, labelsPath, newLabels)
+            this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptions B : ', chartOptions)
+          }
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / newLabels : ', newLabels)
+
+
+          // need data remap
           if ( dataSerieSettings.need_remap ) {
             serieData = serieData.map( data => {
-              // this.log && console.log('C-ApexChartComponent-buildChartSeries / map / need_remap / data :', data)
+              this.log && console.log('C-ApexChartComponent-buildChartSeries / map / need_remap / data :', data)
               return data[ dataValueField ]
             })
           }
@@ -234,14 +272,15 @@
 
           container.data = serieData
           return container
+
         })
         this.log && console.log('C-ApexChartComponent-buildChartSeries / (before need_list_only) dataObjectRefined :', dataObjectRefined)
 
 
 
-
         // list only
         if ( dataSerieSettings.need_list_only ) {
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / need_list_only ...' )
           dataObjectRefined = dataObjectRefined.map( dataObj => {
             return dataObj.data[ dataValueField ]
           })
@@ -250,6 +289,23 @@
 
 
         this.refinedSeries = dataObjectRefined
+
+
+        // reename labels from labels_dict
+        if ( dataSerieSettings.need_labels_rename ) {
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / needs_labels_rename... ')
+
+          let chartOptionsLabels = objectFromPath( chartOptions, labelsPath )
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptionsLabels : ', chartOptionsLabels)
+          
+          chartOptionsLabels = chartOptionsLabels.map( label => {
+            return labelsDict[ label ]
+          })
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptions A : ', chartOptions)
+          chartOptions = setValueToNestedObject(chartOptions, labelsPath, chartOptionsLabels)
+          this.log && console.log('C-ApexChartComponent-buildChartSeries / chartOptions B : ', chartOptions)
+
+        }
 
         this.refinedOptions = chartOptions
 
