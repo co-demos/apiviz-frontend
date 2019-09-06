@@ -197,6 +197,18 @@
         return this.routeConfig.contents_fields
       },
 
+      routeConfigCharts() {
+        let chartsListCopy = []
+        for ( let chart of this.routeConfig.charts_list) {
+          chartsListCopy.push( chart )
+        }
+        // return this.routeConfig.charts_list
+        chartsListCopy = chartsListCopy.sort( (a,b) => ( a.position > b.position ) ? 1 :-1  )
+        return chartsListCopy
+      },
+
+
+
       ...mapState({
 
         log : state => state.log, 
@@ -219,7 +231,10 @@
       }),
 
       chartsList (){
-        return this.routeConfig.charts_list
+        this.log && console.log('\nC-SearchResultsStats-getCurrentRawSerie / this.routeConfig.charts_list : ', this.routeConfig.charts_list)
+        let chartsList = this.routeConfigCharts
+        // chartsList = chartsList.sort( (a,b) => ( a.position > b.position ) ? 1 :-1  )
+        return chartsList
       },
 
       isStatsEmpty(){
