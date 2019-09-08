@@ -252,7 +252,7 @@
     }
 
     .results-count{
-      padding: 0.5em 1em;
+      padding: 0 1em;
 
       background-color: white;
       border-radius: 3px;

@@ -106,6 +106,7 @@ export default function ({ store, route, redirect }) {
         // store.commit('search/clearResults')
         log && console.log('-M3- getRouteConfig / same dataset URI ... ')
 
+        store.commit('search/setIsMapSearch', currentRouteConfig)
         store.dispatch('search/search')
 
         // if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){

@@ -47,13 +47,15 @@
 
           <div 
             v-if="showFiltersSwitch"
-            :class="`column is-1 is-centered`"
+            :class="`column is-2 is-centered`"
             >
             <div class="navbar-item navbar-item-filter has-text-centered">
-              <a class="button is-white "
+              <a 
+                :class="`button ${ showFilters ? 'is-primary' : 'is-white' }`"
                 @click="SwitchFilters()"
                 >
-                <span :class="`icon`">
+                <span 
+                  :class="`icon ${ showFilters ? '' : 'has-text-primary' }`">
                   <i class="fas fa-filter"></i>
                 </span>
               </a>

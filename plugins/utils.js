@@ -623,7 +623,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     // const log = blocksToLog.includes(fieldBlock)
     // const log = contentField && contentField.field_format.type === 'list_tags'
     
-    log && console.log("\ngetItemContent / contentField : ", contentField)
+    // log && console.log("\ngetItemContent / contentField : ", contentField)
 
     // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
 
@@ -682,7 +682,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
         // get item from array if type == list 
         else if ( field_format.type === 'list'){
   
-          log && console.log("getItemContent / list content : ", content)
+          // log && console.log("getItemContent / list content : ", content)
   
           let begin = field_format.retrieve[0]
   
@@ -699,7 +699,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             content = content.join(' ')
           }
   
-          log && console.log("getItemContent / content C : ", content)
+          // log && console.log("getItemContent / content C : ", content)
           
           // string is tag-like and needs to be splitten
           if ( contentField.is_tag_like ) {
@@ -751,7 +751,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   
         // DEALING WITH NATIVE STRING RESULTS
         else if ( field_format.type === 'object' ) {
-          log && console.log("getItemContent / object content : ", content)
+          // log && console.log("getItemContent / object content : ", content)
 
           // string is tag-like and needs to be splitten
           if ( contentField.is_tag_like ) {
@@ -790,8 +790,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
-            
-            log && console.log("getItemContent / object content is_tag_like : ", content)
+
+            // log && console.log("getItemContent / object content is_tag_like : ", content)
 
             return content
           } else {
@@ -799,7 +799,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
             const tail = ( trimming && content.length > trimming )? '...' : '' ;
             content = content.slice(0, trim) + tail        
-            log && console.log("getItemContent / object content not tag like : ", content)
+            // log && console.log("getItemContent / object content not tag like : ", content)
             return content
           }
         }
