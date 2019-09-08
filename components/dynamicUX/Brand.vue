@@ -7,9 +7,9 @@
         class="navbar-item" 
         :to="logoTo">
         <img 
-            id="navbar-logo" 
-            :src="logo.url"
-            :alt="'Logo ' + brand"
+          id="navbar-logo" 
+          :src="logo.url"
+          :alt="'Logo ' + brand"
         ></img>
       </nuxt-link>
 

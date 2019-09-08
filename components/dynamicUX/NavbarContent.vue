@@ -122,7 +122,7 @@
 
       <!-- LOCALES -->
       <div v-if="languages.is_multi_lang"
-        :class="`navbar-item is-hoverable has-dropdown no-padding-right`"
+        :class="`navbar-item is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
         >
         <!-- LOCALES BTN -->
         <a :class="`navbar-link is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
@@ -158,7 +158,8 @@
         <div class="navbar-dropdown is-right">
 
           <p class="navbar-item has-text-grey-light">
-            {{ getText('hello') }} 
+            <!-- {{ getText('hello') }}  -->
+            {{ basicDict.hello[locale] }}
             {{ user.infos.name }}
           </p>
 
@@ -171,7 +172,8 @@
               <i class="far fa-user"></i>
             </span>
             <span>
-              {{ getText('preferences') }}
+              <!-- {{ getText('preferences') }} -->
+              {{ basicDict.preferences[locale] }}
             </span>
           </nuxt-link>
 
@@ -185,7 +187,8 @@
               <i class="fas fa-cog"></i>
             </span>
             <span>
-              {{ getText('backoffice') }}
+              <!-- {{ getText('backoffice') }} -->
+              {{ basicDict.backoffice[locale] }}
             </span>
           </nuxt-link>
 
@@ -198,7 +201,8 @@
               <i class="fas fa-sign-out-alt"></i>
             </span>
             <span>
-              {{ getText('disconnect') }}
+              <!-- {{ getText('disconnect') }} -->
+              {{ basicDict.disconnect[locale] }}
             </span>
           </nuxt-link>
 
@@ -228,6 +232,8 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
+
 
   export default {
 
@@ -248,15 +254,16 @@
     data : function () {
       return {
         activeLocales : false,
+        basicDict : BasicDictionnary, 
       }
     },
 
     computed : {
 
       ...mapState({
-        log : 'log',
+        log : state => state.log,
         user: state => state.user.user,
-        locale: 'locale',
+        locale: state => state.locale,
         languages: state => state.config.config.global.app_languages,
       }),
 
@@ -286,9 +293,9 @@
         this.activeLocales = false
       },
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
       loadExternalURL(link_to){
         console.log("loadExternalURL / link_to : ", link_to)
         var win = window.open(link_to, '_blank');

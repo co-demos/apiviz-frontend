@@ -21,7 +21,7 @@
 
     <!-- REMOTE STATICS -->
     <DynamicStatic 
-      v-if=" localRouteConfig.dynamic_template == 'DynamicStatic' "
+      v-if="localRouteConfig.dynamic_template == 'DynamicStatic' "
     ></DynamicStatic>
 
     <!-- LOCAL TEST STATIC -->
@@ -50,6 +50,12 @@
       :routeConfig="localRouteConfig"
       :endPointConfig="localEndpointConfig"
     ></DynamicDetail>
+
+    <DynamicStats 
+      v-if="localRouteConfig.dynamic_template == 'DynamicStats' "
+      :routeConfig="localRouteConfig"
+      :endPointConfig="localEndpointConfig"
+    ></DynamicStats>
 
 
     <!-- <span class="is-primary is-primary-c"> 
@@ -150,6 +156,7 @@ import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
+import DynamicStats      from '~/components/dynamicData/DynamicStats.vue';
 
 export default {
   
@@ -184,6 +191,7 @@ export default {
     DynamicList, 
     DynamicDetail,
     DynamicMap, 
+    DynamicStats,
 
   },
 

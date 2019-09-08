@@ -70,46 +70,51 @@ export default function ({ req, store, route, redirect }) {
         axios
           .get( authUrl, header )
           .catch( (error) => {
-            log && console.log('-M4-checkAuth / error', error)
+            log && console.log('-M4-checkAuth / axios error : ', error)
+            store.dispatch('user/logout')
           })
           .then( r => {
-            // log && console.log("-M4-checkAuth / r : ", r)
+            log && console.log("-M4-checkAuth / r : ", r)
             // log && console.log("-M4-checkAuth / r.data : ", r.data)
             
-            // set TOKENS in store
-            let tokens = {
-              access_token  : accessToken, 
-              refresh_token : refreshToken, 
+            if (r !== undefined ) {
+
+              // set TOKENS in store
+              let tokens = {
+                access_token  : accessToken, 
+                refresh_token : refreshToken, 
+              }
+              store.commit('user/setTokens', {tokens})
+      
+              // set INFOS
+              store.dispatch('user/saveUserInfos', r)
+              // const authConfig = store.getters['user/getConfirmTokenConfig']
+              // log && console.log("-M4-checkAuth / authConfig : ", authConfig )
+          
+              // const userIdPath = authConfig.resp_fields.user_id.path
+              // const userNamePath = authConfig.resp_fields.user_name.path
+              // const userSurnamePath = authConfig.resp_fields.user_surname.path
+              // const userPseudoPath = authConfig.resp_fields.user_pseudo.path
+              // const userEmailPath = authConfig.resp_fields.user_email.path
+              
+              // let infos = ( r && r.data ) ? {
+              //   name    : getObjectDataFromPath(r.data, userNamePath), 
+              //   surname : getObjectDataFromPath(r.data, userSurnamePath), 
+              //   email   : getObjectDataFromPath(r.data, userEmailPath), 
+              //   id      : getObjectDataFromPath(r.data, userIdPath), 
+              //   pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
+              // } : undefined 
+              // log && console.log("-M4-checkAuth / infos : ", infos )
+              // store.commit('user/setInfos', {infos})
+              
+              // set ROLE
+              store.dispatch('user/saveUserRole', r)
+              // const userRolePath = authConfig.resp_fields.user_role.path
+              // let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
+              // log && console.log("-M4-checkAuth / role : ", role )
+              // store.commit('user/setRole', {role})
+
             }
-            store.commit('user/setTokens', {tokens})
-    
-            // set INFOS
-            store.dispatch('user/saveUserInfos', r)
-            // const authConfig = store.getters['user/getConfirmTokenConfig']
-            // log && console.log("-M4-checkAuth / authConfig : ", authConfig )
-        
-            // const userIdPath = authConfig.resp_fields.user_id.path
-            // const userNamePath = authConfig.resp_fields.user_name.path
-            // const userSurnamePath = authConfig.resp_fields.user_surname.path
-            // const userPseudoPath = authConfig.resp_fields.user_pseudo.path
-            // const userEmailPath = authConfig.resp_fields.user_email.path
-            
-            // let infos = ( r && r.data ) ? {
-            //   name    : getObjectDataFromPath(r.data, userNamePath), 
-            //   surname : getObjectDataFromPath(r.data, userSurnamePath), 
-            //   email   : getObjectDataFromPath(r.data, userEmailPath), 
-            //   id      : getObjectDataFromPath(r.data, userIdPath), 
-            //   pseudo  : getObjectDataFromPath(r.data, userPseudoPath), 
-            // } : undefined 
-            // log && console.log("-M4-checkAuth / infos : ", infos )
-            // store.commit('user/setInfos', {infos})
-            
-            // set ROLE
-            store.dispatch('user/saveUserRole', r)
-            // const userRolePath = authConfig.resp_fields.user_role.path
-            // let role = ( r && r.data ) ? getObjectDataFromPath(r.data, userRolePath) : undefined
-            // log && console.log("-M4-checkAuth / role : ", role )
-            // store.commit('user/setRole', {role})
     
           })
 
@@ -117,7 +122,7 @@ export default function ({ req, store, route, redirect }) {
       
     }
     catch (error){
-      log && console.log('-M4- checkAuth / error : ', error )
+      log && console.log('-M4- checkAuth / try error : ', error )
       // TO DO : get a new access_token with the refresh_token to retry auth
       store.dispatch('user/logout')
     }

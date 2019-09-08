@@ -20,14 +20,14 @@
 
         <SearchResultsCountAndTabs 
           :view="VIEW_MAP" 
-          :open="!!showCard"
+          :open="showCard"
           >
           
           <!-- HIGHLIGHTED ITEM  -->
           <div 
             class="highlighted-project" 
             v-if="showCard" 
-            slot="project"
+            slot="item"
             >
             
             <!-- BUTTON TO CLOSE PREVIEW -->
@@ -42,6 +42,7 @@
               </span>
             </button>
             
+            <!-- {{ displayedProject }} -->
             <!-- PROJECT CARD -->
             <div class="card">
 
@@ -88,8 +89,10 @@
 
     </div>
 
+    <!-- {{ itemsForsMap }} -->
     <!-- LOADER -->
     <div 
+      id="loader-map"
       v-show="!itemsForMap"
       class="lds-roller floating"
       >
@@ -150,10 +153,17 @@
 
         <!-- CONTROLS -->
         <!-- <MglGeolocateControl ref="geolocateControl"/> -->
-        <MglNavigationControl position="top-right" />
+        <MglNavigationControl position="bottom-right" />
 
       </MglMap>
       
+
+      <div> 
+        <!-- projects : <code>{{ projects }}</code><br> -->
+        <!-- displayedProject : <code>{{ displayedProject }}</code><br> -->
+        <!-- itemsForMap : <code>{{ itemsForMap}}</code><br> -->
+      </div> 
+
       <!-- <div id="mapboxDiv">
       </div> -->
 
@@ -369,9 +379,9 @@ export default {
 
     projects(next, prev){
 
-      // this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
-      // this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
-      // this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
+      this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
+      this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.map : ', this.map)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
@@ -391,14 +401,19 @@ export default {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
       }
 
-    }
+    },
 
+    // displayedProject(next, prev){
+    //   this.log && console.log('\nC-SearchResultsMapbox / watch - displayedProject ...')
+    //   this.log && console.log('C-SearchResultsMapbox / watch - next : ', next)
+    //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
+    // },
   },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
     }),
 
@@ -411,8 +426,8 @@ export default {
 
     itemsForMap(){
       
-      // this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
-      // this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
+      this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
+      this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
 
       if (this.projects){
 
@@ -704,7 +719,7 @@ export default {
     },
     highlightItem(item) {
 
-      // this.log && console.log("C-SearchResultsMapbox / highlightItem / i : ", i)
+      this.log && console.log("C-SearchResultsMapbox / highlightItem / item : ", item)
       // show loader 
       this.showCard = true
       // this.itemLoaded = false

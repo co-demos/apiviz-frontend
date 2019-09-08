@@ -49,7 +49,7 @@ export default {
     }),
 
     ...mapGetters({
-
+      has_navbar : 'config/hasNavbar',
     }),
 
   },

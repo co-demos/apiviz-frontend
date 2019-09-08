@@ -30,7 +30,7 @@
 
       </div>
 
-      <!-- NNAVBAR ITEMS -->
+      <!-- NAVBAR ITEMS -->
       <div id="navbarNewInstance" 
         :class="`navbar-menu ${ showNav ? 'is-active' : '' }`"
         >
@@ -83,7 +83,7 @@
           </a>
 
           <!-- REPO LINK -->
-          <a class="navbar-item tooltip is-tooltip-bottom" 
+          <a class="navbar-item tooltip is-tooltip-left" 
             :data-tooltip="basicDict.repo[locale]"
             href="https://github.com/co-demos/apiviz-frontend"
             >
@@ -230,6 +230,25 @@
             </div>
 
 
+            <!-- STEPPER RESPONSE MESSAGE -->
+            <div 
+              v-show="responseMessage && responseModalOpen "
+              >
+              <div 
+                :class="`notification ${ responseStatus === 200 ? 'is-info' : 'is-danger'}`">
+                <button 
+                  class="delete"
+                  @click="responseModalOpen = false"
+                  >
+                </button>
+                <p class="has-text-centered">
+                  <!-- {{ responseMessage }} -->
+                  {{ basicDict[responseMsgCode][locale] }}
+                </p>
+              </div>
+              <br>
+            </div>
+
             <!-- STEPPER -->
             <div 
               v-show="showSteps"
@@ -268,6 +287,15 @@
               </div>
               <div class="step-item">
                 <div class="step-marker">4</div>
+                <div class="step-details">
+                  <p class="step-title">
+                    <!-- Your email -->
+                    {{ basicDict.step_email[locale] }}
+                  </p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">5</div>
                 <div class="step-details">
                   <p class="step-title">
                     <!-- Finish -->
@@ -320,7 +348,7 @@
                       </div>
                       <br>
 
-                      <div class="is-divider" data-content="OR"></div>
+                      <div class="is-divider" :data-content="basicDict.or[locale]"></div>
 
                       <!-- ENTER UUID -->
                       <label class="label has-text-centered">
@@ -342,7 +370,7 @@
                             v-model="searchUuid"
                             class="input" 
                             type="text" 
-                            placeholder="enter an UUID">
+                            :placeholder="basicDict.uuid_1c[locale]">
                         </p>
                         <p class="control">
                           <a :class="`${searchLoading ? 'is-loading' : ''} button is-primary is-primary-b is-outlined`"
@@ -403,7 +431,7 @@
                         class="input has-text-centered" 
                         v-model="new_title"
                         type="text" 
-                        placeholder="The title of your new website"
+                        :placeholder="basicDict.title_1b[locale]"
                         >
                     </div>
                       </div>
@@ -460,7 +488,81 @@
 
                 </div>
 
-                <!-- STEPS 4 / CREATE BUTTON -->
+                <!-- STEPS 4 / ADMIN NAME / SURNAME / EMAIL  -->
+                <div class="step-content has-text-centered">
+
+                  <br>
+
+                  <!-- CHOOSE AN ADMIN NAME / SURNAME / EMAIL -->
+                  <div class="columns is-centered">
+                    <div class="column is-8">
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.name_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_name"
+                            type="text" 
+                            :placeholder="basicDict.name_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.surname_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_surname"
+                            type="text" 
+                            :placeholder="basicDict.surname_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field is-horizontal">
+                        <div class="field-label" style="flex-grow : 2">
+                          <label class="label">
+                            {{ basicDict.email_1a[locale] }}
+                          </label>
+                        </div>
+                        <div class="field-body">
+                          <div class="field">
+                        <div class="control">
+                          <input 
+                            class="input has-text-centered" 
+                            v-model="new_admin_email"
+                            type="email" 
+                            :placeholder="basicDict.email_1b[locale]"
+                            >
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <br>
+
+                  <hr class="no-bottom-margin">
+
+                </div>
+
+                <!-- STEPS 5 / CREATE BUTTON -->
                 <div class="step-content has-text-centered">
                   
                   <br> 
@@ -468,18 +570,20 @@
                   <!-- CREATE NEW CONFIG BTN -->
                   <div v-if="!isCreated" class="columns is-centered">
                     <div class="column is-12">
-                      <a :disabled="!selectedModel"
-                        :class="`button ${createLoading? 'is-loading' : ''} ${ selectedModel ? 'is-primary is-primary-b' : 'is-grey is-grey-b'} is-rounded is-medium is-fullwidth`"
+                      <a :disabled="!hasAllFields"
+                        :class="`button ${createLoading? 'is-loading' : ''} ${ hasAllFields ? 'is-primary is-primary-b' : 'is-grey is-grey-b'} is-rounded is-medium is-fullwidth`"
                         @click="createApivizInstance()"
                         >
                         <span class="icon">
                           <i class="fas fa-plus-circle"></i>
                         </span>
-                        <span v-if="selectedModel">
+                        <span v-if="hasAllFields">
                           {{ basicDict.create_1a[locale] }}
                         </span>
                         <span v-else>
-                          {{ basicDict.create_1b[locale] }}
+                          <span v-if="!selectedModel">{{ basicDict.create_1b[locale] }}</span>
+                          <span v-else-if="!new_admin_email">{{ basicDict.create_1c[locale] }}</span>
+                          <span v-else>{{ basicDict.create_1d[locale] }}</span>
                         </span>
                       </a>
                     </div>
@@ -529,6 +633,17 @@
                         </figure>
                       </div>
 
+                      <!-- REPEAT ADMIN INFOS -->
+                      <div class="is-divider" 
+                        :data-content="basicDict.admin_1a[locale]">
+                      </div>
+                      <p class="content hast-text-centered">
+                        {{ new_admin_name }} 
+                        <strong>{{ new_admin_surname }}</strong>
+                      </p>
+                      <p class="content hast-text-centered">
+                        {{ new_admin_email }}
+                      </p>
                     </div>
                     
                     <!-- IMAGE PREVIEW OF SELECTED MODEL -->
@@ -588,7 +703,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr v-for="(color, colClass) in specs[ specsRenderer[sfield]['field'] ]">
+                                  <tr v-for="(color, colClass) in specs[ specsRenderer[sfield]['field'] ]" :key="colClass">
                                     <td>
                                       <code>{{ colClass }}</code>
                                     </td>
@@ -689,14 +804,6 @@
 
     <br>
     <br>
-    <!-- <br> -->
-    <!-- 
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br> 
-    -->
 
   </div>
 </template>
@@ -740,13 +847,21 @@
       return {
 
         locale : 'en',
-        listLocales : ['en', 'fr'],
+        listLocales : [
+          'en', 
+          'es', 
+          'fr', 
+          // 'de', 
+          // 'tr'
+        ],
         showNav : false,
 
         showSteps : false,
 
-        errorMessage : undefined,
-        errorModalOpen : false,
+        responseMessage : undefined,
+        responseStatus : 200,
+        responseModalOpen : true,
+        responseMsgCode : 'empty_dict',
 
         searchLoading : false,
         createLoading : false,
@@ -758,6 +873,9 @@
         searchUuid : undefined,
         new_title : 'my new Apiviz website',
         new_logoUrl : 'https://github.com/co-demos/carto-sonum/blob/master/logos/logo%2Bmarianne_typo%20sombre%404x.png?raw=true',
+        new_admin_email : '',
+        new_admin_name : '',
+        new_admin_surname : '',
 
         basicDict : BasicDictionnary, 
         specsRenderer : {
@@ -765,7 +883,7 @@
           app_languages : { field: "languages", render : 'tagsList' },
         },
 
-        bulmaExtensions: {},
+        // bulmaExtensions: {},
   
       }
     },
@@ -788,12 +906,19 @@
       ...mapGetters({
         apivizModels : 'config/getApivizModels',
       }),
+
+      hasAllFields(){
+        return this.new_admin_email && this.selectedModel
+      },
       
       builtRequest() {
         return {
           modelUuid : (this.selectedModel ? this.selectedModel.uuid : ''),
           new_title : this.new_title,
           new_logoUrl : this.new_logoUrl,
+          new_admin : this.new_admin_email,
+          new_admin_name : this.new_admin_name,
+          new_admin_surname : this.new_admin_surname,
         }
       },
 
@@ -830,11 +955,6 @@
 
           if (  model !== null ){
             this.selectedModel = model
-            // this.selectedModel = {
-            //   name : model.content,
-            //   preview : model.image_preview,
-            //   uuid : model.apiviz_front_uuid
-            // }
             this.invalidModel = false
           } else {
             this.invalidModel = true
@@ -844,7 +964,10 @@
         .catch((error) =>{
           this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / error : ', error)
           this.searchLoading = false
+          this.errorModadOpen = true
           this.errorMessage = error
+          this.responseStatus = 500
+          this.responseMsgCode = 'error_1a'
         })
 
       },
@@ -861,13 +984,22 @@
         // this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / request \n : ', request)
         this.$store.dispatch('config/createNewConfig', request)
         .then( resp => {
-          // this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / resp.data \n : ', resp.data)
+          this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / resp.data \n : ', resp.data)
           this.createLoading = false
+
+          this.responseModadOpen = true
+          this.responseMessage = resp.data.msg
+          this.responseStatus = resp.data.status
+          this.responseMsgCode = resp.data.msg_code
+
         })
         .catch((error) => {
           this.log && console.log('\nP-new-apiviz-instance.vue / createApivizInstance / error : ', error)
           this.createLoading = false
-          this.errorMessage = error
+          this.responseModadOpen = true
+          this.responseMessage = error
+          this.responseStatus = 500
+          this.responseMsgCode = 'error_1a'
         })
 
       },

@@ -15,7 +15,8 @@
       section">
       
       <p class="menu-label">
-        {{ getText('menu_preferences') }}
+        <!-- {{ getText('menu_preferences') }} -->
+        {{ basicDict.menu_preferences[locale] }}
       </p>
 
       <!-- MENUS -->
@@ -34,7 +35,8 @@
               <i :class="uMenu.icon"></i>
             </span> 
             <!-- {{ uMenu.title }} -->
-            {{ getText( uMenu.code ) }}
+            <!-- {{ getText( uMenu.code ) }} -->
+            {{ basicDict[uMenu.code][locale] }}
           </nuxt-link>
         </li>
       </ul>
@@ -107,6 +109,7 @@
   import { PreferencesGlobal } from '~/config/preferencesMenusConfig.js'
 
   import { getObjectDataFromPath, filterObjectByKey } from '~/plugins/utils.js'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   import InfosForm from './InfosForm.vue'
   import PasswordForm from './PasswordForm.vue'
@@ -130,6 +133,7 @@
         activeMenu : 'infos',
 
         userMenu : PreferencesGlobal.user,
+        basicDict : BasicDictionnary,
 
       }
     },
@@ -138,6 +142,7 @@
 
       ...mapState({
         log : state => state.log, 
+        locale : state => state.locale,
         user : state => state.user.user,
         config: state => state.config.config,
       }),
@@ -201,9 +206,9 @@
         let menuConfig = this.getMenuConfig(menuConfigField)
       },
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
 
       goBack(e){
         e.preventDefault()

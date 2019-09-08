@@ -8,6 +8,12 @@ console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID : ', process.env.
 const envBackendMode = process.env.NUXT_BACKEND_MODE || 'default'
 console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE : ', envBackendMode)
 
+const envAuthMode = process.env.NUXT_AUTH_MODE || 'default'
+console.log('>>> nuxt.config.js / process.env.NUXT_AUTH_MODE : ', envAuthMode)
+
+// const htmlFilesMode = process.env.NUXT_HTML_FILES || 'distant'
+// console.log('>>> nuxt.config.js / process.env.NUXT_HTML_FILES : ', htmlFilesMode)
+
 const logAllowed = ['dev', 'preprod']
 const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
 console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', consoleLogMode)
@@ -45,8 +51,10 @@ export default {
     // ApivizUUID : "c5efafab-1733-4ad1-9eb8-d529bc87c481", // config SONUM
     // ApivizUUID : "f0a482da-28be-4929-a443-f22ecb03ee68", // config APCIS
     ApivizUUID : process.env.NUXT_APIVIZ_UUID,
-    BackendMode : envBackendMode ,
+    BackendMode : envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
+    AuthMode : envAuthMode,
+    // HtmlFilesMode : htmlFilesMode,
   },
 
   /*
@@ -110,6 +118,7 @@ export default {
     // '~/plugins/utils',
     '~/plugins/json-editor',
     { src: '~/plugins/mapbox', mode: 'client' },
+    { src: '~/plugins/apexCharts', mode: 'client' },
   ],
 
   /*
@@ -161,6 +170,11 @@ export default {
   ** Build configuration
   */
   build: {
+
+    extend(config, { isDev, isClient }) {
+      config.resolve.alias["vue"] = "vue/dist/vue.common";
+    },
+
     vendors : [
       'axios',
       // 'vee-validate',

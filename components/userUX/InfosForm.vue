@@ -5,7 +5,7 @@
     <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">
-          {{ getText('u_infos') }}
+          {{ basicDict.u_infos[locale] }}
         </label>
       </div>
       <div class="field-body">
@@ -16,7 +16,7 @@
               v-validate="'required'" 
               name="userName"               
               type="text" 
-              :placeholder="getText('name')" 
+              :placeholder="basicDict.name[locale]" 
               v-model="userEdit.infos.name"
               >
             <span class="icon is-small is-left">
@@ -31,7 +31,7 @@
               v-validate="'required'" 
               name="userSurname" 
               type="text" 
-              :placeholder="getText('surname')" 
+              :placeholder="basicDict.surname[locale]" 
               v-model="userEdit.infos.surname"
               >
             <span class="icon is-small is-left">
@@ -46,7 +46,7 @@
     <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">
-          {{ getText('u_contact') }}
+          {{ basicDict.u_contact[locale] }}
         </label>
       </div>
       <div class="field-body">
@@ -56,7 +56,7 @@
               class="input" 
               name="userEmail" 
               type="email" 
-              :placeholder="getText('email')"
+              :placeholder="basicDict.email[locale]"
               v-model="userEdit.infos.email"
               >
             <span class="icon is-small is-left">
@@ -93,7 +93,7 @@
     <!-- <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">
-          {{ getText('u_profile') }}
+          {{ basicDict.u_profile') }}
         </label>
       </div>
       <div class="field-body">
@@ -151,7 +151,7 @@
     <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">
-          {{ getText('u_about') }}
+          {{ basicDict.u_about[locale] }}
         </label>
       </div>
       <div class="field-body">
@@ -159,7 +159,7 @@
           <div class="control">
             <textarea 
               class="textarea" 
-              :placeholder="getText('u_about_more')"
+              :placeholder="basicDict.u_about_more[locale]"
               >
             </textarea>
           </div>
@@ -183,7 +183,7 @@
                 <i class="far fa-save"></i>
               </span>
               <span>
-                {{ getText('u_infos_send') }}
+                {{ basicDict.u_infos_send[locale] }}
               </span>
             </button>
           </div>
@@ -201,6 +201,8 @@
   import { mapState, mapGetters } from 'vuex'
   import axios from 'axios'
 
+  import { BasicDictionnary } from "~/config/basicDict.js" 
+
 
   export default {
 
@@ -209,7 +211,8 @@
     data: function () {
       return {
         userEdit: undefined,
-        customformError: ''
+        customformError: '',
+        basicDict : BasicDictionnary,
       }
     },
 
@@ -222,6 +225,7 @@
 
       ...mapState({
         log : state => state.log, 
+        locale : state => state.locale,
         user: state => state.user.user,
         jwt: state => state.user.jwt,
       }),
@@ -239,9 +243,9 @@
 
     methods: {
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
     }
 
   }

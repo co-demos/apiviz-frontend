@@ -32,6 +32,8 @@
 
 <script>
 
+import { chooseTemplate } from '~/plugins/utils'
+
 import { mapState, mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -57,9 +59,10 @@ export default {
   computed: {
 
     ...mapState({
-      user: 'user',
-      log : 'log',
-      bannerVisible : 'bannerVisible'
+      user: state => state.user.user,
+      log : state => state.log,
+      locale : state => state.locale,
+      bannerVisible : state => state.bannerVisible
     }),
 
     ...mapGetters({
@@ -80,7 +83,10 @@ export default {
 
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
     // here we go fetch the raw HTML content of a webpage
-    let template_url = (this.currentBanner.template_url) ? this.currentBanner.template_url : 'https://co-demos.com/error'
+    // let template_url = (this.currentBanner.template_url) ? this.currentBanner.template_url : 'https://co-demos.com/error'
+    let template_url = (this.currentBanner && this.currentBanner.template_urls) ? chooseTemplate(this.currentBanner.template_urls, this.locale) : "https://raw.githubusercontent.com/co-demos/structure/master/pages-html/error-banner.html"
+
+
     let head = { 
       headers: {
         // 'Access-Control-Allow-Origin': '*',
