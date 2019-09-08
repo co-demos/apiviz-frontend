@@ -12,6 +12,8 @@
         <!-- block_id : <br><code>{{ matchItemWithConfig('block_id') }}</code><br> -->
         <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
         <!-- contentFields : <br><pre><code>{{ JSON.stringify(contentFields , null, 1) }}</code></pre><br>  -->
+        
+        <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions , null, 1) }}</code></pre><br>  -->
       <!-- </div> -->
 
       <!-- BLOCK IMAGE -->
@@ -140,6 +142,7 @@ export default {
 
     ...mapGetters({
       dataset_uri : 'search/getSearchDatasetURI',
+      filterDescriptions : 'search/getFilterDescriptions',
     }),
 
     // dataset_uri(){
@@ -174,7 +177,7 @@ export default {
 
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
 
-      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData)
+      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
 
       /*
         const contentField = this.contentFields.find(f=> f.position == fieldBlock)

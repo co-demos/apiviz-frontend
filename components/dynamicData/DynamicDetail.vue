@@ -560,6 +560,7 @@ export default {
 
     ...mapGetters({
       displayableItem : 'search/getDisplayedProject',
+      filterDescriptions : 'search/getFilterDescriptions',
     }),
 
     // default texts
@@ -605,7 +606,7 @@ export default {
 
       // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
 
-      return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData)
+      return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
 
       /*
         const contentField = this.contentFields.find(f=> f.position == fieldBlock)
