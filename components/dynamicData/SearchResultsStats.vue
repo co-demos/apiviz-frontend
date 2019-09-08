@@ -35,7 +35,7 @@
         <div 
           v-for="(chart, index) in chartsList"
           :key="chart.serie_id"
-          :class="`column is-${ chart.col_size }`"
+          :class="`apexChartComponent-canvas column is-${ chart.col_size }`"
           >
           <!-- {{ chart }} -->
           <ApexChartComponent

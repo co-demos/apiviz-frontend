@@ -3,6 +3,7 @@
   <!-- MAIN CHART COMPONENT -->
   <div 
     v-if="stats"
+    class="apexChartComponent-frame"
     >
     <!-- class="columns is-multiline" -->
 
@@ -12,16 +13,20 @@
     ></div> -->
 
       <!-- :class="`column is-${ chart.col_size }`" -->
-    <apexchart 
-      :type="chart.chart_type" 
-      :height="chart.height"
+    <!-- <div
+      class="apexChartComponent-margin"
+      > -->
+      <apexchart 
+        :type="chart.chart_type" 
+        :height="chart.height"
 
-      :options="refinedOptions"
-      :series="refinedSeries"
-      >
-      <!-- :options="buildChartOptions(chart)" -->
-      <!-- :series="buildChartSeries(chart)" -->
-    </apexChart>
+        :options="refinedOptions"
+        :series="refinedSeries"
+        >
+        <!-- :options="buildChartOptions(chart)" -->
+        <!-- :series="buildChartSeries(chart)" -->
+      </apexChart>
+    <!-- </div> -->
     
     <!-- <div class="column is-4">
       chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br>
@@ -323,5 +328,13 @@
 </script>
 
 <style scoped>
+
+.apexChartComponent-frame{
+  background-color: white;
+  padding: 1em;
+}
+/* .apexChartComponent-margin{
+  margin: 1em;
+} */
 
 </style>

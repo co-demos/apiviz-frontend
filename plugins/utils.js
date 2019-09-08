@@ -643,7 +643,30 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
         // DEALING WITH LIST-LIKE RESULTS (TAGS)
         // slice tags in array
         if ( field_format.type === 'list_tags' ){
+
           // log && console.log("getItemContent / list_tags content ", content)
+
+          if ( contentField.filter_correspondance ) {
+            // log && console.log("getItemContent / list_tags content filterDescriptions : ", filterDescriptions)
+            // choose filter corresponding to field
+
+            let corrFilter = filterDescriptions.find( f => f.col_name === contentField.field )
+            // log && console.log("getItemContent / list_tags content corrFilter : ", corrFilter)
+
+            let filterChoices = corrFilter.choices
+            // log && console.log("getItemContent / list_tags content filterChoices : ", filterChoices)
+            
+            content = content.map( c => {
+              let tagDict = filterChoices.find( t => t.name === c )
+              // log && console.log("getItemContent / list_tags content tagDict : ", tagDict)
+              let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
+              // log && console.log("getItemContent / list_tags content tagText : ", tagText)
+              let corrContent = tagText.text
+              // log && console.log("getItemContent / list_tags content corrContent : ", corrContent)
+              return corrContent ? corrContent : c  
+            })
+          }
+
           content = content.map( tag => {
             let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
             const tail = ( trimming && tag.length > trimming) ? '...' : ''
@@ -651,6 +674,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             return tag.slice(0, trim) + tail
           })
           // log && console.log("getItemContent / content B : ", content)
+
           return content
         }
 
@@ -680,11 +704,34 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
           // string is tag-like and needs to be splitten
           if ( contentField.is_tag_like ) {
             content = content.split(contentField.tags_separator).filter(c => c != "")
+
+            if ( contentField.filter_correspondance ) {
+              // log && console.log("getItemContent / list content filterDescriptions : ", filterDescriptions)
+              // choose filter corresponding to field
+
+              let corrFilter = filterDescriptions.find( f => f.col_name === contentField.field )
+              // log && console.log("getItemContent / list content corrFilter : ", corrFilter)
+
+              let filterChoices = corrFilter.choices
+              // log && console.log("getItemContent / list content filterChoices : ", filterChoices)
+              
+              content = content.map( c => {
+                let tagDict = filterChoices.find( t => t.name === c )
+                // log && console.log("getItemContent / list content tagDict : ", tagDict)
+                let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
+                // log && console.log("getItemContent / list content tagText : ", tagText)
+                let corrContent = tagText.text
+                // log && console.log("getItemContent / list content corrContent : ", corrContent)
+                return corrContent ? corrContent : c  
+              })
+            }
+
             content = content.map( tag => {
               let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
+
 
 
             return content
@@ -715,7 +762,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
               return tag.slice(0, trim) + tail
             })
 
-            log && console.log("getItemContent / object content is_tag_like : ", content)
+            // log && console.log("getItemContent / object content is_tag_like : ", content)
 
             if ( contentField.filter_correspondance ) {
               // log && console.log("getItemContent / object content filterDescriptions : ", filterDescriptions)
@@ -725,19 +772,25 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
               // log && console.log("getItemContent / object content corrFilter : ", corrFilter)
 
               let filterChoices = corrFilter.choices
-              log && console.log("getItemContent / object content filterChoices : ", filterChoices)
+              // log && console.log("getItemContent / object content filterChoices : ", filterChoices)
               
               content = content.map( c => {
                 let tagDict = filterChoices.find( t => t.name === c )
-                log && console.log("getItemContent / object content tagDict : ", tagDict)
+                // log && console.log("getItemContent / object content tagDict : ", tagDict)
                 let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
-                log && console.log("getItemContent / object content tagText : ", tagText)
+                // log && console.log("getItemContent / object content tagText : ", tagText)
                 let corrContent = tagText.text
-                log && console.log("getItemContent / object content corrContent : ", corrContent)
+                // log && console.log("getItemContent / object content corrContent : ", corrContent)
                 return corrContent ? corrContent : c  
               })
             }
 
+            content = content.map( tag => {
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              const tail = ( trimming && tag.length > trimming ) ? '...' : ''
+              return tag.slice(0, trim) + tail
+            })
+            
             log && console.log("getItemContent / object content is_tag_like : ", content)
 
             return content
