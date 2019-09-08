@@ -20,6 +20,15 @@
         </span>
       </div>
 
+      <div 
+        v-else
+        class="results-count"
+        >
+        <span class="has-text-primary">
+          {{ translateBis(endpointConfigFilters, 'stats_text' )}}
+        </span>
+      </div>
+
       <!-- SLOT FOR MAP'S ITEM CARD -->
       <slot name="item"/>
 
@@ -211,7 +220,7 @@
 
       translateBis( textsToTranslate, listField ) {
         let listTexts = textsToTranslate[listField]
-        return this.$Translate( listTexts, this.locale, 'text')
+        return listTexts && this.$Translate( listTexts, this.locale, 'text')
       },
 
       getDefaultText(txt_code){
