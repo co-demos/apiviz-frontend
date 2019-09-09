@@ -62,6 +62,7 @@ export default {
       user: state => state.user.user,
       log : state => state.log,
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
       bannerVisible : state => state.bannerVisible
     }),
 

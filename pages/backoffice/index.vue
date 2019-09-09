@@ -77,6 +77,7 @@ export default {
       rootUrlBackend : state => state.rootUrlBackend,
       rootUrlAuth : state => state.rootUrlAuth,
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
 
       // config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,

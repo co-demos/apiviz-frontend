@@ -1,4 +1,5 @@
 import { apiBackendConfigs } from '~/config/apiBackends.js'
+import { findBulmaBreakpointByWidth } from '~/config/constants.js'
 
 export const state = () => ({
 
@@ -20,13 +21,14 @@ export const state = () => ({
   // UX OPTIONS
   showNav : false,
   bannerVisible : true,
+  breakpoint : undefined,
 
   // FOR TRANSLATIONS
   locale: 'fr',
     
 })
 
-export const getters = {
+export const getters = {    
 
   // GLOBAL APP GETTERS
   // - - - - - - - - - - - - - - - //
@@ -58,6 +60,11 @@ export const getters = {
   // UX GETTERS
     getNavbarVisibility : state => {
       return state.showNav
+    },
+
+    getBreakpoint : (state) => (width) => {
+      let breakpoint = findBulmaBreakpointByWidth( width )
+      return breakpoint
     },
 
   // FOR TRANSLATIONS
@@ -108,6 +115,9 @@ export const mutations = {
     },
     setShowNavbar(state, value){
       state.showNav = value
+    },
+    setBreakpoint(state, breakpoint){
+      state.breakpoint = breakpoint
     },
 
     // INTERNATIONALIZATION

@@ -57,6 +57,8 @@
         log : 'log',
 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
+        
         // filterDescriptions: state => state.search.filterDescriptions,
         selectedFilters: state => {
           const {selectedFilters} = state.search.search.question

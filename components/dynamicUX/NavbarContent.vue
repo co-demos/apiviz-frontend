@@ -264,6 +264,7 @@
         log : state => state.log,
         user: state => state.user.user,
         locale: state => state.locale,
+        breakpoint : state => state.breakpoint,
         languages: state => state.config.config.global.app_languages,
       }),
 

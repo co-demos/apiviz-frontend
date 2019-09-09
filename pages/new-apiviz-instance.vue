@@ -898,6 +898,7 @@
 
       ...mapState({
         log : state => state.log,
+        breakpoint : state => state.breakpoint,
         currentApivizFrontUUID : state => state.apivizFrontUUID,
         runMode : state => state.runMode,
         rootUrlBackend : state => state.rootUrlBackend,

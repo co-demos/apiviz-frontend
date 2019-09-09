@@ -10,12 +10,15 @@
 
       <div 
         v-if="view != VIEW_STAT"
-        class="results-count"
+        :class="`results-count`"
         >
         <span class="nb">
           {{ pending ? '?' : total }}
         </span> 
-        <span>
+          <!-- v-if="breakpoint.btnsAsAddons" -->
+        <span 
+          :class="`${ breakpoint.btnsAsAddons ? '' : 'is-size-7' }`"
+          >
           {{ translateBis(endpointConfigFilters, 'items_found' )}}
         </span>
       </div>
@@ -24,7 +27,9 @@
         v-else
         class="results-count"
         >
-        <span class="has-text-primary">
+        <span 
+          :class="`has-text-primary`"
+          >
           {{ translateBis(endpointConfigFilters, 'stats_text' )}}
         </span>
       </div>
@@ -60,7 +65,7 @@
 
     <!-- BTNS VIEWS -->
     <div 
-      class="buttons has-addons is-right"
+      :class="`buttons ${ breakpoint.btnsAsAddons ? 'has-addons' : '' } is-right`"
       >
 
       <!-- BTN LIST -->
@@ -121,7 +126,7 @@
   import { mapState, mapGetters } from 'vuex'
   import { isMobile } from 'mobile-device-detect'
 
-  import { VIEW_LIST, VIEW_MAP, VIEW_STAT } from '../../config/constants.js'
+  import { VIEW_LIST, VIEW_MAP, VIEW_STAT, responsiveBreakpoint } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
@@ -170,6 +175,7 @@
       ...mapState({
         log : state => state.log, 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // total: state => state.search.search.answer.result && state.search.search.answer.result.total
       }),
@@ -191,6 +197,8 @@
         endpointConfigUrlToStat : 'config/getRouteConfigStatForDataset',
       }),
 
+
+
     },
 
     methods : {
@@ -202,7 +210,7 @@
 
       winWidth() {
         var w = window.innerWidth
-        if (w < 1090) {
+        if (w < responsiveBreakpoint) {
           this.smallButtons = true
         } else {
           this.smallButtons = false

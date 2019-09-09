@@ -10,7 +10,11 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <div class="container" v-if="pending">
+    <div 
+      class="container" 
+      v-if="pending"
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
       <div class="pending">
 
         <!-- Recherche en cours... -->
@@ -19,12 +23,14 @@
       </div>
     </div>
 
-    <div class="container" v-if="!pending">
+    <div 
+      class="container" 
+      v-if="!pending"
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
       <SearchResultsCountAndTabs 
         :view="VIEW_STAT"
         />
-
-      <br>
 
       <!-- MAIN CHART COMPONENT -->
       <div
@@ -213,6 +219,7 @@
 
         log : state => state.log, 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
         // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
@@ -381,7 +388,7 @@
     width: 100%;
 
     padding-bottom: 1.5rem;
-    padding-top: 1rem;
+    padding-top: .5rem;
   }
 
 

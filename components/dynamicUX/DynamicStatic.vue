@@ -8,7 +8,10 @@
   </div>-->
 
   <!-- MAIN PART -->
-  <div :class="`${ skipNavbar ? 'skip-navbar' : ''}`">
+  <div 
+    :class="`${ skipNavbar ? 'skip-navbar' : ''}`"
+    :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+    >
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script> -->
 
@@ -107,6 +110,7 @@ export default {
     ...mapState({
       log : state => state.log, 
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
       user : state => state.user.user,
     }),
 

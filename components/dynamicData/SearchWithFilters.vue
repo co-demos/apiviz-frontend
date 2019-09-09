@@ -210,6 +210,7 @@
       ...mapState({
         log : state => state.log, 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
         // selectedFilters: state => state.search.search.question.selectedFilters,
         // filterDescriptions: state => state.search.filterDescriptions
       }),
@@ -340,7 +341,7 @@
   .search-bar {
     
     top: $apiviz-navbar-height;
-    height: $apiviz-search-bar-height;
+    // height: $apiviz-search-bar-height;
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 

@@ -9,14 +9,22 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <div class="container" v-if="pending">
+    <div 
+      class="container" 
+      v-if="pending"
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
       <div class="pending">
         <!-- Recherche en cours... -->
         {{ basicDict.request_loading[locale] }}
       </div>
     </div>
 
-    <div class="container" v-if="!pending">
+    <div 
+      class="container" 
+      v-if="!pending"
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
       <SearchResultsCountAndTabs 
         :view="VIEW_LIST"
       />
@@ -38,23 +46,33 @@
         </div>
       </div>
 
+
       <div class="no-result error" v-if="total === 0">
+
         <img src="/static/illustrations/erreur_no_results.png">
-        <div>
-          <h1 class="title is-1 is-primary is-primary-b">
+
+        <br>
+
+        <div class="has-text-centered">
+
+          <h1 class="title is-1 has-text-primary has-text-primary-b">
             <!-- Aucun projet trouvé ! -->
             {{ basicDict.no_results[locale] }}
           </h1>
+
           <p>
             <!-- Pour obtenir plus de résultats, modifiez vos critères de recherche -->
             {{ basicDict.no_results_help[locale] }}
           </p>
+
           <button v-if="hasSelectedFilters" href="/" class="button is-primary is-primary-b is-outlined" @click="clearAllFilters">
             <!-- Supprimer tous les filtres -->
             {{ basicDict.delete_all_filters[locale] }}
           </button>
+
         </div>
       </div>
+
 
     </div>
   </section>
@@ -145,6 +163,7 @@
       ...mapState({
         log : 'log', 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
         total: state => state.search.search.answer.result && state.search.search.answer.result.total,
@@ -220,5 +239,7 @@
   .pending{
       text-align: center;
       padding: 2em;
+      margin-top : 8em;
+      margin-bottom : 8em;
   }
 </style>

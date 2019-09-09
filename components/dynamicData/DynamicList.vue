@@ -24,7 +24,8 @@ export default {
   props:[
     'routeConfig',
     'endPointConfig',
-    'filtersConfig'
+    'filtersConfig',
+    // 'breakpoint'
   ],
 
   beforeMount : function(){
@@ -45,6 +46,7 @@ export default {
 
     ...mapState({
       log : state => state.log, 
+      breakpoint : state => state.breakpoint,
       user: state => state.user.user
     }),
 

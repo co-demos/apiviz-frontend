@@ -1,6 +1,20 @@
 <template>
   <div>
 
+    <main v-if="!displayableItem">
+      
+      <div 
+        class="container"
+        :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+        >
+        <div class="pending">
+          <!-- Recherche en cours... -->
+          {{ basicDict.request_loading[locale] }}
+        </div>
+
+      </div>
+    </main>
+      
     <main v-if="displayableItem">
       
       <div class="container">
@@ -481,6 +495,7 @@
 
         </div>
       </div>
+
     </main>
 
     <NotFoundError v-if="isError"/>
@@ -497,6 +512,7 @@ import NotFoundError from './NotFoundError.vue';
 
 // import { getItemById } from '~/plugins/utils.js';
 import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
+import { BasicDictionnary } from "~/config/basicDict.js" 
 
 export default {
 
@@ -515,7 +531,8 @@ export default {
     return   {
       // displayableItem : null,
       contentFields : null,
-      isError: false
+      isError: false,
+      basicDict : BasicDictionnary, 
     }
   },
 
@@ -555,6 +572,7 @@ export default {
     ...mapState({
       log: state => state.log, 
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
       user: state => state.user.user,
     }),
 
@@ -803,5 +821,9 @@ export default {
         font-weight: bold;
     }
 
+  }
+  .pending{
+      text-align: center;
+      padding: 9em;
   }
 </style>

@@ -98,7 +98,8 @@ export default {
   computed : {
 
     ...mapState ({
-      locale : state => state.locale
+      locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
     }),
 
     ...mapGetters ({

@@ -16,7 +16,10 @@
     <!-- SearchResultsCountAndTabs -->
     <div class="count-and-tabs-container">
 
-      <div class="container">
+      <div 
+        class="container"
+        :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+        >
 
         <SearchResultsCountAndTabs 
           :view="VIEW_MAP" 
@@ -415,6 +418,7 @@ export default {
     ...mapState({
       log : state => state.log, 
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
     }),
 
     ...mapGetters({

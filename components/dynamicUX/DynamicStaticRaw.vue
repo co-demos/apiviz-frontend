@@ -39,6 +39,7 @@
 
       ...mapState({
         log : state => state.log, 
+        breakpoint : state => state.breakpoint,
       }),
 
     },
