@@ -118,7 +118,8 @@ export const getters = {
       return (state.config.global) ? state.config.global.app_logo : undefined 
     },
     getNavbarBrand : state => {
-      return (state.config.global) ? state.config.global.app_title.content : undefined 
+      // return (state.config.global) ? state.config.global.app_title.content : undefined 
+      return (state.config.global) ? state.config.global.app_title : undefined 
     },
 
   // FOOTER RELATED

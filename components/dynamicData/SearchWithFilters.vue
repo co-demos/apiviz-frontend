@@ -4,9 +4,9 @@
     <div class="container">
       
       <!-- INPUT TEXT -->
-      <div class="navbar-start"> <!-- is-hidden-touch (to completely hide from mobile)-->
+      <div class="navbar-start custom-start"> <!-- is-hidden-touch (to completely hide from mobile)-->
       
-        <div class="columns is-gapless is-mobile">
+        <div class="columns is-gapless is-mobile custom-input">
 
           <div :class="`column is-${ showFiltersSwitch ? '10' : '12' }`">
             <div class="navbar-item is-paddingless">
@@ -336,6 +336,15 @@
   .filters-delimiter{
     margin:0em;
     background-color: $apiviz-primary;
+  }
+
+  .custom-start {
+    margin-right: none;
+    width: 100%;
+
+    .custom-input{
+      width: 100%;
+    }
   }
 
   .search-bar {

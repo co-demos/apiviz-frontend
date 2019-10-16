@@ -28,10 +28,10 @@
       </apexChart>
     <!-- </div> -->
     
-    <!-- <div class="column is-4">
-      chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br>
-      stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br>
-    </div> -->
+    <!-- <div class="column is-4"> -->
+      <!-- chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br> -->
+      <!-- stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br> -->
+    <!-- </div> -->
 
     <!-- - rawSerie : <code> {{ rawSerie }} </code><br> -->
     <!-- - refinedSeries : <code> {{ refinedSeries }} </code><br> -->
@@ -177,6 +177,7 @@
         this.log && console.log('C-ApexChartComponent-buildChartSeries / dataObject A :', dataObject)
 
         this.log && console.log('C-ApexChartComponent-buildChartSeries / serieChartOptions A :', serieChartOptions)
+        
         // add infos to chartOptions
         if ( serieChartOptions && serieChartOptions.length > 0 ){
 
@@ -297,7 +298,7 @@
         this.refinedSeries = dataObjectRefined
 
 
-        // reename labels from labels_dict
+        // rename labels from labels_dict
         if ( dataSerieSettings.need_labels_rename ) {
           this.log && console.log('C-ApexChartComponent-buildChartSeries / needs_labels_rename... ')
 
