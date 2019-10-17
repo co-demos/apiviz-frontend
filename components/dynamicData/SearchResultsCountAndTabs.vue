@@ -12,7 +12,7 @@
         v-if="view != VIEW_STAT"
         :class="`results-count`"
         >
-        <span class="nb">
+        <span class="nb has-text-primary has-text-primary-c">
           {{ pending ? '?' : total }}
         </span> 
           <!-- v-if="breakpoint.btnsAsAddons" -->
@@ -73,7 +73,7 @@
         v-if="typeof endpointConfigList !== 'undefined' && endpointConfigList.is_visible"
         :disabled="endpointConfigList.is_disabled" 
         :to="endpointConfigUrlToList.urls[0]" 
-        :class="['has-text-centered button ', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
+        :class="['has-text-centered button ', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="fas fa-th-large"></i>
@@ -89,7 +89,7 @@
         v-if="typeof endpointConfigMap !== 'undefined' && endpointConfigMap.is_visible"
         :disabled="endpointConfigMap.is_disabled" 
         :to="endpointConfigUrlToMap.urls[0]" 
-        :class="['has-text-centered button ', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
+        :class="['has-text-centered button ', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="far fa-map"></i>
@@ -105,7 +105,7 @@
         v-if="typeof endpointConfigStat !== 'undefined' && endpointConfigStat.is_visible"
         :disabled="endpointConfigStat.is_disabled" 
         :to="endpointConfigUrlToStat.urls[0]" 
-        :class="['has-text-centered button ', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : undefined, smallButtons ? '' : '' ]" 
+        :class="['has-text-centered button ', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="far fa-chart-bar"></i>
@@ -280,7 +280,7 @@
       align-items: center;
 
       .nb{
-        color: $apiviz-primary;
+        // color: $apiviz-primary;
         font-size: 1.3em;
         font-weight: bold;
         margin-right: 0.5em;

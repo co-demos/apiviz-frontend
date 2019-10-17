@@ -8,7 +8,8 @@
       :style="`margin-top:${tabConfig.ui_options.top_margin.value}rem; margin-bottom:${tabConfig.ui_options.bottom_margin.value}rem`"
       >
       
-      <ul :class="`${tabConfig.ui_options.class.value}`">
+      <!-- <ul :class="`${tabConfig.ui_options.class.value}`"> -->
+      <ul :class="`cis-tabs apiviz-tabs`">
 
         <li v-for="tab in tabConfig.tabs_options" 
           :key="tab.tab_code"
@@ -16,6 +17,7 @@
           >
           <nuxt-link
             :to="tab.link_to"
+            class=""
             @click="setActiveTab(tab.tab_code)"
             >
             <span v-if="tab.has_icon" class="icon">

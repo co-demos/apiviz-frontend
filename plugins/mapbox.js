@@ -70,11 +70,11 @@ export function createGeoJSONSource (geoJSON, vars) {
 
   let geoJsonSource = {
     // id : 'clusterLayer',
-    type : 'geojson',
-    data : geoJSON,
-    cluster : vars.isCluster,
+    type           : 'geojson',
+    data           : geoJSON,
+    cluster        : vars.isCluster,
     clusterMaxZoom : vars.clusterMaxZoom,
-    clusterRadius : vars.clusterRadius,
+    clusterRadius  : vars.clusterRadius,
   }
   return geoJsonSource
 }
@@ -83,39 +83,60 @@ export function createGeoJSONSource (geoJSON, vars) {
 export function createClusterCirclesLayer (sourceId, vars) {
 
   let layerConfig = {
-    id: "clusters",
-    type: "circle",
-    source: sourceId,
-    filter: ["has", "point_count"],
-    paint: {
+    id     : "clusters",
+    type   : "circle",
+    source : sourceId,
+    filter : ["has", "point_count"],
+    paint  : {
       // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
       // with three steps to implement three types of circles:
       //   * Blue, 20px circles when point count is less than 100
       //   * Yellow, 30px circles when point count is between 100 and 750
       //   * Pink, 40px circles when point count is greater than or equal to 750
-      "circle-stroke-width": 1,
-      "circle-stroke-color": "#fff",
+      
+      "circle-stroke-width": vars.circleStrokeWidth,
+      "circle-stroke-color": vars.circleStrokeColor,
+
+      // "circle-color": [
+      //   "step",
+      //   ["get", "point_count"],
+      //   // "#51bbd6", 
+      //   // 100, "#f1f075", 
+      //   // 750,"#f28cb1"
+      //   "#a174ac", 
+      //   100, "#90689a", 
+      //   250, "#805c89", 
+      //   500, "#705178", 
+      //   750, "#503a56", 
+      // ],
       "circle-color": [
         "step",
         ["get", "point_count"],
-        // "#51bbd6", 
-        // 100, "#f1f075", 
-        // 750,"#f28cb1"
-        "#a174ac", 
-        100, "#90689a", 
-        250, "#805c89", 
-        500, "#705178", 
-        750, "#503a56", 
+        vars.circleColor, 
+        100, vars.circleColor100, 
+        250, vars.circleColor250, 
+        500, vars.circleColor500, 
+        750, vars.circleColor750
       ],
+
+      // "circle-radius": [
+      //   "step",
+      //   ["get", "point_count"],
+      //   20, 
+      //   100, 20, 
+      //   250, 30,
+      //   500, 40,
+      //   750, 50
+      // ],
       "circle-radius": [
         "step",
         ["get", "point_count"],
-        20, 
-        100, 20, 
-        250, 30,
-        500, 40,
-        750, 50
-    ]
+        vars.circleRadius, 
+        100, vars.circleRadius100, 
+        250, vars.circleRadius250,
+        500, vars.circleRadius500,
+        750, vars.circleRadius750
+      ]
     }
   }
   return layerConfig
@@ -135,10 +156,10 @@ export function createClusterCountLayer (sourceId, vars) {
       // "text-font": ["Open Sans Regular"], // OK
       // "text-font": ["Roboto Regular"], // not working
 
-      "text-size": 12
+      "text-size": vars.textSize
     },
     paint: {
-      "text-color": "#ffffff"
+      "text-color": vars.textColor
     }
   }
   return layerConfig
@@ -152,10 +173,10 @@ export function createClusterUnclusteredLayer (sourceId, vars) {
     source: sourceId,
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": "#fff",
-      "circle-radius": 5,
-      "circle-stroke-width": 5,
-      "circle-stroke-color": "#a174ac"
+      "circle-color": vars.circleColor,
+      "circle-radius": vars.circleRadius,
+      "circle-stroke-color": vars.circleStrokeColor,
+      "circle-stroke-width": vars.circleStrokeWidth,
     }
   }
   return layerConfig
@@ -176,9 +197,9 @@ export function createAllPoints (sourceId, vars) {
         9, 0,
         vars.maxZoom, 1
       ], 
-      "circle-stroke-color": "#fff",
-      "circle-color": "#a174ac",
-      "circle-opacity": 0.8,
+      "circle-stroke-color": vars.circleStrokeColor,
+      "circle-color": vars.circleColor,
+      "circle-opacity": vars.circleOpacity,
       "circle-radius": [
         "interpolate",
         ["linear"],

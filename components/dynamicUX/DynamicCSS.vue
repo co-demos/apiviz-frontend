@@ -2,13 +2,22 @@
   <div>
     <style type="text/css">
       a{ 
-        color : {{appColors['link']}} ;
+        color : {{appColors['link']}};
       }
       a:hover{ 
         color : {{appColors['primary']}} ;
       }
       .has-bottom-border{
         border-bottom-color : {{ appColors['navbar-border-color'] }} !important;
+      }
+      .a-anim:before{
+        background-color: {{appColors['primary']}} !important;
+      }
+      .apiviz-tabs li:not(:last-child){
+        border-right: 1px solid {{appColors['primary']}} !important;
+      }
+      .lds-roller div:after {
+        background:  {{appColors['primary']}} !important;
       }
     </style>
       <!-- color : {{appColors['link-hover']}} -->
@@ -17,11 +26,21 @@
       :key="index"
       type="text/css"
       >
+
         .has-text-{{ cCode }}-c{
           color : {{ appColors[cCode] }} !important ;
         }
-        .has-text-{{ cCode }}-c{
+        .has-text-{{ cCode }}-hover-c:hover{
           color : {{ appColors[cCode] }} !important ;
+        }
+
+        .is-underlined-{{cCode}}-c {
+          border-bottom: solid !important;
+          border-color : {{ appColors[cCode] }} !important ;
+        }
+        .menu-delimiter-{{cCode}}-c{
+          margin:0em 0em 1.5em 0em ;
+          background-color: {{ appColors[cCode] }} !important;
         }
 
         .is-{{ cCode }}-b{
@@ -56,6 +75,10 @@
           background-color : {{ appColors[cCode] }} !important ;
           border-color : white !important ;
           color : white !important ;
+        }
+
+        .is-checkradio-c[type="checkbox"] + label::after, .is-checkradio-c[type="checkbox"] + label::after{
+          border-color : {{ appColors[cCode] }} !important ;
         }
 
     </style>

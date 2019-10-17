@@ -15,7 +15,7 @@
 
       <div
         v-if="brand.is_in_navbar"
-        class="navbar-item has-text-weight-medium is-size-6-touch is-size-5-desktop is-family-primary">
+        :class="`navbar-item has-text-weight-medium is-size-6-touch is-size-5-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
         <!-- {{ brand.content }} -->
         {{ translate( brand, 'content_text' ) }}
       </div>

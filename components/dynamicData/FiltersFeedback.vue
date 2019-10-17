@@ -4,7 +4,8 @@
     <div class="container inline-filters">
 
       <!-- REINIT FILTERS -->
-      <a class="button is-small" @click="clearAllFilters">
+      <a class="button is-small has-text-primary-hover-c" 
+        @click="clearAllFilters">
         <span>
           {{ getText('reinit_filters') }}
         </span>
@@ -16,7 +17,7 @@
 
       <!-- LOOP SELECTED FILTERS -->
       <a v-for="{filter, value} in selectedFilters" :key="filter+value"
-        class="button is-small is-grey" 
+        class="button is-small is-grey has-text-primary-hover-c" 
         @click="clearFilter({filter, value})"
         >
         <span>
@@ -166,7 +167,6 @@
   .filter-feedback > .inline-filters span.all{
 
       background-color: white;
-
       color: #767676;
   }
 

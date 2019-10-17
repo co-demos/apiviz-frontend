@@ -307,6 +307,9 @@ export default {
     const mapOptions = this.endPointConfig.map_options
     this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
 
+    const mapOptionsRoute = this.routeConfig.map_options
+    this.log && console.log("C-SearchResultsMapbox / mapOptionsRoute : \n", mapOptionsRoute)
+
     this.zoom = mapOptions.zoom
     this.maxZoom = mapOptions.maxZoom
     this.minZoom = mapOptions.minZoom
@@ -507,15 +510,61 @@ export default {
 
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
 
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / this.routeConfig : ", this.routeConfig)
+      let mapboxOptions = this.routeConfig.map_options.mapbox_layers
+
       let mapboxMap = this.map 
 
-      let allPointsConfig = createAllPoints(geoJsonSourceId.allPointsId, { radiusMin: 1, radiusMax: 10, maxZoom: this.maxZoom-5 })
-      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {propWeight: 'weigth', maxZoom: this.maxZoom })
 
-      let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId.clusterId, {})
-      let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, {})
-      let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, {})
+      let allPointsConfigOptions = mapboxOptions.all_points
+      let allPointsConfig = createAllPoints(geoJsonSourceId.allPointsId, { 
+        radiusMin         : allPointsConfigOptions.radius_min , // 1, 
+        radiusMax         : allPointsConfigOptions.radius_max , // 10, 
+        maxZoom: this.maxZoom-5, 
+        circleColor       : allPointsConfigOptions.circle_color , // "#a174ac", 
+        circleStrokeColor : allPointsConfigOptions.circle_stroke_color , // "#fff",
+        circleOpacity     : allPointsConfigOptions.circle_opacity , // 0.8, 
+      })
 
+      // let heatmapLayerConfigOptions = mapboxOptions.heatmap_layer /// TO DO 
+      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {
+        propWeight: 'weigth', 
+        maxZoom: this.maxZoom 
+      })
+
+      let clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
+      let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId.clusterId, {
+        circleColor    : clusterLayerConfigOptions.circle_color ,// "#a174ac", 
+        circleColor100 : clusterLayerConfigOptions.circle_color_100 ,// "#90689a", 
+        circleColor250 : clusterLayerConfigOptions.circle_color_250 ,// "#805c89", 
+        circleColor500 : clusterLayerConfigOptions.circle_color_500 ,// "#705178", 
+        circleColor750 : clusterLayerConfigOptions.circle_color_750 ,// "#503a56", 
+
+        circleRadius    : clusterLayerConfigOptions.circle_radius ,// 20, 
+        circleRadius100 : clusterLayerConfigOptions.circle_radius_100 ,// 20, 
+        circleRadius250 : clusterLayerConfigOptions.circle_radius_250 ,// 30, 
+        circleRadius500 : clusterLayerConfigOptions.circle_radius_500 ,// 40, 
+        circleRadius750 : clusterLayerConfigOptions.circle_radius_750 ,// 50, 
+
+        circleStrokeColor : clusterLayerConfigOptions.circle_stroke_color ,// "#fff",
+        circleStrokeWidth : clusterLayerConfigOptions.circle_stroke_width ,// 1,
+      })
+
+      let countLayerConfigOptions = mapboxOptions.cluster_count_layer
+      let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, {
+        textSize  : countLayerConfigOptions.text_size , // 12,
+        textColor : countLayerConfigOptions.text_color , // "#ffffff"
+      })
+
+      let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
+      let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, {
+        circleColor       : unclusteredLayerConfigOptions.circle_color , // "#fff", 
+        circleRadius      : unclusteredLayerConfigOptions.circle_troke_color , // 5, 
+        circleStrokeColor : unclusteredLayerConfigOptions.circle_radius , // "#a174ac",
+        circleStrokeWidth : unclusteredLayerConfigOptions.circle_stroke_width , // 5, 
+      })
+
+      // let choroplethConfigOptions = mapboxOptions.choropleth_layer /// TO DO 
       let choroplethConfig = createChoroplethLayer('choroSource', {})
 
       //  CHOROPLETH

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar navbar is-white is-fixed-top" role="menubar" aria-label="filters navigation">
+  <div class="search-bar navbar is-white is-fixed-top has-bottom-border" role="menubar" aria-label="filters navigation">
     
     <div class="container">
       
@@ -51,11 +51,11 @@
             >
             <div class="navbar-item navbar-item-filter has-text-centered">
               <a 
-                :class="`button ${ showFilters ? 'is-primary' : 'is-white' }`"
+                :class="`button ${ showFilters ? 'is-primary is-primary-c' : 'is-white' }`"
                 @click="SwitchFilters()"
                 >
                 <span 
-                  :class="`icon ${ showFilters ? '' : 'has-text-primary' }`">
+                  :class="`icon ${ showFilters ? '' : 'has-text-primary has-text-primary-c' }`">
                   <i class="fas fa-filter"></i>
                 </span>
               </a>
@@ -111,7 +111,7 @@
               class="navbar-item no-border"
               >
               <div class="field is-narrow">
-                <input 	class="is-checkradio is-default is-normal"
+                <input 	class="is-checkradio is-checkradio-c is-default is-normal"
                   :id="choice.name"
                   type="checkbox"
                   :checked="selectedFilters.get(filter.name).has(choice.name)"
