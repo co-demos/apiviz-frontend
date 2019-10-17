@@ -43,7 +43,9 @@
           :key="chart.serie_id"
           :class="`apexChartComponent-canvas column is-${ chart.col_size }`"
           >
+
           <!-- {{ chart }} -->
+
           <ApexChartComponent
             v-if="chart.is_activated"
             :chart="chart"
@@ -391,6 +393,9 @@
     padding-top: .5rem;
   }
 
+  .apexChartComponent-canvas{
+    margin: 1em 0.75em 1em 0.75em ;
+  }
 
   .pending{
     text-align: center;

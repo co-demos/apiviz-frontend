@@ -1,51 +1,106 @@
 <template>
 
-  <!-- MAIN CHART COMPONENT -->
-  <div 
-    v-if="stats"
-    class="apexChartComponent-frame"
-    >
-    <!-- class="columns is-multiline" -->
+  <div class="columns">
 
-    <!-- <div 
-      class="is-divider column is-12" 
-      :data-content="chart.serie_id"
-    ></div> -->
 
-      <!-- :class="`column is-${ chart.col_size }`" -->
-    <!-- <div
-      class="apexChartComponent-margin"
-      > -->
-      <apexchart 
-        :type="chart.chart_type" 
-        :height="chart.height"
+    <!-- CHART TEXTS -->
+    <div
+      v-if="chart.chart_texts && chart.chart_texts.placement === 'left' && innerColumnsSizes.textsCols !== 0 "
+      :class="`column is-${ innerColumnsSizes.textsCols }`"
+      >
 
-        :options="refinedOptions"
-        :series="refinedSeries"
+      <div
+        v-for="(textField, index) in textContentsFields"
+        key="index"
         >
-        <!-- :options="buildChartOptions(chart)" -->
-        <!-- :series="buildChartSeries(chart)" -->
-      </apexChart>
-    <!-- </div> -->
-    
-    <!-- <div class="column is-4"> -->
-      <!-- chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br> -->
-      <!-- stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br> -->
-    <!-- </div> -->
+        <h4 
+          v-if="chart.chart_texts[textField] && textField === 'text_title'"
+          class="has-text-weight-semibold">
+          {{ translate(chart.chart_texts, textField ) }}
+        </h4>
 
-    <!-- - rawSerie : <code> {{ rawSerie }} </code><br> -->
-    <!-- - refinedSeries : <code> {{ refinedSeries }} </code><br> -->
-    <!-- - refinedOptions : <code> {{ refinedOptions }} </code><br> -->
-    
-    <!-- <div class="column is-4"> -->
-      <!-- refinedSeries : <br><pre><code>{{ JSON.stringify( refinedSeries, null, 1) }}</code></pre><br> -->
-      <!-- refinedOptions : <br><pre><code>{{ JSON.stringify( refinedOptions, null, 1) }}</code></pre><br> -->
-      <!-- buildChartSeries(chart) : <br><pre><code>{{ JSON.stringify(buildChartSeries(chart), null, 1) }}</code></pre><br> -->
-      <!-- buildChartOptions(chart) : <br><pre><code>{{ JSON.stringify(buildChartOptions(chart), null, 1) }}</code></pre><br> -->
-    <!-- </div> -->
+        <p 
+          v-if="chart.chart_texts[textField] && textField !== 'text_title'"
+          class="is-size-7 chart-text">
+          {{ translate(chart.chart_texts, textField ) }}
+        </p>
+      </div>
+
+    </div>
+
+    <!-- MAIN CHART COMPONENT -->
+    <div 
+      v-if="stats"
+      :class="`apexChartComponent-frame column is-${ innerColumnsSizes.chartCols }`"
+      >
+      <!-- class="columns is-multiline" -->
+
+      <!-- <div 
+        class="is-divider column is-12" 
+        :data-content="chart.serie_id"
+      ></div> -->
+
+        <!-- :class="`column is-${ chart.col_size }`" -->
+      <!-- <div
+        class="apexChartComponent-margin"
+        > -->
+        <apexchart 
+          :type="chart.chart_type" 
+          :height="chart.height"
+
+          :options="refinedOptions"
+          :series="refinedSeries"
+          >
+          <!-- :options="buildChartOptions(chart)" -->
+          <!-- :series="buildChartSeries(chart)" -->
+        </apexChart>
+      <!-- </div> -->
+      
+      <!-- <div class="column is-4"> -->
+        <!-- chart.data_mapping : <br><pre><code>{{ JSON.stringify(chart.data_mapping, null, 1) }}</code></pre><br> -->
+        <!-- stats : <br><pre><code>{{ JSON.stringify( stats, null, 1) }}</code></pre><br> -->
+      <!-- </div> -->
+
+      <!-- - rawSerie : <code> {{ rawSerie }} </code><br> -->
+      <!-- - refinedSeries : <code> {{ refinedSeries }} </code><br> -->
+      <!-- - refinedOptions : <code> {{ refinedOptions }} </code><br> -->
+      
+      <!-- <div class="column is-4"> -->
+        <!-- refinedSeries : <br><pre><code>{{ JSON.stringify( refinedSeries, null, 1) }}</code></pre><br> -->
+        <!-- refinedOptions : <br><pre><code>{{ JSON.stringify( refinedOptions, null, 1) }}</code></pre><br> -->
+        <!-- buildChartSeries(chart) : <br><pre><code>{{ JSON.stringify(buildChartSeries(chart), null, 1) }}</code></pre><br> -->
+        <!-- buildChartOptions(chart) : <br><pre><code>{{ JSON.stringify(buildChartOptions(chart), null, 1) }}</code></pre><br> -->
+      <!-- </div> -->
+
+    </div>
+
+    <!-- CHART TEXTS -->
+    <div
+      v-if="chart.chart_texts && chart.chart_texts.placement === 'right' && innerColumnsSizes.textsCols !== 0 "
+      :class="`column is-${ innerColumnsSizes.textsCols }`"
+      >
+
+      <div
+        v-for="(textField, index) in textContentsFields"
+        key="index"
+        >
+        <h4 
+          v-if="chart.chart_texts[textField] && textField === 'text_title'"
+          class="has-text-weight-semibold">
+          {{ translate(chart.chart_texts, textField ) }}
+        </h4>
+
+        <p 
+          v-if="chart.chart_texts[textField] && textField !== 'text_title'"
+          class="is-size-7 chart-text">
+          {{ translate(chart.chart_texts, textField ) }}
+        </p>
+      </div>
+
+    </div>
 
   </div>
-  
+
 </template>
 
 <script>
@@ -101,6 +156,13 @@
         refinedSeries : undefined,
         refinedOptions : undefined,
 
+        textContentsFields : [
+          "text_title",
+          "text_content_a",
+          "text_content_b",
+          "text_content_c"
+        ]
+
       }
 
     },
@@ -119,6 +181,19 @@
 
       ...mapGetters({
       }),
+
+      innerColumnsSizes() {
+        let innerCols = {
+          chartCols : 12,
+          textsCols : 0
+        }
+        if( this.chart && this.chart.chart_texts && this.chart.chart_texts.is_activated ) {
+          let chartTexts = this.chart.chart_texts
+          innerCols.textsCols = chartTexts.inner_col_size
+          innerCols.chartCols = 12 - chartTexts.inner_col_size
+        }
+        return innerCols
+      },
 
     },
 
@@ -321,7 +396,12 @@
       },
 
 
-
+      translate( textsToTranslate, listField ) {
+        // this.log && console.log('C-SearchWithFilters / translate / listField : ', listField )
+        // this.log && console.log('C-SearchWithFilters / translate / textsToTranslate : ', textsToTranslate )
+        let listTexts = textsToTranslate[listField]
+        return this.$Translate( listTexts, this.locale, 'text')
+      },
 
     },
 
@@ -331,12 +411,16 @@
 
 <style scoped>
 
-.apexChartComponent-frame{
-  background-color: white;
-  padding: 1em;
-}
-/* .apexChartComponent-margin{
-  margin: 1em;
-} */
+  .apexChartComponent-frame{
+    background-color: white;
+    padding: 1em;
+  }
+  /* .apexChartComponent-margin{
+    margin: 1em;
+  } */
+
+  .chart-text {
+    padding-top : 0.25em 
+  }
 
 </style>

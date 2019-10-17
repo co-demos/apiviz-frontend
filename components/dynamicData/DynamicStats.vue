@@ -46,6 +46,7 @@ export default {
 
     ...mapState({
       log : state => state.log, 
+      locale : state => state.locale,
       breakpoint : state => state.breakpoint,
       user: state => state.user.user
     }),
