@@ -118,6 +118,25 @@
 
     </div>
 
+
+    <!-- EXPORT DATASET-->
+    <div v-if="endpointConfigFilters.has_export && endpointConfigExport.is_visible"
+      :class="'is-right'"
+      >
+      <div class="">
+        <a class="button has-text-primary-hover-c tooltip is-tooltip-bottom"
+          :data-tooltip="basicDict.tab_export[locale]"
+          @click="exportDataset()"
+          :disabled="endpointConfigExport.is_disabled"
+          >
+          <span class="icon">
+            <i class="fas fa-download"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
@@ -188,9 +207,10 @@
 
         endpointConfigDetail : 'config/getEndpointConfigDetail',
 
-        endpointConfigList : 'config/getEndpointConfigList',
-        endpointConfigMap  : 'config/getEndpointConfigMap',
-        endpointConfigStat : 'config/getEndpointConfigStat',
+        endpointConfigList   : 'config/getEndpointConfigList',
+        endpointConfigMap    : 'config/getEndpointConfigMap',
+        endpointConfigStat   : 'config/getEndpointConfigStat',
+        endpointConfigExport : 'config/getEndpointConfigExport',
 
         endpointConfigUrlToList : 'config/getRouteConfigListForDataset',
         endpointConfigUrlToMap  : 'config/getRouteConfigMapForDataset',
@@ -219,6 +239,25 @@
 
       reShuffle() {
         // TO DO 
+      },
+
+      exportDataset() {
+        // TO DO 
+        let exportConfig = this.endpointConfigExport
+        this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
+
+        let fileName = "export_file" + '.csv'
+
+        let response = this.$store.dispatch( 'search/exportDataset' )
+        this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
+
+        let blob = new Blob([response], {type: 'text/csv'})
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.setAttribute('download', fileName) // or any other extension
+        document.body.appendChild(link)
+        link.click()
+
       },
 
       // translate( textsToTranslate ) {

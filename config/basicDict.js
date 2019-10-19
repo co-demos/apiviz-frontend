@@ -31,7 +31,13 @@ export const BasicDictionnary = {
     tr : "istat",
     fr : "données",
   },
-
+  tab_export : {
+    en : "export data",
+    es : "exportar los datos",
+    de : "export",
+    tr : "export",
+    fr : "exporter les données",
+  },
   // 
   request_loading : {
     en : "request is pending...",

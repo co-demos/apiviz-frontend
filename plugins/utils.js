@@ -373,7 +373,87 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   */
 
 }
+// export function searchItems( url=undefined, responsePaths=undefined, endpointRawConfig=undefined ){
+export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undefined ){
 
+  console.log("\n+ + + rawRequest ... ")
+  console.log("+ + + rawRequest / endpointGenerated : ", endpointGenerated)
+  console.log("+ + + rawRequest / endpointRawConfig : ", endpointRawConfig)
+
+  let methodsWithPayload = [ "POST", "PUT", "PATCH" ]
+  let fetchMethod = endpointRawConfig.method
+  console.log("+ + + rawRequest / fetchMethod : ", fetchMethod)
+
+  let fetchHeader = endpointGenerated.requestHeader
+  // let fetchHeader = {
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/json',
+  //   // "Access-Control-Allow-Origin" : "*",
+  // }
+  console.log("+ + + rawRequest / fetchHeader : ", fetchHeader)
+
+  let fetchUrl = endpointGenerated.requestUrl
+  console.log("+ + + rawRequest / fetchUrl : ", fetchUrl)
+
+  let fetchPayload = endpointGenerated.requestPayload
+  console.log("+ + + rawRequest / fetchPayload : ", fetchPayload)
+
+  let responsePaths = endpointRawConfig.resp_fields
+  console.log("+ + + rawRequest / responsePaths : ", responsePaths)
+
+  // abort fetch if this is supported
+  // abort manually when response arrives otherwise
+  const ac = abortableFetchSupported ? new AbortController() : undefined
+  let searchAborted = false
+
+  // set up fetch options
+  let fetchOptions = { 
+    method : fetchMethod,
+    signal: ac.signal,
+    header : fetchHeader
+  }
+  // set up axios options
+  let axiosOptions = {
+    url : fetchUrl,
+    method : fetchMethod.toLowerCase(),
+    header : fetchHeader
+  }
+
+  let payloadJson = JSON.stringify( fetchPayload )
+  console.log("+ + + rawRequest / payloadJson : ", payloadJson)
+  if ( methodsWithPayload.includes(fetchMethod) ){
+    fetchOptions.body = payloadJson
+    // fetchOptions.body = fetchPayload
+    axiosOptions.data = payloadJson
+  }
+
+  console.log("+ + + rawRequest / fetchOptions : ", fetchOptions)
+  console.log("+ + + rawRequest / axiosOptions : ", axiosOptions)
+  console.log("+ + + rawRequest / ac : ", ac)
+
+  // try {
+    return {
+      abort(){
+        searchAborted = true
+        if( ac )
+          ac.abort()
+      },
+      promise : axios({
+        method: fetchMethod.toLowerCase(),
+        url: fetchUrl,
+        data : payloadJson,
+        headers : fetchHeader,
+      })
+      .then( resp => {
+        console.log("+ + + rawRequest / (axios) / resp :", resp);  
+        return resp  
+      })
+      .catch( err => {
+        console.log("+ + + rawRequest / (axios)  err :", err);
+      })
+    }
+
+}
 
 
 export function buildRequestHeader( token, endpointConfigHeaderAuth ){
@@ -478,7 +558,7 @@ export function searchEndpointGenerator( obj ) {
 
 
   // base query to be completed with args + questions
-  let baseQuery = endpointConfig.root_url + '?'
+  // let baseQuery = endpointConfig.root_url + '?'
 
   const appArgs = [
     'query', 
@@ -517,8 +597,13 @@ export function searchEndpointGenerator( obj ) {
     }
   }
 
-  let argsLongString = argsArray.join('&')
-  baseQuery += argsLongString
+  let baseQuery = endpointConfig.root_url
+  if ( argsArray.length > 0 ){
+    baseQuery += '?'
+    let argsLongString = argsArray.join('&')
+    console.log("+ + + searchEndpointGenerator / argsLongString :  ", argsLongString)
+    baseQuery += argsLongString
+  } 
 
   // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
 

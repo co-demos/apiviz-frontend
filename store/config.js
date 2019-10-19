@@ -267,6 +267,13 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },
+    getEndpointConfigExport : (state, getters, rootState) => {
+      state.log && console.log("S-config-getEndpointConfigExport - state.config.endpoints : \n", state.config.endpoints)
+      return state.config.endpoints.find(function(r) {
+        return r.endpoint_type === 'export'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+    },
 
     getLocalEndpointConfig : state => {
       return state.localEndpointConfig

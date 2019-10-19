@@ -3,6 +3,7 @@ import {
   makeEmptySelectedFilters,
   getObjectDataFromPath,
   searchItems, 
+  rawRequest,
   // searchEnpointCreator, 
   searchEndpointGenerator, 
   createSelectedFiltersForSearch
@@ -615,4 +616,48 @@ export const actions = {
       })
 
     },
+
+    exportDataset({state, commit, dispatch, getters, rootGetters}){
+
+      state.log && console.log("\nS-search-A-exportDataset ..." )
+      
+      const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
+      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+      state.log && console.log("S-sesarch-A-exportDataset / userAccessToken : \n", userAccessToken )
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
+
+      const endpointExportConfig = rootGetters['config/getEndpointConfigExport']
+      state.log && console.log("S-sesarch-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
+
+      // ENDPOINT GENERATOR
+      let endpointGenerated = searchEndpointGenerator({
+        endpointConfig : endpointExportConfig,
+        questionParams : state.search.question,
+        selectedFilters : selectedFilters,
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
+      })
+      state.log && console.log("S-search-A-exportDataset / endpointGenerated : \n", endpointGenerated )
+
+      const requestPendingAbort = rawRequest( endpointGenerated, endpointExportConfig )
+      requestPendingAbort.promise
+      .then(( response ) => {
+        state.log && console.log("S-search-A-exportDataset / response : \n", response )
+        return response
+      })
+      .catch(error => {
+        // don't report aborted fetch as errors
+        if (error.name !== 'AbortError')
+          commit('setSearchError', { error })
+      })
+
+
+    }
+
 }
