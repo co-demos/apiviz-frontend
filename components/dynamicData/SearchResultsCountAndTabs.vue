@@ -248,15 +248,16 @@
 
         let fileName = "export_file" + '.csv'
 
-        let response = this.$store.dispatch( 'search/exportDataset' )
-        this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
-
-        let blob = new Blob([response], {type: 'text/csv'})
-        const link = document.createElement('a')
-        link.href = window.URL.createObjectURL(blob)
-        link.setAttribute('download', fileName) // or any other extension
-        document.body.appendChild(link)
-        link.click()
+        this.$store.dispatch( 'search/exportDataset' )
+        .then( response => {
+          this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
+          let blob = new Blob([response.data], {type: 'text/csv'})
+          const link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.setAttribute('download', fileName) // or any other extension
+          document.body.appendChild(link)
+          link.click()
+        })
 
       },
 

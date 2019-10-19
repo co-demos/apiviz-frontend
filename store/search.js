@@ -646,16 +646,17 @@ export const actions = {
       state.log && console.log("S-search-A-exportDataset / endpointGenerated : \n", endpointGenerated )
 
       const requestPendingAbort = rawRequest( endpointGenerated, endpointExportConfig )
-      requestPendingAbort.promise
-      .then(( response ) => {
-        state.log && console.log("S-search-A-exportDataset / response : \n", response )
-        return response
-      })
-      .catch(error => {
-        // don't report aborted fetch as errors
-        if (error.name !== 'AbortError')
-          commit('setSearchError', { error })
-      })
+      return requestPendingAbort.promise
+      // requestPendingAbort.promise
+      // .then(( response ) => {
+      //   state.log && console.log("S-search-A-exportDataset / response : \n", response )
+      //   return response
+      // })
+      // .catch(error => {
+      //   // don't report aborted fetch as errors
+      //   if (error.name !== 'AbortError')
+      //     commit('setSearchError', { error })
+      // })
 
 
     }
