@@ -242,7 +242,7 @@
       },
 
       exportDataset() {
-        // TO DO 
+
         let exportConfig = this.endpointConfigExport
         this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
 
