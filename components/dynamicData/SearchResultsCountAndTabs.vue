@@ -42,9 +42,9 @@
 
     <!-- SHUFFLER -->
     <div v-if="endpointConfigFilters.has_shuffle"
-      :class="['result-count-parent', open ? 'open' : undefined]">
+      :class="['buttons result-count-parent', open ? 'open' : undefined]">
       <div class="">
-        <a class="button is-large"
+        <a class="button"
           @click="reShuffle()"
           >
           <span class="icon is-primary is-primary-c">
@@ -121,7 +121,7 @@
 
     <!-- EXPORT DATASET-->
     <div v-if="endpointConfigFilters.has_export && endpointConfigExport.is_visible"
-      :class="'is-right'"
+      :class="'buttons is-right'"
       >
       <div class="">
         <a class="button has-text-primary-hover-c tooltip is-tooltip-bottom"
@@ -284,11 +284,12 @@
 @import '../../assets/css/apiviz-colors.scss';
 
 .count-and-tabs{
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-
+   
   margin-bottom: 1em;
 
   .result-count-parent{

@@ -5,10 +5,10 @@ export const VIEW_STAT = 'VIEW_STAT';
 export const responsiveBreakpoint = 1023
 export const bulmaBreakpoints = {
   xs : { codename : 'xs', fullname : 'mobile',     btnsAsAddons: false, marginContainer : '15px', minWidth : 0,    maxWidth : 768,  } ,
-  s :  { codename : 's',  fullname : 'tablet',     btnsAsAddons: true, marginContainer : '20px', minWidth : 769,  maxWidth : 1023, } ,
-  m :  { codename : 'm',  fullname : 'desktop',    btnsAsAddons: true, marginContainer : 'auto', minWidth : 1024, maxWidth : 1215, } ,
-  l :  { codename : 'l',  fullname : 'widescreen', btnsAsAddons: true, marginContainer : 'auto', minWidth : 1216, maxWidth : 1407, } ,
-  xl : { codename : 'xl', fullname : 'fullHD',     btnsAsAddons: true, marginContainer : 'auto', minWidth : 1408, maxWidth : false, } ,
+  s :  { codename : 's',  fullname : 'tablet',     btnsAsAddons: true,  marginContainer : '20px', minWidth : 769,  maxWidth : 1023, } ,
+  m :  { codename : 'm',  fullname : 'desktop',    btnsAsAddons: true,  marginContainer : 'auto', minWidth : 1024, maxWidth : 1215, } ,
+  l :  { codename : 'l',  fullname : 'widescreen', btnsAsAddons: true,  marginContainer : 'auto', minWidth : 1216, maxWidth : 1407, } ,
+  xl : { codename : 'xl', fullname : 'fullHD',     btnsAsAddons: true,  marginContainer : 'auto', minWidth : 1408, maxWidth : false, } ,
 }
 
 // find windowBreakPoint

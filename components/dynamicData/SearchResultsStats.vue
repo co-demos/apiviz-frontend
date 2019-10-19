@@ -390,7 +390,7 @@
     width: 100%;
 
     padding-bottom: 1.5rem;
-    padding-top: .5rem;
+    padding-top: 1rem;
   }
 
   .apexChartComponent-canvas{
