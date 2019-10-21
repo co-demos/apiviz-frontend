@@ -335,11 +335,14 @@ export const mutations = {
       state.filterDescriptions = filterDescriptions
     },
     setQuestionPage (state, pageNumber ) {
-      state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
+      // state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
       let newPageNumber = state.search.question.page + pageNumber
       if ( newPageNumber > 0 ){
         state.search.question.page = newPageNumber
       }
+    },
+    setQuestionPageAbsolute (state, pageNumber ) {
+      state.search.question.page = pageNumber
     },
     setQuestionPerPage (state, perPageNumber ) {
       // state.log && console.log("\nS-search-M-setQuestionPerPage ..." )
@@ -495,6 +498,7 @@ export const actions = {
         selectedValues.add(value)
   
       commit('setSelectedFilters', {selectedFilters})
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
   
@@ -504,12 +508,14 @@ export const actions = {
       selectedFilters.set(filter, new Set())
   
       commit('setSelectedFilters', {selectedFilters})
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
   
     clearAllFilters({state, commit, dispatch}){
       state.log && console.log("S-search-A-clearAllFilters ..." )
       commit('clearAllFilters')
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
 
@@ -517,6 +523,7 @@ export const actions = {
     searchedTextChanged({state, commit, dispatch}, {searchedText}){
       state.log && console.log("\nS-search-A-searchedTextChanged ..." )
       commit('setSearchedText', {searchedText} )
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
 
