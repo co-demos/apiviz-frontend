@@ -29,6 +29,12 @@
         :view="VIEW_LIST"
       />
 
+      <PaginationNav 
+        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+        :position="'top'"
+        :feedback="routePagination.feedback"
+        />
+
       <div class="columns" v-if="total > 0" >
         <div class="column is-3" 
           v-for="(itemsColumn, i) in projectColumns" 
@@ -46,6 +52,11 @@
         </div>
       </div>
 
+      <PaginationNav 
+        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+        :position="'bottom'"
+        :feedback="routePagination.feedback"
+        />
 
       <div class="no-result error" v-if="total === 0">
 
@@ -83,6 +94,7 @@ import { mapState, mapGetters } from 'vuex'
 
 import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
+import PaginationNav from './PaginationNav.vue'
 
 import { VIEW_LIST } from '../../config/constants.js'
 import { BasicDictionnary } from "~/config/basicDict.js" 
@@ -95,7 +107,8 @@ export default {
 
   components: {
     ProjectCard,
-    SearchResultsCountAndTabs
+    SearchResultsCountAndTabs,
+    PaginationNav
   },
 
   props: [
@@ -158,6 +171,10 @@ export default {
 
     projectContentsFields() {
       return this.routeConfig.contents_fields
+    },
+
+    routePagination() {
+      return this.routeConfig.pagination
     },
 
     ...mapState({

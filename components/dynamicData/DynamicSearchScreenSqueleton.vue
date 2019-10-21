@@ -7,6 +7,7 @@
     <SearchWithFilters
       :filtersConfig="filtersConfig"
     />
+    
     <main :class="mainClass">
       <FiltersFeedback/>
       <slot/>

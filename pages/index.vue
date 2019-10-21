@@ -32,6 +32,13 @@
 
 
     <!-- DATA VISUALISATION -->
+    <DynamicTable 
+      v-if="localRouteConfig.dynamic_template == 'DynamicTable' "
+      :routeConfig="localRouteConfig"
+      :endPointConfig="localEndpointConfig"
+      :filtersConfig="localFiltersConfig"
+    ></DynamicTable>
+
     <DynamicList 
       v-if="localRouteConfig.dynamic_template == 'DynamicList' "
       :routeConfig="localRouteConfig"
@@ -159,6 +166,7 @@ import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 // import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue'
 
+import DynamicTable       from '~/components/dynamicData/DynamicTable.vue';
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
@@ -197,6 +205,7 @@ export default {
     DynamicStaticRaw,
     // DynamicStaticTest,
 
+    DynamicTable,
     DynamicList, 
     DynamicDetail,
     DynamicMap, 

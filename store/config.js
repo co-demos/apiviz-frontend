@@ -189,6 +189,12 @@ export const getters = {
     getLocalRouteConfig : state => {
       return state.localRouteConfig
     },
+    getRouteConfigTableForDataset : (state, getters, rootState) => {
+      return state.config.routes.find(function(r) {
+        return r.endpoint_type === 'table'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      })
+    },
     getRouteConfigListForDataset : (state, getters, rootState) => {
       return state.config.routes.find(function(r) {
         return r.endpoint_type === 'list'
@@ -236,6 +242,13 @@ export const getters = {
       // state.log && console.log("S-config-getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
       return state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'filters'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+    },
+    getEndpointConfigTable : (state, getters, rootState) => {
+      // state.log && console.log("S-config-getEndpointConfigTable - state.config.endpoints : \n", state.config.endpoints)
+      return state.config.endpoints.find(function(r) {
+        return r.endpoint_type === 'table'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
     },

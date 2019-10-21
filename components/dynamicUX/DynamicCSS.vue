@@ -7,6 +7,9 @@
       a:hover{ 
         color : {{appColors['primary']}} ;
       }
+      .link-underlined{ 
+        text-decoration: underline;      
+      }
       .has-bottom-border{
         border-bottom-color : {{ appColors['navbar-border-color'] }} !important;
       }

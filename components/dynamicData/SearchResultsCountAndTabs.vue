@@ -68,6 +68,22 @@
       :class="`buttons ${ breakpoint.btnsAsAddons ? 'has-addons' : '' } is-right`"
       >
 
+      <!-- BTN TABLE -->
+      <nuxt-link 
+        v-if="typeof endpointConfigTable !== 'undefined' && endpointConfigTable.is_visible"
+        :disabled="endpointConfigTable.is_disabled" 
+        :to="endpointConfigUrlToTable.urls[0]" 
+        :class="['has-text-centered button ', view === VIEW_TABLE ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
+        >
+        <span class="icon has-text-centered is-marginless">
+          <i class="fas fa-table"></i>
+        </span>
+        <span class="is-hidden-touch">
+          <!-- {{ translate(configTabs('tab_table')) }} -->
+          {{ basicDict.tab_table[locale] }}
+        </span>
+      </nuxt-link>
+
       <!-- BTN LIST -->
       <nuxt-link 
         v-if="typeof endpointConfigList !== 'undefined' && endpointConfigList.is_visible"
@@ -145,7 +161,7 @@
   import { mapState, mapGetters } from 'vuex'
   import { isMobile } from 'mobile-device-detect'
 
-  import { VIEW_LIST, VIEW_MAP, VIEW_STAT, responsiveBreakpoint } from '../../config/constants.js'
+  import { VIEW_TABLE, VIEW_LIST, VIEW_MAP, VIEW_STAT, responsiveBreakpoint } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
@@ -160,8 +176,9 @@
     data(){
       return {
 
-        VIEW_MAP, 
+        VIEW_TABLE,
         VIEW_LIST,
+        VIEW_MAP, 
         VIEW_STAT,
 
         basicDict : BasicDictionnary, 
@@ -207,14 +224,16 @@
 
         endpointConfigDetail : 'config/getEndpointConfigDetail',
 
+        endpointConfigTable  : 'config/getEndpointConfigTable',
         endpointConfigList   : 'config/getEndpointConfigList',
         endpointConfigMap    : 'config/getEndpointConfigMap',
         endpointConfigStat   : 'config/getEndpointConfigStat',
         endpointConfigExport : 'config/getEndpointConfigExport',
 
-        endpointConfigUrlToList : 'config/getRouteConfigListForDataset',
-        endpointConfigUrlToMap  : 'config/getRouteConfigMapForDataset',
-        endpointConfigUrlToStat : 'config/getRouteConfigStatForDataset',
+        endpointConfigUrlToTable : 'config/getRouteConfigTableForDataset',
+        endpointConfigUrlToList  : 'config/getRouteConfigListForDataset',
+        endpointConfigUrlToMap   : 'config/getRouteConfigMapForDataset',
+        endpointConfigUrlToStat  : 'config/getRouteConfigStatForDataset',
       }),
 
 

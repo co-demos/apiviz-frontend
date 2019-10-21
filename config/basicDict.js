@@ -17,6 +17,13 @@ export const BasicDictionnary = {
     tr : "harita",
     fr : "carte",
   },
+  tab_table : {
+    en : "table",
+    es : "tabula",
+    de : "Tabelle",
+    tr : "tablo",
+    fr : "table",
+  },
   tab_list : {
     en : "list",
     es : "lista",
@@ -38,6 +45,44 @@ export const BasicDictionnary = {
     tr : "export",
     fr : "exporter les données",
   },
+
+  // TABLE VIEW
+  table_to_detail : {
+    en : "view",
+    es : "view",
+    de : "view",
+    tr : "view",
+    fr : "vue détail",
+  },
+  results_per_page : {
+    en : "resuts per page",
+    es : "resultados por pagina",
+    de : "resuts per page",
+    tr : "resuts per page",
+    fr : "résultats par page",
+  },
+  results : {
+    en : "resuts",
+    es : "resultados",
+    de : "resuts",
+    tr : "resuts",
+    fr : "résultats",
+  },
+  per_page : {
+    en : "per page",
+    es : "por pagina",
+    de : "per page",
+    tr : "per page",
+    fr : "par page",
+  },
+  page : {
+    en : "page",
+    es : "pagina",
+    de : "page",
+    tr : "sayfa",
+    fr : "page",
+  },
+
   // 
   request_loading : {
     en : "request is pending...",

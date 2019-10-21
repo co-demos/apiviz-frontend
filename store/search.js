@@ -8,6 +8,7 @@ import {
   searchEndpointGenerator, 
   createSelectedFiltersForSearch
   } from '~/plugins/utils.js';
+import { defaultPagination } from '~/config/constants.js'
 
 // export const strict = false
 
@@ -81,6 +82,18 @@ export const getters = {
     },
     getIsMapSearch : state => {
       return state.search.question.forMap
+    },
+
+  // QUESTION RELATED
+  // - - - - - - - - - - - - - - - //
+    getQuestion : state => {
+      return state.search.question
+    },  
+    getPerPageOptions : (state, getters, rootState) => {
+      let defaultPerPage = defaultPagination.perPageOptions 
+      let endpointPerPage = state.search.endpoint.args_options.find(i => i.app_arg === 'perPage'  )
+      return endpointPerPage && endpointPerPage.authorized ? endpointPerPage.authorized : defaultPerPage
+      // return endpointPerPage
     },
 
   // FILTER RELATED
@@ -309,9 +322,6 @@ export const mutations = {
     setSearchParam(state,{type,result}){
       state.search[type] = result
     },
-    clearAllFilters(state){
-      state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
-    },
     setSearchedText (state, {searchedText}) {
       // state.log && console.log("\nS-search-M-setSearchedText ..." )
       // state.log && console.log("S-search-M-setSearchedText / searchedText : ", searchedText )
@@ -323,6 +333,20 @@ export const mutations = {
     },
     setFilterDescriptions (state, filterDescriptions) {
       state.filterDescriptions = filterDescriptions
+    },
+    setQuestionPage (state, pageNumber ) {
+      state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
+      let newPageNumber = state.search.question.page + pageNumber
+      if ( newPageNumber > 0 ){
+        state.search.question.page = newPageNumber
+      }
+    },
+    setQuestionPerPage (state, perPageNumber ) {
+      // state.log && console.log("\nS-search-M-setQuestionPerPage ..." )
+      state.search.question.perPage = perPageNumber
+    },
+    clearAllFilters(state){
+      state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
     },
     emptyOneFilter (state, {filter}) {
       state.search.question.selectedFilters.set(filter, new Set())
@@ -429,7 +453,19 @@ export const actions = {
       commit('setSearchParam',{type:'endpoint', result: endpointConfig})
 
     },
-    
+  
+  // FOR PAGINATION
+    changePage({state, commit, dispatch}, pageNumber ){
+      state.log && console.log("S-search-A-changePage /  pageNumber : ", pageNumber )
+      commit('setQuestionPage', pageNumber )
+      dispatch('search')
+    },
+    changePerPage({state, commit, dispatch}, perPageNumber ){
+      state.log && console.log("S-search-A-changePerPage / perPageNumber : ", perPageNumber )
+      commit('setQuestionPerPage', perPageNumber )
+      dispatch('search')
+    },
+
   // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
       // state.log && console.log("\nS-search-A-createDatasetFilters / state : ", state )

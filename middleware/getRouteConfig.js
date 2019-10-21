@@ -6,13 +6,14 @@ export default function ({ store, route, redirect }) {
   // log && console.log('\n-M3- getRouteConfig...')
   
   const DynamicComponents = [ 
+    'DynamicTable' , 
     'DynamicList' , 
     'DynamicDetail' , 
     'DynamicMap' , 
     'DynamicStats', 
 
     // TO DO 
-    'DynamicListDense' 
+    // 'DynamicListDense' 
   ]
 
   
