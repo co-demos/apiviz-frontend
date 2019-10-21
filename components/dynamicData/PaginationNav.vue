@@ -5,9 +5,10 @@
 
       <div class="pagination">
         <div class="field has-addons">
-
+          
+          <!-- PREVIOUS PAGE -->
           <div class="control">
-            <button class="button"
+            <button class="button has-text-primary-hover-c"
               @click="changePagination( 'changePage' , -1 )"
               :disabled="searchQuestion.page === 1"
               >
@@ -20,6 +21,7 @@
             </button>
           </div>
 
+          <!-- SELEECT PERPAGE -->
           <div class="control">
             <div class="select">
 
@@ -40,8 +42,9 @@
             </div>
           </div>
 
+          <!-- NEXT PAGE -->
           <div class="control">
-            <button class="button"
+            <button class="button has-text-primary-hover-c"
               @click="changePagination( 'changePage' , 1 )"
               :disabled="(searchQuestion.page * searchQuestion.perPage) >= total"
               >

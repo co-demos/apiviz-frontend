@@ -52,10 +52,11 @@
                 v-for="(contentField, index) in columnsOrder.orderedColumnsArray"
                 :key="index"
                 >
-                <abbr 
+                <!-- <abbr 
                   :title="contentField">
                   {{ contentField }}
-                </abbr>
+                </abbr> -->
+                {{ contentField }}
               </th>
             </tr>
           </thead>
