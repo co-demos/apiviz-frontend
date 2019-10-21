@@ -43,6 +43,7 @@
           <div class="control">
             <button class="button"
               @click="changePagination( 'changePage' , 1 )"
+              :disabled="(searchQuestion.page * searchQuestion.perPage) >= total"
               >
               <span class="is-hidden-touch">
                 {{ basicDict.next[locale] }}
@@ -61,7 +62,7 @@
         class="pagination">
         {{ basicDict.page[locale] }} {{ searchQuestion.page }} /  
         {{ basicDict.results[locale] }} 
-          {{ (searchQuestion.perPage * searchQuestion.page ) - searchQuestion.perPage + 1 }} - {{  (searchQuestion.perPage * searchQuestion.page) }}
+          {{ (searchQuestion.perPage * searchQuestion.page ) - searchQuestion.perPage + 1 }} - {{ roofTotal }}
       </div>
 
       <!-- <hr><pre><code>{{ JSON.stringify(columnsOrder, null, 1 )}}</code></pre> -->
@@ -126,9 +127,17 @@ export default {
     ...mapGetters({
       searchQuestion : 'search/getQuestion',
       perPageOptions : 'search/getPerPageOptions',
-      total    : 'search/getResultsCount',
+      total : 'search/getResultsCount',
     }),
 
+    roofTotal() {
+      let rawTotal = this.searchQuestion.perPage * this.searchQuestion.page 
+      if ( rawTotal > this.total ){
+        return this.total
+      } else {
+        return rawTotal
+      }
+    }
   },
 
   methods: {
