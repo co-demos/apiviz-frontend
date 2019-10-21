@@ -306,6 +306,10 @@ export const mutations = {
       })
     },
 
+    setQuestionPerPage(state, perPageNumber){
+      state.search.question.perPage = perPageNumber
+    },
+
   // FILTERS-RELATED
     setDatasetFilters(state, datasetFilter ){
       // state.log && console.log("S-search-setDatasetFilters / datasetFilter : ", datasetFilter )
@@ -454,6 +458,11 @@ export const actions = {
       let endpointConfig = rootGetters['config/getEndpointConfig']
       // state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
       commit('setSearchParam',{type:'endpoint', result: endpointConfig})
+      
+      let endpointPerPage = endpointConfig.args_options.find( i => i.app_arg === 'perPage')
+      if ( endpointPerPage ){
+        commit('setQuestionPerPage', endpointPerPage.default )
+      }
 
     },
   
