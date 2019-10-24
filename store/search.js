@@ -47,7 +47,7 @@ export const state = () => ({
 
       onlyGeocoded : true,
 
-      shuffleSeed : 1234,
+      shuffleSeed : undefined,
       page:1,
       perPage:100,
       sortBy: undefined,
@@ -362,6 +362,7 @@ export const mutations = {
     },
     setQuestionSortBy (state, field ) {
       // state.log && console.log("\nS-search-M-setQuestionSortBy ..." )
+      state.search.question.shuffleSeed = undefined
       state.search.question.sortBy = field
     },
     setQuestionSortIsDescending (state, sortIsDescending ) {

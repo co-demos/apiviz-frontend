@@ -9,20 +9,20 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <div 
+    <!-- <div 
       class="container" 
       v-if="pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
       <div class="pending">
-        <!-- Recherche en cours... -->
         {{ basicDict.request_loading[locale] }}
       </div>
-    </div>
+    </div> 
+    -->
 
+      <!-- v-if="!pending" -->
     <div 
       class="container" 
-      v-if="!pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
 
@@ -39,7 +39,10 @@
 
 
       <!-- Table container and content -->
-      <div class="table-container">
+      <div 
+        v-if="!pending"
+        class="table-container"
+        >
         <table class="table is-centered">
 
           <!-- HEADER -->
@@ -132,6 +135,14 @@
 
       </div>
 
+      <div 
+        v-if="pending"
+        :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+        >
+        <div class="pending">
+          {{ basicDict.request_loading[locale] }}
+        </div>
+      </div>
 
       <PaginationNav 
         v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
@@ -431,7 +442,7 @@ export default {
   .pending{
       text-align: center;
       padding: 2em;
-      margin-top : 8em;
-      margin-bottom : 8em;
+      margin-top : 10em;
+      margin-bottom : 10em;
   }
 </style>

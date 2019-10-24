@@ -343,7 +343,7 @@
     width: 100%;
 
     .custom-input{
-      width: 100%;
+      width: 99.9%;
     }
   }
 

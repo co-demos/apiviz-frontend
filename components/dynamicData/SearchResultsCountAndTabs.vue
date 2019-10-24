@@ -147,7 +147,9 @@
         :data-tooltip="basicDict.shuffle[locale]"
         @click="reShuffle()"
         >
-        <span class="icon">
+        <span 
+          :class="`icon ${ shuffleSeed ? 'has-text-primary-c' : ''}`"
+          >
           <i class="fas fa-random"></i>
         </span>
       </a>
@@ -160,7 +162,9 @@
         @click="exportDataset()"
         :disabled="endpointConfigExport.is_disabled"
         >
-        <span class="icon">
+        <span 
+          class="icon"
+          >
           <i class="fas fa-download"></i>
         </span>
       </a>
@@ -229,6 +233,7 @@
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
         localRouteConfig : state => state.config.localRouteConfig,
+        shuffleSeed : state => state.search.search.question.shuffleSeed,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // total: state => state.search.search.answer.result && state.search.search.answer.result.total
       }),
@@ -253,7 +258,6 @@
         endpointConfigUrlToMap   : 'config/getRouteConfigMapForDataset',
         endpointConfigUrlToStat  : 'config/getRouteConfigStatForDataset',
       }),
-
 
 
     },
