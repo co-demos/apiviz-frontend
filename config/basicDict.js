@@ -8,6 +8,13 @@ export const BasicDictionnary = {
     tr : " ",
     fr : " ",
   },
+  shuffle : {
+    en : "randomly shuffle the data",
+    es : "mezclar los datos",
+    de : "shuffle the data",
+    tr : "shuffle the data",
+    fr : "mélanger aléatoirement les données",
+  },
 
   // TABS VIEWS 
   tab_map : {
@@ -48,11 +55,11 @@ export const BasicDictionnary = {
 
   // TABLE VIEW
   table_to_detail : {
-    en : "view",
-    es : "view",
+    en : "detail",
+    es : "detalle",
     de : "view",
     tr : "view",
-    fr : "vue détail",
+    fr : "détail",
   },
   results_per_page : {
     en : "resuts per page",

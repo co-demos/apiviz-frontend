@@ -25,10 +25,10 @@
       v-if="!pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
+
       <SearchResultsCountAndTabs 
         :view="VIEW_TABLE"
       />
-
 
 
       <PaginationNav 
@@ -44,19 +44,46 @@
 
           <!-- HEADER -->
           <thead>
-            <tr>
-              <th>
-                {{ basicDict.table_to_detail[locale] }}
+            <tr 
+              class="is-centered">
+              <th
+                v-if="tableOptions && tableOptions.has_link_col" 
+                class="is-size-7 table-header-center-parent"
+                >
+                <span
+                  class="table-header-center-child">
+                  {{ basicDict.table_to_detail[locale] }}
+                </span>
               </th>
               <th 
-                v-for="(contentField, index) in columnsOrder.orderedColumnsArray"
+                v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
                 :key="index"
+                class="table-header-center-parent has-text-centered"
                 >
                 <!-- <abbr 
                   :title="contentField">
                   {{ contentField }}
                 </abbr> -->
-                {{ contentField }}
+                <div 
+                  v-if="contentField.is_sortable"
+                  :class="`button is-small  ${ contentField.field === sortBy ? 'is-active' : ''}`"
+                  @click="changeSorting( contentField.field )"
+                  >
+                  {{ contentField.field }}
+                  <span class="icon has-text-centered is-marginless">
+                    <i 
+                      :class="`fas fa-angle-${ sortIsDescending ? 'down' : 'up'} ${ contentField.field === sortBy ? '' : ''}`"></i>
+                  </span>
+                </div>
+                <div 
+                  v-else
+                  class="is-size-7 has-text-centered table-header-center-child"
+                  >
+                  <span
+                    class="table-header-center-child">
+                    {{ contentField.field }}
+                  </span>
+                </div>
               </th>
             </tr>
           </thead>
@@ -67,13 +94,18 @@
               v-for="(item, index) in projects"
               :key="index"
               >
-              <td class="has-text-centered">
+              <td 
+                v-if="tableOptions && tableOptions.has_link_col" 
+                class="has-text-centered"
+                >
                 <nuxt-link 
                   :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
                   >
+                  &nbsp;
                   <span class="icon has-text-centered is-marginless">
                     <i class="fas fa-link"></i>
                   </span>
+                  &nbsp;
                 </nuxt-link>
               </td>
               <td
@@ -82,11 +114,14 @@
                 <nuxt-link
                   v-if="contentField.has_link_to_detail"
                   :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
-                  class="has-text-weight-medium link-underlined"
+                  :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
                   >
                   {{ itemField(item, contentField.field ) }}
                 </nuxt-link>
-                <span v-else>
+                <span 
+                  v-else
+                  :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
+                  >
                   {{ itemField(item, contentField.field ) }}
                 </span>
               </td>
@@ -104,72 +139,10 @@
         :feedback="routePagination.feedback"
       />
 
-      <!-- TABLE NAVIGATION -->
-      <!-- <div class="pagination-block">
-
-        <div class="pagination">
-          <div class="field has-addons">
-
-            <div class="control">
-              <button class="button"
-                @click="changePagination( 'changePage' , -1 )"
-                :disabled="searchQuestion.page === 1"
-                >
-                <span class="icon has-text-centered is-marginless">
-                  <i class="fas fa-chevron-left"></i>
-                </span>
-                <span class="is-hidden-touch">
-                  {{ basicDict.previous[locale] }}
-                </span>
-              </button>
-            </div>
-
-            <div class="control">
-              <div class="select">
-
-                <select
-                  @change="changePerPageSelection( $event )"
-                  v-model="perPage">
-
-                  <option 
-                    v-for="(pp, index) in perPageOptions"
-                    :key="index"
-                    :selected="pp === perPage"
-                    :value="pp"
-                    >
-                    {{ pp }} {{ basicDict.results_per_page[locale] }}
-                  </option>
-
-                </select>
-              </div>
-            </div>
-
-            <div class="control">
-              <button class="button"
-                @click="changePagination( 'changePage' , 1 )"
-                >
-                <span class="is-hidden-touch">
-                  {{ basicDict.next[locale] }}
-                </span>
-                <span class="icon has-text-centered is-marginless">
-                  <i class="fas fa-chevron-right"></i>
-                </span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="pagination">
-          {{ basicDict.page[locale] }} {{ searchQuestion.page }} /  
-          {{ basicDict.results[locale] }} 
-            {{ (searchQuestion.perPage * searchQuestion.page ) - searchQuestion.perPage + 1 }} - {{  (searchQuestion.perPage * searchQuestion.page) }}
-        </div>
-
-      </div> -->
 
       <!-- <hr><pre><code>{{ JSON.stringify(columnsOrder, null, 1 )}}</code></pre> -->
       <!-- <hr>searchQuestion : <pre><code>{{ JSON.stringify(searchQuestion, null, 1 )}}</code></pre> -->
+      <!-- <hr>columnsOrder : <pre><code>{{ JSON.stringify(columnsOrder, null, 1 )}}</code></pre> -->
       <!-- <hr>perPageOptions : <pre><code>{{ JSON.stringify(perPageOptions, null, 1 )}}</code></pre> -->
       <!-- <hr><pre><code>{{ JSON.stringify(projects , null, 1) }}</code></pre><br> -->
 
@@ -246,6 +219,8 @@ export default {
     // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
     // this.projectContentsFields = this.routeConfig.content_fields
     this.perPage = this.searchQuestion.perPage
+    this.sortBy = this.searchQuestion.sortBy
+    this.sortIsDescending = this.searchQuestion.sortIsDescending
   },
 
   mounted(){
@@ -254,6 +229,7 @@ export default {
 
     this.$store.dispatch('search/setSearchConfigDisplay');
     this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
+
 
     scrollListener = () => {
       const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters['search/getSearchConfigScrollBeforeBottomTrigger']
@@ -282,6 +258,10 @@ export default {
       showCount: undefined,
       basicDict : BasicDictionnary, 
       perPage : defaultPagination.perPage,
+      
+      localSortBy : undefined,
+      sortIsDescending : false,
+
     }
   },
   
@@ -297,6 +277,7 @@ export default {
       breakpoint : state => state.breakpoint,
       // pending: state => !!state.search.search.answer.pendingAbort,
       // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
+      sortBy: state => state.search.search.question.sortBy,
       total: state => state.search.search.answer.result && state.search.search.answer.result.total,
       hasSelectedFilters: state => {
         const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
@@ -349,7 +330,9 @@ export default {
     routePagination() {
       return this.routeConfig.pagination
     },
-
+    tableOptions() {
+      return this.routeConfig.table_options
+    },
   },
 
   methods: {
@@ -382,8 +365,24 @@ export default {
       }
     },
 
+    changeSorting( field ){
+
+      this.log && console.log('C-SearchResultsTable / changeSorting /  field : ', field)
+
+      if ( field !== this.localSortBy ){
+        this.sortIsDescending = false 
+      } else {
+        this.sortIsDescending = !this.sortIsDescending 
+      }
+      this.localSortBy = field
+      this.$store.dispatch('search/changeSorting', { sortBy : field, sortIsDescending : this.sortIsDescending } )
+
+    },
+
   },
 
+
+  
   beforeDestroy(){
     window.removeEventListener('scroll', scrollListener)
     scrollListener = undefined;
@@ -418,6 +417,15 @@ export default {
   .table {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .table-header-center-parent {
+    position: relative;
+  }
+  .table-header-center-child {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .pending{

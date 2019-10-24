@@ -41,7 +41,7 @@
 
 
     <!-- SHUFFLER -->
-    <div v-if="endpointConfigFilters.has_shuffle"
+    <!-- <div v-if="endpointConfigFilters.has_shuffle"
       :class="['buttons result-count-parent', open ? 'open' : undefined]">
       <div class="">
         <a class="button"
@@ -52,7 +52,7 @@
           </span>
         </a>
       </div>
-    </div>
+    </div> -->
 
 
     <!-- DEBUGGING -->
@@ -135,23 +135,39 @@
     </div>
 
 
-    <!-- EXPORT DATASET-->
-    <div v-if="endpointConfigFilters.has_export && endpointConfigExport.is_visible"
+    <!-- ADDITIONAL BUTTONS -->
+    <div 
       :class="'buttons is-right'"
       >
-      <div class="">
-        <a class="button has-text-primary-hover-c tooltip is-tooltip-bottom"
-          :data-tooltip="basicDict.tab_export[locale]"
-          @click="exportDataset()"
-          :disabled="endpointConfigExport.is_disabled"
-          >
-          <span class="icon">
-            <i class="fas fa-download"></i>
-          </span>
-        </a>
-      </div>
-    </div>
 
+      <!-- SHUFFLER -->
+      <a 
+        v-if="localRouteConfig.has_shuffle"
+        class="button has-text-primary-hover-c tooltip is-tooltip-bottom"
+        :data-tooltip="basicDict.shuffle[locale]"
+        @click="reShuffle()"
+        >
+        <span class="icon">
+          <i class="fas fa-random"></i>
+        </span>
+      </a>
+
+      <!-- EXPORT DATASET-->
+      <a 
+        v-if="endpointConfigFilters.has_export && endpointConfigExport.is_visible"
+        class="button has-text-primary-hover-c tooltip is-tooltip-bottom"
+        :data-tooltip="basicDict.tab_export[locale]"
+        @click="exportDataset()"
+        :disabled="endpointConfigExport.is_disabled"
+        >
+        <span class="icon">
+          <i class="fas fa-download"></i>
+        </span>
+      </a>
+
+
+
+    </div>
 
   </div>
 </template>
@@ -212,6 +228,7 @@
         log : state => state.log, 
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
+        localRouteConfig : state => state.config.localRouteConfig,
         // pending: state => !!state.search.search.answer.pendingAbort,
         // total: state => state.search.search.answer.result && state.search.search.answer.result.total
       }),
@@ -219,6 +236,7 @@
       ...mapGetters({
         pending : 'search/getPending',
         total : 'search/getResultsCount',
+
 
         endpointConfigFilters : 'config/getEndpointConfigFilters',
 
@@ -257,7 +275,11 @@
       },
 
       reShuffle() {
-        // TO DO 
+        let minMax = this.localRouteConfig.shuffle_minnmax
+        if ( !minMax ){
+          minMax = { min: 0 , max: 2000 }
+        }
+        this.$store.dispatch( 'search/reShuffle', minMax )
       },
 
       exportDataset() {

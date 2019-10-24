@@ -50,6 +50,8 @@ export const state = () => ({
       shuffleSeed : 1234,
       page:1,
       perPage:100,
+      sortBy: undefined,
+      sortIsDescending: false, // true : ascendant / false : descendant
 
       selectedDatasetFilters: undefined,
       selectedFilters: new Map(),
@@ -297,7 +299,13 @@ export const mutations = {
       let argOptions = localEndpointConfig.args_options
       // state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
 
-      let authorizedDefaultArgs = [ 'page', 'perPage', 'shuffleSeed' ]
+      let authorizedDefaultArgs = [ 
+        'page', 
+        'perPage', 
+        'shuffleSeed',
+        'sortBy',
+        'sortIsDescending'
+      ]
       argOptions.forEach( arg => {
         let appArg = arg.app_arg
         if ( authorizedDefaultArgs.includes(appArg) ) {
@@ -352,7 +360,21 @@ export const mutations = {
       // state.log && console.log("\nS-search-M-setQuestionPerPage ..." )
       state.search.question.perPage = perPageNumber
     },
-    clearAllFilters(state){
+    setQuestionSortBy (state, field ) {
+      // state.log && console.log("\nS-search-M-setQuestionSortBy ..." )
+      state.search.question.sortBy = field
+    },
+    setQuestionSortIsDescending (state, sortIsDescending ) {
+      state.log && console.log("\nS-search-M-setQuestionSortIsDescending ..." )
+      state.search.question.sortIsDescending = sortIsDescending
+    },
+    resetShuffle ( state, minMax ){
+      state.search.question.sortBy = undefined
+      state.search.question.sortIsDescending = false
+      state.search.question.shuffleSeed = Math.floor(Math.random() * (minMax.max - minMax.min + 1)) + minMax.min;
+    },
+
+    clearAllFilters (state){
       state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
     },
     emptyOneFilter (state, {filter}) {
@@ -468,13 +490,27 @@ export const actions = {
   
   // FOR PAGINATION
     changePage({state, commit, dispatch}, pageNumber ){
-      state.log && console.log("S-search-A-changePage /  pageNumber : ", pageNumber )
+      // state.log && console.log("S-search-A-changePage /  pageNumber : ", pageNumber )
       commit('setQuestionPage', pageNumber )
       dispatch('search')
     },
     changePerPage({state, commit, dispatch}, perPageNumber ){
-      state.log && console.log("S-search-A-changePerPage / perPageNumber : ", perPageNumber )
+      // state.log && console.log("S-search-A-changePerPage / perPageNumber : ", perPageNumber )
       commit('setQuestionPerPage', perPageNumber )
+      dispatch('search')
+    },
+    changeSorting({state, commit, dispatch}, sortOptions ){
+      // state.log && console.log("S-search-A-changeSorting / sortOptions : ", sortOptions )
+      commit('setQuestionSortBy', sortOptions.sortBy )
+      commit('setQuestionSortIsDescending', sortOptions.sortIsDescending )
+      dispatch('search')
+    },
+    reShuffle( {state, commit, dispatch}, minMax ){
+      state.log && console.log("S-search-A-reShuffle / minMax :", minMax )
+      if ( !minMax ){
+        minMax = { min: 0 , max: 2000 }
+      }
+      commit('resetShuffle', minMax )
       dispatch('search')
     },
 

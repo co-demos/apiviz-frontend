@@ -566,6 +566,8 @@ export function searchEndpointGenerator( obj ) {
     'forStats', 
     'page', 
     'perPage', 
+    'sortBy', 
+    'sortIsDescending', 
     'onlyGeocoded', 
     'itemId', 
     'shuffleSeed' 
@@ -575,11 +577,11 @@ export function searchEndpointGenerator( obj ) {
   let argsArray = []
   for (let key in endpointConfigArgs ) {
     const EndpointArg = endpointConfigArgs[key]
-    // console.log("+ + + searchEndpointGenerator / EndpointArg : ", EndpointArg)
+    console.log("+ + + searchEndpointGenerator / EndpointArg.app_arg : ", EndpointArg.app_arg)
     // if ( !EndpointArg.optional || appArgs.includes(EndpointArg.app_arg) ){
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
-        if ( questionParams[EndpointArg.app_arg] ) {
-        let argString = EndpointArg.arg + '=' + questionParams[EndpointArg.app_arg]
+        if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
+        let argString = EndpointArg.arg + '=' + String(questionParams[EndpointArg.app_arg])
         argsArray.push(argString)
       }
     }
