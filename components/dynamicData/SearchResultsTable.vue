@@ -34,21 +34,25 @@
       <PaginationNav 
         v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'top'"
-        :feedback="routePagination.feedback"              
+        :feedback="routePagination.feedback"
+        :show="true"
       />
 
 
       <!-- Table container and content -->
       <div 
-        v-if="!pending"
+        v-if="!pending && total > 0"
         class="table-container"
         >
-        <table class="table is-centered">
+        <table 
+          class="table is-centered"
+          >
 
           <!-- HEADER -->
           <thead>
             <tr 
-              class="is-centered">
+              class="is-centered"
+              >
               <th
                 v-if="tableOptions && tableOptions.has_link_col" 
                 class="is-size-7 table-header-center-parent"
@@ -148,6 +152,7 @@
         v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'bottom'"
         :feedback="routePagination.feedback"
+        :show="!pending && total > 0"
       />
 
 
@@ -158,7 +163,10 @@
       <!-- <hr><pre><code>{{ JSON.stringify(projects , null, 1) }}</code></pre><br> -->
 
 
-      <div class="no-result error" v-if="total === 0">
+      <div 
+        class="no-result error" 
+        v-if="!pending && total === 0"
+        >
 
         <img src="/static/illustrations/erreur_no_results.png">
 
@@ -166,7 +174,7 @@
 
         <div class="has-text-centered">
 
-          <h1 class="title is-1 has-text-primary has-text-primary-b">
+          <h1 class="title is-1 has-text-primary has-text-primary-c">
             <!-- Aucun projet trouvé ! -->
             {{ basicDict.no_results[locale] }}
           </h1>

@@ -1,7 +1,10 @@
 <template>
   
     <!-- TABLE NAVIGATION -->
-    <div class="pagination-block is-centered">
+    <div 
+      v-show="show"
+      class="pagination-block is-centered"
+      >
 
       <div class="pagination">
         <div class="field has-addons">
@@ -62,7 +65,8 @@
 
       <div 
         v-if="feedback && (feedback === position || feedback === 'top_and_bottom' )"
-        class="pagination">
+        class="pagination"
+        >
         {{ basicDict.page[locale] }} {{ searchQuestion.page }} /  
         {{ basicDict.results[locale] }} 
           {{ (searchQuestion.perPage * searchQuestion.page ) - searchQuestion.perPage + 1 }} - {{ roofTotal }}
@@ -94,7 +98,8 @@ export default {
 
   props: [
     'feedback',
-    'position'
+    'position',
+    'show'
   ],
 
   beforeMount : function(){

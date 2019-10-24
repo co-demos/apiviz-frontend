@@ -33,6 +33,7 @@
         v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'top'"
         :feedback="routePagination.feedback"
+        :show="true"
       />
 
       <div 
@@ -69,9 +70,13 @@
         v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'bottom'"
         :feedback="routePagination.feedback"
+        :show="!pending && total > 0"
       />
 
-      <div class="no-result error" v-if="total === 0">
+      <div 
+        class="no-result error" 
+        v-if="!pending && total === 0"
+        >
 
         <img src="/static/illustrations/erreur_no_results.png">
 
@@ -79,7 +84,7 @@
 
         <div class="has-text-centered">
 
-          <h1 class="title is-1 has-text-primary has-text-primary-b">
+          <h1 class="title is-1 has-text-primary has-text-primary-c">
             <!-- Aucun projet trouvé ! -->
             {{ basicDict.no_results[locale] }}
           </h1>
