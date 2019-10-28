@@ -33,6 +33,8 @@ Vue.prototype.$mapbox = Mapbox;
 
 import axios from 'axios'
 
+// - - - SOURCES - - - // 
+
 // GEOJSON DATA
 export function getStyleJSON (styleURL) {
 
@@ -79,11 +81,13 @@ export function createGeoJSONSource (geoJSON, vars) {
   return geoJsonSource
 }
 
+// - - - LAYERS - - - // 
+
 // GEOJSON LAYERS - CLUSTER CIRCLES
-export function createClusterCirclesLayer (sourceId, vars) {
+export function createClusterCirclesLayer (sourceId, vars, layerId="clusters") {
 
   let layerConfig = {
-    id     : "clusters",
+    id     : layerId,
     type   : "circle",
     source : sourceId,
     filter : ["has", "point_count"],
@@ -94,8 +98,8 @@ export function createClusterCirclesLayer (sourceId, vars) {
       //   * Yellow, 30px circles when point count is between 100 and 750
       //   * Pink, 40px circles when point count is greater than or equal to 750
       
-      "circle-stroke-width": vars.circleStrokeWidth,
-      "circle-stroke-color": vars.circleStrokeColor,
+      "circle-stroke-width": vars.circle_stroke_width,
+      "circle-stroke-color": vars.circle_stroke_color,
 
       // "circle-color": [
       //   "step",
@@ -112,11 +116,11 @@ export function createClusterCirclesLayer (sourceId, vars) {
       "circle-color": [
         "step",
         ["get", "point_count"],
-        vars.circleColor, 
-        100, vars.circleColor100, 
-        250, vars.circleColor250, 
-        500, vars.circleColor500, 
-        750, vars.circleColor750
+        vars.circle_color, 
+        100, vars.circle_color_100, 
+        250, vars.circle_color_250, 
+        500, vars.circle_color_500, 
+        750, vars.circle_color_750
       ],
 
       // "circle-radius": [
@@ -131,11 +135,11 @@ export function createClusterCirclesLayer (sourceId, vars) {
       "circle-radius": [
         "step",
         ["get", "point_count"],
-        vars.circleRadius, 
-        100, vars.circleRadius100, 
-        250, vars.circleRadius250,
-        500, vars.circleRadius500,
-        750, vars.circleRadius750
+        vars.circle_radius, 
+        100, vars.circle_radius_100, 
+        250, vars.circle_radius_250,
+        500, vars.circle_radius_500,
+        750, vars.circle_radius_750
       ]
     }
   }
@@ -143,9 +147,9 @@ export function createClusterCirclesLayer (sourceId, vars) {
 }
 
 // GEOJSON LAYERS - CLUSTER COUNTS
-export function createClusterCountLayer (sourceId, vars) {
+export function createClusterCountLayer (sourceId, vars, layerId="cluster-counts") {
   let layerConfig = {
-    id: "cluster-count",
+    id: layerId,
     type: "symbol",
     source: sourceId,
     filter: ["has", "point_count"],
@@ -156,36 +160,36 @@ export function createClusterCountLayer (sourceId, vars) {
       // "text-font": ["Open Sans Regular"], // OK
       // "text-font": ["Roboto Regular"], // not working
 
-      "text-size": vars.textSize
+      "text-size": vars.text_size
     },
     paint: {
-      "text-color": vars.textColor
+      "text-color": vars.text_color
     }
   }
   return layerConfig
 }
 
 // GEOJSON LAYERS - UNCLUSTERED CIRCLES
-export function createClusterUnclusteredLayer (sourceId, vars) {
+export function createClusterUnclusteredLayer (sourceId, vars, layerId="unclustered-point") {
   let layerConfig = {
-    id: "unclustered-point",
+    id: layerId,
     type: "circle",
     source: sourceId,
     filter: ["!", ["has", "point_count"]],
     paint: {
-      "circle-color": vars.circleColor,
-      "circle-radius": vars.circleRadius,
-      "circle-stroke-color": vars.circleStrokeColor,
-      "circle-stroke-width": vars.circleStrokeWidth,
+      "circle-color": vars.circle_color,
+      "circle-radius": vars.circle_radius,
+      "circle-stroke-color": vars.circle_stroke_color,
+      "circle-stroke-width": vars.circle_stroke_width,
     }
   }
   return layerConfig
 }
 
 // GEOJSON LAYERS - ALL POINTS CIRCLES
-export function createAllPoints (sourceId, vars) {
+export function createAllPoints (sourceId, vars, layerId="all-points") {
   var layerConfig = {
-    "id": "all-points",
+    "id": layerId,
     "type": "circle",
     "source": sourceId,
     "filter": ["==", "$type", "Point"],
@@ -195,17 +199,17 @@ export function createAllPoints (sourceId, vars) {
         ["linear"],
         ["zoom"],
         9, 0,
-        vars.maxZoom, 1
+        vars.max_zoom, 1
       ], 
-      "circle-stroke-color": vars.circleStrokeColor,
-      "circle-color": vars.circleColor,
-      "circle-opacity": vars.circleOpacity,
+      "circle-stroke-color": vars.circle_stroke_color,
+      "circle-color": vars.circle_color,
+      "circle-opacity": vars.circle_opacity,
       "circle-radius": [
         "interpolate",
         ["linear"],
         ["zoom"], 
-        4, vars.radiusMin,
-        vars.maxZoom, vars.radiusMax
+        vars.min_zoom, vars.radius_min,
+        vars.max_zoom, vars.radius_max
       ],
 
     },
@@ -214,11 +218,11 @@ export function createAllPoints (sourceId, vars) {
 }
 
 // GEOJSON LAYERS - HEATMAP
-export function createHeatmapLayer (sourceId, vars) {
+export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
 
   // cf : https://docs.mapbox.com/help/tutorials/make-a-heatmap-with-mapbox-gl-js/
   let layerConfig = {
-    "id": "projects-heatmap",
+    "id": layerId,
     "type": "heatmap",
     "source": sourceId,
     "maxzoom": vars.maxZoom,
@@ -280,20 +284,20 @@ export function createHeatmapLayer (sourceId, vars) {
   return layerConfig
 }
 
-// GEOJSON LAYERS - CLUSTER COUNTS
+// GEOJSON LAYERS - CHOROPLETH
 // cf : https://docs.mapbox.com/mapbox-gl-js/example/data-join/
 // cf : 
-export function createChoroplethLayer(sourceId, vars) {
+export function createChoroplethLayer(sourceId, vars, layerId="choropleth") {
   let layerConfig = {
-    "id": "choropleth",
+    "id": layerId,
     "type": "fill",
     "source": sourceId,
     // "source-layer": sourceId,
     "paint": {
       // cf : https://docs.mapbox.com/mapbox-gl-js/style-spec/#layer-paint
-      "fill-color": "#888888",
-      "fill-opacity": 0.6,
-      "fill-outline-color": "rgb(256,256,256)",
+      "fill-color": vars.fill_color, // "#888888",
+      "fill-opacity": vars.fill_opacity, // 0.5,
+      "fill-outline-color": vars.fill_outline_color, // "rgb(256,256,256)",
     }
   }
   return layerConfig

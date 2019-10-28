@@ -329,7 +329,7 @@ export default {
 
   created(){
 
-    // this.log && console.log("\nC-SearchResultsMapbox / created... ")
+    this.log && console.log("\nC-SearchResultsMapbox / created... ")
     // We need to set mapbox-gl library here in order to use it in template
     // this.mapbox = Mapbox;
 
@@ -398,11 +398,12 @@ export default {
         // this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
-      // else 
+
       if (this.map && this.isClusterSet) {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - updateSourceData ...')
         this.updateSourceData(this.itemsForMap)
       } 
+
       else {
         this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
       }
@@ -470,19 +471,38 @@ export default {
       // this.$store.commit('search/setMap', {map : event.map}) // trigger mutation directly
     },
 
+
     createAddGeoJsonSource(geoJson){
 
+      this.log && console.log("C-SearchResultsMapbox / createAddGeoJsonSource / geoJson :", geoJson)
+
       let mapbox = this.map
-      
-      let allPointsSource = createGeoJSONSource(geoJson, { isCluster: false, clusterMaxZoom: 14, clusterRadius: 75 })
-      let geoJsonSource = createGeoJSONSource(geoJson, { isCluster: true, clusterMaxZoom: 14, clusterRadius: 75 })
-      // this.geoJsonSource = geoJsonSource
-      // this.log && console.log("C-SearchResultsMapbox / createMapItems / geoJsonSource :", geoJsonSource)
-      mapbox.addSource( 'allPointsSource', allPointsSource)
-      mapbox.addSource( 'clusterSource', geoJsonSource)
-      
+      const mapboxOptions = this.routeConfig.map_options.mapbox_layers
 
-
+      // SOURCE - ALL POINTS
+      if ( mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.is_activated ){
+        const allPointsConfigOptions = mapboxOptions.all_points_layer
+        let allPointsSourceId = allPointsConfigOptions.source_id ? allPointsConfigOptions.source_id : "allPointsSource"
+        let allPointsSource = createGeoJSONSource(geoJson, { 
+          isCluster: false, 
+          clusterMaxZoom: 14, 
+          clusterRadius: 75 
+        })
+        mapbox.addSource( allPointsSourceId, allPointsSource)
+      }
+      
+      // SOURCE - ALL POINTS CLUSTER
+      if ( mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.is_activated ){
+        const clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
+        let geoJsonSourceId = clusterLayerConfigOptions.source_id ? clusterLayerConfigOptions.source_id : "clusterSource"
+        let geoJsonSource   = createGeoJSONSource(geoJson, { 
+          isCluster: true, 
+          clusterMaxZoom: 14, 
+          clusterRadius: 75 
+        })
+        mapbox.addSource( geoJsonSourceId, geoJsonSource)
+      }
+      
       // - - - - - - - -  //
       // TEST CHORROPLETH //
 
@@ -490,19 +510,28 @@ export default {
       // cf : https://geojson-maps.ash.ms/
       // cf : https://restcountries.eu/#api-endpoints-all
 
-      let choroplethId = "choroSource"
+      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
 
-      // let urlChoropleth = geoJsonBasesUrls.WORLD.local
-      let urlChoropleth = geoJsonBasesUrls.EUROPE.FRANCE.departements.allSimple
+        
+        const choroplethConfigOptions = mapboxOptions.choropleth_layer 
+        let choroplethSourceId = choroplethConfigOptions.source_id ? choroplethConfigOptions.source_id : "choroSource"
 
-      window.setInterval(function() {
-        mapbox.getSource(choroplethId).setData(urlChoropleth);
-      }, 3000)
-      mapbox.addSource( choroplethId, {
-        type: 'geojson',
-        data: urlChoropleth
-      })
-      // this.log && console.log("C-SearchResultsMapbox / createMapItems / mapbox :", mapbox)
+        if ( choroplethConfigOptions.is_source_distant ){
+
+          // let urlChoropleth = geoJsonBasesUrls.WORLD.local
+          // let urlChoropleth = geoJsonBasesUrls.EUROPE.FRANCE.departements.allSimple
+          let urlChoropleth = choroplethConfigOptions.distant_source_url
+  
+          window.setInterval(function() {
+            mapbox.getSource(choroplethSourceId).setData(urlChoropleth);
+          }, 3000)
+          mapbox.addSource( choroplethSourceId, {
+            type: 'geojson',
+            data: urlChoropleth
+          })
+          // this.log && console.log("C-SearchResultsMapbox / createMapItems / mapbox :", mapbox)
+        }
+      }
 
     },
 
@@ -515,57 +544,222 @@ export default {
 
       let mapboxMap = this.map 
 
+      let displayPoint = this.highlightItem
 
-      let allPointsConfigOptions = mapboxOptions.all_points
-      let allPointsConfig = createAllPoints(geoJsonSourceId.allPointsId, { 
-        radiusMin         : allPointsConfigOptions.radius_min , // 1, 
-        radiusMax         : allPointsConfigOptions.radius_max , // 10, 
-        maxZoom: this.maxZoom-5, 
-        circleColor       : allPointsConfigOptions.circle_color , // "#a174ac", 
-        circleStrokeColor : allPointsConfigOptions.circle_stroke_color , // "#fff",
-        circleOpacity     : allPointsConfigOptions.circle_opacity , // 0.8, 
-      })
+      //  CHOROPLETH
+      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){        let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
+        let choroplethConfigOptions = mapboxOptions.choropleth_layer 
+        let choroplethSourceId = choroplethConfigOptions.source_id ? choroplethConfigOptions.source_id : "choroSource"
+        let choroplethLayerId = choroplethConfigOptions.layer_id ? choroplethConfigOptions.layer_id : "choropleth-layer"
+        let choroplethConfig = createChoroplethLayer( choroplethSourceId, choroplethConfigOptions, choroplethLayerId )
+        mapboxMap.addLayer(choroplethConfig)
+      }
 
-      // let heatmapLayerConfigOptions = mapboxOptions.heatmap_layer /// TO DO 
-      let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {
-        propWeight: 'weigth', 
-        maxZoom: this.maxZoom 
-      })
+      // ALL POINTS
+      if ( mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.is_activated ){
+        let allPointsConfigOptions = mapboxOptions.all_points_layer
+        let allPointsLayerId = allPointsConfigOptions.layer_id ? allPointsConfigOptions.layer_id : "all-points"
 
-      let clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
-      let clusterLayerConfig = createClusterCirclesLayer(geoJsonSourceId.clusterId, {
-        circleColor    : clusterLayerConfigOptions.circle_color ,// "#a174ac", 
-        circleColor100 : clusterLayerConfigOptions.circle_color_100 ,// "#90689a", 
-        circleColor250 : clusterLayerConfigOptions.circle_color_250 ,// "#805c89", 
-        circleColor500 : clusterLayerConfigOptions.circle_color_500 ,// "#705178", 
-        circleColor750 : clusterLayerConfigOptions.circle_color_750 ,// "#503a56", 
+        let allPointsConfig = createAllPoints( geoJsonSourceId.allPointsId, 
+          allPointsConfigOptions,
+          // { 
+          //   radiusMin         : allPointsConfigOptions.radius_min , // 1, 
+          //   radiusMax         : allPointsConfigOptions.radius_max , // 10, 
+          //   maxZoom           : this.maxZoom-5, 
+          //   circleColor       : allPointsConfigOptions.circle_color , // "#a174ac", 
+          //   circleStrokeColor : allPointsConfigOptions.circle_stroke_color , // "#fff",
+          //   circleOpacity     : allPointsConfigOptions.circle_opacity , // 0.8, 
+          // }, 
+          allPointsLayerId 
+        )
+        mapboxMap.addLayer(allPointsConfig)
+        if ( allPointsConfigOptions.is_clickable ) {
+          mapboxMap.on('click', allPointsLayerId, function (e) {
+            
+            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['all-points'] });
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
 
-        circleRadius    : clusterLayerConfigOptions.circle_radius ,// 20, 
-        circleRadius100 : clusterLayerConfigOptions.circle_radius_100 ,// 20, 
-        circleRadius250 : clusterLayerConfigOptions.circle_radius_250 ,// 30, 
-        circleRadius500 : clusterLayerConfigOptions.circle_radius_500 ,// 40, 
-        circleRadius750 : clusterLayerConfigOptions.circle_radius_750 ,// 50, 
+            var pointId = featuresPoint[0].properties.sd_id;
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - pointId : ", pointId)
 
-        circleStrokeColor : clusterLayerConfigOptions.circle_stroke_color ,// "#fff",
-        circleStrokeWidth : clusterLayerConfigOptions.circle_stroke_width ,// 1,
-      })
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - coordinates : ", coordinates)
 
-      let countLayerConfigOptions = mapboxOptions.cluster_count_layer
-      let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, {
-        textSize  : countLayerConfigOptions.text_size , // 12,
-        textColor : countLayerConfigOptions.text_color , // "#ffffff"
-      })
+            mapboxMap.easeTo({
+              center: coordinates,
+            })
 
-      let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
-      let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, {
-        circleColor       : unclusteredLayerConfigOptions.circle_color , // "#fff", 
-        circleRadius      : unclusteredLayerConfigOptions.circle_troke_color , // 5, 
-        circleStrokeColor : unclusteredLayerConfigOptions.circle_radius , // "#a174ac",
-        circleStrokeWidth : unclusteredLayerConfigOptions.circle_stroke_width , // 5, 
-      })
+            let itemProps = featuresPoint[0].properties
+            itemProps.lat = coordinates[1]
+            itemProps.lon = coordinates[0]
+            displayPoint(itemProps)
 
-      // let choroplethConfigOptions = mapboxOptions.choropleth_layer /// TO DO 
-      let choroplethConfig = createChoroplethLayer('choroSource', {})
+          })
+          mapboxMap.on('mouseenter', allPointsLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = 'pointer';
+          })
+          mapboxMap.on('mouseleave', allPointsLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = '';
+          })
+        }
+
+      }
+
+      // CLUSTERING
+      if ( mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.is_activated ){
+        let clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
+        let clusterSourceId = clusterLayerConfigOptions.source_id ? clusterLayerConfigOptions.source_id : "clusterSource"
+        let clusterLayerId = clusterLayerConfigOptions.layer_id ? clusterLayerConfigOptions.layer_id : "cluster-circles"
+        let clusterLayerConfig = createClusterCirclesLayer( geoJsonSourceId.clusterId, 
+            clusterLayerConfigOptions,
+          //   {
+          //   circleColor    : clusterLayerConfigOptions.circle_color ,    // "#a174ac", 
+          //   circleColor100 : clusterLayerConfigOptions.circle_color_100 ,// "#90689a", 
+          //   circleColor250 : clusterLayerConfigOptions.circle_color_250 ,// "#805c89", 
+          //   circleColor500 : clusterLayerConfigOptions.circle_color_500 ,// "#705178", 
+          //   circleColor750 : clusterLayerConfigOptions.circle_color_750 ,// "#503a56", 
+
+          //   circleRadius    : clusterLayerConfigOptions.circle_radius ,    // 20, 
+          //   circleRadius100 : clusterLayerConfigOptions.circle_radius_100 ,// 20, 
+          //   circleRadius250 : clusterLayerConfigOptions.circle_radius_250 ,// 30, 
+          //   circleRadius500 : clusterLayerConfigOptions.circle_radius_500 ,// 40, 
+          //   circleRadius750 : clusterLayerConfigOptions.circle_radius_750 ,// 50, 
+
+          //   circleStrokeColor : clusterLayerConfigOptions.circle_stroke_color ,// "#fff",
+          //   circleStrokeWidth : clusterLayerConfigOptions.circle_stroke_width ,// 1,
+          // },
+          clusterLayerId
+        )
+        mapboxMap.addLayer(clusterLayerConfig)
+        if ( clusterLayerConfigOptions.is_clickable ) {
+          mapboxMap.on('click', clusterLayerId, function (e) {
+
+            // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
+            // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
+
+            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
+            
+            var clusterId = featuresCluster[0].properties.cluster_id;
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
+            
+            mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+              if (err) {return}
+
+              mapboxMap.easeTo({
+                center: featuresCluster[0].geometry.coordinates,
+                zoom: zoom
+              })
+            })
+
+          })
+          mapboxMap.on('mouseenter', clusterLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = 'pointer';
+          })
+          mapboxMap.on('mouseleave', clusterLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = '';
+          })
+        }
+      }
+
+      // CLUSTERING COUNTS
+      if ( mapboxOptions.cluster_count_layer && mapboxOptions.cluster_count_layer.is_activated ){
+        let countLayerConfigOptions = mapboxOptions.cluster_count_layer
+        let countLayerId = countLayerConfigOptions.layer_id ? countLayerConfigOptions.layer_id : "cluster-counts"
+        let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, 
+          countLayerConfigOptions,
+          // {
+          //   textSize  : countLayerConfigOptions.text_size ,  // 12,
+          //   textColor : countLayerConfigOptions.text_color , // "#ffffff"
+          // }
+          countLayerId
+        )
+        mapboxMap.addLayer(countLayerConfig)
+        if ( countLayerConfigOptions.is_clickable ) {
+          mapboxMap.on('click', countLayerId, function (e) {
+
+            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
+            
+            var clusterId = featuresCluster[0].properties.cluster_id;
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count - clusterId : ", clusterId)
+            
+            mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+              if (err) {return}
+
+              mapboxMap.easeTo({
+                center: featuresCluster[0].geometry.coordinates,
+                zoom: zoom
+              })
+            })
+
+          })
+          mapboxMap.on('mouseenter', countLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = 'pointer';
+          })
+          mapboxMap.on('mouseleave', countLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = '';
+          })
+        }
+
+      }
+
+      // UNCLUSTERING
+      if ( mapboxOptions.cluster_unclustered_layer && mapboxOptions.cluster_unclustered_layer.is_activated ){
+        let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
+        let unclusteredLayerId = unclusteredLayerConfigOptions.layer_id ? unclusteredLayerConfigOptions.layer_id : "unclustered-points"
+        let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, 
+          unclusteredLayerConfigOptions,
+          // {
+          //   circleColor       : unclusteredLayerConfigOptions.circle_color , // "#fff", 
+          //   circleStrokeColor : unclusteredLayerConfigOptions.circle_stroke_color , // 5, 
+          //   circleRadius      : unclusteredLayerConfigOptions.circle_radius , // "#a174ac",
+          //   circleStrokeWidth : unclusteredLayerConfigOptions.circle_stroke_width , // 5, 
+          // }
+          unclusteredLayerId
+        )
+        mapboxMap.addLayer(unclusteredLayerConfig)
+        if ( unclusteredLayerConfigOptions.is_clickable ) {
+          mapboxMap.on('click', unclusteredLayerId, function (e) {
+            
+            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
+
+            var pointId = featuresPoint[0].properties.sd_id;
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
+
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
+
+            mapboxMap.easeTo({
+              center: coordinates,
+            })
+
+            let itemProps = featuresPoint[0].properties
+            itemProps.lat = coordinates[1]
+            itemProps.lon = coordinates[0]
+            displayPoint(itemProps)
+
+          })
+          mapboxMap.on('mouseenter', unclusteredLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = 'pointer';
+          })
+          mapboxMap.on('mouseleave', unclusteredLayerId, function () {
+            mapboxMap.getCanvas().style.cursor = '';
+          })
+        }
+      }
+
+      //  HEATMAP
+      if ( mapboxOptions.heatmap_layer && mapboxOptions.heatmap_layer.is_activated ){
+        let heatmapLayerConfigOptions = mapboxOptions.heatmap_layer 
+        let heatmapLayerId = heatmapLayerConfigOptions.layer_id ? heatmapLayerConfigOptions.layer_id : "heatmap-layer"
+        let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {
+          propWeight: 'weigth', 
+          maxZoom: this.maxZoom 
+        })
+        mapboxMap.addLayer(heatmapLayerConfig)
+      }
 
       //  CHOROPLETH
       // 0 - adding layer to display choropleth
@@ -582,146 +776,143 @@ export default {
       // ALL POINTS
       // 1 - adding layer to display all items
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - all points - layer ")
-      mapboxMap.addLayer(allPointsConfig)
+      // mapboxMap.addLayer(allPointsConfig)
 
 
       // CLUSTERING
       // 2 - adding layer to display clusters circles
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters - layer ")
-      mapboxMap.addLayer(clusterLayerConfig)
+      // mapboxMap.addLayer(clusterLayerConfig)
       
       // 3 - adding layer to display clusters counts
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters-count - layer ")
-      mapboxMap.addLayer(countLayerConfig)
+      // mapboxMap.addLayer(countLayerConfig)
       
       // 4 - adding layer to display single item
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point - layer ")
-      mapboxMap.addLayer(unclusteredLayerConfig)
-
+      // mapboxMap.addLayer(unclusteredLayerConfig)
 
 
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point -  mapboxMap ", mapboxMap)
 
-
-
-
       // inspect a cluster or a point on click
 
       // ALL POINT ACTIONS
-      mapboxMap.on('click', 'all-points', function (e) {
-        
-        var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['all-points'] });
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
+        // mapboxMap.on('click', 'all-points', function (e) {
+          
+        //   var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['all-points'] });
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
 
-        var pointId = featuresPoint[0].properties.sd_id;
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - pointId : ", pointId)
+        //   var pointId = featuresPoint[0].properties.sd_id;
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - pointId : ", pointId)
 
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - coordinates : ", coordinates)
+        //   var coordinates = e.features[0].geometry.coordinates.slice();
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - coordinates : ", coordinates)
 
-        mapboxMap.easeTo({
-          center: coordinates,
-        })
+        //   mapboxMap.easeTo({
+        //     center: coordinates,
+        //   })
 
-        let itemProps = featuresPoint[0].properties
-        itemProps.lat = coordinates[1]
-        itemProps.lon = coordinates[0]
-        displayPoint(itemProps)
+        //   let itemProps = featuresPoint[0].properties
+        //   itemProps.lat = coordinates[1]
+        //   itemProps.lon = coordinates[0]
+        //   displayPoint(itemProps)
 
-      })
-      mapboxMap.on('mouseenter', 'all-points', function () {
-        mapboxMap.getCanvas().style.cursor = 'pointer';
-      })
-      mapboxMap.on('mouseleave', 'all-points', function () {
-        mapboxMap.getCanvas().style.cursor = '';
-      })
+        // })
+        // mapboxMap.on('mouseenter', 'all-points', function () {
+        //   mapboxMap.getCanvas().style.cursor = 'pointer';
+        // })
+        // mapboxMap.on('mouseleave', 'all-points', function () {
+        //   mapboxMap.getCanvas().style.cursor = '';
+        // })
+
 
       // CLUSTER ACTIONS
-      mapboxMap.on('click', 'clusters', function (e) {
+        // mapboxMap.on('click', 'clusters', function (e) {
 
-        // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
-        // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
+        //   // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
+        //   // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
 
-        var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
-        
-        var clusterId = featuresCluster[0].properties.cluster_id;
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
-        
-        mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-          if (err) {return}
+        //   var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
+          
+        //   var clusterId = featuresCluster[0].properties.cluster_id;
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
+          
+        //   mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+        //     if (err) {return}
 
-          mapboxMap.easeTo({
-            center: featuresCluster[0].geometry.coordinates,
-            zoom: zoom
-          })
-        })
+        //     mapboxMap.easeTo({
+        //       center: featuresCluster[0].geometry.coordinates,
+        //       zoom: zoom
+        //     })
+        //   })
 
-      })
-      mapboxMap.on('mouseenter', 'clusters', function () {
-        mapboxMap.getCanvas().style.cursor = 'pointer';
-      })
-      mapboxMap.on('mouseleave', 'clusters', function () {
-        mapboxMap.getCanvas().style.cursor = '';
-      })
+        // })
+        // mapboxMap.on('mouseenter', 'clusters', function () {
+        //   mapboxMap.getCanvas().style.cursor = 'pointer';
+        // })
+        // mapboxMap.on('mouseleave', 'clusters', function () {
+        //   mapboxMap.getCanvas().style.cursor = '';
+        // })
 
-      // // CLUSTER-COUNT ACTIONS
-      // mapboxMap.on('click', 'cluster-count', function (e) {
+      // CLUSTER-COUNT ACTIONS
+        // mapboxMap.on('click', 'cluster-count', function (e) {
 
-      //   var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
-      //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
-        
-      //   var clusterId = featuresCluster[0].properties.cluster_id;
-      //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count - clusterId : ", clusterId)
-        
-      //   mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-      //     if (err) {return}
+        //   var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
+          
+        //   var clusterId = featuresCluster[0].properties.cluster_id;
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count - clusterId : ", clusterId)
+          
+        //   mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+        //     if (err) {return}
 
-      //     mapboxMap.easeTo({
-      //       center: featuresCluster[0].geometry.coordinates,
-      //       zoom: zoom
-      //     })
-      //   })
+        //     mapboxMap.easeTo({
+        //       center: featuresCluster[0].geometry.coordinates,
+        //       zoom: zoom
+        //     })
+        //   })
 
-      // })
-      // mapboxMap.on('mouseenter', 'cluster-count', function () {
-      //   mapboxMap.getCanvas().style.cursor = 'pointer';
-      // })
-      // mapboxMap.on('mouseleave', 'cluster-count', function () {
-      //   mapboxMap.getCanvas().style.cursor = '';
-      // })
+        // })
+        // mapboxMap.on('mouseenter', 'cluster-count', function () {
+        //   mapboxMap.getCanvas().style.cursor = 'pointer';
+        // })
+        // mapboxMap.on('mouseleave', 'cluster-count', function () {
+        //   mapboxMap.getCanvas().style.cursor = '';
+        // })
 
 
-      let displayPoint = this.highlightItem
+      // let displayPoint = this.highlightItem
 
       // POINT ACTIONS
-      mapboxMap.on('click', 'unclustered-point', function (e) {
-        
-        var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
+        // mapboxMap.on('click', 'unclustered-point', function (e) {
+          
+        //   var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
 
-        var pointId = featuresPoint[0].properties.sd_id;
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
+        //   var pointId = featuresPoint[0].properties.sd_id;
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
 
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
+        //   var coordinates = e.features[0].geometry.coordinates.slice();
+        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
 
-        mapboxMap.easeTo({
-          center: coordinates,
-        })
+        //   mapboxMap.easeTo({
+        //     center: coordinates,
+        //   })
 
-        let itemProps = featuresPoint[0].properties
-        itemProps.lat = coordinates[1]
-        itemProps.lon = coordinates[0]
-        displayPoint(itemProps)
+        //   let itemProps = featuresPoint[0].properties
+        //   itemProps.lat = coordinates[1]
+        //   itemProps.lon = coordinates[0]
+        //   displayPoint(itemProps)
 
-      })
-      mapboxMap.on('mouseenter', 'unclustered-point', function () {
-        mapboxMap.getCanvas().style.cursor = 'pointer';
-      })
-      mapboxMap.on('mouseleave', 'unclustered-point', function () {
-        mapboxMap.getCanvas().style.cursor = '';
-      })
+        // })
+        // mapboxMap.on('mouseenter', 'unclustered-point', function () {
+        //   mapboxMap.getCanvas().style.cursor = 'pointer';
+        // })
+        // mapboxMap.on('mouseleave', 'unclustered-point', function () {
+        //   mapboxMap.getCanvas().style.cursor = '';
+        // })
 
 
 
@@ -750,6 +941,7 @@ export default {
         this.map.getSource('clusterSource').setData(geoJson)
         this.map.getSource('allPointsSource').setData(geoJson)
         // TO DO : update choropleth
+
       }
     },
 
@@ -791,20 +983,20 @@ export default {
     
 
     // createMapbox(styleUrl){
-    //   this.log && console.log("C-SearchResultsMapbox / createMapbox ... ")
-    //   // init the map
+      //   this.log && console.log("C-SearchResultsMapbox / createMapbox ... ")
+      //   // init the map
 
-    //   this.map = new mapboxgl.Map({
-    //     container: 'mapboxDiv',
-    //     style: styleUrl,
-    //     center: [4.7835, 52.3491],
-    //     zoom: 6,
-    //     pitch: 0,
-    //     minZoom: 2,
-    //     maxZoom: 20,
-    //     attributionControl: false
-    //   })
-    //   // this.map.addControl(new mapboxgl.Navigation());
+      //   this.map = new mapboxgl.Map({
+      //     container: 'mapboxDiv',
+      //     style: styleUrl,
+      //     center: [4.7835, 52.3491],
+      //     zoom: 6,
+      //     pitch: 0,
+      //     minZoom: 2,
+      //     maxZoom: 20,
+      //     attributionControl: false
+      //   })
+      //   // this.map.addControl(new mapboxgl.Navigation());
 
     // },
 

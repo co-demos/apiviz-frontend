@@ -96,11 +96,11 @@ export function createGeoJsonDataPoints(dataArray){
   let dataGeoJson = dataArray.map(item => {
 
     let trimmedItemProps = Object.keys(item)
-                      .filter(key => !notAllowedKeys.includes(key))
-                      .reduce((obj, key) => {
-                        obj[key] = item[key];
-                        return obj;
-                      }, {} );
+      .filter(key => !notAllowedKeys.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = item[key];
+        return obj;
+      }, {} );
     trimmedItemProps.iconMapbox = "marker"
     trimmedItemProps.weigth = 0.1
 
