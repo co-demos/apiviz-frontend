@@ -414,11 +414,11 @@ export default {
 
   /* TODO SASS : make a variable out of this background-value. Also used in SearchResultsCountAndTabs */
   .search-results-list{
-      background-color: #F6F6F6;
-      width: 100%;
+    background-color: #F6F6F6;
+    width: 100%;
 
-      padding-bottom: 1.5rem;
-      padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1rem;
   }
 
   /* .pagination {
@@ -448,9 +448,9 @@ export default {
   }
 
   .pending{
-      text-align: center;
-      padding: 2em;
-      margin-top : 10em;
-      margin-bottom : 10em;
+    text-align: center;
+    padding: 2em;
+    margin-top : 10em;
+    margin-bottom : 10em;
   }
 </style>

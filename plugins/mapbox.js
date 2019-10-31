@@ -141,6 +141,9 @@ export function createClusterCirclesLayer (sourceId, vars, layerId="clusters") {
         500, vars.circle_radius_500,
         750, vars.circle_radius_750
       ]
+    },
+    layout : {
+      visibility : vars.is_default_visible ? 'visible' : 'none',
     }
   }
   return layerConfig
@@ -154,17 +157,16 @@ export function createClusterCountLayer (sourceId, vars, layerId="cluster-counts
     source: sourceId,
     filter: ["has", "point_count"],
     layout: {
+      'visibility': vars.is_default_visible ? 'visible' : 'none',
       "text-field": "{point_count_abbreviated}",
-
       "text-font": ["Open Sans Bold"], // OK
       // "text-font": ["Open Sans Regular"], // OK
       // "text-font": ["Roboto Regular"], // not working
-
       "text-size": vars.text_size
     },
     paint: {
       "text-color": vars.text_color
-    }
+    },
   }
   return layerConfig
 }
@@ -181,6 +183,9 @@ export function createClusterUnclusteredLayer (sourceId, vars, layerId="uncluste
       "circle-radius": vars.circle_radius,
       "circle-stroke-color": vars.circle_stroke_color,
       "circle-stroke-width": vars.circle_stroke_width,
+    },
+    layout : {
+      'visibility': vars.is_default_visible ? 'visible' : 'none',
     }
   }
   return layerConfig
@@ -213,6 +218,9 @@ export function createAllPoints (sourceId, vars, layerId="all-points") {
       ],
 
     },
+    "layout" : {
+      'visibility': vars.is_default_visible ? 'visible' : 'none',
+    }
   }
   return layerConfig
 }
@@ -222,17 +230,17 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
 
   // cf : https://docs.mapbox.com/help/tutorials/make-a-heatmap-with-mapbox-gl-js/
   let layerConfig = {
-    "id": layerId,
-    "type": "heatmap",
-    "source": sourceId,
-    "maxzoom": vars.maxZoom,
-    "paint": {
+    id : layerId,
+    type : "heatmap",
+    source : sourceId,
+    maxzoom : vars.max_zoom,
+    paint : {
 
       // Increase the heatmap weight based on frequency and property magnitude
       "heatmap-weight": [
         "interpolate",
         ["linear"],
-        ["get", vars.propWeight],
+        ["get", vars.prop_weight],
         0, 0,
         0.1, 1
       ],
@@ -244,7 +252,7 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
         ["linear"],
         ["zoom"],
         0, 0.1,
-        vars.maxZoom, 1.5
+        vars.max_zoom, 1.5
       ],
 
       // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
@@ -254,12 +262,12 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
         "interpolate",
         ["linear"],
         ["heatmap-density"],
-        0, "rgba(33,102,172,0)",
+        0,   "rgba(33,102,172,0)",
         0.2, "rgb(103,169,207)",
         0.4, "rgb(209,229,240)",
         0.6, "rgb(253,219,199)",
         0.8, "rgb(239,138,98)",
-        1, "rgb(178,24,43)"
+        1,   "rgb(178,24,43)"
       ],
 
       // Adjust the heatmap radius by zoom level
@@ -268,7 +276,7 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
         ["linear"],
         ["zoom"],
         6, 15,
-        vars.maxZoom, 100
+        vars.max_zoom, 100
       ],
 
       // Transition from heatmap to circle layer by zoom level
@@ -277,8 +285,11 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
         ["linear"],
         ["zoom"],
         6, 0.7,
-        vars.maxZoom, 0.1
+        vars.max_zoom, 0.1
       ],
+    },
+    layout  : {
+      'visibility': vars.is_default_visible ? 'visible' : 'none',
     }
   }
   return layerConfig
@@ -289,17 +300,37 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
 // cf : 
 export function createChoroplethLayer(sourceId, vars, layerId="choropleth") {
   let layerConfig = {
-    "id": layerId,
-    "type": "fill",
-    "source": sourceId,
+    id     : layerId,
+    type   : "fill",
+    source : sourceId,
+    maxzoom: vars.max_zoom,
+    minzoom: vars.min_zoom,
     // "source-layer": sourceId,
-    "paint": {
+    paint: {
       // cf : https://docs.mapbox.com/mapbox-gl-js/style-spec/#layer-paint
-      "fill-color": vars.fill_color, // "#888888",
-      "fill-opacity": vars.fill_opacity, // 0.5,
-      "fill-outline-color": vars.fill_outline_color, // "rgb(256,256,256)",
+      "fill-color"         : vars.fill_color,
+      // 'fill-color': [
+      //   'interpolate',
+      //   ['linear'],
+      //   ['get', vars.agregated_data_field ],
+      //   0, vars.fill_color,
+      //   1,  '#EED322',
+      //   3,  '#E6B71E',
+      //   5,  '#DA9C20',
+      //   10, '#CA8323',
+      //   20, '#B86B25',
+      //   30, '#A25626',
+      //   40, '#8B4225',
+      //   50, '#723122'
+      // ],
+      "fill-opacity"       : vars.fill_opacity, // 0.5,
+      "fill-outline-color" : vars.fill_outline_color, // "rgb(256,256,256)",
+    },
+    layout : {
+      'visibility': vars.is_default_visible ? 'visible' : 'none',
     }
   }
+
   return layerConfig
 }
 

@@ -7,25 +7,30 @@
     .mgl-map-wrapper {
       position: absolute;
     }
+
+
   }
 </style>
 
 <template>
   <div class="map">
 
+    <!--  getZoom : {{ getZoom }} -->
+    <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
+
+
     <!-- SearchResultsCountAndTabs -->
     <div class="count-and-tabs-container">
-
       <div 
         class="container"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
-
         <SearchResultsCountAndTabs 
           :view="VIEW_MAP" 
           :open="showCard"
           >
           
+        
           <!-- HIGHLIGHTED ITEM  -->
           <div 
             class="highlighted-project" 
@@ -87,10 +92,11 @@
           </div>
 
         </SearchResultsCountAndTabs>
-
       </div>
-
     </div>
+
+
+
 
     <!-- {{ itemsForsMap }} -->
     <!-- LOADER -->
@@ -103,6 +109,46 @@
     </div>
 
 
+      <!-- TO DO / LEGEND AND LAYERS SWiTCH -->
+      <!-- <div id='state-legend' class='legend legend-bottom-right'>
+        <h4>Population</h4>
+        <div><span style='background-color: #723122'></span>25,000,000</div>
+        <div><span style='background-color: #8B4225'></span>10,000,000</div>
+        <div><span style='background-color: #A25626'></span>7,500,000</div>
+        <div><span style='background-color: #B86B25'></span>5,000,000</div>
+        <div><span style='background-color: #CA8323'></span>2,500,000</div>
+        <div><span style='background-color: #DA9C20'></span>1,000,000</div>
+        <div><span style='background-color: #E6B71E'></span>750,000</div>
+        <div><span style='background-color: #EED322'></span>500,000</div>
+        <div><span style='background-color: #F2F12D'></span>0</div>
+      </div> -->
+      
+      <!-- <div id='county-legend' class='legend' style='display: none;'>
+        <h4>Population</h4>
+        <div><span style='background-color: #723122'></span>1,000,000</div>
+        <div><span style='background-color: #8B4225'></span>500,000</div>
+        <div><span style='background-color: #A25626'></span>100,000</div>
+        <div><span style='background-color: #B86B25'></span>50,000</div>
+        <div><span style='background-color: #CA8323'></span>10,000</div>
+        <div><span style='background-color: #DA9C20'></span>5,000</div>
+        <div><span style='background-color: #E6B71E'></span>1,000</div>
+        <div><span style='background-color: #EED322'></span>100</div>
+        <div><span style='background-color: #F2F12D'></span>0</div>
+      </div> -->
+
+
+      <!-- <div id='state-legend' class='legend legend-bottom-left'>
+        <h4>Population</h4>
+        <div><span style='background-color: #723122'></span>25,000,000</div>
+        <div><span style='background-color: #8B4225'></span>10,000,000</div>
+        <div><span style='background-color: #A25626'></span>7,500,000</div>
+        <div><span style='background-color: #B86B25'></span>5,000,000</div>
+        <div><span style='background-color: #CA8323'></span>2,500,000</div>
+        <div><span style='background-color: #DA9C20'></span>1,000,000</div>
+        <div><span style='background-color: #E6B71E'></span>750,000</div>
+        <div><span style='background-color: #EED322'></span>500,000</div>
+        <div><span style='background-color: #F2F12D'></span>0</div>
+      </div> -->
 
 
     <!-- MAP WITH MAPBOX GL -->
@@ -170,10 +216,9 @@
       <!-- <div id="mapboxDiv">
       </div> -->
 
+
+
     </no-ssr>
-
-
-
 
 
   </div>
@@ -199,6 +244,7 @@ import mapboxgl from 'mapbox-gl'
 // import { getItemById } from '~/plugins/utils.js';
 
 import { StylesOSM } from '../../config/mapboxVectorStyles.js'
+
 import {  
   getStyleJSON, 
   createGeoJSONSource, 
@@ -209,11 +255,16 @@ import {
   createHeatmapLayer,
   createChoroplethLayer
 } from '~/plugins/mapbox.js';
+
 import { 
   geoJsonBasesUrls,
-  createGeoJsonDataPoints
+  createGeoJsonDataPoints,
+  updateGeoJsonProperties
 } from '~/plugins/geoJson.js';
 
+import {
+  getJson,
+} from '~/plugins/utils.js'
 
 export default {
 
@@ -242,6 +293,8 @@ export default {
       isClusterMode : true,
       isAllPointsMode : true,
       isHeatmap : false,
+
+      chroplethGeoJSONS : [],
 
       // LOCAL DATA
       VIEW_MAP,
@@ -310,12 +363,12 @@ export default {
     const mapOptionsRoute = this.routeConfig.map_options
     this.log && console.log("C-SearchResultsMapbox / mapOptionsRoute : \n", mapOptionsRoute)
 
-    this.zoom = mapOptions.zoom
-    this.maxZoom = mapOptions.maxZoom
-    this.minZoom = mapOptions.minZoom
+    this.zoom        = mapOptions.zoom
+    this.maxZoom     = mapOptions.maxZoom
+    this.minZoom     = mapOptions.minZoom
     this.currentZoom = mapOptions.currentZoom
 
-    this.center =[ mapOptions.center[1], mapOptions.center[0] ]
+    this.center      = [ mapOptions.center[1], mapOptions.center[0] ]
     // this.center = [0,0]
 
     this.currentCenter = mapOptions.currentCenter
@@ -339,11 +392,11 @@ export default {
 
     this.log && console.log("\nC-SearchResultsMapbox / mounted... ")
 
-    const OSMBright = 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json'
-    const Positron = 'https://openmaptiles.github.io/positron-gl-style/style-cdn.json'
-    const DarkMatter = 'https://openmaptiles.github.io/dark-matter-gl-style/style-cdn.json'
+    const OSMBright       = 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json'
+    const Positron        = 'https://openmaptiles.github.io/positron-gl-style/style-cdn.json'
+    const DarkMatter      = 'https://openmaptiles.github.io/dark-matter-gl-style/style-cdn.json'
     const KlokantechBasic = 'https://openmaptiles.github.io/klokantech-basic-gl-style/style-cdn.json'
-    const DarkMatterBis = 'https://free.tilehosting.com/styles/darkmatter/style.json'
+    const DarkMatterBis   = 'https://free.tilehosting.com/styles/darkmatter/style.json'
 
     // !!! ERROR CORS FETCHING DISTANT STYLES !!!    
     const styleUrl = Positron
@@ -358,7 +411,7 @@ export default {
 
     map(next, prev){
 
-      // this.log && console.log('\nC-SearchResultsMapbox / watch - map ...')
+      this.log && console.log('\nC-SearchResultsMapbox / watch - map ...')
       // this.log && console.log('C-SearchResultsMapbox / watch - map / prev : ', prev)
       // this.log && console.log('C-SearchResultsMapbox / watch - map / next : ', next)
       // this.log && console.log('C-SearchResultsMapbox / watch - map / this.isClusterSet : ', this.isClusterSet)
@@ -368,14 +421,14 @@ export default {
 
         this.log && console.log('C-SearchResultsMapbox / watch - map is created ')
 
-        if (!this.isClusterSet && this.itemsForMap ) {
-          this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ...')
+        if ( !this.isClusterSet && this.itemsForMap ) {
+          this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ( from geoJson.js ) ...')
           this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
           // this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
           this.createMapItems(this.geoJson)
         } 
         
-        else if (!this.clusterSet && !this.itemsForMap ) {
+        else if ( !this.clusterSet && !this.itemsForMap ) {
           this.log && console.log('C-SearchResultsMapbox / watch - map - this.itemsForMap empty ... just wait for projects to change')
         }
 
@@ -386,26 +439,26 @@ export default {
     projects(next, prev){
 
       this.log && console.log('\nC-SearchResultsMapbox / watch - projects ...')
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
-      this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / prev : ', prev)
+      // this.log && console.log('C-SearchResultsMapbox / watch - projects / next : ', next)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.map : ', this.map)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
 
-      if (this.map && !this.isClusterSet && this.itemsForMap) {
-        this.log && console.log('C-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ...')
+      if ( this.map && !this.isClusterSet && this.itemsForMap ) {
+        this.log && console.log('\nC-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ( from geoJson.js ) ...')
         this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
         // this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
 
-      if (this.map && this.isClusterSet) {
-        this.log && console.log('C-SearchResultsMapbox / watch - projects - updateSourceData ...')
+      if ( this.map && this.isClusterSet ) {
+        this.log && console.log('\nC-SearchResultsMapbox / watch - projects - updateSourceData ...')
         this.updateSourceData(this.itemsForMap)
       } 
 
       else {
-        this.log && console.log('C-SearchResultsMapbox / watch - projects - else ...')
+        this.log && console.log('\nC-SearchResultsMapbox / watch - projects - else (no map yet) ...')
       }
 
     },
@@ -415,6 +468,7 @@ export default {
     //   this.log && console.log('C-SearchResultsMapbox / watch - next : ', next)
     //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
     // },
+
   },
 
   computed: {
@@ -435,9 +489,10 @@ export default {
     itemsForMap(){
       
       this.log && console.log('\nC-SearchResultsMapbox / itemsForMap ...')
-      this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... : ', this.projects)
 
       if (this.projects){
+        this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects ... not empty ...')
+        this.log && console.log('C-SearchResultsMapbox / itemsForMap / this.projects : ', this.projects)
 
         let geoItems = this.projects.filter(item => this.checkIfItemHasLatLng(item) )
         // this.log && console.log('C-SearchResultsMapbox / itemsForMap / geoItems ... : ', geoItems )
@@ -450,6 +505,10 @@ export default {
 
     },
 
+    getZoom(){
+      return this.map && this.map.getZoom()
+    },
+
   },
 
   beforeDestroy() {
@@ -458,6 +517,7 @@ export default {
 
   methods: {
 
+    // - - - - - - - - - - - - - - - - - - //
     onMapLoaded(event) {
       this.log && console.log("\nC-SearchResultsMapbox / onMapLoaded ... ")
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
@@ -472,13 +532,75 @@ export default {
     },
 
 
+    // - - - - - - - - - - - - - - - - - - //
+    // MAIN MAP FUNCTIONS
+
+    // INITIALIZATION
+    createMapItems(geoJson){
+
+      this.log && console.log("\nC-SearchResultsMapbox / createMapItems ...")
+
+      let mapboxOptions = this.routeConfig.map_options.mapbox_layers
+
+      // adding reactive source
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+      this.createAddGeoJsonSource(geoJson)
+      this.createChoroplethSource()
+
+      let allPointsSourceId = mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.source_id ? mapboxOptions.all_points_layer.source_id : "allPointsSource"
+      let geoJsonSourceId   = mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.source_id ? mapboxOptions.cluster_circles_layer.source_id : "clusterSource"
+      // cf : https://www.jerriepelser.com/books/airport-explorer/mapping/clustering/
+      this.createAddGeoJsonLayers( { 
+        allPointsId : allPointsSourceId, // 'allPointsSource', 
+        clusterId   : geoJsonSourceId, // 'clusterSource', 
+      } )
+      this.isClusterSet = true
+      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
+
+
+    },
+
+    // SOURCES 
+    updateSourceData(itemsForMap){
+      
+      this.log && console.log("\nC-SearchResultsMapbox / updateSourceData ...")
+      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
+      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
+      
+      if (itemsForMap){
+
+        let mapboxOptions = this.routeConfig.map_options.mapbox_layers
+        let mapboxMap = this.map 
+
+        let allPointsSourceId = mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.source_id ? mapboxOptions.all_points_layer.source_id : "allPointsSource"
+        let geoJsonSourceId   = mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.source_id ? mapboxOptions.cluster_circles_layer.source_id : "clusterSource"
+
+        this.log && console.log("\nC-SearchResultsMapbox / updateSourceData / createGeoJsonDataPoints ( from geoJson.js ) ...")
+        let geoJson = createGeoJsonDataPoints(itemsForMap)
+
+        this.map.getSource( allPointsSourceId ).setData(geoJson)
+        this.map.getSource( geoJsonSourceId ).setData(geoJson)
+        // this.map.getSource('allPointsSource').setData(geoJson)
+        // this.map.getSource('clusterSource').setData(geoJson)
+
+        // TO DO : update choropleth
+        // const choroplethConfigOptions = mapboxOptions.choropleth_layer 
+        // for ( let source of choroplethConfigOptions.sources ) {
+        //  this.map.getSource( source.source_id ).setData( geoJson )
+        // }
+
+      }
+    },
+
     createAddGeoJsonSource(geoJson){
 
-      this.log && console.log("C-SearchResultsMapbox / createAddGeoJsonSource / geoJson :", geoJson)
+      this.log && console.log("\nC-SearchResultsMapbox / createAddGeoJsonSource / geoJson :", geoJson)
 
       let mapbox = this.map
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
 
+      // - - - - - - - - - - - - - - - - //
       // SOURCE - ALL POINTS
       if ( mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.is_activated ){
         const allPointsConfigOptions = mapboxOptions.all_points_layer
@@ -489,70 +611,154 @@ export default {
           clusterRadius: 75 
         })
         mapbox.addSource( allPointsSourceId, allPointsSource)
+
+        // FOR LIVE DATA
+        // if ( allPointsConfigOptions.is_live_data ){
+          // window.setInterval(function() {
+          //   mapbox
+          //   .getSource( allPointsSourceId )
+          //   .setData( // TO DO // ) ;
+          // // }, allPointsConfigOptions.refresh_delay)
+        // }
+
       }
       
-      // SOURCE - ALL POINTS CLUSTER
+      // - - - - - - - - - - - - - - - - //
+      // SOURCE - ALL POINTS CLUSTERS
       if ( mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.is_activated ){
         const clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
         let geoJsonSourceId = clusterLayerConfigOptions.source_id ? clusterLayerConfigOptions.source_id : "clusterSource"
         let geoJsonSource   = createGeoJSONSource(geoJson, { 
           isCluster: true, 
           clusterMaxZoom: 14, 
-          clusterRadius: 75 
+          clusterRadius : 75 
         })
         mapbox.addSource( geoJsonSourceId, geoJsonSource)
       }
       
-      // - - - - - - - -  //
-      // TEST CHORROPLETH //
-
-      // cf : https://github.com/gregoiredavid/france-geojson
-      // cf : https://geojson-maps.ash.ms/
-      // cf : https://restcountries.eu/#api-endpoints-all
-
-      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
-
-        
-        const choroplethConfigOptions = mapboxOptions.choropleth_layer 
-        let choroplethSourceId = choroplethConfigOptions.source_id ? choroplethConfigOptions.source_id : "choroSource"
-
-        if ( choroplethConfigOptions.is_source_distant ){
-
-          // let urlChoropleth = geoJsonBasesUrls.WORLD.local
-          // let urlChoropleth = geoJsonBasesUrls.EUROPE.FRANCE.departements.allSimple
-          let urlChoropleth = choroplethConfigOptions.distant_source_url
-  
-          window.setInterval(function() {
-            mapbox.getSource(choroplethSourceId).setData(urlChoropleth);
-          }, 3000)
-          mapbox.addSource( choroplethSourceId, {
-            type: 'geojson',
-            data: urlChoropleth
-          })
-          // this.log && console.log("C-SearchResultsMapbox / createMapItems / mapbox :", mapbox)
-        }
-      }
 
     },
 
+    createChoroplethSource(){
+
+      this.log && console.log("\nC-SearchResultsMapbox / createChoroplethSource ...")
+
+      let mapbox = this.map
+      const mapboxOptions = this.routeConfig.map_options.mapbox_layers
+
+      // - - - - - - - - - - - - - - - - //
+      // SOURCE - CHOROPLETH //
+      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
+  
+        // cf : https://github.com/gregoiredavid/france-geojson
+        // cf : https://geojson-maps.ash.ms/
+        // cf : https://restcountries.eu/#api-endpoints-all
+  
+        // cf : https://docs.mapbox.com/mapbox-gl-js/example/updating-choropleth/
+        // cf : https://docs.mapbox.com/mapbox-gl-js/example/data-join/
+        
+        const choroplethConfigOptions = mapboxOptions.choropleth_layer 
+        
+        for ( let source of choroplethConfigOptions.sources ) {
+          
+          this.log && console.log("\nC-SearchResultsMapbox / createChoroplethSource / source.source_id : ", source.source_id )
+
+          if (source.is_activated ){
+            
+            this.chroplethGeoJSONS.push({
+              source_id : source.source_id,
+              is_loaded : false,
+              data : undefined
+            })
+
+            if ( source.need_aggregation ) {
+              
+                let dummyGeoJson = {
+                  "type":"FeatureCollection",
+                  "features": [
+                    // { "type":"Feature",
+                    //   "geometry": { 
+                    //     "type":"Polygon",
+                    //     "coordinates": [ [ [4.780213475718984,46.176677022719375],[4.7945808953124605,46.21831635025701],[4.807756868341096,46.23696871115128] ] ] },
+                    //   "properties": {"code":"01","nom":"Ain"}
+                    // }
+                  ]
+                }
+                mapbox.addSource( source.source_id, 
+                {
+                  type: 'geojson',
+                  data: dummyGeoJson
+                }
+              )
+
+              let choroSource = getJson(source.source_url)
+              choroSource.then(( resp ) => {
+                
+                this.log && console.log("C-SearchResultsMapbox / createAddGeoJsonSource / resp.data :", resp.data)
+  
+                let dataLoaded = resp.data
+  
+                // modify / agregate data
+                let items = this.projects
+
+
+                let dataFeatures = dataLoaded.features
+                dataFeatures.forEach( i => {
+                  const result = items.reduce( (sum, item) => 
+                    ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
+                  )
+                  i.properties[ source.agregated_data_field ] = result
+                })
+                dataLoaded.features = dataFeatures
+  
+                mapbox.getSource( source.source_id ).setData(dataLoaded)
+
+                let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === source.source_id )
+                this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+                // this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+                // this.createAddChoroplethLayers(source)
+              }) 
+            } 
+            else {
+              mapbox.addSource( source.source_id, 
+                {
+                  type: 'geojson',
+                  data: source.source_url
+                }
+              )
+              let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === source.source_id )
+              this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+              // this.createAddChoroplethLayers(source)
+            }
+
+          }
+
+        }
+
+      }
+    },
+
+    // LAYERS
     createAddGeoJsonLayers(geoJsonSourceId) {
 
+      this.log && console.log("\nC-SearchResultsMapbox / createGeoJsonLayer ... ")
       // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / geoJsonSourceId : ", geoJsonSourceId)
 
-      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / this.routeConfig : ", this.routeConfig)
-      let mapboxOptions = this.routeConfig.map_options.mapbox_layers
+      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / this.routeConfig : ", this.routeConfig)
 
+      let mapboxOptions = this.routeConfig.map_options.mapbox_layers
       let mapboxMap = this.map 
 
       let displayPoint = this.highlightItem
 
       //  CHOROPLETH
-      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){        let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
+      if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
         let choroplethConfigOptions = mapboxOptions.choropleth_layer 
-        let choroplethSourceId = choroplethConfigOptions.source_id ? choroplethConfigOptions.source_id : "choroSource"
-        let choroplethLayerId = choroplethConfigOptions.layer_id ? choroplethConfigOptions.layer_id : "choropleth-layer"
-        let choroplethConfig = createChoroplethLayer( choroplethSourceId, choroplethConfigOptions, choroplethLayerId )
-        mapboxMap.addLayer(choroplethConfig)
+        for ( let source of choroplethConfigOptions.sources ) {
+          if (source.is_activated ){
+            this.createAddChoroplethLayers(source)
+          }
+        }
       }
 
       // ALL POINTS
@@ -560,23 +766,16 @@ export default {
         let allPointsConfigOptions = mapboxOptions.all_points_layer
         let allPointsLayerId = allPointsConfigOptions.layer_id ? allPointsConfigOptions.layer_id : "all-points"
 
-        let allPointsConfig = createAllPoints( geoJsonSourceId.allPointsId, 
+        let allPointsConfig = createAllPoints( 
+          geoJsonSourceId.allPointsId, 
           allPointsConfigOptions,
-          // { 
-          //   radiusMin         : allPointsConfigOptions.radius_min , // 1, 
-          //   radiusMax         : allPointsConfigOptions.radius_max , // 10, 
-          //   maxZoom           : this.maxZoom-5, 
-          //   circleColor       : allPointsConfigOptions.circle_color , // "#a174ac", 
-          //   circleStrokeColor : allPointsConfigOptions.circle_stroke_color , // "#fff",
-          //   circleOpacity     : allPointsConfigOptions.circle_opacity , // 0.8, 
-          // }, 
           allPointsLayerId 
         )
         mapboxMap.addLayer(allPointsConfig)
         if ( allPointsConfigOptions.is_clickable ) {
           mapboxMap.on('click', allPointsLayerId, function (e) {
             
-            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['all-points'] });
+            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ allPointsLayerId ] });
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
 
             var pointId = featuresPoint[0].properties.sd_id;
@@ -605,34 +804,19 @@ export default {
 
       }
 
-      // CLUSTERING
+      // CLUSTERING CIRCLES
       if ( mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.is_activated ){
         let clusterLayerConfigOptions = mapboxOptions.cluster_circles_layer
         let clusterSourceId = clusterLayerConfigOptions.source_id ? clusterLayerConfigOptions.source_id : "clusterSource"
         let clusterLayerId = clusterLayerConfigOptions.layer_id ? clusterLayerConfigOptions.layer_id : "cluster-circles"
-        let clusterLayerConfig = createClusterCirclesLayer( geoJsonSourceId.clusterId, 
-            clusterLayerConfigOptions,
-          //   {
-          //   circleColor    : clusterLayerConfigOptions.circle_color ,    // "#a174ac", 
-          //   circleColor100 : clusterLayerConfigOptions.circle_color_100 ,// "#90689a", 
-          //   circleColor250 : clusterLayerConfigOptions.circle_color_250 ,// "#805c89", 
-          //   circleColor500 : clusterLayerConfigOptions.circle_color_500 ,// "#705178", 
-          //   circleColor750 : clusterLayerConfigOptions.circle_color_750 ,// "#503a56", 
-
-          //   circleRadius    : clusterLayerConfigOptions.circle_radius ,    // 20, 
-          //   circleRadius100 : clusterLayerConfigOptions.circle_radius_100 ,// 20, 
-          //   circleRadius250 : clusterLayerConfigOptions.circle_radius_250 ,// 30, 
-          //   circleRadius500 : clusterLayerConfigOptions.circle_radius_500 ,// 40, 
-          //   circleRadius750 : clusterLayerConfigOptions.circle_radius_750 ,// 50, 
-
-          //   circleStrokeColor : clusterLayerConfigOptions.circle_stroke_color ,// "#fff",
-          //   circleStrokeWidth : clusterLayerConfigOptions.circle_stroke_width ,// 1,
-          // },
+        let clusterLayerConfig = createClusterCirclesLayer( 
+          geoJsonSourceId.clusterId, 
+          clusterLayerConfigOptions,
           clusterLayerId
         )
         mapboxMap.addLayer(clusterLayerConfig)
         if ( clusterLayerConfigOptions.is_clickable ) {
-          mapboxMap.on('click', clusterLayerId, function (e) {
+          mapboxMap.on('click',      clusterLayerId, function (e) {
 
             // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
             // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
@@ -666,12 +850,9 @@ export default {
       if ( mapboxOptions.cluster_count_layer && mapboxOptions.cluster_count_layer.is_activated ){
         let countLayerConfigOptions = mapboxOptions.cluster_count_layer
         let countLayerId = countLayerConfigOptions.layer_id ? countLayerConfigOptions.layer_id : "cluster-counts"
-        let countLayerConfig = createClusterCountLayer(geoJsonSourceId.clusterId, 
+        let countLayerConfig = createClusterCountLayer( 
+          geoJsonSourceId.clusterId, 
           countLayerConfigOptions,
-          // {
-          //   textSize  : countLayerConfigOptions.text_size ,  // 12,
-          //   textColor : countLayerConfigOptions.text_color , // "#ffffff"
-          // }
           countLayerId
         )
         mapboxMap.addLayer(countLayerConfig)
@@ -708,14 +889,9 @@ export default {
       if ( mapboxOptions.cluster_unclustered_layer && mapboxOptions.cluster_unclustered_layer.is_activated ){
         let unclusteredLayerConfigOptions = mapboxOptions.cluster_unclustered_layer
         let unclusteredLayerId = unclusteredLayerConfigOptions.layer_id ? unclusteredLayerConfigOptions.layer_id : "unclustered-points"
-        let unclusteredLayerConfig = createClusterUnclusteredLayer(geoJsonSourceId.clusterId, 
+        let unclusteredLayerConfig = createClusterUnclusteredLayer(
+          geoJsonSourceId.clusterId, 
           unclusteredLayerConfigOptions,
-          // {
-          //   circleColor       : unclusteredLayerConfigOptions.circle_color , // "#fff", 
-          //   circleStrokeColor : unclusteredLayerConfigOptions.circle_stroke_color , // 5, 
-          //   circleRadius      : unclusteredLayerConfigOptions.circle_radius , // "#a174ac",
-          //   circleStrokeWidth : unclusteredLayerConfigOptions.circle_stroke_width , // 5, 
-          // }
           unclusteredLayerId
         )
         mapboxMap.addLayer(unclusteredLayerConfig)
@@ -754,198 +930,39 @@ export default {
       if ( mapboxOptions.heatmap_layer && mapboxOptions.heatmap_layer.is_activated ){
         let heatmapLayerConfigOptions = mapboxOptions.heatmap_layer 
         let heatmapLayerId = heatmapLayerConfigOptions.layer_id ? heatmapLayerConfigOptions.layer_id : "heatmap-layer"
-        let heatmapLayerConfig = createHeatmapLayer(geoJsonSourceId.allPointsId, {
-          propWeight: 'weigth', 
-          maxZoom: this.maxZoom 
-        })
+        let heatmapLayerConfig = createHeatmapLayer(
+          geoJsonSourceId.allPointsId, 
+          heatmapLayerConfigOptions,
+          heatmapLayerId
+        )
         mapboxMap.addLayer(heatmapLayerConfig)
       }
 
-      //  CHOROPLETH
-      // 0 - adding layer to display choropleth
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - choropleth - layer / choroplethConfig : ", choroplethConfig)
-      // mapboxMap.addLayer(choroplethConfig)
+    },
 
+    createAddChoroplethLayers(source) {
 
-      //  HEATMAP
-      // 0 - adding layer to display heatmap
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - heatmap - layer ")
-      // mapboxMap.addLayer(heatmapLayerConfig)
+      this.log && console.log("\nC-SearchResultsMapbox / createGeoJsonLayer ... ")
+      this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer ...: source : ", source)
 
+      let mapboxOptions = this.routeConfig.map_options.mapbox_layers
+      let mapboxMap = this.map 
 
-      // ALL POINTS
-      // 1 - adding layer to display all items
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - all points - layer ")
-      // mapboxMap.addLayer(allPointsConfig)
+      let choroplethSourceId = source.source_id 
+      let choroplethLayerId = source.layer_id 
 
-
-      // CLUSTERING
-      // 2 - adding layer to display clusters circles
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters - layer ")
-      // mapboxMap.addLayer(clusterLayerConfig)
-      
-      // 3 - adding layer to display clusters counts
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - clusters-count - layer ")
-      // mapboxMap.addLayer(countLayerConfig)
-      
-      // 4 - adding layer to display single item
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point - layer ")
-      // mapboxMap.addLayer(unclusteredLayerConfig)
-
-
-      // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayers / add - unclustered-point -  mapboxMap ", mapboxMap)
-
-      // inspect a cluster or a point on click
-
-      // ALL POINT ACTIONS
-        // mapboxMap.on('click', 'all-points', function (e) {
-          
-        //   var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['all-points'] });
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
-
-        //   var pointId = featuresPoint[0].properties.sd_id;
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - pointId : ", pointId)
-
-        //   var coordinates = e.features[0].geometry.coordinates.slice();
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - coordinates : ", coordinates)
-
-        //   mapboxMap.easeTo({
-        //     center: coordinates,
-        //   })
-
-        //   let itemProps = featuresPoint[0].properties
-        //   itemProps.lat = coordinates[1]
-        //   itemProps.lon = coordinates[0]
-        //   displayPoint(itemProps)
-
-        // })
-        // mapboxMap.on('mouseenter', 'all-points', function () {
-        //   mapboxMap.getCanvas().style.cursor = 'pointer';
-        // })
-        // mapboxMap.on('mouseleave', 'all-points', function () {
-        //   mapboxMap.getCanvas().style.cursor = '';
-        // })
-
-
-      // CLUSTER ACTIONS
-        // mapboxMap.on('click', 'clusters', function (e) {
-
-        //   // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
-        //   // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
-
-        //   var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
-          
-        //   var clusterId = featuresCluster[0].properties.cluster_id;
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
-          
-        //   mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-        //     if (err) {return}
-
-        //     mapboxMap.easeTo({
-        //       center: featuresCluster[0].geometry.coordinates,
-        //       zoom: zoom
-        //     })
-        //   })
-
-        // })
-        // mapboxMap.on('mouseenter', 'clusters', function () {
-        //   mapboxMap.getCanvas().style.cursor = 'pointer';
-        // })
-        // mapboxMap.on('mouseleave', 'clusters', function () {
-        //   mapboxMap.getCanvas().style.cursor = '';
-        // })
-
-      // CLUSTER-COUNT ACTIONS
-        // mapboxMap.on('click', 'cluster-count', function (e) {
-
-        //   var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
-          
-        //   var clusterId = featuresCluster[0].properties.cluster_id;
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count - clusterId : ", clusterId)
-          
-        //   mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-        //     if (err) {return}
-
-        //     mapboxMap.easeTo({
-        //       center: featuresCluster[0].geometry.coordinates,
-        //       zoom: zoom
-        //     })
-        //   })
-
-        // })
-        // mapboxMap.on('mouseenter', 'cluster-count', function () {
-        //   mapboxMap.getCanvas().style.cursor = 'pointer';
-        // })
-        // mapboxMap.on('mouseleave', 'cluster-count', function () {
-        //   mapboxMap.getCanvas().style.cursor = '';
-        // })
-
-
-      // let displayPoint = this.highlightItem
-
-      // POINT ACTIONS
-        // mapboxMap.on('click', 'unclustered-point', function (e) {
-          
-        //   var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
-
-        //   var pointId = featuresPoint[0].properties.sd_id;
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
-
-        //   var coordinates = e.features[0].geometry.coordinates.slice();
-        //   console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
-
-        //   mapboxMap.easeTo({
-        //     center: coordinates,
-        //   })
-
-        //   let itemProps = featuresPoint[0].properties
-        //   itemProps.lat = coordinates[1]
-        //   itemProps.lon = coordinates[0]
-        //   displayPoint(itemProps)
-
-        // })
-        // mapboxMap.on('mouseenter', 'unclustered-point', function () {
-        //   mapboxMap.getCanvas().style.cursor = 'pointer';
-        // })
-        // mapboxMap.on('mouseleave', 'unclustered-point', function () {
-        //   mapboxMap.getCanvas().style.cursor = '';
-        // })
-
-
+      let choroplethConfig = createChoroplethLayer( 
+        choroplethSourceId, 
+        source,
+        choroplethLayerId 
+      )
+      mapboxMap.addLayer(choroplethConfig)
 
     },
 
-    createMapItems(geoJson){
-
-      // adding reactive source
-      // this.log && console.log("\nC-SearchResultsMapbox / createMapItems / geoJson :", geoJson)
-      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
-      this.createAddGeoJsonSource(geoJson)
-
-      // cf : https://www.jerriepelser.com/books/airport-explorer/mapping/clustering/
-      // this.map.addLayer(this.geoJsonLayer)
-      this.createAddGeoJsonLayers( { clusterId : 'clusterSource', allPointsId : 'allPointsSource' } )
-      this.isClusterSet = true
-      // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
-
-    },
-
-    updateSourceData(itemsForMap){
-      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / this.map :", this.map)
-      // this.log && console.log("C-SearchResultsMapbox / updateSourceData / itemsForMap :", itemsForMap)
-      if (itemsForMap){
-        let geoJson = createGeoJsonDataPoints(itemsForMap)
-        this.map.getSource('clusterSource').setData(geoJson)
-        this.map.getSource('allPointsSource').setData(geoJson)
-        // TO DO : update choropleth
-
-      }
-    },
 
 
+    // - - - - - - - - - - - - - - - - - - //
     matchItemWithConfig(item, fieldBlock) {
       // this.log && console.log("C-SearchResultsMapbox / matchItemWithConfig / item : ", item)
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
@@ -1031,6 +1048,8 @@ export default {
       return this.checkIfStringFloat(item.lat) && this.checkIfStringFloat(item.lon)
     },
 
+
+
     // zoomUpdate(zoom) {
     //   this.currentZoom = zoom;
     // },
@@ -1060,6 +1079,41 @@ export default {
 
 <style>
   
+  /* cf : https://docs.mapbox.com/mapbox-gl-js/example/updating-choropleth/ */
+  .legend {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    /* font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; */
+    padding: 10px;
+  
+    position: absolute;
+    z-index: 200;
+
+    bottom: 30px;
+    /* right: 10px; */
+  }
+
+  .legend-bottom-left{
+    left: 10px;
+  }
+  
+  .legend-bottom-right{
+    right: 20px;
+  }
+
+  .legend h4 {
+    margin: 0 0 10px;
+  }
+  
+  .legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+  }
+
   /* LOADERS */
   .floating {
     position: absolute;
