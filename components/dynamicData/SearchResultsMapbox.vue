@@ -589,6 +589,7 @@ export default {
         // for ( let source of choroplethConfigOptions.sources ) {
         //  this.map.getSource( source.source_id ).setData( geoJson )
         // }
+        this.createChoroplethSource(true)
 
       }
     },
@@ -639,7 +640,7 @@ export default {
 
     },
 
-    createChoroplethSource(){
+    createChoroplethSource( isUpdate=false ){
 
       this.log && console.log("\nC-SearchResultsMapbox / createChoroplethSource ...")
 
@@ -671,25 +672,27 @@ export default {
               data : undefined
             })
 
-            if ( source.need_aggregation ) {
+            if ( source.need_aggregation && isUpdate ) {
               
-                let dummyGeoJson = {
-                  "type":"FeatureCollection",
-                  "features": [
-                    // { "type":"Feature",
-                    //   "geometry": { 
-                    //     "type":"Polygon",
-                    //     "coordinates": [ [ [4.780213475718984,46.176677022719375],[4.7945808953124605,46.21831635025701],[4.807756868341096,46.23696871115128] ] ] },
-                    //   "properties": {"code":"01","nom":"Ain"}
-                    // }
-                  ]
-                }
+              let dummyGeoJson = {
+                "type":"FeatureCollection",
+                "features": [
+                  // { "type":"Feature",
+                  //   "geometry": { 
+                  //     "type":"Polygon",
+                  //     "coordinates": [ [ [4.780213475718984,46.176677022719375],[4.7945808953124605,46.21831635025701],[4.807756868341096,46.23696871115128] ] ] },
+                  //   "properties": {"code":"01","nom":"Ain"}
+                  // }
+                ]
+              }
+              if ( !isUpdate ){
                 mapbox.addSource( source.source_id, 
-                {
-                  type: 'geojson',
-                  data: dummyGeoJson
-                }
-              )
+                  {
+                    type: 'geojson',
+                    data: dummyGeoJson
+                  }
+                )
+              }
 
               let choroSource = getJson(source.source_url)
               choroSource.then(( resp ) => {
@@ -700,7 +703,6 @@ export default {
   
                 // modify / agregate data
                 let items = this.projects
-
 
                 let dataFeatures = dataLoaded.features
                 dataFeatures.forEach( i => {
@@ -719,7 +721,7 @@ export default {
                 // this.createAddChoroplethLayers(source)
               }) 
             } 
-            else {
+            if ( !source.need_aggregation || !isUpdate ) {
               mapbox.addSource( source.source_id, 
                 {
                   type: 'geojson',
