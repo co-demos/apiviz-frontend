@@ -108,14 +108,14 @@
 
       <!-- LAYERS & LEGEND -->
       <div 
-        v-if="itemsForMap && findCurrentChorosource"
+        v-if="itemsForMap"
         id='legend' 
         :class='`legend-block legend-bottom-right`'
         >
 
         <!-- LAYERS SWITCH -->
         <div 
-          v-if=" layersVisibility && layersVisibility.is_activated "
+          v-if="layersVisibility && layersVisibility.is_activated"
           class="legend layer-switch" 
           >
 
@@ -152,7 +152,10 @@
         </div>
 
         <!-- SCALE LEGEND -->
-        <div class="legend " >
+        <div 
+          v-if="findCurrentChorosource"
+          class="legend" 
+          >
 
           <button 
             class="button is-small is-fullwidth is-info-b is-outlined"

@@ -275,7 +275,7 @@ export function createHeatmapLayer (sourceId, vars, layerId="heatmap-layer") {
         "interpolate",
         ["linear"],
         ["zoom"],
-        6, 15,
+        vars.radius_min, vars.radius_max,
         vars.max_zoom, 100
       ],
 
@@ -308,7 +308,7 @@ export function createChoroplethLayer(sourceId, vars, layerId="choropleth") {
     // "source-layer": sourceId,
     paint: {
       // cf : https://docs.mapbox.com/mapbox-gl-js/style-spec/#layer-paint
-      "fill-color"         : vars.fill_color,
+      "fill-color" : vars.fill_color,
       // 'fill-color': [
       //   'interpolate',
       //   ['linear'],
