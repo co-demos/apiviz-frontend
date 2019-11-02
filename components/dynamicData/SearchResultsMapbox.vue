@@ -123,7 +123,7 @@
             class="button is-small is-fullwidth is-info-b is-outlined"
             @click="switchLayersDrawer()"
             >
-            <h4> {{ basicDict.map_layers[locale] }} </h4>            
+            {{ basicDict.map_layers[locale] }}
           </button>
 
           <div 
@@ -161,7 +161,7 @@
             class="button is-small is-fullwidth is-info-b is-outlined"
             @click="switchLegendDrawer()"
             >
-            <h4> {{ findCurrentChorosource.legend.title }} </h4>
+            {{ findCurrentChorosource.legend.title }}
           </button>
 
           <!-- <code><pre>{{ findCurrentChorosource.legend }}</pre></code> -->
@@ -1318,7 +1318,7 @@ export default {
 
   .legend-block {
     position: absolute;
-    z-index: 200;
+    z-index: 9;
     bottom: 30px;
   }
 
@@ -1344,7 +1344,7 @@ export default {
   }
 
   .legend-content{
-    margin-top: 1em; 
+    margin-top: .7em; 
   }
 
   .legend h4 {
