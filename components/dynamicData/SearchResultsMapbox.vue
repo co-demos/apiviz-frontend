@@ -974,13 +974,13 @@ export default {
             // var featuresSource = mapboxMap.getSource(geoJsonSourceId.clusterId)
             // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresSource : ", featuresSource)
 
-            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: [ clusterLayerId ] });
             // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters -  featuresCluster : ", featuresCluster)
             
             var clusterId = featuresCluster[0].properties.cluster_id;
             // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - clusters - clusterId : ", clusterId)
             
-            mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+            mapboxMap.getSource(geoJsonSourceId.clusterId).getClusterExpansionZoom( clusterId, function (err, zoom) {
               if (err) {return}
 
               mapboxMap.easeTo({
@@ -1012,7 +1012,7 @@ export default {
         if ( countLayerConfigOptions.is_clickable ) {
           mapboxMap.on('click', countLayerId, function (e) {
 
-            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: ['cluster-count'] });
+            var featuresCluster = mapboxMap.queryRenderedFeatures(e.point, { layers: [ countLayerId ] });
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - cluster-count -  featuresCluster : ", featuresCluster)
             
             var clusterId = featuresCluster[0].properties.cluster_id;
@@ -1051,7 +1051,7 @@ export default {
         if ( unclusteredLayerConfigOptions.is_clickable ) {
           mapboxMap.on('click', unclusteredLayerId, function (e) {
             
-            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
+            var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ unclusteredLayerId ] });
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
 
             var pointId = featuresPoint[0].properties.sd_id;
