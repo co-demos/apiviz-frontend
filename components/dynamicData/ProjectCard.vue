@@ -12,19 +12,22 @@
         <!-- block_id : <br><code>{{ matchItemWithConfig('block_id') }}</code><br> -->
         <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
         <!-- contentFields : <br><pre><code>{{ JSON.stringify(contentFields , null, 1) }}</code></pre><br>  -->
+        
+        <!-- filterDescriptions : <br><pre><code>{{ JSON.stringify(filterDescriptions , null, 1) }}</code></pre><br>  -->
       <!-- </div> -->
 
       <!-- BLOCK IMAGE -->
-      <router-link 
+      <nuxt-link 
         :to="`/${dataset_uri}/detail?id=${matchItemWithConfig('block_id')}`" 
         class="card-image"
         >
         <img 
           class="proj-card-img" 
-          :src="itemInfos.image" 
+          :src="itemImage('block_image')" 
           :alt="itemInfos.title" 
         >
-      </router-link>
+          <!-- :src="matchItemWithConfig('block_image')" -->
+      </nuxt-link>
 
       <!-- BLOCK ADDRESS -->
       <div class="card-content">
@@ -45,15 +48,17 @@
 
         <!-- BLOCK TITLE -->
         <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_id')">
-          <router-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
+          <nuxt-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
             {{ matchItemWithConfig('block_title')}}
-          </router-link>
+          </nuxt-link>
         </p>
 
         <!-- BLOCK ABSTRACT -->
-        <div class="content" v-if="projectAbstract()">
+        <!-- <div class="content" v-if="projectAbstract()"> -->
+        <div class="content" v-if="matchItemWithConfig('block_abstract')">
           <p class="subtitle is-6">
-            {{ projectAbstract() }}
+            <!-- {{ projectAbstract() }} -->
+            {{ matchItemWithConfig('block_abstract') }}
           </p>
         </div>
 
@@ -65,9 +70,14 @@
         </div>
 
         <!-- BLOCK TAGS -->
-        <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
+        <!-- <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
           <span v-for="tag in itemInfos.tags" class="tag" :key="tag">
               {{ tag }}
+          </span>
+        </div> -->
+        <div class="content" v-if="matchItemWithConfig('block_tags')">
+          <span v-for="(tag, i) in matchItemWithConfig('block_tags')" class="tag" :key="tag+i">
+            {{ tag }}
           </span>
         </div>
 
@@ -78,7 +88,9 @@
 </template>
 
 <script>
+
 import { mapState, mapGetters } from "vuex";
+import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -108,20 +120,30 @@ export default {
     // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
   },
-  // mounted : function () {
+  mounted : function () {
     // this.log && console.log('\nC-ProjectCard / mounted...')
     // this.log && console.log('\nC-ProjectCard / this.routeConfig : ', this.routeConfig)
-  // },
+  },
+
+  watch : {
+
+    // item(next, prev){
+    //   this.log && console.log('\nC-ProjectCard / watch - item ...')
+    //   this.log && console.log('\nC-ProjectCard / watch - next :', next)
+    // },
+  },
 
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
     }),
 
     ...mapGetters({
       dataset_uri : 'search/getSearchDatasetURI',
+      filterDescriptions : 'search/getFilterDescriptions',
     }),
 
     // dataset_uri(){
@@ -148,41 +170,71 @@ export default {
 
   methods : {
 
+    getDefaultText(txt_code){
+      return this.$store.getters['config/defaultText']({txt:txt_code})
+    },
+
     matchItemWithConfig(fieldBlock) {
+
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
-      const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-      if (contentField) {
-        const field = contentField.field
-        return this.item[field]
-      }
-      else {
-        return undefined
-      }
+
+      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
+
+      /*
+        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
+        if (contentField) {
+          const field = contentField.field
+          return this.item[field]
+        }
+        else {
+          return undefined
+        }
+      */
+
+
+
     },
+
+    // itemImage(fieldBlock){
+    //   return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
+    //   // return this.item
+    // },
+
     itemImage(fieldBlock){
-      return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
-      // return this.item
+      let image = this.matchItemWithConfig(fieldBlock)
+      if ( !image ){
+        let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
+        let image_default = getDefaultImage(d, this.item)
+        image = image_default
+      }
+      return image
     },
+
     projectId() {
       return this.matchItemWithConfig('block_id')
     },
+
     projectAbstract() {
       let fullAbstract = this.matchItemWithConfig('block_abstract')
-      fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
-      const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
-      return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
+      // fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
+      // const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
+      // return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
+      return fullAbstract
     },
-    projectInfo(field) {
-      let fullInfo = this.matchItemWithConfig(field)
-      fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
-      return fullInfo
-    },
+
+    // projectInfo(field) {
+    //   let fullInfo = this.matchItemWithConfig(field)
+    //   fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
+    //   return fullInfo
+    // },
+
     projectAddress() {
       let fullAddress = this.matchItemWithConfig('block_address')
       // this.log && console.log('C-ProjectCard / fullAddress : ', fullAddress)
       let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
       return address
     },
+
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
       // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)
@@ -199,11 +251,11 @@ export default {
 @import '../../assets/css/apiviz-misc.scss';
 
 .card-image {
-    min-height: 100px;
+  min-height: 100px;
 }
 
 .card-image img{
-    width: 100%;
+  width: 100%;
 }
 
 .proj-card {
@@ -220,20 +272,20 @@ export default {
 }
 
 .card-content .tag{
-    margin-right: 0.5em;
-    margin-bottom: 0.5em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
 
-    padding: 0.2em 1em;
+  padding: 0.2em 1em;
 
-    background-color: #767676;
-    color: white;
+  background-color: #767676;
+  color: white;
 
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .card-content img{
-    max-height: 1.1em;
-    transform: translateY(0.1em);
+  max-height: 1.1em;
+  transform: translateY(0.1em);
 }
 
 </style>

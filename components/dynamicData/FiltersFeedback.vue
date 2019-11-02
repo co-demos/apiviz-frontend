@@ -1,42 +1,43 @@
 <template>
-    <section class="filter-feedback" v-show="selectedFilters.length >= 1">
-      
-      <div class="container inline-filters">
+  <section class="filter-feedback" v-show="selectedFilters.length >= 1">
+    
+    <div class="container inline-filters">
 
-        <!-- REINIT FILTERS -->
-        <a class="button is-small" @click="clearAllFilters">
-          <span>
-            {{ getText('reinit_filters') }}
-          </span>
+      <!-- REINIT FILTERS -->
+      <a class="button is-small has-text-primary-hover-c" 
+        @click="clearAllFilters">
+        <span>
+          {{ getText('reinit_filters') }}
+        </span>
 
-          <span class="icon is-small">
-            <i class="fas fa-times"></i>
-          </span>
-        </a>
+        <span class="icon is-small">
+          <i class="fas fa-times"></i>
+        </span>
+      </a>
 
-        <!-- LOOP SELECTED FILTERS -->
-        <a v-for="{filter, value} in selectedFilters" :key="filter+value"
-          class="button is-small is-grey" 
-          @click="clearFilter({filter, value})"
-          >
-          <span>
-            <!-- {{
-              filterDescriptions
-                .find(f => f.name === filter)
-                .choices
-                .find(c => c.name === value)
-                .fullname
-            }} -->
-            {{ getFilterTitle(filter, value) }}
-          </span>
+      <!-- LOOP SELECTED FILTERS -->
+      <a v-for="{filter, value} in selectedFilters" :key="filter+value"
+        class="button is-small is-grey has-text-primary-hover-c" 
+        @click="clearFilter({filter, value})"
+        >
+        <span>
+          <!-- {{
+            filterDescriptions
+              .find(f => f.name === filter)
+              .choices
+              .find(c => c.name === value)
+              .fullname
+          }} -->
+          {{ getFilterTitle(filter, value) }}
+        </span>
 
-          <span class="icon is-small">
-            <i class="fas fa-times"></i>
-          </span>
-        </a>
+        <span class="icon is-small">
+          <i class="fas fa-times"></i>
+        </span>
+      </a>
 
-      </div>
-    </section>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -57,6 +58,8 @@
         log : 'log',
 
         locale : state => state.locale,
+        breakpoint : state => state.breakpoint,
+        
         // filterDescriptions: state => state.search.filterDescriptions,
         selectedFilters: state => {
           const {selectedFilters} = state.search.search.question
@@ -163,9 +166,8 @@
 
   .filter-feedback > .inline-filters span.all{
 
-      background-color: white;
-
-      color: #767676;
+    background-color: white;
+    color: #767676;
   }
 
 </style>

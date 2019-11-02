@@ -1,3 +1,5 @@
+import axios from "./axios";
+
 console.log('+ + + plugins/geoJson... ')
 
 // let urlChoropleth = "https://restcountries.eu/rest/v2/all"
@@ -87,20 +89,20 @@ export function createGeoJsonDataPoints(dataArray){
 
   // geojson wrappeer
   let geoJSON = {
-    type : 'FeatureCollection',
+    type     : 'FeatureCollection',
     features : [],
   }
   const notAllowedKeys = ['lon', 'lat']
   
   // remap items array
-  let dataGeoJson = dataArray.map(item => {
+  let dataGeoJson = dataArray.map( item => {
 
     let trimmedItemProps = Object.keys(item)
-                      .filter(key => !notAllowedKeys.includes(key))
-                      .reduce((obj, key) => {
-                        obj[key] = item[key];
-                        return obj;
-                      }, {} );
+      .filter( key => !notAllowedKeys.includes(key) )
+      .reduce((obj, key) => {
+        obj[key] = item[key];
+        return obj;
+      }, {} );
     trimmedItemProps.iconMapbox = "marker"
     trimmedItemProps.weigth = 0.1
 
@@ -109,7 +111,7 @@ export function createGeoJsonDataPoints(dataArray){
       properties : trimmedItemProps,
       geometry : {
         type : 'Point',
-        coordinates : [item.lon, item.lat]
+        coordinates : [ item.lon, item.lat ]
       }
     }
     return tempObject
@@ -118,5 +120,11 @@ export function createGeoJsonDataPoints(dataArray){
 
   console.log("")
   return geoJSON
+
+}
+
+
+export function updateGeoJsonProperties( geoJson, properties, config ){
+  console.log("\n+ + + updateGeoJsonProperties ... ")
 
 }

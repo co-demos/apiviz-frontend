@@ -35,7 +35,7 @@ main{
         margin-bottom: 1em
     }
 
-    form{
+    .form-cis{
         background-color: $apiviz-primary-invert;
         border-radius: 2px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
@@ -104,13 +104,13 @@ main{
 }
 
 .grey-bg-img{
-    // this image should be of color $cis-primary
-    background-image: url(https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/HP_section_3.png);
-    background-size: cover;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  // this image should be of color $cis-primary
+  background-image: url(https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/HP_section_3.png);
+  background-size: cover;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .grey-bg-plain{
@@ -468,37 +468,37 @@ ul.press-excerpts li{
 
 // COUNTER
 h3.counter{
-    width: initial;
-    padding: 1em 0;
+  width: initial;
+  padding: 1em 0;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-    .counter{
-        font-size: rem(60px);
-        margin-right: 0.2em;
-        font-weight: bold;
-    }
+  .counter{
+    font-size: rem(60px);
+    margin-right: 0.2em;
+    font-weight: bold;
+  }
 
-    .text{
-        max-width: 6em;
-        line-height: 1.2;
-    }
+  .text{
+    max-width: 6em;
+    line-height: 1.2;
+  }
 }
 
 // PARTNERS
 .choices{
-    max-width: 45em;
+  max-width: 45em;
 
-    label{
-        width: 15em;
-        vertical-align: top;
-    }
-    input[type="checkbox"]{
-        margin-right: 1em;
-    }
+  label{
+    width: 15em;
+    vertical-align: top;
+  }
+  input[type="checkbox"]{
+    margin-right: 1em;
+  }
 }
 ul.members{
     text-align: left;
@@ -694,7 +694,7 @@ ul.members{
     text-decoration: none;
     // padding-bottom: 0.4em;
     &:hover{
-        color: inherit;
+      color: inherit;
     }
     &:before{
         content: "";

@@ -11,7 +11,8 @@
 
             <p class="subtitle has-text-grey">
               <!-- NO USER ACCOUNT ? -->
-              {{ getText('no_account') }}
+              <!-- {{ getText('no_account') }} -->
+              {{ basicDict.no_account[locale] }}
             </p>
 
             <div class="box">
@@ -19,10 +20,11 @@
             </div>
 
             <p class="has-text-grey">              
-              <router-link :to="'/login'">
+              <nuxt-link :to="'/login'">
                 <!-- CREATE ACCOUNT -->
-                {{ getText('connect') }}
-              </router-link>
+                <!-- {{ getText('connect') }} -->
+                {{ basicDict.connect[locale] }}
+              </nuxt-link>
             </p>
 
           </div>
@@ -30,10 +32,12 @@
           <div class="column is-6" v-if="user.isLoggedin">
             <p class="subtitle has-text-grey">
               <!-- HELLO  -->
-              {{ getText('hello') }}
+              <!-- {{ getText('hello') }} -->
+              {{ basicDict.hello[locale] }}
               {{user.infos.email}}, 
               <!-- IS REGISTRED -->
-              {{ getText('is_registered') }}
+              <!-- {{ getText('is_registered') }} -->
+              {{ basicDict.is_registred[locale] }}
             </p>
 
           </div>
@@ -48,6 +52,8 @@
 <script>
 import {mapState} from 'vuex'
 
+import { BasicDictionnary } from "~/config/basicDict.js" 
+
 import FormRegister from './RegisterForm.vue';
 
 export default {
@@ -61,10 +67,17 @@ export default {
   props: [
   ],
 
+  data () {
+    return {
+      basicDict : BasicDictionnary,
+    }
+  },
+
   computed: {
 
     ...mapState({
       log : state => state.log, 
+      locale : state => state.locale,
       user: state => state.user.user,
     })
     

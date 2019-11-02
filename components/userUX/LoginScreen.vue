@@ -16,7 +16,8 @@
             >
 
             <p class="subtitle has-text-grey">
-              {{ getText('is_account') }}
+              <!-- {{ getText('is_account') }} -->
+              {{ basicDict.is_account[locale] }}
             </p>
 
             <!-- main login form -->
@@ -29,7 +30,8 @@
               <div class="column is-6" >
                 <p class="has-text-grey">
                   <nuxt-link :to="'/register'">
-                    {{ getText('create_account') }}
+                    <!-- {{ getText('create_account') }} -->
+                    {{ basicDict.create_account[locale] }}
                   </nuxt-link>
                 </p>
               </div>
@@ -37,7 +39,8 @@
               <div class="column is-6" >
                 <p class="has-text-grey">
                   <nuxt-link disabled :to="'/forgot-password'">
-                    {{ getText('forgot_password') }}
+                    <!-- {{ getText('forgot_password') }} -->
+                    {{ basicDict.forgot_password[locale] }}
                   </nuxt-link>
                 </p>
               </div>
@@ -54,7 +57,8 @@
             >
             <p class="subtitle has-text-grey">
               <!-- Bonjour  -->
-              {{ getText('hello') }}
+              <!-- {{ getText('hello') }} -->
+              {{ basicDict.hello[locale] }}
               {{ user.infos.name }}
             </p>
 
@@ -75,6 +79,8 @@
 <script>
   import { mapState, mapGetters } from 'vuex'
 
+  import { BasicDictionnary } from "~/config/basicDict.js" 
+
   import LoginForm from '~/components/userUX/LoginForm.vue'
 
   export default {
@@ -88,8 +94,15 @@
     props: [
     ],
 
+    data () {
+      return {
+        basicDict : BasicDictionnary,
+      }
+    },
+    
     computed: mapState({
       log : state => state.log, 
+      locale : state => state.locale,
       user: state => state.user.user,
       jwt: state => state.user.jwt,
     }),

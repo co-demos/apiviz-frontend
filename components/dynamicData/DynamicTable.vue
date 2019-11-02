@@ -1,14 +1,13 @@
 <template>
   <DynamicSearchScreenSqueleton 
     :filtersConfig="filtersConfig"
-    mainClass="stat"
+    mainClass="table"
     >
-    
     <!-- TEMPORARILY COMMENTED -->
-    <SearchResultsStats
+    <SearchResultsTable
       :routeConfig="routeConfig"
     />
-
+      <!-- :projectContentsFields="routeConfig.contents_fields" -->
   </DynamicSearchScreenSqueleton>
 </template>
 
@@ -16,20 +15,21 @@
 import { mapState } from 'vuex'
 
 import DynamicSearchScreenSqueleton from './DynamicSearchScreenSqueleton.vue'
-import SearchResultsStats from './SearchResultsStats.vue';
+import SearchResultsTable from './SearchResultsTable.vue';
 
 export default {
 
-  name: 'DynamicStats',
+  name: 'DynamicTable',
 
   props:[
     'routeConfig',
     'endPointConfig',
-    'filtersConfig'
+    'filtersConfig',
+    // 'breakpoint'
   ],
 
   beforeMount : function(){
-    this.log && console.log('\nC-DynamicStats / beforeMount...')
+    // this.log && console.log('\nC-DynamicList / beforeMount...')
   },
 
   data: () => {
@@ -39,14 +39,13 @@ export default {
 
   components: {
     DynamicSearchScreenSqueleton, 
-    SearchResultsStats
+    SearchResultsTable
   },
 
   computed: {
 
     ...mapState({
       log : state => state.log, 
-      locale : state => state.locale,
       breakpoint : state => state.breakpoint,
       user: state => state.user.user
     }),

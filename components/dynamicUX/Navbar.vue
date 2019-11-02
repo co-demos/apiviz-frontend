@@ -53,6 +53,7 @@ export default {
     ...mapState({
       // localRouteConfig : state => state.config.localRouteConfig,
       log : state => state.log, 
+      breakpoint : state => state.breakpoint,
       // user: state => state.user.user
     }),
 

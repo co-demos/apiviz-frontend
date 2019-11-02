@@ -1,14 +1,14 @@
-<!-- Tufts VUE 3.3.0 concept-map (APIVIZ_CONFIGURATIONS.vue) 2019-05-13 -->
+<!-- Tufts VUE 3.3.0 concept-map (APIVIZ_CONFIGURATIONS.vue) 2019-06-13 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/Resources/Java/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Mon May 13 19:41:08 CEST 2019 by jpy on platform Mac OS X 10.14.4 in JVM 9.0.4+11 -->
+<!-- Do Not Remove: Saved date Thu Jun 13 22:38:18 CEST 2019 by jpy on platform Mac OS X 10.14.5 in JVM 9.0.4+11 -->
 <!-- Do Not Remove: Saving version @(#)VUE: built October 8 2015 at 1658 by tomadm on Linux 2.6.32-504.23.4.el6.x86_64 i386 JVM 1.7.0_21-b11(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
     label="APIVIZ_CONFIGURATIONS.vue" created="1557058466769" x="0.0"
     y="0.0" width="7156.4854" height="6831.232" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1557769268586" size="575645"
+    <resource referenceCreated="1560458299110" size="587675"
         spec="/Users/jpy/Dropbox/_FLASK/_CODEMOS/apiviz-nuxt/documentation/configurations/APIVIZ_CONFIGURATIONS.vue"
         type="1" xsi:type="URLResource">
         <title>APIVIZ_CONFIGURATIONS.vue</title>
@@ -282,7 +282,7 @@
         <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
     </child>
     <child ID="351" layerID="11" created="1557233567142" x="470.84976"
-        y="-1344.5646" width="637.7238" height="346.7345"
+        y="-1344.5646" width="637.7238" height="352.21057"
         strokeWidth="1.0" autoSized="false" xsi:type="node">
         <fillColor>#EEEEEE</fillColor>
         <strokeColor>#000000</strokeColor>
@@ -6713,19 +6713,19 @@
         <ID2 xsi:type="node">971</ID2>
     </child>
     <child ID="973" label="data&#xa;+ request&#xa;+ tokens&#xa;+ modif"
-        layerID="1" created="1557480071696" x="2325.6606" y="-1394.2693"
-        width="549.855" height="386.90692" strokeWidth="1.0"
+        layerID="1" created="1557480071696" x="2331.207" y="-1393.096"
+        width="545.3318" height="351.6781" strokeWidth="1.0"
         strokeStyle="4" autoSized="false" controlCount="1"
         arrowState="3" xsi:type="link">
         <strokeColor>#404040</strokeColor>
         <textColor>#404040</textColor>
         <font>Arial-plain-11</font>
         <URIString>http://vue.tufts.edu/rdf/resource/a123b46152d86f1a0e566bf907667eac</URIString>
-        <point1 x="2875.0156" y="-1393.7693"/>
-        <point2 x="2326.1606" y="-1007.86237"/>
+        <point1 x="2876.0388" y="-1392.596"/>
+        <point2 x="2331.707" y="-1041.9178"/>
         <ID1 xsi:type="node">971</ID1>
         <ID2 xsi:type="node">931</ID2>
-        <ctrlPoint0 x="2341.0107" y="-1002.1378" xsi:type="point"/>
+        <ctrlPoint0 x="2442.1118" y="-1052.354" xsi:type="point"/>
     </child>
     <child ID="974" label="SOLIDATA&#xa;(API data GET)" layerID="1"
         created="1557480129556" x="1923.2808" y="-1092.648"
@@ -6899,32 +6899,32 @@
         <ctrlPoint1 x="3807.979" y="-860.67377" xsi:type="point"/>
     </child>
     <child ID="945" label="config &#xa;+ uuid" layerID="1"
-        created="1557479877262" x="2915.2563" y="-917.3711"
-        width="134.70459" height="441.42194" strokeWidth="1.0"
+        created="1557479877262" x="2903.6982" y="-917.6885"
+        width="146.2627" height="429.68048" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="3" xsi:type="link">
         <strokeColor>#404040</strokeColor>
         <textColor>#404040</textColor>
         <font>Arial-plain-11</font>
         <URIString>http://vue.tufts.edu/rdf/resource/a123b46352d86f1a0e566bf9a52a71eb</URIString>
-        <point1 x="2934.4602" y="-916.8711"/>
-        <point2 x="3049.461" y="-476.44916"/>
+        <point1 x="2931.1077" y="-917.1885"/>
+        <point2 x="3049.461" y="-488.508"/>
         <ID1 xsi:type="node">929</ID1>
         <ID2 xsi:type="node">944</ID2>
-        <ctrlPoint0 x="2871.552" y="-471.27216" xsi:type="point"/>
+        <ctrlPoint0 x="2850.112" y="-538.3538" xsi:type="point"/>
     </child>
     <child ID="950" label="config &#xa;+ uuid&#xa;+ modif" layerID="1"
-        created="1557479877262" x="3135.3608" y="-1034.957"
-        width="95.43994" height="565.29565" strokeWidth="1.0"
+        created="1557479877262" x="3135.3608" y="-1035.3838"
+        width="102.262695" height="548.53937" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="3" xsi:type="link">
         <strokeColor>#404040</strokeColor>
         <textColor>#404040</textColor>
         <font>Arial-plain-11</font>
         <URIString>http://vue.tufts.edu/rdf/resource/a123b46352d86f1a0e566bf992186dc8</URIString>
-        <point1 x="3135.8608" y="-470.97476"/>
-        <point2 x="3154.5488" y="-1034.457"/>
+        <point1 x="3135.8608" y="-487.34442"/>
+        <point2 x="3157.0754" y="-1034.8838"/>
         <ID1 xsi:type="node">944</ID1>
         <ID2 xsi:type="node">936</ID2>
-        <ctrlPoint0 x="3280.397" y="-448.45294" xsi:type="point"/>
+        <ctrlPoint0 x="3292.7786" y="-522.3538" xsi:type="point"/>
     </child>
     <child ID="987"
         label="SOLIDATA&#xa;BACKEND&#xa;(flask restplus &#xa;project)"
@@ -7126,7 +7126,7 @@
     <child ID="1030" label="SOLIDATA&#xa;(API data)" layerID="1"
         created="1557490966080" x="379.98203" y="-2124.1636"
         width="86.40001" height="86.25659" strokeWidth="1.0"
-        autoSized="false" xsi:type="node">
+        strokeStyle="3" autoSized="false" xsi:type="node">
         <fillColor>#00000000</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
@@ -7189,7 +7189,7 @@
     <child ID="1038" label="TOKTOK&#xa;API&#xa;(flask restplus)"
         layerID="1" created="1557490966081" x="957.1207" y="-2388.753"
         width="113.40001" height="98.77295" strokeWidth="1.0"
-        autoSized="false" xsi:type="node">
+        strokeStyle="3" autoSized="false" xsi:type="node">
         <fillColor>#00000000</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
@@ -11297,8 +11297,8 @@
         y="0.0" width="1.4E-45" height="1.4E-45" strokeWidth="0.0" autoSized="false">
         <URIString>http://vue.tufts.edu/rdf/resource/9746f41852d86f1a3791a8e758661870</URIString>
     </layer>
-    <userZoom>0.5955324451966096</userZoom>
-    <userOrigin x="-2067.4453" y="-1635.3937"/>
+    <userZoom>0.75</userZoom>
+    <userOrigin x="-2833.416" y="-2057.7654"/>
     <presentationBackground>#202020</presentationBackground>
     <PathwayList currentPathway="0" revealerIndex="-1">
         <pathway ID="0" label="Chemin sans nom" created="1557058466768"

@@ -71,6 +71,7 @@
   import { mapState, mapGetters } from 'vuex'
   import axios from 'axios'
 
+  import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
 

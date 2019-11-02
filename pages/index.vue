@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="mainIndexPage">
 
     <!-- NAVBAR -->
     <Navbar 
       v-if="has_navbar"
     ></Navbar>
-    
+
     <!-- BANNER -->
     <DynamicBanner 
       v-if="has_banner"
@@ -19,9 +19,10 @@
       :tabsUri="localRouteConfig.tabs_uri"
     ></DynamicTabs> 
 
+
     <!-- REMOTE STATICS -->
     <DynamicStatic 
-      v-if=" localRouteConfig.dynamic_template == 'DynamicStatic' "
+      v-if="localRouteConfig.dynamic_template == 'DynamicStatic' "
     ></DynamicStatic>
 
     <!-- LOCAL TEST STATIC -->
@@ -31,6 +32,13 @@
 
 
     <!-- DATA VISUALISATION -->
+    <DynamicTable 
+      v-if="localRouteConfig.dynamic_template == 'DynamicTable' "
+      :routeConfig="localRouteConfig"
+      :endPointConfig="localEndpointConfig"
+      :filtersConfig="localFiltersConfig"
+    ></DynamicTable>
+
     <DynamicList 
       v-if="localRouteConfig.dynamic_template == 'DynamicList' "
       :routeConfig="localRouteConfig"
@@ -51,10 +59,20 @@
       :endPointConfig="localEndpointConfig"
     ></DynamicDetail>
 
+    <DynamicStats 
+      v-if="localRouteConfig.dynamic_template == 'DynamicStats' "
+      :routeConfig="localRouteConfig"
+      :endPointConfig="localEndpointConfig"
+    ></DynamicStats>
+
 
     <!-- <span class="is-primary is-primary-c"> 
       COLOR TEST 
     </span> -->
+<!-- 
+    <div>
+      breakpoint : <code>{{ breakpoint }}</code>
+    </div> -->
 
     <!-- FOOTERS -->
     <Footer 
@@ -135,6 +153,7 @@
 </template>
 
 <script>
+
 import { mapState, mapGetters } from 'vuex'
 
 import Navbar from '~/components/dynamicUX/Navbar.vue'
@@ -147,9 +166,14 @@ import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 // import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue'
 
+import DynamicTable       from '~/components/dynamicData/DynamicTable.vue';
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
+import DynamicStats      from '~/components/dynamicData/DynamicStats.vue';
+
+import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js" 
+
 
 export default {
   
@@ -181,15 +205,27 @@ export default {
     DynamicStaticRaw,
     // DynamicStaticTest,
 
+    DynamicTable,
     DynamicList, 
     DynamicDetail,
     DynamicMap, 
+    DynamicStats,
 
   },
 
   middleware : [
     // 'getRouteConfig',
   ],
+
+  // created() {
+  //   window.addEventListener("resize", this.winBreakpoint)
+  //   this.winBreakpoint()
+  // },
+
+  // destroyed() {
+  //   window.removeEventListener("resize", this.winBreakpoint)
+  // },
+
 
   beforeMount : function(){
     // this.log && console.log('\nP-index.vue / beforeMount...')
@@ -199,6 +235,7 @@ export default {
 
   data () {
     return {
+      // windowBreakpoint : undefined,
     }
   },
 
@@ -213,6 +250,8 @@ export default {
       rootUrlBackend : state => state.rootUrlBackend,
       rootUrlAuth : state => state.rootUrlAuth,
       locale : state => state.locale,
+
+      breakpoint : state => state.breakpoint,
 
       // config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,
@@ -245,9 +284,31 @@ export default {
 
     }),
 
+    // winBreakpoint() {
+    //   var w = window.innerWidth
+    //   return findBulmaBreakpointByWidth(w)
+    // },
+
   },
 
   methods: {
+
+    // winWidth() {
+    //   var w = window.innerWidth
+    //   if (w < responsiveBreakpoint) {
+    //     this.smallButtons = true
+    //   } else {
+    //     this.smallButtons = false
+    //   }
+    // },
+
+    // winBreakpoint() {
+    //   var w = window.innerWidth
+    //   let breakpoint = findBulmaBreakpointByWidth(w)
+    //   // this.windowBreakpoint = breakpoint
+    //   this.$store.commit('setBreakpoint', breakpoint)
+    // },
+
 
   }
 

@@ -9,17 +9,41 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <div class="container" v-if="pending">
-      <div class="pending">Recherche en cours...</div>
-    </div>
+    <!-- <div 
+      class="container" 
+      v-if="pending"
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
+      <div class="pending">
+        {{ basicDict.request_loading[locale] }}
+      </div>
+    </div> 
+    -->
 
-    <div class="container" v-if="!pending">
+      <!-- v-if="!pending" -->
+    <div 
+      class="container" 
+      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+      >
       <SearchResultsCountAndTabs 
         :view="VIEW_LIST"
       />
 
-      <div class="columns" v-if="total > 0" >
-        <div class="column is-3" v-for="(itemsColumn, i) in projectColumns" :key="i">
+      <PaginationNav 
+        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+        :position="'top'"
+        :feedback="routePagination.feedback"
+        :show="true"
+      />
+
+      <div 
+        v-if="total > 0 && !pending"
+        class="columns" 
+        >
+        <div class="column is-3" 
+          v-for="(itemsColumn, i) in projectColumns" 
+          :key="i"
+          >
           <div class="columns is-multiline">
             <ProjectCard 
               v-for="item in itemsColumn" 
@@ -32,16 +56,52 @@
         </div>
       </div>
 
-      <div class="no-result error" v-if="total === 0">
-        <img src="/static/illustrations/erreur_no_results.png">
-        <div>
-          <h1 class="title is-1 is-primary is-primary-b">Aucun projet trouvé !</h1>
-          <p>Pour obtenir plus de résultats, modifier vos critères de recherche</p>
-          <button v-if="hasSelectedFilters" href="/" class="button is-primary is-primary-b is-outlined" @click="clearAllFilters">
-            Supprimer tous les filtres
-          </button>
+      <div 
+        class="container" 
+        v-if="pending"
+        :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
+        >
+        <div class="pending">
+          {{ basicDict.request_loading[locale] }}
         </div>
       </div>
+
+      <PaginationNav 
+        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+        :position="'bottom'"
+        :feedback="routePagination.feedback"
+        :show="!pending && total > 0"
+      />
+
+      <div 
+        class="no-result error" 
+        v-if="!pending && total === 0"
+        >
+
+        <img src="/static/illustrations/erreur_no_results.png">
+
+        <br>
+
+        <div class="has-text-centered">
+
+          <h1 class="title is-1 has-text-primary has-text-primary-c">
+            <!-- Aucun projet trouvé ! -->
+            {{ basicDict.no_results[locale] }}
+          </h1>
+
+          <p>
+            <!-- Pour obtenir plus de résultats, modifiez vos critères de recherche -->
+            {{ basicDict.no_results_help[locale] }}
+          </p>
+
+          <button v-if="hasSelectedFilters" href="/" class="button is-primary is-primary-b is-outlined" @click="clearAllFilters">
+            <!-- Supprimer tous les filtres -->
+            {{ basicDict.delete_all_filters[locale] }}
+          </button>
+
+        </div>
+      </div>
+
 
     </div>
   </section>
@@ -52,8 +112,10 @@ import { mapState, mapGetters } from 'vuex'
 
 import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
+import PaginationNav from './PaginationNav.vue'
 
 import { VIEW_LIST } from '../../config/constants.js'
+import { BasicDictionnary } from "~/config/basicDict.js" 
 
 let scrollListener;
 
@@ -63,7 +125,8 @@ export default {
 
   components: {
     ProjectCard,
-    SearchResultsCountAndTabs
+    SearchResultsCountAndTabs,
+    PaginationNav
   },
 
   props: [
@@ -84,13 +147,6 @@ export default {
     // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
     // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
     // this.projectContentsFields = this.routeConfig.content_fields
-  },
-
-  data(){
-    return {
-      VIEW_LIST,
-      showCount: undefined,
-    }
   },
 
   mounted(){
@@ -121,18 +177,31 @@ export default {
     }
   },
 
+  data(){
+    return {
+      VIEW_LIST,
+      showCount: undefined,
+      basicDict : BasicDictionnary, 
+    }
+  },
+  
   computed: {
 
     projectContentsFields() {
       return this.routeConfig.contents_fields
     },
 
+    routePagination() {
+      return this.routeConfig.pagination
+    },
+
     ...mapState({
       log : 'log', 
       locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
       // pending: state => !!state.search.search.answer.pendingAbort,
       // projects: state => state.search.search.answer.result && state.search.search.answer.result.projects,
-      // total: state => state.search.search.answer.result && state.search.search.answer.result.total,
+      total: state => state.search.search.answer.result && state.search.search.answer.result.total,
       hasSelectedFilters: state => {
         const selectedFilters = state.search.search.question && state.search.search.question.selectedFilters;
         // console.log('C-SearchResultsList / selectedFilters : ', selectedFilters)
@@ -194,16 +263,18 @@ export default {
 
   /* TODO SASS : make a variable out of this background-value. Also used in SearchResultsCountAndTabs */
   .search-results-list{
-      background-color: #F6F6F6;
-      width: 100%;
+    background-color: #F6F6F6;
+    width: 100%;
 
-      padding-bottom: 1.5rem;
-      padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1rem;
   }
 
 
   .pending{
-      text-align: center;
-      padding: 2em;
+    text-align: center;
+    padding: 2em;
+    margin-top : 10em;
+    margin-bottom : 10em;
   }
 </style>

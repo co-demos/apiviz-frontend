@@ -6,15 +6,27 @@ export default function ({ store, route, redirect }) {
   // log && console.log('\n-M3- getRouteConfig...')
   
   const DynamicComponents = [ 
+    'DynamicTable' , 
     'DynamicList' , 
     'DynamicDetail' , 
     'DynamicMap' , 
-    // 'DynamicStat', 
+    'DynamicStats', 
+
+    // TO DO 
     // 'DynamicListDense' 
   ]
 
+  
   let path = route.path
-  // log && console.log('-M3- getRouteConfig / path : ', path)
+
+  let queryLocale = route.query.locale
+  if ( queryLocale ){
+    log && console.log('-M3- getRouteConfig / queryLocale : ', queryLocale)
+    store.commit('setLocale', queryLocale )
+  }
+
+  // log && console.log('-M3- getRouteConfig / route : ', route)
+  log && console.log('-M3- getRouteConfig / path : ', path)
 
   if (path.startsWith('/backoffice') ){
     path = '/backoffice'
@@ -25,48 +37,95 @@ export default function ({ store, route, redirect }) {
   let previousIsMapSearch = store.getters['search/getIsMapSearch']
 
   let currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
-  store.commit('config/setLocalRouteConfig', currentRouteConfig)
+  log && console.log('-M3- getRouteConfig / currentRouteConfig : ', currentRouteConfig)
 
-  // check if route is dynamic data
-  if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
-    
-    // log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
-    store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
+  // reroute to error if currentRouteConfig is undefined
+  if ( typeof currentRouteConfig === 'undefined' ){
+    redirect('/')
+  }
 
-    // get current dataset_uri for comparison
-    let previousDatasetURI = store.getters['config/getCurrentDatasetURI']
-    // log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
+  else {
 
-    let localEndpointConfig = store.getters['config/getEndpointConfig']
-    store.commit('config/setLocalEndpointConfig', localEndpointConfig)
-    // log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
+    store.commit('config/setLocalRouteConfig', currentRouteConfig)
 
-    let currentDatasetURI = localEndpointConfig.dataset_uri
-    store.commit('config/setCurrentDatasetURI', currentDatasetURI)
-    // log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
+    // check if route is dynamic data
+    // if( DynamicComponents.indexOf(currentRouteConfig.dynamic_template) !== -1 ) {
+    if( DynamicComponents.includes(currentRouteConfig.dynamic_template) ) {
+      
+      let searchedText = route.query.text
+      if ( searchedText ){
+        log && console.log('-M3- getRouteConfig / searchedText : ', searchedText)
+        store.commit('search/setSearchedText', {searchedText})
+      }
+      
+      // log && console.log("-M3- getRouteConfig / route requires a dynamic content ... ")
+      store.dispatch('search/setSearchEndpointConfig', currentRouteConfig  )
+  
+      // get current dataset_uri for comparison
+      let previousDatasetURI = store.getters['config/getCurrentDatasetURI']
+      log && console.log('-M3- getRouteConfig / previousDatasetURI : ', previousDatasetURI)
+  
+      let localEndpointConfig = store.getters['config/getEndpointConfig']
+      log && console.log('-M3- getRouteConfig / localEndpointConfig : ', localEndpointConfig)
+      store.commit('config/setLocalEndpointConfig', localEndpointConfig)
+  
+      let currentDatasetURI = localEndpointConfig.dataset_uri
+      store.commit('config/setCurrentDatasetURI', currentDatasetURI)
+      log && console.log('-M3- getRouteConfig / currentDatasetURI : ', currentDatasetURI)
 
-    // rebuild filter if dataset_uri had changed
-    if ( previousDatasetURI !== currentDatasetURI ){
-
-      // clear previous results
       store.commit('search/clearResults')
 
-      log && console.log('-M3- getRouteConfig / rebuilding filters...')
+      // rebuild filter if dataset_uri had changed
+      if ( previousDatasetURI !== currentDatasetURI ){
+  
+        // clear previous results
+        // store.commit('search/clearResults')
+  
+        log && console.log('-M3- getRouteConfig / rebuilding filters...')
+  
+        let localFiltersConfig = store.getters['config/getEndpointConfigFilters']
+        store.commit('config/setLocalFiltersConfig', localFiltersConfig)
+        // log && console.log('-M3- getRouteConfig / localFiltersConfig : ', localFiltersConfig)
+  
+        store.dispatch('search/createDatasetFilters')
+        store.commit('search/setIsMapSearch', currentRouteConfig)
+        store.commit('search/setSearchQuestion', localEndpointConfig)
+        // log && console.log('-M3- getRouteConfig / finished ...')
+  
+      // } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
+      } 
 
-      let localFiltersConfig = store.getters['config/getEndpointConfigFilters']
-      store.commit('config/setLocalFiltersConfig', localFiltersConfig)
-      // log && console.log('-M3- getRouteConfig / localFiltersConfig : ', localFiltersConfig)
+      // else if ( currentRouteConfig.dynamic_template != 'DynamicMap' ) {
+      //   store.commit('search/clearResults')
+      //   if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+      //     log && console.log('-M3- getRouteConfig / dispatching search ...')
+      //     store.dispatch('search/search')
+      //   }
+      // }
+  
+      else {
+        // store.commit('search/clearResults')
+        log && console.log('-M3- getRouteConfig / same dataset URI ... ')
 
-      store.dispatch('search/createDatasetFilters')
-      store.commit('search/setIsMapSearch', currentRouteConfig)
+        store.commit('search/setIsMapSearch', currentRouteConfig)
+        store.dispatch('search/search')
 
-      // log && console.log('-M3- getRouteConfig / finished ...')
+        // if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+        //   log && console.log('-M3- getRouteConfig / dispatching search ...')
+        //   store.dispatch('search/search')
+        // }
 
-    } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
-      store.commit('search/clearResults')
-      store.dispatch('search/search')
+      }
+
     }
 
   }
+
+
+
+
+
+
+
 
 }

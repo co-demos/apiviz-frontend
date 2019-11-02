@@ -260,7 +260,7 @@ export default {
   computed: {
 
     ...mapState({
-      log : 'log', 
+      log : state => state.log, 
       locale : state => state.locale,
       // projects({search}){ return search.answer.result && search.answer.result.projects },
     }),
@@ -269,6 +269,7 @@ export default {
       // pending : 'search/getPending',
       projects : 'search/getResults',
       // total : 'search/getResultsCount',
+      userAccessToken : 'user/getAccessToken'
     }),
 
     bounds(){
@@ -383,9 +384,13 @@ export default {
       // get item data
       // this.$store.dispatch('search/searchOne', item_id )
 
-      getItemById( item_id, this.$store.state.search.endpoint)
+      const currentEndpoint = this.$store.state.search.endpoint
+      const userAccessToken = this.userAccessToken
+      const authConfig = this.$store.getters['config/getEndpointConfigAuthSpecific']('auth_root')
+
+      getItemById( item_id, currentEndpoint, userAccessToken, authConfig)
       .then( item => {
-        // this.log && console.log(" - - DynamicDetail / item : ", item)
+        this.log && console.log("C-SearchResultsMap / item : ", item)
         this.highlightedItem = item;
         this.itemLoaded = true
         // this.itemLoading = false

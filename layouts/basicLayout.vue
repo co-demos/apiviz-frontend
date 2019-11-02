@@ -15,48 +15,67 @@
 
 <script>
 
-  import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
-  import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
+import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 
-  export default {
+import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js" 
+
+export default {
+  
+  components: {
+    DynamicStaticRaw,
+  },
+
+  head(){ 
     
-    components: {
-      DynamicStaticRaw,
-    },
+    return {
+      title: 'ApiViz',
+      // meta: [
 
-    head(){ 
-      
-      return {
-        title: 'ApiViz',
-        // meta: [
-
-        // ],
-        link: [
-          // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
-          { rel: 'icon', href: '/logos/logo_apiviz_icon_15.png', sizes: '21x32' },
-        ],
-      }
-    },
-
-    data () {
-      return {
-      }
-    },
-
-    computed: {
-
-      ...mapState({
-      }),
-
-      ...mapGetters({
-      })
-    },
-
-    methods: {
+      // ],
+      link: [
+        // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
+        { rel: 'icon', href: '/logos/logo_apiviz_icon_15.png', sizes: '21x32' },
+      ],
     }
+  },
+
+  created() {
+    window.addEventListener("resize", this.winBreakpoint)
+    this.winBreakpoint()
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.winBreakpoint)
+  },
+  
+  data () {
+    return {
+    }
+  },
+
+  computed: {
+
+    ...mapState({
+    }),
+
+    ...mapGetters({
+    })
+  },
+
+  methods: {
+
+    winBreakpoint() {
+      var w = window.innerWidth
+      let breakpoint = findBulmaBreakpointByWidth(w)
+      // this.windowBreakpoint = breakpoint
+      this.$store.commit('setBreakpoint', breakpoint)
+    },
 
   }
+
+}
 
 </script>
 

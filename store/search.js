@@ -3,10 +3,12 @@ import {
   makeEmptySelectedFilters,
   getObjectDataFromPath,
   searchItems, 
+  rawRequest,
   // searchEnpointCreator, 
   searchEndpointGenerator, 
   createSelectedFiltersForSearch
   } from '~/plugins/utils.js';
+import { defaultPagination } from '~/config/constants.js'
 
 // export const strict = false
 
@@ -38,12 +40,19 @@ export const state = () => ({
 
     // QUERY FROM USER
     question: {
-      query: new URL(location).searchParams.get('text') || '',
+      query: '', // new URL(location).searchParams.get('text') || '',
+
       forMap : false,
+      forStats : false,
+
       onlyGeocoded : true,
-      shuffleSeed : 1234,
+
+      shuffleSeed : undefined,
       page:1,
       perPage:100,
+      sortBy: undefined,
+      sortIsDescending: false, // true : ascendant / false : descendant
+
       selectedDatasetFilters: undefined,
       selectedFilters: new Map(),
     },
@@ -77,6 +86,18 @@ export const getters = {
       return state.search.question.forMap
     },
 
+  // QUESTION RELATED
+  // - - - - - - - - - - - - - - - //
+    getQuestion : state => {
+      return state.search.question
+    },  
+    getPerPageOptions : (state, getters, rootState) => {
+      let defaultPerPage = defaultPagination.perPageOptions 
+      let endpointPerPage = state.search.endpoint.args_options.find(i => i.app_arg === 'perPage'  )
+      return endpointPerPage && endpointPerPage.authorized ? endpointPerPage.authorized : defaultPerPage
+      // return endpointPerPage
+    },
+
   // FILTER RELATED
   // - - - - - - - - - - - - - - - //
     getSelectedFilters : state => {
@@ -107,7 +128,7 @@ export const getters = {
       return state.search.dataset_uri
     },
     getSearchQuestionQuery : state => {
-      return state.search.question.Query
+      return state.search.question.query
     },
 
   // RESULTS RELATED
@@ -121,6 +142,11 @@ export const getters = {
     getResults : (state) => {
       // state.log && console.log("\nS-search-G-getResults ..." )
       return state.search.answer.result && state.search.answer.result.projects
+    },
+    getResultsStats : (state) => {
+      state.log && console.log("\nS-search-G-getResultsStats ..." )
+      state.log && console.log("\nS-search-G-getResultsStats / state.search.answer.results", state.search.answer.results )
+      return state.search.answer.result && state.search.answer.result.stats
     },
     getResultsList : (state) => {
       // state.log && console.log("\nS-search-G-getResultsList ..." )
@@ -255,6 +281,7 @@ export const mutations = {
       state.log && console.log("S-search-M-setMap / map : ", map )
       // state.mapbox.map = map
     },
+
     setIsMapSearch (state, routeConfig) {
       // state.log && console.log("S-search-setIsMapSearch / routeConfig : ", routeConfig )
       state.search.question.forMap = ( routeConfig.dynamic_template === 'DynamicMap' ) ? true : false
@@ -264,6 +291,31 @@ export const mutations = {
   // GENERAL
     setSearchConfig(state, {type,result}) {
       state.search.config[type] = result
+    },
+
+    setSearchQuestion(state, localEndpointConfig){
+      // state.log && console.log("S-search-setSearchQuestion / state.search.question : ", state.search.question )
+
+      let argOptions = localEndpointConfig.args_options
+      // state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
+
+      let authorizedDefaultArgs = [ 
+        'page', 
+        'perPage', 
+        'shuffleSeed',
+        'sortBy',
+        'sortIsDescending'
+      ]
+      argOptions.forEach( arg => {
+        let appArg = arg.app_arg
+        if ( authorizedDefaultArgs.includes(appArg) ) {
+          state.search.question[appArg] = arg.default
+        }
+      })
+    },
+
+    setQuestionPerPage(state, perPageNumber){
+      state.search.question.perPage = perPageNumber
     },
 
   // FILTERS-RELATED
@@ -282,9 +334,6 @@ export const mutations = {
     setSearchParam(state,{type,result}){
       state.search[type] = result
     },
-    clearAllFilters(state){
-      state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
-    },
     setSearchedText (state, {searchedText}) {
       // state.log && console.log("\nS-search-M-setSearchedText ..." )
       // state.log && console.log("S-search-M-setSearchedText / searchedText : ", searchedText )
@@ -296,6 +345,38 @@ export const mutations = {
     },
     setFilterDescriptions (state, filterDescriptions) {
       state.filterDescriptions = filterDescriptions
+    },
+    setQuestionPage (state, pageNumber ) {
+      // state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
+      let newPageNumber = state.search.question.page + pageNumber
+      if ( newPageNumber > 0 ){
+        state.search.question.page = newPageNumber
+      }
+    },
+    setQuestionPageAbsolute (state, pageNumber ) {
+      state.search.question.page = pageNumber
+    },
+    setQuestionPerPage (state, perPageNumber ) {
+      // state.log && console.log("\nS-search-M-setQuestionPerPage ..." )
+      state.search.question.perPage = perPageNumber
+    },
+    setQuestionSortBy (state, field ) {
+      // state.log && console.log("\nS-search-M-setQuestionSortBy ..." )
+      state.search.question.shuffleSeed = undefined
+      state.search.question.sortBy = field
+    },
+    setQuestionSortIsDescending (state, sortIsDescending ) {
+      state.log && console.log("\nS-search-M-setQuestionSortIsDescending ..." )
+      state.search.question.sortIsDescending = sortIsDescending
+    },
+    resetShuffle ( state, minMax ){
+      state.search.question.sortBy = undefined
+      state.search.question.sortIsDescending = false
+      state.search.question.shuffleSeed = Math.floor(Math.random() * (minMax.max - minMax.min + 1)) + minMax.min;
+    },
+
+    clearAllFilters (state){
+      state.search.question.selectedFilters = makeEmptySelectedFilters(state.filterDescriptions)
     },
     emptyOneFilter (state, {filter}) {
       state.search.question.selectedFilters.set(filter, new Set())
@@ -319,6 +400,7 @@ export const mutations = {
       }
     },
     setSearchPending(state, {pendingAbort}){
+      state.log && console.log('S-search-M-setSearchPending... ')
       state.search.answer = {
         pendingAbort,
         result: undefined,
@@ -345,7 +427,9 @@ export const mutations = {
         error
       }
     },
+    
     setDisplayedProject(state, {result}){
+      state.log && console.log('S-search-M-setDisplayedProject / result ', result)
       state.displayedProject = result.projects[0]
       state.search.answer.pendingAbort = undefined
     },
@@ -397,9 +481,40 @@ export const actions = {
       let endpointConfig = rootGetters['config/getEndpointConfig']
       // state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
       commit('setSearchParam',{type:'endpoint', result: endpointConfig})
+      
+      let endpointPerPage = endpointConfig.args_options.find( i => i.app_arg === 'perPage')
+      if ( endpointPerPage ){
+        commit('setQuestionPerPage', endpointPerPage.default )
+      }
 
     },
-    
+  
+  // FOR PAGINATION
+    changePage({state, commit, dispatch}, pageNumber ){
+      // state.log && console.log("S-search-A-changePage /  pageNumber : ", pageNumber )
+      commit('setQuestionPage', pageNumber )
+      dispatch('search')
+    },
+    changePerPage({state, commit, dispatch}, perPageNumber ){
+      // state.log && console.log("S-search-A-changePerPage / perPageNumber : ", perPageNumber )
+      commit('setQuestionPerPage', perPageNumber )
+      dispatch('search')
+    },
+    changeSorting({state, commit, dispatch}, sortOptions ){
+      // state.log && console.log("S-search-A-changeSorting / sortOptions : ", sortOptions )
+      commit('setQuestionSortBy', sortOptions.sortBy )
+      commit('setQuestionSortIsDescending', sortOptions.sortIsDescending )
+      dispatch('search')
+    },
+    reShuffle( {state, commit, dispatch}, minMax ){
+      state.log && console.log("S-search-A-reShuffle / minMax :", minMax )
+      if ( !minMax ){
+        minMax = { min: 0 , max: 2000 }
+      }
+      commit('resetShuffle', minMax )
+      dispatch('search')
+    },
+
   // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
       // state.log && console.log("\nS-search-A-createDatasetFilters / state : ", state )
@@ -419,7 +534,7 @@ export const actions = {
 
   // FOR QUERY SEARCH FILTERS
     toggleFilter({state, commit, dispatch, getters}, {filter, value}){
-      // state.log && console.log("\n// toggleFilter ..." )
+      state.log && console.log("\n// toggleFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
       // state.log && console.log("// toggleFilter / selectedFilters : ", selectedFilters);
       const selectedValues = selectedFilters.get(filter)
@@ -429,116 +544,210 @@ export const actions = {
         selectedValues.add(value)
   
       commit('setSelectedFilters', {selectedFilters})
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
   
     emptyOneFilter({state, commit, dispatch, getters}, {filter}){
-      // state.log && console.log("\n// emptyOneFilter ..." )
+      state.log && console.log("\n// emptyOneFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
       selectedFilters.set(filter, new Set())
   
       commit('setSelectedFilters', {selectedFilters})
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
   
     clearAllFilters({state, commit, dispatch}){
-      // state.log && console.log("S-search-A-clearAllFilters ..." )
+      state.log && console.log("S-search-A-clearAllFilters ..." )
       commit('clearAllFilters')
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
 
   // FOR QUERY SEARCH TEXT
     searchedTextChanged({state, commit, dispatch}, {searchedText}){
-      // state.log && console.log("\nS-search-A-searchedTextChanged ..." )
-      commit('setSearchedText', {searchedText})
+      state.log && console.log("\nS-search-A-searchedTextChanged ..." )
+      commit('setSearchedText', {searchedText} )
+      commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
 
 
-
+  // + - + - + - + - + - // 
   // MAIN SEARCH ACTION
-    search({state, commit, dispatch, getters}){
+  // + - + - + - + - + - // 
+    search({state, commit, dispatch, getters, rootGetters}){
 
-      // state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+      state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
       
-      const search = state.search;
+      const search = state.search
       // state.log && console.log("S-search-A-search / search : ", search )
 
-      const selectedFilters = createSelectedFiltersForSearch(getters.getSelectedFilters)
-      // state.log && console.log('S-search-A-search / selectedFilters',selectedFilters);
+      const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
+      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
       // abort previous search if any
       if(search.answer.pendingAbort){
         search.answer.pendingAbort.abort()
       }
+      
+      const endpointRawConfig = state.search.endpoint
+      const responsePaths = endpointRawConfig.resp_fields
+      state.log && console.log("S-sesarch-A-search / responsePaths : \n", responsePaths )
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
-        endpointConfig : state.search.endpoint,
+        endpointConfig : endpointRawConfig,
         questionParams : state.search.question,
         selectedFilters : selectedFilters,
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
       })
-      // state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
-
-      // TO DO - CHANGE FETCH --> USE AXIOS
+      state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
+      
+      
+      // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
       // perform search --> !!! only request map search if map search results empty in store !!! 
-      const responsePaths = state.search.endpoint.resp_fields
-      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
-      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
+      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
+      // searchItems( endpointGenerated, endpointRawConfig )
       searchPendingAbort.promise
-        // .then(({projects, total}) => {
-        .then(( response ) => {
-          state.log && console.log("S-search-A-search / response : \n", response )
-          // state.log && console.log("S-search-A-search / total : \n", total )
-          // state.log && console.log("S-search-A-search / projects : \n", projects )
+      .then(( response ) => {
+        state.log && console.log("S-search-A-search / response : \n", response )
+        // state.log && console.log("S-search-A-search / total : \n", total )
+        // state.log && console.log("S-search-A-search / projects : \n", projects )
 
-          // if search is for map either fill resultMap if empty or do nothing
-          commit('setSearchResult', {result: { projects : response.projects, total : response.total }})
-          // commit('setSearchResult', {result: {projects, total}})
-          // commit ('setSearchResultMap', {resultMap: {projects, total}})
-        })
-        .catch(error => {
-          // don't report aborted fetch as errors
-          if (error.name !== 'AbortError')
-            commit('setSearchError', {error})
-        })
+        // if search is for map either fill resultMap if empty or do nothing
+        commit('setSearchResult', { result: { 
+          projects : response.projects, 
+          stats : response.stats, 
+          total : response.total 
+        }})
+        // commit('setSearchResult', {result: {projects, total}})
+        // commit ('setSearchResultMap', {resultMap: {projects, total}})
+      })
+      .catch(error => {
+        // don't report aborted fetch as errors
+        if (error.name !== 'AbortError')
+          commit('setSearchError', { error })
+      })
     },
 
-    searchOne({state, commit, dispatch, getters}, id ){
+    searchOne({state, commit, dispatch, getters, rootGetters}, id ){
 
       commit('clearDisplayedProject')
 
       state.log && console.log("\nS-search-A-searchOne ..." )
-      // state.log && console.log("\nS-search-A-searchOne / id : ", id )
+      state.log && console.log("S-search-A-searchOne / id : ", id )
+
+      // get specifically endpoint for detail infos
+      const endpointCurrentConfig = state.search.endpoint
+      const endpointRawConfig = rootGetters['config/getEndpointConfigByType']('detail')
+      state.log && console.log("S-search-A-searchOne / endpointRawConfig : \n", endpointRawConfig )
+
+
+      const responsePaths = state.search.endpoint.resp_fields
+      state.log && console.log("S-search-A-searchOne / responsePaths : \n", responsePaths )
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
+
+      // append itemId to question
+      let question = state.search.question
+      question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
-        endpointConfig : state.search.endpoint,
-        questionParams : { itemId : id },
+        endpointConfig : endpointRawConfig,
+        questionParams : question,
         selectedFilters : [],
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
       })
-      // state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
-
-      const responsePaths = state.search.endpoint.resp_fields
-      // state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+      state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
 
       // TO DO - CHANGE FETCH --> USE AXIOS
-      const searchPendingAbort = searchItems(endpointGenerated, responsePaths)
-      commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
+      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
+
+      if ( endpointCurrentConfig && endpointCurrentConfig.endpoint_type === 'map' ){
+        commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
+      } else {
+        commit('setSearchPending', { pendingAbort: searchPendingAbort })
+      }
 
       searchPendingAbort.promise
-        .then(( response ) => {
-          console.log("S-search-A-searchOne / response : \n", response )
-          // commit('setDisplayedProject', { result: { projects, total }})
-          commit('setDisplayedProject', {result: { projects : response.projects, total : response.total }})
-        })
-        .catch(error => {
-          // don't report aborted fetch as errors
-          if (error.name !== 'AbortError')
-            commit('setSearchError', {error})
-        })
+      .then(( response ) => {
+        state.log && console.log("S-search-A-searchOne / response : \n", response )
+        // commit('setDisplayedProject', { result: { projects, total }})
+        commit('setDisplayedProject', { result: { 
+          projects : response.projects, 
+          stats : response.stats,
+          total : response.total 
+        }})
+      })
+      .catch(error => {
+        // don't report aborted fetch as errors
+        if (error.name !== 'AbortError')
+          commit('setSearchError', {error})
+      })
 
     },
+
+    exportDataset({state, commit, dispatch, getters, rootGetters}){
+
+      state.log && console.log("\nS-search-A-exportDataset ..." )
+      
+      const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
+      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
+
+      // get user access token if any
+      const userAccessToken = rootGetters['user/getAccessToken']
+      state.log && console.log("S-sesarch-A-exportDataset / userAccessToken : \n", userAccessToken )
+
+      // get user configAuth if any
+      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+      state.log && console.log("S-sesarch-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
+
+      const endpointExportConfig = rootGetters['config/getEndpointConfigExport']
+      state.log && console.log("S-sesarch-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
+
+      // ENDPOINT GENERATOR
+      let endpointGenerated = searchEndpointGenerator({
+        endpointConfig : endpointExportConfig,
+        questionParams : state.search.question,
+        selectedFilters : selectedFilters,
+        authConfig : endpointAuthConfig,
+        accessToken : userAccessToken
+      })
+      state.log && console.log("S-search-A-exportDataset / endpointGenerated : \n", endpointGenerated )
+
+      const requestPendingAbort = rawRequest( endpointGenerated, endpointExportConfig )
+      return requestPendingAbort.promise
+      // requestPendingAbort.promise
+      // .then(( response ) => {
+      //   state.log && console.log("S-search-A-exportDataset / response : \n", response )
+      //   return response
+      // })
+      // .catch(error => {
+      //   // don't report aborted fetch as errors
+      //   if (error.name !== 'AbortError')
+      //     commit('setSearchError', { error })
+      // })
+
+
+    }
+
 }

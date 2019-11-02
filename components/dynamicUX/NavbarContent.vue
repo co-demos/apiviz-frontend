@@ -13,7 +13,7 @@
         <nuxt-link
           v-if="link.link_type == 'link' && link.is_visible == true"
           :key="`'link-' + ${index}`"
-          :class="`navbar-item ${ link.has_dropdown ? 'has-dropdown is-hoverable' : '' }  `"
+          :class="`navbar-item a-anim ${ link.has_dropdown ? 'has-dropdown is-hoverable' : '' }  `"
           :to="link.link_to"
           >
 
@@ -28,7 +28,7 @@
                 <i :class="link.icon_class"></i>
             </span>
             <span 
-              :class="`${ isItemActive(link) ? 'is-underlined' : '' }`"
+              :class="`${ isItemActive(link) ? 'is-underlined-primary-c' : '' }`"
               >
               {{ translate(link, 'link_text' ) }}
             </span>
@@ -47,7 +47,7 @@
               <a 
                 v-if="!sublink.is_divider && sublink.is_external_link"
                 :key="`'sublink-ext-' + ${i}`"
-                class="navbar-item"
+                class="navbar-item a-anim"
                 :href="sublink.link_to"
                 @click="loadExternalURL(sublink.link_to)"
                 >
@@ -57,7 +57,7 @@
               <nuxt-link
                 v-if="!sublink.is_divider && !sublink.is_external_link"
                 :key="`'sublink-int-' + ${i}`"
-                :class="`navbar-item ${ isActiveLink(sublink.link_to) ? 'has-text-white has-background-primary' : '' }`"
+                :class="`navbar-item a-anim ${ isActiveLink(sublink.link_to) ? 'has-text-white has-background-primary is-primary-b' : 'has-text-primary-hover-c' }`"
                 :to="sublink.link_to"
                 >
                 {{ translate(sublink, 'link_text' ) }}
@@ -79,7 +79,7 @@
         <hr 
           v-if="link.link_type == 'link' && link.is_visible == true"
           :key="index"
-          class="is-flex-touch menu-delimiter"
+          class="is-flex-touch menu-delimiter-primary-c"
         >
       
       </template>
@@ -93,7 +93,7 @@
 
           <nuxt-link
             v-if="!link.has_dropdown && !link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item button is-primary is-primary-b is-outlined is-small btn-menu`"
+            :class="`navbar-item a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
             :key="`'btnlink-ext-' + ${index}`"
             :to="link.link_to"
             >
@@ -102,7 +102,7 @@
 
           <a
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item button is-primary is-primary-b is-outlined is-small btn-menu`"
+            :class="`navbar-item a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
             :href="link.link_to"
             :key="`'sublink-int-' + ${index}`"
             target="_blank"
@@ -113,7 +113,7 @@
           <hr 
             v-if="!link.has_dropdown && link.link_type == 'button' && link.is_visible == true"
             :key="`'sublink-div-' + ${index}`"
-            class="is-flex-touch menu-delimiter"
+            class="is-flex-touch menu-delimiter-primary-c"
           >
 
         </template>
@@ -122,10 +122,10 @@
 
       <!-- LOCALES -->
       <div v-if="languages.is_multi_lang"
-        :class="`navbar-item is-hoverable has-dropdown no-padding-right`"
+        :class="`navbar-item a-anim is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
         >
         <!-- LOCALES BTN -->
-        <a :class="`navbar-link is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
+        <a :class="`navbar-link a-anim is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
           >
           {{ locale }}
         </a>
@@ -135,7 +135,7 @@
           <!-- LOOP LOCALES -->
           <a v-for="(loc, index) in languages.languages" 
             :key="index"
-            class="navbar-item is-uppercase"
+            class="navbar-item a-anim is-uppercase"
             @click="switchLocale(loc)"
             >
             {{ loc }}
@@ -146,7 +146,7 @@
 
       <!-- USER DROPDOWN -->
       <div v-if="user.isLoggedin"
-        :class="`navbar-item has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
+        :class="`navbar-item a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
         >
 
         <a class="navbar-link is-arrowless">
@@ -157,27 +157,29 @@
 
         <div class="navbar-dropdown is-right">
 
-          <p class="navbar-item has-text-grey-light">
-            {{ getText('hello') }} 
+          <p class="navbar-item a-anim has-text-grey-light">
+            <!-- {{ getText('hello') }}  -->
+            {{ basicDict.hello[locale] }}
             {{ user.infos.name }}
           </p>
 
           <hr class="navbar-divider">
 
-          <nuxt-link class="navbar-item"
+          <nuxt-link class="navbar-item a-anim"
             :to="'/preferences'"
             >
             <span class="icon">
               <i class="far fa-user"></i>
             </span>
             <span>
-              {{ getText('preferences') }}
+              <!-- {{ getText('preferences') }} -->
+              {{ basicDict.preferences[locale] }}
             </span>
           </nuxt-link>
 
           <hr class="navbar-divider">
           
-          <nuxt-link class="navbar-item"
+          <nuxt-link class="navbar-item a-anim"
             v-if="isUserAdmin || isUserStaff"
             :to="'/backoffice'"
             >
@@ -185,7 +187,8 @@
               <i class="fas fa-cog"></i>
             </span>
             <span>
-              {{ getText('backoffice') }}
+              <!-- {{ getText('backoffice') }} -->
+              {{ basicDict.backoffice[locale] }}
             </span>
           </nuxt-link>
 
@@ -198,7 +201,8 @@
               <i class="fas fa-sign-out-alt"></i>
             </span>
             <span>
-              {{ getText('disconnect') }}
+              <!-- {{ getText('disconnect') }} -->
+              {{ basicDict.disconnect[locale] }}
             </span>
           </nuxt-link>
 
@@ -208,7 +212,7 @@
 
       <!-- LOGIN BUTTON -->
       <div v-if="navbarConfig.has_login && !user.isLoggedin"
-        :class="`navbar-item has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
+        :class="`navbar-item a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
         >
         <a class="navbar-link is-arrowless"
           :href="loginRoute.urls[0]"
@@ -228,6 +232,8 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import { BasicDictionnary } from "~/config/basicDict.js" 
+
 
   export default {
 
@@ -248,15 +254,17 @@
     data : function () {
       return {
         activeLocales : false,
+        basicDict : BasicDictionnary, 
       }
     },
 
     computed : {
 
       ...mapState({
-        log : 'log',
+        log : state => state.log,
         user: state => state.user.user,
-        locale: 'locale',
+        locale: state => state.locale,
+        breakpoint : state => state.breakpoint,
         languages: state => state.config.config.global.app_languages,
       }),
 
@@ -286,9 +294,9 @@
         this.activeLocales = false
       },
 
-      getText(textCode) {
-        return this.$store.getters['config/defaultText']({txt:textCode})
-      },
+      // getText(textCode) {
+      //   return this.$store.getters['config/defaultText']({txt:textCode})
+      // },
       loadExternalURL(link_to){
         console.log("loadExternalURL / link_to : ", link_to)
         var win = window.open(link_to, '_blank');
@@ -338,7 +346,7 @@
   }
   .is-underlined{
     border-bottom: solid;
-    border-color: $apiviz-primary;
+    // border-color: $apiviz-primary;
   }
   .navbar-dropdown {
     z-index: 100;

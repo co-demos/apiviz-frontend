@@ -45,6 +45,8 @@ import { mapState, mapGetters } from 'vuex'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 import DynamicCSS  from '~/components/dynamicUX/DynamicCSS.vue'
 
+import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js" 
+
 export default {
   
   middleware : [
@@ -70,6 +72,15 @@ export default {
         { rel: 'icon', href: global.app_favicon.url, sizes: '32x32' },
       ],
     }
+  },
+
+  created() {
+    window.addEventListener("resize", this.winBreakpoint)
+    this.winBreakpoint()
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.winBreakpoint)
   },
 
   data () {
@@ -100,8 +111,16 @@ export default {
     })
   },
 
-  // methods: {
-  // }
+  methods: {
+
+    winBreakpoint() {
+      var w = window.innerWidth
+      let breakpoint = findBulmaBreakpointByWidth(w)
+      // this.windowBreakpoint = breakpoint
+      this.$store.commit('setBreakpoint', breakpoint)
+    },
+
+  }
 
 }
 

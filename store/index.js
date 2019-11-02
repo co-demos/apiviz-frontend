@@ -1,4 +1,5 @@
 import { apiBackendConfigs } from '~/config/apiBackends.js'
+import { findBulmaBreakpointByWidth } from '~/config/constants.js'
 
 export const state = () => ({
 
@@ -8,21 +9,26 @@ export const state = () => ({
   // APIVIZ FRONTEND UUID
   apivizFrontUUID : undefined,
 
+  // HTML FILES
+  // staticHtmlMode : undefined,
+
   // APP MODE : default | preprod | prod
   runMode : undefined,
+  authMode : undefined,
   rootUrlBackend : undefined,
   rootUrlAuth : undefined,
 
   // UX OPTIONS
   showNav : false,
   bannerVisible : true,
+  breakpoint : undefined,
 
   // FOR TRANSLATIONS
   locale: 'fr',
     
 })
 
-export const getters = {
+export const getters = {    
 
   // GLOBAL APP GETTERS
   // - - - - - - - - - - - - - - - //
@@ -34,18 +40,31 @@ export const getters = {
       // console.log( "...I'm on a run mode... ", state.runMode )
       return state.runMode
     },
+    getAuthMode : state => {
+      // console.log( "...I'm on a auth mode... ", state.authMode )
+      return state.authMode
+    },
     getRootUrlBackend : state => {
-      // console.log( "...I'm roooot... ", state.rootUrlBackend )
+      // console.log( "...I'm roooot url backend... ", state.rootUrlBackend )
       return state.rootUrlBackend
     },
     getRootUrlAuth : state => {
-      // console.log( "...I'm roooot auth... ", state.rootUrlAuth )
+      // console.log( "...I'm roooot url auth... ", state.rootUrlAuth )
       return state.rootUrlAuth
     },
+    // getStaticHtmlMode : state => {
+    //   // console.log( "...I'm staticHtmlMode... ", state.staticHtmlMode )
+    //   return state.staticHtmlMode
+    // },
 
   // UX GETTERS
     getNavbarVisibility : state => {
       return state.showNav
+    },
+
+    getBreakpoint : (state) => (width) => {
+      let breakpoint = findBulmaBreakpointByWidth( width )
+      return breakpoint
     },
 
   // FOR TRANSLATIONS
@@ -57,7 +76,7 @@ export const getters = {
     //   return this.$Translate( textsData.texts, state.locale, textField )
     // },
     getCurrentLocale : state => {
-      console.log( "...I'm locale... ", state.locale )
+      // console.log( "...I'm locale... ", state.locale )
       return state.locale
     },
 
@@ -77,9 +96,15 @@ export const mutations = {
       const roots = apiBackendConfigs[runMode]
       state.rootUrlBackend = roots.rootURL
     },
+    setAuthMode( state, authMode ){
+      state.authMode = authMode
+    },
     setAuthUrlRoot( state, urlRoot ){
       state.rootUrlAuth = urlRoot
     },
+    // setStaticHtmlMode( state, htmlMode ){
+    //   state.staticHtmlMode = htmlMode
+    // },
 
   // UX OPTIONS-RELATED
     disableBanners(state){
@@ -90,6 +115,9 @@ export const mutations = {
     },
     setShowNavbar(state, value){
       state.showNav = value
+    },
+    setBreakpoint(state, breakpoint){
+      state.breakpoint = breakpoint
     },
 
     // INTERNATIONALIZATION

@@ -18,6 +18,16 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 **apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
 
+--------
+
+#### DEPLOYED WEBSITES : 
+
+- [tiers-lieux (test)](https://tiers-lieux-dataviz.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/7fc48ec3-148f-46a9-9151-6f78996cfd37/deploy-status)](https://app.netlify.com/sites/tiers-lieux-dataviz/deploys)
+- [sonum-preprod](https://apiviz-preprod-sonum.netlify.com/sonum-carto/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/1e4ddb5c-9df8-4903-a100-6f8ba054b4e8/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-sonum/deploys)
+- [apcis-preprod](https://apiviz-preprod-cis.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/abb54fbc-01c6-4c48-9f1b-8ff5b9ef00b1/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-cis/deploys)
+- [apcis-preprod (CIS migration )](https://carrefour-innovations-sociales.fr/recherche) : [![Netlify Status](https://api.netlify.com/api/v1/badges/f5ff305b-52c1-4fb1-be79-17a7494705ac/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-apcis-url-migration/deploys)
+
+
 
 --------
 

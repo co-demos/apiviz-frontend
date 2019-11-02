@@ -1,10 +1,14 @@
 <template>
-  <div>
+
+  <div 
+    id="searchScreennSkeleton"
+    >
+
     <SearchWithFilters
       :filtersConfig="filtersConfig"
     />
+    
     <main :class="mainClass">
-      <!-- TEMPORARILY COMMENTED -->
       <FiltersFeedback/>
       <slot/>
     </main>
@@ -21,6 +25,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import SearchWithFilters from './SearchWithFilters.vue'
 import FiltersFeedback from './FiltersFeedback.vue'
 
@@ -48,6 +54,16 @@ export default {
     this.log && console.log('C-DynamicSearchScreenSqueleton / this.filtersConfig : ', this.filtersConfig)
   },
 
+  computed: {
+
+    ...mapState({
+      log : state => state.log, 
+      locale : state => state.locale,
+      breakpoint : state => state.breakpoint,
+    })
+
+  }
+
 }
 </script>
 
@@ -56,7 +72,8 @@ export default {
   @import '../../assets/css/apiviz-misc.scss';
 
   main{
-    margin-top: $apiviz-navbar-height + $apiviz-search-bar-height;
+    // margin-top: $apiviz-navbar-height + $apiviz-search-bar-height;
+    margin-top: $apiviz-navbar-height + rem(60px);
   }
 
 </style>
