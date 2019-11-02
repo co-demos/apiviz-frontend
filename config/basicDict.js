@@ -16,6 +16,15 @@ export const BasicDictionnary = {
     fr : "mélanger aléatoirement les données",
   },
 
+  // MAP VIEW
+  map_layers : {
+    en : "Layers",
+    es : "Capas",
+    de : "Layers",
+    tr : "Layers",
+    fr : "Calques",
+  },
+
   // TABS VIEWS 
   tab_map : {
     en : "map",

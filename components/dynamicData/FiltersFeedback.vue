@@ -166,8 +166,8 @@
 
   .filter-feedback > .inline-filters span.all{
 
-      background-color: white;
-      color: #767676;
+    background-color: white;
+    color: #767676;
   }
 
 </style>

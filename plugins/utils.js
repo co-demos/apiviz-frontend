@@ -26,6 +26,23 @@ catch(e){
   abortableFetchSupported = false;
 }
 
+export function getJson( fetchUrl ){
+
+  console.log("\n+ + + fetchGeoJson / fetchUrl : ", fetchUrl)
+
+  return axios({
+    method : 'get',
+    url : fetchUrl,
+  })
+  .then( resp => {
+    console.log("+ + + fetchGeoJson / resp :", resp);
+    return resp
+  })
+  .catch( err => {
+    console.log("+ + + fetchGeoJson / (axios)  err :", err);
+  })
+}
+
 // choose error template if needed
 export function chooseTemplate(templates, locale){
   if (templates) {
@@ -561,6 +578,7 @@ export function searchEndpointGenerator( obj ) {
   // let baseQuery = endpointConfig.root_url + '?'
 
   const appArgs = [
+
     'query', 
     'forMap', 
     'forStats', 
@@ -570,7 +588,9 @@ export function searchEndpointGenerator( obj ) {
     'sortIsDescending', 
     'onlyGeocoded', 
     'itemId', 
-    'shuffleSeed' 
+    'shuffleSeed',
+
+    'defaultValue' // takes default value from endpointconfig
   ]
   
   // loop in routeArgs + queries then append to baseQuery
@@ -580,8 +600,9 @@ export function searchEndpointGenerator( obj ) {
     console.log("+ + + searchEndpointGenerator / EndpointArg.app_arg : ", EndpointArg.app_arg)
     // if ( !EndpointArg.optional || appArgs.includes(EndpointArg.app_arg) ){
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
-        if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
-        let argString = EndpointArg.arg + '=' + String(questionParams[EndpointArg.app_arg])
+      if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
+        let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg]) 
+        let argString = EndpointArg.arg + '=' + argVal // String(questionParams[EndpointArg.app_arg])
         argsArray.push(argString)
       }
     }

@@ -468,37 +468,37 @@ ul.press-excerpts li{
 
 // COUNTER
 h3.counter{
-    width: initial;
-    padding: 1em 0;
+  width: initial;
+  padding: 1em 0;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-    .counter{
-        font-size: rem(60px);
-        margin-right: 0.2em;
-        font-weight: bold;
-    }
+  .counter{
+    font-size: rem(60px);
+    margin-right: 0.2em;
+    font-weight: bold;
+  }
 
-    .text{
-        max-width: 6em;
-        line-height: 1.2;
-    }
+  .text{
+    max-width: 6em;
+    line-height: 1.2;
+  }
 }
 
 // PARTNERS
 .choices{
-    max-width: 45em;
+  max-width: 45em;
 
-    label{
-        width: 15em;
-        vertical-align: top;
-    }
-    input[type="checkbox"]{
-        margin-right: 1em;
-    }
+  label{
+    width: 15em;
+    vertical-align: top;
+  }
+  input[type="checkbox"]{
+    margin-right: 1em;
+  }
 }
 ul.members{
     text-align: left;

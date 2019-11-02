@@ -251,11 +251,11 @@ export default {
 @import '../../assets/css/apiviz-misc.scss';
 
 .card-image {
-    min-height: 100px;
+  min-height: 100px;
 }
 
 .card-image img{
-    width: 100%;
+  width: 100%;
 }
 
 .proj-card {
@@ -272,20 +272,20 @@ export default {
 }
 
 .card-content .tag{
-    margin-right: 0.5em;
-    margin-bottom: 0.5em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
 
-    padding: 0.2em 1em;
+  padding: 0.2em 1em;
 
-    background-color: #767676;
-    color: white;
+  background-color: #767676;
+  color: white;
 
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .card-content img{
-    max-height: 1.1em;
-    transform: translateY(0.1em);
+  max-height: 1.1em;
+  transform: translateY(0.1em);
 }
 
 </style>
