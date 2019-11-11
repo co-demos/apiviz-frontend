@@ -28,7 +28,7 @@ catch(e){
 
 export function getJson( fetchUrl ){
 
-  console.log("\n+ + + fetchGeoJson / fetchUrl : ", fetchUrl)
+  console.log("+ + + fetchGeoJson / fetchUrl : ", fetchUrl)
 
   return axios({
     method : 'get',

@@ -639,7 +639,7 @@
                           <div class="select is-primary is-primary-b ">
 
                             <select 
-                              v-model="selectedDsType"
+                              v-model="new_data_selectedDsType"
                               @change="updateJsonData( 'update_ds_type' )"
                               >
 
@@ -777,7 +777,7 @@
                         <p 
                           class="content hast-text-centered">
                           {{ basicDict.data_new_endpoint_dsId[locale] }} : {{ new_data_endpoint_id }} <br>
-                          {{ basicDict.data_new_endpoint_dsType[locale] }} : {{ selectedDsType }} <br>
+                          {{ basicDict.data_new_endpoint_dsType[locale] }} : {{ new_data_selectedDsType }} <br>
                         </p>
                       </div>
 
@@ -1016,7 +1016,8 @@
         new_admin_surname : '',
 
         hasNewDataEndpointSetup : false,
-        selectedDsType : 'dsi',
+        new_data_endpoint_route_base : 'https://solidata-api.co-demos.com/api/',
+        new_data_selectedDsType : 'dsi',
         new_data_endpoint_id : '',
         new_data_endpoint_json : 
         // [
@@ -1055,7 +1056,8 @@
               map :    { route_url : 'https://solidata-api.co-demos.com/api/' },
               list :   { route_url : 'https://solidata-api.co-demos.com/api/' },
               table :  { route_url : 'https://solidata-api.co-demos.com/api/' },
-              detail : { route_url : 'https://solidata-api.co-demos.com/api/' }
+              detail : { route_url : 'https://solidata-api.co-demos.com/api/' },
+              stats :  { route_url : 'https://solidata-api.co-demos.com/api/' }
             },
             routes : {
               map : {
@@ -1122,7 +1124,7 @@
           new_admin_name : this.new_admin_name,
           new_admin_surname : this.new_admin_surname,
 
-          new_data_endpoint_data : hasNewDataEndpointSetup ? this.new_data_endpoint_json : undefined,
+          new_endpoint_data : hasNewDataEndpointSetup ? this.new_data_endpoint_json : undefined,
 
         }
       },
@@ -1153,6 +1155,18 @@
       updateJsonData( update_type ){
         this.log && console.log('\nP-new-apiviz-instance.vue / updateJsonData / update_type : ', update_type)
         let data = this.new_data_endpoint_json 
+
+        let stringBase = this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/infos/get_one/' 
+        let stringBase_stats = this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/infos/get_one_stats/' 
+        let stringBase_export= this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/export/as_csv/' 
+
+        data.endpoints.export.route_url = stringBase_export + this.new_data_endpoint_id 
+        data.endpoints.map.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.list.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.table.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.detail.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.stats.route_url = stringBase_stats + this.new_data_endpoint_id 
+
         if ( update_type === 'update_ds_id' ) {
 
         }
