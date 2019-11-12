@@ -28,18 +28,18 @@ catch(e){
 
 export function getJson( fetchUrl ){
 
-  console.log("+ + + fetchGeoJson / fetchUrl : ", fetchUrl)
+  console.log("+ + + getJson / fetchUrl : ", fetchUrl)
 
   return axios({
     method : 'get',
     url : fetchUrl,
   })
   .then( resp => {
-    console.log("+ + + fetchGeoJson / resp :", resp);
+    // console.log("+ + + getJson / resp :", resp);
     return resp
   })
   .catch( err => {
-    console.log("+ + + fetchGeoJson / (axios)  err :", err);
+    console.log("+ + + getJson / (axios)  err :", err);
   })
 }
 
@@ -79,7 +79,7 @@ export function loadScript(url, type, script_id, callback){
 
 export function isEmpty(obj) {
   for(var prop in obj) {
-      if(obj.hasOwnProperty(prop)) return false;
+    if(obj.hasOwnProperty(prop)) return false;
   }
   return true;
 }

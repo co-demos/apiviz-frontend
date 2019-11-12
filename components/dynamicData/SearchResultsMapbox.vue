@@ -11,11 +11,12 @@
 
 <template>
 
-  <div class="columns">
+  <!-- <div class="columns"> -->
 
     <!-- <div class="container"> -->
 
-      <div class="column is-half">
+      <!-- <div class="column is-half"> -->
+
         <div class="map">
 
           <!-- SearchResultsCountAndTabs -->
@@ -99,7 +100,7 @@
           <!-- LOADER -->
           <div 
             id="loader-map"
-            v-show="!itemsForMap"
+            v-show="!itemsForMap || showLoader"
             class="lds-roller floating"
             >
             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
@@ -261,30 +262,31 @@
           <!-- <code><pre>{{ findCurrentChorosource }}</pre></code> -->
 
         </div>
-      </div>
+
+      <!-- </div> -->
 
 
       <!-- DEBUGGING -->
-      <div class="column is-half">
-      <div class="container">
-        <br><br><br>
-          getZoom => {{ getZoom }} <br>
+      <!-- <div class="column is-half"> -->
+      <!-- <div class="container"> -->
+        <!-- <br><br><br> -->
           <!-- getCenter => ( lng : {{ getCenter.lng }}, lat : {{ getCenter.lat }} ) <br> -->
+          <!-- getZoom => {{ getZoom }} <br>
           getViewBox => {{ getViewBbox }}<br>
           getBbox => _ne : (lng : {{ getBbox._ne.lng }}, lat : {{ getBbox._ne.lat }}) / _sw : (lng : {{ getBbox._sw.lng }}, lat : {{ getBbox._sw.lat }}) <br>
-          <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
           updatingChoroLayers => <code>{{ updatingChoroLayers }}</code><br>
-          getCorrespondingChoroConfigs => <code><pre>{{ getCorrespondingChoroConfigs.map( c => { return { source_id : c.source_id , update_src_options : c.update_src_options } }) }}</pre></code><br>
+          getCorrespondingChoroConfigs => <code><pre>{{ getCorrespondingChoroConfigs.map( c => { return { source_id : c.source_id , update_src_options : c.update_src_options } }) }}</pre></code><br> -->
+          <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
           <!-- getCorrespondingChoroConfig.layer_id => {{ getCorrespondingChoroConfig.layer_id }}<br> -->
           <!-- getCorrespondingChoroConfig => <code><pre>{{ getCorrespondingChoroConfig }}</pre></code><br> -->
           <!-- getRenderedChoroFeatures("chorolayer-departements") => {{ getRenderedChoroFeatures("chorolayer-departements").length }}<br> -->
           <!-- getRenderedChoroFeatures => <code>{{ getRenderedChoroFeatures.length && getRenderedChoroFeatures.map( i => { return { layer : i && i.layer.id, prop : i && i.properties } } ) }}</code><br> -->
-        </div>
-      </div>
+        <!-- </div> -->
+      <!-- </div> -->
 
     <!-- </div> -->
 
-  </div>
+  
 
 </template>
 
@@ -387,7 +389,8 @@ export default {
       // highlightedItem: undefined,
       itemLoaded: false,
       itemLoading: false,
-      showCard:false,
+      showCard: false,
+      showLoader: false,
 
       markerCoordinates: [2.2137, 46.2276], // { lat : 46.2276, lon : 2.2137 } ,
 
@@ -566,9 +569,9 @@ export default {
 
         // list layers needing 
         let layersToCheck = next.filter( c => c.update_src_from_previous_source )
-        if ( layersToCheck.length > 0 ){
+
+        if ( layersToCheck.length > 0 && nextSourceIds.length > 1 ){
           this.log && console.log('C-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / layersToCheck : ', layersToCheck)
-          
           layersToCheck.forEach( sourceConfig => {
             this.updateChoroSourceByZoom( sourceConfig )
           })
@@ -663,6 +666,7 @@ export default {
     },
 
     getCorrespondingChoroConfigs(){
+
       let currentZoom = this.getZoom
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
       const mapboxChoroConfigs = mapboxOptions &&  mapboxOptions.choropleth_layer &&  mapboxOptions.choropleth_layer.sources
@@ -738,6 +742,9 @@ export default {
       let mapbox = this.map
       // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / mapbox : ', mapbox)
       
+      let currrentViewCenter = this.getCenter
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewCenter : ', currrentViewCenter)
+      
       let currrentViewBbox = this.getViewBbox
       // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewBbox : ', currrentViewBbox)
       
@@ -754,6 +761,32 @@ export default {
 
     // - - - - - - - - - - - - - - - - - - //
     // MAIN MAP FUNCTIONS
+
+    joinProjectsToPolygon( source, dataLoaded, choroRefIdex, noDataProxy=false ){
+
+      // modify / agregate data
+      let mapbox = this.map
+      let items = this.projects
+      this.showLoader = true 
+
+      let dataFeatures = dataLoaded.features
+      dataFeatures.forEach( i => {
+        const result = items.reduce( (sum, item) => 
+          ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
+        )
+        i.properties[ source.agregated_data_field ] = result
+      })
+      dataLoaded.features = dataFeatures
+
+      mapbox.getSource( source.source_id ).setData(dataLoaded)
+
+      this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+      if ( !noDataProxy ){
+        this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+      }
+      this.showLoader = false 
+
+    },
 
     // INITIALIZATION
     createMapItems(geoJson){
@@ -821,6 +854,7 @@ export default {
       let mapbox = this.map
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
 
+      this.showLoader = true 
       // - - - - - - - - - - - - - - - - //
       // SOURCE - ALL POINTS
       if ( mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.is_activated ){
@@ -856,7 +890,9 @@ export default {
         })
         mapbox.addSource( geoJsonSourceId, geoJsonSource)
       }
-      
+
+      this.showLoader = false 
+
 
     },
 
@@ -866,6 +902,7 @@ export default {
 
       let mapbox = this.map
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
+      this.showLoader = true 
 
       // - - - - - - - - - - - - - - - - //
       // SOURCE - CHOROPLETH //
@@ -920,9 +957,10 @@ export default {
                   data: dummyGeoJson
                 }
               )
+              this.showLoader = false 
             }
 
-            if ( source.need_aggregation ) {
+            if ( source.need_aggregation && !source.update_src_from_previous_source ) {
               // if ( source.need_aggregation && isUpdate ) {
               
               this.log && console.log("C-SearchResultsMapbox / createChoroplethSource / source.need_aggregation + isUpdate : ", isUpdate )
@@ -937,23 +975,10 @@ export default {
                   this.log && console.log("C-SearchResultsMapbox / createAddGeoJsonSource / resp.data :", resp.data)
     
                   let dataLoaded = resp.data
-    
+ 
                   // modify / agregate data
-                  let items = this.projects
-  
-                  let dataFeatures = dataLoaded.features
-                  dataFeatures.forEach( i => {
-                    const result = items.reduce( (sum, item) => 
-                      ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
-                    )
-                    i.properties[ source.agregated_data_field ] = result
-                  })
-                  dataLoaded.features = dataFeatures
-    
-                  mapbox.getSource( source.source_id ).setData(dataLoaded)
-  
-                  this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
-                  this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+                  this.joinProjectsToPolygon( source, dataLoaded, choroRefIdex ) 
+
                 }) 
               }
 
@@ -963,22 +988,10 @@ export default {
                 let dataLoaded = this.chroplethGeoJSONS[ choroRefIdex ]['data']
 
                 if ( isDataLoaded ) {
+                  
                   // modify / agregate data
-                  let items = this.projects
-  
-                  let dataFeatures = dataLoaded.features
-                  dataFeatures.forEach( i => {
-                    const result = items.reduce( (sum, item) => 
-                      ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
-                    )
-                    i.properties[ source.agregated_data_field ] = result
-                  })
-                  dataLoaded.features = dataFeatures
-    
-                  mapbox.getSource( source.source_id ).setData(dataLoaded)
-  
-                  this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
-                  this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+                  this.joinProjectsToPolygon( source, dataLoaded, choroRefIdex ) 
+
                 }
               }
 
@@ -996,19 +1009,19 @@ export default {
               )
               let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === source.source_id )
               this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+
+              this.showLoader = false 
             }
-
-
-
 
           }
 
         }
 
+
       }
     },
 
-    updateChoroSourceByZoom( choroSourceConfig ){
+    updateChoroSourceByZoom( choroSourceConfig, featuresArray=undefined ){
 
       // called by watching "getCorrespondingChoroConfigs" computed value
       this.updatingChoroLayers[ choroSourceConfig.layer_id ] = { is_updating : true }
@@ -1016,20 +1029,27 @@ export default {
       this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / choroSourceConfig : ", choroSourceConfig )
       let mapbox = this.map
 
+      let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === choroSourceConfig.source_id )
+
       for (let update of choroSourceConfig.update_src_options ){
 
         let upperSourceId = update.upper_source_id
         let upperLayerId = update.upper_layer_id
         let slugs_map = update.slugs_map
 
-        let upperRenderredFeatures = this.getRenderedChoroFeatures( upperLayerId )
+        let upperRenderredFeatures 
+        if ( !featuresArray ){
+          upperRenderredFeatures = this.getRenderedChoroFeatures( upperLayerId )
+        } else {
+          upperRenderredFeatures = featuresArray
+        }
         // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / upperRenderredFeatures : ", upperRenderredFeatures )
 
         let promisesArray = []
 
         for (let feat of upperRenderredFeatures) {
 
-          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / feat : ", feat )
+          // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / feat.properties : ", feat.properties )
 
           let url_base = update.url_base 
           for (let slug of slugs_map) {
@@ -1041,14 +1061,36 @@ export default {
 
           this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / url_base : ", url_base )
           let choroSource = getJson( url_base )
-          choroSource.then(( resp ) => {
-            this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / response came back for url_base : ", url_base)
-            // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / resp :", resp)
-            let dataLoaded = resp.data
-            mapbox.getSource( choroSourceConfig.source_id ).setData(dataLoaded)
-          })
+          promisesArray.push(choroSource)
+          // choroSource.then(( resp ) => {
+          //   this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / response came back for url_base : ", url_base)
+          //   // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / resp :", resp)
+          //   let dataLoaded = resp.data
+          //   mapbox.getSource( choroSourceConfig.source_id ).setData(dataLoaded)
+          // })
 
         }
+
+        Promise.all( promisesArray ).then( results => {
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / results : ", results)
+          let dataLoaded = {
+            type : "FeatureCollection",
+            features : []
+          }
+          results.forEach( r => { 
+            let data = r.data && r.data.features
+            if ( data && data.length > 0 ){
+              dataLoaded.features = dataLoaded.features.concat( data )
+            }
+          })
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / dataLoaded : ", dataLoaded)
+
+          if ( choroSourceConfig.need_aggregation ){
+            this.joinProjectsToPolygon( choroSourceConfig, dataLoaded, choroRefIdex, true ) 
+          }
+
+          mapbox.getSource( choroSourceConfig.source_id ).setData(dataLoaded)
+        })
 
       }
 
