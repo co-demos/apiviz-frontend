@@ -117,6 +117,7 @@ export default {
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
     '~/plugins/json-editor',
+    // '~/plugins/turf-plugin',
     { src: '~/plugins/mapbox', mode: 'client' },
     { src: '~/plugins/apexCharts', mode: 'client' },
   ],
@@ -178,7 +179,8 @@ export default {
     vendors : [
       'axios',
       // 'vee-validate',
-      'mapbox-gl'
+      'mapbox-gl',
+      // 'turf'
     ],
 
     extractCSS: true,

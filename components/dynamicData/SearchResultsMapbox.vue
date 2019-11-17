@@ -309,6 +309,7 @@ import { VIEW_MAP, GeoCenters } from '../../config/constants.js'
 import Mapbox from "mapbox-gl";
 import { MglMap } from "vue-mapbox";
 import mapboxgl from 'mapbox-gl'
+import * as turf from '@turf/turf'
 
 // TO DO => COMMENT getItemById and replace by an action
 // import { getItemById } from '~/plugins/utils.js';
@@ -369,6 +370,7 @@ export default {
 
       chroplethGeoJSONS : [],
       updatingChoroLayers : {},
+      currentCenterFeature : undefined,
 
       popup : undefined,
       // PopupClass: Vue.extend(PopupContent),
@@ -554,6 +556,30 @@ export default {
     //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
     // },
 
+    getCenter(next, prev){
+
+      this.log && console.log('\nC-SearchResultsMapbox / watch - getCenter ...')
+      let stringNextCenter = JSON.stringify( next )
+      let stringPrevCenter = JSON.stringify( prev )
+
+      if ( stringNextCenter !== stringPrevCenter ){
+        let choroConfigs = this.getCorrespondingChoroConfigs
+        if ( choroConfigs.length > 1 ){
+
+          let layersToCheck = choroConfigs.filter( c => c.update_src_from_previous_source )
+          
+          // if () {
+
+          // }
+
+          layersToCheck.forEach( sourceConfig => {
+            this.updateChoroSourceByZoom( sourceConfig )
+          })
+
+        }
+      }
+    },
+
     getCorrespondingChoroConfigs(next, prev){
 
       let nextSourceIds = next.map( c => { return c.source_id })
@@ -564,6 +590,7 @@ export default {
       
       // check if list of sources rendered has changed
       if ( stringNextSourceIds !== stringPrevSourceIds ){
+        this.log && console.log('\nC-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / next : ', next)
         this.log && console.log('\nC-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / nextSourceIds : ', nextSourceIds)
         // this.log && console.log('C-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / prevSourceIds : ', prevSourceIds)
 
@@ -1028,6 +1055,7 @@ export default {
 
       this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / choroSourceConfig : ", choroSourceConfig )
       let mapbox = this.map
+      let center = this.getCenter
 
       let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === choroSourceConfig.source_id )
 
@@ -1040,10 +1068,38 @@ export default {
         let upperRenderredFeatures 
         if ( !featuresArray ){
           upperRenderredFeatures = this.getRenderedChoroFeatures( upperLayerId )
+
+          let renderredCenters = {
+            type : "FeatureCollection",
+            features : []
+          }
+          for (let f of upperRenderredFeatures ){
+            let fCenter = turf.centerOfMass( f )
+            fCenter.properties = f.properties
+            renderredCenters.features.push( fCenter )
+          }
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / renderredCenters : ", renderredCenters )
+
+          if ( update.upper_load_feat === "only_center" ){
+
+            let viewCenter = turf.point( [ center.lng, center.lat ] )
+            this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / viewCenter : ", viewCenter )
+
+            var nearest = turf.nearestPoint(viewCenter, renderredCenters)
+            this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / nearest : ", nearest )
+            let nearestFeature = upperRenderredFeatures.find( f => f.properties[ update.upper_main_matching_prop] === nearest.properties[ update.upper_main_matching_prop] )
+            upperRenderredFeatures = [ nearestFeature ]
+            this.currentCenterFeature = nearestFeature
+          }
+
         } else {
           upperRenderredFeatures = featuresArray
         }
-        // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / upperRenderredFeatures : ", upperRenderredFeatures )
+        this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / upperRenderredFeatures : ", upperRenderredFeatures )
+
+        // if ( update.upper_load_feat === "only_center" ){
+
+        // }
 
         let promisesArray = []
 
@@ -1094,6 +1150,7 @@ export default {
 
       }
 
+      this.updatingChoroLayers[ choroSourceConfig.layer_id ] = { is_updating : false }
 
     },
 
