@@ -203,49 +203,15 @@
               ref='mapboxDiv'
               >
 
-              <!-- MARKERS -->
-              <!-- <template
-                v-if="itemsForMap && itemsForMap.length < markersTreshold"
-                > -->
-                <!-- <div 
-                  v-for="(item, index) in itemsForMap"
-                  :key="index"
-                  > -->
-                  <!-- <MglMarker
-                    :coordinates="[item.lon, item.lat]"
-                    color='#90689a'
-                    @click="highlightItem(item)"
-                    > -->
-                    <!-- <MglPopup>
-                      <div>
-                        sd_id : {{ item.sd_id }}
-                      </div>
-                    </MglPopup> -->
-
-                  <!-- </MglMarker> -->
-                <!-- </div> -->
-              <!-- </template> -->
-
-              <!-- CLUSTER -->
-              <!-- <template
-                v-if="geoJsonSource && geoJsonlayer"
-                > -->
-                <!-- <MglGeojsonLayer
-                  :sourceId="geoJsonSource.id"
-                  :source="geoJsonSource"
-                  layerId="clusters-id"
-                  :layer="geoJsonlayer"
-                /> -->
-              <!-- </template> -->
 
               <!-- CONTROLS -->
-              <!-- <MglGeolocateControl ref="geolocateControl"/> -->
               <MglNavigationControl position="bottom-right" />
 
             </MglMap>
             
 
             <div> 
+              <!-- zoom : <code>{{ zoom }}</code><br> -->
               <!-- projects : <code>{{ projects }}</code><br> -->
               <!-- displayedProject : <code>{{ displayedProject }}</code><br> -->
               <!-- itemsForMap : <code>{{ itemsForMap}}</code><br> -->
@@ -381,6 +347,8 @@ export default {
 
       // LOCAL DATA
       VIEW_MAP,
+      fieldLat : undefined,
+      fieldLong : undefined,
       iconSizeNormal : [29, 29],
       iconSizeHighlighted : [49, 49],
 
@@ -400,12 +368,12 @@ export default {
       preferCanvas: true,
       currentZoom: 6,
 
-      zoom: GeoCenters.FRANCE.zoom,
-      maxZoom: GeoCenters.FRANCE.maxZoom,
-      minZoom: GeoCenters.FRANCE.minZoom,
+      zoom: undefined, //GeoCenters.FRANCE.zoom,
+      maxZoom: undefined, //GeoCenters.FRANCE.maxZoom,
+      minZoom: undefined, //GeoCenters.FRANCE.minZoom,
 
-      center: GeoCenters.FRANCE.center,
-      currentCenter: GeoCenters.FRANCE.center,
+      center: undefined, //GeoCenters.FRANCE.center,
+      currentCenter: undefined, //GeoCenters.FRANCE.center,
 
       // url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
       // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contibutors',
@@ -441,21 +409,24 @@ export default {
     this.log && console.log("C-SearchResultsMapbox / contentFields : \n", this.contentFields)
 
     // set up MAPBOX options
-    const mapOptions = this.endPointConfig.map_options
-    this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
+    // const mapOptions = this.endPointConfig.map_options
+    // this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
 
     const mapOptionsRoute = this.routeConfig.map_options
     this.log && console.log("C-SearchResultsMapbox / mapOptionsRoute : \n", mapOptionsRoute)
 
-    this.zoom        = mapOptions.zoom
-    this.maxZoom     = mapOptions.maxZoom
-    this.minZoom     = mapOptions.minZoom
-    this.currentZoom = mapOptions.currentZoom
+    this.fieldLat    = this.routeConfig.lat_long_fields.latitude
+    this.fieldLong   = this.routeConfig.lat_long_fields.longitude
 
-    this.center      = [ mapOptions.center[1], mapOptions.center[0] ]
+    this.zoom        = mapOptionsRoute.zoom
+    this.maxZoom     = mapOptionsRoute.maxZoom
+    this.minZoom     = mapOptionsRoute.minZoom
+    this.currentZoom = mapOptionsRoute.currentZoom
+
+    this.center      = [ mapOptionsRoute.center[1], mapOptionsRoute.center[0] ]
     // this.center = [0,0]
 
-    this.currentCenter = mapOptions.currentCenter
+    this.currentCenter = mapOptionsRoute.currentCenter
 
     // LEGACTY LEAFLET
     // this.url = mapOptions.url
@@ -510,7 +481,7 @@ export default {
 
         if ( !this.isClusterSet && this.itemsForMap ) {
           this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ( from geoJson.js ) ...')
-          this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
+          this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
           // this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
           this.createMapItems(this.geoJson)
         } 
@@ -534,7 +505,7 @@ export default {
 
       if ( this.map && !this.isClusterSet && this.itemsForMap ) {
         this.log && console.log('\nC-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ( from geoJson.js ) ...')
-        this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
+        this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
         // this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
@@ -715,7 +686,7 @@ export default {
           return isZoomRrange && isActivated
         }
       )
-      return choroConfigs.length > 0 ? choroConfigs : emptyChoroConfigs
+      return choroConfigs && choroConfigs.length > 0 ? choroConfigs : emptyChoroConfigs
     },
     getCorrespondingChoroToUpdate(){
       let currentZoom = this.getZoom
@@ -857,7 +828,7 @@ export default {
         let geoJsonSourceId   = mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.source_id ? mapboxOptions.cluster_circles_layer.source_id : "clusterSource"
 
         this.log && console.log("\nC-SearchResultsMapbox / updateSourceData / createGeoJsonDataPoints ( from geoJson.js ) ...")
-        let geoJson = createGeoJsonDataPoints(itemsForMap)
+        let geoJson = createGeoJsonDataPoints(itemsForMap, this.fieldLat, this.fieldLong)
 
         this.map.getSource( allPointsSourceId ).setData(geoJson)
         this.map.getSource( geoJsonSourceId ).setData(geoJson)
@@ -929,11 +900,12 @@ export default {
 
       let mapbox = this.map
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
-      this.showLoader = true 
 
       // - - - - - - - - - - - - - - - - //
       // SOURCE - CHOROPLETH //
       if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
+        
+        this.showLoader = true 
   
         // cf : https://github.com/gregoiredavid/france-geojson
         // cf : https://geojson-maps.ash.ms/

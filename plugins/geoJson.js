@@ -82,7 +82,7 @@ export const GeoCenters = {
 };
 
 
-export function createGeoJsonDataPoints(dataArray){
+export function createGeoJsonDataPoints(dataArray, fieldLat='lat', fieldLong='lon'){
 
   console.log("\n+ + + createGeoJsonData ... ")
   console.log("+ + + createGeoJsonData / dataArray : ", dataArray)
@@ -92,7 +92,7 @@ export function createGeoJsonDataPoints(dataArray){
     type     : 'FeatureCollection',
     features : [],
   }
-  const notAllowedKeys = ['lon', 'lat']
+  const notAllowedKeys = [fieldLat, fieldLong]
   
   // remap items array
   let dataGeoJson = dataArray.map( item => {
@@ -111,7 +111,7 @@ export function createGeoJsonDataPoints(dataArray){
       properties : trimmedItemProps,
       geometry : {
         type : 'Point',
-        coordinates : [ item.lon, item.lat ]
+        coordinates : [ item[fieldLong], item[fieldLat] ]
       }
     }
     return tempObject

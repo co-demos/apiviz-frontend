@@ -125,6 +125,17 @@
                 </span>
                 {{ matchProjectWithConfig('block_post_abstract_2')}}
               </p>
+              <!-- BLOCK POST ABSTRACT 3 -->
+              <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
+                <span 
+                  v-if="getCustomBlockTitle('block_post_abstract_3')"
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  >
+                  {{ getCustomBlockTitle('block_post_abstract_3') }}
+                  <br><br>
+                </span>
+                {{ matchProjectWithConfig('block_post_abstract_3')}}
+              </p>
 
               <!-- BLOCK WEBSITE / CONTACT -->
               <div class="columns">
@@ -318,7 +329,11 @@
             </div>
 
             <!-- BLOCK CONTACT -->
-            <div class="added block-color" id="block-contact" v-if="isPositionFilled('block_contact_name')">
+            <div 
+              v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
+              class="added is-info-b has-text-white" 
+              id="block-contact" 
+              >
               <div class="columns">
                 <div class="column is-12">
 
@@ -613,8 +628,11 @@ export default {
     itemImage(fieldBlock){
       let image = this.matchProjectWithConfig(fieldBlock)
       if ( !image ){
+        let idFieldObject = this.contentFields.find( c => c.position === 'block_id' )
+        // let idField = idFieldObject.field
+        let idField = idFieldObject ? idFieldObject.field : 'sd_id'
         let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
-        let image_default = getDefaultImage(d, this.displayableItem)
+        let image_default = getDefaultImage(d, this.displayableItem, idField)
         image = image_default
       }
       return image

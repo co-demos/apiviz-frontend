@@ -1,5 +1,9 @@
 <template>
-  <div class="search-bar navbar is-white is-fixed-top has-bottom-border" role="menubar" aria-label="filters navigation">
+  <div 
+    :class="`search-bar ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
+    role="menubar" 
+    aria-label="filters navigation"
+    >
     
     <div class="container">
       
@@ -165,6 +169,7 @@
         showFiltersSwitch_ : true,
         showFilters : true,
         windowWidth : 0,
+        onlyIframe : false,
         // window: {
         //   width: 0,
         //   height: 0
@@ -186,6 +191,11 @@
     beforeMount(){
       this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
+
+      if (this.$nuxt.$route.query.iframing) {
+        this.onlyIframe = true
+      }
+
     },
 
     mounted(){
@@ -323,6 +333,10 @@
 
   .no-margin{
     margin: 0;
+  }
+
+  .iframing{
+    top : 0 !important;
   }
 
   .getFilterTitle{

@@ -3,6 +3,7 @@
   <div class="navbar-brand" :title="brand">
 
       <nuxt-link 	
+        v-if="logo.url"
         id="logo_home"
         class="navbar-item" 
         :to="logoTo">

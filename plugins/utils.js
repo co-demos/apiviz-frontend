@@ -939,23 +939,29 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
 }
 
-export function getDefaultImage(defaultImages, item){
+export function getDefaultImage(defaultImages, item, idField='id'){
 
   let d = defaultImages
   let image
   let images_set  = (d) ? d.images_set : undefined
 
+  console.log("getDefaultImage / item : ", item)
+  console.log("getDefaultImage / images_set : ", images_set)
+
   if (images_set && images_set.length > 0) {
     const textureCount = images_set.length + 1
-    let id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
+    let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
+    console.log("getDefaultImage / id : ", id)
     let tail = id % images_set.length + 1;
     let imageObj = images_set.find(function(i){
       return i.dft_text === 'img_'+tail;
     })
     image = imageObj.src_image
-  } else {
-    image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
-  }
+  } 
+  // else {
+  //   let id = 111111111111111111
+  //   image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
+  // }
   return image
 
 }

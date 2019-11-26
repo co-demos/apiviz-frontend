@@ -1,14 +1,18 @@
 <template>
-  <div id="mainIndexPage">
+
+  <div 
+    id="mainIndexPage"
+    >
+    <!-- :class="`${ onlyIframe ? 'iframe' : '' }`" -->
 
     <!-- NAVBAR -->
     <Navbar 
-      v-if="has_navbar"
+      v-if="has_navbar && !onlyIframe"
     ></Navbar>
 
     <!-- BANNER -->
     <DynamicBanner 
-      v-if="has_banner"
+      v-if="has_banner && !onlyIframe"
       :dynamicTemplate="localRouteConfig.dynamic_template"
     ></DynamicBanner> 
 
@@ -76,12 +80,12 @@
 
     <!-- FOOTERS -->
     <Footer 
-      v-if="has_footer"
+      v-if="has_footer && !onlyIframe"
     ></Footer>
 
     <!-- PROJECT's PARTNERS FOOTER -->
     <DynamicStaticRaw 
-      v-if="has_credits_footer"
+      v-if="has_credits_footer && !onlyIframe"
       :templateURL="footerConfig.credits_footer_url"
     ></DynamicStaticRaw>
 
@@ -231,11 +235,18 @@ export default {
     // this.log && console.log('\nP-index.vue / beforeMount...')
     // this.log && console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
     // this.log && console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
+
+    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    if (this.$nuxt.$route.query.iframing) {
+      this.onlyIframe = true
+    }
+
   },
 
   data () {
     return {
       // windowBreakpoint : undefined,
+      onlyIframe : false,
     }
   },
 
