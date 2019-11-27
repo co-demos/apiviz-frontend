@@ -4,50 +4,50 @@
 @import './apiviz-misc.scss';
 
 html {
-	font-size: $apiviz-base-font-size; // base for rem
-	scroll-behavior: smooth;
+  font-size: $apiviz-base-font-size; // base for rem
+  scroll-behavior: smooth;
 }
 
 [hidden]{
-	display: none !important;
+  display: none !important;
 }
 
 fieldset{
-	border: 0;
+  border: 0;
 }
 
 h1{
-	color : $apiviz-primary
+  color : $apiviz-primary
   // font-size: 1.1em;
   // font-weight: bold;
   // padding: 0.5em 0;
 }
 
 h1.secondary {
-	color : $apiviz-primary
+  color : $apiviz-primary
 }
 
 h3{
-	width: initial;
-	padding: 1em 0;
+  width: initial;
+  padding: 1em 0;
 
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-	color: $apiviz-secondary;
+  color: $apiviz-secondary;
 
-	.counter{
-			font-size: rem(60px);
-			margin-right: 0.2em;
-			font-weight: bold;
-	}
+  .counter{
+      font-size: rem(60px);
+      margin-right: 0.2em;
+      font-weight: bold;
+  }
 
-	.text{
-			max-width: 6em;
-			line-height: 1.2;
-	}
+  .text{
+      max-width: 6em;
+      line-height: 1.2;
+  }
 }
 
 main{
@@ -59,14 +59,14 @@ main{
 }
 
 .image-container{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-	img{
-			width: rem(36px);
-	}
+  img{
+      width: rem(36px);
+  }
 }
 
 // button, .button{
@@ -80,39 +80,39 @@ main{
 }
 
 p a.colored {
-	color: $apiviz-primary;
-	text-decoration: underline;
+  color: $apiviz-primary;
+  text-decoration: underline;
 }
 p a.white-link {
   color : white;
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .cis-tabs{
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
   justify-content: flex-start;
   
   border-bottom-style: none !important;
-	
-	// padding-top: $apiviz-spacing_4;
-	margin-bottom: $apiviz-spacing_3;
+  
+  // padding-top: $apiviz-spacing_4;
+  margin-bottom: $apiviz-spacing_3;
 
-	li{
-		padding: 0 2em;
+  li{
+    padding: 0 2em;
 
-		&:first-child{
-			padding-left: 0;
-		}
+    &:first-child{
+      padding-left: 0;
+    }
 
-		&:not(:last-child){
-			border-right: 1px solid $apiviz-grey-light;
-		}
-		
-		a{
-			color: inherit;
-		}
-	}	
+    &:not(:last-child){
+      border-right: 1px solid $apiviz-grey-light;
+    }
+    
+    a{
+      color: inherit;
+    }
+  }	
 }
 
 // #navbar-main .navbar-item.selected a,
@@ -159,77 +159,77 @@ p a.white-link {
 .apiviz-tabs li.selected a,
 html[lang="fr"] nav #navbar-main .navbar-item [lang="fr"],
 html[lang="en"] nav #navbar-main .navbar-item [lang="en"] {
-	font-weight: bold;
-	// padding-bottom: 0.3em;
-	border-bottom: 1px solid grey;
+  font-weight: bold;
+  // padding-bottom: 0.3em;
+  border-bottom: 1px solid grey;
 }
 
 
 
 .tagsinput {
-	border    : none ;
-	box-shadow: none ;
+  border    : none ;
+  box-shadow: none ;
 }
 
 div.select {
-	height: 100% !important ;
+  height: 100% !important ;
 }
 
 .tab {
-	text-indent:40px
+  text-indent:40px
 }
 
 .navbar-dropdown {
-	max-height: 500px;
-	overflow-x: hidden;
-	overflow-y: auto;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .avatar img {
-	padding: 2px;
-	border-radius : 50% ;
+  padding: 2px;
+  border-radius : 50% ;
 }
 
 #btn-feedbacks {
-	position: fixed;
-	margin : 0px 25px ;
-	bottom: -4px;
-	right: 0px;
-	z-index : 30;
-	
-	border: 1px solid ; 
-	border-color : #d9d9d9 ;
+  position: fixed;
+  margin : 0px 25px ;
+  bottom: -4px;
+  right: 0px;
+  z-index : 30;
+  
+  border: 1px solid ; 
+  border-color : #d9d9d9 ;
 
 }
 
 
 .notification {
-	padding : 0.75rem 2.5rem 0.75rem 1.5rem ;
+  padding : 0.75rem 2.5rem 0.75rem 1.5rem ;
 }
 .notification-results {
-	padding : 0.25rem 1.5rem 0.5rem 1.0rem
+  padding : 0.25rem 1.5rem 0.5rem 1.0rem
 }
 
 
 footer{
-	font-size: 1em;
+  font-size: 1em;
 }
 
 footer h2{
-	font-weight: bold;
-	font-size: 1.1em;
-	margin-bottom: 0.5em;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0.5em;
 }
 
 footer h2 a {
-	color: currentColor;
-	text-decoration: underline;
+  color: currentColor;
+  text-decoration: underline;
 }
 
 footer .column h2:not(:first-of-type){
-	margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 
 footer ul{
-	list-style: none;
+  list-style: none;
 }

@@ -62,6 +62,13 @@
           </p>
         </div>
 
+        <!-- BLOCK ABSTRACT 2 -->
+        <div class="content" v-if="matchItemWithConfig('block_abstract_2')">
+          <p class="subtitle is-6">
+            {{ matchItemWithConfig('block_abstract_2') }}
+          </p>
+        </div>
+
         <!-- BLOCK SOURCE -->
         <div class="content" v-if="matchItemWithConfig('block_src')">
           <p class="subtitle is-6 is-italic has-text-grey">
@@ -76,7 +83,10 @@
           </span>
         </div> -->
         <div class="content" v-if="matchItemWithConfig('block_tags')">
-          <span v-for="(tag, i) in matchItemWithConfig('block_tags')" class="tag" :key="tag+i">
+          <span 
+            v-for="(tag, i) in matchItemWithConfig('block_tags')" 
+            class="tag" :key="tag+i"
+            >
             {{ tag }}
           </span>
         </div>
@@ -115,7 +125,7 @@ export default {
 
   beforeMount: function () {
     // this.log && console.log('\nC-ProjectCard / beforeMount...')
-    // this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
+    this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
     // this.log && console.log('\nC-ProjectCard / this.item : ', this.item)
     // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
@@ -201,10 +211,15 @@ export default {
     // },
 
     itemImage(fieldBlock){
+      // console.log("C-ProjectCard / itemImage / fieldBlock : ", fieldBlock )
       let image = this.matchItemWithConfig(fieldBlock)
+      // console.log("C-ProjectCard / itemImage / this.contentFields : ", this.contentFields )
       if ( !image ){
+        let idFieldObject = this.contentFields.find( c => c.position === 'block_id' )
+        // let idField = idFieldObject.field
+        let idField = idFieldObject ? idFieldObject.field : 'sd_id'
         let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
-        let image_default = getDefaultImage(d, this.item)
+        let image_default = getDefaultImage(d, this.item, idField)
         image = image_default
       }
       return image

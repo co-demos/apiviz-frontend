@@ -190,28 +190,36 @@ export const getters = {
       return state.localRouteConfig
     },
     getRouteConfigTableForDataset : (state, getters, rootState) => {
-      return state.config.routes.find(function(r) {
+      let config = state.config.routes.find(function(r) {
         return r.endpoint_type === 'table'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
+      // state.log && console.log( "S-config-G-getRouteConfigTableForDataset / config : ", config )
+      return config 
     },
     getRouteConfigListForDataset : (state, getters, rootState) => {
-      return state.config.routes.find(function(r) {
+      let config = state.config.routes.find(function(r) {
         return r.endpoint_type === 'list'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
+      // state.log && console.log( "S-config-G-getRouteConfigListForDataset / config : ", config )
+      return config 
     },
     getRouteConfigMapForDataset : (state, getters, rootState) => {
-      return state.config.routes.find(function(r) {
+      let config = state.config.routes.find(function(r) {
         return r.endpoint_type === 'map'
         && r.dataset_uri === rootState.search.search.dataset_uri;
-      });
+      })
+      // state.log && console.log("S-config-G-getRouteConfigMapForDataset / config", config )
+      return config 
     },
     getRouteConfigStatForDataset : (state, getters, rootState) => {
-      return state.config.routes.find(function(r) {
+      let config = state.config.routes.find(function(r) {
         return r.endpoint_type === 'stat'
         && r.dataset_uri === rootState.search.search.dataset_uri;
-      });
+      })
+      // state.log && console.log( "S-config-G-getRouteConfigStatForDataset / config : ", config )
+      return config 
     },
     getRouteConfigDefaultDatasetImages : (state, getters, rootState) => {
       return state.config.styles.app_search_default_images_sets.images_sets.find(function(r) {
@@ -240,52 +248,66 @@ export const getters = {
     },
     getEndpointConfigFilters : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigFilters - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'filters'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigFilters - config : ", config)
+      return config
     },
     getEndpointConfigTable : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigTable - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'table'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigTable - config : ", config)
+      return config
     },
     getEndpointConfigList : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigList - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'list'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigList - config : ", config)
+      return config
     },
     getEndpointConfigMap : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigMap - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'map'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigMap - config : ", config)
+      return config
     },
     getEndpointConfigDetail : (state, getters, rootState) => {
       // state.log && console.log("S-config-getEndpointConfigDetail - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'detail'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigDetail - config : ", config)
+      return config
     },
     getEndpointConfigStat : (state, getters, rootState) => {
-      state.log && console.log("S-config-getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      // state.log && console.log("S-config-getEndpointConfigStat - state.config.endpoints : \n", state.config.endpoints)
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'stat'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigStat - config : ", config)
+      return config
     },
     getEndpointConfigExport : (state, getters, rootState) => {
-      state.log && console.log("S-config-getEndpointConfigExport - state.config.endpoints : \n", state.config.endpoints)
-      return state.config.endpoints.find(function(r) {
+      // state.log && console.log("S-config-getEndpointConfigExport - state.config.endpoints : \n", state.config.endpoints)
+      let config = state.config.endpoints.find(function(r) {
         return r.endpoint_type === 'export'
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
+      // state.log && console.log("S-config-getEndpointConfigExport - config : ", config)
+      return config
     },
 
     getLocalEndpointConfig : state => {
