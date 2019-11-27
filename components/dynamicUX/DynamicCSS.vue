@@ -36,7 +36,10 @@
       .has-text-{{ cCode }}-hover-c:hover{
         color : {{ appColors[cCode] }} !important ;
       }
-
+      .is-underlined-dark-c {
+        border-bottom: solid !important;
+        border-color : white !important ;
+      }
       .is-underlined-{{cCode}}-c {
         border-bottom: solid !important;
         border-color : {{ appColors[cCode] }} !important ;

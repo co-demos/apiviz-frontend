@@ -19,7 +19,7 @@
 
           <!-- MAIN LINK -->
           <div 
-            :class="`${ link.has_dropdown ? 'navbar-link is-arrowless' : '' } ${ isItemActive(link) ? 'has-text-primary has-text-primary-c' : '' }`"
+            :class="`${ link.has_dropdown ? 'navbar-link is-arrowless' : '' } ${ isItemActive(link) ? ( isDark ? 'has-text-white' : 'has-text-primary has-text-primary-c') : '' }`"
             >
             <span 
               v-if="link.icon_class && link.icon_class !==''" 
@@ -28,7 +28,7 @@
                 <i :class="link.icon_class"></i>
             </span>
             <span 
-              :class="`${ isItemActive(link) ? 'is-underlined-primary-c' : '' }`"
+              :class="`${ isItemActive(link) ? ( isDark ? 'is-underlined-dark-c' : 'is-underlined-primary-c') : '' }`"
               >
               {{ translate(link, 'link_text' ) }}
             </span>
@@ -242,7 +242,8 @@
 
     props : [
       // 'NavbarConfig',
-      'localRouteConfig'
+      'localRouteConfig',
+      'isDark'
       // 'currentDatasetURI'
     ],
 

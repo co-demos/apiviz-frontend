@@ -16,6 +16,7 @@
       <!-- :NavbarConfig="navbarConfig" -->
     <NavbarContent 
       :localRouteConfig="localRouteConfig"
+      :isDark="navbarConfig.ui_options.background_isdark"
     ></NavbarContent>
 
   </nav>
