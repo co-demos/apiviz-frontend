@@ -610,6 +610,8 @@ export const actions = {
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
       state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
 
+      commit('clearItemId')
+
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
@@ -675,13 +677,14 @@ export const actions = {
 
       // append itemId to question
       commit('setItemId', id)
-      let question = state.search.question
+      // let question = state.search.question
       // question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
-        questionParams : question,
+        // questionParams : question,
+        questionParams : state.search.question,
         selectedFilters : [],
         authConfig : endpointAuthConfig,
         accessToken : userAccessToken

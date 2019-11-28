@@ -106,11 +106,11 @@ export default function ({ store, route, redirect }) {
       else {
         log && console.log('-M3- getRouteConfig / same dataset URI ... ')
         
-        // TO DO - FIX PROBLEM WHEN RETURNING TO MAP AFTER DETAIL VIEW
+        // FIX PROBLEM WHEN RETURNING TO MAP AFTER DETAIL VIEW
+        store.commit('search/clearResults')
         if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
-          log && console.log('-M3- getRouteConfig / dispatching search and cleaning results...')
+          log && console.log('-M3- getRouteConfig / dispatching search and cleaning itemId from question...')
           store.commit('search/clearItemId')
-          // store.commit('search/clearResults')
         }
         
         log && console.log('-M3- getRouteConfig / store.getters["search/getQuestion"] : ', store.getters["search/getQuestion"])

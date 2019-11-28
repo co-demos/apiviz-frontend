@@ -1136,6 +1136,7 @@ export default {
 
       let mapboxOptions = this.routeConfig.map_options.mapbox_layers
       let mapboxMap = this.map 
+      let mapZoom = this.getZoom
 
       let displayPoint = this.highlightItem
 
@@ -1176,6 +1177,7 @@ export default {
         )
         mapboxMap.addLayer(allPointsConfig)
         if ( allPointsConfigOptions.is_clickable ) {
+
           mapboxMap.on('click', allPointsLayerId, function (e) {
             
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ allPointsLayerId ] });
@@ -1189,6 +1191,7 @@ export default {
 
             mapboxMap.easeTo({
               center: coordinates,
+              zoom : mapZoom + 2
             })
 
             let itemProps = featuresPoint[0].properties
