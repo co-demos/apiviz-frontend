@@ -42,6 +42,8 @@ export const state = () => ({
     question: {
       query: '', // new URL(location).searchParams.get('text') || '',
 
+      itemId: undefined,
+
       forMap : false,
       forStats : false,
 
@@ -433,6 +435,12 @@ export const mutations = {
       state.displayedProject = result.projects[0]
       state.search.answer.pendingAbort = undefined
     },
+    setItemId(state, itemId){
+      state.search.question.itemId = itemId
+    },
+    clearItemId(state){
+      state.search.question.itemId = undefined
+    },
     clearResults(state){
       state.search.answer.result = undefined
     },
@@ -666,8 +674,9 @@ export const actions = {
       state.log && console.log("S-sesarch-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
 
       // append itemId to question
+      commit('setItemId', id)
       let question = state.search.question
-      question['itemId'] = id
+      // question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({

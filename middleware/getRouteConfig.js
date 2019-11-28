@@ -104,16 +104,18 @@ export default function ({ store, route, redirect }) {
       // }
   
       else {
-        // store.commit('search/clearResults')
         log && console.log('-M3- getRouteConfig / same dataset URI ... ')
-
+        
+        // TO DO - FIX PROBLEM WHEN RETURNING TO MAP AFTER DETAIL VIEW
+        if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+          log && console.log('-M3- getRouteConfig / dispatching search and cleaning results...')
+          store.commit('search/clearItemId')
+          // store.commit('search/clearResults')
+        }
+        
+        log && console.log('-M3- getRouteConfig / store.getters["search/getQuestion"] : ', store.getters["search/getQuestion"])
         store.commit('search/setIsMapSearch', currentRouteConfig)
         store.dispatch('search/search')
-
-        // if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
-        //   log && console.log('-M3- getRouteConfig / dispatching search ...')
-        //   store.dispatch('search/search')
-        // }
 
       }
 
