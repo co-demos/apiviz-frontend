@@ -2,6 +2,7 @@ export const VIEW_TABLE = 'VIEW_TABLE';
 export const VIEW_LIST = 'VIEW_LIST';
 export const VIEW_MAP  = 'VIEW_MAP';
 export const VIEW_STAT = 'VIEW_STAT';
+export const VIEW_CALENDAR = 'VIEW_CALENDAR';
 
 export const defaultPagination = {
   page : 1,

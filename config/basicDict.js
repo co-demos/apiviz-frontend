@@ -54,6 +54,13 @@ export const BasicDictionnary = {
     tr : "istat",
     fr : "données",
   },
+  tab_calendar : {
+    en : "calendar",
+    es : "calendario",
+    de : "calendar",
+    tr : "calendar",
+    fr : "calendrier",
+  },
   tab_export : {
     en : "export data",
     es : "exportar los datos",

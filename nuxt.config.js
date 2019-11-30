@@ -120,6 +120,8 @@ export default {
     // '~/plugins/turf-plugin',
     { src: '~/plugins/mapbox', mode: 'client' },
     { src: '~/plugins/apexCharts', mode: 'client' },
+    // { src: '~plugins/full-calendar', ssr: false }
+    { src: '~plugins/vue-event-calendar', ssr: false }
   ],
 
   /*

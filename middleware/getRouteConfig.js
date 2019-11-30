@@ -11,7 +11,8 @@ export default function ({ store, route, redirect }) {
     'DynamicDetail' , 
     'DynamicMap' , 
     'DynamicStats', 
-
+    'DynamicCalendar' , 
+    
     // TO DO 
     // 'DynamicListDense' 
   ]
