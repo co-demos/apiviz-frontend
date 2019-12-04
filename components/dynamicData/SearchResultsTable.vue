@@ -200,6 +200,8 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
+import axios from 'axios'
+
 // import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 import PaginationNav from './PaginationNav.vue'
@@ -232,7 +234,7 @@ export default {
     //   console.log("\n - - SearchResultsList / created ... ")
   // },
   beforeMount : function(){
-    // this.log && console.log('\nC-SearchResultsList / beforeMount...')
+    this.log && console.log('\nC-SearchResultsList / beforeMount...')
     // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
     // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
     // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
@@ -240,6 +242,24 @@ export default {
     this.perPage = this.searchQuestion.perPage
     this.sortBy = this.searchQuestion.sortBy
     this.sortIsDescending = this.searchQuestion.sortIsDescending
+
+
+    // console.log( "+ + + test axios from SearchResultsList ..." )
+    // axios.get(
+    //   "http://opencorporatefacts.fr/api/corporates?page=1",
+    //   { 
+    //     headers: { 
+    //       Accept: "application/ld+json",
+    //       Host: "opencorporatefacts.fr" 
+    //     }
+    //   }
+    // )
+    // .then(resp => { 
+    //   console.log( "+ + + test axios from SearchResultsList / resp : " ,  resp)
+    // })
+
+
+
   },
 
   mounted(){

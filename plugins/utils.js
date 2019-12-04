@@ -305,11 +305,27 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / axiosOptions : ", axiosOptions)
   console.log("+ + + searchItems / ac : ", ac)
 
+
+  // TEST SPACE
+  console.log("+ + + searchItems / (pure axios) ... ");
+  // axios.get( fetchUrl, { headers : fetchHeader })
+  // axios( axiosOptions )
+  // .then( function(response) {
+  //   console.log("+ + + searchItems / (pure axios) / response :", response);
+  // })
+  // .catch( err => {
+  //   console.log("+ + + searchItems / (pure axios)  err :", err);
+  // })
+
+
+  // AXIOS PROMISE TO RETURN
+  console.log("+ + + searchItems / (axios promise) ... ")
   // try {
     return {
       abort(){
         searchAborted = true
         if( ac )
+          console.log("+ + + searchItems / (axios) / abort ac :", ac);
           ac.abort()
       },
       promise : axios({
@@ -329,6 +345,12 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
         let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
 
+
+
+
+
+
+        
         let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
 
@@ -346,12 +368,22 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
       })
       .catch( err => {
         console.log("+ + + searchItems / (axios)  err :", err);
+        if ( err.response ){
+          console.log("+ + + searchItems / (axios)  err.response :", err.response);
+        }
+        // let requestPendingAbort = rawRequest( endpointGenerated, endpointRawConfig)
+        // return requestPendingAbort.promise
       })
     }
   // }
   // catch(error){
   //   console.log("+ + + searchItems / (axios) error : ", error)
   // }
+
+
+
+
+
 
   /*
   return {
@@ -473,18 +505,21 @@ export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undef
 }
 
 
-export function buildRequestHeader( token, endpointConfigHeaderAuth ){
+export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointConfig=undefined ){
 
   console.log("+ + + buildRequestHeader / token : ", token)
   console.log("+ + + buildRequestHeader / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
+
+  let endpointHeaderOptions = endpointConfig.request_header_options
+  console.log("+ + + buildRequestHeader / endpointHeaderOptions : ", endpointHeaderOptions)
   
   let headers = {}
+
   // let headers = {
   //   'Accept' : 'application/json',
   //   'Content-Type' : 'application/json',
   //   'Authorization' : ""
   // }
-  // let myHeaders = new Headers()
 
   for (let header_arg of endpointConfigHeaderAuth ){
 
@@ -503,18 +538,37 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth ){
       headers[ headerField ] = header_arg.header_value_prefix + token
       headerVal = header_arg.header_value_prefix + token
     }
-    // myHeaders.append( headerField, headerVal )
-    // myHeaders[ headerField ] = headerVal 
 
   }
 
-  // myHeaders.append('Content-Type', 'application/json')
+  if ( endpointHeaderOptions ){
 
-  // console.log("+ + + buildRequestHeader / myHeaders : ", myHeaders)
-  // return myHeaders
+    for (let header_arg of endpointHeaderOptions ){
+
+      // let headerField = header_arg.header_field
+      let headerField = header_arg.header_field
+      console.log("+ + + buildRequestHeader / headerField : ", headerField)
+  
+      let headerVal = header_arg.header_value
+      console.log("+ + + buildRequestHeader / headerVal : ", headerVal)
+  
+      if ( headerVal && header_arg.app_var_name !== 'token' ) {
+        headers[ headerField ] = headerVal
+      }
+  
+      if ( header_arg.is_var && header_arg.app_var_name === 'token' && token ){
+        headers[ headerField ] = header_arg.header_value_prefix + token
+        headerVal = header_arg.header_value_prefix + token
+      }
+
+    }
+
+  }
+
   
   console.log("+ + + buildRequestHeader / headers : ", headers)
   return headers
+
 }
 
 export function buildRequestPayload( endpointConfig ){
@@ -631,7 +685,7 @@ export function searchEndpointGenerator( obj ) {
   // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
 
   // build header from endpointConfig
-  let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth ) 
+  let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig ) 
 
   // build payload from endpointConfig
   let payload = fetchPayloadOptions && buildRequestPayload( fetchPayloadOptions )
