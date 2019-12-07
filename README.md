@@ -24,6 +24,8 @@ To fully enjoy Apiviz frontend's features if you're not using Solidata's API ***
 - `item_id` : search an item by its id
 - `page_number` : the page number
 - `results_per_page` : the number of items per page
+- `sort_by` : field to sort your result by
+- `sort_order` : sorting order
 - `query` : full text searrch
 - `shuffle_seed` (optionnal) : if you want to shuffle the results
 - `results_for_map` : getting all the results in a condensed format, like `{ id : <item_id>, lat: <latittude>, lng: <longitude>}`
