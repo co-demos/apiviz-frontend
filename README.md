@@ -7,16 +7,27 @@
 -------
 ## PRESENTATION
 
-Visualize data coming from an API in a CMS-like app. 
+Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
+
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
 
-ApiViz includes "out-the-box" a back-office to fully configure an original datavisualisation website 
+ApiViz includes "out-the-box" a back-office to fully configure/customize an original datavisualisation website 
 
 --------
 
-#### WARNING : 
+#### WARNINGS : 
 
-**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if and only if the **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first.
+**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if (and only) if A **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first or is serving configurations to the frontend.
+
+To fully enjoy Apiviz frontend's features if you're not using Solidata's API ***your own API*** might propose all or some of the following parameters, or equivalent : 
+
+- `item_id` : search an item by its id
+- `page_number` : the page number
+- `results_per_page` : the number of items per page
+- `query` : full text searrch
+- `shuffle_seed` (optionnal) : if you want to shuffle the results
+- `results_for_map` : getting all the results in a condensed format, like `{ id : <item_id>, lat: <latittude>, lng: <longitude>}`
+- `search_filter` : to filter out your results given a field name and a value. For instance querying all items in a 'my-data' dataset in which the field 'category' has the value 'categ01' could be similar to : `https://my-api.com/my-data?search_filter=category__categ01`
 
 --------
 
@@ -44,6 +55,8 @@ Test websites :
 --------
 
 ## DOCUMENTATION 
+
+Check out our brand new Apiviz presentation website : https://apiviz.io
 
 Check out our brand new documentation website on Github pages : https://co-demos.github.io/apiviz-frontend/
 
