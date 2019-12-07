@@ -113,15 +113,20 @@ export default {
   cf : https://nuxtjs.org/api/configuration-plugins
   */
   plugins: [
+
     {src: '~plugins/vee-validate.js', ssr: false},
-    // '~/plugins/axios',
+
     '~/plugins/translate',
+    // '~/plugins/axios',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+
     '~/plugins/json-editor',
+
     // '~/plugins/turf-plugin',
     { src: '~/plugins/mapbox', mode: 'client' },
     { src: '~/plugins/apexCharts', mode: 'client' },
+
     // { src: '~plugins/full-calendar', ssr: false }
     { src: '~plugins/vue-event-calendar', ssr: false }
   ],

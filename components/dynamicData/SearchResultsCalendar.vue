@@ -162,13 +162,13 @@ import { BasicDictionnary } from "~/config/basicDict.js"
 
 
 // TEST WITH CALENdAR
-import { Kalendar } from 'kalendar-vue';
-import 'kalendar-vue/dist/kalendarVue.css';
+// import { Kalendar } from 'kalendar-vue';
+// import 'kalendar-vue/dist/kalendarVue.css';
 
 
 // TEST FULL-CALENDAR
-import FullCalendar from '@fullcalendar/vue'
-import dayGridPlugin from '@fullcalendar/daygrid'
+// import FullCalendar from '@fullcalendar/vue'
+// import dayGridPlugin from '@fullcalendar/daygrid'
 
 
 
@@ -183,8 +183,8 @@ export default {
     SearchResultsCountAndTabs,
     PaginationNav,
 
-    Kalendar,
-    FullCalendar // make the <FullCalendar> tag available
+    // Kalendar,
+    // FullCalendar // make the <FullCalendar> tag available
   },
 
   props: [
