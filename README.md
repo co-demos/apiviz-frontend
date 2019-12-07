@@ -22,13 +22,22 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 #### DEPLOYED WEBSITES : 
 
+Main apiviz demo website : 
 - [Apiviz.io](https://apiviz.io) : [![Netlify Status](https://api.netlify.com/api/v1/badges/851f6ce8-91bb-43e6-b6c6-80b66c9328cd/deploy-status)](https://app.netlify.com/sites/apiviz-demo-site/deploys)
+
+Main Apiviz instances with public data : 
 - [tiers-lieux (test)](https://tiers-lieux-dataviz.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/7fc48ec3-148f-46a9-9151-6f78996cfd37/deploy-status)](https://app.netlify.com/sites/tiers-lieux-dataviz/deploys)
 - [sonum-preprod](https://apiviz-preprod-sonum.netlify.com/sonum-carto/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/1e4ddb5c-9df8-4903-a100-6f8ba054b4e8/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-sonum/deploys)
 - [apcis-preprod](https://apiviz-preprod-cis.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/abb54fbc-01c6-4c48-9f1b-8ff5b9ef00b1/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-cis/deploys)
 - [apcis-preprod (CIS migration )](https://carrefour-innovations-sociales.fr/recherche) : [![Netlify Status](https://api.netlify.com/api/v1/badges/f5ff305b-52c1-4fb1-be79-17a7494705ac/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-apcis-url-migration/deploys)
 - [PiNG-carto](https://ping-carto.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/23e061dc-c6f6-4b8b-bd03-a3cd4dd622a1/deploy-status)](https://app.netlify.com/sites/ping-carto/deploys)
+- [Codes Etalab](https://etalab-codes.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/c0a9ad0c-6969-403c-80bb-2e4f262d7703/deploy-status)](https://app.netlify.com/sites/etalab-codes/deploys)
+- [Inventaire des orgues](https://orgues-apiviz.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/e91ca7c3-3426-4467-b92c-1e371d8b038c/deploy-status)](https://app.netlify.com/sites/orgues-apiviz/deploys)
 
+
+Test websites : 
+- [OpenCorporateFacts - calendar branch](https://https://opencorporatefacts-branch-calendar.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/e54cfcbb-5cd5-4962-ac1c-73408fef8943/deploy-status)](https://app.netlify.com/sites/opencorporatefacts-branch-calendar/deploys)
+- [OpenCorporateFacts - develop branch](https://https://opencorporatefacts.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencorporatefacts/deploys)
 
 
 
