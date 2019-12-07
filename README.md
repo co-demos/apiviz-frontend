@@ -22,10 +22,13 @@ ApiViz includes "out-the-box" a back-office to fully configure an original datav
 
 #### DEPLOYED WEBSITES : 
 
+- [Apiviz.io](https://apiviz.io) : [![Netlify Status](https://api.netlify.com/api/v1/badges/851f6ce8-91bb-43e6-b6c6-80b66c9328cd/deploy-status)](https://app.netlify.com/sites/apiviz-demo-site/deploys)
 - [tiers-lieux (test)](https://tiers-lieux-dataviz.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/7fc48ec3-148f-46a9-9151-6f78996cfd37/deploy-status)](https://app.netlify.com/sites/tiers-lieux-dataviz/deploys)
 - [sonum-preprod](https://apiviz-preprod-sonum.netlify.com/sonum-carto/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/1e4ddb5c-9df8-4903-a100-6f8ba054b4e8/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-sonum/deploys)
 - [apcis-preprod](https://apiviz-preprod-cis.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/abb54fbc-01c6-4c48-9f1b-8ff5b9ef00b1/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-cis/deploys)
 - [apcis-preprod (CIS migration )](https://carrefour-innovations-sociales.fr/recherche) : [![Netlify Status](https://api.netlify.com/api/v1/badges/f5ff305b-52c1-4fb1-be79-17a7494705ac/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-apcis-url-migration/deploys)
+- [PiNG-carto](https://ping-carto.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/23e061dc-c6f6-4b8b-bd03-a3cd4dd622a1/deploy-status)](https://app.netlify.com/sites/ping-carto/deploys)
+
 
 
 
@@ -74,7 +77,52 @@ You can also check the *[development roadmap for future features](https://github
 
 --------
 
-Before anything you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
+Before anything if you want to use the whole stack as a stand-alone app you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
+
+Otherwise you just need to add a `.env` file at the root with the following content : 
+
+```env
+
+APIVIZ_REPO=/apiviz-frontend/
+DEPLOY_ENV=NETLIFY
+
+### uses Apiviz backend's preprod server
+NUXT_BACKEND_MODE=preprod
+
+### uses Apiviz's distant preprod auth server
+NUXT_AUTH_MODE=distant_preprod
+
+### you can comment / de-comment the pair of you choice 
+### so you'll get the corresponding instance's specific configuration
+
+NUXT_APP_CONFIG_NAME=DEMO_APIVIZ
+NUXT_APIVIZ_UUID=89edbf7d-8b63-4088-ad14-ae6779d7698f
+
+# NUXT_APP_CONFIG_NAME=SONUM
+# NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481
+
+# NUXT_APP_CONFIG_NAME=APCIS
+# NUXT_APIVIZ_UUID=f0a482da-28be-4929-a443-f22ecb03ee68
+
+# NUXT_APP_CONFIG_NAME=TIERS_LIEUX
+# NUXT_APIVIZ_UUID=fd9d4302-bddb-4fb1-8f13-d64dfdb66b91
+
+# NUXT_APP_CONFIG_NAME=PING_CARTO
+# NUXT_APIVIZ_UUID=0278419c-558e-43d5-a4d6-c836afd10445
+
+# NUXT_APP_CONFIG_NAME=CONNUMM
+# NUXT_APIVIZ_UUID=2f658fb8-f00a-4b1a-ab73-7064433c98bc
+
+# NUXT_APP_CONFIG_NAME=ETALAB_CODES
+# NUXT_APIVIZ_UUID=a44de08d-12a1-4182-a06e-78058928c1e1
+
+# NUXT_APP_CONFIG_NAME=ASSO_ORGUES
+# NUXT_APIVIZ_UUID=3f3fd562-5202-427f-8ba3-f58d5660aabf
+
+# NUXT_APP_CONFIG_NAME=OPEN_CORPORATE_FACTS
+# NUXT_APIVIZ_UUID=305ab50d-c976-44d7-a8f2-a7594155c292
+
+```
 
 ## Build setup (with Nuxt)
 
@@ -85,7 +133,10 @@ $ npm install
 # serve with hot reload at localhost:3000
 # get env vars from .env file
 $ npm run dev
+```
 
+You can also use those other commands
+``` bash
 # overwrites .env file with env vars from script in package.json
 $ npm run dev-test
 
@@ -100,7 +151,7 @@ $ npm start
 $ npm run generate
 ```
 
-... then check in your browser : [`localhost:3000`](localhost:3000)
+... then check in your browser : [`localhost:3001`](localhost:3001) (see the `nuxt.config.js` file to know more)
 
 ## Build setup (with Docker)
 
