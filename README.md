@@ -19,17 +19,25 @@ ApiViz includes "out-the-box" a back-office to fully configure/customize an orig
 
 **apiviz-frontend** is only the frontend of the APIVIZ application, it only works if (and only) if A **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first or is serving configurations to the frontend.
 
-To fully enjoy Apiviz frontend's features if you're not using Solidata's API ***your own API*** might propose all or some of the following parameters, or equivalent : 
+To fully enjoy Apiviz frontend's features if you're not using Solidata's API, ***your own API Rest might propose all or some of the following parameters***, or equivalent when querying a dataset : 
 
-- `item_id` : search an item by its id
-- `page_number` : the page number
-- `results_per_page` : the number of items per page
-- `sort_by` : field to sort your result by
-- `sort_order` : sorting order
-- `query` : full text searrch
-- `shuffle_seed` (optionnal) : if you want to shuffle the results
-- `results_for_map` : getting all the results in a condensed format, like `{ id : <item_id>, lat: <latittude>, lng: <longitude>}`
-- `search_filter` : to filter out your results given a field name and a value. For instance querying all items in a 'my-data' dataset in which the field 'category' has the value 'categ01' could be similar to : `https://my-api.com/my-data?search_filter=category__categ01`
+- ***for the research navbar :***
+  - `query` : full text searrch
+  - `search_filter` : to filter out your results given a field name and a value. For instance querying all items in a 'my-data' dataset in which the field 'category' has the value 'categ01' could be similar to : `https://my-api.com/my-data?search_filter=category__categ01`
+
+- ***for detail view :*** 
+  - `item_id` : to search an item by its id inside a dataset
+
+- ***for table and list views :***
+  - `page_number` : the page number
+  - `results_per_page` : the number of items per page
+  - `sort_by` : field to sort your result by
+  - `sort_order` : sorting order
+  - `shuffle_seed` (optionnal) : if you want to shuffle the results
+
+- ***for the map view :***
+  - `results_for_map` : getting all the results in a condensed format, like `{ id : <item_id>, lat: <latittude>, lng: <longitude>}`
+  - `fields_to_return` : to return additional fields, for instance when using `results_for_map=true` if you need another field(s) to link an item to a choropleth layer 
 
 --------
 
@@ -101,22 +109,27 @@ You can also check the *[development roadmap for future features](https://github
 
 --------
 
-Before anything if you want to use the whole stack as a stand-alone app you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
+Before anything, if you want to use the whole Apiviz stack as a stand-alone app you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
 
-Otherwise you just need to add a `.env` file at the root with the following content : 
+Otherwise, if you just want to run Apiviz frontend and plya with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following : 
 
 ```env
+
+### ENV VARIABLES FOR APIVIZ FRONTEND ### 
+### - - - - - - - - - - - - - - - - - ### 
 
 APIVIZ_REPO=/apiviz-frontend/
 DEPLOY_ENV=NETLIFY
 
-### uses Apiviz backend's preprod server
+### Apiviz backend's preprod server to serrve configs
 NUXT_BACKEND_MODE=preprod
 
-### uses Apiviz's distant preprod auth server
+### Apiviz's distant preprod auth server to deal with login and auth
 NUXT_AUTH_MODE=distant_preprod
 
-### you can comment / de-comment the pair of you choice 
+### Apiviz's UUID to retrieve the corresponding configuration elements 
+
+### you can comment / de-comment the pair of following vars of your choice 
 ### so you'll get the corresponding instance's specific configuration
 
 NUXT_APP_CONFIG_NAME=DEMO_APIVIZ
@@ -154,10 +167,12 @@ NUXT_APIVIZ_UUID=89edbf7d-8b63-4088-ad14-ae6779d7698f
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
-# get env vars from .env file
+# serve with hot reload at localhost:3001
+# note : gets env vars from .env file
 $ npm run dev
 ```
+... then check in your browser : [`localhost:3001`](localhost:3001) (see the `nuxt.config.js` file to know more)
+<br>
 
 You can also use those other commands
 ``` bash
@@ -175,7 +190,6 @@ $ npm start
 $ npm run generate
 ```
 
-... then check in your browser : [`localhost:3001`](localhost:3001) (see the `nuxt.config.js` file to know more)
 
 ## Build setup (with Docker)
 
