@@ -86,15 +86,25 @@
               </p>
 
               <!-- BLOCK ABSTRACT -->
-              <p id="block-abstract" v-if="isPositionFilled('block_abstract')">
-                <span
-                  v-if="getCustomBlockTitle('block_abstract')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
-                  {{ getCustomBlockTitle('block_abstract') }}
+              <p id="block-abstract">
+                <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
+                  <h3>Personnes physiques représentantes légales :</h3>
+                  <ul>
+                    <li v-for="representant in tidyRepresentants['P.Physique']">
+                      {{ representant[1][0].qualite }} : {{ representant[1][0].nom_patronyme }}
+                    </li>
+                  </ul>
+                  <h3>Personnes morales représentantes légales :</h3>
+                  <ul>
+                    <li v-for="representant in tidyRepresentants['P. Morale']">
+                      {{ representant[0] }} représenté par
+                        <span v-for="mandat in representant[1]">
+                          {{ mandat.qualite }} {{ mandat.representant_permanent_nom_patronyme }} {{ mandat.representant_permanent_prenoms }}
+                        </span>
+                    </li>
+                  </ul>
                   <br><br>
                 </span>
-                {{ matchProjectWithConfig('block_abstract')}}
               </p>
 
               <!-- BLOCK PARTNERS -->
@@ -612,6 +622,39 @@ export default {
       return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
 
+    tidyRepresentants(){
+      let representantsStreamlined = {"P.Physique" : new Map(), "P. Morale" : new Map()}
+      for (const representant of this.displayableItem.RncsImr.representants) {
+        // Personne physique
+        if(["P.Physique", "P. Physique"].includes(representant.type_representant))
+        {
+          if(representantsStreamlined["P.Physique"].has(representant.id_representant))
+          {
+            representantsStreamlined["P.Physique"].get(representant.id_representant).push(representant);
+          }
+          else{
+            representantsStreamlined["P.Physique"].set(representant.id_representant, [representant]);
+          }
+        }
+        // Personne morale
+        else if(representant.type_representant == "P. Morale")
+        {
+          if(representantsStreamlined["P. Morale"].has(representant.denomination))
+          {
+            representantsStreamlined["P. Morale"].get(representant.denomination).push(representant);
+          }
+          else{
+            representantsStreamlined["P. Morale"].set(representant.denomination, [representant]);
+          }
+        }
+        else {
+          console.log("undefined :", representant);
+        }
+      }
+      this.log && console.log(" - - DynamicDetail / mounted / tidyRepresentants :", representantsStreamlined);
+      return representantsStreamlined
+    },
+
   },
 
   methods : {
@@ -727,6 +770,10 @@ export default {
     height: 100%;
     padding-bottom: 3em;
 
+  }
+
+  ul {
+    list-style-type: circle;
   }
 
   .block-color {

@@ -259,50 +259,15 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
 
   let fetchHeader = endpointGenerated.requestHeader
-  // fetchHeader = {}
-  // fetchHeader['accept'] = 'application/ld+json'
-  // fetchHeader['Content-type'] = 'application/json'
-  // fetchHeader['Access-Control-Allow-Origin'] = 'http://localhost:3001'
-  // fetchHeader['Access-Control-Allow-Origin'] = '*'
-  // fetchHeader['Access-Control-Allow-Credentials'] = true
-  // fetchHeader['Origin'] = 'http://localhost:3001, *'
-  // fetchHeader['TestHeader'] = 'testing'
   // let fetchHeader = {
-  //   'Accept': 'application/ld+json',
+  //   'Accept': 'application/json',
   //   'Content-Type': 'application/json',
   //   // "Access-Control-Allow-Origin" : "*",
   // }
-    // fetchHeader = undefined
-
-
-  // let fetchHeader = {
-  //   //   'Accept': 'application/json',
-  //   //   'Content-Type': 'application/json',
-  //   //   // "Access-Control-Allow-Origin" : "*",
-    
-  //   // 'Host': 'opencorporatefacts.fr',
-  //   'Accept': 'application/ld+json',
-  //   // 'User-Agent': 'PostmanRuntime/7.15.0',
-  //   'Cache-Control': 'no-cache',
-  //   // 'Postman-Token': '38c176f9-7c68-4f7f-8bec-244b9df36ada,275f9f87-0049-4f22-86bb-f90d2f53841f',
-  //   // 'Host': 'opencorporatefacts.fr',
-  //   'accept-encoding': 'gzip, deflate',
-  //   'Connection': 'keep-alive',
-  //   'cache-control': 'no-cache',
-  // }
-
   console.log("+ + + searchItems / fetchHeader : ", fetchHeader)
 
   let fetchUrl = endpointGenerated.requestUrl
   console.log("+ + + searchItems / fetchUrl : ", fetchUrl)
-
-  // tests overwrite urls
-  // fetchUrl = "https://solidata-api.co-demos.com/api/dsi/infos/get_one/5c7ebe44328ed724cebd813c"
-  // fetchUrl = "http://api.cquest.org/company/433842044"
-  // fetchUrl = "https://grappe.io/data/api/5de28a759865ec009a839b58-agenda-comme-un"
-  // fetchUrl = "http://opencorporatefacts.fr/api/corporates"
-
-
 
   let fetchPayload = endpointGenerated.requestPayload
   console.log("+ + + searchItems / fetchPayload : ", fetchPayload)
@@ -318,9 +283,7 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   // set up fetch options
   let fetchOptions = { 
     method : fetchMethod.toLowerCase(),
-
     signal: ac.signal,
-    // credentials: 'include',
     header : fetchHeader
   }
   // set up axios options
@@ -342,75 +305,28 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / axiosOptions : ", axiosOptions)
   console.log("+ + + searchItems / ac : ", ac)
 
-
-  // TEST SPACE
-  // console.log("+ + + searchItems / (pure axios) ... ");
-  // // axios.get( fetchUrl, { headers : fetchHeader })
-  // axios( axiosOptions )
-  // .then( response => {
-  //   console.log("+ + + searchItems / (pure axios) / response :", response);
-  // })
-  // .catch( err => {
-  //   console.log("+ + + searchItems / (pure axios)  err :", err);
-  // })
-  
-  // console.log("+ + + searchItems / (pure fetch) ... ");
-  // fetch( fetchUrl, fetchOptions )
-  // .then( resp => { 
-  //   console.log("+ + + searchItems / (pure fetch)  resp :", resp);
-  // })
-  // .catch( err => {
-  //   console.log("+ + + searchItems / (pure fetch)  err :", err);
-  // })
-
-
-
-  // AXIOS PROMISE TO RETURN
-  console.log("+ + + searchItems / (axios promise) ... ")
   // try {
     return {
       abort(){
         searchAborted = true
         if( ac )
-          console.log("+ + + searchItems / (axios) / abort ac :", ac);
           ac.abort()
       },
-      promise : axios(
-        axiosOptions
-        // {
-          // method: fetchMethod.toLowerCase(),
-          // // withCredentials: true,
-          // url: fetchUrl,
-          // data : payloadJson,
-          // headers : fetchHeader,
-        // }
-      )
+      promise : axios({
+        method: fetchMethod.toLowerCase(),
+        url: fetchUrl,
+        data : payloadJson,
+        headers : fetchHeader
+      })
       .then( resp => {
         console.log("+ + + searchItems / (axios) / resp :", resp);
         console.log("+ + + searchItems / (axios) / responsePaths : ", responsePaths);
 
-
         let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
 
-        
-        // TO DO => CALLBACKS AXIOS ON EVERY ITEM IN responseProjects
-        if ( endpointRawConfig.has_resp_callbacks ){
-          console.log("+ + + searchItems / (axios) / endpointRawConfig.has_resp_callbacks ... ")
-
-          let callbacks = endpointRawConfig.resp_callbacks
-          console.log("+ + + searchItems / (axios) / callbacks : ", callbacks);
-        
-        
-        
-        }
-
-
-
-
-        
         let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
-        console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
+        console.log("+ + + searchItems / (axios) / responseTotal : ", responseTotal);
 
         let responseStats = resolvePathString( 'stats', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseStats : ", responseStats);
@@ -429,19 +345,12 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
         if ( err.response ){
           console.log("+ + + searchItems / (axios)  err.response :", err.response);
         }
-        // let requestPendingAbort = rawRequest( endpointGenerated, endpointRawConfig)
-        // return requestPendingAbort.promise
       })
     }
   // }
   // catch(error){
   //   console.log("+ + + searchItems / (axios) error : ", error)
   // }
-
-
-
-
-
 
   /*
   return {
@@ -590,6 +499,7 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
   //   'Content-Type' : 'application/json',
   //   'Authorization' : ""
   // }
+  // let myHeaders = new Headers()
 
   for (let header_arg of endpointConfigHeaderAuth ){
 

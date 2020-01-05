@@ -3,6 +3,7 @@ import {
   makeEmptySelectedFilters,
   getObjectDataFromPath,
   searchItems,
+  populateDisplayedItem,
   rawRequest,
   // searchEnpointCreator,
   searchEndpointGenerator,
@@ -430,9 +431,9 @@ export const mutations = {
       }
     },
 
-    setDisplayedProject(state, {result}){
-      state.log && console.log('S-search-M-setDisplayedProject / result ', result)
-      state.displayedProject = result.projects[0]
+    setDisplayedProject(state, projectToDisplay){
+      state.log && console.log('S-search-M-setDisplayedProject / projectToDisplay ', projectToDisplay)
+      state.displayedProject = projectToDisplay
       state.search.answer.pendingAbort = undefined
     },
     setItemId(state, itemId){
@@ -677,13 +678,10 @@ export const actions = {
 
       // append itemId to question
       commit('setItemId', id)
-      // let question = state.search.question
-      // question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
-        // questionParams : question,
         questionParams : state.search.question,
         selectedFilters : [],
         authConfig : endpointAuthConfig,
@@ -703,12 +701,10 @@ export const actions = {
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
-        // commit('setDisplayedProject', { result: { projects, total }})
-        commit('setDisplayedProject', { result: {
-          projects : response.projects,
-          stats : response.stats,
-          total : response.total
-        }})
+        populateDisplayedItem(response.projects[0], endpointGenerated, endpointRawConfig).promise.then( (populatedResponse) => {
+          state.log && console.log("S-search-A-searchOne / populatedResponse : \n", populatedResponse )
+          commit('setDisplayedProject', populatedResponse)
+        })
       })
       .catch(error => {
         // don't report aborted fetch as errors
