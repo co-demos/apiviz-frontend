@@ -601,14 +601,14 @@ export const actions = {
 
       const endpointRawConfig = state.search.endpoint
       const responsePaths = endpointRawConfig.resp_fields
-      state.log && console.log("S-sesarch-A-search / responsePaths : \n", responsePaths )
+      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-search / endpointAuthConfig : \n", endpointAuthConfig )
 
       commit('clearItemId')
 
@@ -673,7 +673,7 @@ export const actions = {
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
 
       // append itemId to question
       commit('setItemId', id)
@@ -727,14 +727,14 @@ export const actions = {
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']
-      state.log && console.log("S-sesarch-A-exportDataset / userAccessToken : \n", userAccessToken )
+      state.log && console.log("S-search-A-exportDataset / userAccessToken : \n", userAccessToken )
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
 
       const endpointExportConfig = rootGetters['config/getEndpointConfigExport']
-      state.log && console.log("S-sesarch-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
+      state.log && console.log("S-search-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
