@@ -2,8 +2,8 @@
   <div>
 
     <main v-if="!displayableItem">
-      
-      <div 
+
+      <div
         class="container"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
@@ -14,9 +14,9 @@
 
       </div>
     </main>
-      
+
     <main v-if="displayableItem">
-      
+
       <div class="container">
 
         <!-- BACK TO RESULTS -->
@@ -36,7 +36,7 @@
 
 
         <div class="columns">
-          
+
           <!-- //// COLUMN LEFT //// -->
           <div class="column is-5 is-offset-1">
             <div class="description">
@@ -48,15 +48,15 @@
 
               <!-- BLOCK MAIN TAGS -->
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_main_tags')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_main_tags') }}
                 </span>
                 <br>
-                <span 
-                  class="tag" 
+                <span
+                  class="tag"
                   v-for="(tag, i) in matchProjectWithConfig('block_main_tags')"
                   :key="tag + i"
                   >
@@ -75,9 +75,9 @@
 
               <!-- BLOCK PRE ABSTRACT -->
               <p id="block-pre-abstract" v-if="isPositionFilled('block_pre_abstract')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_pre_abstract')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_pre_abstract') }}
                   <br><br>
@@ -87,16 +87,16 @@
 
               <!-- BLOCK ABSTRACT -->
               <p id="block-abstract" v-if="isPositionFilled('block_abstract')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_abstract')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_abstract') }}
                   <br><br>
                 </span>
                 {{ matchProjectWithConfig('block_abstract')}}
               </p>
-              
+
               <!-- BLOCK PARTNERS -->
               <div id="block-partners" v-if="isPositionFilled('block_partners')">
                 <p>{{ matchProjectWithConfig('block_partners')}}</p>
@@ -104,9 +104,9 @@
 
               <!-- BLOCK POST ABSTRACT 1 -->
               <p id="block-post-abstract-1" v-if="isPositionFilled('block_post_abstract_1')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_post_abstract_1')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_1') }}
                   <br><br>
@@ -116,9 +116,9 @@
 
               <!-- BLOCK POST ABSTRACT 2 -->
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_post_abstract_2')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_2') }}
                   <br><br>
@@ -127,9 +127,9 @@
               </p>
               <!-- BLOCK POST ABSTRACT 3 -->
               <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
-                <span 
+                <span
                   v-if="getCustomBlockTitle('block_post_abstract_3')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_3') }}
                   <br><br>
@@ -151,7 +151,7 @@
                     {{ getDefaultText('see_website') }}
                   </a>
                 </div>
-                
+
                 <!-- BLOCK CONTACT -->
                 <div id="block-main-contact" class="column is-5 is-offset-1 link">
                   <a
@@ -172,7 +172,7 @@
               <div class="columns">
                 <div class="column is-12">
                   <div>
-                    <span  
+                    <span
                       class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ servicesData }}  -->
                       {{ getDefaultText('services') }}
@@ -191,9 +191,9 @@
               <div class="columns">
                 <div class="column is-12">
                   <div>
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_left_bottom_2')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
                       {{ getCustomBlockTitle('block_left_bottom_2') }}
                       <br><br>
@@ -214,8 +214,8 @@
           <div class="column is-5">
 
             <!-- BLOCK MAIN ILLUSTRATION -->
-            <a id="block-illustration" 
-              :href="matchProjectWithConfig('block_wesite')" 
+            <a id="block-illustration"
+              :href="matchProjectWithConfig('block_wesite')"
               target="_blank"
               >
               <img
@@ -256,7 +256,7 @@
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ sourceData }}  -->
                       {{ getDefaultText('source') }}
-                      : 
+                      :
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_src')}}
@@ -272,14 +272,14 @@
                 <div class="column is-12">
 
                   <div>
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_scale_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
                       {{ getCustomBlockTitle('block_scale_tags') }}
                     </span>
-                    <span 
-                      class="tag" 
+                    <span
+                      class="tag"
                       v-for="(tag, i) in matchProjectWithConfig('block_scale_tags')"
                       :key="tag + i"
                       >
@@ -288,11 +288,11 @@
                   </div>
 
                   <div id="block-scale-2">
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_scale_2')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
-                      {{ getCustomBlockTitle('block_scale_2') }} 
+                      {{ getCustomBlockTitle('block_scale_2') }}
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_scale_2')}}
@@ -318,7 +318,7 @@
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ periodData }}  -->
                       {{ getDefaultText('period') }}
-                      : 
+                      :
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_period')}}
@@ -329,10 +329,10 @@
             </div>
 
             <!-- BLOCK CONTACT -->
-            <div 
+            <div
               v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
-              class="added is-info-b has-text-white" 
-              id="block-contact" 
+              class="added is-info-b has-text-white"
+              id="block-contact"
               >
               <div class="columns">
                 <div class="column is-12">
@@ -341,7 +341,7 @@
                     <span class="has-text-weight-semibold">
                       <!-- {{ seeContact }}  -->
                       {{ getDefaultText('see_contact') }}
-                      : 
+                      :
                     </span>
                   </div>
                   <br>
@@ -352,7 +352,7 @@
                     </span>
                     <span>
                       <span v-if="isPositionFilled('block_contact_name')">
-                        {{ matchProjectWithConfig('block_contact_name')}} 
+                        {{ matchProjectWithConfig('block_contact_name')}}
                       </span>
                       <span v-if="isPositionFilled('block_contact_surname')">
                         {{ matchProjectWithConfig('block_contact_surname')}}
@@ -395,7 +395,7 @@
               <div class="columns">
 
                 <div class="column is-12">
-                  
+
                   <div>
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ infosData }}  -->
@@ -411,7 +411,7 @@
                     <span>
                       <!-- {{ infosTel }}  -->
                       {{ getDefaultText('tel') }}
-                      : 
+                      :
                       {{ matchProjectWithConfig('block_tel')}} <br>
                     </span>
                   </div>
@@ -435,7 +435,7 @@
                     <span>
                       <!-- {{ infosMore }}  -->
                       {{ getDefaultText('more_infos') }}
-                      : 
+                      :
                       {{ matchProjectWithConfig('block_infos_pract')}}
                     </span>
                   </div>
@@ -452,15 +452,15 @@
 
                   <!-- BLOCK RB1 TAGS -->
                   <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_rb1_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
                       {{ getCustomBlockTitle('block_rb1_tags') }}
                     </span>
                     <br><br>
-                    <span 
-                      class="tag" 
+                    <span
+                      class="tag"
                       v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
                       :key="tag + i"
                       >
@@ -471,9 +471,9 @@
 
                   <div>
 
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_right_bottom_1')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
                       {{ getCustomBlockTitle('block_right_bottom_1') }}
                       <br><br>
@@ -488,9 +488,9 @@
                   <div v-if="isPositionFilled('block_right_bottom_2')">
                     <br>
 
-                    <span 
+                    <span
                       v-if="getCustomBlockTitle('block_right_bottom_2')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c" 
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
                       >
                       {{ getCustomBlockTitle('block_right_bottom_2') }}
                       <br><br>
@@ -527,7 +527,7 @@ import NotFoundError from './NotFoundError.vue';
 
 // import { getItemById } from '~/plugins/utils.js';
 import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
-import { BasicDictionnary } from "~/config/basicDict.js" 
+import { BasicDictionnary } from "~/config/basicDict.js"
 
 export default {
 
@@ -547,7 +547,7 @@ export default {
       // displayableItem : null,
       contentFields : null,
       isError: false,
-      basicDict : BasicDictionnary, 
+      basicDict : BasicDictionnary,
     }
   },
 
@@ -585,7 +585,7 @@ export default {
   computed: {
 
     ...mapState({
-      log: state => state.log, 
+      log: state => state.log,
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
       user: state => state.user.user,
@@ -607,7 +607,7 @@ export default {
       return this.contentFields.map( c => c.position )
     },
 
-    // TEXT TRANSLATORS - NO DATA 
+    // TEXT TRANSLATORS - NO DATA
     noData() {
       return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
@@ -615,7 +615,7 @@ export default {
   },
 
   methods : {
-    
+
     getDefaultText(txt_code){
       return this.$store.getters['config/defaultText']({txt:txt_code})
     },
@@ -658,12 +658,12 @@ export default {
           this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
 
           if ( content && content !== "None" && content !== "" ){
-            
+
             if ( field_format.type === 'list'){
               let begin = field_format.retrieve[0]
               if ( begin === -1){
                 content = content
-              } 
+              }
               else if ( field_format.retrieve.length === 1 ) {
                 content = content[ begin ]
               }
@@ -672,7 +672,7 @@ export default {
                 content = content.slice( begin, end )
               }
             }
-            
+
             this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
 
             if (contentField.is_tag_like) {
@@ -691,7 +691,7 @@ export default {
           return undefined
         }
       */
-      
+
     },
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
@@ -726,7 +726,7 @@ export default {
     margin-top: $apiviz-navbar-height;
     height: 100%;
     padding-bottom: 3em;
-    
+
   }
 
   .block-color {
