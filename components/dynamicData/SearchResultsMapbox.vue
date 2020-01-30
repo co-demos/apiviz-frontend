@@ -11,11 +11,13 @@
 
 <template>
 
-  <!-- <div class="columns"> -->
+  <!-- <div class="columns">
 
-    <!-- <div class="container"> -->
+    <div class="container">
 
-      <!-- <div class="column is-half"> -->
+      <div class="column is-half"> -->
+
+
 
         <div class="map">
 
@@ -227,30 +229,38 @@
 
           <!-- <code><pre>{{ findCurrentChorosource }}</pre></code> -->
 
+
+          <!-- DEBUGGING -->
+          <!-- <div class="column is-half"> -->
+          <!-- <div class="container"> -->
+            <!-- <br><br><br> -->
+              <!-- getCenter => ( lng : {{ getCenter.lng }}, lat : {{ getCenter.lat }} ) <br> -->
+              <!-- getZoom => {{ getZoom }} <br> -->
+              <!-- 
+              getViewBox => {{ getViewBbox }}<br>
+              getBbox => _ne : (lng : {{ getBbox._ne.lng }}, lat : {{ getBbox._ne.lat }}) / _sw : (lng : {{ getBbox._sw.lng }}, lat : {{ getBbox._sw.lat }}) <br>
+              updatingChoroLayers => <code>{{ updatingChoroLayers }}</code><br>
+              getCorrespondingChoroConfigs => <code><pre>{{ getCorrespondingChoroConfigs.map( c => { return { source_id : c.source_id , update_src_options : c.update_src_options } }) }}</pre></code><br> 
+              -->
+              <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
+              <!-- getCorrespondingChoroConfig.layer_id => {{ getCorrespondingChoroConfig.layer_id }}<br> -->
+              <!-- getCorrespondingChoroConfig => <code><pre>{{ getCorrespondingChoroConfig }}</pre></code><br> -->
+              <!-- getRenderedChoroFeatures("chorolayer-departements") => {{ getRenderedChoroFeatures("chorolayer-departements").length }}<br> -->
+              <!-- getRenderedChoroFeatures => <code>{{ getRenderedChoroFeatures.length && getRenderedChoroFeatures.map( i => { return { layer : i && i.layer.id, prop : i && i.properties } } ) }}</code><br> -->
+            <!-- </div> -->
+          <!-- </div> -->
+
         </div>
 
       <!-- </div> -->
 
 
-      <!-- DEBUGGING -->
-      <!-- <div class="column is-half"> -->
-      <!-- <div class="container"> -->
-        <!-- <br><br><br> -->
-          <!-- getCenter => ( lng : {{ getCenter.lng }}, lat : {{ getCenter.lat }} ) <br> -->
-          <!-- getZoom => {{ getZoom }} <br>
-          getViewBox => {{ getViewBbox }}<br>
-          getBbox => _ne : (lng : {{ getBbox._ne.lng }}, lat : {{ getBbox._ne.lat }}) / _sw : (lng : {{ getBbox._sw.lng }}, lat : {{ getBbox._sw.lat }}) <br>
-          updatingChoroLayers => <code>{{ updatingChoroLayers }}</code><br>
-          getCorrespondingChoroConfigs => <code><pre>{{ getCorrespondingChoroConfigs.map( c => { return { source_id : c.source_id , update_src_options : c.update_src_options } }) }}</pre></code><br> -->
-          <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
-          <!-- getCorrespondingChoroConfig.layer_id => {{ getCorrespondingChoroConfig.layer_id }}<br> -->
-          <!-- getCorrespondingChoroConfig => <code><pre>{{ getCorrespondingChoroConfig }}</pre></code><br> -->
-          <!-- getRenderedChoroFeatures("chorolayer-departements") => {{ getRenderedChoroFeatures("chorolayer-departements").length }}<br> -->
-          <!-- getRenderedChoroFeatures => <code>{{ getRenderedChoroFeatures.length && getRenderedChoroFeatures.map( i => { return { layer : i && i.layer.id, prop : i && i.properties } } ) }}</code><br> -->
-        <!-- </div> -->
-      <!-- </div> -->
 
-    <!-- </div> -->
+    <!-- </div>
+
+  </div>
+
+</div> -->
 
   
 
@@ -1030,6 +1040,7 @@ export default {
       let center = this.getCenter
 
       let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === choroSourceConfig.source_id )
+      this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / choroRefIdex : ", choroRefIdex )
 
       for (let update of choroSourceConfig.update_src_options ){
 
