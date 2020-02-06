@@ -154,8 +154,8 @@ export default {
 
   mounted : function(){
     this.log && console.log('C-DynamicCSS.vue / mounted...')
-    console.log('C-DynamicCSS.vue / mounted / this.appColors : ', this.appColors)
-    console.log('C-DynamicCSS.vue / mounted / this.navbarConfig : ', this.navbarConfig)
+    this.log && console.log('C-DynamicCSS.vue / mounted / this.appColors : ', this.appColors)
+    this.log && console.log('C-DynamicCSS.vue / mounted / this.navbarConfig : ', this.navbarConfig)
   },
 
   computed: {
