@@ -57,8 +57,7 @@ Main Apiviz instances with public data :
 
 
 Test websites : 
-- [OpenCorporateFacts - calendar branch](https://https://opencorporatefacts-branch-calendar.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/e54cfcbb-5cd5-4962-ac1c-73408fef8943/deploy-status)](https://app.netlify.com/sites/opencorporatefacts-branch-calendar/deploys)
-- [OpenCorporateFacts - develop branch](https://https://opencorporatefacts.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencorporatefacts/deploys)
+- [OpenCompaniesData - OpenCompaniesData branch](https://opencompaniesdata.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys)
 
 
 
