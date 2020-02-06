@@ -1,6 +1,6 @@
 <template>
   <nav 
-    :class="`navbar is-fixed-top ${ navbarConfig.ui_options.background_color.bulma_color ? 'is-'+navbarConfig.ui_options.background_color.bulma_color : 'is-white'} has-bottom-border `"
+    :class="`navbar is-fixed-top ${ navbarColor ? 'is-'+navbarColor + ' is-'+navbarColor+'-b-only' : 'is-white'} has-bottom-border `"
     role="navigation" 
     aria-label="main navigation"
     >
@@ -62,7 +62,12 @@ export default {
       navbarConfig : 'config/getNavbarConfig',
       localRouteConfig : 'config/getLocalRouteConfig',
     }),
-    
+
+    navbarColor(){
+      return this.navbarConfig.ui_options.background_color.bulma_color
+    },
+
+
   },
 
 }

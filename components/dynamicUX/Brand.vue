@@ -5,7 +5,7 @@
       <nuxt-link 	
         v-if="logo.url"
         id="logo_home"
-        class="navbar-item" 
+        class="navbar-item navbar-item-hov" 
         :to="logoTo">
         <img 
           id="navbar-logo" 
