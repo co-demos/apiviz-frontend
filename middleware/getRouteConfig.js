@@ -11,7 +11,8 @@ export default function ({ store, route, redirect }) {
     'DynamicDetail' , 
     'DynamicMap' , 
     'DynamicStats', 
-
+    'DynamicCalendar' , 
+    
     // TO DO 
     // 'DynamicListDense' 
   ]
@@ -104,16 +105,18 @@ export default function ({ store, route, redirect }) {
       // }
   
       else {
-        // store.commit('search/clearResults')
         log && console.log('-M3- getRouteConfig / same dataset URI ... ')
-
+        
+        // FIX PROBLEM WHEN RETURNING TO MAP AFTER DETAIL VIEW
+        store.commit('search/clearResults')
+        if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
+          log && console.log('-M3- getRouteConfig / dispatching search and cleaning itemId from question...')
+          store.commit('search/clearItemId')
+        }
+        
+        log && console.log('-M3- getRouteConfig / store.getters["search/getQuestion"] : ', store.getters["search/getQuestion"])
         store.commit('search/setIsMapSearch', currentRouteConfig)
         store.dispatch('search/search')
-
-        // if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
-        //   log && console.log('-M3- getRouteConfig / dispatching search ...')
-        //   store.dispatch('search/search')
-        // }
 
       }
 

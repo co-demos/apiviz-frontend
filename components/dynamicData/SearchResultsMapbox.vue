@@ -10,285 +10,260 @@
 </style>
 
 <template>
-  <div class="map">
 
-    <!-- getZoom : {{ getZoom }} -->
-    <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
+  <!-- <div class="columns">
+
+    <div class="container">
+
+      <div class="column is-half"> -->
 
 
-    <!-- SearchResultsCountAndTabs -->
-    <div class="count-and-tabs-container">
-      <div 
-        class="container"
-        :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
-        >
-        <SearchResultsCountAndTabs 
-          :view="VIEW_MAP" 
-          :open="showCard"
-          >
-          
-        
-          <!-- HIGHLIGHTED ITEM  -->
-          <div 
-            class="highlighted-project" 
-            v-if="showCard" 
-            slot="item"
-            >
-            
-            <!-- BUTTON TO CLOSE PREVIEW -->
-            <button 
-              v-show="displayedProject"
-              class="button close" 
-              @click="showCard = false"
+
+        <div class="map">
+
+          <!-- SearchResultsCountAndTabs -->
+          <div class="count-and-tabs-container">
+            <div 
+              class="container"
+              :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
               >
-              <!-- @click="highlightItem(undefined)" -->
-              <span class="icon is-small">
-                <i class="fas fa-times"></i>
-              </span>
-            </button>
-            
-            <!-- {{ displayedProject }} -->
-            <!-- PROJECT CARD -->
-            <div class="card">
+              <SearchResultsCountAndTabs 
+                :view="VIEW_MAP" 
+                :open="showCard"
+                >
+                
+              
+                <!-- HIGHLIGHTED ITEM  -->
+                <div 
+                  class="highlighted-project" 
+                  v-if="showCard" 
+                  slot="item"
+                  >
+                  
+                  <!-- BUTTON TO CLOSE PREVIEW -->
+                  <button 
+                    v-show="displayedProject"
+                    class="button close" 
+                    @click="showCard = false"
+                    >
+                    <!-- @click="highlightItem(undefined)" -->
+                    <span class="icon is-small">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                  
+                  <!-- {{ displayedProject }} -->
+                  <!-- PROJECT CARD -->
+                  <div class="card">
 
-              <!-- LOADER -->
+                    <!-- LOADER -->
+                    <div 
+                      class="columns is-mobile is-vcentered "
+                      v-show="!displayedProject"
+                      >
+                      <div 
+                        class="column is-12 has-text-centered has-text-primary has-text-primary-c"
+                        >
+                        <div 
+                          class="lds-roller"
+                          >
+                          <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                      </div>
+                      <!-- <div class="column is-12 has-text-centered has-text-primary has-text-primary-c">
+                        <span class="icon app-loader">
+                          <i class="fas fa-spinner fa-pulse fa-3x"></i>
+                        </span>
+                      </div> -->
+
+
+                    </div>
+
+                    <!-- ITEM DATA -->
+                    <ProjectCard 
+                      v-if="displayedProject"
+                      :item="displayedProject"
+                      :contentFields="contentFields"
+                      :view="VIEW_MAP"
+                      >
+                    </ProjectCard>
+
+
+                  </div>
+
+                </div>
+
+              </SearchResultsCountAndTabs>
+            </div>
+          </div>
+
+
+          <!-- {{ itemsForsMap }} -->
+          <!-- LOADER -->
+          <div 
+            id="loader-map"
+            v-show="!itemsForMap || showLoader"
+            class="lds-roller floating"
+            >
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+
+          <!-- LAYERS & LEGEND -->
+          <div 
+            v-if="itemsForMap"
+            id='legend' 
+            :class='`legend-block legend-bottom-right`'
+            >
+
+            <!-- LAYERS SWITCH -->
+            <div 
+              v-if="layersVisibility && layersVisibility.is_activated"
+              class="legend layer-switch" 
+              >
+
+              <button 
+                class="button is-small is-fullwidth is-info-b is-outlined"
+                @click="switchLayersDrawer()"
+                >
+                {{ basicDict.map_layers[locale] }}
+              </button>
+
               <div 
-                class="columns is-mobile is-vcentered "
-                v-show="!displayedProject"
+                v-show="drawerLayersOpen"
+                class="legend-content"
                 >
                 <div 
-                  class="column is-12 has-text-centered has-text-primary has-text-primary-c"
+                  v-for="(layer, index) in layersVisibility.layers_switches"
+                  :key="index"
+                  class="field"
                   >
-                  <div 
-                    class="lds-roller"
+                  <input 
+                    class="is-checkradio" 
+                    :id="layer.label" 
+                    :name="layer.label" 
+                    :checked=" layer.default_visible ? 'checked' : false"
+                    type="checkbox" 
+                    @click="switchLayerVisibility( layer.label )"
                     >
-                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                  </div>
+                  <label 
+                    :for="layer.label">
+                    {{ layer.label }}
+                  </label>
                 </div>
-                <!-- <div class="column is-12 has-text-centered has-text-primary has-text-primary-c">
-                  <span class="icon app-loader">
-                    <i class="fas fa-spinner fa-pulse fa-3x"></i>
-                  </span>
-                </div> -->
+              </div>
+            </div>
 
+            <!-- SCALE LEGEND -->
+            <div 
+              v-if="findCurrentChorosource"
+              class="legend" 
+              >
 
+              <button 
+                class="button is-small is-fullwidth is-info-b is-outlined"
+                @click="switchLegendDrawer()"
+                >
+                {{ findCurrentChorosource.legend.title }}
+              </button>
+
+              <!-- <code><pre>{{ findCurrentChorosource.legend }}</pre></code> -->
+              <!-- <p> {{ findCurrentChorosource.source_id }} </p> -->
+              <!-- getZoom : {{ getZoom }} -->
+              <!-- findCurrentChorosource.max_zoom : {{ findCurrentChorosource.max_zoom }} -->
+
+              <div 
+                v-show="drawerScalesOpen"
+                class="legend-content"
+                >
+                <div 
+                  v-for="(scale, index) in findCurrentChorosource.legend.scales"
+                  :key="index">
+                  <div>
+                    <span 
+                    :style='`background-color: ${ scale.color }`'></span>
+                    {{ scale.value }}
+                    </div>
+                </div>
               </div>
 
-              <!-- ITEM DATA -->
-              <ProjectCard 
-                v-if="displayedProject"
-                :item="displayedProject"
-                :contentFields="contentFields"
-                :view="VIEW_MAP"
-                >
-              </ProjectCard>
-
-
             </div>
-
           </div>
-
-        </SearchResultsCountAndTabs>
-      </div>
-    </div>
-
+          
+          <!-- MAP WITH MAPBOX GL -->
+          <no-ssr>
 
 
-
-    <!-- {{ itemsForsMap }} -->
-    <!-- LOADER -->
-    <div 
-      id="loader-map"
-      v-show="!itemsForMap"
-      class="lds-roller floating"
-      >
-      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-    </div>
-
-
-      <!-- LAYERS & LEGEND -->
-      <div 
-        v-if="itemsForMap"
-        id='legend' 
-        :class='`legend-block legend-bottom-right`'
-        >
-
-        <!-- LAYERS SWITCH -->
-        <div 
-          v-if="layersVisibility && layersVisibility.is_activated"
-          class="legend layer-switch" 
-          >
-
-          <button 
-            class="button is-small is-fullwidth is-info-b is-outlined"
-            @click="switchLayersDrawer()"
-            >
-            {{ basicDict.map_layers[locale] }}
-          </button>
-
-          <div 
-            v-show="drawerLayersOpen"
-            class="legend-content"
-            >
-            <div 
-              v-for="(layer, index) in layersVisibility.layers_switches"
-              :key="index"
-              class="field"
+            <MglMap
+              :access-token="'noToken'"
+              :mapStyle.sync="mapStyle"
+              :center="center"
+              :zoom="zoom"
+              :maxZoom="maxZoom"
+              :minZoom="minZoom"
+              @load="onMapLoaded"
+              ref='mapboxDiv'
               >
-              <input 
-                class="is-checkradio" 
-                :id="layer.label" 
-                :name="layer.label" 
-                :checked=" layer.default_visible ? 'checked' : false"
-                type="checkbox" 
-                @click="switchLayerVisibility( layer.label )"
-                >
-              <label 
-                :for="layer.label">
-                {{ layer.label }}
-              </label>
-            </div>
-          </div>
-        </div>
 
-        <!-- SCALE LEGEND -->
-        <div 
-          v-if="findCurrentChorosource"
-          class="legend" 
-          >
 
-          <button 
-            class="button is-small is-fullwidth is-info-b is-outlined"
-            @click="switchLegendDrawer()"
-            >
-            {{ findCurrentChorosource.legend.title }}
-          </button>
+              <!-- CONTROLS -->
+              <MglNavigationControl position="bottom-right" />
 
-          <!-- <code><pre>{{ findCurrentChorosource.legend }}</pre></code> -->
-          <!-- <p> {{ findCurrentChorosource.source_id }} </p> -->
-          <!-- getZoom : {{ getZoom }} -->
-          <!-- findCurrentChorosource.max_zoom : {{ findCurrentChorosource.max_zoom }} -->
+            </MglMap>
+            
 
-          <div 
-            v-show="drawerScalesOpen"
-            class="legend-content"
-            >
-            <div 
-              v-for="(scale, index) in findCurrentChorosource.legend.scales"
-              :key="index">
-              <div>
-                <span 
-                :style='`background-color: ${ scale.color }`'></span>
-                {{ scale.value }}
-                </div>
-            </div>
-          </div>
+            <div> 
+              <!-- zoom : <code>{{ zoom }}</code><br> -->
+              <!-- projects : <code>{{ projects }}</code><br> -->
+              <!-- displayedProject : <code>{{ displayedProject }}</code><br> -->
+              <!-- itemsForMap : <code>{{ itemsForMap}}</code><br> -->
+            </div> 
+
+            <!-- <div id="mapboxDiv">
+            </div> -->
+
+
+
+          </no-ssr>
+
+
+          <!-- <code><pre>{{ findCurrentChorosource }}</pre></code> -->
+
+
+          <!-- DEBUGGING -->
+          <!-- <div class="column is-half"> -->
+          <!-- <div class="container"> -->
+            <!-- <br><br><br> -->
+              <!-- getCenter => ( lng : {{ getCenter.lng }}, lat : {{ getCenter.lat }} ) <br> -->
+              <!-- getZoom => {{ getZoom }} <br> -->
+              <!-- 
+              getViewBox => {{ getViewBbox }}<br>
+              getBbox => _ne : (lng : {{ getBbox._ne.lng }}, lat : {{ getBbox._ne.lat }}) / _sw : (lng : {{ getBbox._sw.lng }}, lat : {{ getBbox._sw.lat }}) <br>
+              updatingChoroLayers => <code>{{ updatingChoroLayers }}</code><br>
+              getCorrespondingChoroConfigs => <code><pre>{{ getCorrespondingChoroConfigs.map( c => { return { source_id : c.source_id , update_src_options : c.update_src_options } }) }}</pre></code><br> 
+              -->
+              <!-- chroplethGeoJSONS : <code><pre>{{ chroplethGeoJSONS.map( i => { return { source_id : i.source_id, is_loaded : i.is_loaded, feat0props : i.data && i.data.features.map( n => { return n.properties }) } } ) }}</pre></code> -->
+              <!-- getCorrespondingChoroConfig.layer_id => {{ getCorrespondingChoroConfig.layer_id }}<br> -->
+              <!-- getCorrespondingChoroConfig => <code><pre>{{ getCorrespondingChoroConfig }}</pre></code><br> -->
+              <!-- getRenderedChoroFeatures("chorolayer-departements") => {{ getRenderedChoroFeatures("chorolayer-departements").length }}<br> -->
+              <!-- getRenderedChoroFeatures => <code>{{ getRenderedChoroFeatures.length && getRenderedChoroFeatures.map( i => { return { layer : i && i.layer.id, prop : i && i.properties } } ) }}</code><br> -->
+            <!-- </div> -->
+          <!-- </div> -->
 
         </div>
-      </div>
-      
-      <!-- <div id='county-legend' class='legend' style='display: none;'>
-        <h4>Population</h4>
-        <div><span style='background-color: #723122'></span>1,000,000</div>
-        <div><span style='background-color: #8B4225'></span>500,000</div>
-        <div><span style='background-color: #A25626'></span>100,000</div>
-        <div><span style='background-color: #B86B25'></span>50,000</div>
-        <div><span style='background-color: #CA8323'></span>10,000</div>
-        <div><span style='background-color: #DA9C20'></span>5,000</div>
-        <div><span style='background-color: #E6B71E'></span>1,000</div>
-        <div><span style='background-color: #EED322'></span>100</div>
-        <div><span style='background-color: #F2F12D'></span>0</div>
-      </div> -->
 
-
-      <!-- <div id='state-legend' class='legend legend-bottom-left'>
-        <h4>Population</h4>
-        <div><span style='background-color: #723122'></span>25,000,000</div>
-        <div><span style='background-color: #8B4225'></span>10,000,000</div>
-        <div><span style='background-color: #A25626'></span>7,500,000</div>
-        <div><span style='background-color: #B86B25'></span>5,000,000</div>
-        <div><span style='background-color: #CA8323'></span>2,500,000</div>
-        <div><span style='background-color: #DA9C20'></span>1,000,000</div>
-        <div><span style='background-color: #E6B71E'></span>750,000</div>
-        <div><span style='background-color: #EED322'></span>500,000</div>
-        <div><span style='background-color: #F2F12D'></span>0</div>
-      </div> -->
-
-
-    <!-- MAP WITH MAPBOX GL -->
-    <no-ssr>
-
-      <MglMap
-        :access-token="'noToken'"
-        :mapStyle.sync="mapStyle"
-        :center="center"
-        :zoom="zoom"
-        :maxZoom="maxZoom"
-        :minZoom="minZoom"
-        @load="onMapLoaded"
-        ref='mapboxDiv'
-        >
-
-        <!-- MARKERS -->
-        <template
-          v-if="itemsForMap && itemsForMap.length < markersTreshold"
-          >
-          <div 
-            v-for="(item, index) in itemsForMap"
-            :key="index"
-            >
-            <!-- <MglMarker
-              :coordinates="[item.lon, item.lat]"
-              color='#90689a'
-              @click="highlightItem(item)"
-              > -->
-              <!-- <MglPopup>
-                <div>
-                  sd_id : {{ item.sd_id }}
-                </div>
-              </MglPopup> -->
-
-            <!-- </MglMarker> -->
-          </div>
-        </template>
-
-        <!-- CLUSTER -->
-        <!-- <template
-          v-if="geoJsonSource && geoJsonlayer"
-          > -->
-          <!-- <MglGeojsonLayer
-            :sourceId="geoJsonSource.id"
-            :source="geoJsonSource"
-            layerId="clusters-id"
-            :layer="geoJsonlayer"
-          /> -->
-        <!-- </template> -->
-
-        <!-- CONTROLS -->
-        <!-- <MglGeolocateControl ref="geolocateControl"/> -->
-        <MglNavigationControl position="bottom-right" />
-
-      </MglMap>
-      
-
-      <div> 
-        <!-- projects : <code>{{ projects }}</code><br> -->
-        <!-- displayedProject : <code>{{ displayedProject }}</code><br> -->
-        <!-- itemsForMap : <code>{{ itemsForMap}}</code><br> -->
-      </div> 
-
-      <!-- <div id="mapboxDiv">
-      </div> -->
+      <!-- </div> -->
 
 
 
-    </no-ssr>
-
-
-    <!-- <code><pre>{{ findCurrentChorosource }}</pre></code> -->
-
+    <!-- </div>
 
   </div>
+
+</div> -->
+
+  
+
 </template>
 
 
@@ -310,6 +285,7 @@ import { VIEW_MAP, GeoCenters } from '../../config/constants.js'
 import Mapbox from "mapbox-gl";
 import { MglMap } from "vue-mapbox";
 import mapboxgl from 'mapbox-gl'
+import * as turf from '@turf/turf'
 
 // TO DO => COMMENT getItemById and replace by an action
 // import { getItemById } from '~/plugins/utils.js';
@@ -369,6 +345,9 @@ export default {
       isHeatmap : false,
 
       chroplethGeoJSONS : [],
+      updatingChoroLayers : {},
+      currentCenterFeature : undefined,
+
       popup : undefined,
       // PopupClass: Vue.extend(PopupContent),
       // legendContent : undefined,
@@ -378,6 +357,8 @@ export default {
 
       // LOCAL DATA
       VIEW_MAP,
+      fieldLat : undefined,
+      fieldLong : undefined,
       iconSizeNormal : [29, 29],
       iconSizeHighlighted : [49, 49],
 
@@ -388,7 +369,8 @@ export default {
       // highlightedItem: undefined,
       itemLoaded: false,
       itemLoading: false,
-      showCard:false,
+      showCard: false,
+      showLoader: false,
 
       markerCoordinates: [2.2137, 46.2276], // { lat : 46.2276, lon : 2.2137 } ,
 
@@ -396,12 +378,12 @@ export default {
       preferCanvas: true,
       currentZoom: 6,
 
-      zoom: GeoCenters.FRANCE.zoom,
-      maxZoom: GeoCenters.FRANCE.maxZoom,
-      minZoom: GeoCenters.FRANCE.minZoom,
+      zoom: undefined, //GeoCenters.FRANCE.zoom,
+      maxZoom: undefined, //GeoCenters.FRANCE.maxZoom,
+      minZoom: undefined, //GeoCenters.FRANCE.minZoom,
 
-      center: GeoCenters.FRANCE.center,
-      currentCenter: GeoCenters.FRANCE.center,
+      center: undefined, //GeoCenters.FRANCE.center,
+      currentCenter: undefined, //GeoCenters.FRANCE.center,
 
       // url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
       // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contibutors',
@@ -437,21 +419,24 @@ export default {
     this.log && console.log("C-SearchResultsMapbox / contentFields : \n", this.contentFields)
 
     // set up MAPBOX options
-    const mapOptions = this.endPointConfig.map_options
-    this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
+    // const mapOptions = this.endPointConfig.map_options
+    // this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
 
     const mapOptionsRoute = this.routeConfig.map_options
     this.log && console.log("C-SearchResultsMapbox / mapOptionsRoute : \n", mapOptionsRoute)
 
-    this.zoom        = mapOptions.zoom
-    this.maxZoom     = mapOptions.maxZoom
-    this.minZoom     = mapOptions.minZoom
-    this.currentZoom = mapOptions.currentZoom
+    this.fieldLat    = this.routeConfig.lat_long_fields.latitude
+    this.fieldLong   = this.routeConfig.lat_long_fields.longitude
 
-    this.center      = [ mapOptions.center[1], mapOptions.center[0] ]
+    this.zoom        = mapOptionsRoute.zoom
+    this.maxZoom     = mapOptionsRoute.maxZoom
+    this.minZoom     = mapOptionsRoute.minZoom
+    this.currentZoom = mapOptionsRoute.currentZoom
+
+    this.center      = [ mapOptionsRoute.center[1], mapOptionsRoute.center[0] ]
     // this.center = [0,0]
 
-    this.currentCenter = mapOptions.currentCenter
+    this.currentCenter = mapOptionsRoute.currentCenter
 
     // LEGACTY LEAFLET
     // this.url = mapOptions.url
@@ -506,7 +491,7 @@ export default {
 
         if ( !this.isClusterSet && this.itemsForMap ) {
           this.log && console.log('C-SearchResultsMapbox / watch - map - createGeoJsonDataPoints ( from geoJson.js ) ...')
-          this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
+          this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
           // this.log && console.log('C-SearchResultsMapbox / watch - map - this.geoJson : ', this.geoJson)
           this.createMapItems(this.geoJson)
         } 
@@ -530,7 +515,7 @@ export default {
 
       if ( this.map && !this.isClusterSet && this.itemsForMap ) {
         this.log && console.log('\nC-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ( from geoJson.js ) ...')
-        this.geoJson = createGeoJsonDataPoints(this.itemsForMap)
+        this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
         // this.log && console.log('C-SearchResultsMapbox / watch - projects - this.geoJson : ', this.geoJson)
         this.createMapItems(this.geoJson)
       } 
@@ -551,6 +536,59 @@ export default {
     //   this.log && console.log('C-SearchResultsMapbox / watch - next : ', next)
     //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
     // },
+
+    getCenter(next, prev){
+
+      this.log && console.log('\nC-SearchResultsMapbox / watch - getCenter ...')
+      let stringNextCenter = JSON.stringify( next )
+      let stringPrevCenter = JSON.stringify( prev )
+
+      if ( stringNextCenter !== stringPrevCenter ){
+        let choroConfigs = this.getCorrespondingChoroConfigs
+        if ( choroConfigs.length > 1 ){
+
+          let layersToCheck = choroConfigs.filter( c => c.update_src_from_previous_source )
+          
+          // if () {
+
+          // }
+
+          layersToCheck.forEach( sourceConfig => {
+            this.updateChoroSourceByZoom( sourceConfig )
+          })
+
+        }
+      }
+    },
+
+    getCorrespondingChoroConfigs(next, prev){
+
+      let nextSourceIds = next.map( c => { return c.source_id })
+      let stringNextSourceIds = JSON.stringify( nextSourceIds.sort() )
+
+      let prevSourceIds = prev.map( c => { return c.source_id })
+      let stringPrevSourceIds = JSON.stringify( prevSourceIds.sort() )
+      
+      // check if list of sources rendered has changed
+      if ( stringNextSourceIds !== stringPrevSourceIds ){
+        this.log && console.log('\nC-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / next : ', next)
+        this.log && console.log('\nC-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / nextSourceIds : ', nextSourceIds)
+        // this.log && console.log('C-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / prevSourceIds : ', prevSourceIds)
+
+        // list layers needing 
+        let layersToCheck = next.filter( c => c.update_src_from_previous_source )
+
+        if ( layersToCheck.length > 0 && nextSourceIds.length > 1 ){
+          this.log && console.log('C-SearchResultsMapbox / watch - getCorrespondingChoroConfigs / layersToCheck : ', layersToCheck)
+          layersToCheck.forEach( sourceConfig => {
+            this.updateChoroSourceByZoom( sourceConfig )
+          })
+        }
+
+
+      }
+
+    }
 
   },
 
@@ -601,6 +639,88 @@ export default {
     getZoom(){
       return this.map && this.map.getZoom()
     },
+    getCenter(){
+      let center = this.map && this.map.getCenter()
+      center = center ? center : { lat : null, lng : null }
+      return center
+    },
+    getBbox(){
+      let bbox = this.map && this.map.getBounds()
+      let emptyBox = { 
+        _ne : { lat : null, lng : null },
+        _sw : { lat : null, lng : null }
+      }
+      bbox = bbox ? bbox : emptyBox
+      // this.log && console.log('C-SearchResultsMapbox / getBbox / bbox : ', bbox)
+      return bbox
+    },
+    getViewBbox(){
+
+      let mapbox = this.map
+
+      var canvas = mapbox && mapbox.getCanvasContainer()
+      // this.log && console.log('C-SearchResultsMapbox / getViewBbox / canvas : ', canvas)
+
+      var rect = canvas && canvas.getBoundingClientRect()
+      // this.log && console.log('C-SearchResultsMapbox / getViewBbox / rect : ', rect)
+      // let currentRectSW = canvas && new mapboxgl.Point( canvas.clientRight, canvas.clientBottom )
+      // let currentRectNE = canvas && new mapboxgl.Point( canvas.clientLeft, canvas.clientTop )
+      let currentRectSW = canvas && new mapboxgl.Point( rect.right, rect.bottom )
+      let currentRectNE = canvas && new mapboxgl.Point( rect.left, rect.right )
+      let currrentViewBbox = [ currentRectSW, currentRectNE ]
+      // this.log && console.log('C-SearchResultsMapbox / getViewBbox / currrentViewBbox : ', currrentViewBbox)
+
+      return currrentViewBbox
+    },
+
+    getCorrespondingChoroConfigs(){
+
+      let currentZoom = this.getZoom
+      const mapboxOptions = this.routeConfig.map_options.mapbox_layers
+      const mapboxChoroConfigs = mapboxOptions &&  mapboxOptions.choropleth_layer &&  mapboxOptions.choropleth_layer.sources
+      // this.log && console.log('C-SearchResultsMapbox / getCorrespondingChoroConfigs / mapboxChoroConfigs : ', mapboxChoroConfigs)
+
+      const emptyChoroConfigs = [
+        {
+          source_id : null ,
+          layer_id  : null ,
+          source_url : null, 
+          max_zoom : null,
+          min_zoom : null,
+        }
+      ]
+      let choroConfigs = mapboxChoroConfigs && mapboxChoroConfigs.filter( conf => 
+        { 
+          let isZoomRrange = conf.max_zoom > currentZoom && conf.min_zoom < currentZoom 
+          let isActivated = conf.is_activated
+          return isZoomRrange && isActivated
+        }
+      )
+      return choroConfigs && choroConfigs.length > 0 ? choroConfigs : emptyChoroConfigs
+    },
+    getCorrespondingChoroToUpdate(){
+      let currentZoom = this.getZoom
+      // const mapboxOptions = this.routeConfig.map_options.mapbox_layers
+      // const mapboxChoroConfigs = mapboxOptions &&  mapboxOptions.choropleth_layer &&  mapboxOptions.choropleth_layer.sources
+      // // this.log && console.log('C-SearchResultsMapbox / getCorrespondingChoroConfig / mapboxChoroConfigs : ', mapboxChoroConfigs)
+
+      const emptyChoroConfig = {
+        source_id : null ,
+        layer_id  : null ,
+        source_url : null, 
+        max_zoom : null,
+        min_zoom : null,
+      }
+      let choroConfigs = this.getCorrespondingChoroConfigs
+      let choroSourceIds = choroConfigs.map( c => {
+        return c.source_id
+      })
+      let choroConfig = choroConfigs.length && choroConfigs.filter( conf => {
+        return c.update_src_from_previous_source && choroSourceIds.includes(conf.source_id)
+      })
+      return choroConfig ? choroConfig : emptyChoroConfig
+    },
+
 
   },
 
@@ -624,9 +744,57 @@ export default {
       // this.$store.commit('search/setMap', {map : event.map}) // trigger mutation directly
     },
 
+    getRenderedChoroFeatures( layerId ){
+
+      // this.log && console.log('\nC-SearchResultsMapbox / getRenderedFeatures... ')
+      let mapbox = this.map
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / mapbox : ', mapbox)
+      
+      let currrentViewCenter = this.getCenter
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewCenter : ', currrentViewCenter)
+      
+      let currrentViewBbox = this.getViewBbox
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewBbox : ', currrentViewBbox)
+      
+      let renderedFeatures
+      try {
+        // renderedFeatures = mapbox.queryRenderedFeatures( )
+        renderedFeatures = mapbox.queryRenderedFeatures( currrentViewBbox , { layers : [ layerId ] } )
+      } catch (err) {
+        renderedFeatures = err
+      }
+      this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / renderedFeatures : ', renderedFeatures)
+      return renderedFeatures 
+    },
 
     // - - - - - - - - - - - - - - - - - - //
     // MAIN MAP FUNCTIONS
+
+    joinProjectsToPolygon( source, dataLoaded, choroRefIdex, noDataProxy=false ){
+
+      // modify / agregate data
+      let mapbox = this.map
+      let items = this.projects
+      this.showLoader = true 
+
+      let dataFeatures = dataLoaded.features
+      dataFeatures.forEach( i => {
+        const result = items.reduce( (sum, item) => 
+          ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
+        )
+        i.properties[ source.agregated_data_field ] = result
+      })
+      dataLoaded.features = dataFeatures
+
+      mapbox.getSource( source.source_id ).setData(dataLoaded)
+
+      this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+      if ( !noDataProxy ){
+        this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+      }
+      this.showLoader = false 
+
+    },
 
     // INITIALIZATION
     createMapItems(geoJson){
@@ -670,7 +838,7 @@ export default {
         let geoJsonSourceId   = mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.source_id ? mapboxOptions.cluster_circles_layer.source_id : "clusterSource"
 
         this.log && console.log("\nC-SearchResultsMapbox / updateSourceData / createGeoJsonDataPoints ( from geoJson.js ) ...")
-        let geoJson = createGeoJsonDataPoints(itemsForMap)
+        let geoJson = createGeoJsonDataPoints(itemsForMap, this.fieldLat, this.fieldLong)
 
         this.map.getSource( allPointsSourceId ).setData(geoJson)
         this.map.getSource( geoJsonSourceId ).setData(geoJson)
@@ -694,6 +862,7 @@ export default {
       let mapbox = this.map
       const mapboxOptions = this.routeConfig.map_options.mapbox_layers
 
+      this.showLoader = true 
       // - - - - - - - - - - - - - - - - //
       // SOURCE - ALL POINTS
       if ( mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.is_activated ){
@@ -729,7 +898,9 @@ export default {
         })
         mapbox.addSource( geoJsonSourceId, geoJsonSource)
       }
-      
+
+      this.showLoader = false 
+
 
     },
 
@@ -743,6 +914,8 @@ export default {
       // - - - - - - - - - - - - - - - - //
       // SOURCE - CHOROPLETH //
       if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
+        
+        this.showLoader = true 
   
         // cf : https://github.com/gregoiredavid/france-geojson
         // cf : https://geojson-maps.ash.ms/
@@ -757,8 +930,9 @@ export default {
         
         for ( let source of choroplethConfigOptions.sources ) {
                   
-          if (source.is_activated ){
-          
+          if ( source.is_activated ){
+            
+            // create dummy empty source
             this.log && console.log("\nC-SearchResultsMapbox / createChoroplethSource / source.source_id : ", source.source_id )
             
             this.chroplethGeoJSONS.push({
@@ -784,6 +958,7 @@ export default {
 
             if ( source.need_aggregation && !isUpdate ){
 
+              // creation as dummy empty source
               this.log && console.log("C-SearchResultsMapbox / createChoroplethSource / source.need_aggregation && !isUpdate " )
               mapbox.addSource( source.source_id, 
                 {
@@ -791,9 +966,10 @@ export default {
                   data: dummyGeoJson
                 }
               )
+              this.showLoader = false 
             }
 
-            if ( source.need_aggregation ) {
+            if ( source.need_aggregation && !source.update_src_from_previous_source ) {
               // if ( source.need_aggregation && isUpdate ) {
               
               this.log && console.log("C-SearchResultsMapbox / createChoroplethSource / source.need_aggregation + isUpdate : ", isUpdate )
@@ -808,23 +984,10 @@ export default {
                   this.log && console.log("C-SearchResultsMapbox / createAddGeoJsonSource / resp.data :", resp.data)
     
                   let dataLoaded = resp.data
-    
+ 
                   // modify / agregate data
-                  let items = this.projects
-  
-                  let dataFeatures = dataLoaded.features
-                  dataFeatures.forEach( i => {
-                    const result = items.reduce( (sum, item) => 
-                      ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
-                    )
-                    i.properties[ source.agregated_data_field ] = result
-                  })
-                  dataLoaded.features = dataFeatures
-    
-                  mapbox.getSource( source.source_id ).setData(dataLoaded)
-  
-                  this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
-                  this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+                  this.joinProjectsToPolygon( source, dataLoaded, choroRefIdex ) 
+
                 }) 
               }
 
@@ -834,22 +997,10 @@ export default {
                 let dataLoaded = this.chroplethGeoJSONS[ choroRefIdex ]['data']
 
                 if ( isDataLoaded ) {
+                  
                   // modify / agregate data
-                  let items = this.projects
-  
-                  let dataFeatures = dataLoaded.features
-                  dataFeatures.forEach( i => {
-                    const result = items.reduce( (sum, item) => 
-                      ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
-                    )
-                    i.properties[ source.agregated_data_field ] = result
-                  })
-                  dataLoaded.features = dataFeatures
-    
-                  mapbox.getSource( source.source_id ).setData(dataLoaded)
-  
-                  this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
-                  this.chroplethGeoJSONS[ choroRefIdex ]['data'] = dataLoaded
+                  this.joinProjectsToPolygon( source, dataLoaded, choroRefIdex ) 
+
                 }
               }
 
@@ -857,7 +1008,7 @@ export default {
             } 
 
             // if ( !source.need_aggregation || !isUpdate ) {
-            if ( !source.need_aggregation ) {
+            if ( !source.need_aggregation && !isUpdate ) {
               this.log && console.log("C-SearchResultsMapbox / createChoroplethSource / !source.need_aggregation " )
               mapbox.addSource( source.source_id, 
                 {
@@ -867,13 +1018,123 @@ export default {
               )
               let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === source.source_id )
               this.chroplethGeoJSONS[ choroRefIdex ]['is_loaded'] = true
+
+              this.showLoader = false 
             }
 
           }
 
         }
 
+
       }
+    },
+
+    updateChoroSourceByZoom( choroSourceConfig, featuresArray=undefined ){
+
+      // called by watching "getCorrespondingChoroConfigs" computed value
+      this.updatingChoroLayers[ choroSourceConfig.layer_id ] = { is_updating : true }
+
+      this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / choroSourceConfig : ", choroSourceConfig )
+      let mapbox = this.map
+      let center = this.getCenter
+
+      let choroRefIdex= this.chroplethGeoJSONS.findIndex( c => c.source_id === choroSourceConfig.source_id )
+      this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / choroRefIdex : ", choroRefIdex )
+
+      for (let update of choroSourceConfig.update_src_options ){
+
+        let upperSourceId = update.upper_source_id
+        let upperLayerId = update.upper_layer_id
+        let slugs_map = update.slugs_map
+
+        let upperRenderredFeatures 
+        if ( !featuresArray ){
+          upperRenderredFeatures = this.getRenderedChoroFeatures( upperLayerId )
+
+          let renderredCenters = {
+            type : "FeatureCollection",
+            features : []
+          }
+          for (let f of upperRenderredFeatures ){
+            let fCenter = turf.centerOfMass( f )
+            fCenter.properties = f.properties
+            renderredCenters.features.push( fCenter )
+          }
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / renderredCenters : ", renderredCenters )
+
+          if ( update.upper_load_feat === "only_center" ){
+
+            let viewCenter = turf.point( [ center.lng, center.lat ] )
+            this.log && console.log("\nC-SearchResultsMapbox / updateChoroSourceByZoom / viewCenter : ", viewCenter )
+
+            var nearest = turf.nearestPoint(viewCenter, renderredCenters)
+            this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / nearest : ", nearest )
+            let nearestFeature = upperRenderredFeatures.find( f => f.properties[ update.upper_main_matching_prop] === nearest.properties[ update.upper_main_matching_prop] )
+            upperRenderredFeatures = [ nearestFeature ]
+            this.currentCenterFeature = nearestFeature
+          }
+
+        } else {
+          upperRenderredFeatures = featuresArray
+        }
+        this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / upperRenderredFeatures : ", upperRenderredFeatures )
+
+        // if ( update.upper_load_feat === "only_center" ){
+
+        // }
+
+        let promisesArray = []
+
+        for (let feat of upperRenderredFeatures) {
+
+          // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / feat.properties : ", feat.properties )
+
+          let url_base = update.url_base 
+          for (let slug of slugs_map) {
+            let prop_field = slug.value_property
+            let value = feat.properties[ prop_field ]
+            let slug_code = "<" + slug.value_slug_code + ">"
+            url_base = url_base.replace( slug_code, value )
+          }
+
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / url_base : ", url_base )
+          let choroSource = getJson( url_base )
+          promisesArray.push(choroSource)
+          // choroSource.then(( resp ) => {
+          //   this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / response came back for url_base : ", url_base)
+          //   // this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / resp :", resp)
+          //   let dataLoaded = resp.data
+          //   mapbox.getSource( choroSourceConfig.source_id ).setData(dataLoaded)
+          // })
+
+        }
+
+        Promise.all( promisesArray ).then( results => {
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / results : ", results)
+          let dataLoaded = {
+            type : "FeatureCollection",
+            features : []
+          }
+          results.forEach( r => { 
+            let data = r.data && r.data.features
+            if ( data && data.length > 0 ){
+              dataLoaded.features = dataLoaded.features.concat( data )
+            }
+          })
+          this.log && console.log("C-SearchResultsMapbox / updateChoroSourceByZoom / dataLoaded : ", dataLoaded)
+
+          if ( choroSourceConfig.need_aggregation ){
+            this.joinProjectsToPolygon( choroSourceConfig, dataLoaded, choroRefIdex, true ) 
+          }
+
+          mapbox.getSource( choroSourceConfig.source_id ).setData(dataLoaded)
+        })
+
+      }
+
+      this.updatingChoroLayers[ choroSourceConfig.layer_id ] = { is_updating : false }
+
     },
 
     // LAYERS
@@ -886,6 +1147,7 @@ export default {
 
       let mapboxOptions = this.routeConfig.map_options.mapbox_layers
       let mapboxMap = this.map 
+      let mapZoom = this.getZoom
 
       let displayPoint = this.highlightItem
 
@@ -926,6 +1188,7 @@ export default {
         )
         mapboxMap.addLayer(allPointsConfig)
         if ( allPointsConfigOptions.is_clickable ) {
+
           mapboxMap.on('click', allPointsLayerId, function (e) {
             
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ allPointsLayerId ] });
@@ -939,6 +1202,7 @@ export default {
 
             mapboxMap.easeTo({
               center: coordinates,
+              zoom : mapZoom + 2
             })
 
             let itemProps = featuresPoint[0].properties

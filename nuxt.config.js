@@ -2,6 +2,9 @@ import pkg from './package'
 
 require('dotenv').config()
 
+console.log('>>> nuxt.config.js / process.env.NUXT_APP_CONFIG_NAME : ', process.env.NUXT_APP_CONFIG_NAME)
+const envAppName = process.env.NUXT_APP_CONFIG_NAME || 'APIVIZ'
+
 // console.log('>>> nuxt.config.js / process.env :\n', process.env)
 console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID : ', process.env.NUXT_APIVIZ_UUID)
 
@@ -48,8 +51,7 @@ export default {
   cf : https://samuelcoe.com/blog/nuxt-dotenv/
   */
   env: {
-    // ApivizUUID : "c5efafab-1733-4ad1-9eb8-d529bc87c481", // config SONUM
-    // ApivizUUID : "f0a482da-28be-4929-a443-f22ecb03ee68", // config APCIS
+    AppConfigName : envAppName,
     ApivizUUID : process.env.NUXT_APIVIZ_UUID,
     BackendMode : envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
@@ -111,14 +113,22 @@ export default {
   cf : https://nuxtjs.org/api/configuration-plugins
   */
   plugins: [
+
     {src: '~plugins/vee-validate.js', ssr: false},
-    // '~/plugins/axios',
+
     '~/plugins/translate',
+    // '~/plugins/axios',
     // '~/plugins/checkTokens',
     // '~/plugins/utils',
+
     '~/plugins/json-editor',
+
+    // '~/plugins/turf-plugin',
     { src: '~/plugins/mapbox', mode: 'client' },
     { src: '~/plugins/apexCharts', mode: 'client' },
+
+    // { src: '~plugins/full-calendar', ssr: false }
+    { src: '~plugins/vue-event-calendar', ssr: false }
   ],
 
   /*
@@ -178,7 +188,8 @@ export default {
     vendors : [
       'axios',
       // 'vee-validate',
-      'mapbox-gl'
+      'mapbox-gl',
+      // 'turf'
     ],
 
     extractCSS: true,

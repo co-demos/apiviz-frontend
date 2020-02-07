@@ -1,6 +1,7 @@
 <template>
   <div>
 
+    <!-- NAVBAR -->
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
 
@@ -298,6 +299,15 @@
                 <div class="step-marker">5</div>
                 <div class="step-details">
                   <p class="step-title">
+                    <!-- Your data -->
+                    {{ basicDict.step_data[locale] }}
+                  </p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-marker">6</div>
+                <div class="step-details">
+                  <p class="step-title">
                     <!-- Finish -->
                     {{ basicDict.step_finish[locale] }}
                   </p>
@@ -562,7 +572,117 @@
 
                 </div>
 
-                <!-- STEPS 5 / CREATE BUTTON -->
+                <!-- STEPS 5 / DATA  -->
+                <div class="step-content has-text-centered">
+
+                  <!-- <br>
+                    [ {{ basicDict.optionnal[locale] }} ]
+                  <br> -->
+
+                  <br>
+                  <br>
+                  <!-- <div class="control"> -->
+                    <div 
+                      class="field"
+                      >
+                      <input 
+                        class="is-checkradio" 
+                        id="new_endpoint" 
+                        name="new_endpoint_label" 
+                        :checked="hasNewDataEndpointSetup"
+                        type="checkbox" 
+                        @click="triggerNeedNewDataEndpointSetup()"
+                        >
+                      <label 
+                        for="new_endpoint"
+                        >
+                        {{ basicDict.data_new_endpoint_question[locale] }}
+                        ( {{ basicDict.optionnal[locale] }} )
+                      </label>
+                    </div>
+                  <!-- </div> -->
+
+                  <br>
+
+                  <!-- CHOOSE A SOLIDATA DATASET ID REF / OR UPLOAD FILE TO SOLIDATA -->
+                  <div 
+                    v-show="hasNewDataEndpointSetup"
+                    class="columns is-centered"
+                    >
+                    <br>
+                    <br>
+                    <div class="column is-10">
+
+                      <div class="control">
+
+                        <div class="field is-horizontal">
+                          <div class="field-label" style="flex-grow : 2">
+                            <label class="label">
+                              {{ basicDict.data_solidata_endpoint_url_1a[locale] }}
+                            </label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field">
+                          <div class="control">
+                            <input 
+                              class="input has-text-centered" 
+                              v-model="new_data_endpoint_id"
+                              type="text" 
+                              :placeholder="basicDict.data_solidata_endpoint_url_1b[locale]"
+                              @change="updateJsonData( 'update_ds_id' )"
+                              >
+                          </div>
+                            </div>
+                          </div>
+                        <!-- </div> -->
+
+                          <div class="select is-primary is-primary-b ">
+
+                            <select 
+                              v-model="new_data_selectedDsType"
+                              @change="updateJsonData( 'update_ds_type' )"
+                              >
+
+                              <option  
+                                :value="null" disabled>
+                                {{ basicDict.data_new_endpoint_dsType[locale]}}
+                              </option>
+
+                              <option 
+                                v-for="(dsType, index) in ['dsi', 'dso']" 
+                                :key="index"
+                                :value="dsType"
+                                >
+                                {{ dsType }}
+                              </option>
+
+                            </select>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      <hr>
+
+                      <vue-json-editor 
+                        class="JSON-scrollable"
+                        v-model="new_data_endpoint_json" 
+                        :show-btns="false" 
+                        @json-change="onChangeData">
+                      </vue-json-editor>
+
+                    </div>
+                  </div>
+
+                  <br>
+
+                  <hr class="no-bottom-margin">
+
+                </div>
+
+                <!-- STEPS 6 / CREATE BUTTON -->
                 <div class="step-content has-text-centered">
                   
                   <br> 
@@ -644,6 +764,23 @@
                       <p class="content hast-text-centered">
                         {{ new_admin_email }}
                       </p>
+
+
+                      <!-- REPEAT DATA INFOS -->
+                      <div 
+                        v-show="hasNewDataEndpointSetup"
+                        >
+                        <div 
+                          class="is-divider" 
+                          :data-content="basicDict.data_solidata_endpoint_url_1c[locale]">
+                        </div>
+                        <p 
+                          class="content hast-text-centered">
+                          {{ basicDict.data_new_endpoint_dsId[locale] }} : {{ new_data_endpoint_id }} <br>
+                          {{ basicDict.data_new_endpoint_dsType[locale] }} : {{ new_data_selectedDsType }} <br>
+                        </p>
+                      </div>
+
                     </div>
                     
                     <!-- IMAGE PREVIEW OF SELECTED MODEL -->
@@ -799,6 +936,7 @@
 
           </div>
         </div>
+
       </div>
     </section>
 
@@ -877,6 +1015,71 @@
         new_admin_name : '',
         new_admin_surname : '',
 
+        hasNewDataEndpointSetup : false,
+        new_data_endpoint_route_base : 'https://solidata-api.co-demos.com/api/',
+        new_data_selectedDsType : 'dsi',
+        new_data_endpoint_id : '',
+        new_data_endpoint_json : 
+        // [
+          {
+            dataset_uri : 'my_new_dataset',
+            filters : {
+              filter_options : [
+                {	
+                  name		: '',
+                  id     : '',
+                  col_name : '',
+                  dataType : 'text',
+                  filter_title : [
+                    { locale : "en", text : "my_ttile"},
+                    { locale : "es", text : "my_ttile"},
+                    { locale : "tr", text : "my_ttile"},
+                    { locale : "de", text : "my_ttile"}, 
+                    { locale : "fr", text : "my_ttile" }
+                  ],
+                  choices	: [
+                    { name : '', 
+                      choice_title : [
+                        { locale : 'en', text : ''},
+                        { locale : 'es', text : ''},
+                        { locale : 'tr', text : ''},
+                        { locale : 'de', text : ''}, 
+                        { locale : 'fr', text : '' }
+                      ]
+                    }
+                  ],
+                }
+              ],
+            },
+            endpoints : {
+              export : { route_url : 'https://solidata-api.co-demos.com/api/' },
+              map :    { route_url : 'https://solidata-api.co-demos.com/api/' },
+              list :   { route_url : 'https://solidata-api.co-demos.com/api/' },
+              table :  { route_url : 'https://solidata-api.co-demos.com/api/' },
+              detail : { route_url : 'https://solidata-api.co-demos.com/api/' },
+              stats :  { route_url : 'https://solidata-api.co-demos.com/api/' }
+            },
+            routes : {
+              map : {
+                content_fields : []
+              },
+              list : {
+                content_fields : []
+              },
+              table : {
+                content_fields : []
+              },
+              detail : {
+                content_fields : []
+              }
+            }
+          },
+        // ],
+
+        new_data_id : '',
+        new_data_type : '',
+
+
         basicDict : BasicDictionnary, 
         specsRenderer : {
           app_colors : { field: "content", render : 'colorsLoop' },
@@ -920,6 +1123,9 @@
           new_admin : this.new_admin_email,
           new_admin_name : this.new_admin_name,
           new_admin_surname : this.new_admin_surname,
+
+          new_endpoint_data : hasNewDataEndpointSetup ? this.new_data_endpoint_json : undefined,
+
         }
       },
 
@@ -933,8 +1139,41 @@
       //   this.$store.dispatch('config/getDefaultApivizModels')
       // },
 
+      onChangeData(data) {
+        this.new_data_endpoint_json = data
+      },
+
       triggerBurger(){
         this.showNav = !this.showNav
+      },
+
+      triggerNeedNewDataEndpointSetup(){
+        // this.log && console.log('\nP-new-apiviz-instance.vue / triggerNeedNewDataEndpointSetup...')
+        this.hasNewDataEndpointSetup = !this.hasNewDataEndpointSetup
+      },
+
+      updateJsonData( update_type ){
+        this.log && console.log('\nP-new-apiviz-instance.vue / updateJsonData / update_type : ', update_type)
+        let data = this.new_data_endpoint_json 
+
+        let stringBase = this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/infos/get_one/' 
+        let stringBase_stats = this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/infos/get_one_stats/' 
+        let stringBase_export= this.new_data_endpoint_route_base + this.new_data_selectedDsType + '/export/as_csv/' 
+
+        data.endpoints.export.route_url = stringBase_export + this.new_data_endpoint_id 
+        data.endpoints.map.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.list.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.table.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.detail.route_url = stringBase + this.new_data_endpoint_id 
+        data.endpoints.stats.route_url = stringBase_stats + this.new_data_endpoint_id 
+
+        if ( update_type === 'update_ds_id' ) {
+
+        }
+        if ( update_type === 'update_ds_type' ) {
+
+        }
+        this.new_data_endpoint_json = data
       },
 
       getUUIDmodel(){
@@ -949,7 +1188,7 @@
         // this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / modelUUID : ', modelUUID)
         this.$store.dispatch('config/getModelFromUuid', modelUUID)
         .then( resp => {
-          // this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / resp.data \n : ', resp.data)
+          this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / resp.data \n : ', resp.data)
           
           let model = resp.data.model 
           // this.log && console.log('\nP-new-apiviz-instance.vue / getUUIDmodel / model \n : ',model)

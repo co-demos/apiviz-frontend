@@ -1,5 +1,9 @@
 <template>
-  <div class="search-bar navbar is-white is-fixed-top has-bottom-border" role="menubar" aria-label="filters navigation">
+  <div 
+    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
+    role="menubar" 
+    aria-label="filters navigation"
+    >
     
     <div class="container">
       
@@ -165,6 +169,7 @@
         showFiltersSwitch_ : true,
         showFilters : true,
         windowWidth : 0,
+        onlyIframe : false,
         // window: {
         //   width: 0,
         //   height: 0
@@ -186,6 +191,11 @@
     beforeMount(){
       this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
+
+      if (this.$nuxt.$route.query.iframing) {
+        this.onlyIframe = true
+      }
+
     },
 
     mounted(){
@@ -218,9 +228,11 @@
       ...mapGetters({
         selectedFilters : 'search/getSelectedFilters',
         filterDescriptions : 'search/getFilterDescriptions',
-        searchedText : 'search/getSearchQuestionQuery'
+        searchedText : 'search/getSearchQuestionQuery',
+        shrinkNav : 'getShrinkNav',
       }),
 
+    
       // searchedText: {
       //   get () { return this.$store.getters['search/getSearchQuestionQuery'] },
       //   // set (value) {
@@ -325,6 +337,10 @@
     margin: 0;
   }
 
+  .iframing{
+    top : 0 !important;
+  }
+
   .getFilterTitle{
     margin-left : 0.3em;
   }
@@ -350,7 +366,9 @@
   .search-bar {
     
     top: $apiviz-navbar-height;
+    // top: 60px ;
     // height: $apiviz-search-bar-height;
+
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 
@@ -430,6 +448,12 @@
       }
 
     }
+
+  }
+
+  .search-bar-shrink {
+    top : $apiviz-navbar-height-shrink !important;
+    transition : top 0.4s ease-out;
   }
 
 </style>

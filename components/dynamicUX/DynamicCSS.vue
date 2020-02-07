@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <style type="text/css">
       a{ 
         color : {{appColors['link']}};
@@ -14,7 +16,7 @@
         border-bottom-color : {{ appColors['navbar-border-color'] }} !important;
       }
       .a-anim:before{
-        background-color: {{appColors['primary']}} !important;
+        background-color: {{ appColors['primary'] }} !important;
       }
       .apiviz-tabs li:not(:last-child){
         border-right: 1px solid {{appColors['primary']}} !important;
@@ -23,7 +25,23 @@
         background:  {{appColors['primary']}} !important;
       }
     </style>
+
       <!-- color : {{appColors['link-hover']}} -->
+    <style 
+      v-if="navbarConfig.ui_options.navbar_items_hover_color"
+      type="text/css"
+      >
+      .navbar-item-hov:hover {
+        background-color : {{appColors[navbarConfig.ui_options.navbar_items_hover_color.bulma_color]}} !important;
+      }
+      .navbar-link-top {
+        background-color : transparent !important;
+      }
+      .navbar-link:hover {
+        background-color : transparent !important;
+      }
+    </style>
+
 
     <style v-for="(cCode, index) in colorCodes" 
       :key="index"
@@ -36,7 +54,10 @@
       .has-text-{{ cCode }}-hover-c:hover{
         color : {{ appColors[cCode] }} !important ;
       }
-
+      .is-underlined-dark-c {
+        border-bottom: solid !important;
+        border-color : white !important ;
+      }
       .is-underlined-{{cCode}}-c {
         border-bottom: solid !important;
         border-color : {{ appColors[cCode] }} !important ;
@@ -46,7 +67,7 @@
         background-color: {{ appColors[cCode] }} !important;
       }
 
-      .is-{{ cCode }}-b{
+      .is-{{ cCode }}-b, .is-{{ cCode }}-b-only{
         background-color : {{ appColors[cCode] }} !important ;
       }
       .is-{{ cCode }}-b.is-inverted{
@@ -127,13 +148,14 @@ export default {
   },
 
   beforeMount : function(){
-    this.log && console.log('\nC-DynamicCSS.vue / beforeMount...')
-    this.log && console.log('C-DynamicCSS.vue / beforeMount / this.colorCodes : ', this.colorCodes)
+    // this.log && console.log('\nC-DynamicCSS.vue / beforeMount...')
+    // this.log && console.log('C-DynamicCSS.vue / beforeMount / this.colorCodes : ', this.colorCodes)
   },
 
   mounted : function(){
     this.log && console.log('C-DynamicCSS.vue / mounted...')
-    this.log && console.log('C-DynamicCSS.vue / mounted / this.colorCodes : ', this.colorCodes)
+    this.log && console.log('C-DynamicCSS.vue / mounted / this.appColors : ', this.appColors)
+    this.log && console.log('C-DynamicCSS.vue / mounted / this.navbarConfig : ', this.navbarConfig)
   },
 
   computed: {
@@ -146,7 +168,7 @@ export default {
       locale : 'getCurrentLocale',
       // styles : 'config/getStylesConfig',
       appColors : 'config/getStylesConfigColors',
-
+      navbarConfig : 'config/getNavbarConfig',
     })
   },
 

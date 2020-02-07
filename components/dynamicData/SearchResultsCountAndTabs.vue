@@ -72,14 +72,13 @@
       <nuxt-link 
         v-if="typeof endpointConfigTable !== 'undefined' && endpointConfigTable.is_visible"
         :disabled="endpointConfigTable.is_disabled" 
-        :to="endpointConfigUrlToTable.urls[0]" 
+        :to="endpointConfigUrlToTable && endpointConfigUrlToTable.urls[0]" 
         :class="['has-text-centered button ', view === VIEW_TABLE ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="fas fa-table"></i>
         </span>
         <span class="is-hidden-touch">
-          <!-- {{ translate(configTabs('tab_table')) }} -->
           {{ basicDict.tab_table[locale] }}
         </span>
       </nuxt-link>
@@ -88,14 +87,13 @@
       <nuxt-link 
         v-if="typeof endpointConfigList !== 'undefined' && endpointConfigList.is_visible"
         :disabled="endpointConfigList.is_disabled" 
-        :to="endpointConfigUrlToList.urls[0]" 
+        :to="endpointConfigUrlToList && endpointConfigUrlToList.urls[0]" 
         :class="['has-text-centered button ', view === VIEW_LIST ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="fas fa-th-large"></i>
         </span>
         <span class="is-hidden-touch">
-          <!-- {{ translate(configTabs('tab_list')) }} -->
           {{ basicDict.tab_list[locale] }}
         </span>
       </nuxt-link>
@@ -104,14 +102,13 @@
       <nuxt-link
         v-if="typeof endpointConfigMap !== 'undefined' && endpointConfigMap.is_visible"
         :disabled="endpointConfigMap.is_disabled" 
-        :to="endpointConfigUrlToMap.urls[0]" 
+        :to="endpointConfigUrlToMap && endpointConfigUrlToMap.urls[0]" 
         :class="['has-text-centered button ', view === VIEW_MAP ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="far fa-map"></i>
         </span>
         <span class="is-hidden-touch">
-          <!-- {{ translate(configTabs('tab_map')) }} -->
           {{ basicDict.tab_map[locale] }}
         </span>
       </nuxt-link>
@@ -120,17 +117,32 @@
       <nuxt-link
         v-if="typeof endpointConfigStat !== 'undefined' && endpointConfigStat.is_visible"
         :disabled="endpointConfigStat.is_disabled" 
-        :to="endpointConfigUrlToStat.urls[0]" 
+        :to="endpointConfigUrlToStat && endpointConfigUrlToStat.urls[0]" 
         :class="['has-text-centered button ', view === VIEW_STAT ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
         >
         <span class="icon has-text-centered is-marginless">
           <i class="far fa-chart-bar"></i>
         </span>
         <span class="is-hidden-touch">
-          <!-- {{ translate(configTabs('tab_stat')) }} -->
           {{ basicDict.tab_stat[locale] }}
         </span>
       </nuxt-link>
+
+      <!-- BTN CALENDAR -->
+      <nuxt-link
+        v-if="typeof endpointConfigCalendar !== 'undefined' && endpointConfigCalendar.is_visible"
+        :disabled="endpointConfigCalendar.is_disabled" 
+        :to="endpointConfigUrlToCalendar && endpointConfigUrlToCalendar.urls[0]" 
+        :class="['has-text-centered button ', view === VIEW_CALENDAR ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
+        >
+        <span class="icon has-text-centered is-marginless">
+          <i class="far fa-calendar-alt"></i>
+        </span>
+        <span class="is-hidden-touch">
+          {{ basicDict.tab_calendar[locale] }}
+        </span>
+      </nuxt-link>
+
 
     </div>
 
@@ -181,7 +193,7 @@
   import { mapState, mapGetters } from 'vuex'
   import { isMobile } from 'mobile-device-detect'
 
-  import { VIEW_TABLE, VIEW_LIST, VIEW_MAP, VIEW_STAT, responsiveBreakpoint } from '../../config/constants.js'
+  import { VIEW_TABLE, VIEW_LIST, VIEW_MAP, VIEW_STAT, VIEW_CALENDAR, responsiveBreakpoint } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
@@ -200,6 +212,7 @@
         VIEW_LIST,
         VIEW_MAP, 
         VIEW_STAT,
+        VIEW_CALENDAR,
 
         basicDict : BasicDictionnary, 
         smallButtons : false,
@@ -224,6 +237,17 @@
 
     mounted(){
       this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
+
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigTable   : ', this.endpointConfigTable)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
+    
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToMap   : ', this.endpointConfigUrlToMap)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToStat  : ', this.endpointConfigUrlToStat)
     },
 
     computed: {
@@ -247,16 +271,18 @@
 
         endpointConfigDetail : 'config/getEndpointConfigDetail',
 
-        endpointConfigTable  : 'config/getEndpointConfigTable',
-        endpointConfigList   : 'config/getEndpointConfigList',
-        endpointConfigMap    : 'config/getEndpointConfigMap',
-        endpointConfigStat   : 'config/getEndpointConfigStat',
-        endpointConfigExport : 'config/getEndpointConfigExport',
+        endpointConfigTable    : 'config/getEndpointConfigTable',
+        endpointConfigList     : 'config/getEndpointConfigList',
+        endpointConfigMap      : 'config/getEndpointConfigMap',
+        endpointConfigStat     : 'config/getEndpointConfigStat',
+        endpointConfigCalendar : 'config/getEndpointConfigCalendar',
+        endpointConfigExport   : 'config/getEndpointConfigExport',
 
         endpointConfigUrlToTable : 'config/getRouteConfigTableForDataset',
         endpointConfigUrlToList  : 'config/getRouteConfigListForDataset',
         endpointConfigUrlToMap   : 'config/getRouteConfigMapForDataset',
         endpointConfigUrlToStat  : 'config/getRouteConfigStatForDataset',
+        endpointConfigUrlToCalendar  : 'config/getRouteConfigCalendarForDataset',
       }),
 
 

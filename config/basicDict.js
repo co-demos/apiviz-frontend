@@ -54,6 +54,13 @@ export const BasicDictionnary = {
     tr : "istat",
     fr : "données",
   },
+  tab_calendar : {
+    en : "calendar",
+    es : "calendario",
+    de : "calendar",
+    tr : "calendar",
+    fr : "calendrier",
+  },
   tab_export : {
     en : "export data",
     es : "exportar los datos",
@@ -535,6 +542,50 @@ export const BasicDictionnary = {
       tr : "to do tr",
       fr : "l'email qui vous servira pour vous connecter en tant que premier admin",
     },
+  // DATA
+    data_new_endpoint_question : {
+      en : "I want to enter a new Solidata endpoint",
+      es : "Quiero entrar un nuevo endpoint Solidata para mis datos",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "Je veux préciser un nouvel endpoint Solidata pour mes données",
+    },
+    data_solidata_endpoint_url_1a : {
+      en : "Your dataset ID in Solidata",
+      es : "Su dataset ID en Solidata",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "L'ID de votre dataset dans Solidata",
+    },
+    data_solidata_endpoint_url_1b : {
+      en : "Your Solidata dataset's ID",
+      es : "Su dataset ID en Solidata",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "L'ID de votre dataset dans Solidata",
+    },
+    data_solidata_endpoint_url_1c : {
+      en : "new Solidata endpoint",
+      es : "nuevo endpoint Solidata",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "nouveau endpoint Solidata",
+    },
+    data_new_endpoint_dsType : {
+      en : "dataset type",
+      es : "tipo de dataset",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "type de dataset",
+    },
+    data_new_endpoint_dsId : {
+      en : "dataset ID",
+      es : "ID del dataset",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "ID du dataset",
+    },
+
   // CREATE
     create_1a : {
       en : "Generate your new website",
@@ -640,6 +691,13 @@ export const BasicDictionnary = {
       de : "to do de",
       tr : "to do tr",
       fr : "email d'admin",
+    },
+    step_data: {
+      en : "your data",
+      es : "sus datos",
+      de : "to do de",
+      tr : "to do tr",
+      fr : "vos données",
     },
     step_finish: {
       en : "generate",
@@ -956,6 +1014,13 @@ export const BasicDictionnary = {
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "S'inscrire",
+  },
+  optionnal : { 
+    en : "optionnal",
+    es : "opcional",
+    tr : "yapılmamış",
+    de : "ungemacht",
+    fr : "optionnel",
   },
   preferences : { 
     en : "Preferences",

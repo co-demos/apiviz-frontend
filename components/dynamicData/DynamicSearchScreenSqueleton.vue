@@ -8,7 +8,9 @@
       :filtersConfig="filtersConfig"
     />
     
-    <main :class="mainClass">
+    <main 
+      :class="`${mainClass} ${onlyIframe ? 'iframe' : ''}`"
+      >
       <FiltersFeedback/>
       <slot/>
     </main>
@@ -25,7 +27,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import SearchWithFilters from './SearchWithFilters.vue'
 import FiltersFeedback from './FiltersFeedback.vue'
@@ -44,8 +46,17 @@ export default {
     'mainClass'
   ],
 
+  data : () => {
+    return {
+      onlyIframe : false,
+    }
+  },
+
   beforeMount : function(){
     this.log && console.log('\nC-DynamicSearchScreenSqueleton / beforeMount...')
+    if (this.$nuxt.$route.query.iframing) {
+      this.onlyIframe = true
+    }
   },
 
   mounted(){
@@ -60,7 +71,11 @@ export default {
       log : state => state.log, 
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
-    })
+    }),
+
+    ...mapGetters({
+      shrinkNav : 'getShrinkNav',
+    }),
 
   }
 
@@ -74,6 +89,10 @@ export default {
   main{
     // margin-top: $apiviz-navbar-height + $apiviz-search-bar-height;
     margin-top: $apiviz-navbar-height + rem(60px);
+  }
+
+  .iframe {
+    margin-top: rem(60px) !important ;
   }
 
 </style>

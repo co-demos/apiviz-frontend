@@ -1,13 +1,18 @@
 <template>
 
-  <div class="navbar-brand" :title="brand">
+  <div 
+    :class="`navbar-brand ${ shrinkNav ? 'navbar--shrink' : ''}`" 
+    :title="brand"
+    >
 
       <nuxt-link 	
+        v-if="logo.url"
         id="logo_home"
-        class="navbar-item" 
+        :class="`navbar-item navbar-item-hov`" 
         :to="logoTo">
         <img 
           id="navbar-logo" 
+          :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
           :src="logo.url"
           :alt="brand.content"
         ></img>
@@ -15,14 +20,15 @@
 
       <div
         v-if="brand.is_in_navbar"
-        :class="`navbar-item has-text-weight-medium is-size-6-touch is-size-5-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
+        :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? '7' : '6'}-touch is-size-5-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
         <!-- {{ brand.content }} -->
-        {{ translate( brand, 'content_text' ) }}
+        {{ translate( brand, 'content_text' ) }} 
+        <!-- {{ shrinkNav }} -->
       </div>
 
       <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
       <div 
-        :class="`navbar-burger ${ showNav ? 'is-active' : '' }`"
+        :class="`navbar-burger ${ shrinkNav ? 'navbar-burger-shrink' : ''} ${ showNav ? 'is-active' : '' }`"
         @click="triggerBurger()" 
         aria-expanded="false" 
         data-target="navbar-main"
@@ -60,6 +66,7 @@
 
       ...mapGetters({
         logo : 'config/getNavbarLogo',
+        shrinkNav : 'getShrinkNav',
         brand : 'config/getNavbarBrand' 
       }),
 
@@ -77,3 +84,35 @@
 
   }
 </script>
+
+<style lang="scss" scoped>
+
+  @import '../../assets/css/apiviz-misc.scss';
+
+  .navbar-logo {
+    max-height:$apiviz-navbar-logo-height ! important ;
+    transition: max-height 0.4s ease-in;
+  }
+
+  .navbar-logo-shrink {
+    max-height: $apiviz-navbar-logo-height-shrink ! important ;
+    transition: max-height 0.4s ease-out;
+  }
+
+  .navbar-brand {
+    max-height: $apiviz-navbar-height;
+    z-index: 10;
+  }
+  .navbar-brand.navbar--shrink {
+    min-height: $apiviz-navbar-min-height-shrink !important ;
+    max-height: $apiviz-navbar-height-shrink !important ;
+    transition: max-height 0.4s ease-out;
+  }
+
+  .navbar-burger-shrink {
+    min-height: $apiviz-navbar-min-height-shrink !important ;
+    max-height: $apiviz-navbar-height-shrink !important ;
+    transition: max-height 0.4s ease-out;
+  }
+
+</style>

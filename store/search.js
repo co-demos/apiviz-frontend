@@ -1,11 +1,11 @@
 import axios from 'axios'
-import {  
+import {
   makeEmptySelectedFilters,
   getObjectDataFromPath,
-  searchItems, 
+  searchItems,
   rawRequest,
-  // searchEnpointCreator, 
-  searchEndpointGenerator, 
+  // searchEnpointCreator,
+  searchEndpointGenerator,
   createSelectedFiltersForSearch
   } from '~/plugins/utils.js';
 import { defaultPagination } from '~/config/constants.js'
@@ -14,7 +14,7 @@ import { defaultPagination } from '~/config/constants.js'
 
 export const state = () => ({
 
-  // CONSOLE LOG ALLOWED 
+  // CONSOLE LOG ALLOWED
   log: process.env.ConsoleLog,
 
   // MAPBOX
@@ -41,6 +41,8 @@ export const state = () => ({
     // QUERY FROM USER
     question: {
       query: '', // new URL(location).searchParams.get('text') || '',
+
+      itemId: undefined,
 
       forMap : false,
       forStats : false,
@@ -90,9 +92,9 @@ export const getters = {
   // - - - - - - - - - - - - - - - //
     getQuestion : state => {
       return state.search.question
-    },  
+    },
     getPerPageOptions : (state, getters, rootState) => {
-      let defaultPerPage = defaultPagination.perPageOptions 
+      let defaultPerPage = defaultPagination.perPageOptions
       let endpointPerPage = state.search.endpoint.args_options.find(i => i.app_arg === 'perPage'  )
       return endpointPerPage && endpointPerPage.authorized ? endpointPerPage.authorized : defaultPerPage
       // return endpointPerPage
@@ -102,7 +104,7 @@ export const getters = {
   // - - - - - - - - - - - - - - - //
     getSelectedFilters : state => {
       return state.search.question.selectedFilters
-    },  
+    },
     getFilterDescriptions : state => {
       // state.log && console.log("\nS-search-G-getFilterDescriptions ..." )
       // state.log && console.log("S-search-G-getFilterDescriptions / state.search.question.filterDescriptions : \n", state.search.question.filterDescriptions )
@@ -233,7 +235,7 @@ export const getters = {
       // console.log("getImageUrl - obj : ", obj)
       const item = obj.item
       // console.log("S-search-G-getImageUrl - item : ", item)
-      
+
       const position = obj.position
       // console.log("S-search-G-getImageUrl - position : ", position)
 
@@ -299,9 +301,9 @@ export const mutations = {
       let argOptions = localEndpointConfig.args_options
       // state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
 
-      let authorizedDefaultArgs = [ 
-        'page', 
-        'perPage', 
+      let authorizedDefaultArgs = [
+        'page',
+        'perPage',
         'shuffleSeed',
         'sortBy',
         'sortIsDescending'
@@ -427,11 +429,17 @@ export const mutations = {
         error
       }
     },
-    
+
     setDisplayedProject(state, {result}){
       state.log && console.log('S-search-M-setDisplayedProject / result ', result)
       state.displayedProject = result.projects[0]
       state.search.answer.pendingAbort = undefined
+    },
+    setItemId(state, itemId){
+      state.search.question.itemId = itemId
+    },
+    clearItemId(state){
+      state.search.question.itemId = undefined
     },
     clearResults(state){
       state.search.answer.result = undefined
@@ -477,18 +485,18 @@ export const actions = {
       commit('setSearchParam',{type:'currentRouteConfig', result: routeConfig})
       commit('setSearchParam',{type:'dataset_uri', result: routeConfig.dataset_uri})
       commit('setSearchParam',{type:'endpoint_type', result: routeConfig.endpoint_type})
-      
+
       let endpointConfig = rootGetters['config/getEndpointConfig']
       // state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
       commit('setSearchParam',{type:'endpoint', result: endpointConfig})
-      
+
       let endpointPerPage = endpointConfig.args_options.find( i => i.app_arg === 'perPage')
       if ( endpointPerPage ){
         commit('setQuestionPerPage', endpointPerPage.default )
       }
 
     },
-  
+
   // FOR PAGINATION
     changePage({state, commit, dispatch}, pageNumber ){
       // state.log && console.log("S-search-A-changePage /  pageNumber : ", pageNumber )
@@ -518,10 +526,10 @@ export const actions = {
   // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
       // state.log && console.log("\nS-search-A-createDatasetFilters / state : ", state )
-      
+
       const currentFiltersConfig = rootGetters['config/getEndpointConfigFilters']
       // state.log && console.log("S-search-A-createDatasetFilters / currentFiltersConfig : ", currentFiltersConfig)
-      
+
       if (currentFiltersConfig && currentFiltersConfig.filter_options){
         let filterDescriptions = currentFiltersConfig.filter_options
         // state.log && console.log("S-search-A-createDatasetFilters / filterDescriptions : ", filterDescriptions)
@@ -542,22 +550,22 @@ export const actions = {
         selectedValues.delete(value)
       else
         selectedValues.add(value)
-  
+
       commit('setSelectedFilters', {selectedFilters})
       commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
-  
+
     emptyOneFilter({state, commit, dispatch, getters}, {filter}){
       state.log && console.log("\n// emptyOneFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
       selectedFilters.set(filter, new Set())
-  
+
       commit('setSelectedFilters', {selectedFilters})
       commit('setQuestionPageAbsolute', 1 )
       dispatch('search')
     },
-  
+
     clearAllFilters({state, commit, dispatch}){
       state.log && console.log("S-search-A-clearAllFilters ..." )
       commit('clearAllFilters')
@@ -574,13 +582,13 @@ export const actions = {
     },
 
 
-  // + - + - + - + - + - // 
+  // + - + - + - + - + - //
   // MAIN SEARCH ACTION
-  // + - + - + - + - + - // 
+  // + - + - + - + - + - //
     search({state, commit, dispatch, getters, rootGetters}){
 
       state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
-      
+
       const search = state.search
       // state.log && console.log("S-search-A-search / search : ", search )
 
@@ -590,17 +598,19 @@ export const actions = {
       if(search.answer.pendingAbort){
         search.answer.pendingAbort.abort()
       }
-      
+
       const endpointRawConfig = state.search.endpoint
       const responsePaths = endpointRawConfig.resp_fields
-      state.log && console.log("S-sesarch-A-search / responsePaths : \n", responsePaths )
+      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-search / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-search / endpointAuthConfig : \n", endpointAuthConfig )
+
+      commit('clearItemId')
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
@@ -611,10 +621,10 @@ export const actions = {
         accessToken : userAccessToken
       })
       state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
-      
-      
+
+
       // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
-      // perform search --> !!! only request map search if map search results empty in store !!! 
+      // perform search --> !!! only request map search if map search results empty in store !!!
 
       const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
@@ -627,10 +637,10 @@ export const actions = {
         // state.log && console.log("S-search-A-search / projects : \n", projects )
 
         // if search is for map either fill resultMap if empty or do nothing
-        commit('setSearchResult', { result: { 
-          projects : response.projects, 
-          stats : response.stats, 
-          total : response.total 
+        commit('setSearchResult', { result: {
+          projects : response.projects,
+          stats : response.stats,
+          total : response.total
         }})
         // commit('setSearchResult', {result: {projects, total}})
         // commit ('setSearchResultMap', {resultMap: {projects, total}})
@@ -663,16 +673,18 @@ export const actions = {
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-searchOne / endpointAuthConfig : \n", endpointAuthConfig )
 
       // append itemId to question
-      let question = state.search.question
-      question['itemId'] = id
+      commit('setItemId', id)
+      // let question = state.search.question
+      // question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
-        questionParams : question,
+        // questionParams : question,
+        questionParams : state.search.question,
         selectedFilters : [],
         authConfig : endpointAuthConfig,
         accessToken : userAccessToken
@@ -692,10 +704,10 @@ export const actions = {
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
         // commit('setDisplayedProject', { result: { projects, total }})
-        commit('setDisplayedProject', { result: { 
-          projects : response.projects, 
+        commit('setDisplayedProject', { result: {
+          projects : response.projects,
           stats : response.stats,
-          total : response.total 
+          total : response.total
         }})
       })
       .catch(error => {
@@ -709,20 +721,20 @@ export const actions = {
     exportDataset({state, commit, dispatch, getters, rootGetters}){
 
       state.log && console.log("\nS-search-A-exportDataset ..." )
-      
+
       const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
       state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']
-      state.log && console.log("S-sesarch-A-exportDataset / userAccessToken : \n", userAccessToken )
+      state.log && console.log("S-search-A-exportDataset / userAccessToken : \n", userAccessToken )
 
       // get user configAuth if any
       const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-sesarch-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
+      state.log && console.log("S-search-A-exportDataset / endpointAuthConfig : \n", endpointAuthConfig )
 
       const endpointExportConfig = rootGetters['config/getEndpointConfigExport']
-      state.log && console.log("S-sesarch-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
+      state.log && console.log("S-search-A-exportDataset / endpointExportConfig : \n", endpointExportConfig )
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({

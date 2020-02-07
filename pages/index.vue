@@ -1,14 +1,18 @@
 <template>
-  <div id="mainIndexPage">
+
+  <div 
+    id="mainIndexPage"
+    >
+    <!-- :class="`${ onlyIframe ? 'iframe' : '' }`" -->
 
     <!-- NAVBAR -->
     <Navbar 
-      v-if="has_navbar"
+      v-if="has_navbar && !onlyIframe"
     ></Navbar>
 
     <!-- BANNER -->
     <DynamicBanner 
-      v-if="has_banner"
+      v-if="has_banner && !onlyIframe"
       :dynamicTemplate="localRouteConfig.dynamic_template"
     ></DynamicBanner> 
 
@@ -65,6 +69,12 @@
       :endPointConfig="localEndpointConfig"
     ></DynamicStats>
 
+    <DynamicCalendar 
+      v-if="localRouteConfig.dynamic_template == 'DynamicCalendar' "
+      :routeConfig="localRouteConfig"
+      :endPointConfig="localEndpointConfig"
+      :filtersConfig="localFiltersConfig"
+    ></DynamicCalendar>
 
     <!-- <span class="is-primary is-primary-c"> 
       COLOR TEST 
@@ -76,12 +86,12 @@
 
     <!-- FOOTERS -->
     <Footer 
-      v-if="has_footer"
+      v-if="has_footer && !onlyIframe"
     ></Footer>
 
     <!-- PROJECT's PARTNERS FOOTER -->
     <DynamicStaticRaw 
-      v-if="has_credits_footer"
+      v-if="has_credits_footer && !onlyIframe"
       :templateURL="footerConfig.credits_footer_url"
     ></DynamicStaticRaw>
 
@@ -166,11 +176,12 @@ import DynamicStatic     from '~/components/dynamicUX/DynamicStatic.vue'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 // import DynamicStaticTest from '~/components/dynamicUX/DynamicStaticTest.vue'
 
-import DynamicTable       from '~/components/dynamicData/DynamicTable.vue';
+import DynamicTable      from '~/components/dynamicData/DynamicTable.vue';
 import DynamicList       from '~/components/dynamicData/DynamicList.vue';
 import DynamicDetail     from '~/components/dynamicData/DynamicDetail.vue';
 import DynamicMap        from '~/components/dynamicData/DynamicMap.vue';
 import DynamicStats      from '~/components/dynamicData/DynamicStats.vue';
+import DynamicCalendar   from '~/components/dynamicData/DynamicCalendar.vue';
 
 import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js" 
 
@@ -210,6 +221,7 @@ export default {
     DynamicDetail,
     DynamicMap, 
     DynamicStats,
+    DynamicCalendar,
 
   },
 
@@ -231,11 +243,18 @@ export default {
     // this.log && console.log('\nP-index.vue / beforeMount...')
     // this.log && console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
     // this.log && console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
+
+    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    if (this.$nuxt.$route.query.iframing) {
+      this.onlyIframe = true
+    }
+
   },
 
   data () {
     return {
       // windowBreakpoint : undefined,
+      onlyIframe : false,
     }
   },
 
