@@ -36,6 +36,8 @@ import { mapState, mapGetters } from 'vuex'
 // import bulmaCarousel from '@/node_modules/bulma-carousel/dist/js/bulma-carousel.min.js'
 // import {bulmaSteps, bulmaCarousel} from '@/node_modules/bulma-extensions/dist/js/bulma-extensions.min.js'
 
+let scrollListener;
+
 
 export default {
 
@@ -59,6 +61,23 @@ export default {
     // this.log && console.log("C-DynamicStatic / mounted / bulmaSteps : ", bulmaSteps)
     // this.log && console.log("C-DynamicStatic / mounted / bulmaCarousel : ", bulmaCarousel)
     this.getRawHtml()
+    
+
+    scrollListener = () => {
+      const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters['search/getSearchConfigScrollBeforeBottomTrigger']
+      const getSearchConfigMoreProjectOnScrollCount = this.$store.getters['search/getSearchConfigMoreProjectOnScrollCount']
+
+      if (getSearchConfigMoreProjectOnScrollCount && getSearchConfigScrollBeforeBottomTrigger &&
+        window.innerHeight + window.scrollY >= (document.body.offsetHeight - getSearchConfigScrollBeforeBottomTrigger)
+      ) {
+        if(this.$store.state.search.search.answer.result && this.showCount < this.$store.state.search.search.answer.result.projects.length){
+          this.showCount = this.showCount + getSearchConfigMoreProjectOnScrollCount
+        }
+      }
+    }
+    window.addEventListener('scroll', scrollListener, {passive: true})
+
+    
     if (this.localRouteConfig && this.localRouteConfig.has_ext_script) {
       for ( let ext_script of this.localRouteConfig.ext_script_urls ){
         if ( ext_script.at_mount ) {
@@ -86,6 +105,10 @@ export default {
 
   beforeDestroy : function(){
     this.log && console.log("\nC-DynamicStatic / beforeDestroy ... ")
+
+    window.removeEventListener('scroll', scrollListener)
+    scrollListener = undefined;
+
     try {
       for ( let ext_script of this.localRouteConfig.ext_script_urls  ){
         deleteScript(ext_script.script_id)

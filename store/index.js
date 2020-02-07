@@ -20,6 +20,8 @@ export const state = () => ({
 
   // UX OPTIONS
   showNav : false,
+  shrinkNav : false,
+  shrinkOffset : 100,
   bannerVisible : true,
   breakpoint : undefined,
 
@@ -60,6 +62,9 @@ export const getters = {
   // UX GETTERS
     getNavbarVisibility : state => {
       return state.showNav
+    },
+    getShrinkNav : state => {
+      return state.shrinkNav
     },
 
     getBreakpoint : (state) => (width) => {
@@ -115,6 +120,9 @@ export const mutations = {
     },
     setShowNavbar(state, value){
       state.showNav = value
+    },
+    setShrinkNav(state, value){
+      state.shrinkNav = value
     },
     setBreakpoint(state, breakpoint){
       state.breakpoint = breakpoint

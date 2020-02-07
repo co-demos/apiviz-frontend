@@ -13,13 +13,13 @@
         <nuxt-link
           v-if="!link.is_external_link && link.link_type == 'link' && link.is_visible == true"
           :key="`'link-' + ${index}`"
-          :class="`navbar-item navbar-item-hov a-anim ${ link.has_dropdown ? 'has-dropdown is-hoverable' : '' }  `"
+          :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim ${ link.has_dropdown ? 'has-dropdown is-hoverable' : '' }  `"
           :to="link.link_to"
           >
 
           <!-- MAIN LINK -->
           <div 
-            :class="`${ link.has_dropdown ? 'navbar-link navbar-link-top is-arrowless' : '' } ${ isItemActive(link) ? ( isDark ? 'has-text-white' : 'has-text-primary has-text-primary-c') : '' }`"
+            :class="`${ link.has_dropdown ? 'navbar-link navbar-link-top is-arrowless' : '' } ${ isItemActive(link) ? ( isDark && !showNav ? 'has-text-white' : 'has-text-primary has-text-primary-c') : '' }`"
             >
             <span 
               v-if="link.icon_class && link.icon_class !==''" 
@@ -78,7 +78,7 @@
 
         <a
           v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'link' && link.is_visible == true"
-          :class="`navbar-item navbar-item-hov a-anim`"
+          :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim`"
           :href="link.link_to"
           :key="`'link-int-' + ${index}`"
           target="_blank"
@@ -103,7 +103,7 @@
 
           <nuxt-link
             v-if="!link.has_dropdown && !link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item navbar-item-hov a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
+            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
             :key="`'btnlink-ext-' + ${index}`"
             :to="link.link_to"
             >
@@ -112,7 +112,7 @@
 
           <a
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item navbar-item-hov a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
+            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
             :href="link.link_to"
             :key="`'sublink-int-' + ${index}`"
             target="_blank"
@@ -132,10 +132,10 @@
 
       <!-- LOCALES -->
       <div v-if="languages.is_multi_lang"
-        :class="`navbar-item navbar-item-hov a-anim is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
+        :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
         >
         <!-- LOCALES BTN -->
-        <a :class="`navbar-link navbar-link-top a-anim is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
+        <a :class="`navbar-link navbar-link-top a-anim is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark && !showNav ? 'has-text-white' : '' }`"
           >
           {{ locale }}
         </a>
@@ -156,7 +156,7 @@
 
       <!-- USER DROPDOWN -->
       <div v-if="user.isLoggedin"
-        :class="`navbar-item navbar-item-hov a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
+        :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
         >
 
         <a class="navbar-link is-arrowless">
@@ -167,7 +167,7 @@
 
         <div class="navbar-dropdown is-right">
 
-          <p class="navbar-item navbar-item-hov a-anim has-text-grey-light">
+          <p :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim has-text-grey-light`">
             <!-- {{ getText('hello') }}  -->
             {{ basicDict.hello[locale] }}
             {{ user.infos.name }}
@@ -175,7 +175,7 @@
 
           <hr class="navbar-divider">
 
-          <nuxt-link class="navbar-item navbar-item-hov a-anim"
+          <nuxt-link :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim`"
             :to="'/preferences'"
             >
             <span class="icon">
@@ -189,7 +189,7 @@
 
           <hr class="navbar-divider">
           
-          <nuxt-link class="navbar-item navbar-item-hov a-anim"
+          <nuxt-link :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim`"
             v-if="isUserAdmin || isUserStaff"
             :to="'/backoffice'"
             >
@@ -222,7 +222,7 @@
 
       <!-- LOGIN BUTTON -->
       <div v-if="navbarConfig.has_login && !user.isLoggedin"
-        :class="`navbar-item navbar-item-hov a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
+        :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim has-dropdown is-hoverable ${languages.is_multi_lang ? 'no-padding-left' : ''}`"
         >
         <a class="navbar-link is-arrowless"
           :href="loginRoute.urls[0]"
@@ -281,6 +281,7 @@
 
       ...mapGetters({
         showNav : 'getNavbarVisibility',
+        shrinkNav : 'getShrinkNav',
         navbarConfig : 'config/getNavbarConfig',
         // appColors : 'config/getStylesConfigColors',
       }),
@@ -344,7 +345,9 @@
 </script>
 
 <style lang="scss" scoped>
+
   @import '~/assets/css/apiviz-colors.scss';
+  @import '~/assets/css/apiviz-misc.scss';
 
   .no-padding-left {
     padding-left : 0em !important;

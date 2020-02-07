@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import SearchWithFilters from './SearchWithFilters.vue'
 import FiltersFeedback from './FiltersFeedback.vue'
@@ -71,7 +71,11 @@ export default {
       log : state => state.log, 
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
-    })
+    }),
+
+    ...mapGetters({
+      shrinkNav : 'getShrinkNav',
+    }),
 
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div 
-    :class="`search-bar ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
+    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
     role="menubar" 
     aria-label="filters navigation"
     >
@@ -228,9 +228,11 @@
       ...mapGetters({
         selectedFilters : 'search/getSelectedFilters',
         filterDescriptions : 'search/getFilterDescriptions',
-        searchedText : 'search/getSearchQuestionQuery'
+        searchedText : 'search/getSearchQuestionQuery',
+        shrinkNav : 'getShrinkNav',
       }),
 
+    
       // searchedText: {
       //   get () { return this.$store.getters['search/getSearchQuestionQuery'] },
       //   // set (value) {
@@ -364,7 +366,9 @@
   .search-bar {
     
     top: $apiviz-navbar-height;
+    // top: 60px ;
     // height: $apiviz-search-bar-height;
+
     z-index: 10;
     font-size: $apiviz-navbar-font-size;
 
@@ -444,6 +448,12 @@
       }
 
     }
+
+  }
+
+  .search-bar-shrink {
+    top : $apiviz-navbar-height-shrink !important;
+    transition : top 0.4s ease-out;
   }
 
 </style>
