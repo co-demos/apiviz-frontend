@@ -68,7 +68,7 @@ export function loadScript(url, type, script_id, callback){
   if (type !== undefined ){
     script.type = "text/javascript";
   }
-  
+
   if (callback !== undefined){
     script.onreadystatechange = callback;
     script.onload = callback;
@@ -90,7 +90,7 @@ export function deleteScript(script_id){
     // console.log("deleteScript / script_id :", script_id);
     var elem = document.getElementById(script_id)
     // console.log("deleteScript / elem:", elem);
-  
+
     elem.parentNode.removeChild(elem)
   } catch(error) {
     console.log("deleteScript / error:", error);
@@ -120,7 +120,7 @@ export function activateCarousel(slidesNumber=2, isInfinite=true, hasPagination=
 export function activateBulmaExtension(extension, pointer, options){
   console.log("plugins / utils / activate extension from utils")
   console.log("plugins / utils / activate extension from utils / options : \n", options)
-  let bulmaExtension = extension.attach( pointer, options) 
+  let bulmaExtension = extension.attach( pointer, options)
   console.log("plugins / utils / activate extension from utils / bulmaExtension : \n", bulmaExtension)
   return bulmaExtension
 }
@@ -204,7 +204,7 @@ export function setValueToNestedObject(obj, path, value, separator='/') {
 export function objectFromPath( obj, path, separator='/'){
 
   console.log("+ + + objectFromPath / path : ", path)
-  let object 
+  let object
 
   if ( path ){
 
@@ -219,7 +219,7 @@ export function objectFromPath( obj, path, separator='/'){
   }
 
   return object
-} 
+}
 
 // cf : https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
 export function resolvePathString( respField , respFieldsPaths, obj=self, separator='/') {
@@ -229,18 +229,18 @@ export function resolvePathString( respField , respFieldsPaths, obj=self, separa
 
   try {
     let path = respFieldsPaths[ respField  ].path
-  
+
     // console.log("\n+ + + resolvePathString ... ");
     console.log("+ + + resolvePathString / path : ", path)
     console.log("+ + + resolvePathString / obj : ", obj)
-  
+
     // var properties = Array.isArray(path) ? path : path.split(separator)
     // console.log("+ + + resolvePathString / properties : ", properties);
     // let dataObject = properties.reduce((prev, curr) => prev && prev[curr], obj)
     let dataObject = objectFromPath( obj, path, separator )
 
     return dataObject
-  } 
+  }
   catch {
     return {}
   }
@@ -318,6 +318,7 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   // set up fetch options
   let fetchOptions = { 
     method : fetchMethod.toLowerCase(),
+
     signal: ac.signal,
     // credentials: 'include',
     header : fetchHeader
@@ -421,7 +422,7 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
           stats : responseStats,
           total : responseTotal
         }
-        return dataStructure  
+        return dataStructure
       })
       .catch( err => {
         console.log("+ + + searchItems / (axios)  err :", err);
@@ -524,7 +525,7 @@ export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undef
   let searchAborted = false
 
   // set up fetch options
-  let fetchOptions = { 
+  let fetchOptions = {
     method : fetchMethod,
     signal: ac.signal,
     header : fetchHeader
@@ -562,8 +563,8 @@ export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undef
         headers : fetchHeader,
       })
       .then( resp => {
-        console.log("+ + + rawRequest / (axios) / resp :", resp);  
-        return resp  
+        console.log("+ + + rawRequest / (axios) / resp :", resp);
+        return resp
       })
       .catch( err => {
         console.log("+ + + rawRequest / (axios)  err :", err);
@@ -581,6 +582,7 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
   let endpointHeaderOptions = endpointConfig.request_header_options
   console.log("+ + + buildRequestHeader / endpointHeaderOptions : ", endpointHeaderOptions)
   
+
   let headers = {}
 
   // let headers = {
@@ -606,6 +608,9 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
       headers[ headerField ] = header_arg.header_value_prefix + token
       headerVal = header_arg.header_value_prefix + token
     }
+
+    // myHeaders.append( headerField, headerVal )
+    // myHeaders[ headerField ] = headerVal
 
   }
 
@@ -633,7 +638,10 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
 
   }
 
-  
+
+  // console.log("+ + + buildRequestHeader / myHeaders : ", myHeaders)
+  // return myHeaders
+
   console.log("+ + + buildRequestHeader / headers : ", headers)
   return headers
 
@@ -660,7 +668,7 @@ export function buildRequestPayload( endpointConfig ){
   //     payload[ payloadArg.payload_field ] = payloadArg.payload_value
   //   }
   // }
-  return payload 
+  return payload
 }
 
 export function searchEndpointGenerator( obj ) {
@@ -701,20 +709,20 @@ export function searchEndpointGenerator( obj ) {
 
   const appArgs = [
 
-    'query', 
-    'forMap', 
-    'forStats', 
-    'page', 
-    'perPage', 
-    'sortBy', 
-    'sortIsDescending', 
-    'onlyGeocoded', 
-    'itemId', 
+    'query',
+    'forMap',
+    'forStats',
+    'page',
+    'perPage',
+    'sortBy',
+    'sortIsDescending',
+    'onlyGeocoded',
+    'itemId',
     'shuffleSeed',
 
     'defaultValue' // takes default value from endpointconfig
   ]
-  
+
   // loop in routeArgs + queries then append to baseQuery
   let argsArray = []
   for (let key in endpointConfigArgs ) {
@@ -723,7 +731,7 @@ export function searchEndpointGenerator( obj ) {
     // if ( !EndpointArg.optional || appArgs.includes(EndpointArg.app_arg) ){
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
       if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
-        let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg]) 
+        let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg])
         let argString = EndpointArg.arg + '=' + argVal // String(questionParams[EndpointArg.app_arg])
         argsArray.push(argString)
       }
@@ -748,12 +756,13 @@ export function searchEndpointGenerator( obj ) {
     let argsLongString = argsArray.join('&')
     console.log("+ + + searchEndpointGenerator / argsLongString :  ", argsLongString)
     baseQuery += argsLongString
-  } 
+  }
 
   // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
 
   // build header from endpointConfig
   let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig ) 
+
 
   // build payload from endpointConfig
   let payload = fetchPayloadOptions && buildRequestPayload( fetchPayloadOptions )
@@ -794,13 +803,13 @@ export function createSelectedFiltersForSearch(selectedFiltersMap){
 // OBJECT RELATED
 // FUNCTION TO PARSE AN OBJECT GIVEN A PATH
 export function getObjectDataFromPath(obj, path, splitter='/') {
-  let current = obj; 
+  let current = obj;
   // console.log("+ + + getObjectDataFromPath / current raw : \n", current )
   try {
     let current_temp = current
-    path.split(splitter).forEach( function(p) { 
-      current_temp = current_temp[p]; 
-    }); 
+    path.split(splitter).forEach( function(p) {
+      current_temp = current_temp[p];
+    });
     // console.log("+ + + getObjectDataFromPath / current final : \n", current )
     return current_temp
   } catch (e) {
@@ -825,7 +834,7 @@ export function filterObjectByKey(raw, allowedKeys ) {
 }
 
 export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr'){
-  
+
   const contentField = contentFields.find(f=> f.position == fieldBlock)
 
   // const log = true
@@ -843,7 +852,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     // 'list',
     // 'list_tags'
   ]
-  
+
   if ( contentField && contentField.is_visible ){
 
     const field = contentField.field
@@ -852,24 +861,24 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     const log = typesToLog.includes(field_format.type) && blocksToLog.includes(fieldBlock)
     // const log = blocksToLog.includes(fieldBlock)
     // const log = contentField && contentField.field_format.type === 'list_tags'
-    
+
     // log && console.log("\ngetItemContent / contentField : ", contentField)
 
     // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
 
-    
+
     // log && console.log("getItemContent / field_format : ", field_format)
-    
+
     let content = displayableItem[field]
     // log && console.log("getItemContent / content A : ", content)
-    
+
     if ( content && content !== "None" && content !== "" ){
 
       const trimming = contentField.field_format.trim
       // log && console.log("getItemContent / trimming : ", trimming)
-      
+
       try {
-        
+
         // DEALING WITH LIST-LIKE RESULTS (TAGS)
         // slice tags in array
         if ( field_format.type === 'list_tags' ){
@@ -885,20 +894,20 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
             let filterChoices = corrFilter.choices
             // log && console.log("getItemContent / list_tags content filterChoices : ", filterChoices)
-            
+
             content = content.map( c => {
               let tagDict = filterChoices.find( t => t.name === c )
               // log && console.log("getItemContent / list_tags content tagDict : ", tagDict)
-              let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
+              let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale )
               // log && console.log("getItemContent / list_tags content tagText : ", tagText)
               let corrContent = tagText.text
               // log && console.log("getItemContent / list_tags content corrContent : ", corrContent)
-              return corrContent ? corrContent : c  
+              return corrContent ? corrContent : c
             })
           }
 
           content = content.map( tag => {
-            let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+            let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
             const tail = ( trimming && tag.length > trimming) ? '...' : ''
             // log && console.log("getItemContent / trim : ", trim)
             return tag.slice(0, trim) + tail
@@ -909,17 +918,17 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
         }
 
         // DEALING WITH LIST TO STRING RESULTS
-        // get item from array if type == list 
+        // get item from array if type == list
         else if ( field_format.type === 'list'){
-  
+
           // log && console.log("getItemContent / list content : ", content)
-  
+
           let begin = field_format.retrieve[0]
-  
+
           // choose in array
           if ( begin === -1 ){
             content = content.join(' ')
-          } 
+          }
           else if ( field_format.retrieve.length === 1 ) {
             content = content[ begin ]
           }
@@ -928,9 +937,9 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             content = content.slice( begin, end )
             content = content.join(' ')
           }
-  
+
           // log && console.log("getItemContent / content C : ", content)
-          
+
           // string is tag-like and needs to be splitten
           if ( contentField.is_tag_like ) {
             content = content.split(contentField.tags_separator).filter(c => c != "")
@@ -944,20 +953,20 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
               let filterChoices = corrFilter.choices
               // log && console.log("getItemContent / list content filterChoices : ", filterChoices)
-              
+
               content = content.map( c => {
                 let tagDict = filterChoices.find( t => t.name === c )
                 // log && console.log("getItemContent / list content tagDict : ", tagDict)
-                let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
+                let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale )
                 // log && console.log("getItemContent / list content tagText : ", tagText)
                 let corrContent = tagText.text
                 // log && console.log("getItemContent / list content corrContent : ", corrContent)
-                return corrContent ? corrContent : c  
+                return corrContent ? corrContent : c
               })
             }
 
             content = content.map( tag => {
-              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
@@ -965,20 +974,20 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
 
             return content
-          } 
-  
+          }
+
           // trim string
           else {
             // log && console.log("getItemContent / string content : ", content)
-            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+            let trim = ( trimming && content.length > trimming ) ? trimming : content.length
             // log && console.log("getItemContent / trim : ", trim)
             const tail = ( trimming && content.length > trimming) ? '...' : '';
             content = content.slice(0, trim) + tail
             return content
           }
-  
+
         }
-  
+
         // DEALING WITH NATIVE STRING RESULTS
         else if ( field_format.type === 'object' ) {
           // log && console.log("getItemContent / object content : ", content)
@@ -987,7 +996,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
           if ( contentField.is_tag_like ) {
             content = content.split(contentField.tags_separator).filter(c => c != "")
             content = content.map( tag => {
-              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
@@ -1003,20 +1012,20 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
               let filterChoices = corrFilter.choices
               // log && console.log("getItemContent / object content filterChoices : ", filterChoices)
-              
+
               content = content.map( c => {
                 let tagDict = filterChoices.find( t => t.name === c )
                 // log && console.log("getItemContent / object content tagDict : ", tagDict)
-                let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale ) 
+                let tagText = tagDict && tagDict.choice_title.find( ct => ct.locale === locale )
                 // log && console.log("getItemContent / object content tagText : ", tagText)
                 let corrContent = tagText.text
                 // log && console.log("getItemContent / object content corrContent : ", corrContent)
-                return corrContent ? corrContent : c  
+                return corrContent ? corrContent : c
               })
             }
 
             content = content.map( tag => {
-              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length 
+              let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
               const tail = ( trimming && tag.length > trimming ) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
@@ -1026,9 +1035,9 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             return content
           } else {
             // log && console.log("getItemContent / object content : ", content)
-            let trim = ( trimming && content.length > trimming ) ? trimming : content.length 
+            let trim = ( trimming && content.length > trimming ) ? trimming : content.length
             const tail = ( trimming && content.length > trimming )? '...' : '' ;
-            content = content.slice(0, trim) + tail        
+            content = content.slice(0, trim) + tail
             // log && console.log("getItemContent / object content not tag like : ", content)
             return content
           }
@@ -1038,8 +1047,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
         content = noData
       }
 
-    } 
-    
+    }
+
     else {
       // content is none
       if ( fieldBlock === 'block_image'){
@@ -1053,7 +1062,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
       }
     }
 
-  } 
+  }
   else {
     // no contentField or is_visible === false
     return undefined
@@ -1079,7 +1088,7 @@ export function getDefaultImage(defaultImages, item, idField='id'){
       return i.dft_text === 'img_'+tail;
     })
     image = imageObj.src_image
-  } 
+  }
   // else {
   //   let id = 111111111111111111
   //   image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
