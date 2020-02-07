@@ -135,7 +135,7 @@
         :class="`navbar-item navbar-item-hov a-anim is-hoverable has-dropdown ${user.isLoggedin || navbarConfig.has_login ? 'no-padding-right' : ''}`"
         >
         <!-- LOCALES BTN -->
-        <a :class="`navbar-link a-anim is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
+        <a :class="`navbar-link navbar-link-top a-anim is-arrowless is-uppercase ${ navbarConfig.ui_options.background_isdark ? 'has-text-white' : '' }`"
           >
           {{ locale }}
         </a>
