@@ -221,6 +221,14 @@ export const getters = {
       // state.log && console.log( "S-config-G-getRouteConfigStatForDataset / config : ", config )
       return config 
     },
+    getRouteConfigCalendarForDataset : (state, getters, rootState) => {
+      let config = state.config.routes.find(function(r) {
+        return r.endpoint_type === 'calendar'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      })
+      // state.log && console.log( "S-config-G-getRouteConfigCalendarForDataset / config : ", config )
+      return config 
+    },
     getRouteConfigDefaultDatasetImages : (state, getters, rootState) => {
       return state.config.styles.app_search_default_images_sets.images_sets.find(function(r) {
         return r.dataset_uri === rootState.search.search.dataset_uri;
@@ -298,6 +306,15 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       });
       // state.log && console.log("S-config-getEndpointConfigStat - config : ", config)
+      return config
+    },
+    getEndpointConfigCalendar : (state, getters, rootState) => {
+      // state.log && console.log("S-config-getEndpointConfigCalendar - state.config.endpoints : \n", state.config.endpoints)
+      let config = state.config.endpoints.find(function(r) {
+        return r.endpoint_type === 'calendar'
+        && r.dataset_uri === rootState.search.search.dataset_uri;
+      });
+      // state.log && console.log("S-config-getEndpointConfigCalendar - config : ", config)
       return config
     },
     getEndpointConfigExport : (state, getters, rootState) => {

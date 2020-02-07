@@ -128,6 +128,22 @@
         </span>
       </nuxt-link>
 
+      <!-- BTN CALENDAR -->
+      <nuxt-link
+        v-if="typeof endpointConfigCalendar !== 'undefined' && endpointConfigCalendar.is_visible"
+        :disabled="endpointConfigCalendar.is_disabled" 
+        :to="endpointConfigUrlToCalendar && endpointConfigUrlToCalendar.urls[0]" 
+        :class="['has-text-centered button ', view === VIEW_CALENDAR ? 'is-selected is-primary is-primary-b' : 'has-text-primary-hover-c', smallButtons ? '' : '' ]" 
+        >
+        <span class="icon has-text-centered is-marginless">
+          <i class="far fa-calendar-alt"></i>
+        </span>
+        <span class="is-hidden-touch">
+          {{ basicDict.tab_calendar[locale] }}
+        </span>
+      </nuxt-link>
+
+
     </div>
 
 
@@ -177,7 +193,7 @@
   import { mapState, mapGetters } from 'vuex'
   import { isMobile } from 'mobile-device-detect'
 
-  import { VIEW_TABLE, VIEW_LIST, VIEW_MAP, VIEW_STAT, responsiveBreakpoint } from '../../config/constants.js'
+  import { VIEW_TABLE, VIEW_LIST, VIEW_MAP, VIEW_STAT, VIEW_CALENDAR, responsiveBreakpoint } from '../../config/constants.js'
   import { BasicDictionnary } from "~/config/basicDict.js" 
 
   export default {
@@ -196,6 +212,7 @@
         VIEW_LIST,
         VIEW_MAP, 
         VIEW_STAT,
+        VIEW_CALENDAR,
 
         basicDict : BasicDictionnary, 
         smallButtons : false,
@@ -254,16 +271,18 @@
 
         endpointConfigDetail : 'config/getEndpointConfigDetail',
 
-        endpointConfigTable  : 'config/getEndpointConfigTable',
-        endpointConfigList   : 'config/getEndpointConfigList',
-        endpointConfigMap    : 'config/getEndpointConfigMap',
-        endpointConfigStat   : 'config/getEndpointConfigStat',
-        endpointConfigExport : 'config/getEndpointConfigExport',
+        endpointConfigTable    : 'config/getEndpointConfigTable',
+        endpointConfigList     : 'config/getEndpointConfigList',
+        endpointConfigMap      : 'config/getEndpointConfigMap',
+        endpointConfigStat     : 'config/getEndpointConfigStat',
+        endpointConfigCalendar : 'config/getEndpointConfigCalendar',
+        endpointConfigExport   : 'config/getEndpointConfigExport',
 
         endpointConfigUrlToTable : 'config/getRouteConfigTableForDataset',
         endpointConfigUrlToList  : 'config/getRouteConfigListForDataset',
         endpointConfigUrlToMap   : 'config/getRouteConfigMapForDataset',
         endpointConfigUrlToStat  : 'config/getRouteConfigStatForDataset',
+        endpointConfigUrlToCalendar  : 'config/getRouteConfigCalendarForDataset',
       }),
 
 
