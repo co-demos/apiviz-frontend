@@ -30,11 +30,6 @@
           </span>
         </a>
 
-
-        <!-- DEBUGGING  -->
-        <!-- {{ displayableItem }} -->
-
-
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
@@ -45,7 +40,9 @@
               <h1 id="block-title" class="title is-3">
                 {{ matchProjectWithConfig('block_title')}}
               </h1>
-
+              <ul>
+                <li v-for="data in displayableEnthicData">{{ data.description }} : {{ data.value }}</li>
+              </ul>
               <!-- BLOCK MAIN TAGS -->
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
                 <span
@@ -85,56 +82,20 @@
                 {{ matchProjectWithConfig('block_pre_abstract')}}
               </p>
 
-              <!-- BLOCK ABSTRACT -->
-              <p id="block-abstract">
-                <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                  <h3>Personnes physiques représentantes légales :</h3>
-                  <ul>
-                    <li v-for="representant in tidyRepresentants['P.Physique']">
-                      {{ representant[1][0].qualite }} : {{ representant[1][0].nom_patronyme }}
-                    </li>
-                  </ul>
-                  <h3>Personnes morales représentantes légales :</h3>
-                  <ul>
-                    <li v-for="representant in tidyRepresentants['P. Morale']">
-                      {{ representant[0] }} représenté par
-                        <span v-for="mandat in representant[1]">
-                          {{ mandat.qualite }} {{ mandat.representant_permanent_nom_patronyme }} {{ mandat.representant_permanent_prenoms }}
-                        </span>
-                    </li>
-                  </ul>
-                  <br><br>
-                </span>
-              </p>
-
               <!-- BLOCK PARTNERS -->
               <div id="block-partners" v-if="isPositionFilled('block_partners')">
                 <p>{{ matchProjectWithConfig('block_partners')}}</p>
               </div>
 
               <!-- BLOCK POST ABSTRACT 1 -->
-              <p id="block-post-abstract-1" v-if="isPositionFilled('block_post_abstract_1')">
-                <span
-                  v-if="getCustomBlockTitle('block_post_abstract_1')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
-                  {{ getCustomBlockTitle('block_post_abstract_1') }}
-                  <br><br>
-                </span>
-                {{ matchProjectWithConfig('block_post_abstract_1')}}
+              <p id="block-post-abstract-1">
+                <apexchart type="bar" height="350" :options="chartDetails.chartOptions" :series="chartDetails.series"></apexchart>
               </p>
 
               <!-- BLOCK POST ABSTRACT 2 -->
-              <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
-                <span
-                  v-if="getCustomBlockTitle('block_post_abstract_2')"
-                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
-                  {{ getCustomBlockTitle('block_post_abstract_2') }}
-                  <br><br>
-                </span>
-                {{ matchProjectWithConfig('block_post_abstract_2')}}
+              <p id="block-post-abstract-2">
               </p>
+
               <!-- BLOCK POST ABSTRACT 3 -->
               <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
                 <span
@@ -237,23 +198,10 @@
             </a>
 
             <!-- BLOCK FILE -->
-            <div class="added" id="block-file" v-if="isPositionFilled('block_file_1')">
+            <div class="added" id="block-file">
               <div class="columns">
                 <div class="column is-12">
-                  <div>
-                    <a
-                      target="_blank"
-                      :href="matchProjectWithConfig('block_file_1')"
-                      >
-                      <span class="icon is-small">
-                        <i class="fas fa-download"></i>
-                      </span>
-                      <span>
-                        <!-- {{ downloadFile }} -->
-                        {{ getDefaultText('dowload_file') }}
-                      </span>
-                    </a>
-                  </div>
+                  <ForceNetworkGraph :graphData="tidyRepresentants"></ForceNetworkGraph>
                 </div>
               </div>
             </div>
@@ -539,12 +487,18 @@ import NotFoundError from './NotFoundError.vue';
 import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
 import { BasicDictionnary } from "~/config/basicDict.js"
 
+import VueApexCharts from 'vue-apexcharts'
+
+import ForceNetworkGraph from './ForceNetworkGraph.vue'
+
 export default {
 
   name: 'DynamicDetail',
 
   components: {
     NotFoundError,
+    apexchart: VueApexCharts,
+    ForceNetworkGraph
   },
 
   props: [
@@ -557,18 +511,13 @@ export default {
       // displayableItem : null,
       contentFields : null,
       isError: false,
-      basicDict : BasicDictionnary,
+      basicDict : BasicDictionnary
     }
   },
 
   beforeMount: function () {
     this.log && console.log("\n - - DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
-
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
-    // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-
   },
 
   mounted(){
@@ -584,7 +533,6 @@ export default {
       }
     }, 100);
 
-    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
     this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
     if (this.$nuxt.$route.query.id) {
       this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
@@ -605,11 +553,6 @@ export default {
       displayableItem : 'search/getDisplayedProject',
       filterDescriptions : 'search/getFilterDescriptions',
     }),
-
-    // default texts
-    // backToResults() {
-    //   return this.$store.getters['config/defaultText']({txt:'back_to_results'})
-    // },
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
@@ -651,10 +594,237 @@ export default {
           console.log("undefined :", representant);
         }
       }
-      this.log && console.log(" - - DynamicDetail / mounted / tidyRepresentants :", representantsStreamlined);
-      return representantsStreamlined
+      this.log && console.log(" - - DynamicDetail / computed / tidyRepresentants :", representantsStreamlined);
+
+      let result = { nodes: [{id: this.displayableItem.CompanyNumber, name: this.displayableItem.Name}] , links : []}
+      for (var physique of representantsStreamlined["P.Physique"])
+      {
+        var representantPhysique = physique[1][0];
+        var nodeId = representantPhysique.id_representant;
+        var nodeLabel = representantPhysique.nom_patronyme + " " + representantPhysique.prenoms;
+        if(representantPhysique.nationalite != null)
+        {
+           nodeLabel += "\n Nationalité:" + representantPhysique.nationalite;
+        }
+        else {
+          nodeLabel += "\n Pays:" + representantPhysique.adresse_pays;
+        }
+        var nodeColor = 'orange';
+        // Create one node per physical person
+        var newNode = {id: nodeId.toString(), name: nodeLabel, _color : nodeColor}
+        result.nodes.push(newNode);
+        for (var rep of physique[1])
+        {
+          // Create one link per "qualité"
+          result.links.push({source: result.nodes[0], target: newNode, name: rep.qualite + "\n au " + representantPhysique.date_derniere_modification, _color : 'red' });
+        }
+      }
+
+      for (var morale of representantsStreamlined["P. Morale"])
+      {
+        var nodeId = morale[0];
+        var nodeColor = 'f0f';
+        var nodeLabel = morale[0] + "\n représenté par ";
+        if(morale[1][0].siren_pm != null)
+        {
+           nodeColor = 'f0f';
+           nodeId = morale[1][0].siren_pm;
+        }
+        var qualiteMap = new Map();
+        for (var rep of morale[1])
+        {
+          if (qualiteMap.has(rep.qualite))
+          {
+            qualiteMap.set(rep.qualite, qualiteMap.get(rep.qualite) + 1);
+          }
+          else{
+            qualiteMap.set(rep.qualite, 1);
+          }
+        }
+        for (var qualite of qualiteMap)
+        {
+          nodeLabel += qualite[1] + " " + qualite[0] + ";";
+        }
+        var newNode = {id: nodeId.toString(), name: nodeLabel, _color : nodeColor}
+        result.nodes.push(newNode);
+        result.links.push({source: result.nodes[0], target: newNode, name: "vache", _color : 'red' });
+      }
+
+      return result
     },
 
+    displayableEnthicData(){
+      let displayableEnthicData = {}
+      for (var property in this.displayableItem.Enthic){
+        if (["siren", "ape", "postal_code", "town", "di", "fj", "hi", "hm"].includes(property) ){
+          displayableEnthicData[property] = this.displayableItem.Enthic[property]
+        }
+      }
+      return displayableEnthicData
+    },
+
+    chartDetails(){
+      var xLabels = [];
+
+      var CA = [];
+      var subventions = [];
+      var achatMarchandises = [];
+      var variationStockMarchandises = [];
+      var achatMatierePremiereAutreAppro = [];
+      var variationStockMatierePremiereAutreAppro = [];
+      var autresAchatEtChargesExterne = [];
+      var taxes = [];
+      var salaires = [];
+      var cotisationSociale = [];
+      var autreCharges = [];
+
+      var resultatExploitation = [];
+      var resultatFinancier = [];
+      var resultatExceptionnel = [];
+
+      var Participation = [];
+      var ImpotsSurLesSocietes = [];
+
+      var resultatPourProprietaire = [];
+      var resultatExceptionnelEtFinancier = [];
+
+      for (var comptesDeResultat of this.displayableItem.ComptesDeResultats){
+        xLabels.push(comptesDeResultat.year);
+
+        CA.push(comptesDeResultat.ChiffresAffairesNet);
+        subventions.push(comptesDeResultat.SubventionsExploitation);
+
+        achatMarchandises.push(comptesDeResultat.AchatsDeMarchandises);
+        variationStockMarchandises.push(comptesDeResultat.VariationStockMarchandise);
+        achatMatierePremiereAutreAppro.push(comptesDeResultat.AchatMatierePremiereAutreAppro);
+        variationStockMatierePremiereAutreAppro.push(comptesDeResultat.VariationStockMatierePremiereEtAppro);
+
+        taxes.push(comptesDeResultat.ImpotTaxesEtVersementsAssimiles);
+        salaires.push(comptesDeResultat.SalairesEtTraitements);
+        cotisationSociale.push(comptesDeResultat.ChargesSociales);
+
+        resultatExploitation.push(comptesDeResultat.ResultatExploitation);
+
+        resultatFinancier.push(comptesDeResultat.ResultatFinancier);
+        resultatExceptionnel.push(comptesDeResultat.ResultatExceptionnel);
+        Participation.push(comptesDeResultat.ParticipationSalariesAuxResultats);
+        ImpotsSurLesSocietes.push(comptesDeResultat.ImpotsSurLesBenefices);
+      }
+      var factorCA = 1;
+      var unitCA = '€';
+      if (CA[0] > 10000000){
+        var factorCA = 1000000;
+        var unitCA = 'millions d\'€';
+      }
+      else if (CA[0] > 30000) {
+        var factorCA = 1000;
+        var unitCA = 'milliers d\'€';
+      }
+
+      var factor = 1;
+      var unit = '€';
+      if (resultatExploitation[0] > 3000000 || resultatExploitation[0] < -3000000){
+        var factor = 1000000;
+        var unit = 'millions d\'€';
+      }
+      else if (resultatExploitation[0] > 30000 || resultatExploitation[0] < -100000) {
+        var factor = 1000;
+        var unit = 'milliers d\'€';
+      }
+
+      var autreChargesMoinsAutresProduitsAffiches = [];
+      var taxesMoinsSubventions = [];
+      var marchandisesTotalAfficher = [];
+      for(var i = 0; i < xLabels.length; i++){
+          // Mise en forme des données du graphe sur le CA
+          taxesMoinsSubventions.push(taxes[i] - subventions[i]);
+          marchandisesTotalAfficher.push(achatMarchandises[i] + variationStockMarchandises[i] + achatMatierePremiereAutreAppro[i] + variationStockMatierePremiereAutreAppro[i]);
+          autreChargesMoinsAutresProduitsAffiches.push(CA[i] - salaires[i] - cotisationSociale[i] - taxesMoinsSubventions[i] - marchandisesTotalAfficher[i] - resultatExploitation[i]);
+
+          // Mise en forme des données sur le graphe de la répartition du résultat d'exploitation
+          resultatPourProprietaire.push(resultatExploitation[i] + resultatFinancier[i] + resultatExceptionnel[i] - Participation[i] - ImpotsSurLesSocietes[i]);
+          resultatExceptionnelEtFinancier.push(-resultatFinancier[i] - resultatExceptionnel[i]);
+
+          // Application du ratio pour l'affichage du graphe sur le CA
+          salaires[i] = Math.round(1000 * salaires[i] / factorCA) / 1000;
+          cotisationSociale[i] = Math.round(1000 * cotisationSociale[i] / factorCA) / 1000;
+          taxesMoinsSubventions[i] = Math.round(1000 * taxesMoinsSubventions[i] / factorCA) / 1000;
+          marchandisesTotalAfficher[i] = Math.round(1000 * marchandisesTotalAfficher[i] / factorCA) / 1000;
+          autreChargesMoinsAutresProduitsAffiches[i] = Math.round(1000 * autreChargesMoinsAutresProduitsAffiches[i] / factorCA) / 1000;
+          resultatExploitation[i] = Math.round(1000 * resultatExploitation[i] / factorCA) / 1000;
+
+          // Application du ratio pour l'affichage du graphe sur le résultat d'exploitation
+          Participation[i] = Math.round(1000 * Participation[i] / factor) / 1000;
+          ImpotsSurLesSocietes[i] = Math.round(1000 * ImpotsSurLesSocietes[i] / factor) / 1000;
+          resultatPourProprietaire[i] = Math.round(1000 * resultatPourProprietaire[i] / factor) / 1000;
+          resultatExceptionnelEtFinancier[i] = Math.round(1000 * resultatExceptionnelEtFinancier[i] / factor) / 1000;
+      }
+
+      let series = [{
+          name: 'Salaires Bruts',
+          data: salaires
+        }, {
+          name: 'Cotisations Sociales',
+          data: cotisationSociale
+        }, {
+          name: 'Taxes diverses retranchées des subventions',
+          data: taxesMoinsSubventions
+        }, {
+          name: 'Achat de marchandises, matières premières et autre approvisionnement',
+          data: marchandisesTotalAfficher
+        }, {
+          name: 'Autres charges retranchées des autres produits',
+          data: autreChargesMoinsAutresProduitsAffiches
+        }, {
+          name: 'Résultat d\'exploitation (marge de l\'entreprise)',
+          data: resultatExploitation
+        }]
+
+
+      this.log && console.log(" - - DynamicDetail / computed / chartDetails :", series)
+
+      return {
+        series: series,
+        chartOptions: {
+            chart: {
+              type: 'bar',
+              height: 350,
+              stacked: true,
+              toolbar: {
+                show: true
+              },
+              zoom: {
+                enabled: true
+              }
+            },
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                legend: {
+                  position: 'bottom',
+                  offsetX: -10,
+                  offsetY: 0
+                }
+              }
+            }],
+            plotOptions: {
+              bar: {
+                horizontal: false,
+              },
+            },
+            xaxis: {
+              categories: xLabels,
+            },
+            legend: {
+              position: 'right',
+              offsetY: 40
+            },
+            fill: {
+              opacity: 1
+            }
+          }
+      }
+    }
   },
 
   methods : {
@@ -682,60 +852,9 @@ export default {
     },
 
     matchProjectWithConfig(fieldBlock) {
-
-      // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
-
       return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        // this.log && console.log("C-DynamicDetail / matchProjectWithConfig / contentField : ", contentField)
-
-        if (contentField){
-
-          const field = contentField.field
-          const field_format = contentField.field_format
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / field_format : ", field_format)
-
-          let content = this.displayableItem[field]
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
-
-          if ( content && content !== "None" && content !== "" ){
-
-            if ( field_format.type === 'list'){
-              let begin = field_format.retrieve[0]
-              if ( begin === -1){
-                content = content
-              }
-              else if ( field_format.retrieve.length === 1 ) {
-                content = content[ begin ]
-              }
-              else {
-                let end = field_format.retrieve[1] || content.length
-                content = content.slice( begin, end )
-              }
-            }
-
-            this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
-
-            if (contentField.is_tag_like) {
-              content = content.split(contentField.tags_separator).filter(c => c != "")
-              return content
-            } else {
-              return content
-            }
-
-          } else {
-            // this.log && console.log("content is None | null ...")
-            // this.log && console.log("this.noData : ", this.noData)
-            return this.noData
-          }
-        } else {
-          return undefined
-        }
-      */
-
     },
+
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
@@ -890,5 +1009,14 @@ export default {
   .pending{
       text-align: center;
       padding: 9em;
+  }
+
+  svg{
+    margin: 25px;
+  }
+  path{
+    fill: none;
+    stroke: #76BF8A;
+    stroke-width: 3px;
   }
 </style>
