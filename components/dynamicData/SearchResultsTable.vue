@@ -84,7 +84,7 @@
                 class="has-text-centered"
                 >
                 <nuxt-link
-                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`"
+                  :to="`/${dataset_uri}/detail?id=${ item.siren.value }`"
                   >
                   &nbsp;
                   <span class="icon has-text-centered is-marginless">
@@ -98,16 +98,15 @@
                 :key="index">
                 <nuxt-link
                   v-if="contentField.has_link_to_detail"
-                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`"
+                  :to="`/${dataset_uri}/detail?id=${ item.siren.value }`"
                   :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
-                  >
-                  {{ itemField(item, contentField.field ) }}
+                  >{{ item.denomination.value }}
                 </nuxt-link>
                 <span
                   v-else
                   :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
                   >
-                  {{ itemField(item, contentField.field ) }}
+                  {{ item.siren.value }}
                 </span>
               </td>
             </tr>

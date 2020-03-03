@@ -298,10 +298,10 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
         console.log("+ + + searchItems / (axios) / resp :", resp);
         console.log("+ + + searchItems / (axios) / responsePaths : ", responsePaths);
 
-        let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
+        let responseProjects = resp.data.member
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
 
-        let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
+        let responseTotal = resp.data.totalItems
         console.log("+ + + searchItems / (axios) / responseTotal : ", responseTotal);
 
         let responseStats = resolvePathString( 'stats', responsePaths, resp.data, '/')
@@ -322,9 +322,9 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
     }
 }
 
-export function populateDisplayedItem( item, endpointGenerated, endpointRawConfig ){
-    console.log("+ + + populateDisplayedItem : ", item)
-
+export function populateDisplayedItem( companyNumber, endpointGenerated, endpointRawConfig ){
+    console.log("+ + + populateDisplayedItem : ", companyNumber)
+    let item = {}
     let fetchMethod = endpointRawConfig.method
 
     let fetchHeader = endpointGenerated.requestHeader
@@ -339,7 +339,7 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
 
     let axiosRequests = [axios({
       method: fetchMethod.toLowerCase(),
-      url: "https://api.cquest.org/company/" + item.CompanyNumber,
+      url: "https://api.cquest.org/company/" + companyNumber,
       data : payloadJson,
       headers : fetchHeader
     }).catch( err => {
@@ -349,23 +349,13 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
 
     axiosRequests.push(axios({
       method: fetchMethod.toLowerCase(),
-      url: "https://api.enthic.fr/company/siren/" + item.CompanyNumber,
+      url: "https://api.enthic.fr/company/siren/" + companyNumber,
       data : payloadJson,
       headers : fetchHeader
     }).catch( err => {
       console.log("+ + + populateDisplayedItem / (axios)  error on enthic API :", err);
       return "Error on enthic API : " + err
     }))
-
-    for (let compte of item.ComptesDeResultats)
-    {
-      axiosRequests.push(axios({
-        method: fetchMethod.toLowerCase(),
-        url: "https://opencorporatefacts.fr" + compte,
-        data : payloadJson,
-        headers : fetchHeader
-      }))
-    }
 
     console.log("+ + + populateDisplayedItem / sending multiple axiosRequests : ", axiosRequests)
 
@@ -1126,7 +1116,7 @@ export function searchEndpointGenerator( obj ) {
   let argsArray = []
   for (let key in endpointConfigArgs ) {
     const EndpointArg = endpointConfigArgs[key]
-    console.log("+ + + searchEndpointGenerator / EndpointArg.app_arg : ", EndpointArg.app_arg)
+    console.log("+ + + searchEndpointGenerator / EndpointArg : ", EndpointArg)
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
       if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
         let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg])
@@ -1149,6 +1139,7 @@ export function searchEndpointGenerator( obj ) {
   }
 
   let baseQuery = endpointConfig.root_url
+  baseQuery = "http://api.enthic.fr/company/search/page"
   if ( argsArray.length > 0 ){
     baseQuery += '?'
     let argsLongString = argsArray.join('&')
@@ -1156,7 +1147,7 @@ export function searchEndpointGenerator( obj ) {
     baseQuery += argsLongString
   }
 
-  // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
+  console.log("+ + + searchEndpointGenerator / endpointConfig.root_url : \n ", endpointConfig.root_url)
 
   // build header from endpointConfig
   let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig )

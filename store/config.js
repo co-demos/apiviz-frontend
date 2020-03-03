@@ -447,10 +447,27 @@ export const actions = {
     return axios
     .get(fullUrl)
     .then(response => {
-      // state.log && console.log("\nS-config-A-getConfigType / type : ", type)
       state.log && console.log("S-config-A-getConfigType / type -", type," - response.data : ", response.data)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
-      // state.log && console.log("S-config-A-getConfigType / type : "+ type + " / app_config ", app_config)
+      if (type == "endpoints")
+      {
+        state.log && console.log("S-config-A-getConfigType / type : "+ type + " / app_config ", app_config)
+        for (let endpoint of app_config )
+        {
+          if (["table", "list"].includes(endpoint.endpoint_type))
+          {
+            state.log && console.log("S-config-A-getConfigType / rewrite endpoint : ", endpoint)
+            for (let arg of endpoint.args_options)
+            {
+              if (arg.app_arg == "query")
+              {
+                arg.arg = "probe"
+              }
+              console.log("+ + + S-config-A-getConfigType / arg : ", arg)
+            }
+          }
+        }
+      }
       commit('setConfig', {type:type,result:app_config});
       return app_config
     })

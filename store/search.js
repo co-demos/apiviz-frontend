@@ -683,8 +683,7 @@ export const actions = {
       })
       state.log && console.log("S-search-A-searchOne / endpointGenerated : \n", endpointGenerated )
 
-      // TO DO - CHANGE FETCH --> USE AXIOS
-      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
+      const searchPendingAbort = populateDisplayedItem(id, endpointGenerated, endpointRawConfig )
 
       if ( endpointCurrentConfig && endpointCurrentConfig.endpoint_type === 'map' ){
         commit('setSearchPendingOne', { pendingAbort: searchPendingAbort })
@@ -695,10 +694,7 @@ export const actions = {
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
-        populateDisplayedItem(response.projects[0], endpointGenerated, endpointRawConfig).promise.then( (populatedResponse) => {
-          state.log && console.log("S-search-A-searchOne / populatedResponse : \n", populatedResponse )
-          commit('setDisplayedProject', populatedResponse)
-        })
+        commit('setDisplayedProject', response)
       })
       .catch(error => {
         // don't report aborted fetch as errors
