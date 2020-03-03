@@ -162,29 +162,6 @@ export function getItemById(id, endpointConfig, userAccessToken, endpointAuthCon
   )
 }
 
-
-// source: https://github.com/jashkenas/underscore/blob/master/underscore.js#L1320
-// export function isObject(obj) {
-//   var type = typeof obj;
-//   return type === 'function' || type === 'object' && !!obj;
-// }
-
-// export function iterationCopy(src) {
-//   // let target = new Object()
-//   let target = {}
-//   for (let prop in src) {
-//     if (src.hasOwnProperty(prop)) {
-//       // if the value is a nested object, recursively copy all it's properties
-//       if (isObject(src[prop])) {
-//         target[prop] = iterationCopy(src[prop])
-//       } else {
-//         target[prop] = src[prop]
-//       }
-//     }
-//   }
-//   return target;
-// }
-
 export const setValueToField = (fields, value) => {
   const reducer = (acc, item, index, arr) => ({ [item]: index + 1 < arr.length ? acc : value });
   return fields.reduceRight(reducer, {});
@@ -247,7 +224,6 @@ export function resolvePathString( respField , respFieldsPaths, obj=self, separa
 
 }
 
-// export function searchItems( url=undefined, responsePaths=undefined, endpointRawConfig=undefined ){
 export function searchItems( endpointGenerated=undefined, endpointRawConfig=undefined ){
 
   console.log("\n+ + + searchItems ... ")
@@ -259,50 +235,10 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
 
   let fetchHeader = endpointGenerated.requestHeader
-  // fetchHeader = {}
-  // fetchHeader['accept'] = 'application/ld+json'
-  // fetchHeader['Content-type'] = 'application/json'
-  // fetchHeader['Access-Control-Allow-Origin'] = 'http://localhost:3001'
-  // fetchHeader['Access-Control-Allow-Origin'] = '*'
-  // fetchHeader['Access-Control-Allow-Credentials'] = true
-  // fetchHeader['Origin'] = 'http://localhost:3001, *'
-  // fetchHeader['TestHeader'] = 'testing'
-  // let fetchHeader = {
-  //   'Accept': 'application/ld+json',
-  //   'Content-Type': 'application/json',
-  //   // "Access-Control-Allow-Origin" : "*",
-  // }
-    // fetchHeader = undefined
-
-
-  // let fetchHeader = {
-  //   //   'Accept': 'application/json',
-  //   //   'Content-Type': 'application/json',
-  //   //   // "Access-Control-Allow-Origin" : "*",
-    
-  //   // 'Host': 'opencorporatefacts.fr',
-  //   'Accept': 'application/ld+json',
-  //   // 'User-Agent': 'PostmanRuntime/7.15.0',
-  //   'Cache-Control': 'no-cache',
-  //   // 'Postman-Token': '38c176f9-7c68-4f7f-8bec-244b9df36ada,275f9f87-0049-4f22-86bb-f90d2f53841f',
-  //   // 'Host': 'opencorporatefacts.fr',
-  //   'accept-encoding': 'gzip, deflate',
-  //   'Connection': 'keep-alive',
-  //   'cache-control': 'no-cache',
-  // }
-
   console.log("+ + + searchItems / fetchHeader : ", fetchHeader)
 
   let fetchUrl = endpointGenerated.requestUrl
   console.log("+ + + searchItems / fetchUrl : ", fetchUrl)
-
-  // tests overwrite urls
-  // fetchUrl = "https://solidata-api.co-demos.com/api/dsi/infos/get_one/5c7ebe44328ed724cebd813c"
-  // fetchUrl = "http://api.cquest.org/company/433842044"
-  // fetchUrl = "https://grappe.io/data/api/5de28a759865ec009a839b58-agenda-comme-un"
-  // fetchUrl = "http://opencorporatefacts.fr/api/corporates"
-
-
 
   let fetchPayload = endpointGenerated.requestPayload
   console.log("+ + + searchItems / fetchPayload : ", fetchPayload)
@@ -316,11 +252,9 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   let searchAborted = false
 
   // set up fetch options
-  let fetchOptions = { 
+  let fetchOptions = {
     method : fetchMethod.toLowerCase(),
-
     signal: ac.signal,
-    // credentials: 'include',
     header : fetchHeader
   }
   // set up axios options
@@ -342,31 +276,6 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / axiosOptions : ", axiosOptions)
   console.log("+ + + searchItems / ac : ", ac)
 
-
-  // TEST SPACE
-  // console.log("+ + + searchItems / (pure axios) ... ");
-  // // axios.get( fetchUrl, { headers : fetchHeader })
-  // axios( axiosOptions )
-  // .then( response => {
-  //   console.log("+ + + searchItems / (pure axios) / response :", response);
-  // })
-  // .catch( err => {
-  //   console.log("+ + + searchItems / (pure axios)  err :", err);
-  // })
-  
-  // console.log("+ + + searchItems / (pure fetch) ... ");
-  // fetch( fetchUrl, fetchOptions )
-  // .then( resp => { 
-  //   console.log("+ + + searchItems / (pure fetch)  resp :", resp);
-  // })
-  // .catch( err => {
-  //   console.log("+ + + searchItems / (pure fetch)  err :", err);
-  // })
-
-
-
-  // AXIOS PROMISE TO RETURN
-  console.log("+ + + searchItems / (axios promise) ... ")
   // try {
     return {
       abort(){
@@ -375,42 +284,24 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
           console.log("+ + + searchItems / (axios) / abort ac :", ac);
           ac.abort()
       },
-      promise : axios(
-        axiosOptions
-        // {
-          // method: fetchMethod.toLowerCase(),
-          // // withCredentials: true,
-          // url: fetchUrl,
-          // data : payloadJson,
-          // headers : fetchHeader,
-        // }
-      )
+      promise : axios(axiosOptions)
       .then( resp => {
         console.log("+ + + searchItems / (axios) / resp :", resp);
         console.log("+ + + searchItems / (axios) / responsePaths : ", responsePaths);
 
-
         let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
 
-        
         // TO DO => CALLBACKS AXIOS ON EVERY ITEM IN responseProjects
         if ( endpointRawConfig.has_resp_callbacks ){
           console.log("+ + + searchItems / (axios) / endpointRawConfig.has_resp_callbacks ... ")
 
           let callbacks = endpointRawConfig.resp_callbacks
           console.log("+ + + searchItems / (axios) / callbacks : ", callbacks);
-        
-        
-        
         }
 
-
-
-
-        
         let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
-        console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
+        console.log("+ + + searchItems / (axios) / responseTotal : ", responseTotal);
 
         let responseStats = resolvePathString( 'stats', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseStats : ", responseStats);
@@ -433,54 +324,8 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
         // return requestPendingAbort.promise
       })
     }
-  // }
-  // catch(error){
-  //   console.log("+ + + searchItems / (axios) error : ", error)
-  // }
-
-
-
-
-
-
-  /*
-  return {
-    abort(){
-      searchAborted = true
-      if( ac )
-        ac.abort()
-    },
-    promise: ( ac ? fetch( fetchUrl, fetchOptions ) : fetch(fetchUrl) )
-    // promise: ( ac ? fetch( fetchUrl, fetchOptions ) : fetch(fetchUrl, fetchOptions) )
-    // promise : axios( axiosOptions )
-    .then(r => r.json())
-    .then(( resp ) => {
-      console.log("+ + + searchItems / (fetch) / resp :", resp);
-      if ( searchAborted ){
-        const error = new Error('Search aborted')
-        error.name = 'AbortError'
-        throw error
-      }
-      else {
-        // read responsePath and populate dataStrcture correspondingly
-        console.log("+ + + searchItems / (fetch) / responsePaths : ", responsePaths);
-        let responseProjects = resolvePathString( responsePaths.projects.path, resp, '/')
-        console.log("+ + + searchItems / (fetch) / responseProjects : ", responseProjects);
-        let responseTotal = resolvePathString( responsePaths.total.path, resp, '/')
-        let dataStructure = {
-          projects : responseProjects,
-          total : responseTotal
-        }
-
-        return dataStructure
-
-      }
-    })
-  }
-  */
-
 }
-// export function searchItems( url=undefined, responsePaths=undefined, endpointRawConfig=undefined ){
+
 export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undefined ){
 
   console.log("\n+ + + rawRequest ... ")
@@ -493,21 +338,10 @@ export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undef
 
   let fetchHeader = endpointGenerated.requestHeader
   // let fetchHeader = {
-  // //   'Accept': 'application/json',
-  // //   'Content-Type': 'application/json',
-  // //   // "Access-Control-Allow-Origin" : "*",
-  
-  //   'Host': 'opencorporatefacts.fr',
-  //   'Accept': 'application/ld+json',
-  //   'User-Agent': 'PostmanRuntime/7.15.0',
-  //   'Cache-Control': 'no-cache',
-  //   'Postman-Token': '38c176f9-7c68-4f7f-8bec-244b9df36ada,275f9f87-0049-4f22-86bb-f90d2f53841f',
-  //   'Host': 'opencorporatefacts.fr',
-  //   'accept-encoding': 'gzip, deflate',
-  //   'Connection': 'keep-alive',
-  //   'cache-control': 'no-cache',
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/json',
+  //   // "Access-Control-Allow-Origin" : "*",
   // }
-
   console.log("+ + + rawRequest / fetchHeader : ", fetchHeader)
 
   let fetchUrl = endpointGenerated.requestUrl
@@ -581,15 +415,8 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
 
   let endpointHeaderOptions = endpointConfig.request_header_options
   console.log("+ + + buildRequestHeader / endpointHeaderOptions : ", endpointHeaderOptions)
-  
 
   let headers = {}
-
-  // let headers = {
-  //   'Accept' : 'application/json',
-  //   'Content-Type' : 'application/json',
-  //   'Authorization' : ""
-  // }
 
   for (let header_arg of endpointConfigHeaderAuth ){
 
@@ -621,14 +448,14 @@ export function buildRequestHeader( token, endpointConfigHeaderAuth, endpointCon
       // let headerField = header_arg.header_field
       let headerField = header_arg.header_field
       console.log("+ + + buildRequestHeader / (options) headerField : ", headerField)
-  
+
       let headerVal = header_arg.header_value
       console.log("+ + + buildRequestHeader / (options) headerVal : ", headerVal)
-  
+
       if ( headerVal && header_arg.app_var_name !== 'token' ) {
         headers[ headerField ] = headerVal
       }
-  
+
       if ( header_arg.is_var && header_arg.app_var_name === 'token' && token ){
         headers[ headerField ] = header_arg.header_value_prefix + token
         headerVal = header_arg.header_value_prefix + token
@@ -674,7 +501,6 @@ export function buildRequestPayload( endpointConfig ){
 export function searchEndpointGenerator( obj ) {
   if ( !obj ) { throw 'error in searchEndpointGenerator: no parameter defined' }
 
-  console.log("+ + + searchEndpointGenerator / ...")
   console.log("+ + + searchEndpointGenerator / obj : \n ", obj)
 
   // endpoint config related
@@ -708,7 +534,6 @@ export function searchEndpointGenerator( obj ) {
   // let baseQuery = endpointConfig.root_url + '?'
 
   const appArgs = [
-
     'query',
     'forMap',
     'forStats',
@@ -728,7 +553,6 @@ export function searchEndpointGenerator( obj ) {
   for (let key in endpointConfigArgs ) {
     const EndpointArg = endpointConfigArgs[key]
     console.log("+ + + searchEndpointGenerator / EndpointArg.app_arg : ", EndpointArg.app_arg)
-    // if ( !EndpointArg.optional || appArgs.includes(EndpointArg.app_arg) ){
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
       if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
         let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg])
@@ -761,7 +585,7 @@ export function searchEndpointGenerator( obj ) {
   // console.log("+ + + searchEndpointGenerator / baseQuery : \n ", baseQuery)
 
   // build header from endpointConfig
-  let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig ) 
+  let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig )
 
 
   // build payload from endpointConfig

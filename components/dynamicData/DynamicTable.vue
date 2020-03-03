@@ -1,9 +1,8 @@
 <template>
-  <DynamicSearchScreenSqueleton 
+  <DynamicSearchScreenSqueleton
     :filtersConfig="filtersConfig"
     mainClass="table"
     >
-    <!-- TEMPORARILY COMMENTED -->
     <SearchResultsTable
       :routeConfig="routeConfig"
     />
@@ -38,14 +37,14 @@ export default {
   },
 
   components: {
-    DynamicSearchScreenSqueleton, 
+    DynamicSearchScreenSqueleton,
     SearchResultsTable
   },
 
   computed: {
 
     ...mapState({
-      log : state => state.log, 
+      log : state => state.log,
       breakpoint : state => state.breakpoint,
       user: state => state.user.user
     }),

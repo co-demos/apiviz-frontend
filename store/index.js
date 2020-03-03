@@ -3,7 +3,7 @@ import { findBulmaBreakpointByWidth } from '~/config/constants.js'
 
 export const state = () => ({
 
-  // CONSOLE LOG ALLOWED 
+  // CONSOLE LOG ALLOWED
   log: process.env.ConsoleLog,
 
   // APIVIZ FRONTEND UUID
@@ -27,10 +27,10 @@ export const state = () => ({
 
   // FOR TRANSLATIONS
   locale: 'fr',
-    
+
 })
 
-export const getters = {    
+export const getters = {
 
   // GLOBAL APP GETTERS
   // - - - - - - - - - - - - - - - //
@@ -83,11 +83,7 @@ export const getters = {
     getCurrentLocale : state => {
       // console.log( "...I'm locale... ", state.locale )
       return state.locale
-    },
-
-
-
-
+    }
 }
 
 export const mutations = {

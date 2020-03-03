@@ -30,11 +30,6 @@
           </span>
         </a>
 
-
-        <!-- DEBUGGING  -->
-        <!-- {{ displayableItem }} -->
-
-
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
@@ -125,6 +120,7 @@
                 </span>
                 {{ matchProjectWithConfig('block_post_abstract_2')}}
               </p>
+
               <!-- BLOCK POST ABSTRACT 3 -->
               <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
                 <span
@@ -544,21 +540,15 @@ export default {
 
   data: () => {
     return   {
-      // displayableItem : null,
       contentFields : null,
       isError: false,
-      basicDict : BasicDictionnary,
+      basicDict : BasicDictionnary
     }
   },
 
   beforeMount: function () {
     this.log && console.log("\n - - DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
-
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
-    // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-
   },
 
   mounted(){
@@ -574,7 +564,6 @@ export default {
       }
     }, 100);
 
-    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
     this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
     if (this.$nuxt.$route.query.id) {
       this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
@@ -595,11 +584,6 @@ export default {
       displayableItem : 'search/getDisplayedProject',
       filterDescriptions : 'search/getFilterDescriptions',
     }),
-
-    // default texts
-    // backToResults() {
-    //   return this.$store.getters['config/defaultText']({txt:'back_to_results'})
-    // },
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
@@ -639,60 +623,9 @@ export default {
     },
 
     matchProjectWithConfig(fieldBlock) {
-
-      // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
-
       return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        // this.log && console.log("C-DynamicDetail / matchProjectWithConfig / contentField : ", contentField)
-
-        if (contentField){
-
-          const field = contentField.field
-          const field_format = contentField.field_format
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / field_format : ", field_format)
-
-          let content = this.displayableItem[field]
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
-
-          if ( content && content !== "None" && content !== "" ){
-
-            if ( field_format.type === 'list'){
-              let begin = field_format.retrieve[0]
-              if ( begin === -1){
-                content = content
-              }
-              else if ( field_format.retrieve.length === 1 ) {
-                content = content[ begin ]
-              }
-              else {
-                let end = field_format.retrieve[1] || content.length
-                content = content.slice( begin, end )
-              }
-            }
-
-            this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
-
-            if (contentField.is_tag_like) {
-              content = content.split(contentField.tags_separator).filter(c => c != "")
-              return content
-            } else {
-              return content
-            }
-
-          } else {
-            // this.log && console.log("content is None | null ...")
-            // this.log && console.log("this.noData : ", this.noData)
-            return this.noData
-          }
-        } else {
-          return undefined
-        }
-      */
-
     },
+
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)

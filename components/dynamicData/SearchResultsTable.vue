@@ -1,60 +1,38 @@
 <template>
   <section class="search-results-list">
 
-    <!-- DEBUGGING -->
-    <!-- <div class="container"> -->
-      <!-- -- SearchResultsList --<br> -->
-      <!-- routeConfig.dataset_uri : <code>{{ routeConfig.dataset_uri }}</code><br> -->
-      <!-- routeConfig.contents_fields : <br><pre><code>{{ JSON.stringify(routeConfig.contents_fields , null, 1) }}</code></pre><br>  -->
-      <!-- <br> -->
-    <!-- </div> -->
-
-    <!-- <div 
-      class="container" 
-      v-if="pending"
-      :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
-      >
-      <div class="pending">
-        {{ basicDict.request_loading[locale] }}
-      </div>
-    </div> 
-    -->
-
-      <!-- v-if="!pending" -->
-    <div 
-      class="container" 
+    <div
+      class="container"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
 
-      <SearchResultsCountAndTabs 
+      <SearchResultsCountAndTabs
         :view="VIEW_TABLE"
       />
 
-
-      <PaginationNav 
-        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+      <PaginationNav
+        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)"
         :position="'top'"
         :feedback="routePagination.feedback"
         :show="true"
       />
 
-
       <!-- Table container and content -->
-      <div 
+      <div
         v-if="!pending && total > 0"
         class="table-container"
         >
-        <table 
+        <table
           class="table is-centered"
           >
 
           <!-- HEADER -->
           <thead>
-            <tr 
+            <tr
               class="is-centered"
               >
               <th
-                v-if="tableOptions && tableOptions.has_link_col" 
+                v-if="tableOptions && tableOptions.has_link_col"
                 class="is-size-7 table-header-center-parent"
                 >
                 <span
@@ -62,27 +40,27 @@
                   {{ basicDict.table_to_detail[locale] }}
                 </span>
               </th>
-              <th 
+              <th
                 v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
                 :key="index"
                 class="table-header-center-parent has-text-centered"
                 >
-                <!-- <abbr 
+                <!-- <abbr
                   :title="contentField">
                   {{ contentField }}
                 </abbr> -->
-                <div 
+                <div
                   v-if="contentField.is_sortable"
                   :class="`button is-small  ${ contentField.field === sortBy ? 'is-active' : ''}`"
                   @click="changeSorting( contentField.field )"
                   >
                   {{ contentField.field }}
                   <span class="icon has-text-centered is-marginless">
-                    <i 
+                    <i
                       :class="`fas fa-angle-${ sortIsDescending ? 'down' : 'up'} ${ contentField.field === sortBy ? '' : ''}`"></i>
                   </span>
                 </div>
-                <div 
+                <div
                   v-else
                   class="is-size-7 has-text-centered table-header-center-child"
                   >
@@ -97,16 +75,16 @@
 
           <!-- BODY -->
           <tbody>
-            <tr 
+            <tr
               v-for="(item, index) in projects"
               :key="index"
               >
-              <td 
-                v-if="tableOptions && tableOptions.has_link_col" 
+              <td
+                v-if="tableOptions && tableOptions.has_link_col"
                 class="has-text-centered"
                 >
-                <nuxt-link 
-                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
+                <nuxt-link
+                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`"
                   >
                   &nbsp;
                   <span class="icon has-text-centered is-marginless">
@@ -120,12 +98,12 @@
                 :key="index">
                 <nuxt-link
                   v-if="contentField.has_link_to_detail"
-                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
+                  :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`"
                   :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
                   >
                   {{ itemField(item, contentField.field ) }}
                 </nuxt-link>
-                <span 
+                <span
                   v-else
                   :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
                   >
@@ -139,7 +117,7 @@
 
       </div>
 
-      <div 
+      <div
         v-if="pending"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
@@ -148,8 +126,8 @@
         </div>
       </div>
 
-      <PaginationNav 
-        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+      <PaginationNav
+        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)"
         :position="'bottom'"
         :feedback="routePagination.feedback"
         :show="!pending && total > 0"
@@ -163,8 +141,8 @@
       <!-- <hr><pre><code>{{ JSON.stringify(projects , null, 1) }}</code></pre><br> -->
 
 
-      <div 
-        class="no-result error" 
+      <div
+        class="no-result error"
         v-if="!pending && total === 0"
         >
 
@@ -207,7 +185,7 @@ import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 import PaginationNav from './PaginationNav.vue'
 
 import { VIEW_TABLE, defaultPagination } from '../../config/constants.js'
-import { BasicDictionnary } from "~/config/basicDict.js" 
+import { BasicDictionnary } from "~/config/basicDict.js"
 
 let scrollListener;
 
@@ -226,13 +204,6 @@ export default {
     // 'projectContentsFields'
   ],
 
-
-  // beforeCreate: function () {
-    //   console.log("\n - - SearchResultsList / beforeCreate ... ")
-  // },
-  // created: function () {
-    //   console.log("\n - - SearchResultsList / created ... ")
-  // },
   beforeMount : function(){
     this.log && console.log('\nC-SearchResultsList / beforeMount...')
     // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
@@ -242,24 +213,6 @@ export default {
     this.perPage = this.searchQuestion.perPage
     this.sortBy = this.searchQuestion.sortBy
     this.sortIsDescending = this.searchQuestion.sortIsDescending
-
-
-    // console.log( "+ + + test axios from SearchResultsList ..." )
-    // axios.get(
-    //   "http://opencorporatefacts.fr/api/corporates?page=1",
-    //   { 
-    //     headers: { 
-    //       Accept: "application/ld+json",
-    //       Host: "opencorporatefacts.fr" 
-    //     }
-    //   }
-    // )
-    // .then(resp => { 
-    //   console.log( "+ + + test axios from SearchResultsList / resp : " ,  resp)
-    // })
-
-
-
   },
 
   mounted(){
@@ -295,23 +248,23 @@ export default {
     return {
       VIEW_TABLE,
       showCount: undefined,
-      basicDict : BasicDictionnary, 
+      basicDict : BasicDictionnary,
       perPage : defaultPagination.perPage,
-      
+
       localSortBy : undefined,
       sortIsDescending : false,
 
     }
   },
-  
+
   computed: {
 
-    projectContentsFields() {
+   projectContentsFields() {
       return this.routeConfig.contents_fields
     },
 
     ...mapState({
-      log : state => state.log, 
+      log : state => state.log,
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
       // pending: state => !!state.search.search.answer.pendingAbort,
@@ -409,9 +362,9 @@ export default {
       this.log && console.log('C-SearchResultsTable / changeSorting /  field : ', field)
 
       if ( field !== this.localSortBy ){
-        this.sortIsDescending = false 
+        this.sortIsDescending = false
       } else {
-        this.sortIsDescending = !this.sortIsDescending 
+        this.sortIsDescending = !this.sortIsDescending
       }
       this.localSortBy = field
       this.$store.dispatch('search/changeSorting', { sortBy : field, sortIsDescending : this.sortIsDescending } )
@@ -420,8 +373,6 @@ export default {
 
   },
 
-
-  
   beforeDestroy(){
     window.removeEventListener('scroll', scrollListener)
     scrollListener = undefined;

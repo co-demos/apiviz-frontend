@@ -75,7 +75,6 @@ export const state = () => ({
       }
     }
   }
-
 })
 
 export const getters = {
@@ -331,7 +330,6 @@ export const mutations = {
       state.filterDescriptions = filterDescriptions
     },
 
-
   // SEARCH-RELATED
     setSearchParam(state,{type,result}){
       state.search[type] = result
@@ -384,9 +382,6 @@ export const mutations = {
       state.search.question.selectedFilters.set(filter, new Set())
       // trigger re-render
       state.search.question.selectedFilters = new Map(state.search.question.selectedFilters)
-    },
-    setSearchParam(state,{type,result}){
-      state.search[type] = result
     },
     setSearchConfig(state, {type,result}) {
       state.search.config[type] = result
@@ -629,7 +624,6 @@ export const actions = {
       const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
       commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
-      // searchItems( endpointGenerated, endpointRawConfig )
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-search / response : \n", response )
@@ -677,13 +671,10 @@ export const actions = {
 
       // append itemId to question
       commit('setItemId', id)
-      // let question = state.search.question
-      // question['itemId'] = id
 
       // ENDPOINT GENERATOR
       let endpointGenerated = searchEndpointGenerator({
         endpointConfig : endpointRawConfig,
-        // questionParams : question,
         questionParams : state.search.question,
         selectedFilters : [],
         authConfig : endpointAuthConfig,
@@ -703,7 +694,6 @@ export const actions = {
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
-        // commit('setDisplayedProject', { result: { projects, total }})
         commit('setDisplayedProject', { result: {
           projects : response.projects,
           stats : response.stats,

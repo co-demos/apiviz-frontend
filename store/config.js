@@ -13,37 +13,18 @@ const emptyConfig = {
 
 export const state = () => ({
 
-  // CONSOLE LOG ALLOWED 
+  // CONSOLE LOG ALLOWED
   log: process.env.ConsoleLog,
 
   // FOR NEW INSTANCES - DEFAULT MODELS
   apivizModels : {
-    modelUuids : [
-      // { name : 'SoNum', 
-      //   uuid : 'c5efafab-1733-4ad1-9eb8-d529bc87c481',
-      //   preview : '/previews/map-view-sonum-03.png',
-      // },
-      // { name : 'APCIS', 
-      //   uuid : 'f0a482da-28be-4929-a443-f22ecb03ee68',
-      //   preview : '/previews/list-view-apcis-01.png',
-      // },
-    ],
+    modelUuids : [],
   },
 
   // APIVIZ CONFIG
   uuidAuth : undefined,
   isConfigComplete : false,
   config : emptyConfig,
-  // config : {
-  //   'global' : undefined,
-  //   'styles' : undefined,
-  //   'socials' : undefined,
-  //   'footer' : undefined,
-  //   'navbar' : undefined,
-  //   'routes' : undefined,
-  //   'tabs' : undefined,
-  //   'endpoints' : undefined,
-  // },
 
   localRouteConfig : undefined,
 
@@ -55,7 +36,7 @@ export const state = () => ({
 
 export const getters = {
 
-  // NEW INSTANCES 
+  // NEW INSTANCES
   // - - - - - - - - - - - - - - - //
     getApivizModels : state => {
       return state.apivizModels
@@ -95,7 +76,7 @@ export const getters = {
       return state.config.global
     },
     getAppLocales : state => {
-      return (state.config.global) ? state.config.global.app_languages : 'fr' 
+      return (state.config.global) ? state.config.global.app_languages : 'fr'
     },
 
   // STYLES RELATED
@@ -107,40 +88,40 @@ export const getters = {
     },
 
   // NAVBAR RELATED
-    hasNavbar : (state) => {      
+    hasNavbar : (state) => {
       // state.log && console.log('S-config-G-hasNavbar ... state.localRouteConfig : \n', state.localRouteConfig)
-      return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false 
+      return (state.localRouteConfig) ? state.localRouteConfig.has_navbar : false
     },
     getNavbarConfig : state => {
-      return (state.config.navbar) ? state.config.navbar.app_navbar : undefined 
+      return (state.config.navbar) ? state.config.navbar.app_navbar : undefined
     },
     getNavbarLogo : state => {
-      return (state.config.global) ? state.config.global.app_logo : undefined 
+      return (state.config.global) ? state.config.global.app_logo : undefined
     },
     getNavbarBrand : state => {
-      // return (state.config.global) ? state.config.global.app_title.content : undefined 
-      return (state.config.global) ? state.config.global.app_title : undefined 
+      // return (state.config.global) ? state.config.global.app_title.content : undefined
+      return (state.config.global) ? state.config.global.app_title : undefined
     },
 
   // FOOTER RELATED
     hasFooter : (state) => {
-      return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false 
+      return (state.localRouteConfig) ? state.localRouteConfig.has_footer : false
     },
     hasCreditsFooter : (state) => {
       // state.log && console.log('S-config-G-hasCreditsFooter ... state.localRouteConfig : \n', state.localRouteConfig)
       return state.config.footer.app_footer.has_credits_footer
     },
     getFooterConfig : state => {
-      return (state.config.footer) ? state.config.footer.app_footer : undefined 
+      return (state.config.footer) ? state.config.footer.app_footer : undefined
     },
     getSocialsConfig : state => {
       return state.config.socials
     },
 
   // BANNER RELATED
-    hasBanner : state => {      
+    hasBanner : state => {
       // state.log && console.log('S-config-G-hasBanner ... state.localRouteConfig : \n', state.localRouteConfig)
-      return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false 
+      return (state.localRouteConfig) ? state.localRouteConfig.banner.activated : false
     },
     getCurrentBanner : (state, getters) => {
       // state.log && console.log('S-config-G-getCurrentBanner ...')
@@ -154,16 +135,16 @@ export const getters = {
     },
 
     // TABS RELATED
-    hasTabs : state => {      
+    hasTabs : state => {
       // state.log && console.log('S-config-G-hasTabs ... state.localRouteConfig : \n', state.localRouteConfig)
-      return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false 
+      return (state.localRouteConfig) ? state.localRouteConfig.has_tabs : false
     },
     getTabConfig : (state) => (tabsUri) => {
       // state.log && console.log('S-config-G-getTabConfig ... tabsUri : ', tabsUri)
       // state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
       let tabsConfig = state.config.tabs.find( tabs => {
         return tabs.tabs_uri == tabsUri
-      }) 
+      })
       // state.log && console.log('S-config-G-getTabConfig ... tabsConfig : \n', tabsConfig)
       return tabsConfig
     },
@@ -195,7 +176,7 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
       // state.log && console.log( "S-config-G-getRouteConfigTableForDataset / config : ", config )
-      return config 
+      return config
     },
     getRouteConfigListForDataset : (state, getters, rootState) => {
       let config = state.config.routes.find(function(r) {
@@ -203,7 +184,7 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
       // state.log && console.log( "S-config-G-getRouteConfigListForDataset / config : ", config )
-      return config 
+      return config
     },
     getRouteConfigMapForDataset : (state, getters, rootState) => {
       let config = state.config.routes.find(function(r) {
@@ -211,7 +192,7 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
       // state.log && console.log("S-config-G-getRouteConfigMapForDataset / config", config )
-      return config 
+      return config
     },
     getRouteConfigStatForDataset : (state, getters, rootState) => {
       let config = state.config.routes.find(function(r) {
@@ -219,7 +200,7 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
       // state.log && console.log( "S-config-G-getRouteConfigStatForDataset / config : ", config )
-      return config 
+      return config
     },
     getRouteConfigCalendarForDataset : (state, getters, rootState) => {
       let config = state.config.routes.find(function(r) {
@@ -227,7 +208,7 @@ export const getters = {
         && r.dataset_uri === rootState.search.search.dataset_uri;
       })
       // state.log && console.log( "S-config-G-getRouteConfigCalendarForDataset / config : ", config )
-      return config 
+      return config
     },
     getRouteConfigDefaultDatasetImages : (state, getters, rootState) => {
       return state.config.styles.app_search_default_images_sets.images_sets.find(function(r) {
@@ -342,13 +323,13 @@ export const getters = {
     defaultText : (state, getters, rootState) => (field) => {
       // state.log && console.log("\nS-config-G-defaultText ..." )
       // state.log && console.log("S-config-G-defaultText / field : ", field )
-      
+
       // default texts fields are :
       // 'reinit_filters', 'no_abstract', 'no_address'
       // 'source', 'no_info'
 
       // state.log && console.log("S-config-G-defaultText / field : ", field )
-      
+
       const f = field.txt
       // state.log && console.log("S-config-G-defaultText / f : ", f )
 
@@ -398,7 +379,7 @@ export const mutations = {
     state.localFiltersConfig = localFiltersConfig
   },
 
-  // completly reset/empty config 
+  // completly reset/empty config
   resetConfig(state){
     state.log && console.log("S-config-M-resetConfig...")
     state.config = emptyConfig
@@ -435,8 +416,8 @@ export const actions = {
       // state.log && console.log("S-config-A-checkUuidAuth / response.data : ", response.data)
       return response.data
     })
-    .catch( err => 
-      console.log('there was an error trying to fetch UUID auth document', err) 
+    .catch( err =>
+      console.log('there was an error trying to fetch UUID auth document', err)
     )
 
   },
@@ -446,14 +427,14 @@ export const actions = {
   // - - - - - - - - - - - - - //
 
   getConfigType({commit, state, getters, rootGetters},{type, configTypeEndpoint, args}) {
-    
+
     // state.log && console.log("S-config-A-getConfigType / type : ", type)
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
 
     const authMode = rootGetters['getAuthMode']
     // state.log && console.log("S-config-A-getConfigType / authMode : ", authMode)
-    
+
     // get user access token if any
     const userAccessToken = rootGetters['user/getAccessToken']
     // state.log && console.log("S-config-A-getConfigType / userAccessToken : ", userAccessToken)
@@ -470,11 +451,11 @@ export const actions = {
       state.log && console.log("S-config-A-getConfigType / type -", type," - response.data : ", response.data)
       let app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
       // state.log && console.log("S-config-A-getConfigType / type : "+ type + " / app_config ", app_config)
-      commit('setConfig', {type:type,result:app_config}); 
+      commit('setConfig', {type:type,result:app_config});
       return app_config
     })
-    .catch( err => 
-      state.log && console.log('there was an error trying to fetch some configuration file', err) 
+    .catch( err =>
+      state.log && console.log('there was an error trying to fetch some configuration file', err)
     )
   },
 
@@ -491,7 +472,7 @@ export const actions = {
     arr.push(dispatch('getConfigType',{type:'navbar',    configTypeEndpoint:'navbar',  args:'&log_route='+loginRoute}) )
     arr.push(dispatch('getConfigType',{type:'tabs',      configTypeEndpoint:'tabs',    args:'&as_list=true&log_route='+loginRoute}) )
     arr.push(dispatch('getConfigType',{type:'routes',    configTypeEndpoint:'routes',  args:'&as_list=true&log_route='+loginRoute}) )
-    
+
     // protect endpoints config for private apiviz instances : don't retrieve "data_type" == "data" endpoints, juste "data_type" == "user"
     arr.push(dispatch('getConfigType',{type:'endpoints', configTypeEndpoint:'endpoints', args:'&as_list=true&log_route='+loginRoute}) )
 
@@ -505,7 +486,7 @@ export const actions = {
     const authMode        = rootGetters['getAuthMode']
     const rootURLbackend  = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
-    
+
     const currentColl = request.currentColl
     let payload = request.payload
     payload['auth_mode'] = authMode
@@ -540,7 +521,7 @@ export const actions = {
     const authMode = rootGetters['getAuthMode']
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
-    
+
     const currentColl = request.currentColl
     const docId = request.doc_id
     const accessToken = request.token
@@ -578,7 +559,7 @@ export const actions = {
     const authMode = rootGetters['getAuthMode']
     const rootURLbackend = rootGetters['getRootUrlBackend']
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
-    
+
     const currentColl = request.currentColl
     const payload = request.payload
     payload['apiviz_front_uuid'] = apivizFrontUUID
@@ -619,7 +600,7 @@ export const actions = {
     const rootURLbackend = rootGetters['getRootUrlBackend']
     let requestUrl = rootURLbackend+'/get_default_models'
     // state.log && console.log('S-config-A-getDefaultApivizModels / requestUrl : ', requestUrl)
-    
+
     // send axios request to backend
     axios.get(requestUrl)
     .catch( (error) => {
@@ -635,12 +616,12 @@ export const actions = {
 
   getModelFromUuid({state, getters, rootGetters}, uuid){
     state.log && console.log("S-config-A-getModelFromUuid / uuid :", uuid)
-    
+
     // build request URL
     const rootURLbackend = rootGetters['getRootUrlBackend']
     let requestUrl = rootURLbackend+'/get_config_model/'+uuid
     // state.log && console.log('S-config-A-getModelFromUuid / requestUrl : ', requestUrl)
-    
+
     // send axios request to backend
     return axios.get(requestUrl)
     .catch( (error) => {
@@ -654,12 +635,12 @@ export const actions = {
   },
 
   createNewConfig({state, getters, rootGetters}, request){
-    
+
     // state.log && console.log("S-config-A-createNewConfig / request : \n", request)
 
     // retrieve current uuid
     const apivizFrontUUID = rootGetters['getApivizFrontUUID']
-    
+
     // prepare the payload with uuid to copy
     let payload = {
       new_uuid : apivizFrontUUID,
@@ -669,14 +650,14 @@ export const actions = {
       model_admin_email : request.new_admin,
       model_admin_name : request.new_admin_name,
       model_admin_surname : request.new_admin_surname,
-    } 
+    }
     // state.log && console.log("S-config-A-createNewConfig / payload : \n", payload)
-    
+
     // build request URL
     const rootURLbackend = rootGetters['getRootUrlBackend']
     let requestUrl = rootURLbackend+'/create_new_config'
     // state.log && console.log('S-config-A-createNewConfig / requestUrl : ', requestUrl)
-    
+
     // send axios request to backend
     return axios.post( requestUrl, payload )
     .catch( (error) => {
