@@ -235,6 +235,7 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
   console.log("+ + + searchItems / fetchMethod : ", fetchMethod)
 
   let fetchHeader = endpointGenerated.requestHeader
+  fetchHeader['Accept'] = 'application/ld+json'
   console.log("+ + + searchItems / fetchHeader : ", fetchHeader)
 
   let fetchUrl = endpointGenerated.requestUrl
@@ -281,24 +282,24 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
       abort(){
         searchAborted = true
         if( ac )
-          console.log("+ + + searchItems / (axios) / abort ac :", ac);
           ac.abort()
       },
-      promise : axios(axiosOptions)
+      promise : axios({
+        method: fetchMethod.toLowerCase(),
+        url: fetchUrl,
+        data : payloadJson,
+        headers : fetchHeader,
+        // headers: {
+        //   'Accept' : 'application/json',
+        //   'Content-Type' : 'application/json'
+        // }
+      })
       .then( resp => {
         console.log("+ + + searchItems / (axios) / resp :", resp);
         console.log("+ + + searchItems / (axios) / responsePaths : ", responsePaths);
 
         let responseProjects = resolvePathString( 'projects', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseProjects : ", responseProjects);
-
-        // TO DO => CALLBACKS AXIOS ON EVERY ITEM IN responseProjects
-        if ( endpointRawConfig.has_resp_callbacks ){
-          console.log("+ + + searchItems / (axios) / endpointRawConfig.has_resp_callbacks ... ")
-
-          let callbacks = endpointRawConfig.resp_callbacks
-          console.log("+ + + searchItems / (axios) / callbacks : ", callbacks);
-        }
 
         let responseTotal = resolvePathString( 'total', responsePaths, resp.data, '/')
         console.log("+ + + searchItems / (axios) / responseTotal : ", responseTotal);
@@ -317,11 +318,92 @@ export function searchItems( endpointGenerated=undefined, endpointRawConfig=unde
       })
       .catch( err => {
         console.log("+ + + searchItems / (axios)  err :", err);
-        if ( err.response ){
-          console.log("+ + + searchItems / (axios)  err.response :", err.response);
+      })
+    }
+}
+
+export function populateDisplayedItem( item, endpointGenerated, endpointRawConfig ){
+    console.log("+ + + populateDisplayedItem : ", item)
+
+    let fetchMethod = endpointRawConfig.method
+
+    let fetchHeader = endpointGenerated.requestHeader
+    fetchHeader['Accept'] = 'application/ld+json'
+
+    // abort fetch if this is supported
+    // abort manually when response arrives otherwise
+    const ac = abortableFetchSupported ? new AbortController() : undefined
+    let searchAborted = false
+
+    let payloadJson = JSON.stringify( endpointGenerated.requestPayload )
+
+    let axiosRequests = [axios({
+      method: fetchMethod.toLowerCase(),
+      url: "https://api.cquest.org/company/" + item.CompanyNumber,
+      data : payloadJson,
+      headers : fetchHeader
+    })]
+
+    axiosRequests.push(axios({
+      method: fetchMethod.toLowerCase(),
+      url: "https://api.enthic.fr/company/siren/" + item.CompanyNumber,
+      data : payloadJson,
+      headers : fetchHeader
+    }))
+
+    for (let compte of item.ComptesDeResultats)
+    {
+      axiosRequests.push(axios({
+        method: fetchMethod.toLowerCase(),
+        url: "https://opencorporatefacts.fr" + compte,
+        data : payloadJson,
+        headers : fetchHeader
+      }))
+    }
+
+    console.log("+ + + populateDisplayedItem / sending multiple axiosRequests : ", axiosRequests)
+
+    return {
+      abort(){
+        searchAborted = true
+        if( ac )
+          ac.abort()
+      },
+      promise : axios.all(axiosRequests)
+      // Populate item with data fetched
+      .then( responsesArray => {
+        console.log("+ + + populateDisplayedItem / (axios) / all responses :", responsesArray);
+        console.log("+ + + populateDisplayedItem / (axios) / cQuestApiResponse :", responsesArray[0]);
+        let cQuestApiResponse = responsesArray[0].data
+        for (const resultElement of cQuestApiResponse.result) {
+          // Populate data from RNCS IMR database
+          if('rncs' in resultElement){
+            item.RncsImr = resultElement.rncs;
+            // Cleanup null fields in 'representants'
+            for (const representant of item.RncsImr.representants) {
+              for (var property in representant){
+                if (representant[property]===null || ["created_at", "updated_at", "code_greffe", "numero_gestion"].includes(property) ){
+                  delete representant[property]
+                }
+              }
+            }
+          }
+          // Populate data from sirene database
+          else if('sirene' in resultElement){
+            item.Sirene = resultElement.sirene;
+          }
         }
-        // let requestPendingAbort = rawRequest( endpointGenerated, endpointRawConfig)
-        // return requestPendingAbort.promise
+        item.Enthic = responsesArray[1].data
+        for (let i = 2; i < responsesArray.length; i++) {
+          item.ComptesDeResultats[i-2] = responsesArray[i].data
+          console.log("+ + + populateDisplayedItem / ecrasing compte: ", item);
+        }
+        console.log("+ + + populateDisplayedItem / returning : ", item);
+        return item
+      })
+      .catch( err => {
+        console.log("+ + + populateDisplayedItem / (axios)  err :", err);
+        return item
       })
     }
 }

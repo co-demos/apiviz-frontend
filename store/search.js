@@ -3,6 +3,7 @@ import {
   makeEmptySelectedFilters,
   getObjectDataFromPath,
   searchItems,
+  populateDisplayedItem,
   rawRequest,
   // searchEnpointCreator,
   searchEndpointGenerator,
@@ -425,9 +426,9 @@ export const mutations = {
       }
     },
 
-    setDisplayedProject(state, {result}){
-      state.log && console.log('S-search-M-setDisplayedProject / result ', result)
-      state.displayedProject = result.projects[0]
+    setDisplayedProject(state, projectToDisplay){
+      state.log && console.log('S-search-M-setDisplayedProject / projectToDisplay ', projectToDisplay)
+      state.displayedProject = projectToDisplay
       state.search.answer.pendingAbort = undefined
     },
     setItemId(state, itemId){
@@ -482,7 +483,7 @@ export const actions = {
       commit('setSearchParam',{type:'endpoint_type', result: routeConfig.endpoint_type})
 
       let endpointConfig = rootGetters['config/getEndpointConfig']
-      // state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
+      state.log && console.log('S-search-setSearchEndpointConfig / endpointConfig : ', endpointConfig)
       commit('setSearchParam',{type:'endpoint', result: endpointConfig})
 
       let endpointPerPage = endpointConfig.args_options.find( i => i.app_arg === 'perPage')
@@ -694,11 +695,10 @@ export const actions = {
       searchPendingAbort.promise
       .then(( response ) => {
         state.log && console.log("S-search-A-searchOne / response : \n", response )
-        commit('setDisplayedProject', { result: {
-          projects : response.projects,
-          stats : response.stats,
-          total : response.total
-        }})
+        populateDisplayedItem(response.projects[0], endpointGenerated, endpointRawConfig).promise.then( (populatedResponse) => {
+          state.log && console.log("S-search-A-searchOne / populatedResponse : \n", populatedResponse )
+          commit('setDisplayedProject', populatedResponse)
+        })
       })
       .catch(error => {
         // don't report aborted fetch as errors
