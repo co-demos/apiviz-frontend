@@ -29,17 +29,22 @@
             {{ getDefaultText('back_to_results') }}
           </span>
         </a>
-
+        <!-- BLOCK TITLE -->
+        <h1 id="block-title" class="title is-3">
+          {{ matchProjectWithConfig('block_title')}}
+        </h1>
+        <div class="column is-12">
+          <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
+        </div>
+        <div class="column is-12">
+          <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
+        </div>
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
           <div class="column is-5 is-offset-1">
             <div class="description">
 
-              <!-- BLOCK TITLE -->
-              <h1 id="block-title" class="title is-3">
-                {{ matchProjectWithConfig('block_title')}}
-              </h1>
               <ul>
                 <li v-for="data in displayableEnthicData.flatData">{{ data.description }} : {{ data.value }}</li>
                 <li v-for="year in displayableEnthicData.yearData">
@@ -95,7 +100,6 @@
 
               <!-- BLOCK POST ABSTRACT 1 -->
               <p id="block-post-abstract-1">
-                <apexchart type="bar" height="350" :options="chartDetails.chartOptions" :series="chartDetails.series"></apexchart>
               </p>
 
               <!-- BLOCK POST ABSTRACT 2 -->
@@ -202,15 +206,6 @@
               />
                 <!-- :src="matchProjectWithConfig('block_image')" -->
             </a>
-
-            <!-- BLOCK FILE -->
-            <div class="added" id="block-file">
-              <div class="columns">
-                <div class="column is-12">
-                  <ForceNetworkGraph :graphData="tidyRepresentants"></ForceNetworkGraph>
-                </div>
-              </div>
-            </div>
 
             <!-- BLOCK SOURCE -->
             <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
@@ -707,6 +702,31 @@ export default {
       var resultatPourProprietaire = [];
       var resultatExceptionnelEtFinancier = [];
 
+      for (var yearData of this.displayableItem.Enthic.financial_data){
+        xLabels.push(yearData.declaration.value);
+
+        CA.push('fj' in yearData ? yearData.fj.value : 0);
+        subventions.push('fo' in yearData ? yearData.fo.value : 0);
+
+        achatMarchandises.push(1);
+        variationStockMarchandises.push(1);
+        achatMatierePremiereAutreAppro.push(1);
+        variationStockMatierePremiereAutreAppro.push(1);
+
+        taxes.push('vn' in yearData ? yearData.vn.value : 0);
+        salaires.push('fy' in yearData ? yearData.fy.value : 0);
+        cotisationSociale.push(1);
+
+        resultatExploitation.push(1);
+
+        resultatFinancier.push(1);
+        resultatExceptionnel.push('hi' in yearData ? yearData.hi.value : 0);
+        Participation.push('hj' in yearData ? yearData.hj.value : 0);
+        ImpotsSurLesSocietes.push('hk' in yearData ? yearData.hk.value : 0);
+        resultatPourProprietaire.push('di' in yearData ? yearData.di.value
+                                                       : ('310' in yearData ? yearData['310'].value : 0))
+      }
+
       for (var comptesDeResultat of this.displayableItem.ComptesDeResultats){
         xLabels.push(comptesDeResultat.year);
 
@@ -728,6 +748,7 @@ export default {
         resultatExceptionnel.push(comptesDeResultat.ResultatExceptionnel);
         Participation.push(comptesDeResultat.ParticipationSalariesAuxResultats);
         ImpotsSurLesSocietes.push(comptesDeResultat.ImpotsSurLesBenefices);
+        resultatPourProprietaire.push(comptesDeResultat.Benefice)
       }
       var factorCA = 1;
       var unitCA = '€';
@@ -741,14 +762,14 @@ export default {
       }
 
       var factor = 1;
-      var unit = '€';
+      var unitMargin = '€';
       if (resultatExploitation[0] > 3000000 || resultatExploitation[0] < -3000000){
         var factor = 1000000;
-        var unit = 'millions d\'€';
+        var unitMargin = 'millions d\'€';
       }
       else if (resultatExploitation[0] > 30000 || resultatExploitation[0] < -100000) {
         var factor = 1000;
-        var unit = 'milliers d\'€';
+        var unitMargin = 'milliers d\'€';
       }
 
       var autreChargesMoinsAutresProduitsAffiches = [];
@@ -761,7 +782,6 @@ export default {
           autreChargesMoinsAutresProduitsAffiches.push(CA[i] - salaires[i] - cotisationSociale[i] - taxesMoinsSubventions[i] - marchandisesTotalAfficher[i] - resultatExploitation[i]);
 
           // Mise en forme des données sur le graphe de la répartition du résultat d'exploitation
-          resultatPourProprietaire.push(resultatExploitation[i] + resultatFinancier[i] + resultatExceptionnel[i] - Participation[i] - ImpotsSurLesSocietes[i]);
           resultatExceptionnelEtFinancier.push(-resultatFinancier[i] - resultatExceptionnel[i]);
 
           // Application du ratio pour l'affichage du graphe sur le CA
@@ -779,7 +799,7 @@ export default {
           resultatExceptionnelEtFinancier[i] = Math.round(1000 * resultatExceptionnelEtFinancier[i] / factor) / 1000;
       }
 
-      let series = [{
+      let seriesCA = [{
           name: 'Salaires Bruts',
           data: salaires
         }, {
@@ -799,49 +819,122 @@ export default {
           data: resultatExploitation
         }]
 
+      let seriesMargin = [{
+          name: 'Participation',
+          data: Participation
+        }, {
+          name: 'Impôts',
+          data: ImpotsSurLesSocietes
+        }, {
+          name: 'Résultat pour les propriétaires de l\'entreprise',
+          data: resultatPourProprietaire
+        }, {
+          name: 'Résultat financier et exceptionnel',
+          data: resultatExceptionnelEtFinancier
+        }]
 
-      this.log && console.log(" - - DynamicDetail / computed / chartDetails :", series)
+      let chartOptionsCA = {
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
+            }
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+            },
+          },
+          xaxis: {
+            categories: xLabels,
+          },
+          yaxis:
+          {
+            title: {
+              text: unitCA,
+              style: {
+                color: "#008FFB"
+              }
+            }
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        }
+
+      let chartOptionsMargin = {
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: false,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: false
+            }
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+            },
+          },
+          xaxis: {
+            categories: xLabels,
+          },
+          yaxis:
+          {
+            title: {
+              text: unitMargin,
+              style: {
+                color: "#008FFB"
+              }
+            }
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        }
+      this.log && console.log(" - - DynamicDetail / computed / chartDetails :", seriesCA)
 
       return {
-        series: series,
-        chartOptions: {
-            chart: {
-              type: 'bar',
-              height: 350,
-              stacked: true,
-              toolbar: {
-                show: true
-              },
-              zoom: {
-                enabled: true
-              }
-            },
-            responsive: [{
-              breakpoint: 480,
-              options: {
-                legend: {
-                  position: 'bottom',
-                  offsetX: -10,
-                  offsetY: 0
-                }
-              }
-            }],
-            plotOptions: {
-              bar: {
-                horizontal: false,
-              },
-            },
-            xaxis: {
-              categories: xLabels,
-            },
-            legend: {
-              position: 'right',
-              offsetY: 40
-            },
-            fill: {
-              opacity: 1
-            }
-          }
+        seriesMargin: seriesMargin,
+        seriesCA: seriesCA,
+        chartOptionsCA: chartOptionsCA,
+        chartOptionsMargin: chartOptionsMargin
       }
     }
   },
