@@ -342,6 +342,9 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
       url: "https://api.cquest.org/company/" + item.CompanyNumber,
       data : payloadJson,
       headers : fetchHeader
+    }).catch( err => {
+      console.log("+ + + populateDisplayedItem / (axios)  error on cquest API :", err);
+      return "Error on cquest API : " + err
     })]
 
     axiosRequests.push(axios({
@@ -349,6 +352,9 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
       url: "https://api.enthic.fr/company/siren/" + item.CompanyNumber,
       data : payloadJson,
       headers : fetchHeader
+    }).catch( err => {
+      console.log("+ + + populateDisplayedItem / (axios)  error on enthic API :", err);
+      return "Error on enthic API : " + err
     }))
 
     for (let compte of item.ComptesDeResultats)
@@ -373,26 +379,32 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
       // Populate item with data fetched
       .then( responsesArray => {
         console.log("+ + + populateDisplayedItem / (axios) / all responses :", responsesArray);
-        console.log("+ + + populateDisplayedItem / (axios) / cQuestApiResponse :", responsesArray[0]);
+
+        // Handle cQuest API response
         let cQuestApiResponse = responsesArray[0].data
-        for (const resultElement of cQuestApiResponse.result) {
-          // Populate data from RNCS IMR database
-          if('rncs' in resultElement){
-            item.RncsImr = resultElement.rncs;
-            // Cleanup null fields in 'representants'
-            for (const representant of item.RncsImr.representants) {
-              for (var property in representant){
-                if (representant[property]===null || ["created_at", "updated_at", "code_greffe", "numero_gestion"].includes(property) ){
-                  delete representant[property]
+        if (cQuestApiResponse)
+        {
+          for (const resultElement of cQuestApiResponse.result) {
+            // Populate data from RNCS IMR database
+            if('rncs' in resultElement){
+              item.RncsImr = resultElement.rncs;
+              // Cleanup null fields in 'representants'
+              for (const representant of item.RncsImr.representants) {
+                for (var property in representant){
+                  if (representant[property]===null || ["created_at", "updated_at", "code_greffe", "numero_gestion"].includes(property) ){
+                    delete representant[property]
+                  }
                 }
               }
             }
-          }
-          // Populate data from sirene database
-          else if('sirene' in resultElement){
-            item.Sirene = resultElement.sirene;
+            // Populate data from sirene database
+            else if('sirene' in resultElement){
+              item.Sirene = resultElement.sirene;
+            }
           }
         }
+
+        // Handle Enthic API response
         item.Enthic = responsesArray[1].data
         for (let i = 2; i < responsesArray.length; i++) {
           item.ComptesDeResultats[i-2] = responsesArray[i].data
