@@ -406,6 +406,20 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
 
         // Handle Enthic API response
         item.Enthic = responsesArray[1].data
+        for ( let enthicDeclaration of item.Enthic.declarations)
+        {
+          enthicDeclaration.financial_data_refined = {}
+          for (var enthicOneData of enthicDeclaration.financial_data)
+          {
+            for (var property in enthicOneData)
+            {
+              enthicDeclaration.financial_data_refined[property] = enthicOneData[property]
+            }
+          }
+        }
+        console.log("Enthic data refined :", item.Enthic)
+
+        // Handle compte de résultat API response
         for (let i = 2; i < responsesArray.length; i++) {
           item.ComptesDeResultats[i-2] = responsesArray[i].data
           console.log("+ + + populateDisplayedItem / ecrasing compte: ", item);
