@@ -33,8 +33,10 @@
         <h1 id="block-title" class="title is-3">
           {{ displayableItem.Enthic.denomination.value }}
         </h1>
-        <ul id="demo">
-          <TreeItem v-for="oneYeardata in treeData" v-bind:key="oneYeardata.year"
+        <p>Voici les données brutes des bilans comptables :</p>
+        <ul id="demo" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations" v-bind:key="oneYeardata.year">
+          <p> {{ oneYeardata.name }} </p>
+          <TreeItem
             class="item"
             :item="oneYeardata"
           ></TreeItem>
@@ -560,255 +562,6 @@ export default {
       filterDescriptions : 'search/getFilterDescriptions',
     }),
 
-    refinedData() {
-      var prototypeRefinedData = {
-        year : -42,
-        VenteMarchandises : -42,
-        ProductionVendueDeBiens : -42,
-        ProductionVendueDeServices : -42,
-        ChiffresAffairesNet : -42,
-        ProductionStocked : -42,
-        ProductionImmobilisee : -42,
-        SubventionsExploitation : -42,
-        RepriseDepreciationProvisionsTransfertChargesExploitation : -42,
-        AutresProduits : -42,
-        ProduitsExploitation : -42,
-        AchatsDeMarchandises : -42,
-        VariationStockMarchandises : -42,
-        AchatMatierePremiereAutreAppro : -42,
-        VariationStockMatierePremiereEtAppro : -42,
-        AutresAchatEtChargesExternes : -42,
-        ImpotTaxesEtVersementsAssimiles : -42,
-        SalairesEtTraitements : -42,
-        ChargesSociales : -42,
-        DotationAmortissementImmobilisations : -42,
-        DotationDepreciationImmobilisations : -42,
-        DotationDepreciationActifCirculant : -42,
-        DotationProvisions : -42,
-        AutresCharges : -42,
-        ChargesExploitation : -42,
-        ResultatExploitation : -42,
-        ProduitsFinanciersParticipations : -42,
-        ProduitsAutresValeursMobiliereEtCreancesActifImmobilise : -42,
-        AutreInteretEtProduitAssimile : -42,
-        RepriseDepreciationEtProvisionTransfertsChargesFinancier : -42,
-        DifferencesPositivesChange : -42,
-        ProduitsNetsCessionsValeursMobilesPlacement : -42,
-        ProduitsFinanciers : -42,
-        DotationsFinancieresAmortissementDepreciationProvision : -42,
-        InteretEtChargeAssimilees : -42,
-        DifferenceNegativeChange : -42,
-        ChargesNetteCessionValeurMobiliereDePlacement : -42,
-        ChargesFinancieres : -42,
-        ResultatFinancier : -42,
-        ProduitExceptionnelOperationGestion : -42,
-        ProduitExceptionnelOperationCapital : -42,
-        RepriseDepreciationProvisionTransfertChargeExceptionnel : -42,
-        ProduitsExceptionnels : -42,
-        ChargesExceptionnelleOperationGestion : -42,
-        ChargesExceptionnelleOperationCapital : -42,
-        DotationExceptionnelleAmortissementDepreciationProvision : -42,
-        ChargesExceptionnelles : -42,
-        ResultatExceptionnel : -42,
-        ParticipationSalariesAuxResultats : -42,
-        ImpotsSurLesBenefices : -42,
-        Benefice : -42,
-        EffectifsMoyens : -42,
-        Dividende : -42
-      }
-
-      var codeToArrayMappings = [
-        { arrayToFill : 'VenteMarchandises' , codeAlternatives : [ 'FA' ] },
-        { arrayToFill : 'ProductionVendueDeBiens' , codeAlternatives : [ 'FD' ] },
-        { arrayToFill : 'ProductionVendueDeServices' , codeAlternatives : [ 'FG' ] },
-        { arrayToFill : 'ChiffresAffairesNet' , codeAlternatives : [ 'FJ' ] },
-        { arrayToFill : 'ProductionStocked' , codeAlternatives : [ 'FM', '222' ] },
-        { arrayToFill : 'ProductionImmobilisee' , codeAlternatives : [ 'FN', '224' ] },
-        { arrayToFill : 'SubventionsExploitation' , codeAlternatives : [ 'FO', '226' ] },
-        { arrayToFill : 'RepriseDepreciationProvisionsTransfertChargesExploitation' , codeAlternatives : [ 'FP' ] },
-        { arrayToFill : 'AutresProduits' , codeAlternatives : [ 'FQ', '230' ] },
-        { arrayToFill : 'ProduitsExploitation' , codeAlternatives : [ 'FR', '232' ] },
-        { arrayToFill : 'AchatsDeMarchandises' , codeAlternatives : [ 'FS', '234' ] },
-        { arrayToFill : 'VariationStockMarchandises' , codeAlternatives : [ 'FT', '236' ] },
-        { arrayToFill : 'AchatMatierePremiereAutreAppro' , codeAlternatives : [ 'FU', '238' ] },
-        { arrayToFill : 'VariationStockMatierePremiereEtAppro' , codeAlternatives : [ 'FV', '240' ] },
-        { arrayToFill : 'AutresAchatEtChargesExternes' , codeAlternatives : [ 'FW', '242' ] },
-        { arrayToFill : 'ImpotTaxesEtVersementsAssimiles' , codeAlternatives : [ 'FX', '244' ] },
-        { arrayToFill : 'SalairesEtTraitements' , codeAlternatives : [ 'FY', '250' ] },
-        { arrayToFill : 'ChargesSociales' , codeAlternatives : [ 'FZ', '252' ] },
-        { arrayToFill : 'DotationAmortissementImmobilisations' , codeAlternatives : [ 'GA', '254' ] },
-        { arrayToFill : 'DotationDepreciationImmobilisations' , codeAlternatives : [ 'GB' ] },
-        { arrayToFill : 'DotationDepreciationActifCirculant' , codeAlternatives : [ 'GC' ] },
-        { arrayToFill : 'DotationProvisions' , codeAlternatives : [ 'GD', '256' ] },
-        { arrayToFill : 'AutresCharges' , codeAlternatives : [ 'GE', '262' ] },
-        { arrayToFill : 'ChargesExploitation' , codeAlternatives : [ 'GF', '264' ] },
-        { arrayToFill : 'ResultatExploitation' , codeAlternatives : [ 'GG', '270' ] },
-        { arrayToFill : 'ProduitsFinanciersParticipations' , codeAlternatives : [ 'GJ' ] },
-        { arrayToFill : 'ProduitsAutresValeursMobiliereEtCreancesActifImmobilise' , codeAlternatives : [ 'GK' ] },
-        { arrayToFill : 'AutreInteretEtProduitAssimile' , codeAlternatives : [ 'GL' ] },
-        { arrayToFill : 'RepriseDepreciationEtProvisionTransfertsChargesFinancier' , codeAlternatives : [ 'GM' ] },
-        { arrayToFill : 'DifferencesPositivesChange' , codeAlternatives : [ 'GN' ] },
-        { arrayToFill : 'ProduitsNetsCessionsValeursMobilesPlacement' , codeAlternatives : [ 'GO' ] },
-        { arrayToFill : 'ProduitsFinanciers' , codeAlternatives : [ 'GP', '280' ] },
-        { arrayToFill : 'DotationsFinancieresAmortissementDepreciationProvision' , codeAlternatives : [ 'GQ' ] },
-        { arrayToFill : 'InteretEtChargeAssimilees' , codeAlternatives : [ 'GR' ] },
-        { arrayToFill : 'DifferenceNegativeChange' , codeAlternatives : [ 'GS' ] },
-        { arrayToFill : 'ChargesNetteCessionValeurMobiliereDePlacement' , codeAlternatives : [ 'GT' ] },
-        { arrayToFill : 'ChargesFinancieres' , codeAlternatives : [ 'GU', '294' ] },
-        { arrayToFill : 'ResultatFinancier' , codeAlternatives : [ 'GV' ] },
-        { arrayToFill : 'ProduitExceptionnelOperationGestion' , codeAlternatives : [ 'HA' ] },
-        { arrayToFill : 'ProduitExceptionnelOperationCapital' , codeAlternatives : [ 'HB' ] },
-        { arrayToFill : 'RepriseDepreciationProvisionTransfertChargeExceptionnel' , codeAlternatives : [ 'HC' ] },
-        { arrayToFill : 'ProduitsExceptionnels' , codeAlternatives : [ 'HD', '290' ] },
-        { arrayToFill : 'ChargesExceptionnelleOperationGestion' , codeAlternatives : [ 'HE' ] },
-        { arrayToFill : 'ChargesExceptionnelleOperationCapital' , codeAlternatives : [ 'HF' ] },
-        { arrayToFill : 'DotationExceptionnelleAmortissementDepreciationProvision' , codeAlternatives : [ 'HG' ] },
-        { arrayToFill : 'ChargesExceptionnelles' , codeAlternatives : [ 'HH', '300' ] },
-        { arrayToFill : 'ResultatExceptionnel' , codeAlternatives : [ 'HI' ] },
-        { arrayToFill : 'ParticipationSalariesAuxResultats' , codeAlternatives : [ 'HJ' ] },
-        { arrayToFill : 'ImpotsSurLesBenefices' , codeAlternatives : [ 'HK', '306' ] },
-        { arrayToFill : 'Benefice' , codeAlternatives : [ 'HN', '310' ] },
-        { arrayToFill : 'EffectifsMoyens' , codeAlternatives : [ '' ] },
-        { arrayToFill : 'Dividende' , codeAlternatives : [ '' ] }
-      ]
-
-      var result = []
-      for (var declaration of this.displayableItem.Enthic.declarations){
-        var localData = JSON.parse(JSON.stringify(prototypeRefinedData));
-        for ( var mapping of codeToArrayMappings)
-        {
-          var value = -42
-          for ( var code of mapping.codeAlternatives)
-          {
-            if (code in declaration.financial_data_refined)
-            {
-              value = declaration.financial_data_refined[code].value
-              break
-            }
-          }
-          localData[mapping.arrayToFill] = value
-        }
-        localData.year = declaration.declaration.value
-        result.push(localData)
-      }
-      console.log(" - - DynamicDetail / computed / this.refinedData :", result)
-      return result
-    },
-
-    treeData() {
-      var formatter = new Intl.NumberFormat(undefined, {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 0
-      });
-      var result = []
-      for (var oneYearData of this.refinedData){
-        result.push(
-          {
-            name : 'Année ' + oneYearData.year + ', bénéfices : ' + formatter.format(oneYearData.Benefice),
-            children : [
-              {
-               name : 'Résultat d\'exploitation ' + formatter.format(oneYearData.ResultatExploitation),
-               children : [
-                  {
-                    name : 'Produits d\'exploitation ' + formatter.format(oneYearData.ProduitsExploitation),
-                    children : [
-                      {
-                        name : 'Chiffres d\'affaires nets ' + formatter.format(oneYearData.ChiffresAffairesNet),
-                        children : [
-                          { name: 'Ventes de marchandises ' + formatter.format(oneYearData.VenteMarchandises) },
-                          { name: 'Production vendues de biens ' + formatter.format(oneYearData.ProductionVendueDeBiens) },
-                          { name: 'Production vendue de services ' + formatter.format(oneYearData.ProductionVendueDeServices) }
-                        ]
-                      },
-                      { name: 'Production stockée ' + formatter.format(oneYearData.ProductionStocked) },
-                      { name: 'Production immobilisée ' + formatter.format(oneYearData.ProductionImmobilisee) },
-                      { name: 'Subvention d\'exploitation ' + formatter.format(oneYearData.SubventionsExploitation) },
-                      { name: 'Reprises sur dépréciations, provisions (et amortissements), transfert de charges ' + formatter.format(oneYearData.RepriseDepreciationProvisionsTransfertChargesExploitation) },
-                      { name: 'Autres produits ' + formatter.format(oneYearData.AutresProduits) }
-                    ]
-                  },
-                  {
-                    name : 'Charges d\'exploitation ' + formatter.format(oneYearData.ChargesExploitation),
-                    children : [
-                        { name: 'Achats de marchandise (y compris droits de douane)' + formatter.format(oneYearData.AchatsDeMarchandises) },
-                        { name: 'Variation de stock (marchandises)' + formatter.format(oneYearData.VariationStockMarchandises) },
-                        { name: 'Achat de matières premières et autres approvisionnements (et droit de douane)' + formatter.format(oneYearData.AchatMatierePremiereAutreAppro) },
-                        { name: 'Variation de stock (matières premières et approvisionnements)' + formatter.format(oneYearData.VariationStockMatierePremiereEtAppro) },
-                        { name: 'Autres achats et charges externes ' + formatter.format(oneYearData.AutresAchatEtChargesExternes) },
-                        { name: 'Impôts, taxes et versements assimilés ' + formatter.format(oneYearData.ImpotTaxesEtVersementsAssimiles) },
-                        { name: 'Salaires et traitements ' + formatter.format(oneYearData.SalairesEtTraitements) },
-                        { name: 'Cotisations sociales ' + formatter.format(oneYearData.ChargesSociales) },
-                        {
-                          name : 'DOTATIONS D\'EXPLOITATION ' + formatter.format(oneYearData.DotationAmortissementImmobilisations + oneYearData.DotationDepreciationImmobilisations + oneYearData.DotationDepreciationActifCirculant + oneYearData.DotationProvisions),
-                          children : [
-                            { name: 'Sur immobilisations : dotations aux amortissements ' + formatter.format(oneYearData.DotationAmortissementImmobilisations) },
-                            { name: 'Sur immobilisations : dotations aux dépréciations ' + formatter.format(oneYearData.DotationDepreciationImmobilisations) },
-                            { name: 'Sur actif circulant : dotations aux dépréciations ' + formatter.format(oneYearData.DotationDepreciationActifCirculant) },
-                            { name: 'Dotations aux provisions ' + formatter.format(oneYearData.DotationProvisions) }
-                          ]
-                        },
-                        { name: 'Autres charges ' + formatter.format(oneYearData.AutresCharges) }
-                      ]
-                  },
-                ]
-              },
-              {
-                name : 'Résultat financier ' + formatter.format(oneYearData.ResultatFinancier),
-                children : [
-                  {
-                    name : 'Produits financiers ' + formatter.format(oneYearData.ProduitsFinanciers),
-                    children : [
-                      { name: 'Produits financiers de participations' },
-                      { name: 'Produits des autres valeurs mobilières et créances de l\'actif immobilisé' },
-                      { name: 'Autres intérêts et produits assimilés' },
-                      { name: 'Reprises sur dépréciations et provisions, transferts de charges' },
-                      { name: 'Différences positives de change' },
-                      { name: 'Produits nets sur cessions de valeurs mobilières de placement' }
-                    ]
-                  },
-                  {
-                    name : 'Charges financières ' + formatter.format(oneYearData.ChargesFinancieres),
-                    children : [
-                      { name: 'Dotations financières aux amortissements, dépréciations et provisions' },
-                      { name: 'Intérêts et charges assimilées' },
-                      { name: 'Différences négatives de change' },
-                      { name: 'Charges nettes sur cessions de valeurs mobilières de placement' },
-                    ]
-                  }
-                ]
-              },
-              {
-                name : 'Résultat exceptionnel ' + formatter.format(oneYearData.ResultatExceptionnel),
-                children : [
-                  {
-                    name : 'Produits exceptionnels ' + formatter.format(oneYearData.ProduitsExceptionnels),
-                    children : [
-                      { name: 'Produits exceptionnels sur opérations en capital' },
-                      { name: 'Produits exceptionnels sur opérations de gestion' },
-                      { name: 'Reprises sur dépréciations et provisions, transferts de charges' },
-                    ]
-                  },
-                  {
-                    name : 'Charges exceptionnelles ' + formatter.format(oneYearData.ChargesExceptionnelles),
-                    children : [
-                      { name: 'Charges exceptionnelles sur opérations de gestion' },
-                      { name: 'Charges exceptionnelles sur opérations en capital' },
-                      { name: 'Dotations exceptionnelles aux amortissements, dépréciations et provisions' },
-                    ]
-                  }
-                ]
-              },
-              { name: 'Participation des salarié⋅es aux résultats de l\'entreprise ' + formatter.format(oneYearData.ParticipationSalariesAuxResultats) },
-              { name: 'Impôts sur les bénéfices ' + formatter.format(oneYearData.ImpotsSurLesBenefices) }
-            ]
-          })
-      }
-      console.log("computed / treeData:", result);
-
-      return result
-    },
-
     // POSITIONS TO BE FILLED
     listOfPositions() {
       // this.log && console.log("listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
@@ -952,22 +705,24 @@ export default {
 
       var factorCA = 1;
       var unitCA = '€';
-      if (this.refinedData[0].ChiffresAffairesNet > 10000000){
+      var CADeReference = this.displayableItem.Enthic.treeRepresentations[0].children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
+      if (CADeReference > 10000000){
         var factorCA = 1000000;
         var unitCA = 'millions d\'€';
       }
-      else if (CA[0] > 30000) {
+      else if (CADeReference > 30000) {
         var factorCA = 1000;
         var unitCA = 'milliers d\'€';
       }
 
       var factor = 1;
       var unitMargin = '€';
-      if (this.refinedData[0].ResultatExploitation > 3000000 || this.refinedData[0].ResultatExploitation < -3000000){
+      var resultatDeReference = this.displayableItem.Enthic.treeRepresentations[0].children.ResultatExploitation.data.value
+      if (resultatDeReference > 3000000 || resultatDeReference < -3000000){
         var factor = 1000000;
         var unitMargin = 'millions d\'€';
       }
-      else if (this.refinedData[0].ResultatExploitation > 30000 || this.refinedData[0].ResultatExploitation < -100000) {
+      else if (resultatDeReference > 30000 || resultatDeReference < -100000) {
         var factor = 1000;
         var unitMargin = 'milliers d\'€';
       }
@@ -981,29 +736,30 @@ export default {
       var ImpotsSurLesSocietes = [];
 
       var resultatPourProprietaire = [];
-      for(var i = 0; i < this.refinedData.length; i++){
-          xLabels.push(this.refinedData[i].year)
+      for(var i = 0; i < this.displayableItem.Enthic.treeRepresentations.length; i++){
+          xLabels.push(this.displayableItem.Enthic.compteResultatRefined[i].year)
+          var rootItem = this.displayableItem.Enthic.treeRepresentations[i]
+          var resultExploit = rootItem.children.ResultatExploitation
+          var produits = resultExploit.children.ProduitsExploitation
+          var charges = resultExploit.children.ChargesExploitation
           // Mise en forme des données du graphe sur le CA
-          taxesMoinsSubventions.push(this.refinedData[i].ImpotTaxesEtVersementsAssimiles - this.refinedData[i].SubventionsExploitation);
-          marchandisesTotalAfficher.push(this.refinedData[i].AchatsDeMarchandises + this.refinedData[i].VariationStockMarchandises + this.refinedData[i].AchatMatierePremiereAutreAppro + this.refinedData[i].VariationStockMatierePremiereEtAppro);
-          autreChargesMoinsAutresProduitsAffiches.push(this.refinedData[i].ChiffresAffairesNet - this.refinedData[i].SalairesEtTraitements - this.refinedData[i].ChargesSociales - taxesMoinsSubventions[i] - marchandisesTotalAfficher[i] - this.refinedData[i].ResultatExploitation);
-
-          // Mise en forme des données sur le graphe de la répartition du résultat d'exploitation
-          resultatExceptionnelEtFinancier.push(-this.refinedData[i].ResultatFinancier - this.refinedData[i].ResultatExceptionnel);
+          taxesMoinsSubventions.push(charges.children.ImpotTaxesEtVersementsAssimiles.data.value - produits.children.SubventionsExploitation.data.value);
+          marchandisesTotalAfficher.push(charges.children.AchatsDeMarchandises.data.value + charges.children.VariationStockMarchandises.data.value + charges.children.AchatMatierePremiereAutreAppro.data.value + charges.children.VariationStockMatierePremiereEtAppro.data.value);
+          autreChargesMoinsAutresProduitsAffiches.push(produits.children.ChiffresAffairesNet.data.value - charges.children.SalairesEtTraitements.data.value - charges.children.ChargesSociales.data.value - taxesMoinsSubventions[i] - marchandisesTotalAfficher[i] - resultExploit.data.value);
 
           // Application du ratio pour l'affichage du graphe sur le CA
-          salaires.push(Math.round(1000 * this.refinedData[i].SalairesEtTraitements / factorCA) / 1000);
-          cotisationSociale[i] = Math.round(1000 * this.refinedData[i].ChargesSociales / factorCA) / 1000;
+          salaires.push(Math.round(1000 * charges.children.SalairesEtTraitements.data.value / factorCA) / 1000);
+          cotisationSociale[i] = Math.round(1000 * charges.children.ChargesSociales.data.value / factorCA) / 1000;
           taxesMoinsSubventions[i] = Math.round(1000 * taxesMoinsSubventions[i] / factorCA) / 1000;
           marchandisesTotalAfficher[i] = Math.round(1000 * marchandisesTotalAfficher[i] / factorCA) / 1000;
           autreChargesMoinsAutresProduitsAffiches[i] = Math.round(1000 * autreChargesMoinsAutresProduitsAffiches[i] / factorCA) / 1000;
-          resultatExploitation.push(Math.round(1000 * this.refinedData[i].ResultatExploitation / factorCA) / 1000);
+          resultatExploitation.push(Math.round(1000 * rootItem.children.ResultatExploitation.data.value / factorCA) / 1000);
 
           // Application du ratio pour l'affichage du graphe sur le résultat d'exploitation
-          Participation[i] = Math.round(1000 * this.refinedData[i].ParticipationSalariesAuxResultats / factor) / 1000;
-          ImpotsSurLesSocietes[i] = Math.round(1000 * this.refinedData[i].ImpotsSurLesBenefices / factor) / 1000;
-          resultatPourProprietaire[i] = Math.round(1000 * this.refinedData[i].Benefice / factor) / 1000;
-          resultatExceptionnelEtFinancier[i] = Math.round(1000 * resultatExceptionnelEtFinancier[i] / factor) / 1000;
+          Participation[i] = Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000;
+          ImpotsSurLesSocietes[i] = Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000;
+          resultatPourProprietaire[i] = Math.round(1000 * rootItem.data.value / factor) / 1000;
+          resultatExceptionnelEtFinancier[i] = Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000;
       }
 
       let seriesCA = [{
