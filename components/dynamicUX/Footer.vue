@@ -1,5 +1,9 @@
- <template>
-  <footer class="footer">
+
+
+<template>
+  <footer 
+    :class="`footer is-${footerColor}-b-only`"
+    >
     <div class="container">
       <div class="columns">
 
@@ -111,6 +115,18 @@ export default {
       return this.footerConfig.ui_options
     },
 
+    footerColor(){
+      let cardColor = this.footerUI.card_color
+      let footColor = cardColor.value ? cardColor.value : cardColor.default
+      return footColor
+    },
+
+    footerTextColor(){
+      let textColor = this.footerUI.text_color
+      let footTextColor = textColor.value ? textColor.value : textColor.default
+      return footTextColor
+    },
+
     visibleBlocks() {
       let visibleColumns = this.footerConfig.links_options.filter(block => {
         return block.is_visible
@@ -138,6 +154,7 @@ export default {
   },
 
   methods : {
+
 
     footerLinks(position) {
       // console.log("position : ", position)
