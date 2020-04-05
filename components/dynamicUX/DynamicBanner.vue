@@ -19,12 +19,19 @@
       </button>
     </div>
 
+    <!-- DEBUG -->
+    <!-- {{ this.rawHtmlUrl }} -->
+
     <!-- CONTENT HTML -->
     <div class="container">
       <div class="content">
         <span v-html="rawHtml"></span>
       </div>
     </div>
+
+
+
+
 
   </section>
 
@@ -48,6 +55,7 @@ export default {
     return   {
       rawHtml : '',
       visible : true,
+      rawHtmlUrl : '',
     }
   },
 
@@ -81,26 +89,39 @@ export default {
   mounted(){
 
     let log = this.log
+    this.log && console.log('\nC-DynamicBanner / mounted...')
 
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
     // here we go fetch the raw HTML content of a webpage
     // let template_url = (this.currentBanner.template_url) ? this.currentBanner.template_url : 'https://co-demos.com/error'
-    let template_url = (this.currentBanner && this.currentBanner.template_urls) ? chooseTemplate(this.currentBanner.template_urls, this.locale) : "https://raw.githubusercontent.com/co-demos/structure/master/pages-html/error-banner.html"
+    
+    this.getRawHtml()
+
+    // let template_url = (this.currentBanner && this.currentBanner.template_urls) ? chooseTemplate(this.currentBanner.template_urls, this.locale) : "https://raw.githubusercontent.com/co-demos/structure/master/pages-html/error-banner.html"
+
+    // let head = { 
+    //   headers: {
+    //     // 'Access-Control-Allow-Origin': '*',
+    //     'accept' : 'text/html',
+    //   }
+    // }
+    // axios.get(template_url, head)
+    // .then( (response) => { 
+    //   // log && console.log(response); 
+    //   this.rawHtml = (response && response.data) ? response.data : '<br><br>there is an Error <br><br>'} 
+    // )
+    // .catch( (err) => {this.rawHtml = '<br><br>there is an <strong> Error </strong><br><br>'} )
 
 
-    let head = { 
-      headers: {
-        // 'Access-Control-Allow-Origin': '*',
-        'accept' : 'text/html',
-      }
-    }
-    axios.get(template_url, head)
-    .then( (response) => { 
-      // log && console.log(response); 
-      this.rawHtml = (response && response.data) ? response.data : '<br><br>there is an Error <br><br>'} 
-    )
-    .catch( (err) => {this.rawHtml = '<br><br>there is an <strong> Error </strong><br><br>'} )
   },
+
+  watch: {
+
+    locale(next,prev){
+      this.getRawHtml()
+    }
+
+  }, 
 
   methods: {
 
@@ -112,9 +133,55 @@ export default {
     goBack(e){
       e.preventDefault()
       this.$router.back()
-    }
+    },
 
-  }
+    getRawHtml() {
+
+      let template_url = (this.currentBanner && this.currentBanner.template_urls) ? chooseTemplate(this.currentBanner.template_urls, this.locale) : "https://raw.githubusercontent.com/co-demos/structure/master/pages-html/error-banner.html"
+      this.rawHtmlUrl = template_url
+      this.log && console.log('C-DynamicBanner / template_url : ', template_url)
+
+      let defaultHtml = '<br><br>there is an Error <br><br>'
+      let respRawHtml = defaultHtml
+
+      let head = { 
+        headers: {
+          // 'Access-Control-Allow-Origin': '*',
+          'accept' : 'text/html',
+        }
+      }
+
+
+      // axios.get(template_url)
+      // .then( (resp) => {
+      //   console.log( "resp :", resp )
+      // })
+      // .catch( (err) => { 
+      //   console.log(err) 
+      //   respRawHtml = defaultHtml 
+      // })
+
+      axios.get(template_url, head)
+      .then( (response) => { 
+        console.log( "response :", response) 
+        this.rawHtml = (response && response.data) ? response.data : defaultHtml 
+      })
+      .catch( (err) => { 
+        console.log(err) 
+        this.rawHtml = defaultHtml 
+      })
+
+      this.log && console.log('C-DynamicBanner / respRawHtml : ', respRawHtml)
+      // this.rawHtml = respRawHtml
+
+    }
+      
+
+
+  },
+
+
+
 }
 </script>
 
