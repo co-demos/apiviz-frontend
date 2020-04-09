@@ -1,17 +1,25 @@
 
+<style scoped>
+
+  .icon-spacer{
+    margin-right: .5em;
+    margin-left: .5em;
+  }
+
+</style>
 
 <template>
   <footer 
     :class="`footer is-${footerColor}-b-only`"
     >
     <div class="container">
-      <div class="columns is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+      <div class="columns is-centered is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
 
         <!-- LOOP FOOTER BLOCKS -->
         <div 
           v-for="(block, index) in visibleBlocks"
           :key="index"
-          :class="`column is-${columnsDivisions(block)}`"
+          :class="`column ${columnsDivisions(block)}`"
           >
 
           <!-- BLOCK TITLE -->
@@ -24,9 +32,9 @@
           <!-- LOOP LINKS -->
           <template v-if="isVisible( footerLinks(block.position) )" >
             <ul>
-              <li v-for="(link, index) in footerLinks(block.position)['links']"
-                :key="index"
-                :class="`has-text-left`"
+              <li v-for="(link, linkIdx) in footerLinks(block.position)['links']"
+                :key="linkIdx"
+                :class="`${blockLinkClass(block)}`"
                 >
 
                 <a 
@@ -47,24 +55,29 @@
           <!-- ADD SOCIAL AT THE END -->
           <template v-if="hasSocials(block.position)">
             <br>
-            <hr> 
+            <hr
+              :class="`is-primary-b`"
+            > 
             <div class="content has-text-centered">
 
               <!-- LOOP SOCIALS -->
-              <template  v-for="(icon, index) in appSocials">
+              <template  v-for="(icon, iconIdx) in appSocials">
 
                 <!-- ICONS SOCIAL -->
-                <a v-if="icon.in_footer"
-                  :class="`button is-${footerSocialsColor} is-${footerSocialsColor}-b ${footerSocialsClass}`" 
-                  :key="index"
+                <a 
+                  v-if="icon.in_footer"
+                  :class="`button icon-spacer is-${footerSocialsColor} is-${footerSocialsColor}-b ${footerSocialsClass} `" 
+                  :key="iconIdx"
                   :href="icon.url" 
                   >
-                  <span class="icon">
+                  <span 
+                    :class="`icon`"
+                    >
                     <i :class="icon.icon_class"></i>
                   </span>
                 </a>
                 
-                &nbsp;&nbsp;&nbsp;
+
               </template>
 
             </div>
@@ -124,21 +137,22 @@ export default {
 
     footerColor(){
       let cardColor = this.footerUI.card_color
-      cardColor = cardColor ? cardColor : { default : 'dark' }
+      cardColor = cardColor ? cardColor : { default : 'default_background_app' }
       let footColor = cardColor.value ? cardColor.value : cardColor.default
       return footColor
     },
 
+
     footerTitleColor(){
       let titleColor = this.footerUI.title_color
-      titleColor = titleColor ? titleColor : { default : 'white' }
+      titleColor = titleColor ? titleColor : { default : 'primary' }
       let footTitleColor = titleColor.value ? titleColor.value : titleColor.default
       return footTitleColor
     },
 
     footerTextColor(){
       let textColor = this.footerUI.text_color
-      textColor = textColor ? textColor : { default : 'grey-lighter' }
+      textColor = textColor ? textColor : { default : 'link' }
       let footTextColor = textColor.value ? textColor.value : textColor.default
       return footTextColor
     },
@@ -182,17 +196,24 @@ export default {
       }
       else {
         if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
-          return 12
+          return ""
         } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
-          return 6
+          return "is-half"
         } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
-          return 4
+          return "is-third"
         } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
-          return 3
+          return "is-quarter"
         } 
       }
 
    },
+
+    blockLinkClass(block){
+      let linkClass = block.link_class
+      linkClass = linkClass ? linkClass : { default : 'has-text-left' }
+      let linkTextClass = linkClass.value ? linkClass.value : linkClass.default
+      return linkTextClass
+    },
 
     footerLinks(position) {
       // console.log("position : ", position)
