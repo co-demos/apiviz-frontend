@@ -5,17 +5,18 @@
     :class="`footer is-${footerColor}-b-only`"
     >
     <div class="container">
-      <div class="columns">
+      <div class="columns is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
 
         <!-- LOOP FOOTER BLOCKS -->
-        <div :class="`column is-${columnsDivisions} is-offset-1`"
+        <div 
           v-for="(block, index) in visibleBlocks"
           :key="index"
+          :class="`column is-${columnsDivisions(block)}`"
           >
 
           <!-- BLOCK TITLE -->
           <h3 v-if="block.title_visible"
-            class="has-text-left has-text-primary has-text-primary-c"
+            :class="`has-text-left has-text-${footerTitleColor} has-text-${footerTitleColor}-c`"
             > 
             {{ translate( footerLinks(block.position), 'title_block' ) }}
           </h3>
@@ -25,9 +26,15 @@
             <ul>
               <li v-for="(link, index) in footerLinks(block.position)['links']"
                 :key="index"
+                :class="`has-text-left`"
                 >
 
-                <a v-if="link.is_visible && link.link_type == 'text' " :href="link.link_to" :target="`${ link.is_external_link ? '_blank' : ''}`"> 
+                <a 
+                  v-if="link.is_visible && link.link_type == 'text' " 
+                  :href="link.link_to" 
+                  :target="`${ link.is_external_link ? '_blank' : ''}`"
+                  :class="`is-size-7 has-text-${footerTextColor} has-text-${footerTextColor}-c`"
+                  > 
                   {{ translate(link, 'link_text') }}
                 </a>
 
@@ -48,7 +55,7 @@
 
                 <!-- ICONS SOCIAL -->
                 <a v-if="icon.in_footer"
-                  class="button is-primary is-primary-b" 
+                  :class="`button is-${footerSocialsColor} is-${footerSocialsColor}-b ${footerSocialsClass}`" 
                   :key="index"
                   :href="icon.url" 
                   >
@@ -117,15 +124,39 @@ export default {
 
     footerColor(){
       let cardColor = this.footerUI.card_color
+      cardColor = cardColor ? cardColor : { default : 'dark' }
       let footColor = cardColor.value ? cardColor.value : cardColor.default
       return footColor
     },
 
+    footerTitleColor(){
+      let titleColor = this.footerUI.title_color
+      titleColor = titleColor ? titleColor : { default : 'white' }
+      let footTitleColor = titleColor.value ? titleColor.value : titleColor.default
+      return footTitleColor
+    },
+
     footerTextColor(){
       let textColor = this.footerUI.text_color
+      textColor = textColor ? textColor : { default : 'grey-lighter' }
       let footTextColor = textColor.value ? textColor.value : textColor.default
       return footTextColor
     },
+
+    footerSocialsColor(){
+      let socialsColor = this.footerUI.socials_color
+      socialsColor = socialsColor ? socialsColor : { default : 'primary' }
+      let footSocialsColor = socialsColor.value ? socialsColor.value : socialsColor.default
+      return footSocialsColor
+    },
+
+    footerSocialsClass(){
+      let socialsClass = this.footerUI.socials_class
+      socialsClass = socialsClass ? socialsClass : { default : '' }
+      let footSocialsClass = socialsClass.value ? socialsClass.value : socialsClass.default
+      return footSocialsClass
+    },
+
 
     visibleBlocks() {
       let visibleColumns = this.footerConfig.links_options.filter(block => {
@@ -139,22 +170,29 @@ export default {
       return Object.keys(this.visibleBlocks).length
     },
 
-    columnsDivisions(){
-      if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
-        return 8
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
-        return 5
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
-        return 3
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
-        return 2
-      } 
-   }
 
   },
 
   methods : {
 
+    columnsDivisions(block){
+
+      if (block.block_class) {
+        return block.block_class
+      }
+      else {
+        if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
+          return 12
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
+          return 6
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
+          return 4
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
+          return 3
+        } 
+      }
+
+   },
 
     footerLinks(position) {
       // console.log("position : ", position)

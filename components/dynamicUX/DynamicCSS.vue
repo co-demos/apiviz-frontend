@@ -70,10 +70,6 @@
       .is-{{ cCode }}-b, .is-{{ cCode }}-b-only{
         background-color : {{ appColors[cCode] }} !important ;
       }
-      .is-{{ cCode }}-b.is-inverted{
-        color : {{ appColors[cCode] }} !important ;
-        background-color : white !important ;
-      }
       .is-{{ cCode }}-b:focus{
         background-color : white !important ;
         color : {{ appColors[cCode] }} !important ;
@@ -85,8 +81,13 @@
         border-color : {{ appColors[cCode] }} !important ;
       }
 
+      .is-{{ cCode }}-b.is-inverted{
+        color : {{ appColors[cCode] }} !important ;
+        background-color : transparent !important ;
+      }
+
       .is-{{ cCode }}-b.is-outlined {
-        background-color : white !important ;
+        background-color : transparent !important ;
         border-color : {{ appColors[cCode] }} !important ;
         color : {{ appColors[cCode] }} !important ;
       }
@@ -99,6 +100,22 @@
         background-color : {{ appColors[cCode] }} !important ;
         border-color : white !important ;
         color : white !important ;
+      }
+
+      .is-{{ cCode }}-b.is-outlined.is-inverted {
+        background-color : transparent !important ;
+        border-color : white !important ;
+        color : white !important ;
+      }
+      .is-{{ cCode }}-b.is-outlined.is-inverted:focus {
+        background-color : white !important ;
+        border-color : transparent !important ;
+        color : {{ appColors[cCode] }} !important ;
+      }
+      .is-{{ cCode }}-b.is-outlined.is-inverted:hover{
+        background-color : white !important ;
+        border-color : transparent !important ;
+        color : {{ appColors[cCode] }} !important ;
       }
 
       .is-checkradio-c[type="checkbox"] + label::after, .is-checkradio-c[type="checkbox"] + label::after{
