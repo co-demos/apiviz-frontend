@@ -1,42 +1,25 @@
 <template>
   <div>
-
-
+    <!-- Page content -->
     <nuxt />
 
-    <!-- CREDITS CODEMOS / REMOTE FOOTER -->
-    <DynamicStaticRaw 
-      :templateURL="codemosCreditsUrls[locale]"
-    ></DynamicStaticRaw>
-
-
+    <!-- Footer under the footer -->
+    <footer class="footer extra-footer" style="padding:0px 0px 0px 0px">
+      <div class="content has-text-centered has-text-white has-background-grey-dark" style="padding:7px 0px 7px 0px">
+        <p>
+          Propulsé par
+          <strong><a href="https://apiviz.io" target="_blank" style="text-decoration:underline; color:white">
+            ApiViz</a>
+          </strong> |
+          <strong><a href="https://www.enthic.fr/" style="text-decoration:underline; color:white">
+            Enthic
+          </a></strong>
+        </p>
+      </div>
+    </footer>
     <DynamicCSS/>
-
-
-    <!-- DEBUGGING COLORS -->
-    <!-- <span class="has-text-primary has-text-primary-c"> 
-      COLOR TEST PRIMARY
-    </span><br>
-    <span class="has-text-info has-text-info-c"> 
-      COLOR TEST INFO
-    </span><br>
-    <a> 
-      COLOR TEST LINK
-    </a><br>
-
-    <a class="button is-primary is-primary-b">
-      COLOR TEST BTN PRIMARY
-    </a><br>
-
-    <a class="button is-primary is-outlined is-primary-b">
-      COLOR TEST BTN PRIMARY outlined
-    </a><br> -->
-
-
   </div>
 </template>
-
-
 
 <script>
 
@@ -45,10 +28,10 @@ import { mapState, mapGetters } from 'vuex'
 import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 import DynamicCSS  from '~/components/dynamicUX/DynamicCSS.vue'
 
-import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js" 
+import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js"
 
 export default {
-  
+
   middleware : [
     'getRouteConfig',
   ] ,
@@ -58,17 +41,13 @@ export default {
     DynamicCSS
   },
 
-  head(){ 
-    
+  head(){
+
     let global = this.globalConfig
 
     return {
       title: global.app_title.content || 'apiviz...',
-      // meta: [
-
-      // ],
       link: [
-        // { rel: 'icon', type: 'image/x-icon', href: global.app_favicon.url },
         { rel: 'icon', href: global.app_favicon.url, sizes: '32x32' },
       ],
     }
@@ -83,18 +62,6 @@ export default {
     window.removeEventListener("resize", this.winBreakpoint)
   },
 
-  data () {
-    return {
-      codemosCreditsUrls : {
-        fr : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer.html',
-        en : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
-        es : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
-        de : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
-        tr : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
-      },
-    }
-  },
-
   computed: {
 
     ...mapState({
@@ -103,11 +70,7 @@ export default {
 
     ...mapGetters({
       locale : 'getCurrentLocale',
-      globalConfig : 'config/getGlobalConfig',
-      // styles : 'config/getStylesConfig',
-      // appColors : 'config/getStylesConfigColors',
-      // appTypoColors : 'config/getStylesConfigColorsTypo',
-
+      globalConfig : 'config/getGlobalConfig'
     })
   },
 
@@ -126,9 +89,13 @@ export default {
 
 </script>
 
-
-
-
-<style>
-
+<style lang="css">
+.extra-footer {
+  color : #ffffff;
+  padding-top : 10px ;
+  padding-bottom : 10px;
+  a {
+    color : white;
+  }
+}
 </style>
