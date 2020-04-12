@@ -25,7 +25,6 @@
 
 import { mapState, mapGetters } from 'vuex'
 
-import DynamicStaticRaw  from '~/components/dynamicUX/DynamicStaticRaw.vue'
 import DynamicCSS  from '~/components/dynamicUX/DynamicCSS.vue'
 
 import { responsiveBreakpoint, findBulmaBreakpointByWidth } from "~/config/constants.js"
@@ -37,7 +36,6 @@ export default {
   ] ,
 
   components: {
-    DynamicStaticRaw,
     DynamicCSS
   },
 
