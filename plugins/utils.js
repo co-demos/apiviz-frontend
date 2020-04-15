@@ -417,8 +417,11 @@ export function populateDisplayedItem( item, endpointGenerated, endpointRawConfi
             }
           }
         }
-        item.Enthic.compteResultatRefined = formatEnthicData(item.Enthic.declarations)
-        item.Enthic.treeRepresentations = createTreeRepresentation(item.Enthic.compteResultatRefined)
+        if (item.Enthic.declarations.length)
+        {
+          item.Enthic.compteResultatRefined = formatEnthicData(item.Enthic.declarations)
+          item.Enthic.treeRepresentations = createTreeRepresentation(item.Enthic.compteResultatRefined)
+        }
         console.log("Enthic data refined :", item.Enthic)
 
         // Handle compte de résultat API response

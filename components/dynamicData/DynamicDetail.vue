@@ -41,10 +41,10 @@
             :item="oneYeardata"
           ></TreeItem>
         </ul>
-        <div class="column is-12">
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="column is-12">
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
         </div>
-        <div class="column is-12">
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="column is-12">
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
         </div>
         <div class="columns">
