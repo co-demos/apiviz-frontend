@@ -1,13 +1,13 @@
 
 <template>
-  <div id="navbar-main" 
+  <div id="navbar-main"
     :class="`navbar-menu ${ showNav ? 'is-active' : '' }`"
     >
     <div class="navbar-end">
 
       <!-- NAVBAR ITEMS -->
       <template
-        v-for="(link, index) in navbarConfig.links_options.extra_buttons"
+        v-for="(link, index) in extraButtons"
         >
 
         <nuxt-link
@@ -18,16 +18,16 @@
           >
 
           <!-- MAIN LINK -->
-          <div 
+          <div
             :class="`${ link.has_dropdown ? 'navbar-link navbar-link-top is-arrowless' : '' } ${ isItemActive(link) ? ( isDark && !showNav ? 'has-text-white' : 'has-text-primary has-text-primary-c') : '' }`"
             >
-            <span 
-              v-if="link.icon_class && link.icon_class !==''" 
+            <span
+              v-if="link.icon_class && link.icon_class !==''"
               class="icon"
               >
                 <i :class="link.icon_class"></i>
             </span>
-            <span 
+            <span
               :class="`${ isItemActive(link) ? ( isDark ? 'is-underlined-dark-c' : 'is-underlined-primary-c') : '' }`"
               >
               {{ translate(link, 'link_text' ) }}
@@ -40,11 +40,11 @@
             class="navbar-dropdown"
             >
 
-            <template 
+            <template
               v-for="(sublink, i) in link.dropdowns"
               >
 
-              <a 
+              <a
                 v-if="!sublink.is_divider && sublink.is_external_link"
                 :key="`'sublink-ext-' + ${i}`"
                 class="navbar-item a-anim"
@@ -64,14 +64,14 @@
               </nuxt-link>
 
 
-              <hr 
+              <hr
                 v-if="sublink.is_divider"
                 :key="`'sublink-div-' + ${i}`"
                 class="navbar-divider"
               >
 
             </template>
-          
+
           </div>
 
         </nuxt-link>
@@ -86,12 +86,12 @@
           <span>{{ translate( link,'link_text' ) }}</span>
         </a>
 
-        <hr 
+        <hr
           v-if="link.link_type == 'link' && link.is_visible == true"
           :key="index"
           class="is-flex-touch menu-delimiter-primary-c"
         >
-      
+
       </template>
 
       <!-- BUTTONS LINKS -->
@@ -120,7 +120,7 @@
             <span>{{ translate( link,'link_text' ) }}</span>
           </a>
 
-          <hr 
+          <hr
             v-if="!link.has_dropdown && link.link_type == 'button' && link.is_visible == true"
             :key="`'sublink-div-' + ${index}`"
             class="is-flex-touch menu-delimiter-primary-c"
@@ -143,7 +143,7 @@
         <div class="navbar-dropdown">
 
           <!-- LOOP LOCALES -->
-          <a v-for="(loc, index) in languages.languages" 
+          <a v-for="(loc, index) in languages.languages"
             :key="index"
             class="navbar-item a-anim is-uppercase"
             @click="switchLocale(loc)"
@@ -188,7 +188,7 @@
           </nuxt-link>
 
           <hr class="navbar-divider">
-          
+
           <nuxt-link :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim`"
             v-if="isUserAdmin || isUserStaff"
             :to="'/backoffice'"
@@ -242,7 +242,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import { BasicDictionnary } from "~/config/basicDict.js" 
+  import { BasicDictionnary } from "~/config/basicDict.js"
 
 
   export default {
@@ -251,10 +251,8 @@
 
 
     props : [
-      // 'NavbarConfig',
       'localRouteConfig',
       'isDark'
-      // 'currentDatasetURI'
     ],
 
     beforeMount: function () {
@@ -265,7 +263,25 @@
     data : function () {
       return {
         activeLocales : false,
-        basicDict : BasicDictionnary, 
+        basicDict : BasicDictionnary,
+        extraButtons : [{
+          dropdowns:[],
+          has_dropdown:false,
+          help:"First menu in navbar",
+          icon_class:"",
+          is_external_link:false,
+          is_visible:true,
+          link_text:[
+            {locale:"en", text:"Search"},
+            {locale:"es", text:"pendiente"},
+            {locale:"tr", text:"yapılmamış"},
+            {locale:"de", text:"ungemacht"},
+            {locale:"fr", text:"Recherche"}
+          ],
+          link_to:"/recherche",
+          link_type:"link",
+          position:"exterior_right"
+        }]
       }
     },
 
@@ -334,7 +350,7 @@
         }
         return isLinkToRoute || isSublinkRoute
       },
-      
+
       translate( textsToTranslate, listField ) {
         let listTexts = textsToTranslate[listField]
         return this.$Translate( listTexts, this.locale, 'text')

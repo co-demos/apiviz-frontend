@@ -1,36 +1,27 @@
 <template>
 
-  <div 
-    :class="`navbar-brand ${ shrinkNav ? 'navbar--shrink' : ''}`" 
+  <div
+    :class="`navbar-brand ${ shrinkNav ? 'navbar--shrink' : ''}`"
     :title="brand"
     >
 
-      <nuxt-link 	
-        v-if="logo.url"
+      <nuxt-link
         id="logo_home"
-        :class="`navbar-item navbar-item-hov`" 
+        :class="`navbar-item navbar-item-hov`"
         :to="logoTo">
-        <img 
-          id="navbar-logo" 
+        <img
+          id="navbar-logo"
           :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
           :src="logo.url"
           :alt="brand.content"
         ></img>
       </nuxt-link>
 
-      <div
-        v-if="brand.is_in_navbar"
-        :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? '7' : '6'}-touch is-size-5-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
-        <!-- {{ brand.content }} -->
-        {{ translate( brand, 'content_text' ) }} 
-        <!-- {{ shrinkNav }} -->
-      </div>
-
       <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
-      <div 
+      <div
         :class="`navbar-burger ${ shrinkNav ? 'navbar-burger-shrink' : ''} ${ showNav ? 'is-active' : '' }`"
-        @click="triggerBurger()" 
-        aria-expanded="false" 
+        @click="triggerBurger()"
+        aria-expanded="false"
         data-target="navbar-main"
         >
         <span></span>
@@ -49,7 +40,7 @@
   export default {
 
     props: [
-      'logoTo', 
+      'logoTo',
     ],
 
     beforeMount : function(){
@@ -57,9 +48,9 @@
     },
 
     computed: {
-      
+
       ...mapState({
-        log : state => state.log, 
+        log : state => state.log,
         locale: state => state.locale,
         showNav : state => state.showNav
       }),
@@ -67,7 +58,7 @@
       ...mapGetters({
         logo : 'config/getNavbarLogo',
         shrinkNav : 'getShrinkNav',
-        brand : 'config/getNavbarBrand' 
+        brand : 'config/getNavbarBrand'
       }),
 
     },
