@@ -6,10 +6,11 @@
     >
 
       <nuxt-link 	
-        v-if="logo.url"
+        v-if="!navbarConfig.logo_to_external && logo.url"
         id="logo_home"
         :class="`navbar-item navbar-item-hov`" 
-        :to="logoTo">
+        :to="navbarConfig.logo_to"
+        >
         <img 
           id="navbar-logo" 
           :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
@@ -17,6 +18,20 @@
           :alt="brand.content"
         ></img>
       </nuxt-link>
+
+      <a
+        v-if="navbarConfig.logo_to_external && logo.url"
+        id="logo_home"
+        :class="`navbar-item navbar-item-hov gna`" 
+        :href="navbarConfig.logo_to"
+        >
+        <img 
+          id="navbar-logo" 
+          :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
+          :src="logo.url"
+          :alt="brand.content"
+        ></img>
+      </a>
 
       <div
         v-if="brand.is_in_navbar"
@@ -66,6 +81,7 @@
 
       ...mapGetters({
         logo : 'config/getNavbarLogo',
+        navbarConfig : 'config/getNavbarConfig',
         shrinkNav : 'getShrinkNav',
         brand : 'config/getNavbarBrand' 
       }),
