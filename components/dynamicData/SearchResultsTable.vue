@@ -258,8 +258,6 @@ export default {
     //   console.log( "+ + + test axios from SearchResultsList / resp : " ,  resp)
     // })
 
-
-
   },
 
   mounted(){
@@ -287,8 +285,18 @@ export default {
 
   watch: {
     projects(next, prev){
+      this.log && console.log('C-SearchResultsList / watch / projects ...')
       this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount'];
-    }
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+    },
+
   },
 
   data(){
