@@ -123,7 +123,7 @@
               >
 
               <button 
-                class="button is-small is-fullwidth is-info-b is-outlined"
+                class="button is-small is-fullwidth is-primary-b is-outlined"
                 @click="switchLayersDrawer()"
                 >
                 {{ basicDict.map_layers[locale] }}
@@ -161,7 +161,7 @@
               >
 
               <button 
-                class="button is-small is-fullwidth is-info-b is-outlined"
+                :class="`button is-small is-fullwidth is-primary-b is-outlined`"
                 @click="switchLegendDrawer()"
                 >
                 {{ findCurrentChorosource.legend.title }}
@@ -1231,6 +1231,15 @@ export default {
           clusterLayerConfigOptions,
           clusterLayerId
         )
+
+        // let sourcesList = mapboxMap.getStyle().sources
+        // this.log && console.log("\nC-SearchResultsMapbox / createGeoJsonLayer ... sourcesList : ", sourcesList)
+
+        // let layersList = mapboxMap.getStyle().layers
+        // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer ... layersList : ", layersList)
+
+        // this.log && console.log("C-SearchResultsMapbox / createGeoJsonLayer / clusterLayerConfig : ", clusterLayerConfig)
+
         mapboxMap.addLayer(clusterLayerConfig)
         if ( clusterLayerConfigOptions.is_clickable ) {
           mapboxMap.on('click', clusterLayerId, function (e) {

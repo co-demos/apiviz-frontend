@@ -354,8 +354,8 @@ export const getters = {
 
       const noAbstractDict = state.config.global.app_basic_dict[f]
       // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
-      let text = noAbstractDict.find( t=>t.locale == rootState.locale )
-      return text.text
+      let text = noAbstractDict && noAbstractDict.find( t=>t.locale == rootState.locale )
+      return text && text.text
     },
 
 

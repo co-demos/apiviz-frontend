@@ -454,7 +454,7 @@
                   <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
                     <span
                       v-if="getCustomBlockTitle('block_rb1_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
                       >
                       {{ getCustomBlockTitle('block_rb1_tags') }}
                     </span>
@@ -468,6 +468,46 @@
                     </span>
                     <br><br>
                   </div>
+
+                  <!-- BLOCK RB2 TAGS -->
+                  <div id="block-RB2-tags" v-if="isPositionFilled('block_rb2_tags')">
+                    <span
+                      v-if="getCustomBlockTitle('block_rb2_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
+                      >
+                      {{ getCustomBlockTitle('block_rb2_tags') }}
+                    </span>
+                    <br><br>
+                    <span
+                      class="tag"
+                      v-for="(tag, i) in matchProjectWithConfig('block_rb2_tags')"
+                      :key="tag + i"
+                      >
+                      {{ tag }}
+                    </span>
+                    <br><br>
+                  </div>
+
+
+                  <!-- BLOCK RB3 TAGS -->
+                  <div id="block-RB3-tags" v-if="isPositionFilled('block_rb3_tags')">
+                    <span
+                      v-if="getCustomBlockTitle('block_rb3_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
+                      >
+                      {{ getCustomBlockTitle('block_rb3_tags') }}
+                    </span>
+                    <br><br>
+                    <span
+                      class="tag"
+                      v-for="(tag, i) in matchProjectWithConfig('block_rb3_tags')"
+                      :key="tag + i"
+                      >
+                      {{ tag }}
+                    </span>
+                    <br><br>
+                  </div>
+
 
                   <div>
 

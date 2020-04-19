@@ -79,7 +79,8 @@
           <i class="fas fa-table"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_table[locale] }}
+          <!-- {{ basicDict.tab_table[locale] }} -->
+          {{ getTabTitle( 'tab_table', locale ) }}
         </span>
       </nuxt-link>
 
@@ -94,7 +95,8 @@
           <i class="fas fa-th-large"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_list[locale] }}
+          <!-- {{ basicDict.tab_list[locale] }} -->
+          {{ getTabTitle( 'tab_list', locale ) }}
         </span>
       </nuxt-link>
 
@@ -109,7 +111,8 @@
           <i class="far fa-map"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_map[locale] }}
+          <!-- {{ basicDict.tab_map[locale] }} -->
+          {{ getTabTitle( 'tab_map', locale ) }}
         </span>
       </nuxt-link>
 
@@ -124,7 +127,8 @@
           <i class="far fa-chart-bar"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_stat[locale] }}
+          <!-- {{ basicDict.tab_stat[locale] }} -->
+          {{ getTabTitle( 'tab_stat', locale ) }}
         </span>
       </nuxt-link>
 
@@ -139,7 +143,8 @@
           <i class="far fa-calendar-alt"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_calendar[locale] }}
+          <!-- {{ basicDict.tab_calendar[locale] }} -->
+          {{ getTabTitle( 'tab_calendar', locale ) }}
         </span>
       </nuxt-link>
 
@@ -344,6 +349,18 @@
 
       getDefaultText(txt_code){
         return this.$store.getters['config/defaultText']({txt:txt_code})
+      },
+
+      getTabTitle( txt_code, locale ){
+        
+        // this.log && console.log('C-SearchResultsCountAndTabs / getTabTitle / txt_code : ', txt_code)
+        let defaultText = this.getDefaultText(txt_code)
+        
+        let fromBasicDict = this.basicDict[txt_code][locale]
+        // this.log && console.log('C-SearchResultsCountAndTabs / getTabTitle / fromBasicDict : ', fromBasicDict)
+
+        let result = defaultText ? defaultText : fromBasicDict
+        return result 
       },
 
     }
