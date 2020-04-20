@@ -1138,8 +1138,7 @@ export function searchEndpointGenerator( obj ) {
     }
   }
 
-  let baseQuery = endpointConfig.root_url
-  baseQuery = "http://api.enthic.fr/company/search/page"
+  let baseQuery = "https://api.enthic.fr/company/search/page"
   if ( argsArray.length > 0 ){
     baseQuery += '?'
     let argsLongString = argsArray.join('&')
