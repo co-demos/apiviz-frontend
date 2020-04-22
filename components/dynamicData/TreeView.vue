@@ -1,15 +1,14 @@
 <template>
-  <li>
+  <li v-bind:class="{ item: hasChildren }">
     <div
       v-bind:style="{ color: '#' + getColor }"
-      :class="{bold: isFolder}"
+      :class="{bold: hasChildren}"
       @click="toggle">
       {{ getText }}
-      <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+      <span v-if="hasChildren">[{{ isOpen ? '-' : '+' }}]</span>
     </div>
-    <ul v-show="isOpen" v-if="isFolder">
+    <ul v-show="isOpen" v-if="hasChildren">
       <TreeItem
-        class="item"
         v-for="(child, index) in item.children"
         :key="index"
         :item="child"
@@ -31,7 +30,7 @@ export default {
     }
   },
   computed: {
-    isFolder: function () {
+    hasChildren: function () {
       return this.item.children
     },
     getColor: function () {
@@ -80,7 +79,7 @@ export default {
   },
   methods: {
     toggle: function () {
-      if (this.isFolder) {
+      if (this.hasChildren) {
         this.isOpen = !this.isOpen
       }
     }
@@ -92,6 +91,9 @@ export default {
   body {
     font-family: Menlo, Consolas, monospace;
     color: #444;
+  }
+  li {
+    cursor: auto;
   }
   .item {
     cursor: pointer;

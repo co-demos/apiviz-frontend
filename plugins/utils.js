@@ -337,15 +337,7 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
 
     let payloadJson = JSON.stringify( endpointGenerated.requestPayload )
 
-    let axiosRequests = [axios({
-      method: fetchMethod.toLowerCase(),
-      url: "https://api.cquest.org/company/" + companyNumber,
-      data : payloadJson,
-      headers : fetchHeader
-    }).catch( err => {
-      console.log("+ + + populateDisplayedItem / (axios)  error on cquest API :", err);
-      return "Error on cquest API : " + err
-    })]
+    let axiosRequests = []
 
     axiosRequests.push(axios({
       method: fetchMethod.toLowerCase(),
@@ -356,6 +348,18 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
       console.log("+ + + populateDisplayedItem / (axios)  error on enthic API :", err);
       return "Error on enthic API : " + err
     }))
+
+/* Comment CQuest api request since it's down for the moment
+    axiosRequests.push(axios({
+      method: fetchMethod.toLowerCase(),
+      url: "https://api.cquest.org/company/" + companyNumber,
+      data : payloadJson,
+      headers : fetchHeader
+    }).catch( err => {
+      console.log("+ + + populateDisplayedItem / (axios)  error on cquest API :", err);
+      return "Error on cquest API : " + err
+    }))
+*/
 
     console.log("+ + + populateDisplayedItem / sending multiple axiosRequests : ", axiosRequests)
 
@@ -369,9 +373,9 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
       // Populate item with data fetched
       .then( responsesArray => {
         console.log("+ + + populateDisplayedItem / (axios) / all responses :", responsesArray);
-
+/* Comment CQuest api request since it's down for the moment
         // Handle cQuest API response
-        let cQuestApiResponse = responsesArray[0].data
+        let cQuestApiResponse = responsesArray[1].data
         if (cQuestApiResponse)
         {
           for (const resultElement of cQuestApiResponse.result) {
@@ -393,9 +397,9 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
             }
           }
         }
-
+*/
         // Handle Enthic API response
-        item.Enthic = responsesArray[1].data
+        item.Enthic = responsesArray[0].data
         for ( let enthicDeclaration of item.Enthic.declarations)
         {
           enthicDeclaration.financial_data_refined = {}
