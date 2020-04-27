@@ -580,7 +580,8 @@ function createTreeRepresentation( compteResultatRefined ) {
   for (var oneYearData of compteResultatRefined){
     var oneYearTree =
       {
-        name : 'Année ' + oneYearData.year + ' : ',
+        year : oneYearData.year,
+        name : 'Bénéfices',
         data : oneYearData.Benefice,
         children : {
           ResultatExploitation : {
@@ -846,7 +847,8 @@ function checkTreeData( item )
     }
 
     // If official value match computed value from official children's value with less than 0.1% error
-    if (Math.abs((computedSum - item.data.value) / item.data.value) < 0.0001)
+    if (Math.abs((computedSum - item.data.value) / item.data.value) < 0.0001
+        || Math.abs(computedSum - item.data.value) < 10)
     {
       item.data.status = "checked"
       // Fix children values if needed
@@ -856,18 +858,20 @@ function checkTreeData( item )
       }
     }
     // If official value match computed value from computed children's value with less than 0.1% error
-    else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < 0.0001)
+    else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < 0.0001
+             || Math.abs(computedSumFromComputed - item.data.value) < 10)
     {
       item.data.status = "checked"
       // Fix children values if needed
       for (var childName in item.children)
       {
-        if (item.data.value == undefined )
+        if (item.children[childName].data.value == undefined )
         {
-          item.data.value = item.data.computedValue
-          item.data.status = "computed"
+          item.children[childName].data.value = item.children[childName].data.computedValue
+          item.children[childName].data.status = "computed"
         }
       }
+      computedSum = computedSumFromComputed
     }
     else {
       item.data.status = "error"

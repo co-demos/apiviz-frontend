@@ -16,9 +16,7 @@
     </main>
 
     <main v-if="displayableItem">
-
       <div class="container">
-
         <!-- BACK TO RESULTS -->
         <a class="back" @click="goBack">
           <span class="icon">
@@ -29,39 +27,56 @@
             {{ getDefaultText('back_to_results') }}
           </span>
         </a>
-        <!-- BLOCK TITLE -->
-        <h1 id="block-title" class="title is-3">
-          {{ displayableItem.Enthic.denomination.value }}
-        </h1>
-        <p>Voici les données brutes des bilans comptables :</p>
-        <ul id="demo" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations" v-bind:key="oneYeardata.year">
-          <p> {{ oneYeardata.name }} </p>
-          <TreeItem
-            class="item"
-            :item="oneYeardata"
-          ></TreeItem>
-        </ul>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="column is-12">
+        <div class="columns">
+          <div class="column">
+            <div class="box has-background-warning">
+              <h1 id="block-title" class="title is-3">
+                {{ displayableItem.Enthic.denomination.value }}
+              </h1>
+              <ul>
+                <li v-for="data in displayableEnthicData.flatData">{{ data.description }} : {{ data.value }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="tile is-ancestor is-vertical box has-background-grey-lighter">
+          <h1 class="tile title is-6">
+            Voici les données des bilans comptables présentées de façon arborescente :
+          </h1>
+          <p class="tile subtitle">Cliquer sur une ligne permet de découvrir les détails de sa composition</p>
+          <div class="tile is-parent">
+            <div class="tile is-6"></div>
+            <div class="tile" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"> Année {{ oneYeardata.year }}</div>
+          </div>
+          <FoldingArray
+            :rowItem="displayableItem.Enthic.treeRepresentations"
+          ></FoldingArray>
+          <div class="tile is-parent">
+            <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies</p>
+            <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
+            <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
+          </div>
+        </div>
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
         </div>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="column is-12">
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
         </div>
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
-          <div class="column is-5 is-offset-1">
-            <div class="description">
-
+          <div class="column is-5 is-offset-1 box">
+            <h1 class="tile title is-6">
+              Autres données présentes dans la base Enthic, mais pas valorisées ici :
+            </h1>
+            <p v-for="year in displayableEnthicData.yearData">
+              {{ year.year }}
               <ul>
-                <li v-for="data in displayableEnthicData.flatData">{{ data.description }} : {{ data.value }}</li>
-                <li v-for="year in displayableEnthicData.yearData">
-                  {{ year.year }}
-                  <ul>
-                    <li v-for="data in year">{{ data.description }} : {{ data.value }}</li>
-                  </ul>
-                </li>
+                <li v-for="data in year">{{ data.description }} : {{ data.value }}</li>
               </ul>
+            </p>
+            <div class="description">
               <!-- BLOCK MAIN TAGS -->
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
                 <span
@@ -200,20 +215,17 @@
 
 
           <!-- //// COLUMN RIGHT //// -->
-          <div class="column is-5">
-
-            <!-- BLOCK MAIN ILLUSTRATION -->
-            <a id="block-illustration"
-              :href="matchProjectWithConfig('block_wesite')"
-              target="_blank"
-              >
-              <img
-                class="illustration"
-                :src="itemImage('block_image')"
-                :alt="matchProjectWithConfig('block_title')"
-              />
-                <!-- :src="matchProjectWithConfig('block_image')" -->
-            </a>
+          <div class="column is-5 box has-background-grey-lighter">
+            <h1 class="tile title is-6 ">
+              Autre représentation des comptes de résultat
+            </h1>
+            <ul v-for="oneYeardata in displayableItem.Enthic.treeRepresentations" v-bind:key="oneYeardata.year">
+              <p> Année {{ oneYeardata.year }} </p>
+              <TreeItem
+                class="item"
+                :item="oneYeardata"
+              ></TreeItem>
+            </ul>
 
             <!-- BLOCK SOURCE -->
             <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
@@ -500,6 +512,7 @@ import VueApexCharts from 'vue-apexcharts'
 
 import ForceNetworkGraph from './ForceNetworkGraph.vue'
 import TreeView from './TreeView.vue'
+import FoldingArray from './FoldingArray.vue'
 
 export default {
 
@@ -509,6 +522,7 @@ export default {
     NotFoundError,
     apexchart: VueApexCharts,
     TreeItem : TreeView,
+    FoldingArray,
     ForceNetworkGraph
   },
 
@@ -742,24 +756,42 @@ export default {
           var resultExploit = rootItem.children.ResultatExploitation
           var produits = resultExploit.children.ProduitsExploitation
           var charges = resultExploit.children.ChargesExploitation
+
           // Mise en forme des données du graphe sur le CA
-          taxesMoinsSubventions.push(charges.children.ImpotTaxesEtVersementsAssimiles.data.value - produits.children.SubventionsExploitation.data.value);
-          marchandisesTotalAfficher.push(charges.children.AchatsDeMarchandises.data.value + charges.children.VariationStockMarchandises.data.value + charges.children.AchatMatierePremiereAutreAppro.data.value + charges.children.VariationStockMatierePremiereEtAppro.data.value);
-          autreChargesMoinsAutresProduitsAffiches.push(produits.children.ChiffresAffairesNet.data.value - charges.children.SalairesEtTraitements.data.value - charges.children.ChargesSociales.data.value - taxesMoinsSubventions[i] - marchandisesTotalAfficher[i] - resultExploit.data.value);
+          taxesMoinsSubventions.push(
+            (isNaN(charges.children.ImpotTaxesEtVersementsAssimiles.data.value) ? 0 : charges.children.ImpotTaxesEtVersementsAssimiles.data.value)
+            - (isNaN(produits.children.SubventionsExploitation.data.value ? 0 : produits.children.SubventionsExploitation.data.value)));
+          if (taxesMoinsSubventions[i] < 0) {
+            taxesMoinsSubventions[i] = 0
+          }
+
+          marchandisesTotalAfficher.push(
+            (isNaN(charges.children.AchatsDeMarchandises.data.value) ? 0 : charges.children.AchatsDeMarchandises.data.value)
+            + (isNaN(charges.children.VariationStockMarchandises.data.value) ? 0 : charges.children.VariationStockMarchandises.data.value)
+            + (isNaN(charges.children.AchatMatierePremiereAutreAppro.data.value) ? 0 : charges.children.AchatMatierePremiereAutreAppro.data.value)
+            + (isNaN(charges.children.VariationStockMatierePremiereEtAppro.data.value) ? 0 : charges.children.VariationStockMatierePremiereEtAppro.data.value));
+
+          autreChargesMoinsAutresProduitsAffiches.push(
+            produits.children.ChiffresAffairesNet.data.value
+            - (isNaN(charges.children.SalairesEtTraitements.data.value) ? 0 : charges.children.SalairesEtTraitements.data.value)
+            - (isNaN(charges.children.ChargesSociales.data.value) ? 0 : charges.children.ChargesSociales.data.value)
+            - taxesMoinsSubventions[i]
+            - marchandisesTotalAfficher[i]
+            - resultExploit.data.value);
 
           // Application du ratio pour l'affichage du graphe sur le CA
           salaires.push(Math.round(1000 * charges.children.SalairesEtTraitements.data.value / factorCA) / 1000);
-          cotisationSociale[i] = Math.round(1000 * charges.children.ChargesSociales.data.value / factorCA) / 1000;
+          cotisationSociale.push(Math.round(1000 * charges.children.ChargesSociales.data.value / factorCA) / 1000);
           taxesMoinsSubventions[i] = Math.round(1000 * taxesMoinsSubventions[i] / factorCA) / 1000;
           marchandisesTotalAfficher[i] = Math.round(1000 * marchandisesTotalAfficher[i] / factorCA) / 1000;
           autreChargesMoinsAutresProduitsAffiches[i] = Math.round(1000 * autreChargesMoinsAutresProduitsAffiches[i] / factorCA) / 1000;
           resultatExploitation.push(Math.round(1000 * rootItem.children.ResultatExploitation.data.value / factorCA) / 1000);
 
           // Application du ratio pour l'affichage du graphe sur le résultat d'exploitation
-          Participation[i] = Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000;
-          ImpotsSurLesSocietes[i] = Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000;
-          resultatPourProprietaire[i] = Math.round(1000 * rootItem.data.value / factor) / 1000;
-          resultatExceptionnelEtFinancier[i] = Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000;
+          Participation.push(Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000);
+          ImpotsSurLesSocietes.push(Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000);
+          resultatPourProprietaire.push(Math.round(1000 * rootItem.data.value / factor) / 1000);
+          resultatExceptionnelEtFinancier.push(Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000);
       }
 
       let seriesCA = [{
