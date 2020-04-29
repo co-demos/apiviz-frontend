@@ -7,9 +7,10 @@
         {{ getDescription }}
         <span v-if="hasChildren">[{{ isOpen ? '-' : '+' }}]</span>
       </div>
-      <div class="tile is-child"
+      <div class="tile is-child tooltip"
         v-for="oneYearItem in rowItem"
         v-bind:style="{ color: '#' + getColor(oneYearItem) }">
+        <span class="tooltiptext">{{ getTooltip(oneYearItem) }}</span>
          {{ getDisplayedValue(oneYearItem) }}
       </div>
     </div>
@@ -71,7 +72,6 @@ export default {
         this.isOpen = !this.isOpen
       }
     },
-
     getDisplayedValue: function(oneYearItem) {
         var formatter = new Intl.NumberFormat(undefined, {
           style: 'currency',
@@ -83,7 +83,7 @@ export default {
         {
           if (oneYearItem.data.computedValue)
           {
-            text += formatter.format(oneYearItem.data.computedValue) + " (valeur calculée)"
+            text += formatter.format(oneYearItem.data.computedValue) + " (calculé)"
           }
           else {
             text += "non fourni"
@@ -93,15 +93,57 @@ export default {
         {
           text += formatter.format(oneYearItem.data.value)
         }
-
-        if (oneYearItem.data.status == "computed"){
-          text += " (valeur calculée)"
-        }
-        if (oneYearItem.data.computedValue && oneYearItem.data.value)
-        {
-            text += " erreur calculée :" + formatter.format(oneYearItem.data.value - oneYearItem.data.computedValue)
-        }
         return text //+ ' ' + JSON.stringify(oneYearItem.data, {}, 2)
+    },
+    getTooltip: function(oneYearItem) {
+        var euroFormatter = new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: 'EUR',
+          minimumFractionDigits: 0
+        });
+        var percentFormatter = new Intl.NumberFormat(undefined, {
+          style: 'percent',
+          maximumFractionDigits: 2
+        });
+        var text = ""
+        if (isNaN(oneYearItem.data.value))
+        {
+          if (oneYearItem.data.computedValue)
+          {
+            text += "montant officiellement non fourni, et impossible de le déduire des autres montants présents"
+          }
+          else {
+            text += "non fourni"
+          }
+        }
+        else if (oneYearItem.data.status == "checked")
+        {
+          text += "montant fourni et cohérent avec les autres montants présents"
+          if (oneYearItem.data.computedValue && oneYearItem.data.value)
+          {
+            text += " (seulement " + euroFormatter.format(oneYearItem.data.value - oneYearItem.data.computedValue) + " de différence)"
+          }
+        }
+        else if (oneYearItem.data.status == "computed")
+        {
+          text += "montant non fourni mais déduit d'après les autres montants présents"
+        }
+        else if (oneYearItem.data.status == "official")
+        {
+          text += "montant fourni et pas de vérification possible"
+        }
+        else
+        {
+          text += "montant fourni mais incohérent avec les autres montants présents"
+          if (oneYearItem.data.computedValue && oneYearItem.data.value)
+          {
+            var diff = oneYearItem.data.value - oneYearItem.data.computedValue
+            var percentDiff = Math.abs(diff / oneYearItem.data.value)
+
+            text += " (" + percentFormatter.format(percentDiff) + " d'erreur, soit " + euroFormatter.format(diff) + ")"
+          }
+        }
+        return text //+ JSON.stringify(oneYearItem.data, {}, 2)
     },
     getColor: function (oneYearItem) {
       if (oneYearItem.data.status == "official" || oneYearItem.data.status == "checked")
@@ -116,7 +158,7 @@ export default {
       {
         return 419
       }
-      return 441
+      return 941
     }
 
   }
@@ -151,5 +193,38 @@ export default {
     margin-right: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
+  }
+    /* Tooltip container */
+  .tooltip {
+   position: relative;
+   display: inline-block;
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+   visibility: hidden;
+   width: 120px;
+   background-color: #555;
+   color: #fff;
+   text-align: center;
+   padding: 5px 0;
+   border-radius: 6px;
+
+   /* Position the tooltip text */
+   position: absolute;
+   z-index: 1;
+   bottom: 125%;
+   left: 50%;
+   margin-left: -60px;
+
+   /* Fade in tooltip */
+   opacity: 0;
+   transition: opacity 0.3s;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+   visibility: visible;
+   opacity: 1;
   }
 </style>

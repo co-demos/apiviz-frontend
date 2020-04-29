@@ -52,16 +52,38 @@
             :rowItem="displayableItem.Enthic.treeRepresentations"
           ></FoldingArray>
           <div class="tile is-parent">
-            <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies</p>
+            <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies
+              (erreur de maximum 0,5% ou 10€ tolérée)</p>
             <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
             <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
           </div>
         </div>
         <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
+          <h1 id="block-title" class="title is-6">
+            Répartition du chiffre d'affaire
+          </h1>
+          <p>Ce graphique montre la répartition des charges payées par le chiffre d'affaire de l'entreprise. La hauteur de chaque colonne correspond au chiffre d'affaire.</p>
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
+          <p>Listes des problèmes pour afficher le graphique</p>
+          <ul>
+            <li v-for="item in chartDetails.undisplayables">
+              {{ item }}
+            </li>
+          </ul>
         </div>
         <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
+          <h1 id="block-title" class="title is-6">
+            Répartition de la marge de l'entreprise
+          </h1>
+          <p>Ce graphique montre comment la marge de l'entreprise sur son activité principale (résultat d'exploitation) est répartie entre :</p>
+          <ul>
+            <li>les salarié⋅es (participation)</li>
+            <li>la collectivité (impôts)</li>
+            <li>l'entreprise (Résultat pour les propriétaires de l'entreprise)</li>
+            <li>les créanciers, les marchés, etc... (Résultat financier et exceptionnel)</li>
+            </ul>
           <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
+          <p>Un montant positif signifie que l'entreprise a donné de l'argent à l'acteur économique en question, un montant négatif signifie que l'acteur économique donne de l'argent à l'entreprise.</p>
         </div>
         <div class="columns">
 
@@ -73,7 +95,7 @@
             <p v-for="year in displayableEnthicData.yearData">
               {{ year.year }}
               <ul>
-                <li v-for="data in year">{{ data.description }} : {{ data.value }}</li>
+                <li v-for="data in year.data">{{ data.description }} : {{ data.value }}</li>
               </ul>
             </p>
             <div class="description">
@@ -676,7 +698,9 @@ export default {
     },
 
     displayableEnthicData(){
-      var regexYear = /[12][0-9][0-9][0-9]/;
+      var formatter = new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 0
+      });
       let displayableEnthicData = { flatData : {}, yearData : []}
       for (var property in this.displayableItem.Enthic){
         if (["siren", "ape", "postal_code", "town"].includes(property) ){
@@ -685,13 +709,12 @@ export default {
       }
       for ( let enthicDeclaration of  this.displayableItem.Enthic.declarations)
       {
-        let yearData = { year : enthicDeclaration.declaration.value }
+        let yearData = { year : enthicDeclaration.declaration.value, data : {} }
         for (var yearProp in enthicDeclaration.financial_data_refined)
         {
-          if (!["declaration", "dir", "dis", "gan"].includes(yearProp) )
-          {
-             yearData[yearProp] = enthicDeclaration.financial_data_refined[yearProp]
-          }
+          yearData.data[yearProp] = { description : enthicDeclaration.financial_data_refined[yearProp].description,
+                                      value : formatter.format(enthicDeclaration.financial_data_refined[yearProp].value)
+                                    }
         }
         displayableEnthicData.yearData.push(yearData)
       }
@@ -700,26 +723,11 @@ export default {
     },
 
     chartDetails(){
-      var xLabels = [];
-
-      var CA = [];
-      var subventions = [];
-      var achatMarchandises = [];
-      var variationStockMarchandises = [];
-      var achatMatierePremiereAutreAppro = [];
-      var variationStockMatierePremiereAutreAppro = [];
-      var autresAchatEtChargesExterne = [];
-      var taxes = [];
-
-      var resultatExploitation = [];
-      var resultatFinancier = [];
-      var resultatExceptionnel = [];
-
-      var resultatExceptionnelEtFinancier = [];
-
+      // Find perfect unit for CA graphic (€, k€ or M€)
+      var beneficeItem = this.displayableItem.Enthic.treeRepresentations[0]
       var factorCA = 1;
       var unitCA = '€';
-      var CADeReference = this.displayableItem.Enthic.treeRepresentations[0].children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
+      var CADeReference = beneficeItem.children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
       if (CADeReference > 10000000){
         var factorCA = 1000000;
         var unitCA = 'millions d\'€';
@@ -729,9 +737,14 @@ export default {
         var unitCA = 'milliers d\'€';
       }
 
+      // Find perfect unit for margin graphic (€, k€ or M€)
       var factor = 1;
       var unitMargin = '€';
-      var resultatDeReference = this.displayableItem.Enthic.treeRepresentations[0].children.ResultatExploitation.data.value
+      var resultatDeReference = beneficeItem.children.ResultatExploitation.data.value
+      if (isNaN(resultatDeReference))
+      {
+        resultatDeReference = beneficeItem.data.value
+      }
       if (resultatDeReference > 3000000 || resultatDeReference < -3000000){
         var factor = 1000000;
         var unitMargin = 'millions d\'€';
@@ -741,91 +754,129 @@ export default {
         var unitMargin = 'milliers d\'€';
       }
 
-      var autreChargesMoinsAutresProduitsAffiches = [];
-      var taxesMoinsSubventions = [];
-      var marchandisesTotalAfficher = [];
-      var salaires = [];
-      var cotisationSociale = [];
-      var Participation = [];
-      var ImpotsSurLesSocietes = [];
+      var xLabels = [];
 
-      var resultatPourProprietaire = [];
+      var dataSeriesMargin = {
+        resultatExceptionnelEtFinancier : [],
+        Participation : [],
+        ImpotsSurLesSocietes : [],
+        resultatPourProprietaire : []
+      }
+
+      var dataSeriesCA = {
+        salaires : [],
+        cotisationSociale : [],
+        taxesMoinsSubventions : [],
+        marchandisesTotalAfficher : [],
+        autreChargesMoinsAutresProduitsAffiches : [],
+        resultatExploitation : []
+      }
+      var euroFormatter = new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 0
+      });
+      var listOfUndisplayableData = []
+      var showResultatExploitation = true
+      var showTaxeVsSubvention = true
       for(var i = 0; i < this.displayableItem.Enthic.treeRepresentations.length; i++){
           xLabels.push(this.displayableItem.Enthic.compteResultatRefined[i].year)
+
+          // Local variables for code visibility
           var rootItem = this.displayableItem.Enthic.treeRepresentations[i]
           var resultExploit = rootItem.children.ResultatExploitation
           var produits = resultExploit.children.ProduitsExploitation
           var charges = resultExploit.children.ChargesExploitation
 
-          // Mise en forme des données du graphe sur le CA
-          taxesMoinsSubventions.push(
-            (isNaN(charges.children.ImpotTaxesEtVersementsAssimiles.data.value) ? 0 : charges.children.ImpotTaxesEtVersementsAssimiles.data.value)
-            - (isNaN(produits.children.SubventionsExploitation.data.value ? 0 : produits.children.SubventionsExploitation.data.value)));
-          if (taxesMoinsSubventions[i] < 0) {
-            taxesMoinsSubventions[i] = 0
+          // Get all needed values for first graphic (about Chiffre d'Affaire)
+          var impotsEtAssimiles = this.cleanUndefinedDataForGraphicalDisplay(charges.children.ImpotTaxesEtVersementsAssimiles, listOfUndisplayableData, xLabels[i])
+          var subventions = this.cleanUndefinedDataForGraphicalDisplay(produits.children.SubventionsExploitation, listOfUndisplayableData, xLabels[i])
+          var achatMarchandises = this.cleanUndefinedDataForGraphicalDisplay(charges.children.AchatsDeMarchandises, listOfUndisplayableData, xLabels[i])
+          var variationMarchandises = this.cleanUndefinedDataForGraphicalDisplay(charges.children.VariationStockMarchandises, listOfUndisplayableData, xLabels[i])
+          var achatMatierePremiere = this.cleanUndefinedDataForGraphicalDisplay(charges.children.AchatMatierePremiereAutreAppro, listOfUndisplayableData, xLabels[i])
+          var variationMatierePremiere = this.cleanUndefinedDataForGraphicalDisplay(charges.children.VariationStockMatierePremiereEtAppro, listOfUndisplayableData, xLabels[i])
+          var salaire = this.cleanUndefinedDataForGraphicalDisplay(charges.children.SalairesEtTraitements, listOfUndisplayableData, xLabels[i])
+          var cotisation = this.cleanUndefinedDataForGraphicalDisplay(charges.children.ChargesSociales, listOfUndisplayableData, xLabels[i])
+          var resultatExploitation = this.cleanUndefinedDataForGraphicalDisplay(resultExploit, listOfUndisplayableData, xLabels[i])
+
+          // Affichage des taxes uniquement si elles sont supérieures aux subventions
+          if (impotsEtAssimiles < subventions) {
+            dataSeriesCA.taxesMoinsSubventions[i] = 0
+            listOfUndisplayableData.push("subventions (" + euroFormatter.format(subventions) + ") supérieur aux taxes (" + euroFormatter.format(impotsEtAssimiles) + ") en " + xLabels[i])
+            showTaxeVsSubvention = false
+          }
+          else {
+            dataSeriesCA.taxesMoinsSubventions.push(impotsEtAssimiles - subventions)
           }
 
-          marchandisesTotalAfficher.push(
-            (isNaN(charges.children.AchatsDeMarchandises.data.value) ? 0 : charges.children.AchatsDeMarchandises.data.value)
-            + (isNaN(charges.children.VariationStockMarchandises.data.value) ? 0 : charges.children.VariationStockMarchandises.data.value)
-            + (isNaN(charges.children.AchatMatierePremiereAutreAppro.data.value) ? 0 : charges.children.AchatMatierePremiereAutreAppro.data.value)
-            + (isNaN(charges.children.VariationStockMatierePremiereEtAppro.data.value) ? 0 : charges.children.VariationStockMatierePremiereEtAppro.data.value));
+          // Display only if positive
+          if (resultatExploitation < 0 )
+          {
+            showResultatExploitation = false
+            resultatExploitation = 0
+            listOfUndisplayableData.push("résultat d'exploitation négatif en " + xLabels[i])
+          }
 
-          autreChargesMoinsAutresProduitsAffiches.push(
-            produits.children.ChiffresAffairesNet.data.value
-            - (isNaN(charges.children.SalairesEtTraitements.data.value) ? 0 : charges.children.SalairesEtTraitements.data.value)
-            - (isNaN(charges.children.ChargesSociales.data.value) ? 0 : charges.children.ChargesSociales.data.value)
-            - taxesMoinsSubventions[i]
-            - marchandisesTotalAfficher[i]
-            - resultExploit.data.value);
+          // Compute other complexe data to display
+          dataSeriesCA.marchandisesTotalAfficher.push(achatMarchandises + variationMarchandises + achatMatierePremiere + variationMatierePremiere);
+          dataSeriesCA.autreChargesMoinsAutresProduitsAffiches.push(produits.children.ChiffresAffairesNet.data.value - salaire - cotisation - dataSeriesCA.taxesMoinsSubventions[i] - dataSeriesCA.marchandisesTotalAfficher[i] - resultatExploitation);
 
           // Application du ratio pour l'affichage du graphe sur le CA
-          salaires.push(Math.round(1000 * charges.children.SalairesEtTraitements.data.value / factorCA) / 1000);
-          cotisationSociale.push(Math.round(1000 * charges.children.ChargesSociales.data.value / factorCA) / 1000);
-          taxesMoinsSubventions[i] = Math.round(1000 * taxesMoinsSubventions[i] / factorCA) / 1000;
-          marchandisesTotalAfficher[i] = Math.round(1000 * marchandisesTotalAfficher[i] / factorCA) / 1000;
-          autreChargesMoinsAutresProduitsAffiches[i] = Math.round(1000 * autreChargesMoinsAutresProduitsAffiches[i] / factorCA) / 1000;
-          resultatExploitation.push(Math.round(1000 * rootItem.children.ResultatExploitation.data.value / factorCA) / 1000);
+          dataSeriesCA.salaires.push(Math.round(1000 * salaire / factorCA) / 1000);
+          dataSeriesCA.cotisationSociale.push(Math.round(1000 * cotisation / factorCA) / 1000);
+          dataSeriesCA.taxesMoinsSubventions[i] = Math.round(1000 * dataSeriesCA.taxesMoinsSubventions[i] / factorCA) / 1000;
+          dataSeriesCA.marchandisesTotalAfficher[i] = Math.round(1000 * dataSeriesCA.marchandisesTotalAfficher[i] / factorCA) / 1000;
+          dataSeriesCA.autreChargesMoinsAutresProduitsAffiches[i] = Math.round(1000 * dataSeriesCA.autreChargesMoinsAutresProduitsAffiches[i] / factorCA) / 1000;
+          dataSeriesCA.resultatExploitation.push(Math.round(1000 * resultatExploitation / factorCA) / 1000);
 
           // Application du ratio pour l'affichage du graphe sur le résultat d'exploitation
-          Participation.push(Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000);
-          ImpotsSurLesSocietes.push(Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000);
-          resultatPourProprietaire.push(Math.round(1000 * rootItem.data.value / factor) / 1000);
-          resultatExceptionnelEtFinancier.push(Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000);
+          dataSeriesMargin.Participation.push(Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000);
+          dataSeriesMargin.ImpotsSurLesSocietes.push(Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000);
+          dataSeriesMargin.resultatPourProprietaire.push(Math.round(1000 * rootItem.data.value / factor) / 1000);
+          dataSeriesMargin.resultatExceptionnelEtFinancier.push(Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000);
       }
 
-      let seriesCA = [{
+      // Build data series to pass to graphical plugin
+      let seriesCA = [ {
+          name: 'Autres charges retranchées des autres produits',
+          data: dataSeriesCA.autreChargesMoinsAutresProduitsAffiches
+        }, {
           name: 'Salaires Bruts',
-          data: salaires
+          data: dataSeriesCA.salaires
         }, {
           name: 'Cotisations Sociales',
-          data: cotisationSociale
-        }, {
-          name: 'Taxes diverses retranchées des subventions',
-          data: taxesMoinsSubventions
+          data: dataSeriesCA.cotisationSociale
         }, {
           name: 'Achat de marchandises, matières premières et autre approvisionnement',
-          data: marchandisesTotalAfficher
-        }, {
-          name: 'Autres charges retranchées des autres produits',
-          data: autreChargesMoinsAutresProduitsAffiches
-        }, {
-          name: 'Résultat d\'exploitation (marge de l\'entreprise)',
-          data: resultatExploitation
+          data: dataSeriesCA.marchandisesTotalAfficher
         }]
-
+      if (showTaxeVsSubvention)
+      {
+        console.log("showing taxe and sub")
+        seriesCA.push({
+          name: 'Taxes diverses retranchées des subventions',
+          data: dataSeriesCA.taxesMoinsSubventions
+        })
+      }
+      if (showResultatExploitation)
+      {
+        seriesCA.push({
+          name: 'Résultat d\'exploitation (marge de l\'entreprise)',
+          data: dataSeriesCA.resultatExploitation
+        })
+      }
       let seriesMargin = [{
           name: 'Participation',
-          data: Participation
+          data: dataSeriesMargin.Participation
         }, {
           name: 'Impôts',
-          data: ImpotsSurLesSocietes
+          data: dataSeriesMargin.ImpotsSurLesSocietes
         }, {
           name: 'Résultat pour les propriétaires de l\'entreprise',
-          data: resultatPourProprietaire
+          data: dataSeriesMargin.resultatPourProprietaire
         }, {
           name: 'Résultat financier et exceptionnel',
-          data: resultatExceptionnelEtFinancier
+          data: dataSeriesMargin.resultatExceptionnelEtFinancier
         }]
 
       let chartOptionsCA = {
@@ -845,7 +896,7 @@ export default {
             options: {
               legend: {
                 position: 'bottom',
-                offsetX: -10,
+                offsetX: -5,
                 offsetY: 0
               }
             }
@@ -929,12 +980,21 @@ export default {
         seriesMargin: seriesMargin,
         seriesCA: seriesCA,
         chartOptionsCA: chartOptionsCA,
-        chartOptionsMargin: chartOptionsMargin
+        chartOptionsMargin: chartOptionsMargin,
+        undisplayables : listOfUndisplayableData
       }
     }
   },
 
   methods : {
+    cleanUndefinedDataForGraphicalDisplay(item, undefinedDataList, year){
+      if (isNaN(item.data.value))
+      {
+        undefinedDataList.push(item.name + " non fournis pour l'année " + year)
+        return 0
+      }
+      return item.data.value
+    },
 
     getDefaultText(txt_code){
       return this.$store.getters['config/defaultText']({txt:txt_code})

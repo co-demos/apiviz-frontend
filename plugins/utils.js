@@ -846,8 +846,8 @@ function checkTreeData( item )
       }
     }
 
-    // If official value match computed value from official children's value with less than 0.1% error
-    if (Math.abs((computedSum - item.data.value) / item.data.value) < 0.0001
+    // If official value match computed value from official children's value with less than 0.5% error
+    if (Math.abs((computedSum - item.data.value) / item.data.value) < 0.005
         || Math.abs(computedSum - item.data.value) < 10)
     {
       item.data.status = "checked"
@@ -857,8 +857,8 @@ function checkTreeData( item )
         setToZeroComputed(item.children[childName])
       }
     }
-    // If official value match computed value from computed children's value with less than 0.1% error
-    else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < 0.0001
+    // If official value match computed value from computed children's value with less than 0.5% error
+    else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < 0.005
              || Math.abs(computedSumFromComputed - item.data.value) < 10)
     {
       item.data.status = "checked"
