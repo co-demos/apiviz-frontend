@@ -247,7 +247,7 @@
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
-      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
+      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
     
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
@@ -321,20 +321,23 @@
       exportDataset() {
 
         let exportConfig = this.endpointConfigExport
-        this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
 
-        let fileName = "export_file" + '.csv'
-
-        this.$store.dispatch( 'search/exportDataset' )
-        .then( response => {
-          this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
-          let blob = new Blob([response.data], {type: 'text/csv'})
-          const link = document.createElement('a')
-          link.href = window.URL.createObjectURL(blob)
-          link.setAttribute('download', fileName) // or any other extension
-          document.body.appendChild(link)
-          link.click()
-        })
+        if ( exportConfig.redirect_to ){
+          this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
+          this.$router.push( exportConfig.redirect_to )
+        } else {
+          let fileName = "export_file" + '.csv'
+          this.$store.dispatch( 'search/exportDataset' )
+          .then( response => {
+            this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
+            let blob = new Blob([response.data], {type: 'text/csv'})
+            const link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.setAttribute('download', fileName) // or any other extension
+            document.body.appendChild(link)
+            link.click()
+          })
+        }
 
       },
 
