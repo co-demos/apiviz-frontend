@@ -243,16 +243,16 @@
     mounted(){
       this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
 
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigTable   : ', this.endpointConfigTable)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigTable   : ', this.endpointConfigTable)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
     
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToMap   : ', this.endpointConfigUrlToMap)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToStat  : ', this.endpointConfigUrlToStat)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToMap   : ', this.endpointConfigUrlToMap)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToStat  : ', this.endpointConfigUrlToStat)
     },
 
     computed: {

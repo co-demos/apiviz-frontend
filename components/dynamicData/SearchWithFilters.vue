@@ -189,11 +189,6 @@
     beforeMount(){
       this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
-
-      // if (this.$nuxt.$route.query.iframing) {
-      //   this.onlyIframe = true
-      // }
-
     },
 
     mounted(){

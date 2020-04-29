@@ -833,9 +833,15 @@ export function filterObjectByKey(raw, allowedKeys ) {
   return filtered
 }
 
+export function trimString( string, trimming ){
+  let trim = ( trimming && string.length > trimming ) ? trimming : string.length
+  const tail = ( trimming && string.length > trimming) ? '...' : ''
+  return string.slice(0, trim) + tail
+}
+
 export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr'){
 
-  const contentField = contentFields.find(f=> f.position == fieldBlock)
+  const contentField = contentFields.find(f => f.position == fieldBlock)
 
   // const log = true
   let blocktags = [
@@ -863,10 +869,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     // const log = contentField && contentField.field_format.type === 'list_tags'
 
     // log && console.log("\ngetItemContent / contentField : ", contentField)
-
     // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
-
-
     // log && console.log("getItemContent / field_format : ", field_format)
 
     let content = displayableItem[field]
@@ -874,7 +877,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
     if ( content && content !== "None" && content !== "" ){
 
-      const trimming = contentField.field_format.trim
+      const trimming = !contentField.convert_from_filters && contentField.field_format.trim
       // log && console.log("getItemContent / trimming : ", trimming)
 
       try {
@@ -906,12 +909,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             })
           }
 
-          content = content.map( tag => {
-            let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
-            const tail = ( trimming && tag.length > trimming) ? '...' : ''
-            // log && console.log("getItemContent / trim : ", trim)
-            return tag.slice(0, trim) + tail
-          })
+          content = content.map( tag => { return trimString(tag, trimming) })
           // log && console.log("getItemContent / content B : ", content)
 
           return content

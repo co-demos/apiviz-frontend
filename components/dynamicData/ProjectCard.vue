@@ -29,19 +29,18 @@
           <!-- :src="matchItemWithConfig('block_image')" -->
       </nuxt-link>
 
-      <!-- BLOCK ADDRESS -->
+      <!-- CONTENTS -->
       <div class="card-content">
 
+        <!-- BLOCK ADDRESS -->
         <div class="content" v-if="projectCity()">
           <span class="icon">
             <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
           </span>
           <span class="subtitle is-6 is-capitalized">
             <!-- {{ matchItemWithConfig('block_address')}} -->
-            <!-- {{ projectAddress() }} -  -->
             <!-- {{ matchItemWithConfig('block_city')}} -->
             {{ projectCity() }}
-
             <!-- {{ noAddress() }} -->
           </span>
         </div>
@@ -54,10 +53,8 @@
         </p>
 
         <!-- BLOCK ABSTRACT -->
-        <!-- <div class="content" v-if="projectAbstract()"> -->
         <div class="content" v-if="matchItemWithConfig('block_abstract')">
           <p class="subtitle is-6">
-            <!-- {{ projectAbstract() }} -->
             {{ matchItemWithConfig('block_abstract') }}
           </p>
         </div>
@@ -84,17 +81,24 @@
         </div>
 
         <!-- BLOCK TAGS -->
-        <!-- <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
-          <span v-for="tag in itemInfos.tags" class="tag" :key="tag">
+        <div class="content">
+          <span v-if="convertTags('block_tags')">
+            <span 
+              v-for="(tag, i) in convertTags('block_tags')" 
+              :class="`tag ${ getItemColors('block_tags')}`"
+              :key="tag+i"
+              >
               {{ tag }}
+            </span>
           </span>
-        </div> -->
-        <div class="content" v-if="matchItemWithConfig('block_tags')">
-          <span 
-            v-for="(tag, i) in matchItemWithConfig('block_tags')" 
-            class="tag" :key="tag+i"
-            >
-            {{ tag }}
+          <span v-if="convertTags('block_tags_bis')">
+            <span 
+              v-for="(tag, i) in convertTags('block_tags_bis')" 
+              :class="`tag ${ getItemColors('block_tags_bis')}`"
+              :key="tag+i"
+              >
+              {{ tag }}
+            </span>
           </span>
         </div>
 
@@ -107,7 +111,7 @@
 <script>
 
 import { mapState, mapGetters } from "vuex";
-import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
+import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -161,26 +165,29 @@ export default {
     ...mapGetters({
       dataset_uri : 'search/getSearchDatasetURI',
       filterDescriptions : 'search/getFilterDescriptions',
+      getProjectConfigUniform : 'search/getProjectConfigUniform',
+      defaultText : 'config/defaultText',
     }),
 
-    // dataset_uri(){
-    //   return this.$store.state.search.search.dataset_uri
-    // },
     itemInfos(){
-      return this.$store.getters['search/getProjectConfigUniform'](this.item)
-      // return this.item
+      return this.getProjectConfigUniform(this.item)
+      // return this.$store.getters['search/getProjectConfigUniform'](this.item)
     },
     noData() {
-      return this.$store.getters['config/defaultText']({txt:'no_data'})
+      return this.defaultText({txt:'no_data'})
+      // return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
     noAbstractText() {
-      return this.$store.getters['config/defaultText']({txt:'no_abstract'})
+      return this.defaultText({txt:'no_abstract'})
+      // return this.$store.getters['config/defaultText']({txt:'no_abstract'})
     },
     noInfos() {
-      return this.$store.getters['config/defaultText']({txt:'no_info'})
+      return this.defaultText({txt:'no_info'})
+      // return this.$store.getters['config/defaultText']({txt:'no_info'})
     },
     noAddress() {
-      return this.$store.getters['config/defaultText']({txt:'no_address'})
+      return this.defaultText({txt:'no_address'})
+      // return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
 
   },
@@ -192,30 +199,10 @@ export default {
     },
 
     matchItemWithConfig(fieldBlock) {
-
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
-
-      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        if (contentField) {
-          const field = contentField.field
-          return this.item[field]
-        }
-        else {
-          return undefined
-        }
-      */
-
-
-
+      let itemContents = getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
+      return itemContents
     },
-
-    // itemImage(fieldBlock){
-    //   return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
-    //   // return this.item
-    // },
 
     itemImage(fieldBlock){
       // console.log("C-ProjectCard / itemImage / fieldBlock : ", fieldBlock )
@@ -232,36 +219,59 @@ export default {
       return image
     },
 
-    projectId() {
-      return this.matchItemWithConfig('block_id')
-    },
-
-    projectAbstract() {
-      let fullAbstract = this.matchItemWithConfig('block_abstract')
-      // fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
-      // const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
-      // return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
-      return fullAbstract
-    },
-
-    // projectInfo(field) {
-    //   let fullInfo = this.matchItemWithConfig(field)
-    //   fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
-    //   return fullInfo
-    // },
-
-    projectAddress() {
-      let fullAddress = this.matchItemWithConfig('block_address')
-      // this.log && console.log('C-ProjectCard / fullAddress : ', fullAddress)
-      let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
-      return address
-    },
-
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
       // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)
       let city = ( cityItem || cityItem !== 'None' ) ?  cityItem : this.noAddress
       return city
+    },
+
+    getContentField(fieldBlock) {
+      const contentsFields = this.contentFields
+      const contentField = contentsFields.find(f=> f.position == fieldBlock)
+      return contentField
+    },
+
+    convertTags(fieldBlock) {
+      let locale = this.locale
+      let tags = this.matchItemWithConfig(fieldBlock)
+      // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
+
+      const contentField = this.getContentField(fieldBlock)
+
+      if ( tags !== this.noData && contentField && contentField.convert_from_filters ) {
+        const trimming = contentField.field_format.trim
+        const filtersDescription = this.filterDescriptions
+        const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterChoices = filterDictionnary.choices
+        // this.log && console.log("C-ProjectCard / convertTags / filterChoices : ", filterChoices )
+        let newTags = tags.map( tag => {
+          try {
+            // this.log && console.log("C-ProjectCard / convertTags / tag : ", tag )
+            let choice = filterChoices.find( c => c.name == tag)
+            // this.log && console.log("C-ProjectCard / convertTags / choice : ", choice )
+            let newTagObj = choice.choice_title.find( title => title.locale == locale )
+            // this.log && console.log("C-ProjectCard / convertTags / newTagObj : ", newTagObj )
+            let newText = newTagObj.text
+            return trimString(newText, trimming)
+          } catch (err) {
+            // this.log && console.log("C-ProjectCard / convertTags / err : ", err )
+            return tag
+          }
+        })
+        // this.log && console.log("C-ProjectCard / convertTags / newTags : ", newTags )
+        tags = newTags
+      }
+      if ( tags === this.noData ) { tags = undefined }
+      return tags
+    },
+
+    getItemColors(fieldBlock) {
+      let contentField = this.getContentField( fieldBlock )
+      let textColor = contentField.item_color ? contentField.item_color : "white"
+      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
+      let colors = `is-${backgroundColor} has-text-${textColor}`
+      return colors
     },
 
   },
@@ -296,12 +306,7 @@ export default {
 .card-content .tag{
   margin-right: 0.5em;
   margin-bottom: 0.5em;
-
   padding: 0.2em 1em;
-
-  background-color: #767676;
-  color: white;
-
   font-size: 12px;
 }
 

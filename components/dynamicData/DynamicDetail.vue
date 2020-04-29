@@ -1,13 +1,11 @@
 <template>
   <div
     id="DynamicDetail"
+    :class="`${ isIframe ? '' : 'no-iframing' }`"
     >
-
-    <!-- {{ isIframe }} -->
 
     <main
       v-if="!displayableItem"
-      :class="`${ isIframe ? '' : 'no-iframing' }`"
       >
 
       <div
@@ -22,7 +20,9 @@
       </div>
     </main>
 
-    <main v-if="displayableItem">
+    <main 
+      v-if="displayableItem"
+      >
 
       <div class="container">
 
@@ -37,10 +37,8 @@
           </span>
         </a>
 
-
         <!-- DEBUGGING  -->
         <!-- {{ displayableItem }} -->
-
 
         <div class="columns">
 
@@ -120,7 +118,6 @@
                 </span>
                 {{ matchProjectWithConfig('block_post_abstract_1')}}
               </p>
-
               <!-- BLOCK POST ABSTRACT 2 -->
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
                 <span
@@ -403,44 +400,44 @@
 
                 <div class="column is-12">
 
-                  <div>
+                  <!-- {{ infosData }}  -->
+                  <div id="block-infos-basic">
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      <!-- {{ infosData }}  -->
                       {{ getDefaultText('infos') }}
                       : <br><br>
                     </span>
                   </div>
 
+                  <!-- {{ infosTel }}  -->
                   <div id="block-tel" v-if="isPositionFilled('block_tel')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosTel }}  -->
                       {{ getDefaultText('tel') }}
                       :
                       {{ matchProjectWithConfig('block_tel')}} <br>
                     </span>
                   </div>
 
+                  <!-- {{ infosOpen }}  -->
                   <div id="block-open-infos" v-if="isPositionFilled('block_open_infos')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosOpen }}  -->
                       {{ getDefaultText('open_infos') }}
                       : <br>
                       {{ matchProjectWithConfig('block_open_infos')}} <br>
                     </span>
                   </div>
 
+                  <!-- {{ infosMore }}  -->
                   <div id="block-infos-pract" v-if="isPositionFilled('block_infos_pract')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosMore }}  -->
                       {{ getDefaultText('more_infos') }}
                       :
                       {{ matchProjectWithConfig('block_infos_pract')}}
@@ -458,66 +455,59 @@
                 <div class="column is-12">
 
                   <!-- BLOCK RB1 TAGS -->
-                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
-                    <span
-                      v-if="getCustomBlockTitle('block_rb1_tags')"
-                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
+                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')" class="mb-2">
+                    <div v-if="getCustomBlockTitle('block_rb1_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
                       >
                       {{ getCustomBlockTitle('block_rb1_tags') }}
-                    </span>
-                    <br><br>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                    <br><br>
+                    </div>
+                    <div>
+                      <span v-for="(tag, i) in convertTags('block_rb1_tags')"
+                        :class="`tag ${ getItemColors('block_rb1_tags')}`"
+                        :key="tag + i"
+                        >
+                        {{ tag }}
+                      </span>
+                    </div>
                   </div>
 
                   <!-- BLOCK RB2 TAGS -->
-                  <div id="block-RB2-tags" v-if="isPositionFilled('block_rb2_tags')">
-                    <span
-                      v-if="getCustomBlockTitle('block_rb2_tags')"
-                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
+                  <div id="block-RB2-tags" v-if="isPositionFilled('block_rb2_tags')" class="mb-2">
+                    <div v-if="getCustomBlockTitle('block_rb2_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
                       >
                       {{ getCustomBlockTitle('block_rb2_tags') }}
-                    </span>
-                    <br><br>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_rb2_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                    <br><br>
+                    </div>
+                    <div>
+                      <span v-for="(tag, i) in convertTags('block_rb2_tags')"
+                        :class="`tag ${ getItemColors('block_rb2_tags')}`"
+                        :key="tag + i"
+                        >
+                        {{ tag }}
+                      </span>
+                    </div>
                   </div>
-
 
                   <!-- BLOCK RB3 TAGS -->
-                  <div id="block-RB3-tags" v-if="isPositionFilled('block_rb3_tags')">
-                    <span
+                  <div id="block-RB3-tags" v-if="isPositionFilled('block_rb3_tags')" class="mb-2">
+                    <div
                       v-if="getCustomBlockTitle('block_rb3_tags')"
-                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c`"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
                       >
                       {{ getCustomBlockTitle('block_rb3_tags') }}
-                    </span>
-                    <br><br>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_rb3_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                    <br><br>
+                    </div>
+                    <div>
+                      <span v-for="(tag, i) in convertTags('block_rb3_tags')"
+                        :class="`tag ${ getItemColors('block_rb3_tags')}`"
+                        :key="tag + i"
+                        >
+                        {{ tag }}
+                      </span>
+                    </div>
                   </div>
 
-
-                  <div>
-
+                  <!--  -->
+                  <div v-if="isPositionFilled('block_right_bottom_1')">
                     <span
                       v-if="getCustomBlockTitle('block_right_bottom_1')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -525,16 +515,13 @@
                       {{ getCustomBlockTitle('block_right_bottom_1') }}
                       <br><br>
                     </span>
-
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_1')}}
                     </span>
-
                   </div>
 
                   <div v-if="isPositionFilled('block_right_bottom_2')">
                     <br>
-
                     <span
                       v-if="getCustomBlockTitle('block_right_bottom_2')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -542,12 +529,25 @@
                       {{ getCustomBlockTitle('block_right_bottom_2') }}
                       <br><br>
                     </span>
-
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_2')}}
                     </span>
-
                   </div>
+
+                  <div v-if="isPositionFilled('block_right_bottom_3')">
+                    <br>
+                    <span
+                      v-if="getCustomBlockTitle('block_right_bottom_3')"
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_3') }}
+                      <br><br>
+                    </span>
+                    <span>
+                      {{ matchProjectWithConfig('block_right_bottom_3')}}
+                    </span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -573,7 +573,7 @@ import { mapState, mapGetters } from 'vuex'
 import NotFoundError from './NotFoundError.vue';
 
 // import { getItemById } from '~/plugins/utils.js';
-import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
+import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
 import { BasicDictionnary } from "~/config/basicDict.js"
 
 export default {
@@ -642,12 +642,8 @@ export default {
     ...mapGetters({
       displayableItem : 'search/getDisplayedProject',
       filterDescriptions : 'search/getFilterDescriptions',
+      defaultText : 'config/defaultText',
     }),
-
-    // default texts
-    // backToResults() {
-    //   return this.$store.getters['config/defaultText']({txt:'back_to_results'})
-    // },
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
@@ -657,7 +653,7 @@ export default {
 
     // TEXT TRANSLATORS - NO DATA
     noData() {
-      return this.$store.getters['config/defaultText']({txt:'no_data'})
+      return this.defaultText({txt:'no_data'})
     },
 
   },
@@ -687,71 +683,61 @@ export default {
     },
 
     matchProjectWithConfig(fieldBlock) {
-
       // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
-
       return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        // this.log && console.log("C-DynamicDetail / matchProjectWithConfig / contentField : ", contentField)
-
-        if (contentField){
-
-          const field = contentField.field
-          const field_format = contentField.field_format
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / field_format : ", field_format)
-
-          let content = this.displayableItem[field]
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
-
-          if ( content && content !== "None" && content !== "" ){
-
-            if ( field_format.type === 'list'){
-              let begin = field_format.retrieve[0]
-              if ( begin === -1){
-                content = content
-              }
-              else if ( field_format.retrieve.length === 1 ) {
-                content = content[ begin ]
-              }
-              else {
-                let end = field_format.retrieve[1] || content.length
-                content = content.slice( begin, end )
-              }
-            }
-
-            this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
-
-            if (contentField.is_tag_like) {
-              content = content.split(contentField.tags_separator).filter(c => c != "")
-              return content
-            } else {
-              return content
-            }
-
-          } else {
-            // this.log && console.log("content is None | null ...")
-            // this.log && console.log("this.noData : ", this.noData)
-            return this.noData
-          }
-        } else {
-          return undefined
-        }
-      */
-
     },
+
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
       if (contentField){
         customBlockTitle = contentField.custom_title
+        if ( Array.isArray(customBlockTitle) ) {
+          let translation = customBlockTitle.find( txt => txt.locale == this.locale )
+          customBlockTitle = translation.text
+        } 
       }
       return customBlockTitle
     },
 
-    projectId() {
-      return this.matchProjectWithConfig('block_id')
+    getContentField(fieldBlock) {
+      const contentsFields = this.contentFields
+      const contentField = contentsFields.find(f=> f.position == fieldBlock)
+      return contentField
+    },
+
+    convertTags(fieldBlock) {
+      let locale = this.locale
+      let tags = this.matchProjectWithConfig(fieldBlock)
+      const contentField = this.getContentField(fieldBlock)
+      if ( tags !== this.noData && contentField && contentField.convert_from_filters ) {
+        const trimming = contentField.field_format.trim
+        const filtersDescription = this.filterDescriptions
+        const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterChoices = filterDictionnary.choices
+        // this.log && console.log("C-DynamicDetail / convertTags / filterChoices : ", filterChoices )
+        let newTags = tags.map( tag => {
+          try {
+            let choice = filterChoices.find( c => c.name == tag)
+            let newTagObj = choice.choice_title.find( title => title.locale == locale )
+            let newText = newTagObj.text
+            return trimString(newText, trimming)
+          } catch (err) {
+            return tag
+          }
+        })
+        tags = newTags
+      }
+      if ( tags === this.noData ) { tags = [ this.noData ] }
+      return tags
+    },
+
+    getItemColors(fieldBlock) {
+      let contentField = this.getContentField( fieldBlock )
+      let textColor = contentField.item_color ? contentField.item_color : "white"
+      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
+      let colors = `is-${backgroundColor} has-text-${textColor}`
+      return colors
     },
 
     goBack(e){
@@ -790,6 +776,13 @@ export default {
       color: white;
       margin-right: 1em;
       margin-bottom: 0.5em;
+  }
+
+  .mb-1{
+    margin-bottom: .6em;
+  }
+  .mb-2{
+    margin-bottom: 1em;
   }
 
   a.disabled {
