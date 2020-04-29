@@ -236,30 +236,21 @@ export default {
       let locale = this.locale
       let tags = this.matchItemWithConfig(fieldBlock)
       // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
-
       const contentField = this.getContentField(fieldBlock)
-
       if ( tags !== this.noData && contentField && contentField.convert_from_filters ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
         const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
         const filterChoices = filterDictionnary.choices
-        // this.log && console.log("C-ProjectCard / convertTags / filterChoices : ", filterChoices )
         let newTags = tags.map( tag => {
           try {
-            // this.log && console.log("C-ProjectCard / convertTags / tag : ", tag )
             let choice = filterChoices.find( c => c.name == tag)
-            // this.log && console.log("C-ProjectCard / convertTags / choice : ", choice )
             let newTagObj = choice.choice_title.find( title => title.locale == locale )
-            // this.log && console.log("C-ProjectCard / convertTags / newTagObj : ", newTagObj )
             let newText = newTagObj.text
             return trimString(newText, trimming)
-          } catch (err) {
-            // this.log && console.log("C-ProjectCard / convertTags / err : ", err )
-            return tag
           }
+          catch (err) { return tag }
         })
-        // this.log && console.log("C-ProjectCard / convertTags / newTags : ", newTags )
         tags = newTags
       }
       if ( tags === this.noData ) { tags = undefined }
@@ -270,7 +261,7 @@ export default {
       let contentField = this.getContentField( fieldBlock )
       let textColor = contentField.item_color ? contentField.item_color : "white"
       let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
-      let colors = `is-${backgroundColor} has-text-${textColor}`
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
       return colors
     },
 

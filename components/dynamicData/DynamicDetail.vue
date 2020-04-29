@@ -715,16 +715,14 @@ export default {
         const filtersDescription = this.filterDescriptions
         const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
         const filterChoices = filterDictionnary.choices
-        // this.log && console.log("C-DynamicDetail / convertTags / filterChoices : ", filterChoices )
         let newTags = tags.map( tag => {
           try {
             let choice = filterChoices.find( c => c.name == tag)
             let newTagObj = choice.choice_title.find( title => title.locale == locale )
             let newText = newTagObj.text
             return trimString(newText, trimming)
-          } catch (err) {
-            return tag
-          }
+          } 
+          catch (err) { return tag }
         })
         tags = newTags
       }
@@ -736,7 +734,7 @@ export default {
       let contentField = this.getContentField( fieldBlock )
       let textColor = contentField.item_color ? contentField.item_color : "white"
       let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
-      let colors = `is-${backgroundColor} has-text-${textColor}`
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
       return colors
     },
 

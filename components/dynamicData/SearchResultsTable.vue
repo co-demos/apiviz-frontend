@@ -30,14 +30,12 @@
         :view="VIEW_TABLE"
       />
 
-
       <PaginationNav 
         v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'top'"
         :feedback="routePagination.feedback"
         :show="true"
       />
-
 
       <!-- Table container and content -->
       <div 
@@ -76,7 +74,7 @@
                   :class="`button is-small  ${ contentField.field === sortBy ? 'is-active' : ''}`"
                   @click="changeSorting( contentField.field )"
                   >
-                  {{ contentField.field }}
+                  {{ getContentText(contentField) }}
                   <span class="icon has-text-centered is-marginless">
                     <i 
                       :class="`fas fa-angle-${ sortIsDescending ? 'down' : 'up'} ${ contentField.field === sortBy ? '' : ''}`"></i>
@@ -88,7 +86,7 @@
                   >
                   <span
                     class="table-header-center-child">
-                    {{ contentField.field }}
+                    {{ getContentText(contentField) }}
                   </span>
                 </div>
               </th>
@@ -118,15 +116,20 @@
               <td
                 v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
                 :key="index">
-                <nuxt-link
-                  v-if="contentField.has_link_to_detail"
+                <nuxt-link v-if="contentField.has_link_to_detail"
                   :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
                   :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
                   >
                   {{ itemField(item, contentField.field ) }}
                 </nuxt-link>
-                <span 
-                  v-else
+                <a v-else-if="contentField.is_external_link"
+                  :href="itemField(item, contentField.field )"
+                  target="_blank"
+                  class="link-underlined"
+                  >
+                  {{ itemField(item, contentField.field ) }}
+                </a>
+                <span v-else
                   :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
                   >
                   {{ itemField(item, contentField.field ) }}
@@ -226,13 +229,13 @@ export default {
     // 'projectContentsFields'
   ],
 
-
   // beforeCreate: function () {
     //   console.log("\n - - SearchResultsList / beforeCreate ... ")
   // },
   // created: function () {
     //   console.log("\n - - SearchResultsList / created ... ")
   // },
+
   beforeMount : function(){
     this.log && console.log('\nC-SearchResultsList / beforeMount...')
     // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
@@ -243,21 +246,6 @@ export default {
     this.sortBy = this.searchQuestion.sortBy
     this.sortIsDescending = this.searchQuestion.sortIsDescending
 
-
-    // console.log( "+ + + test axios from SearchResultsList ..." )
-    // axios.get(
-    //   "http://opencorporatefacts.fr/api/corporates?page=1",
-    //   { 
-    //     headers: { 
-    //       Accept: "application/ld+json",
-    //       Host: "opencorporatefacts.fr" 
-    //     }
-    //   }
-    // )
-    // .then(resp => { 
-    //   console.log( "+ + + test axios from SearchResultsList / resp : " ,  resp)
-    // })
-
   },
 
   mounted(){
@@ -266,7 +254,6 @@ export default {
 
     this.$store.dispatch('search/setSearchConfigDisplay');
     this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
-
 
     scrollListener = () => {
       const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters['search/getSearchConfigScrollBeforeBottomTrigger']
@@ -390,6 +377,15 @@ export default {
 
     itemField( item, field ){
       return item && item[field]
+    },
+
+    getContentText(contentField) {
+      let resultText = contentField.field
+      if ( contentField.custom_title && Array.isArray(contentField.custom_title ) ) {
+        let textRef = contentField.custom_title.find( txt => txt.locale == this.locale )
+        resultText = textRef.text
+      }
+      return resultText
     },
 
     changePerPageSelection(event){
