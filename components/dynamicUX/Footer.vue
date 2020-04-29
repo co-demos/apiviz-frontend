@@ -10,6 +10,7 @@
 
 <template>
   <footer 
+    v-if="!isFrame"
     :class="`footer is-${footerColor}-b-only`"
     >
     <div class="container">
@@ -123,6 +124,7 @@ export default {
     ...mapState ({
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
     }),
 
     ...mapGetters ({

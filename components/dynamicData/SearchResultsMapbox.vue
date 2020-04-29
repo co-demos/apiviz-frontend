@@ -17,8 +17,6 @@
 
       <div class="column is-half"> -->
 
-
-
         <div class="map">
 
           <!-- SearchResultsCountAndTabs -->

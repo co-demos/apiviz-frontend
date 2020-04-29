@@ -1096,3 +1096,47 @@ export function getDefaultImage(defaultImages, item, idField='id'){
   return image
 
 }
+
+// - - - - - - - - - - - - - - - - - - - //
+// SELECTOR FUNCTIONS FROM ENV VAR
+// - - - - - - - - - - - - - - - - - - - //
+
+const trueStrings = [
+  "y",
+  "yes",
+  "Yes",
+  "YES",
+  "Y",
+  "o",
+  "oui",
+  "Oui",
+  "OUI",
+  "O",
+  "t",
+  "true",
+  "True",
+  "TRUE",
+  "T",
+]
+const falseStrings = [
+  "no",
+  "No",
+  "NO",
+  "NON",
+  "Non",
+  "non",
+  "n",
+  "N",
+  "false",
+  "False",
+  "FALSE",
+  "f",
+  "F",
+]
+export const chooseBooleanMode = (ARG) => {
+  if (trueStrings.includes(ARG)) {
+    return true
+  } else {
+    return false
+  }
+}

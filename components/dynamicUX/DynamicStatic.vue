@@ -8,8 +8,9 @@
   </div>-->
 
   <!-- MAIN PART -->
-  <div 
-    :class="`${ skipNavbar ? 'skip-navbar' : ''}`"
+  <div
+    id="DynamicStatic"
+    :class="`${ !isIframe && skipNavbar ? 'skip-navbar' : ''}`"
     :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
     >
 
@@ -134,6 +135,7 @@ export default {
       log : state => state.log, 
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
       user : state => state.user.user,
     }),
 

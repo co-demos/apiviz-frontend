@@ -9,18 +9,21 @@
     />
     
     <main 
-      :class="`${mainClass} ${onlyIframe ? 'iframe' : ''}`"
+      :class="`${mainClass} ${ isIframe ? 'iframe' : ''}`"
       >
       <FiltersFeedback/>
       <slot/>
     </main>
 
     <!-- DEBUGGING -->
-      <!-- 
-        <br><br>
+    <!-- 
+    <div>
+      isIframe : {{ isIframe }}<br>
+      onlyIframe : {{ onlyIframe }}<br>
       DynamicSearchSqueleton // endpointConfig : <br><code>{{ this.endpointConfig }}</code>
       <br><br>
       DynamicSearchSqueleton // getEndpointConfigFilters : <br><code>{{ this.getEndpointConfigFilters }}</code> 
+    </div>
     --> 
 
   </div>
@@ -48,16 +51,11 @@ export default {
 
   data : () => {
     return {
-      onlyIframe : false,
     }
   },
 
-  beforeMount : function(){
-    this.log && console.log('\nC-DynamicSearchScreenSqueleton / beforeMount...')
-    if (this.$nuxt.$route.query.iframing) {
-      this.onlyIframe = true
-    }
-  },
+  // beforeMount : function(){
+  // },
 
   mounted(){
     this.log && console.log('\nC-DynamicSearchScreenSqueleton / mounted...')
@@ -71,6 +69,7 @@ export default {
       log : state => state.log, 
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
     }),
 
     ...mapGetters({

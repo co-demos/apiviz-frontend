@@ -3,16 +3,16 @@
   <div 
     id="mainIndexPage"
     >
-    <!-- :class="`${ onlyIframe ? 'iframe' : '' }`" -->
+    <!-- :class="`${ isIframe ? 'iframe' : '' }`" -->
 
     <!-- NAVBAR -->
     <Navbar 
-      v-if="has_navbar && !onlyIframe"
+      v-if="has_navbar && !isIframe"
     ></Navbar>
 
     <!-- BANNER -->
     <DynamicBanner 
-      v-if="has_banner && !onlyIframe"
+      v-if="has_banner && !isIframe"
       :dynamicTemplate="localRouteConfig.dynamic_template"
     ></DynamicBanner> 
 
@@ -86,12 +86,12 @@
 
     <!-- FOOTERS -->
     <Footer 
-      v-if="has_footer && !onlyIframe"
+      v-if="has_footer && !isIframe"
     ></Footer>
 
     <!-- PROJECT's PARTNERS FOOTER -->
     <DynamicStaticRaw 
-      v-if="has_credits_footer && !onlyIframe"
+      v-if="has_credits_footer && !isIframe"
       :templateURL="footerConfig.credits_footer_url"
     ></DynamicStaticRaw>
 
@@ -243,18 +243,11 @@ export default {
     // this.log && console.log('\nP-index.vue / beforeMount...')
     // this.log && console.log('P-index.vue / beforeMount / this.globalConfig : ', this.globalConfig)
     // this.log && console.log('P-index.vue / beforeMount / this.localRouteConfig : ', this.localRouteConfig)
-
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
-    if (this.$nuxt.$route.query.iframing) {
-      this.onlyIframe = true
-    }
-
   },
 
   data () {
     return {
       // windowBreakpoint : undefined,
-      onlyIframe : false,
     }
   },
 
@@ -269,8 +262,8 @@ export default {
       rootUrlBackend : state => state.rootUrlBackend,
       rootUrlAuth : state => state.rootUrlAuth,
       locale : state => state.locale,
-
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
 
       // config : state => state.config.config,
       localRouteConfig : state => state.config.localRouteConfig,

@@ -261,6 +261,7 @@
         log : state => state.log, 
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
+        isIframe: state => state.isIframe,
         localRouteConfig : state => state.config.localRouteConfig,
         shuffleSeed : state => state.search.search.question.shuffleSeed,
         // pending: state => !!state.search.search.answer.pendingAbort,
@@ -270,7 +271,7 @@
       ...mapGetters({
         pending : 'search/getPending',
         total : 'search/getResultsCount',
-
+        iframing : 'getIframeSlug',
 
         endpointConfigFilters : 'config/getEndpointConfigFilters',
 

@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div
+    id="DynamicDetail"
+    >
 
-    <main v-if="!displayableItem">
+    <!-- {{ isIframe }} -->
+
+    <main
+      v-if="!displayableItem"
+      :class="`${ isIframe ? '' : 'no-iframing' }`"
+      >
 
       <div
-        class="container"
+        :class="`container`"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
         <div class="pending">
@@ -628,6 +635,7 @@ export default {
       log: state => state.log,
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
       user: state => state.user.user,
     }),
 
@@ -763,10 +771,13 @@ export default {
   main{
     // background-color: $apiviz-blue-deep;
     background-color: $apiviz-grey-background;
-    margin-top: $apiviz-navbar-height;
     height: 100%;
     padding-bottom: 3em;
+    margin-top: 0 !important;
+  }
 
+  .no-iframing{
+    margin-top: $apiviz-navbar-height;
   }
 
   .block-color {

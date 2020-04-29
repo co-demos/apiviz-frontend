@@ -99,6 +99,7 @@ export default {
 
     ...mapState({
       // locale : state => state.locale,
+      isIframe : state => state.isIframe,
     }),
 
     ...mapGetters({
