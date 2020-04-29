@@ -37,11 +37,8 @@
           <span class="icon">
             <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
           </span>
-          <span class="subtitle is-6 is-capitalized">
-            <!-- {{ matchItemWithConfig('block_address')}} -->
-            <!-- {{ matchItemWithConfig('block_city')}} -->
+          <span class="subtitle is-7 is-capitalized">
             {{ projectCity() }}
-            <!-- {{ noAddress() }} -->
           </span>
         </div>
 
@@ -71,6 +68,36 @@
           <p class="subtitle is-6">
             {{ matchItemWithConfig('block_abstract_2') }}
           </p>
+        </div>
+
+        <!-- BLOCK_CONTACTS -->
+        <div class="content">
+
+          <!-- BLOCK PHONE -->
+          <p class="is-size-7 is-marginless"
+            v-if="getDataContentOrNothing('block_phone')"
+            >
+            <span>
+              {{ basicDict.phone[locale] }} : 
+            </span>
+            {{ getDataContentOrNothing('block_phone') }}
+          </p>
+
+          <!-- BLOCK WEBSITE -->
+          <p class="is-size-7 is-marginless"
+            v-if="getDataContentOrNothing('block_url')"
+            >
+            <span>
+              {{ basicDict.website[locale] }} : 
+            </span>
+            <a class="link-underlined"
+              :href="getDataContentOrNothing('block_url')"
+              target="_blank"
+              >
+              {{ getDataContentOrNothing('block_url') }}
+            </a>
+          </p>
+
         </div>
 
         <!-- BLOCK SOURCE -->
@@ -112,6 +139,7 @@
 
 import { mapState, mapGetters } from "vuex";
 import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
+import { BasicDictionnary } from "~/config/basicDict.js" 
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -144,6 +172,12 @@ export default {
   mounted : function () {
     // this.log && console.log('\nC-ProjectCard / mounted...')
     // this.log && console.log('\nC-ProjectCard / this.routeConfig : ', this.routeConfig)
+  },
+
+  data(){
+    return {
+      basicDict : BasicDictionnary, 
+    }
   },
 
   watch : {
@@ -202,6 +236,13 @@ export default {
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
       let itemContents = getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
       return itemContents
+    },
+
+    getDataContentOrNothing(fieldBlock) {
+      let content = this.matchItemWithConfig(fieldBlock)
+      if ( content && content !== this.noData ) { content = content}
+      else { content = undefined }
+      return content
     },
 
     itemImage(fieldBlock){

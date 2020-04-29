@@ -15,6 +15,20 @@ export const BasicDictionnary = {
     tr : "shuffle the data",
     fr : "mélanger aléatoirement les données",
   },
+  website : {
+    en : "website",
+    es : "sitio",
+    de : "Webseite",
+    tr : "İnternet sitesi",
+    fr : "site",
+  },
+  phone : {
+    en : "phone",
+    es : "teléfono",
+    de : "Telefon",
+    tr : "telefon",
+    fr : "téléphone",
+  },
 
   // MAP VIEW
   map_layers : {
