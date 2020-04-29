@@ -39,23 +39,25 @@
             </div>
           </div>
         </div>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="tile is-ancestor is-vertical box has-background-grey-lighter">
-          <h1 class="tile title is-6">
+        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-grey-lighter">
+          <h1 class="title is-6">
             Voici les données des bilans comptables présentées de façon arborescente :
           </h1>
-          <p class="tile subtitle">Cliquer sur une ligne permet de découvrir les détails de sa composition</p>
-          <div class="tile is-parent">
-            <div class="tile is-6"></div>
-            <div class="tile" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"> Année {{ oneYeardata.year }}</div>
-          </div>
-          <FoldingArray
-            :rowItem="displayableItem.Enthic.treeRepresentations"
-          ></FoldingArray>
-          <div class="tile is-parent">
-            <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies
-              (erreur de maximum 0,5% ou 10€ tolérée)</p>
-            <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
-            <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
+          <p class="subtitle">Cliquer sur une ligne permet de découvrir les détails de sa composition</p>
+          <div class="tile is-ancestor is-vertical">
+            <div class="tile is-parent">
+              <div class="tile is-6"></div>
+              <div class="tile" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"> Année {{ oneYeardata.year }}</div>
+            </div>
+            <FoldingArray
+              :rowItem="displayableItem.Enthic.treeRepresentations"
+            ></FoldingArray>
+            <div class="tile is-parent">
+              <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies
+                (erreur de maximum 0,5% ou 10€ tolérée)</p>
+              <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
+              <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
+            </div>
           </div>
         </div>
         <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
