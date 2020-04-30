@@ -252,8 +252,6 @@
 
       <!-- </div> -->
 
-
-
     <!-- </div>
 
   </div>
@@ -371,6 +369,10 @@ export default {
       showLoader: false,
 
       markerCoordinates: [2.2137, 46.2276], // { lat : 46.2276, lon : 2.2137 } ,
+      
+      // UX
+      hoveredStateId: {},
+      selectedStateId: {},
 
       // MAPBOX SETUP
       preferCanvas: true,
@@ -417,7 +419,6 @@ export default {
     this.log && console.log("C-SearchResultsMapbox / contentFields : \n", this.contentFields)
 
     // set up MAPBOX options
-    // const mapOptions = this.endPointConfig.map_options
     // this.log && console.log("C-SearchResultsMapbox / mapOptions : \n", mapOptions)
 
     const mapOptionsRoute = this.routeConfig.map_options
@@ -436,10 +437,6 @@ export default {
 
     this.currentCenter = mapOptionsRoute.currentCenter
 
-    // LEGACTY LEAFLET
-    // this.url = mapOptions.url
-    // this.attribution = mapOptions.attribution
-    // this.subdomains = mapOptions.subdomains
 
     this.layersVisibility = mapOptionsRoute.layers_visibility
     this.drawerLayersOpen = this.layersVisibility && this.layersVisibility.is_drawer_open
@@ -511,6 +508,15 @@ export default {
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.isClusterSet : ', this.isClusterSet)
       // this.log && console.log('C-SearchResultsMapbox / watch - projects / this.itemsForMap : ', this.itemsForMap)
 
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100)
+      
       if ( this.map && !this.isClusterSet && this.itemsForMap ) {
         this.log && console.log('\nC-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ( from geoJson.js ) ...')
         this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
@@ -528,12 +534,6 @@ export default {
       }
 
     },
-
-    // displayedProject(next, prev){
-    //   this.log && console.log('\nC-SearchResultsMapbox / watch - displayedProject ...')
-    //   this.log && console.log('C-SearchResultsMapbox / watch - next : ', next)
-    //   this.log && console.log('C-SearchResultsMapbox / watch - this.showCard : ', this.showCard)
-    // },
 
     getCenter(next, prev){
 
@@ -729,6 +729,8 @@ export default {
   methods: {
 
     // - - - - - - - - - - - - - - - - - - //
+    // INITIALIZATION
+    // - - - - - - - - - - - - - - - - - - //
     onMapLoaded(event) {
       this.log && console.log("\nC-SearchResultsMapbox / onMapLoaded ... ")
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
@@ -742,32 +744,9 @@ export default {
       // this.$store.commit('search/setMap', {map : event.map}) // trigger mutation directly
     },
 
-    getRenderedChoroFeatures( layerId ){
-
-      // this.log && console.log('\nC-SearchResultsMapbox / getRenderedFeatures... ')
-      let mapbox = this.map
-      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / mapbox : ', mapbox)
-      
-      let currrentViewCenter = this.getCenter
-      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewCenter : ', currrentViewCenter)
-      
-      let currrentViewBbox = this.getViewBbox
-      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewBbox : ', currrentViewBbox)
-      
-      let renderedFeatures
-      try {
-        // renderedFeatures = mapbox.queryRenderedFeatures( )
-        renderedFeatures = mapbox.queryRenderedFeatures( currrentViewBbox , { layers : [ layerId ] } )
-      } catch (err) {
-        renderedFeatures = err
-      }
-      this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / renderedFeatures : ', renderedFeatures)
-      return renderedFeatures 
-    },
-
     // - - - - - - - - - - - - - - - - - - //
-    // MAIN MAP FUNCTIONS
-
+    // JOINER ITEM-POLYGONS
+    // - - - - - - - - - - - - - - - - - - //
     joinProjectsToPolygon( source, dataLoaded, choroRefIdex, noDataProxy=false ){
 
       // modify / agregate data
@@ -794,7 +773,10 @@ export default {
 
     },
 
-    // INITIALIZATION
+
+    // - - - - - - - - - - - - - - - - - - //
+    // MAP ITEMS AS GEOJSON
+    // - - - - - - - - - - - - - - - - - - //
     createMapItems(geoJson){
 
       this.log && console.log("\nC-SearchResultsMapbox / createMapItems ...")
@@ -820,7 +802,10 @@ export default {
 
     },
 
+
+    // - - - - - - - - - - - - - - - - - - //
     // SOURCES 
+    // - - - - - - - - - - - - - - - - - - //
     updateSourceData(itemsForMap){
       
       this.log && console.log("\nC-SearchResultsMapbox / updateSourceData ...")
@@ -1028,6 +1013,29 @@ export default {
       }
     },
 
+    getRenderedChoroFeatures( layerId ){
+
+      // this.log && console.log('\nC-SearchResultsMapbox / getRenderedFeatures... ')
+      let mapbox = this.map
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / mapbox : ', mapbox)
+      
+      let currrentViewCenter = this.getCenter
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewCenter : ', currrentViewCenter)
+      
+      let currrentViewBbox = this.getViewBbox
+      // this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / currrentViewBbox : ', currrentViewBbox)
+      
+      let renderedFeatures
+      try {
+        // renderedFeatures = mapbox.queryRenderedFeatures( )
+        renderedFeatures = mapbox.queryRenderedFeatures( currrentViewBbox , { layers : [ layerId ] } )
+      } catch (err) {
+        renderedFeatures = err
+      }
+      this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / renderedFeatures : ', renderedFeatures)
+      return renderedFeatures 
+    },
+
     updateChoroSourceByZoom( choroSourceConfig, featuresArray=undefined ){
 
       // called by watching "getCorrespondingChoroConfigs" computed value
@@ -1135,7 +1143,10 @@ export default {
 
     },
 
+
+    // - - - - - - - - - - - - - - - - - - //
     // LAYERS
+    // - - - - - - - - - - - - - - - - - - //
     createAddGeoJsonLayers(geoJsonSourceId) {
 
       this.log && console.log("\nC-SearchResultsMapbox / createGeoJsonLayer ... ")
@@ -1148,6 +1159,8 @@ export default {
       let mapZoom = this.getZoom
 
       let displayPoint = this.highlightItem
+
+      let toggleSelectedOn = this.toggleSelectedOn
 
       //  CHOROPLETH
       if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
@@ -1187,31 +1200,42 @@ export default {
         mapboxMap.addLayer(allPointsConfig)
         if ( allPointsConfigOptions.is_clickable ) {
 
+          // CLICK
           mapboxMap.on('click', allPointsLayerId, function (e) {
             
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ allPointsLayerId ] });
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - featuresPoint : ", featuresPoint)
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - featuresPoint : ", featuresPoint)
 
-            var pointId = featuresPoint[0].properties.sd_id;
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - pointId : ", pointId)
+            let item = featuresPoint[0]
+            let itemSource = item.source
+            let itemProps = item.properties
+
+            // toggle as selected
+            toggleSelectedOn(e, itemSource)
+
+            var pointId = itemProps["sd_id"]
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
 
             var coordinates = e.features[0].geometry.coordinates.slice();
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - all-points - coordinates : ", coordinates)
+            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
 
+            // fly to point
+            let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
             mapboxMap.easeTo({
               center: coordinates,
-              zoom : mapZoom + 2
+              zoom : mapZoom + mapZoomAdd
             })
 
-            let itemProps = featuresPoint[0].properties
             itemProps.lat = coordinates[1]
             itemProps.lon = coordinates[0]
             displayPoint(itemProps)
 
           })
+          // HOVER ENTER
           mapboxMap.on('mouseenter', allPointsLayerId, function () {
             mapboxMap.getCanvas().style.cursor = 'pointer';
           })
+          // HOVER LEAVE
           mapboxMap.on('mouseleave', allPointsLayerId, function () {
             mapboxMap.getCanvas().style.cursor = '';
           })
@@ -1443,8 +1467,71 @@ export default {
 
     },
 
+    // - - - - - - - - - - - - - - - - - - //
+    // HIGHLIGHTS FUNCTIONS
+    // - - - - - - - - - - - - - - - - - - //
+    toggleHighlightOn(event, source) {
+      let mapbox = this.map
+      const canvas = mapbox.getCanvas()
+      canvas.style.cursor = "pointer"
+      if (event.features.length > 0) {
+        if (this.hoveredStateId[source]) {
+          mapbox.setFeatureState(
+            { source, id: this.hoveredStateId[source] },
+            { hover: false }
+          ) // clean all sources to prevent error
+        }
+        this.hoveredStateId[source] = event.features[0].id
+        mapbox.setFeatureState(
+          { source, id: this.hoveredStateId[source] },
+          { hover: true }
+        )
+      }
+    },
+    toggleHighlightOff(event, source) {
+      let mapbox = this.map
+      const canvas = mapbox.getCanvas()
+      canvas.style.cursor = ""
+      if (this.hoveredStateId[source] !== null) {
+        mapbox.setFeatureState(
+          { source, id: this.hoveredStateId[source] },
+          { hover: false }
+        )
+      }
+    },
 
+    toggleSelectedOn(event, source) {
+      let mapbox = this.map
+      if (event.features.length > 0) {
+        console.log("C-SearchResultsMapbox / toggleSelectedOn / event.features : ", event.features)
+        if (this.selectedStateId[source]) {
+          mapbox.setFeatureState(
+            { source, id: this.selectedStateId[source] },
+            { selected: false }
+          ) // clean all sources to prevent error
+        }
+        console.log("C-SearchResultsMapbox / toggleSelectedOn / event.features[0] : ", event.features[0])
+        this.selectedStateId[source] = event.features[0].id
+        mapbox.setFeatureState(
+          { source, id: this.selectedStateId[source] },
+          { selected: true }
+        )
+      }
+    },
+    toggleAllSelectedOff(event, source) {
+      let mapbox = this.map
+      if (this.hoveredStateId[source] !== null) {
+        mapbox.setFeatureState(
+          { source, id: this.hoveredStateId[source] },
+          { selected: false }
+        )
+      }
+    },
+
+
+    // - - - - - - - - - - - - - - - - - - //
     // UX FUNCTIONS
+    // - - - - - - - - - - - - - - - - - - //
     switchLayerVisibility( layerLabel ){
       let mapboxMap = this.map 
 
@@ -1468,6 +1555,9 @@ export default {
       this.drawerScalesOpen = !this.drawerScalesOpen
     },
 
+
+    // - - - - - - - - - - - - - - - - - - //
+    // ITEM MATCHING
     // - - - - - - - - - - - - - - - - - - //
     matchItemWithConfig(item, fieldBlock) {
       // this.log && console.log("C-SearchResultsMapbox / matchItemWithConfig / item : ", item)
@@ -1503,28 +1593,11 @@ export default {
       this.$store.dispatch('search/searchOne', item_id )
       
     },
-    
-
-    // createMapbox(styleUrl){
-      //   this.log && console.log("C-SearchResultsMapbox / createMapbox ... ")
-      //   // init the map
-
-      //   this.map = new mapboxgl.Map({
-      //     container: 'mapboxDiv',
-      //     style: styleUrl,
-      //     center: [4.7835, 52.3491],
-      //     zoom: 6,
-      //     pitch: 0,
-      //     minZoom: 2,
-      //     maxZoom: 20,
-      //     attributionControl: false
-      //   })
-      //   // this.map.addControl(new mapboxgl.Navigation());
-
-    // },
 
 
-
+    // - - - - - - - - - - - - - - - - - - //
+    // SIGNALS
+    // - - - - - - - - - - - - - - - - - - //
     handleIconSignal(itemData){
       // this.log && console.log('C-SearchResultsMapbox / handleIconSignal / itemData : ', itemData)
       this.highlightItem(itemData)
@@ -1539,8 +1612,9 @@ export default {
     },
 
 
-
-
+    // - - - - - - - - - - - - - - - - - - //
+    // UTILS
+    // - - - - - - - - - - - - - - - - - - //
     checkIfStringFloat(value){
       let val = parseFloat(value)
       if(!isNaN(val)){
@@ -1553,28 +1627,6 @@ export default {
     checkIfItemHasLatLng(item){
       return this.checkIfStringFloat(item.lat) && this.checkIfStringFloat(item.lon)
     },
-
-
-
-    // zoomUpdate(zoom) {
-    //   this.currentZoom = zoom;
-    // },
-    // centerUpdate(center) {
-    //   this.currentCenter = center;
-    // },
-
-
-
-    // getHighlightedItemId(){
-    //   if ( this.highlightedItem ) {
-    //     // this.log && console.log("C-SearchResultsMapbox / itemId / this.highlightedItem : ", this.highlightedItem)
-    //     return this.itemId(highlightedItem, 'block_id') 
-    //   } else {
-    //     return false
-    //   }
-    // },
-
-
 
 
   },

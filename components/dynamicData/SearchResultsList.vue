@@ -181,7 +181,7 @@ export default {
         else{
           window.scrollTo(0, 0)
         }
-      }, 100);
+      }, 100)
     }
   },
 

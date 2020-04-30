@@ -247,7 +247,7 @@
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
     
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
       // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
@@ -340,11 +340,6 @@
         }
 
       },
-
-      // translate( textsToTranslate ) {
-      //   let listTexts = textsToTranslate.link_text
-      //   return this.$Translate( listTexts, this.locale, 'text')
-      // },
 
       translateBis( textsToTranslate, listField ) {
         let listTexts = textsToTranslate[listField]

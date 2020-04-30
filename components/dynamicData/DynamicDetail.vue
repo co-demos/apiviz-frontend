@@ -606,6 +606,15 @@ export default {
     // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
     // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
 
+    const int = setInterval(() => {
+      if(window.pageYOffset < 50){
+        clearInterval(int)
+      }
+      else{
+        window.scrollTo(0, 0)
+      }
+    }, 100)
+
   },
 
   mounted(){
