@@ -10,7 +10,7 @@
 
 <template>
   <footer 
-    v-if="!isFrame"
+    v-if="!isIframe"
     :class="`footer is-${footerColor}-b-only`"
     >
     <div class="container">

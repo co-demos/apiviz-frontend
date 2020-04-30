@@ -30,7 +30,6 @@
                 :open="showCard"
                 >
                 
-              
                 <!-- HIGHLIGHTED ITEM  -->
                 <div 
                   class="highlighted-project" 
@@ -191,7 +190,6 @@
           <!-- MAP WITH MAPBOX GL -->
           <no-ssr>
 
-
             <MglMap
               :access-token="'noToken'"
               :mapStyle.sync="mapStyle"
@@ -203,19 +201,30 @@
               ref='mapboxDiv'
               >
 
+              <!-- MARKER -->
+              <MglMarker v-if="showCard && displayedProject"
+                :coordinates="getItemCoordinates()"
+                :offset="item_marker_offset"
+                :anchor="item_marker_anchor"
+                >
+                <span slot="marker"
+                  :class="`icon is-large has-text-${item_marker_color} has-text-${item_marker_color}-c`" 
+                  >
+                  <i :class="`fa-3x ${item_marker}`"></i>
+                </span>
+              </MglMarker>
 
               <!-- CONTROLS -->
               <MglNavigationControl position="bottom-right" />
 
             </MglMap>
             
-
-            <div> 
+            <!-- <div>  -->
               <!-- zoom : <code>{{ zoom }}</code><br> -->
               <!-- projects : <code>{{ projects }}</code><br> -->
               <!-- displayedProject : <code>{{ displayedProject }}</code><br> -->
               <!-- itemsForMap : <code>{{ itemsForMap}}</code><br> -->
-            </div> 
+            <!-- </div>  -->
 
             <!-- <div id="mapboxDiv">
             </div> -->
@@ -279,7 +288,7 @@ const PopupClass = Vue.extend(PopupContent)
 import { VIEW_MAP, GeoCenters } from '../../config/constants.js'
 
 import Mapbox from "mapbox-gl";
-import { MglMap } from "vue-mapbox";
+import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import mapboxgl from 'mapbox-gl'
 import * as turf from '@turf/turf'
 
@@ -343,6 +352,13 @@ export default {
       chroplethGeoJSONS : [],
       updatingChoroLayers : {},
       currentCenterFeature : undefined,
+
+      // MARKERS
+      item_geo_fields: { latitude : "lat", longitude: "lon"},
+      item_marker: "fas fa-map-marker-alt",
+      item_marker_color: "primary",
+      item_marker_offset: [0, 0],
+      item_marker_anchor: undefined,
 
       popup : undefined,
       // PopupClass: Vue.extend(PopupContent),
@@ -426,6 +442,12 @@ export default {
 
     this.fieldLat    = this.routeConfig.lat_long_fields.latitude
     this.fieldLong   = this.routeConfig.lat_long_fields.longitude
+    
+    this.item_geo_fields    = mapOptionsRoute.item_geo_fields ? mapOptionsRoute.item_geo_fields : { latitude : "lat", longitude: "lon"}
+    this.item_marker        = mapOptionsRoute.item_marker ? mapOptionsRoute.item_marker : "fas fa-map-marker-alt"
+    this.item_marker_color  = mapOptionsRoute.item_marker_color ? mapOptionsRoute.item_marker_color : "primary"
+    this.item_marker_offset = mapOptionsRoute.item_marker_offset ? mapOptionsRoute.item_marker_offset : [ 0, 0 ]
+    this.item_marker_anchor = mapOptionsRoute.item_marker_anchor ? mapOptionsRoute.item_marker_anchor : "bottom"
 
     this.zoom        = mapOptionsRoute.zoom
     this.maxZoom     = mapOptionsRoute.maxZoom
@@ -437,18 +459,15 @@ export default {
 
     this.currentCenter = mapOptionsRoute.currentCenter
 
-
     this.layersVisibility = mapOptionsRoute.layers_visibility
     this.drawerLayersOpen = this.layersVisibility && this.layersVisibility.is_drawer_open
 
   },
 
   created(){
-
     this.log && console.log("\nC-SearchResultsMapbox / created... ")
     // We need to set mapbox-gl library here in order to use it in template
     // this.mapbox = Mapbox;
-
   },
 
   mounted(){
@@ -516,7 +535,7 @@ export default {
           window.scrollTo(0, 0)
         }
       }, 100)
-      
+
       if ( this.map && !this.isClusterSet && this.itemsForMap ) {
         this.log && console.log('\nC-SearchResultsMapbox / watch - projects - createGeoJsonDataPoints ( from geoJson.js ) ...')
         this.geoJson = createGeoJsonDataPoints(this.itemsForMap, this.fieldLat, this.fieldLong)
@@ -1594,6 +1613,12 @@ export default {
       
     },
 
+    getItemCoordinates() {
+      let item = this.displayedProject
+      const item_geo_fields = this.item_geo_fields
+      let coordinates = [ item[item_geo_fields.longitude], item[item_geo_fields.latitude ] ]
+      return coordinates
+    },
 
     // - - - - - - - - - - - - - - - - - - //
     // SIGNALS

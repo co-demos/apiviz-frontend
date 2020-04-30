@@ -7,7 +7,6 @@
     <main
       v-if="!displayableItem"
       >
-
       <div
         :class="`container`"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
@@ -43,13 +42,29 @@
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
-          <div class="column is-5 is-offset-1">
+          <div class="column is-5 is-offset-1"
+            id="column-left"
+            >
             <div class="description">
 
               <!-- BLOCK TITLE -->
               <h1 id="block-title" class="title is-3">
                 {{ matchProjectWithConfig('block_title')}}
               </h1>
+
+              <!-- BLOCK MAP - RIGHT BOTTOM -->
+              <div id="map-left-top" class="added" v-if="isPositionFilled('block_map_top_left') "
+                ref="mapTL"
+                >
+                <div class="columns" style="margin-top: -.75em;">
+                  <div class="column is-12">
+                    <DynamicDetailMap
+                      :contentField="getContentField( 'block_map_top_left' )"
+                      :mapWidth="mapTopLeft"
+                      />
+                  </div>
+                </div>
+              </div>
 
               <!-- BLOCK MAIN TAGS -->
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
@@ -210,15 +225,41 @@
               </div>
             </div>
 
+            <!-- BLOCK MAP - LEFT BOTTOM -->
+            <div id="map-left-bottom" class="added" v-if="isPositionFilled('block_map_bottom_left') "
+              ref="mapBL"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_bottom_left' )"
+                    :mapWidth="mapBottomLeft"
+                    />
+                </div>
+              </div>
+            </div>
+
           </div>  <!-- end column left -->
 
 
 
           <!-- //// COLUMN RIGHT //// -->
-          <div class="column is-5">
+          <div class="column is-5"
+            id="column-right"
+            >
 
             <!-- BLOCK MAIN ILLUSTRATION -->
+            <div id="block-illustration"
+              v-if="matchProjectWithConfig('block_wesite') == noData"
+              >
+              <img
+                class="illustration"
+                :src="itemImage('block_image')"
+                :alt="matchProjectWithConfig('block_title')"
+              />
+            </div>
             <a id="block-illustration"
+              v-if="matchProjectWithConfig('block_wesite') && matchProjectWithConfig('block_wesite') != noData"
               :href="matchProjectWithConfig('block_wesite')"
               target="_blank"
               >
@@ -227,11 +268,24 @@
                 :src="itemImage('block_image')"
                 :alt="matchProjectWithConfig('block_title')"
               />
-                <!-- :src="matchProjectWithConfig('block_image')" -->
             </a>
 
+            <!-- BLOCK MAP - RIGHT TOP -->
+            <div id="map-right-top" class="added" v-if="isPositionFilled('block_map_top_right') "
+              ref="mapTR"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_top_right' )"
+                    :mapWidth="mapTopRight"
+                    />
+                </div>
+              </div>
+            </div>
+
             <!-- BLOCK FILE -->
-            <div class="added" id="block-file" v-if="isPositionFilled('block_file_1')">
+            <div id="block-file" class="added" v-if="isPositionFilled('block_file_1')">
               <div class="columns">
                 <div class="column is-12">
                   <div>
@@ -253,7 +307,7 @@
             </div>
 
             <!-- BLOCK SOURCE -->
-            <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
+            <div id="block-src" class="added" v-if="isPositionFilled('block_src')">
               <div class="columns">
                 <div class="column is-12">
                   <div>
@@ -271,7 +325,7 @@
             </div>
 
             <!-- BLOCK SCALE -->
-            <div class="added" id="block-scale" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
+            <div id="block-scale" class="added" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
               <div class="columns">
                 <div class="column is-12">
 
@@ -315,7 +369,7 @@
             </div>
 
             <!-- BLOCK PERIOD -->
-            <div class="added" id="block-period" v-if="isPositionFilled('block_period')">
+            <div id="block-period" class="added" v-if="isPositionFilled('block_period')">
               <div class="columns">
                 <div class="column is-12">
                   <div>
@@ -395,7 +449,7 @@
             </div>
 
             <!-- BLOCK OPEN INFOS -->
-            <div class="added" id="block-infos" v-if="isPositionFilled('block_open_infos')">
+            <div id="block-infos" class="added" v-if="isPositionFilled('block_open_infos')">
               <div class="columns">
 
                 <div class="column is-12">
@@ -450,7 +504,7 @@
             </div>
 
             <!-- BLOCK RIGHT BOTTOM 1 -->
-            <div class="added" id="block-RB1" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
+            <div id="block-RB1" class="added" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
               <div class="columns">
                 <div class="column is-12">
 
@@ -552,6 +606,19 @@
               </div>
             </div>
 
+            <!-- BLOCK MAP - RIGHT BOTTOM -->
+            <div id="map-right-bottom" class="added" v-if="isPositionFilled('block_map_bottom_right') "
+              ref="mapBR"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_bottom_right' )"
+                    :mapWidth="mapBottomRight"
+                    />
+                </div>
+              </div>
+            </div>
 
           </div> <!-- end column right -->
 
@@ -572,6 +639,8 @@ import { mapState, mapGetters } from 'vuex'
 
 import NotFoundError from './NotFoundError.vue';
 
+import DynamicDetailMap  from '~/components/dynamicData/DynamicDetailMap.vue'
+
 // import { getItemById } from '~/plugins/utils.js';
 import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
 import { BasicDictionnary } from "~/config/basicDict.js"
@@ -582,6 +651,7 @@ export default {
 
   components: {
     NotFoundError,
+    DynamicDetailMap,
   },
 
   props: [
@@ -591,36 +661,43 @@ export default {
 
   data: () => {
     return   {
-      // displayableItem : null,
       contentFields : null,
       isError: false,
       basicDict : BasicDictionnary,
+
+      colLeftWidth: 350,
+      colRightWidth: 350,
+
+      mapTopLeft: 350,
+      mapBottomLeft: 350,
+      mapTopRight: 350,
+      mapBottomRight: 350,
+
+    }
+  },
+
+  watch : {
+    displayableItem(next, prev) {
+      this.columnsWidth()
     }
   },
 
   beforeMount: function () {
-    this.log && console.log("\n - - DynamicDetail / beforeMount ... ")
+    this.log && console.log("\nC-DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
 
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
-    // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-
-    const int = setInterval(() => {
-      if(window.pageYOffset < 50){
-        clearInterval(int)
-      }
-      else{
-        window.scrollTo(0, 0)
-      }
-    }, 100)
-
+    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
+    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    // if (this.$nuxt.$route.query.id) {
+    //   this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
+    // } 
+  
   },
 
   mounted(){
 
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    this.log && console.log(" - - DynamicDetail / mounted... ")
+    this.log && console.log("C-DynamicDetail / mounted... ")
     const int = setInterval(() => {
       if(window.pageYOffset < 50){
         clearInterval(int)
@@ -631,11 +708,25 @@ export default {
     }, 100);
 
     // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
-    if (this.$nuxt.$route.query.id) {
+    this.log && console.log("C-DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    if ( this.$nuxt.$route.query.id ) {
       this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
     }
 
+    // let refs = this.$refs
+    // this.log && console.log("C-DynamicDetail / getRefWidth /  refs :", refs)
+    // this.colRight = refs.columnRight
+    // this.colLeft = refs.columnLeft
+    this.columnsWidth()
+
+  },
+
+  created() {
+    window.addEventListener("resize", this.columnsWidth)
+    this.columnsWidth()
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.columnsWidth)
   },
 
   computed: {
@@ -656,7 +747,7 @@ export default {
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
-      // this.log && console.log("listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
+      // this.log && console.log("C-DynamicDetail / listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
       return this.contentFields.map( c => c.position )
     },
 
@@ -668,6 +759,43 @@ export default {
   },
 
   methods : {
+
+    columnsWidth() {
+      let columnLeft = document.getElementById('column-left') ? document.getElementById('column-left') : undefined 
+      let columnRight = document.getElementById('column-right') ? document.getElementById('column-right') : undefined 
+      // this.log && console.log("C-DynamicDetail / columnsWidth /  columnLeft :", columnLeft )
+      
+      if ( columnLeft )  { this.colLeftWidth = columnLeft.clientWidth }
+      if ( columnRight ) { this.colRightWidth = columnRight.clientWidth }
+
+      let mapTopLeft = document.getElementById('map-left-top') ? document.getElementById('map-left-top') : undefined 
+      let mapBottomLeft = document.getElementById('map-left-bottom') ? document.getElementById('map-left-bottom') : undefined 
+      let mapTopRight = document.getElementById('map-right-top') ? document.getElementById('map-right-top') : undefined 
+      let mapBottomRight = document.getElementById('map-right-bottom') ? document.getElementById('map-right-bottom') : undefined 
+      
+      // this.log && console.log("C-DynamicDetail /  mapBottomLeft :", mapBottomLeft )
+
+      if ( mapTopLeft ) {
+        var stylesTL = window.getComputedStyle(mapTopLeft)
+        var paddingTL = parseFloat(stylesTL.paddingLeft) + parseFloat(stylesTL.paddingRight)
+        this.mapTopLeft = mapTopLeft.clientWidth - paddingTL
+      }
+      if ( mapBottomLeft ) {
+        var stylesBL = window.getComputedStyle(mapBottomLeft)
+        var paddingBL = parseFloat(stylesBL.paddingLeft) + parseFloat(stylesBL.paddingRight)
+        this.mapBottomLeft = mapBottomLeft.clientWidth - paddingBL
+      }
+      if ( mapTopRight ) {
+        var stylesTR = window.getComputedStyle(mapTopRight)
+        var paddingTR = parseFloat(stylesTR.paddingLeft) + parseFloat(stylesTR.paddingRight)
+        this.mapTopRight = mapTopRight.clientWidth - paddingTR
+      }
+      if ( mapBottomRight ) {
+        var stylesBR = window.getComputedStyle(mapBottomRight)
+        var paddingBR = parseFloat(stylesBR.paddingLeft) + parseFloat(stylesBR.paddingRight)
+        this.mapBottomRight = mapBottomRight.clientWidth - paddingBR
+      }
+    },
 
     getDefaultText(txt_code){
       return this.$store.getters['config/defaultText']({txt:txt_code})
@@ -848,7 +976,6 @@ export default {
     }
   }
 
-
   .added {
     display: flex;
     flex-direction: row;
@@ -856,32 +983,28 @@ export default {
     justify-content: left;
 
     .link-at-sourcer img{
-        max-height: 1.1em;
-        transform: translateY(0.2em);
+      max-height: 1.1em;
+      transform: translateY(0.2em);
     }
-
     img{
-        height:auto;
+      height:auto;
     }
-
     .no-left-padding {
-        padding-left: 0em;
+      padding-left: 0em;
     }
     .is-vertical-centered {
-        // padding-left: 1em;
-        display: flex;
-        align-items: center;
+      // padding-left: 1em;
+      display: flex;
+      align-items: center;
     }
-
     .logo {
-        // max-width: 175px;
-        height: auto;
-        width:100%;
+      // max-width: 175px;
+      height: auto;
+      width:100%;
     }
-
     a{
-        color: $apiviz-primary;
-        font-weight: bold;
+      color: $apiviz-primary;
+      font-weight: bold;
     }
   }
 

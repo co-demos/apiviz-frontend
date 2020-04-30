@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.6 : minimap + marker on detail view
 - v.1.0.5 : color selected point on map
 - v.1.0.4 : redirection option for exports
 - v.1.0.3 : tags able to remap string from filters information + table headers cleaner
