@@ -32,21 +32,42 @@
       <!-- CONTENTS -->
       <div class="card-content">
 
+        <!-- BLOCK ACTOR TOP A -->
+        <p class="is-size-6 has-text-weight-bold has-text-primary has-text-primary-c" v-if="matchItemWithConfig('block_actor_top_a')">
+          {{ matchItemWithConfig('block_actor_top_a')}}
+        </p>
+
         <!-- BLOCK ADDRESS -->
-        <div class="content" v-if="projectCity()">
-          <span class="icon">
-            <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
-          </span>
-          <span class="subtitle is-7 is-capitalized">
-            {{ projectCity() }}
-          </span>
+        <div class="mb-3" v-if="projectCity() || matchItemWithConfig('block_actor_top_b')">
+          
+          <!-- BLOCK ADDRESS -->
+          <p v-if="projectCity()">
+            <span class="icon">
+              <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
+            </span>
+            <span class="is-size-7 is-capitalized">
+              {{ projectCity() }}
+            </span>
+          </p>
+          
+          <!-- BLOCK ACTOR TOP B -->
+          <p class="is-size-7 has-text-weight-bold has-text-primary has-text-primary-c" v-if="matchItemWithConfig('block_actor_top_b')">
+            {{ matchItemWithConfig('block_actor_top_b') }}
+          </p>
+          
         </div>
 
+
         <!-- BLOCK TITLE -->
-        <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_id')">
+        <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_title')">
           <nuxt-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
             {{ matchItemWithConfig('block_title')}}
           </nuxt-link>
+        </p>
+
+        <!-- BLOCK ACTOR TOP C -->
+        <p class="is-size-6 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_actor_top_c')">
+          {{ matchItemWithConfig('block_actor_top_c')}}
         </p>
 
         <!-- BLOCK ABSTRACT -->
@@ -316,6 +337,19 @@ export default {
 
 .card-image {
   min-height: 100px;
+}
+
+.mb-1{
+  margin-bottom: .5em;
+}
+.mb-2{
+  margin-bottom: .7em;
+}
+.mb-3{
+  margin-bottom: .8em;
+}
+.mb-4{
+  margin-bottom: 1em;
 }
 
 .card-image img{

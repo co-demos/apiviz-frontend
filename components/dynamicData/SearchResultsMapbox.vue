@@ -837,13 +837,19 @@ export default {
         let mapboxMap = this.map 
 
         let allPointsSourceId = mapboxOptions.all_points_layer && mapboxOptions.all_points_layer.source_id ? mapboxOptions.all_points_layer.source_id : "allPointsSource"
+        
         let geoJsonSourceId   = mapboxOptions.cluster_circles_layer && mapboxOptions.cluster_circles_layer.source_id ? mapboxOptions.cluster_circles_layer.source_id : "clusterSource"
 
         this.log && console.log("\nC-SearchResultsMapbox / updateSourceData / createGeoJsonDataPoints ( from geoJson.js ) ...")
         let geoJson = createGeoJsonDataPoints(itemsForMap, this.fieldLat, this.fieldLong)
+        this.log && console.log("C-SearchResultsMapbox / updateSourceData / geoJson : ", geoJson)
 
+        this.log && console.log("C-SearchResultsMapbox / updateSourceData / allPointsSourceId : ", allPointsSourceId)
         this.map.getSource( allPointsSourceId ).setData(geoJson)
+
+        this.log && console.log("C-SearchResultsMapbox / updateSourceData / geoJsonSourceId : ", geoJsonSourceId)
         this.map.getSource( geoJsonSourceId ).setData(geoJson)
+
         // this.map.getSource('allPointsSource').setData(geoJson)
         // this.map.getSource('clusterSource').setData(geoJson)
 

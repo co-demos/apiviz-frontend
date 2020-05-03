@@ -122,6 +122,12 @@
         border-color : {{ appColors[cCode] }} !important ;
       }
 
+
+      .timeline .timeline-item .timeline-marker.is-{{ cCode }}-b{
+        background-color : {{ appColors[cCode] }} !important ;
+        border-color : {{ appColors[cCode] }} !important ;
+      }
+
     </style>
 
     <!-- DEBUGGING -->
