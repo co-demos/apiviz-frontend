@@ -144,7 +144,7 @@
                 {{ tag.tagText }}
               </span>
               <span class="icon is-small"
-                v-if="selectedFilters && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
                 >
                 <i class="fas fa-times"></i>
               </span>
@@ -164,7 +164,7 @@
                 {{ tag.tagText }}
               </span>
               <span class="icon is-small"
-                v-if="selectedFilters && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
                 >
                 <i class="fas fa-times"></i>
               </span>
@@ -322,7 +322,7 @@ export default {
       const contentField = this.getContentField(fieldBlock)
       let tags = this.matchItemWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
       // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
-      if ( tags !== this.noData && contentField ) {
+      if ( tags && tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
         const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )

@@ -149,7 +149,7 @@
                       {{ tag.tagText }}
                     </span>
                     <span class="icon is-small"
-                      v-if="selectedFilters && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                      v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
                       >
                       <i class="fas fa-times"></i>
                     </span>
