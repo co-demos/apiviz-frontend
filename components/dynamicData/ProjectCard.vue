@@ -130,23 +130,45 @@
 
         <!-- BLOCK TAGS -->
         <div class="content">
-          <span v-if="convertTags('block_tags')">
-            <span 
+          
+          <!-- block_tags -->
+          <span v-if="convertTags('block_tags')"
+            >
+            <button 
               v-for="(tag, i) in convertTags('block_tags')" 
-              :class="`tag ${ getItemColors('block_tags')}`"
-              :key="tag+i"
+              :class="`button tag ${ getItemColors('block_tags')}`"
+              :key="tag.tagText+i"
+              @click="addTagAsFilter('block_tags', tag)"
               >
-              {{ tag }}
-            </span>
+              <span>
+                {{ tag.tagText }}
+              </span>
+              <span class="icon is-small"
+                v-if="selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                >
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
           </span>
-          <span v-if="convertTags('block_tags_bis')">
-            <span 
+
+          <!-- block_tags_bis -->
+          <span v-if="convertTags('block_tags_bis')"
+            >
+            <button 
               v-for="(tag, i) in convertTags('block_tags_bis')" 
-              :class="`tag ${ getItemColors('block_tags_bis')}`"
-              :key="tag+i"
+              :class="`button tag ${ getItemColors('block_tags_bis')}`"
+              :key="tag.tagText+i"
+              @click="addTagAsFilter('block_tags_bis', tag)"
               >
-              {{ tag }}
-            </span>
+              <span>
+                {{ tag.tagText }}
+              </span>
+              <span class="icon is-small"
+                v-if="selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                >
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
           </span>
         </div>
 
@@ -219,6 +241,7 @@ export default {
 
     ...mapGetters({
       dataset_uri : 'search/getSearchDatasetURI',
+      selectedFilters : 'search/getSelectedFilters',
       filterDescriptions : 'search/getFilterDescriptions',
       getProjectConfigUniform : 'search/getProjectConfigUniform',
       defaultText : 'config/defaultText',
@@ -299,25 +322,49 @@ export default {
       let tags = this.matchItemWithConfig(fieldBlock)
       // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
       const contentField = this.getContentField(fieldBlock)
-      if ( tags !== this.noData && contentField && contentField.convert_from_filters ) {
+      if ( tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
         const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
-        const filterChoices = filterDictionnary.choices
+        const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
         let newTags = tags.map( tag => {
+
           try {
             let choice = filterChoices.find( c => c.name == tag)
-            let newTagObj = choice.choice_title.find( title => title.locale == locale )
-            let newText = newTagObj.text
-            return trimString(newText, trimming)
+            let tagContainer = {
+              filterName: filterDictionnary ? filterDictionnary.name : undefined,
+              filterChoice: choice,
+              tagOriginal: tag,
+              tagText: tag
+            }
+
+            if ( contentField.convert_from_filters ) {
+              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newText = newTagObj.text
+              // return trimString(newText, trimming)
+              tagContainer.tagText = trimString(newText, trimming)
+            }
+
+            return tagContainer
           }
           catch (err) { return tag }
+
         })
         tags = newTags
       }
       if ( tags === this.noData ) { tags = undefined }
       return tags
     },
+
+    addTagAsFilter(fieldBlock, tag) {
+      this.log && console.log("\nC-ProjectCard / addTagAsFilter / tag : ", tag )
+      let filterTarget = {
+        filter: tag.filterName,
+        value: tag.tagOriginal
+      }
+      this.$store.dispatch( 'search/toggleFilter', filterTarget )
+    },
+
 
     getItemColors(fieldBlock) {
       let contentField = this.getContentField( fieldBlock )

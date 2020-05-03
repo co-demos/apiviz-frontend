@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.8 : tags in list acting as filters
 - v.1.0.7 : timeline component
 - v.1.0.6 : minimap + marker on detail view
 - v.1.0.5 : color selected point on map

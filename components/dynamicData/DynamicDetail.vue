@@ -80,13 +80,14 @@
                   {{ getCustomBlockTitle('block_main_tags') }}
                 </span>
                 <br>
-                <span
-                  class="tag"
-                  v-for="(tag, i) in matchProjectWithConfig('block_main_tags')"
-                  :key="tag + i"
+                <button
+                  class="button tag"
+                  v-for="(tag, i) in convertTags('block_main_tags')"
+                  :key="tag.tagText + i"
+                  @click="addTagAsFilter('block_main_tags', tag)"
                   >
-                  {{ tag }}
-                </span>
+                  {{ tag.tagText }}
+                </button>
                 <br><br>
               </div>
 
@@ -319,23 +320,36 @@
 
             <!-- BLOCK FILE -->
             <div id="block-file" class="added" v-if="isPositionFilled('block_file_1')">
-              <div class="columns mt-0 mb-0">
-                <div class="column py-0 is-12">
-                  <div>
-                    <a
-                      class="has-text-primary has-text-primary-c"
-                      target="_blank"
-                      :href="getCleanUrl('block_file_1')"
-                      >
+              <div class="columns mt-0 mb-0 is-centered">
+                <div class="column is-12 py-0 ">
+                  <p class="has-text-centered">
+
+                    <div v-if="!matchProjectWithConfig('block_file_1') == noData ">
+                      <a :class="`has-text-primary has-text-primary-c`"
+                        target="_blank"
+                        :href="getCleanUrl('block_file_1')"
+                        :disabled="matchProjectWithConfig('block_file_1') == noData"
+                        >
+                        <span class="icon is-small">
+                          <i class="fas fa-download"></i>
+                        </span>
+                        <span>
+                          {{ getDefaultText('dowload_file') }}
+                        </span>
+                      </a>
+                    </div>
+
+                    <div v-else class="has-text-grey">
                       <span class="icon is-small">
                         <i class="fas fa-download"></i>
                       </span>
+                      &nbsp;
                       <span>
-                        <!-- {{ downloadFile }} -->
-                        {{ getDefaultText('dowload_file') }}
+                        {{ noData}}
                       </span>
-                    </a>
-                  </div>
+                    </div>
+
+                  </p>
                 </div>
               </div>
             </div>
@@ -366,7 +380,7 @@
                 <div class="column is-12">
                   <DynamicDetailMap
                     :contentField="getContentField( 'block_map_top_right_bis' )"
-                    :mapWidth="mapTopRight"
+                    :mapWidth="mapTopRightBis"
                     />
                 </div>
               </div>
@@ -385,13 +399,14 @@
                       >
                       {{ getCustomBlockTitle('block_scale_tags') }}
                     </span>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_scale_tags')"
-                      :key="tag + i"
+                    <button
+                      class="button tag"
+                      v-for="(tag, i) in convertTags('block_scale_tags')"
+                      :key="tag.tagText + i"
+                      @click="addTagAsFilter('block_scale_tags', tag)"
                       >
-                      {{ tag }}
-                    </span>
+                      {{ tag.tagText }}
+                    </button>
                   </div>
 
                   <div id="block-scale-2">
@@ -565,12 +580,13 @@
                       {{ getCustomBlockTitle('block_rb1_tags') }}
                     </div>
                     <div>
-                      <span v-for="(tag, i) in convertTags('block_rb1_tags')"
-                        :class="`tag ${ getItemColors('block_rb1_tags')}`"
-                        :key="tag + i"
+                      <button v-for="(tag, i) in convertTags('block_rb1_tags')"
+                        :class="`button tag ${ getItemColors('block_rb1_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb1_tags', tag)"
                         >
-                        {{ tag }}
-                      </span>
+                        {{ tag.tagText }}
+                      </button>
                     </div>
                   </div>
 
@@ -582,12 +598,13 @@
                       {{ getCustomBlockTitle('block_rb2_tags') }}
                     </div>
                     <div>
-                      <span v-for="(tag, i) in convertTags('block_rb2_tags')"
-                        :class="`tag ${ getItemColors('block_rb2_tags')}`"
-                        :key="tag + i"
+                      <button v-for="(tag, i) in convertTags('block_rb2_tags')"
+                        :class="`button tag ${ getItemColors('block_rb2_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb2_tags', tag)"
                         >
-                        {{ tag }}
-                      </span>
+                        {{ tag.tagText }}
+                      </button>
                     </div>
                   </div>
 
@@ -600,12 +617,13 @@
                       {{ getCustomBlockTitle('block_rb3_tags') }}
                     </div>
                     <div>
-                      <span v-for="(tag, i) in convertTags('block_rb3_tags')"
-                        :class="`tag ${ getItemColors('block_rb3_tags')}`"
-                        :key="tag + i"
+                      <button v-for="(tag, i) in convertTags('block_rb3_tags')"
+                        :class="`button tag ${ getItemColors('block_rb3_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb3_tags', tag)"
                         >
-                        {{ tag }}
-                      </span>
+                        {{ tag.tagText }}
+                      </button>
                     </div>
                   </div>
 
@@ -693,7 +711,7 @@
                     :contentField="getContentField( 'block_timeline' )"
                     :contentRaw="matchProjectWithConfig( 'block_timeline' )"
                   />
-
+                  
                 </div>
               </div>
             </div>
@@ -754,6 +772,7 @@ export default {
       mapBottomLeft: 350,
       mapTopRight: 350,
       mapBottomRight: 350,
+      mapTopRightBis: 350,
 
     }
   },
@@ -823,6 +842,7 @@ export default {
 
     ...mapGetters({
       displayableItem : 'search/getDisplayedProject',
+      selectedFilters : 'search/getSelectedFilters',
       filterDescriptions : 'search/getFilterDescriptions',
       defaultText : 'config/defaultText',
     }),
@@ -853,6 +873,7 @@ export default {
       let mapTopLeft = document.getElementById('map-left-top') ? document.getElementById('map-left-top') : undefined 
       let mapBottomLeft = document.getElementById('map-left-bottom') ? document.getElementById('map-left-bottom') : undefined 
       let mapTopRight = document.getElementById('map-right-top') ? document.getElementById('map-right-top') : undefined 
+      let mapTopRightBis = document.getElementById('map-right-top-bis') ? document.getElementById('map-right-top-bis') : undefined 
       let mapBottomRight = document.getElementById('map-right-bottom') ? document.getElementById('map-right-bottom') : undefined 
       
       // this.log && console.log("C-DynamicDetail /  mapBottomLeft :", mapBottomLeft )
@@ -871,6 +892,11 @@ export default {
         var stylesTR = window.getComputedStyle(mapTopRight)
         var paddingTR = parseFloat(stylesTR.paddingLeft) + parseFloat(stylesTR.paddingRight)
         this.mapTopRight = mapTopRight.clientWidth - paddingTR
+      }
+      if ( mapTopRightBis ) {
+        var stylesTRB = window.getComputedStyle(mapTopRightBis)
+        var paddingTRB = parseFloat(stylesTRB.paddingLeft) + parseFloat(stylesTRB.paddingRight)
+        this.mapTopRightBis = mapTopRightBis.clientWidth - paddingTRB
       }
       if ( mapBottomRight ) {
         var stylesBR = window.getComputedStyle(mapBottomRight)
@@ -943,18 +969,41 @@ export default {
         const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
         const filterChoices = filterDictionnary.choices
         let newTags = tags.map( tag => {
+
           try {
             let choice = filterChoices.find( c => c.name == tag)
-            let newTagObj = choice.choice_title.find( title => title.locale == locale )
-            let newText = newTagObj.text
-            return trimString(newText, trimming)
-          } 
+            let tagContainer = {
+              filterName: filterDictionnary ? filterDictionnary.name : undefined,
+              filterChoice: choice,
+              tagOriginal: tag,
+              tagText: tag
+            }
+
+            if ( contentField.convert_from_filters ) {
+              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newText = newTagObj.text
+              // return trimString(newText, trimming)
+              tagContainer.tagText = trimString(newText, trimming)
+            }
+
+            return tagContainer
+          }
           catch (err) { return tag }
         })
+
         tags = newTags
       }
       if ( tags === this.noData ) { tags = [ this.noData ] }
       return tags
+    },
+
+    addTagAsFilter(fieldBlock, tag) {
+      this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
+      let filterTarget = {
+        filter: undefined,
+        value: tag.tagOriginal
+      }
+      // this.$store.dispatch( 'search/toggleFilter', filterTarget )
     },
 
     getItemColors(fieldBlock) {
