@@ -839,7 +839,7 @@ export function trimString( string, trimming ){
   return string.slice(0, trim) + tail
 }
 
-export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr'){
+export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr', trimmingOverride=false){
 
   const contentField = contentFields.find(f => f.position == fieldBlock)
 
@@ -877,8 +877,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
     if ( content && content !== "None" && content !== "" ){
 
-      const trimming = !contentField.convert_from_filters && contentField.field_format.trim
-      // log && console.log("getItemContent / trimming : ", trimming)
+      const trimming = !contentField.convert_from_filters && field_format && field_format.trim
+      log && console.log("getItemContent / trimming : ", trimming)
 
       try {
 
@@ -909,7 +909,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             })
           }
 
-          content = content.map( tag => { return trimString(tag, trimming) })
+          content = content.map( tag => { return trimString(tag, trimmingOverride && trimming) })
           // log && console.log("getItemContent / content B : ", content)
 
           return content

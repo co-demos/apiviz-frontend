@@ -144,7 +144,7 @@
                 {{ tag.tagText }}
               </span>
               <span class="icon is-small"
-                v-if="selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                v-if="selectedFilters && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
                 >
                 <i class="fas fa-times"></i>
               </span>
@@ -164,7 +164,7 @@
                 {{ tag.tagText }}
               </span>
               <span class="icon is-small"
-                v-if="selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                v-if="selectedFilters && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
                 >
                 <i class="fas fa-times"></i>
               </span>
@@ -207,7 +207,7 @@ export default {
 
   beforeMount: function () {
     // this.log && console.log('\nC-ProjectCard / beforeMount...')
-    this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
+    // this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
     // this.log && console.log('\nC-ProjectCard / this.item : ', this.item)
     // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
@@ -276,9 +276,9 @@ export default {
       return this.$store.getters['config/defaultText']({txt:txt_code})
     },
 
-    matchItemWithConfig(fieldBlock) {
+    matchItemWithConfig(fieldBlock, trimmingOverride=false) {
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
-      let itemContents = getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
+      let itemContents = getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale, trimmingOverride)
       return itemContents
     },
 
@@ -319,24 +319,25 @@ export default {
 
     convertTags(fieldBlock) {
       let locale = this.locale
-      let tags = this.matchItemWithConfig(fieldBlock)
-      // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
       const contentField = this.getContentField(fieldBlock)
+      let tags = this.matchItemWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
+      // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
       if ( tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
-        const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )
         const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
         let newTags = tags.map( tag => {
 
+          let tagContainer = {
+            filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterChoice: undefined,
+            tagOriginal: tag,
+            tagText: tag
+          }
           try {
             let choice = filterChoices.find( c => c.name == tag)
-            let tagContainer = {
-              filterName: filterDictionnary ? filterDictionnary.name : undefined,
-              filterChoice: choice,
-              tagOriginal: tag,
-              tagText: tag
-            }
+            tagContainer.filterChoice = choice
 
             if ( contentField.convert_from_filters ) {
               let newTagObj = choice.choice_title.find( title => title.locale == locale )
@@ -347,7 +348,7 @@ export default {
 
             return tagContainer
           }
-          catch (err) { return tag }
+          catch (err) { return tagContainer }
 
         })
         tags = newTags
@@ -358,11 +359,14 @@ export default {
 
     addTagAsFilter(fieldBlock, tag) {
       this.log && console.log("\nC-ProjectCard / addTagAsFilter / tag : ", tag )
-      let filterTarget = {
-        filter: tag.filterName,
-        value: tag.tagOriginal
+      const contentField = this.getContentField(fieldBlock)
+      if ( contentField.convert_from_filters ) {
+        let filterTarget = {
+          filter: tag.filterName,
+          value: tag.tagOriginal
+        }
+        this.$store.dispatch( 'search/toggleFilter', filterTarget )
       }
-      this.$store.dispatch( 'search/toggleFilter', filterTarget )
     },
 
 

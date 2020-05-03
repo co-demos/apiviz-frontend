@@ -927,9 +927,12 @@ export default {
       return image
     },
 
-    matchProjectWithConfig(fieldBlock) {
+    matchProjectWithConfig(fieldBlock, trimmingOverride=false) {
       // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
-      return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
+      // console.log("C-DynamicDetail / matchProjectWithConfig / trimmingOverride : ", trimmingOverride)
+      let itemContents = getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale, trimmingOverride)
+      // console.log("C-DynamicDetail / matchProjectWithConfig / itemContents : ", itemContents)
+      return itemContents
     },
 
     getCleanUrl( fieldBlock ) {
@@ -961,23 +964,25 @@ export default {
 
     convertTags(fieldBlock) {
       let locale = this.locale
-      let tags = this.matchProjectWithConfig(fieldBlock)
       const contentField = this.getContentField(fieldBlock)
-      if ( tags !== this.noData && contentField && contentField.convert_from_filters ) {
+      let tags = this.matchProjectWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
+      console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
+      if ( tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
-        const filterDictionnary = filtersDescription.find( filter => filter.col_name == contentField.field )
-        const filterChoices = filterDictionnary.choices
+        const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
         let newTags = tags.map( tag => {
 
+          let tagContainer = {
+            filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterChoice: undefined,
+            tagOriginal: tag,
+            tagText: tag
+          }
           try {
             let choice = filterChoices.find( c => c.name == tag)
-            let tagContainer = {
-              filterName: filterDictionnary ? filterDictionnary.name : undefined,
-              filterChoice: choice,
-              tagOriginal: tag,
-              tagText: tag
-            }
+            tagContainer.filterChoice = choice
 
             if ( contentField.convert_from_filters ) {
               let newTagObj = choice.choice_title.find( title => title.locale == locale )
@@ -988,22 +993,26 @@ export default {
 
             return tagContainer
           }
-          catch (err) { return tag }
+          catch (err) { return tagContainer }
         })
 
         tags = newTags
       }
-      if ( tags === this.noData ) { tags = [ this.noData ] }
+      if ( tags === this.noData ) { tags = undefined }
+      console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
       return tags
     },
 
     addTagAsFilter(fieldBlock, tag) {
       this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
-      let filterTarget = {
-        filter: undefined,
-        value: tag.tagOriginal
+      const contentField = this.getContentField(fieldBlock)
+      if ( contentField.convert_from_filters ) {
+        let filterTarget = {
+          filter: undefined,
+          value: tag.tagOriginal
+        }
+        // this.$store.dispatch( 'search/toggleFilter', filterTarget )
       }
-      // this.$store.dispatch( 'search/toggleFilter', filterTarget )
     },
 
     getItemColors(fieldBlock) {
