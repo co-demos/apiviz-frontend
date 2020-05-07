@@ -1,5 +1,6 @@
 import { apiBackendConfigs } from '~/config/apiBackends.js'
 import { findBulmaBreakpointByWidth } from '~/config/constants.js'
+import { chooseBooleanMode } from '~/plugins/utils.js'
 
 export const state = () => ({
 
@@ -27,30 +28,33 @@ export const state = () => ({
 
   // FOR TRANSLATIONS
   locale: 'fr',
-    
+
+  // IFRAMING
+  isIframe: false,
+
 })
 
 export const getters = {    
 
   // GLOBAL APP GETTERS
   // - - - - - - - - - - - - - - - //
-    getApivizFrontUUID : state => {
+    getApivizFrontUUID: state => {
       // console.log( "...I'm you, I dee... ", state.apivizFrontUUID )
       return state.apivizFrontUUID
     },
-    getRunMode : state => {
+    getRunMode: state => {
       // console.log( "...I'm on a run mode... ", state.runMode )
       return state.runMode
     },
-    getAuthMode : state => {
+    getAuthMode: state => {
       // console.log( "...I'm on a auth mode... ", state.authMode )
       return state.authMode
     },
-    getRootUrlBackend : state => {
+    getRootUrlBackend: state => {
       // console.log( "...I'm roooot url backend... ", state.rootUrlBackend )
       return state.rootUrlBackend
     },
-    getRootUrlAuth : state => {
+    getRootUrlAuth: state => {
       // console.log( "...I'm roooot url auth... ", state.rootUrlAuth )
       return state.rootUrlAuth
     },
@@ -60,14 +64,14 @@ export const getters = {
     // },
 
   // UX GETTERS
-    getNavbarVisibility : state => {
+    getNavbarVisibility: state => {
       return state.showNav
     },
-    getShrinkNav : state => {
+    getShrinkNav: state => {
       return state.shrinkNav
     },
 
-    getBreakpoint : (state) => (width) => {
+    getBreakpoint: (state) => (width) => {
       let breakpoint = findBulmaBreakpointByWidth( width )
       return breakpoint
     },
@@ -80,13 +84,17 @@ export const getters = {
     //   // return textFromLocale( textsData.texts, locale, textField )
     //   return this.$Translate( textsData.texts, state.locale, textField )
     // },
-    getCurrentLocale : state => {
+    getCurrentLocale: state => {
       // console.log( "...I'm locale... ", state.locale )
       return state.locale
     },
 
-
-
+    getIframeSlug: state => {
+      let isIframe = state.isIframe
+      if ( isIframe ){
+        return "&iframing=true"
+      }
+    }
 
 }
 
@@ -133,6 +141,11 @@ export const mutations = {
       // state.log && console.log("S-index-M-setLocale / loc :", loc )
       state.locale = loc
     },
+
+    // IFRAMING
+    setIframe(state, bool) {
+      state.isIframe = chooseBooleanMode(bool)
+    }
 }
 
 export const actions = {

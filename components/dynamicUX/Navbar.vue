@@ -6,8 +6,8 @@
     >
         
     <Brand 
-      :logoTo="navbarConfig.logo_to"
     ></Brand>
+      <!-- :logoTo="navbarConfig.logo_to" -->
 
     <!-- DEBUGGING -->
     <!-- navbarConfig : <code>{{ navbarConfig }}</code> -->

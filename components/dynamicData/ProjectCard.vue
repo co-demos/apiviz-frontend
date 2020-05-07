@@ -29,36 +29,58 @@
           <!-- :src="matchItemWithConfig('block_image')" -->
       </nuxt-link>
 
-      <!-- BLOCK ADDRESS -->
+      <!-- CONTENTS -->
       <div class="card-content">
 
-        <div class="content" v-if="projectCity()">
-          <span class="icon">
-            <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
-          </span>
-          <span class="subtitle is-6 is-capitalized">
-            <!-- {{ matchItemWithConfig('block_address')}} -->
-            <!-- {{ projectAddress() }} -  -->
-            <!-- {{ matchItemWithConfig('block_city')}} -->
-            {{ projectCity() }}
+        <!-- BLOCK ACTOR TOP A -->
+        <p class="is-size-6 has-text-weight-bold has-text-primary has-text-primary-c" v-if="matchItemWithConfig('block_actor_top_a')">
+          {{ matchItemWithConfig('block_actor_top_a')}}
+        </p>
 
-            <!-- {{ noAddress() }} -->
-          </span>
+        <!-- BLOCK ADDRESS -->
+        <div class="mb-3" v-if="projectCity() || matchItemWithConfig('block_actor_top_b')">
+          
+          <!-- BLOCK ADDRESS -->
+          <p v-if="projectCity()">
+            <span class="icon">
+              <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
+            </span>
+            <span class="is-size-7 is-capitalized">
+              {{ projectCity() }}
+            </span>
+          </p>
+          
+          <!-- BLOCK ACTOR TOP B -->
+          <p class="is-size-7 has-text-weight-bold has-text-primary has-text-primary-c" v-if="matchItemWithConfig('block_actor_top_b')">
+            {{ matchItemWithConfig('block_actor_top_b') }}
+          </p>
+          
         </div>
 
+
         <!-- BLOCK TITLE -->
-        <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_id')">
+        <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_title')">
           <nuxt-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
             {{ matchItemWithConfig('block_title')}}
           </nuxt-link>
         </p>
 
+        <!-- BLOCK ACTOR TOP C -->
+        <p class="is-size-6 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_actor_top_c')">
+          {{ matchItemWithConfig('block_actor_top_c')}}
+        </p>
+
         <!-- BLOCK ABSTRACT -->
-        <!-- <div class="content" v-if="projectAbstract()"> -->
         <div class="content" v-if="matchItemWithConfig('block_abstract')">
           <p class="subtitle is-6">
-            <!-- {{ projectAbstract() }} -->
             {{ matchItemWithConfig('block_abstract') }}
+          </p>
+        </div>
+
+        <!-- BLOCK ABSTRACT 1 -->
+        <div class="content" v-if="matchItemWithConfig('block_abstract_1')">
+          <p class="subtitle is-6">
+            {{ matchItemWithConfig('block_abstract_1') }}
           </p>
         </div>
 
@@ -69,6 +91,36 @@
           </p>
         </div>
 
+        <!-- BLOCK_CONTACTS -->
+        <div class="content">
+
+          <!-- BLOCK PHONE -->
+          <p class="is-size-7 is-marginless"
+            v-if="getDataContentOrNothing('block_phone')"
+            >
+            <span>
+              {{ basicDict.phone[locale] }} : 
+            </span>
+            {{ getDataContentOrNothing('block_phone') }}
+          </p>
+
+          <!-- BLOCK WEBSITE -->
+          <p class="is-size-7 is-marginless"
+            v-if="getDataContentOrNothing('block_url')"
+            >
+            <span>
+              {{ basicDict.website[locale] }} : 
+            </span>
+            <a class="link-underlined"
+              :href="getDataContentOrNothing('block_url')"
+              target="_blank"
+              >
+              {{ getDataContentOrNothing('block_url') }}
+            </a>
+          </p>
+
+        </div>
+
         <!-- BLOCK SOURCE -->
         <div class="content" v-if="matchItemWithConfig('block_src')">
           <p class="subtitle is-6 is-italic has-text-grey">
@@ -77,17 +129,46 @@
         </div>
 
         <!-- BLOCK TAGS -->
-        <!-- <div class="content" v-if="Array.isArray( itemInfos.tags ) && itemInfos.tags.length >=1">
-          <span v-for="tag in itemInfos.tags" class="tag" :key="tag">
-              {{ tag }}
-          </span>
-        </div> -->
-        <div class="content" v-if="matchItemWithConfig('block_tags')">
-          <span 
-            v-for="(tag, i) in matchItemWithConfig('block_tags')" 
-            class="tag" :key="tag+i"
+        <div class="content">
+          
+          <!-- block_tags -->
+          <span v-if="convertTags('block_tags')"
             >
-            {{ tag }}
+            <button 
+              v-for="(tag, i) in convertTags('block_tags')" 
+              :class="`button tag ${ getItemColors('block_tags')}`"
+              :key="tag.tagText+i"
+              @click="addTagAsFilter('block_tags', tag)"
+              >
+              <span>
+                {{ tag.tagText }}
+              </span>
+              <span class="icon is-small"
+                v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                >
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+          </span>
+
+          <!-- block_tags_bis -->
+          <span v-if="convertTags('block_tags_bis')"
+            >
+            <button 
+              v-for="(tag, i) in convertTags('block_tags_bis')" 
+              :class="`button tag ${ getItemColors('block_tags_bis')}`"
+              :key="tag.tagText+i"
+              @click="addTagAsFilter('block_tags_bis', tag)"
+              >
+              <span>
+                {{ tag.tagText }}
+              </span>
+              <span class="icon is-small"
+                v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                >
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
           </span>
         </div>
 
@@ -100,7 +181,8 @@
 <script>
 
 import { mapState, mapGetters } from "vuex";
-import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
+import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
+import { BasicDictionnary } from "~/config/basicDict.js" 
 
 const MAX_SUMMARY_LENGTH = 120;
 
@@ -125,7 +207,7 @@ export default {
 
   beforeMount: function () {
     // this.log && console.log('\nC-ProjectCard / beforeMount...')
-    this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
+    // this.log && console.log('\nC-ProjectCard / this.contentFields : ', this.contentFields)
     // this.log && console.log('\nC-ProjectCard / this.item : ', this.item)
     // this.log && console.log('\nC-ProjectCard /  this.$store.state.config.config.global.app_basic_dict : ',  this.$store.state.config.config.global.app_basic_dict)
 
@@ -133,6 +215,12 @@ export default {
   mounted : function () {
     // this.log && console.log('\nC-ProjectCard / mounted...')
     // this.log && console.log('\nC-ProjectCard / this.routeConfig : ', this.routeConfig)
+  },
+
+  data(){
+    return {
+      basicDict : BasicDictionnary, 
+    }
   },
 
   watch : {
@@ -153,27 +241,31 @@ export default {
 
     ...mapGetters({
       dataset_uri : 'search/getSearchDatasetURI',
+      selectedFilters : 'search/getSelectedFilters',
       filterDescriptions : 'search/getFilterDescriptions',
+      getProjectConfigUniform : 'search/getProjectConfigUniform',
+      defaultText : 'config/defaultText',
     }),
 
-    // dataset_uri(){
-    //   return this.$store.state.search.search.dataset_uri
-    // },
     itemInfos(){
-      return this.$store.getters['search/getProjectConfigUniform'](this.item)
-      // return this.item
+      return this.getProjectConfigUniform(this.item)
+      // return this.$store.getters['search/getProjectConfigUniform'](this.item)
     },
     noData() {
-      return this.$store.getters['config/defaultText']({txt:'no_data'})
+      return this.defaultText({txt:'no_data'})
+      // return this.$store.getters['config/defaultText']({txt:'no_data'})
     },
     noAbstractText() {
-      return this.$store.getters['config/defaultText']({txt:'no_abstract'})
+      return this.defaultText({txt:'no_abstract'})
+      // return this.$store.getters['config/defaultText']({txt:'no_abstract'})
     },
     noInfos() {
-      return this.$store.getters['config/defaultText']({txt:'no_info'})
+      return this.defaultText({txt:'no_info'})
+      // return this.$store.getters['config/defaultText']({txt:'no_info'})
     },
     noAddress() {
-      return this.$store.getters['config/defaultText']({txt:'no_address'})
+      return this.defaultText({txt:'no_address'})
+      // return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
 
   },
@@ -184,31 +276,18 @@ export default {
       return this.$store.getters['config/defaultText']({txt:txt_code})
     },
 
-    matchItemWithConfig(fieldBlock) {
-
+    matchItemWithConfig(fieldBlock, trimmingOverride=false) {
       // this.log && console.log("C-ProjectCard / matchItemWithConfig / fieldBlock : ", fieldBlock )
-
-      return getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        if (contentField) {
-          const field = contentField.field
-          return this.item[field]
-        }
-        else {
-          return undefined
-        }
-      */
-
-
-
+      let itemContents = getItemContent(fieldBlock, this.item, this.contentFields, this.noData, this.filterDescriptions, this.locale, trimmingOverride)
+      return itemContents
     },
 
-    // itemImage(fieldBlock){
-    //   return this.$store.getters['search/getImageUrl']({item: this.item, position: fieldBlock})
-    //   // return this.item
-    // },
+    getDataContentOrNothing(fieldBlock) {
+      let content = this.matchItemWithConfig(fieldBlock)
+      if ( content && content !== this.noData ) { content = content}
+      else { content = undefined }
+      return content
+    },
 
     itemImage(fieldBlock){
       // console.log("C-ProjectCard / itemImage / fieldBlock : ", fieldBlock )
@@ -225,36 +304,78 @@ export default {
       return image
     },
 
-    projectId() {
-      return this.matchItemWithConfig('block_id')
-    },
-
-    projectAbstract() {
-      let fullAbstract = this.matchItemWithConfig('block_abstract')
-      // fullAbstract = ( fullAbstract == null ) ? this.noAbstractText : fullAbstract
-      // const tail = fullAbstract.length > MAX_SUMMARY_LENGTH ? '...' : '';
-      // return fullAbstract.slice(0, MAX_SUMMARY_LENGTH) + tail
-      return fullAbstract
-    },
-
-    // projectInfo(field) {
-    //   let fullInfo = this.matchItemWithConfig(field)
-    //   fullInfo = ( fullInfo == null ) ? this.noInfos : fullInfo
-    //   return fullInfo
-    // },
-
-    projectAddress() {
-      let fullAddress = this.matchItemWithConfig('block_address')
-      // this.log && console.log('C-ProjectCard / fullAddress : ', fullAddress)
-      let address = ( fullAddress || fullAddress !== 'None' ) ?  fullAddress : this.noAddress
-      return address
-    },
-
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
       // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)
       let city = ( cityItem || cityItem !== 'None' ) ?  cityItem : this.noAddress
       return city
+    },
+
+    getContentField(fieldBlock) {
+      const contentsFields = this.contentFields
+      const contentField = contentsFields.find(f=> f.position == fieldBlock)
+      return contentField
+    },
+
+    convertTags(fieldBlock) {
+      let locale = this.locale
+      const contentField = this.getContentField(fieldBlock)
+      let tags = this.matchItemWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
+      // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
+      if ( tags && tags !== this.noData && contentField ) {
+        const trimming = contentField.field_format.trim
+        const filtersDescription = this.filterDescriptions
+        const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
+        let newTags = tags.map( tag => {
+
+          let tagContainer = {
+            filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterChoice: undefined,
+            tagOriginal: tag,
+            tagText: tag
+          }
+          try {
+            let choice = filterChoices.find( c => c.name == tag)
+            tagContainer.filterChoice = choice
+
+            if ( contentField.convert_from_filters ) {
+              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newText = newTagObj.text
+              // return trimString(newText, trimming)
+              tagContainer.tagText = trimString(newText, trimming)
+            }
+
+            return tagContainer
+          }
+          catch (err) { return tagContainer }
+
+        })
+        tags = newTags
+      }
+      if ( tags === this.noData ) { tags = undefined }
+      return tags
+    },
+
+    addTagAsFilter(fieldBlock, tag) {
+      this.log && console.log("\nC-ProjectCard / addTagAsFilter / tag : ", tag )
+      const contentField = this.getContentField(fieldBlock)
+      if ( contentField.convert_from_filters ) {
+        let filterTarget = {
+          filter: tag.filterName,
+          value: tag.tagOriginal
+        }
+        this.$store.dispatch( 'search/toggleFilter', filterTarget )
+      }
+    },
+
+
+    getItemColors(fieldBlock) {
+      let contentField = this.getContentField( fieldBlock )
+      let textColor = contentField.item_color ? contentField.item_color : "white"
+      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
+      return colors
     },
 
   },
@@ -267,6 +388,19 @@ export default {
 
 .card-image {
   min-height: 100px;
+}
+
+.mb-1{
+  margin-bottom: .5em;
+}
+.mb-2{
+  margin-bottom: .7em;
+}
+.mb-3{
+  margin-bottom: .8em;
+}
+.mb-4{
+  margin-bottom: 1em;
 }
 
 .card-image img{
@@ -289,12 +423,7 @@ export default {
 .card-content .tag{
   margin-right: 0.5em;
   margin-bottom: 0.5em;
-
   padding: 0.2em 1em;
-
-  background-color: #767676;
-  color: white;
-
   font-size: 12px;
 }
 

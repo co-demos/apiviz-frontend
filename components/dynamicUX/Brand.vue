@@ -5,40 +5,55 @@
     :title="brand"
     >
 
-      <nuxt-link 	
-        v-if="logo.url"
-        id="logo_home"
-        :class="`navbar-item navbar-item-hov`" 
-        :to="logoTo">
-        <img 
-          id="navbar-logo" 
-          :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
-          :src="logo.url"
-          :alt="brand.content"
-        ></img>
-      </nuxt-link>
+    <nuxt-link 	
+      v-if="!navbarConfig.logo_to_external && logo.url"
+      id="logo_home"
+      :class="`navbar-item navbar-item-hov`" 
+      :to="navbarConfig.logo_to"
+      >
+      <img 
+        id="navbar-logo" 
+        :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
+        :src="logo.url"
+        :alt="brand.content"
+      ></img>
+    </nuxt-link>
 
-      <div
-        v-if="brand.is_in_navbar"
-        :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? '7' : '6'}-touch is-size-5-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
-        <!-- {{ brand.content }} -->
-        {{ translate( brand, 'content_text' ) }} 
-        <!-- {{ shrinkNav }} -->
-      </div>
+    <a
+      v-if="navbarConfig.logo_to_external && logo.url"
+      id="logo_home"
+      :class="`navbar-item navbar-item-hov gna`" 
+      :href="navbarConfig.logo_to"
+      >
+      <img 
+        id="navbar-logo" 
+        :class="`${shrinkNav ? 'navbar-logo-shrink': 'navbar-logo'} `"
+        :src="logo.url"
+        :alt="brand.content"
+      ></img>
+    </a>
 
-      <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
-      <div 
-        :class="`navbar-burger ${ shrinkNav ? 'navbar-burger-shrink' : ''} ${ showNav ? 'is-active' : '' }`"
-        @click="triggerBurger()" 
-        aria-expanded="false" 
-        data-target="navbar-main"
-        >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
+    <div
+      v-if="brand.is_in_navbar"
+      :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? titleSize+1 : titleSize }-touch is-size-${titleSize-1}-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
+      <!-- {{ brand.content }} -->
+      <!-- {{ shrinkNav }} -->
+      {{ translate( brand, 'content_text' ) }} 
     </div>
+
+    <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
+    <div 
+      :class="`navbar-burger ${ shrinkNav ? 'navbar-burger-shrink' : ''} ${ showNav ? 'is-active' : '' }`"
+      @click="triggerBurger()" 
+      aria-expanded="false" 
+      data-target="navbar-main"
+      >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
 
 </template>
 
@@ -66,9 +81,15 @@
 
       ...mapGetters({
         logo : 'config/getNavbarLogo',
+        navbarConfig : 'config/getNavbarConfig',
         shrinkNav : 'getShrinkNav',
         brand : 'config/getNavbarBrand' 
       }),
+      
+      titleSize(){
+        let brandSize = this.brand.content_size ? this.brand.content_size : 6
+        return brandSize
+      }
 
     },
 

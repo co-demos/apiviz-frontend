@@ -17,13 +17,18 @@ export default function ({ store, route, redirect }) {
     // 'DynamicListDense' 
   ]
 
-  
   let path = route.path
 
   let queryLocale = route.query.locale
   if ( queryLocale ){
     log && console.log('-M3- getRouteConfig / queryLocale : ', queryLocale)
     store.commit('setLocale', queryLocale )
+  }
+
+  let queryIframing = route.query.iframing
+  if ( queryIframing ){
+    log && console.log('-M3- getRouteConfig / queryIframing : ', queryIframing)
+    store.commit('setIframe', queryIframing )
   }
 
   // log && console.log('-M3- getRouteConfig / route : ', route)

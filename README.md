@@ -61,7 +61,6 @@ Test websites :
 - [OpenCompaniesData - OpenCompaniesData branch](https://opencompaniesdata.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys)
 
 
-
 --------
 
 ## DOCUMENTATION 
@@ -147,8 +146,17 @@ NUXT_APIVIZ_UUID=89edbf7d-8b63-4088-ad14-ae6779d7698f
 # NUXT_APP_CONFIG_NAME=PING_CARTO
 # NUXT_APIVIZ_UUID=0278419c-558e-43d5-a4d6-c836afd10445
 
-# NUXT_APP_CONFIG_NAME=CONNUMM
+# NUXT_APP_CONFIG_NAME=CONUMM
 # NUXT_APIVIZ_UUID=2f658fb8-f00a-4b1a-ab73-7064433c98bc
+
+# NUXT_APP_CONFIG_NAME=DECIDER_ENSEMBLE
+# NUXT_APIVIZ_UUID=b8b52f0c-e66f-4018-bc0b-9ec7d17f8ccc
+
+# NUXT_APP_CONFIG_NAME=BFC_TERNUM
+# NUXT_APIVIZ_UUID=e8aff5a7-64b1-46b0-942a-8b16ac53aa3b
+
+# NUXT_APP_CONFIG_NAME=COVID
+# NUXT_APIVIZ_UUID=ebd7910d-5c98-4701-883a-6003a288b37d
 
 # NUXT_APP_CONFIG_NAME=ETALAB_CODES
 # NUXT_APIVIZ_UUID=a44de08d-12a1-4182-a06e-78058928c1e1

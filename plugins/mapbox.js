@@ -69,14 +69,15 @@ export function getStyleJSON (styleURL) {
 export function createGeoJSONSource (geoJSON, vars) {
 
   console.log("+ + + createGeoJSONSource ... ")
+  let generateId = vars.generateId ? vars.generateId : true
 
   let geoJsonSource = {
-    // id : 'clusterLayer',
     type           : 'geojson',
     data           : geoJSON,
     cluster        : vars.isCluster,
     clusterMaxZoom : vars.clusterMaxZoom,
     clusterRadius  : vars.clusterRadius,
+    generateId     : generateId,
   }
   return geoJsonSource
 }
@@ -193,12 +194,16 @@ export function createClusterUnclusteredLayer (sourceId, vars, layerId="uncluste
 
 // GEOJSON LAYERS - ALL POINTS CIRCLES
 export function createAllPoints (sourceId, vars, layerId="all-points") {
+  
+  let activatedColor = vars.circle_color_activated ? vars.circle_color_activated : "#e75b0e"
+  
   var layerConfig = {
     "id": layerId,
     "type": "circle",
     "source": sourceId,
     "filter": ["==", "$type", "Point"],
     "paint": {
+
       "circle-stroke-width": [
         "interpolate",
         ["linear"],
@@ -206,9 +211,25 @@ export function createAllPoints (sourceId, vars, layerId="all-points") {
         9, 0,
         vars.max_zoom, 1
       ], 
+
       "circle-stroke-color": vars.circle_stroke_color,
-      "circle-color": vars.circle_color,
-      "circle-opacity": vars.circle_opacity,
+
+      // "circle-color": vars.circle_color,
+      "circle-color": [
+        "case",
+        ["boolean", ["feature-state", "selected"], false],
+        activatedColor,
+        vars.circle_color,
+      ],
+
+      // "circle-opacity": vars.circle_opacity,
+      "circle-opacity": [
+        "case",
+        ["boolean", ["feature-state", "selected"], false],
+        1,
+        vars.circle_opacity,
+      ],
+
       "circle-radius": [
         "interpolate",
         ["linear"],

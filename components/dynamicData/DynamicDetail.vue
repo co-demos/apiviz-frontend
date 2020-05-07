@@ -1,10 +1,15 @@
 <template>
-  <div>
+  <div
+    id="DynamicDetail"
+    :class="`${ isIframe ? '' : 'no-iframing' }`"
+    >
 
-    <main v-if="!displayableItem">
-
+    <!-- LOADING ITEM -->
+    <main
+      v-if="!displayableItem"
+      >
       <div
-        class="container"
+        :class="`container`"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
         <div class="pending">
@@ -15,7 +20,11 @@
       </div>
     </main>
 
-    <main v-if="displayableItem">
+
+    <!-- DISPLAYABLE ITEM -->
+    <main 
+      v-if="displayableItem"
+      >
 
       <div class="container">
 
@@ -30,21 +39,37 @@
           </span>
         </a>
 
-
         <!-- DEBUGGING  -->
         <!-- {{ displayableItem }} -->
 
-
         <div class="columns">
 
+
+
           <!-- //// COLUMN LEFT //// -->
-          <div class="column is-5 is-offset-1">
+          <div class="column is-5 is-offset-1"
+            id="column-left"
+            >
             <div class="description">
 
               <!-- BLOCK TITLE -->
               <h1 id="block-title" class="title is-3">
                 {{ matchProjectWithConfig('block_title')}}
               </h1>
+
+              <!-- BLOCK MAP - RIGHT BOTTOM -->
+              <div id="map-left-top" class="added" v-if="isPositionFilled('block_map_top_left') "
+                ref="mapTL"
+                >
+                <div class="columns" style="margin-top: -.75em;">
+                  <div class="column is-12">
+                    <DynamicDetailMap
+                      :contentField="getContentField( 'block_map_top_left' )"
+                      :mapWidth="mapTopLeft"
+                      />
+                  </div>
+                </div>
+              </div>
 
               <!-- BLOCK MAIN TAGS -->
               <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
@@ -55,15 +80,21 @@
                   {{ getCustomBlockTitle('block_main_tags') }}
                 </span>
                 <br>
-                <span
-                  class="tag"
-                  v-for="(tag, i) in matchProjectWithConfig('block_main_tags')"
-                  :key="tag + i"
+                <button
+                  class="button tag"
+                  v-for="(tag, i) in convertTags('block_main_tags')"
+                  :key="tag.tagText + i"
+                  @click="addTagAsFilter('block_main_tags', tag)"
                   >
-                  {{ tag }}
-                </span>
+                  {{ tag.tagText }}
+                </button>
                 <br><br>
               </div>
+
+              <!-- BLOCK ACTOR TOP B -->
+              <p id="block-actor-left-top-a" class="is-size-6 has-text-weight-bold has-text-primary has-text-primary-c" v-if="isPositionFilled('block_actor_left_top_a')">
+                {{ matchProjectWithConfig('block_actor_left_top_a') }}
+              </p>
 
               <!-- BLOCK ADDRESS -->
               <p id="block-address" v-if="isPositionFilled('block_address')">
@@ -73,8 +104,13 @@
                 {{ matchProjectWithConfig('block_address')}}
               </p>
 
+              <!-- BLOCK ACTOR TOP B -->
+              <p id="block-actor-top-left-b" class="is-size-6 has-text-weight-bold has-text-primary has-text-primary-c" v-if="isPositionFilled('block_actor_left_top_b')">
+                {{ matchProjectWithConfig('block_actor_left_top_b') }}
+              </p>
+
               <!-- BLOCK PRE ABSTRACT -->
-              <p id="block-pre-abstract" v-if="isPositionFilled('block_pre_abstract')">
+              <p id="block-pre-abstract" class="mt-3" v-if="isPositionFilled('block_pre_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_pre_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -86,7 +122,7 @@
               </p>
 
               <!-- BLOCK ABSTRACT -->
-              <p id="block-abstract" v-if="isPositionFilled('block_abstract')">
+              <p id="block-abstract"  class="mt-3" v-if="isPositionFilled('block_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -97,8 +133,27 @@
                 {{ matchProjectWithConfig('block_abstract')}}
               </p>
 
+              <!-- BLOCK POST ABSTRACT -->
+              <p id="block-post-abstract" class="mt-3" v-if="isPositionFilled('block_post_abstract')">
+                <span
+                  v-if="getCustomBlockTitle('block_post_abstract')"
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                  >
+                  {{ getCustomBlockTitle('block_post_abstract') }}
+                  <br><br>
+                </span>
+                {{ matchProjectWithConfig('block_post_abstract')}}
+              </p>
+
               <!-- BLOCK PARTNERS -->
               <div id="block-partners" v-if="isPositionFilled('block_partners')">
+                <span
+                  v-if="getCustomBlockTitle('block_partners')"
+                  class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                  >
+                  {{ getCustomBlockTitle('block_partners') }}
+                  <br><br>
+                </span>
                 <p>{{ matchProjectWithConfig('block_partners')}}</p>
               </div>
 
@@ -113,7 +168,6 @@
                 </span>
                 {{ matchProjectWithConfig('block_post_abstract_1')}}
               </p>
-
               <!-- BLOCK POST ABSTRACT 2 -->
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
                 <span
@@ -143,11 +197,10 @@
                 <!-- BLOCK WEBSITE -->
                 <div id="block-main-website" class="column is-5 is-offset-1 link">
                   <a
-                    v-if="matchProjectWithConfig('block_wesite')"
-                    :class="matchProjectWithConfig('block_wesite') === noData ? 'disabled has-text-grey' : '' "
-                    :href="matchProjectWithConfig('block_wesite') === noData ? '' : matchProjectWithConfig('block_wesite') "
+                    v-if="matchProjectWithConfig('block_website')"
+                    :class="matchProjectWithConfig('block_website') === noData ? 'disabled has-text-grey' : 'has-text-primary has-text-primary-c' "
+                    :href="matchProjectWithConfig('block_website') === noData ? '' : getCleanUrl('block_website') "
                     target="_blank">
-                    <!-- {{ seeWebsite }} -->
                     {{ getDefaultText('see_website') }}
                   </a>
                 </div>
@@ -157,7 +210,7 @@
                   <a
                     v-if="matchProjectWithConfig('block_contact')"
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
-                    :href="matchProjectWithConfig('block_wesite') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
+                    :href="matchProjectWithConfig('block_website') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
                     target="_blank">
                     <!-- {{ seeContact }} -->
                     {{ getDefaultText('see_contact') }}
@@ -206,16 +259,42 @@
               </div>
             </div>
 
+            <!-- BLOCK MAP - LEFT BOTTOM -->
+            <div id="map-left-bottom" class="added" v-if="isPositionFilled('block_map_bottom_left') "
+              ref="mapBL"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_bottom_left' )"
+                    :mapWidth="mapBottomLeft"
+                    />
+                </div>
+              </div>
+            </div>
+
           </div>  <!-- end column left -->
 
 
 
           <!-- //// COLUMN RIGHT //// -->
-          <div class="column is-5">
+          <div class="column is-5"
+            id="column-right"
+            >
 
             <!-- BLOCK MAIN ILLUSTRATION -->
+            <div id="block-illustration"
+              v-if="matchProjectWithConfig('block_website') == noData"
+              >
+              <img
+                class="illustration"
+                :src="itemImage('block_image')"
+                :alt="matchProjectWithConfig('block_title')"
+              />
+            </div>
             <a id="block-illustration"
-              :href="matchProjectWithConfig('block_wesite')"
+              v-if="matchProjectWithConfig('block_website') && matchProjectWithConfig('block_website') != noData"
+              :href="getCleanUrl('block_website')"
               target="_blank"
               >
               <img
@@ -223,35 +302,62 @@
                 :src="itemImage('block_image')"
                 :alt="matchProjectWithConfig('block_title')"
               />
-                <!-- :src="matchProjectWithConfig('block_image')" -->
             </a>
 
-            <!-- BLOCK FILE -->
-            <div class="added" id="block-file" v-if="isPositionFilled('block_file_1')">
-              <div class="columns">
+            <!-- BLOCK MAP - RIGHT TOP -->
+            <div id="map-right-top" class="added" v-if="isPositionFilled('block_map_top_right') "
+              ref="mapTR"
+              >
+              <div class="columns" style="margin-top: -.75em;">
                 <div class="column is-12">
-                  <div>
-                    <a
-                      target="_blank"
-                      :href="matchProjectWithConfig('block_file_1')"
-                      >
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_top_right' )"
+                    :mapWidth="mapTopRight"
+                    />
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCK FILE -->
+            <div id="block-file" class="added" v-if="isPositionFilled('block_file_1')">
+              <div class="columns mt-0 mb-0 is-centered">
+                <div class="column is-12 py-0 ">
+                  <p class="has-text-centered">
+
+                    <div v-if="!matchProjectWithConfig('block_file_1') == noData ">
+                      <a :class="`has-text-primary has-text-primary-c`"
+                        target="_blank"
+                        :href="getCleanUrl('block_file_1')"
+                        :disabled="matchProjectWithConfig('block_file_1') == noData"
+                        >
+                        <span class="icon is-small">
+                          <i class="fas fa-download"></i>
+                        </span>
+                        <span>
+                          {{ getDefaultText('dowload_file') }}
+                        </span>
+                      </a>
+                    </div>
+
+                    <div v-else class="has-text-grey">
                       <span class="icon is-small">
                         <i class="fas fa-download"></i>
                       </span>
+                      &nbsp;
                       <span>
-                        <!-- {{ downloadFile }} -->
-                        {{ getDefaultText('dowload_file') }}
+                        {{ noData}}
                       </span>
-                    </a>
-                  </div>
+                    </div>
+
+                  </p>
                 </div>
               </div>
             </div>
 
             <!-- BLOCK SOURCE -->
-            <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
-              <div class="columns">
-                <div class="column is-12">
+            <div id="block-src" class="added" v-if="isPositionFilled('block_src')">
+              <div class="columns mt-0 mb-0">
+                <div class="column py-0 is-12">
                   <div>
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ sourceData }}  -->
@@ -266,8 +372,23 @@
               </div>
             </div>
 
+            <!-- BLOCK MAP - RIGHT TOP BIS -->
+            <div id="map-right-top-bis" class="added" v-if="isPositionFilled('block_map_top_right_bis') "
+              ref="mapTR"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_top_right_bis' )"
+                    :mapWidth="mapTopRightBis"
+                    />
+                </div>
+              </div>
+            </div>
+
+
             <!-- BLOCK SCALE -->
-            <div class="added" id="block-scale" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
+            <div id="block-scale" class="added" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
               <div class="columns">
                 <div class="column is-12">
 
@@ -278,13 +399,14 @@
                       >
                       {{ getCustomBlockTitle('block_scale_tags') }}
                     </span>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_scale_tags')"
-                      :key="tag + i"
+                    <button
+                      class="button tag"
+                      v-for="(tag, i) in convertTags('block_scale_tags')"
+                      :key="tag.tagText + i"
+                      @click="addTagAsFilter('block_scale_tags', tag)"
                       >
-                      {{ tag }}
-                    </span>
+                      {{ tag.tagText }}
+                    </button>
                   </div>
 
                   <div id="block-scale-2">
@@ -311,7 +433,7 @@
             </div>
 
             <!-- BLOCK PERIOD -->
-            <div class="added" id="block-period" v-if="isPositionFilled('block_period')">
+            <div id="block-period" class="added" v-if="isPositionFilled('block_period')">
               <div class="columns">
                 <div class="column is-12">
                   <div>
@@ -391,49 +513,49 @@
             </div>
 
             <!-- BLOCK OPEN INFOS -->
-            <div class="added" id="block-infos" v-if="isPositionFilled('block_open_infos')">
+            <div id="block-infos" class="added" v-if="isPositionFilled('block_open_infos')">
               <div class="columns">
 
                 <div class="column is-12">
 
-                  <div>
+                  <!-- {{ infosData }}  -->
+                  <div id="block-infos-basic">
                     <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      <!-- {{ infosData }}  -->
                       {{ getDefaultText('infos') }}
                       : <br><br>
                     </span>
                   </div>
 
+                  <!-- {{ infosTel }}  -->
                   <div id="block-tel" v-if="isPositionFilled('block_tel')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosTel }}  -->
                       {{ getDefaultText('tel') }}
                       :
                       {{ matchProjectWithConfig('block_tel')}} <br>
                     </span>
                   </div>
 
+                  <!-- {{ infosOpen }}  -->
                   <div id="block-open-infos" v-if="isPositionFilled('block_open_infos')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosOpen }}  -->
                       {{ getDefaultText('open_infos') }}
                       : <br>
                       {{ matchProjectWithConfig('block_open_infos')}} <br>
                     </span>
                   </div>
 
+                  <!-- {{ infosMore }}  -->
                   <div id="block-infos-pract" v-if="isPositionFilled('block_infos_pract')">
                     <span class="icon is-small">
                       <i class="fas fa-angle-right"></i>
                     </span>
                     <span>
-                      <!-- {{ infosMore }}  -->
                       {{ getDefaultText('more_infos') }}
                       :
                       {{ matchProjectWithConfig('block_infos_pract')}}
@@ -446,31 +568,67 @@
             </div>
 
             <!-- BLOCK RIGHT BOTTOM 1 -->
-            <div class="added" id="block-RB1" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
+            <div id="block-RB1" class="added" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
               <div class="columns">
                 <div class="column is-12">
 
                   <!-- BLOCK RB1 TAGS -->
-                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
-                    <span
-                      v-if="getCustomBlockTitle('block_rb1_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')" class="mb-2">
+                    <div v-if="getCustomBlockTitle('block_rb1_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
                       >
                       {{ getCustomBlockTitle('block_rb1_tags') }}
-                    </span>
-                    <br><br>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                    <br><br>
+                    </div>
+                    <div>
+                      <button v-for="(tag, i) in convertTags('block_rb1_tags')"
+                        :class="`button tag ${ getItemColors('block_rb1_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb1_tags', tag)"
+                        >
+                        {{ tag.tagText }}
+                      </button>
+                    </div>
                   </div>
 
-                  <div>
+                  <!-- BLOCK RB2 TAGS -->
+                  <div id="block-RB2-tags" v-if="isPositionFilled('block_rb2_tags')" class="mb-2">
+                    <div v-if="getCustomBlockTitle('block_rb2_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                      >
+                      {{ getCustomBlockTitle('block_rb2_tags') }}
+                    </div>
+                    <div>
+                      <button v-for="(tag, i) in convertTags('block_rb2_tags')"
+                        :class="`button tag ${ getItemColors('block_rb2_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb2_tags', tag)"
+                        >
+                        {{ tag.tagText }}
+                      </button>
+                    </div>
+                  </div>
 
+                  <!-- BLOCK RB3 TAGS -->
+                  <div id="block-RB3-tags" v-if="isPositionFilled('block_rb3_tags')" class="mb-2">
+                    <div
+                      v-if="getCustomBlockTitle('block_rb3_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                      >
+                      {{ getCustomBlockTitle('block_rb3_tags') }}
+                    </div>
+                    <div>
+                      <button v-for="(tag, i) in convertTags('block_rb3_tags')"
+                        :class="`button tag ${ getItemColors('block_rb3_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb3_tags', tag)"
+                        >
+                        {{ tag.tagText }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!--  -->
+                  <div v-if="isPositionFilled('block_right_bottom_1')">
                     <span
                       v-if="getCustomBlockTitle('block_right_bottom_1')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -478,16 +636,13 @@
                       {{ getCustomBlockTitle('block_right_bottom_1') }}
                       <br><br>
                     </span>
-
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_1')}}
                     </span>
-
                   </div>
 
                   <div v-if="isPositionFilled('block_right_bottom_2')">
                     <br>
-
                     <span
                       v-if="getCustomBlockTitle('block_right_bottom_2')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -495,18 +650,75 @@
                       {{ getCustomBlockTitle('block_right_bottom_2') }}
                       <br><br>
                     </span>
-
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_2')}}
                     </span>
-
                   </div>
+
+                  <div v-if="isPositionFilled('block_right_bottom_3')">
+                    <br>
+                    <span
+                      v-if="getCustomBlockTitle('block_right_bottom_3')"
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_3') }}
+                      <br><br>
+                    </span>
+                    <span>
+                      {{ matchProjectWithConfig('block_right_bottom_3')}}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCK MAP - RIGHT BOTTOM -->
+            <div id="map-right-bottom" class="added" v-if="isPositionFilled('block_map_bottom_right') "
+              ref="mapBR"
+              >
+              <div class="columns" style="margin-top: -.75em;">
+                <div class="column is-12">
+                  <DynamicDetailMap
+                    :contentField="getContentField( 'block_map_bottom_right' )"
+                    :mapWidth="mapBottomRight"
+                    />
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCK TIMELINE -->
+            <div id="block-timeline" class="added" v-if="isPositionFilled('block_timeline')">
+              <div class="columns">
+                <div class="column is-12">
+
+                  <!-- BLOCK ABSTRACT -->
+                  <p id="block-abstract" 
+                    v-if="isPositionFilled('block_timeline_title')"
+                    class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                    >
+                    <span
+                      v-if="getCustomBlockTitle('block_timeline_title')"
+                      >
+                      {{ getCustomBlockTitle('block_timeline_title') }}
+                      <br><br>
+                    </span>
+                    {{ matchProjectWithConfig('block_timeline_title')}}
+                  </p>
+
+                  <!-- {{ getContentField( 'block_timeline' ) }} -->
+                  <DynamicDetailTimeline
+                    :contentField="getContentField( 'block_timeline' )"
+                    :contentRaw="matchProjectWithConfig( 'block_timeline' )"
+                  />
+                  
                 </div>
               </div>
             </div>
 
 
           </div> <!-- end column right -->
+
 
         </div>
       </div>
@@ -525,8 +737,11 @@ import { mapState, mapGetters } from 'vuex'
 
 import NotFoundError from './NotFoundError.vue';
 
+import DynamicDetailMap  from '~/components/dynamicData/DynamicDetailMap.vue'
+import DynamicDetailTimeline  from '~/components/dynamicData/DynamicDetailTimeline.vue'
+
 // import { getItemById } from '~/plugins/utils.js';
-import { getItemContent, getDefaultImage } from '~/plugins/utils.js';
+import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
 import { BasicDictionnary } from "~/config/basicDict.js"
 
 export default {
@@ -535,6 +750,8 @@ export default {
 
   components: {
     NotFoundError,
+    DynamicDetailMap,
+    DynamicDetailTimeline,
   },
 
   props: [
@@ -544,27 +761,44 @@ export default {
 
   data: () => {
     return   {
-      // displayableItem : null,
       contentFields : null,
       isError: false,
       basicDict : BasicDictionnary,
+
+      colLeftWidth: 350,
+      colRightWidth: 350,
+
+      mapTopLeft: 350,
+      mapBottomLeft: 350,
+      mapTopRight: 350,
+      mapBottomRight: 350,
+      mapTopRightBis: 350,
+
+    }
+  },
+
+  watch : {
+    displayableItem(next, prev) {
+      this.columnsWidth()
     }
   },
 
   beforeMount: function () {
-    this.log && console.log("\n - - DynamicDetail / beforeMount ... ")
+    this.log && console.log("\nC-DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
 
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    // this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
-    // this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-
+    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
+    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    // if (this.$nuxt.$route.query.id) {
+    //   this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
+    // } 
+  
   },
 
   mounted(){
 
     // hack to scroll top because vue-router scrollBehavior thing doesn't seem to work on Firefox on Linux at least
-    this.log && console.log(" - - DynamicDetail / mounted... ")
+    this.log && console.log("C-DynamicDetail / mounted... ")
     const int = setInterval(() => {
       if(window.pageYOffset < 50){
         clearInterval(int)
@@ -575,11 +809,25 @@ export default {
     }, 100);
 
     // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
-    if (this.$nuxt.$route.query.id) {
+    this.log && console.log("C-DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    if ( this.$nuxt.$route.query.id ) {
       this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
     }
 
+    // let refs = this.$refs
+    // this.log && console.log("C-DynamicDetail / getRefWidth /  refs :", refs)
+    // this.colRight = refs.columnRight
+    // this.colLeft = refs.columnLeft
+    this.columnsWidth()
+
+  },
+
+  created() {
+    window.addEventListener("resize", this.columnsWidth)
+    this.columnsWidth()
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.columnsWidth)
   },
 
   computed: {
@@ -588,33 +836,74 @@ export default {
       log: state => state.log,
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
       user: state => state.user.user,
     }),
 
     ...mapGetters({
       displayableItem : 'search/getDisplayedProject',
+      selectedFilters : 'search/getSelectedFilters',
       filterDescriptions : 'search/getFilterDescriptions',
+      defaultText : 'config/defaultText',
     }),
-
-    // default texts
-    // backToResults() {
-    //   return this.$store.getters['config/defaultText']({txt:'back_to_results'})
-    // },
 
     // POSITIONS TO BE FILLED
     listOfPositions() {
-      // this.log && console.log("listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
+      // this.log && console.log("C-DynamicDetail / listOfPositions /  this.contentFields.map( c => c.position ) :", this.contentFields.map( c => c.position ))
       return this.contentFields.map( c => c.position )
     },
 
     // TEXT TRANSLATORS - NO DATA
     noData() {
-      return this.$store.getters['config/defaultText']({txt:'no_data'})
+      return this.defaultText({txt:'no_data'})
     },
 
   },
 
   methods : {
+
+    columnsWidth() {
+      let columnLeft = document.getElementById('column-left') ? document.getElementById('column-left') : undefined 
+      let columnRight = document.getElementById('column-right') ? document.getElementById('column-right') : undefined 
+      // this.log && console.log("C-DynamicDetail / columnsWidth /  columnLeft :", columnLeft )
+      
+      if ( columnLeft )  { this.colLeftWidth = columnLeft.clientWidth }
+      if ( columnRight ) { this.colRightWidth = columnRight.clientWidth }
+
+      let mapTopLeft = document.getElementById('map-left-top') ? document.getElementById('map-left-top') : undefined 
+      let mapBottomLeft = document.getElementById('map-left-bottom') ? document.getElementById('map-left-bottom') : undefined 
+      let mapTopRight = document.getElementById('map-right-top') ? document.getElementById('map-right-top') : undefined 
+      let mapTopRightBis = document.getElementById('map-right-top-bis') ? document.getElementById('map-right-top-bis') : undefined 
+      let mapBottomRight = document.getElementById('map-right-bottom') ? document.getElementById('map-right-bottom') : undefined 
+      
+      // this.log && console.log("C-DynamicDetail /  mapBottomLeft :", mapBottomLeft )
+
+      if ( mapTopLeft ) {
+        var stylesTL = window.getComputedStyle(mapTopLeft)
+        var paddingTL = parseFloat(stylesTL.paddingLeft) + parseFloat(stylesTL.paddingRight)
+        this.mapTopLeft = mapTopLeft.clientWidth - paddingTL
+      }
+      if ( mapBottomLeft ) {
+        var stylesBL = window.getComputedStyle(mapBottomLeft)
+        var paddingBL = parseFloat(stylesBL.paddingLeft) + parseFloat(stylesBL.paddingRight)
+        this.mapBottomLeft = mapBottomLeft.clientWidth - paddingBL
+      }
+      if ( mapTopRight ) {
+        var stylesTR = window.getComputedStyle(mapTopRight)
+        var paddingTR = parseFloat(stylesTR.paddingLeft) + parseFloat(stylesTR.paddingRight)
+        this.mapTopRight = mapTopRight.clientWidth - paddingTR
+      }
+      if ( mapTopRightBis ) {
+        var stylesTRB = window.getComputedStyle(mapTopRightBis)
+        var paddingTRB = parseFloat(stylesTRB.paddingLeft) + parseFloat(stylesTRB.paddingRight)
+        this.mapTopRightBis = mapTopRightBis.clientWidth - paddingTRB
+      }
+      if ( mapBottomRight ) {
+        var stylesBR = window.getComputedStyle(mapBottomRight)
+        var paddingBR = parseFloat(stylesBR.paddingLeft) + parseFloat(stylesBR.paddingRight)
+        this.mapBottomRight = mapBottomRight.clientWidth - paddingBR
+      }
+    },
 
     getDefaultText(txt_code){
       return this.$store.getters['config/defaultText']({txt:txt_code})
@@ -638,72 +927,100 @@ export default {
       return image
     },
 
-    matchProjectWithConfig(fieldBlock) {
-
+    matchProjectWithConfig(fieldBlock, trimmingOverride=false) {
       // console.log("\nC-DynamicDetail / matchProjectWithConfig / fieldBlock : ", fieldBlock)
-
-      return getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale)
-
-      /*
-        const contentField = this.contentFields.find(f=> f.position == fieldBlock)
-        // this.log && console.log("C-DynamicDetail / matchProjectWithConfig / contentField : ", contentField)
-
-        if (contentField){
-
-          const field = contentField.field
-          const field_format = contentField.field_format
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / field_format : ", field_format)
-
-          let content = this.displayableItem[field]
-          this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content : ", content)
-
-          if ( content && content !== "None" && content !== "" ){
-
-            if ( field_format.type === 'list'){
-              let begin = field_format.retrieve[0]
-              if ( begin === -1){
-                content = content
-              }
-              else if ( field_format.retrieve.length === 1 ) {
-                content = content[ begin ]
-              }
-              else {
-                let end = field_format.retrieve[1] || content.length
-                content = content.slice( begin, end )
-              }
-            }
-
-            this.log && console.log("C-DynamicDetail / matchProjectWithConfig / content bis : ", content)
-
-            if (contentField.is_tag_like) {
-              content = content.split(contentField.tags_separator).filter(c => c != "")
-              return content
-            } else {
-              return content
-            }
-
-          } else {
-            // this.log && console.log("content is None | null ...")
-            // this.log && console.log("this.noData : ", this.noData)
-            return this.noData
-          }
-        } else {
-          return undefined
-        }
-      */
-
+      // console.log("C-DynamicDetail / matchProjectWithConfig / trimmingOverride : ", trimmingOverride)
+      let itemContents = getItemContent(fieldBlock, this.displayableItem, this.contentFields, this.noData, this.filterDescriptions, this.locale, trimmingOverride)
+      // console.log("C-DynamicDetail / matchProjectWithConfig / itemContents : ", itemContents)
+      return itemContents
     },
+
+    getCleanUrl( fieldBlock ) {
+      let rawContent = this.matchProjectWithConfig( fieldBlock )
+      if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
+        rawContent = 'htttp://' + rawContent
+      }
+      return rawContent
+    },
+
     getCustomBlockTitle(fieldBlock){
       let customBlockTitle = undefined
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
       if (contentField){
         customBlockTitle = contentField.custom_title
+        if ( Array.isArray(customBlockTitle) ) {
+          let translation = customBlockTitle.find( txt => txt.locale == this.locale )
+          customBlockTitle = translation.text
+        } 
       }
       return customBlockTitle
     },
 
-    projectId() {
-      return this.matchProjectWithConfig('block_id')
+    getContentField(fieldBlock) {
+      const contentsFields = this.contentFields
+      const contentField = contentsFields.find(f=> f.position == fieldBlock)
+      return contentField
+    },
+
+    convertTags(fieldBlock) {
+      let locale = this.locale
+      const contentField = this.getContentField(fieldBlock)
+      let tags = this.matchProjectWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
+      console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
+      if ( tags !== this.noData && contentField ) {
+        const trimming = contentField.field_format.trim
+        const filtersDescription = this.filterDescriptions
+        const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )
+        const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
+        let newTags = tags.map( tag => {
+
+          let tagContainer = {
+            filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterChoice: undefined,
+            tagOriginal: tag,
+            tagText: tag
+          }
+          try {
+            let choice = filterChoices.find( c => c.name == tag)
+            tagContainer.filterChoice = choice
+
+            if ( contentField.convert_from_filters ) {
+              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newText = newTagObj.text
+              // return trimString(newText, trimming)
+              tagContainer.tagText = trimString(newText, trimming)
+            }
+
+            return tagContainer
+          }
+          catch (err) { return tagContainer }
+        })
+
+        tags = newTags
+      }
+      if ( tags === this.noData ) { tags = undefined }
+      console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
+      return tags
+    },
+
+    addTagAsFilter(fieldBlock, tag) {
+      this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
+      const contentField = this.getContentField(fieldBlock)
+      if ( contentField.convert_from_filters ) {
+        let filterTarget = {
+          filter: undefined,
+          value: tag.tagOriginal
+        }
+        // this.$store.dispatch( 'search/toggleFilter', filterTarget )
+      }
+    },
+
+    getItemColors(fieldBlock) {
+      let contentField = this.getContentField( fieldBlock )
+      let textColor = contentField.item_color ? contentField.item_color : "white"
+      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
+      return colors
     },
 
     goBack(e){
@@ -723,10 +1040,13 @@ export default {
   main{
     // background-color: $apiviz-blue-deep;
     background-color: $apiviz-grey-background;
-    margin-top: $apiviz-navbar-height;
     height: 100%;
     padding-bottom: 3em;
+    margin-top: 0 !important;
+  }
 
+  .no-iframing{
+    margin-top: $apiviz-navbar-height;
   }
 
   .block-color {
@@ -739,6 +1059,46 @@ export default {
       color: white;
       margin-right: 1em;
       margin-bottom: 0.5em;
+  }
+
+
+
+  .my-0{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .mt-0{
+    margin-top: 0 !important;
+  }
+  .mt-1{
+    margin-top: .5em;
+  }
+  .mt-2{
+    margin-top: 1em;
+  }
+  .mt-3{
+    margin-top: 1.5em;
+  }
+
+  .mb-0:last-child{
+    margin-bottom: 0 !important;
+  }
+  .mb-0{
+    margin-bottom: 0 !important;
+  }
+  .mb-1{
+    margin-bottom: .5em;
+  }
+  .mb-2{
+    margin-bottom: 1em;
+  }
+
+  .py-0{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .pb-3{
+    margin-bottom: 1.5em;
   }
 
   a.disabled {
@@ -784,19 +1144,18 @@ export default {
 
   .description{
     h1{
-        font-weight: bold;
+      font-weight: bold;
     }
 
     p{
-        margin-bottom: 1em;
+      margin-bottom: 1em;
     }
 
     a{
-        color: $apiviz-primary;
-        border-bottom: 1px solid $apiviz-primary;
+      color: $apiviz-primary;
+      border-bottom: 1px solid $apiviz-primary;
     }
   }
-
 
   .added {
     display: flex;
@@ -805,32 +1164,28 @@ export default {
     justify-content: left;
 
     .link-at-sourcer img{
-        max-height: 1.1em;
-        transform: translateY(0.2em);
+      max-height: 1.1em;
+      transform: translateY(0.2em);
     }
-
     img{
-        height:auto;
+      height:auto;
     }
-
     .no-left-padding {
-        padding-left: 0em;
+      padding-left: 0em;
     }
     .is-vertical-centered {
-        // padding-left: 1em;
-        display: flex;
-        align-items: center;
+      // padding-left: 1em;
+      display: flex;
+      align-items: center;
     }
-
     .logo {
-        // max-width: 175px;
-        height: auto;
-        width:100%;
+      // max-width: 175px;
+      height: auto;
+      width:100%;
     }
-
     a{
-        color: $apiviz-primary;
-        font-weight: bold;
+      color: $apiviz-primary;
+      font-weight: bold;
     }
   }
 

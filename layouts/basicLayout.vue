@@ -58,6 +58,7 @@ export default {
   computed: {
 
     ...mapState({
+      isIframe : state => state.isIframe,
     }),
 
     ...mapGetters({

@@ -174,6 +174,14 @@ export default {
   watch: {
     projects(next, prev){
       this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount'];
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100)
     }
   },
 

@@ -157,9 +157,9 @@ export default {
 
     changePagination( pageEffect, value ){
 
-      this.log && console.log('C-SearchResultsTable / changePagination /  pageEffect : ', pageEffect)
-      this.log && console.log('C-SearchResultsTable / changePagination /  value : ', value)
-
+      // this.log && console.log('C-SearchResultsTable / changePagination /  pageEffect : ', pageEffect)
+      // this.log && console.log('C-SearchResultsTable / changePagination /  value : ', value)
+      
       if ( pageEffect === 'changePage' ){
         if ( this.searchQuestion.page !== 1 || value !== -1 ){
           this.$store.dispatch('search/changePage', value )
@@ -169,6 +169,7 @@ export default {
         this.perPage = value
         this.$store.dispatch('search/changePerPage', value )
       }
+
     },
 
   },

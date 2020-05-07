@@ -164,6 +164,7 @@
         locale : state => state.locale,
         user : state => state.user.user,
         config: state => state.config.config,
+        isIframe : state => state.isIframe,
       }),
 
       ...mapGetters({

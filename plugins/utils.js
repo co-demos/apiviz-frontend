@@ -833,9 +833,15 @@ export function filterObjectByKey(raw, allowedKeys ) {
   return filtered
 }
 
-export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr'){
+export function trimString( string, trimming ){
+  let trim = ( trimming && string.length > trimming ) ? trimming : string.length
+  const tail = ( trimming && string.length > trimming) ? '...' : ''
+  return string.slice(0, trim) + tail
+}
 
-  const contentField = contentFields.find(f=> f.position == fieldBlock)
+export function getItemContent(fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale='fr', trimmingOverride=false){
+
+  const contentField = contentFields.find(f => f.position == fieldBlock)
 
   // const log = true
   let blocktags = [
@@ -863,10 +869,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
     // const log = contentField && contentField.field_format.type === 'list_tags'
 
     // log && console.log("\ngetItemContent / contentField : ", contentField)
-
     // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
-
-
     // log && console.log("getItemContent / field_format : ", field_format)
 
     let content = displayableItem[field]
@@ -874,8 +877,8 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
     if ( content && content !== "None" && content !== "" ){
 
-      const trimming = contentField.field_format.trim
-      // log && console.log("getItemContent / trimming : ", trimming)
+      const trimming = !contentField.convert_from_filters && field_format && field_format.trim
+      log && console.log("getItemContent / trimming : ", trimming)
 
       try {
 
@@ -906,12 +909,7 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             })
           }
 
-          content = content.map( tag => {
-            let trim = ( trimming && tag.length > trimming ) ? trimming : tag.length
-            const tail = ( trimming && tag.length > trimming) ? '...' : ''
-            // log && console.log("getItemContent / trim : ", trim)
-            return tag.slice(0, trim) + tail
-          })
+          content = content.map( tag => { return trimString(tag, trimmingOverride && trimming) })
           // log && console.log("getItemContent / content B : ", content)
 
           return content
@@ -1095,4 +1093,48 @@ export function getDefaultImage(defaultImages, item, idField='id'){
   // }
   return image
 
+}
+
+// - - - - - - - - - - - - - - - - - - - //
+// SELECTOR FUNCTIONS FROM ENV VAR
+// - - - - - - - - - - - - - - - - - - - //
+
+const trueStrings = [
+  "y",
+  "yes",
+  "Yes",
+  "YES",
+  "Y",
+  "o",
+  "oui",
+  "Oui",
+  "OUI",
+  "O",
+  "t",
+  "true",
+  "True",
+  "TRUE",
+  "T",
+]
+const falseStrings = [
+  "no",
+  "No",
+  "NO",
+  "NON",
+  "Non",
+  "non",
+  "n",
+  "N",
+  "false",
+  "False",
+  "FALSE",
+  "f",
+  "F",
+]
+export const chooseBooleanMode = (ARG) => {
+  if (trueStrings.includes(ARG)) {
+    return true
+  } else {
+    return false
+  }
 }

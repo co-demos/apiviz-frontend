@@ -1,6 +1,6 @@
 <template>
   <div 
-    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
+    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ isIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
     role="menubar" 
     aria-label="filters navigation"
     >
@@ -69,8 +69,6 @@
         </div>
 
       </div>
-
-
 
       <!-- INPUT FILTERS -->
       <hr 
@@ -169,7 +167,7 @@
         showFiltersSwitch_ : true,
         showFilters : true,
         windowWidth : 0,
-        onlyIframe : false,
+        // onlyIframe : false,
         // window: {
         //   width: 0,
         //   height: 0
@@ -191,11 +189,6 @@
     beforeMount(){
       this.log && console.log('\nC-SearchWithFilters / beforeMount...')
       this.textQuery = this.searchedText
-
-      if (this.$nuxt.$route.query.iframing) {
-        this.onlyIframe = true
-      }
-
     },
 
     mounted(){
@@ -221,6 +214,7 @@
         log : state => state.log, 
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
+        isIframe : state => state.isIframe,
         // selectedFilters: state => state.search.search.question.selectedFilters,
         // filterDescriptions: state => state.search.filterDescriptions
       }),

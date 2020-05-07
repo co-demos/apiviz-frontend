@@ -77,7 +77,7 @@
         </nuxt-link>
 
         <a
-          v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'link' && link.is_visible == true"
+          v-if="link.is_external_link && !link.has_dropdown && link.link_type == 'link' && link.is_visible == true"
           :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim`"
           :href="link.link_to"
           :key="`'link-int-' + ${index}`"
@@ -90,7 +90,7 @@
           v-if="link.link_type == 'link' && link.is_visible == true"
           :key="index"
           class="is-flex-touch menu-delimiter-primary-c"
-        >
+          >
       
       </template>
 

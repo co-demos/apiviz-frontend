@@ -79,7 +79,8 @@
           <i class="fas fa-table"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_table[locale] }}
+          <!-- {{ basicDict.tab_table[locale] }} -->
+          {{ getTabTitle( 'tab_table', locale ) }}
         </span>
       </nuxt-link>
 
@@ -94,7 +95,8 @@
           <i class="fas fa-th-large"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_list[locale] }}
+          <!-- {{ basicDict.tab_list[locale] }} -->
+          {{ getTabTitle( 'tab_list', locale ) }}
         </span>
       </nuxt-link>
 
@@ -109,7 +111,8 @@
           <i class="far fa-map"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_map[locale] }}
+          <!-- {{ basicDict.tab_map[locale] }} -->
+          {{ getTabTitle( 'tab_map', locale ) }}
         </span>
       </nuxt-link>
 
@@ -124,7 +127,8 @@
           <i class="far fa-chart-bar"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_stat[locale] }}
+          <!-- {{ basicDict.tab_stat[locale] }} -->
+          {{ getTabTitle( 'tab_stat', locale ) }}
         </span>
       </nuxt-link>
 
@@ -139,7 +143,8 @@
           <i class="far fa-calendar-alt"></i>
         </span>
         <span class="is-hidden-touch">
-          {{ basicDict.tab_calendar[locale] }}
+          <!-- {{ basicDict.tab_calendar[locale] }} -->
+          {{ getTabTitle( 'tab_calendar', locale ) }}
         </span>
       </nuxt-link>
 
@@ -238,16 +243,16 @@
     mounted(){
       this.log && console.log('\nC-SearchResultsCountAndTabs / mounted...')
 
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigTable   : ', this.endpointConfigTable)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigTable   : ', this.endpointConfigTable)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigList    : ', this.endpointConfigList)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigMap     : ', this.endpointConfigMap)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigStat    : ', this.endpointConfigStat)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigExport  : ', this.endpointConfigExport)
     
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToMap   : ', this.endpointConfigUrlToMap)
-      this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToStat  : ', this.endpointConfigUrlToStat)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToTable : ', this.endpointConfigUrlToTable)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToList  : ', this.endpointConfigUrlToList)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToMap   : ', this.endpointConfigUrlToMap)
+      // this.log && console.log('C-SearchResultsCountAndTabs / this.endpointConfigUrlToStat  : ', this.endpointConfigUrlToStat)
     },
 
     computed: {
@@ -256,6 +261,7 @@
         log : state => state.log, 
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
+        isIframe: state => state.isIframe,
         localRouteConfig : state => state.config.localRouteConfig,
         shuffleSeed : state => state.search.search.question.shuffleSeed,
         // pending: state => !!state.search.search.answer.pendingAbort,
@@ -265,7 +271,7 @@
       ...mapGetters({
         pending : 'search/getPending',
         total : 'search/getResultsCount',
-
+        iframing : 'getIframeSlug',
 
         endpointConfigFilters : 'config/getEndpointConfigFilters',
 
@@ -315,27 +321,25 @@
       exportDataset() {
 
         let exportConfig = this.endpointConfigExport
-        this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
 
-        let fileName = "export_file" + '.csv'
-
-        this.$store.dispatch( 'search/exportDataset' )
-        .then( response => {
-          this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
-          let blob = new Blob([response.data], {type: 'text/csv'})
-          const link = document.createElement('a')
-          link.href = window.URL.createObjectURL(blob)
-          link.setAttribute('download', fileName) // or any other extension
-          document.body.appendChild(link)
-          link.click()
-        })
+        if ( exportConfig.redirect_to ){
+          this.log && console.log('\nC-SearchResultsCountAndTabs / exportDataset / exportConfig : ', exportConfig)
+          this.$router.push( exportConfig.redirect_to )
+        } else {
+          let fileName = "export_file" + '.csv'
+          this.$store.dispatch( 'search/exportDataset' )
+          .then( response => {
+            this.log && console.log('C-SearchResultsCountAndTabs / exportDataset / response : ', response)
+            let blob = new Blob([response.data], {type: 'text/csv'})
+            const link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.setAttribute('download', fileName) // or any other extension
+            document.body.appendChild(link)
+            link.click()
+          })
+        }
 
       },
-
-      // translate( textsToTranslate ) {
-      //   let listTexts = textsToTranslate.link_text
-      //   return this.$Translate( listTexts, this.locale, 'text')
-      // },
 
       translateBis( textsToTranslate, listField ) {
         let listTexts = textsToTranslate[listField]
@@ -344,6 +348,18 @@
 
       getDefaultText(txt_code){
         return this.$store.getters['config/defaultText']({txt:txt_code})
+      },
+
+      getTabTitle( txt_code, locale ){
+        
+        // this.log && console.log('C-SearchResultsCountAndTabs / getTabTitle / txt_code : ', txt_code)
+        let defaultText = this.getDefaultText(txt_code)
+        
+        let fromBasicDict = this.basicDict[txt_code][locale]
+        // this.log && console.log('C-SearchResultsCountAndTabs / getTabTitle / fromBasicDict : ', fromBasicDict)
+
+        let result = defaultText ? defaultText : fromBasicDict
+        return result 
       },
 
     }

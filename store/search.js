@@ -544,7 +544,7 @@ export const actions = {
     toggleFilter({state, commit, dispatch, getters}, {filter, value}){
       state.log && console.log("\n// toggleFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
-      // state.log && console.log("// toggleFilter / selectedFilters : ", selectedFilters);
+      state.log && console.log("// toggleFilter / selectedFilters : ", selectedFilters);
       const selectedValues = selectedFilters.get(filter)
       if(selectedValues.has(value))
         selectedValues.delete(value)

@@ -2,12 +2,13 @@
   <section class="search-results-list">
 
     <!-- DEBUGGING -->
-    <!-- <div class="container"> -->
+    <div class="container">
       <!-- -- SearchResultsList --<br> -->
       <!-- routeConfig.dataset_uri : <code>{{ routeConfig.dataset_uri }}</code><br> -->
       <!-- routeConfig.contents_fields : <br><pre><code>{{ JSON.stringify(routeConfig.contents_fields , null, 1) }}</code></pre><br>  -->
       <!-- <br> -->
-    <!-- </div> -->
+      <!-- {{ selectedFilters }} -->
+    </div>
 
     <!-- <div 
       class="container" 
@@ -30,14 +31,12 @@
         :view="VIEW_TABLE"
       />
 
-
       <PaginationNav 
         v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
         :position="'top'"
         :feedback="routePagination.feedback"
         :show="true"
       />
-
 
       <!-- Table container and content -->
       <div 
@@ -76,7 +75,7 @@
                   :class="`button is-small  ${ contentField.field === sortBy ? 'is-active' : ''}`"
                   @click="changeSorting( contentField.field )"
                   >
-                  {{ contentField.field }}
+                  {{ getContentText(contentField) }}
                   <span class="icon has-text-centered is-marginless">
                     <i 
                       :class="`fas fa-angle-${ sortIsDescending ? 'down' : 'up'} ${ contentField.field === sortBy ? '' : ''}`"></i>
@@ -88,7 +87,7 @@
                   >
                   <span
                     class="table-header-center-child">
-                    {{ contentField.field }}
+                    {{ getContentText(contentField) }}
                   </span>
                 </div>
               </th>
@@ -118,15 +117,48 @@
               <td
                 v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
                 :key="index">
-                <nuxt-link
-                  v-if="contentField.has_link_to_detail"
+
+                <!-- LINK TO DETAIL -->
+                <nuxt-link v-if="contentField.has_link_to_detail"
                   :to="`/${dataset_uri}/detail?id=${ itemField( item, columnsOrder.idField ) }`" 
                   :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
                   >
                   {{ itemField(item, contentField.field ) }}
                 </nuxt-link>
-                <span 
-                  v-else
+
+                <!-- EXTERNAL LINK -->
+                <a v-else-if="contentField.is_external_link"
+                  :href="getCleanUrl(item, contentField.field )"
+                  target="_blank"
+                  class="link-underlined"
+                  >
+                  {{ itemField(item, contentField.field ) }}
+                </a>
+
+                <!-- TAGS -->
+                <div v-else-if="contentField.is_tag_like">
+
+                  <!-- {{ convertTags(item, contentField.field ) }} -->
+                  <button 
+                    v-for="(tag, i) in convertTags(item, contentField.field )" 
+                    :class="`button tag ${ getItemColors(contentField.field)}`"
+                    :key="tag.tagText+i"
+                    @click="addTagAsFilter(contentField.field, tag)"
+                    >
+                    <span>
+                      {{ tag.tagText }}
+                    </span>
+                    <span class="icon is-small"
+                      v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                      >
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+
+                </div>
+
+                <!-- ELSE -->
+                <span v-else
                   :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
                   >
                   {{ itemField(item, contentField.field ) }}
@@ -201,6 +233,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 import axios from 'axios'
+import { trimString } from '~/plugins/utils.js';
 
 // import ProjectCard from './ProjectCard.vue'
 import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
@@ -226,39 +259,22 @@ export default {
     // 'projectContentsFields'
   ],
 
-
   // beforeCreate: function () {
     //   console.log("\n - - SearchResultsList / beforeCreate ... ")
   // },
   // created: function () {
     //   console.log("\n - - SearchResultsList / created ... ")
   // },
+
   beforeMount : function(){
     this.log && console.log('\nC-SearchResultsList / beforeMount...')
-    // this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
+    this.log && console.log("C-SearchResultsList / this.routeConfig : \n ", this.routeConfig)
     // this.log && console.log("C-SearchResultsList / this.projectContentsFields : \n ", this.projectContentsFields)
     // this.log && console.log("C-SearchResultsList / this.$store.state.search : \n ", this.$store.state.search)
     // this.projectContentsFields = this.routeConfig.content_fields
     this.perPage = this.searchQuestion.perPage
-    this.sortBy = this.searchQuestion.sortBy
+    this.localSortBy = this.searchQuestion.sortBy
     this.sortIsDescending = this.searchQuestion.sortIsDescending
-
-
-    // console.log( "+ + + test axios from SearchResultsList ..." )
-    // axios.get(
-    //   "http://opencorporatefacts.fr/api/corporates?page=1",
-    //   { 
-    //     headers: { 
-    //       Accept: "application/ld+json",
-    //       Host: "opencorporatefacts.fr" 
-    //     }
-    //   }
-    // )
-    // .then(resp => { 
-    //   console.log( "+ + + test axios from SearchResultsList / resp : " ,  resp)
-    // })
-
-
 
   },
 
@@ -268,7 +284,6 @@ export default {
 
     this.$store.dispatch('search/setSearchConfigDisplay');
     this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount']
-
 
     scrollListener = () => {
       const getSearchConfigScrollBeforeBottomTrigger = this.$store.getters['search/getSearchConfigScrollBeforeBottomTrigger']
@@ -287,8 +302,18 @@ export default {
 
   watch: {
     projects(next, prev){
+      this.log && console.log('C-SearchResultsList / watch / projects ...')
       this.showCount = this.$store.getters['search/getSearchConfigDefaultShowCount'];
-    }
+      const int = setInterval(() => {
+        if(window.pageYOffset < 50){
+          clearInterval(int)
+        }
+        else{
+          window.scrollTo(0, 0)
+        }
+      }, 100);
+    },
+
   },
 
   data(){
@@ -330,6 +355,8 @@ export default {
     ...mapGetters({
       pending  : 'search/getPending',
       dataset_uri : 'search/getSearchDatasetURI',
+      selectedFilters : 'search/getSelectedFilters',
+      filterDescriptions : 'search/getFilterDescriptions',
       searchQuestion : 'search/getQuestion',
       perPageOptions : 'search/getPerPageOptions',
       projects : 'search/getResults',
@@ -382,6 +409,103 @@ export default {
 
     itemField( item, field ){
       return item && item[field]
+    },
+
+    getContentText(contentField) {
+      let resultText = contentField.field
+      if ( contentField.custom_title && Array.isArray(contentField.custom_title ) ) {
+        let textRef = contentField.custom_title.find( txt => txt.locale == this.locale )
+        resultText = textRef.text
+      }
+      return resultText
+    },
+
+    getCleanUrl( item, field ) {
+      let rawContent = this.itemField( item, field )
+      if ( rawContent ) {
+        if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
+          rawContent = 'htttp://' + rawContent
+        }
+      }
+      return rawContent
+    },
+
+    getContentField(field) {
+      const contentsFields = this.routeConfig.contents_fields
+      const contentField = contentsFields.find(f=> f.field == field)
+      return contentField
+    },
+
+    convertTags(item, field) {
+      let locale = this.locale
+      const contentField = this.getContentField(field)
+      let tags = this.itemField(item, field)
+
+      if ( tags !== this.noData && contentField ) {
+        let separator = contentField.tags_separator
+        let tagsRaw = tags.split( separator )
+        let tagsAsCleanArray = []
+        tagsRaw.forEach( t => {
+          if ( t !== "") { tagsAsCleanArray.push(t)}
+        })
+
+        const trimming = contentField.field_format.trim
+        const filtersDescription = this.filterDescriptions
+        const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == field )
+        const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
+        let newTags = tagsAsCleanArray.map( tag => {
+
+          let tagContainer = {
+            filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterChoice: undefined,
+            tagOriginal: tag,
+            tagText: tag
+          }
+          try {
+
+            let choice = filterChoices.find( c => c.name == tag)
+            tagContainer.filterChoice = choice
+
+            // this.log && console.log("\nC-SearchResultsTable / convertTags / tagContainer : ", tagContainer )
+            if ( contentField.convert_from_filters ) {
+              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newText = newTagObj.text
+              // this.log && console.log("C-SearchResultsTable / convertTags / newText : ", newText )
+              // this.log && console.log("C-SearchResultsTable / convertTags / trimming : ", trimming )
+              // return trimString(newText, trimming)
+              tagContainer.tagText = trimString(newText, trimming)
+            }
+
+            return tagContainer
+          }
+          catch (err) { return tagContainer }
+
+        })
+        tags = newTags
+      }
+      if ( tags === this.noData ) { tags = undefined }
+      return tags
+    },
+
+    addTagAsFilter(field, tag) {
+      // this.log && console.log("\nC-SearchResultsTable / addTagAsFilter / tag : ", tag )
+      const contentField = this.getContentField(field)
+      // this.log && console.log("C-SearchResultsTable / addTagAsFilter / contentField : ", contentField )
+      if ( contentField && contentField.convert_from_filters ) {
+        let filterTarget = {
+          filter: tag.filterName,
+          value: tag.tagOriginal
+        }
+        this.$store.dispatch( 'search/toggleFilter', filterTarget )
+      }
+    },
+
+    getItemColors(field) {
+      let contentField = this.getContentField( field )
+      let textColor = contentField.item_color ? contentField.item_color : "white"
+      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
+      return colors
     },
 
     changePerPageSelection(event){
@@ -473,4 +597,12 @@ export default {
     margin-top : 10em;
     margin-bottom : 10em;
   }
+
+  .button.tag{
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.2em 1em;
+    font-size: 12px;
+  }
+
 </style>

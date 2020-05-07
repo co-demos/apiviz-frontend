@@ -1,17 +1,31 @@
- <template>
-  <footer class="footer">
+
+<style scoped>
+
+  .icon-spacer{
+    margin-right: .5em;
+    margin-left: .5em;
+  }
+
+</style>
+
+<template>
+  <footer 
+    v-if="!isIframe"
+    :class="`footer is-${footerColor}-b-only`"
+    >
     <div class="container">
-      <div class="columns">
+      <div class="columns is-centered is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
 
         <!-- LOOP FOOTER BLOCKS -->
-        <div :class="`column is-${columnsDivisions} is-offset-1`"
+        <div 
           v-for="(block, index) in visibleBlocks"
           :key="index"
+          :class="`column ${columnsDivisions(block)}`"
           >
 
           <!-- BLOCK TITLE -->
           <h3 v-if="block.title_visible"
-            class="has-text-left has-text-primary has-text-primary-c"
+            :class="`has-text-left has-text-${footerTitleColor} has-text-${footerTitleColor}-c`"
             > 
             {{ translate( footerLinks(block.position), 'title_block' ) }}
           </h3>
@@ -19,11 +33,17 @@
           <!-- LOOP LINKS -->
           <template v-if="isVisible( footerLinks(block.position) )" >
             <ul>
-              <li v-for="(link, index) in footerLinks(block.position)['links']"
-                :key="index"
+              <li v-for="(link, linkIdx) in footerLinks(block.position)['links']"
+                :key="linkIdx"
+                :class="`${blockLinkClass(block)}`"
                 >
 
-                <a v-if="link.is_visible && link.link_type == 'text' " :href="link.link_to" :target="`${ link.is_external_link ? '_blank' : ''}`"> 
+                <a 
+                  v-if="link.is_visible && link.link_type == 'text' " 
+                  :href="link.link_to" 
+                  :target="`${ link.is_external_link ? '_blank' : ''}`"
+                  :class="`is-size-7 has-text-${footerTextColor} has-text-${footerTextColor}-c`"
+                  > 
                   {{ translate(link, 'link_text') }}
                 </a>
 
@@ -36,24 +56,28 @@
           <!-- ADD SOCIAL AT THE END -->
           <template v-if="hasSocials(block.position)">
             <br>
-            <hr> 
+            <hr
+              :class="`is-primary-b`"
+            > 
             <div class="content has-text-centered">
 
               <!-- LOOP SOCIALS -->
-              <template  v-for="(icon, index) in appSocials">
+              <template  v-for="(icon, iconIdx) in appSocials">
 
                 <!-- ICONS SOCIAL -->
-                <a v-if="icon.in_footer"
-                  class="button is-primary is-primary-b" 
-                  :key="index"
+                <a 
+                  v-if="icon.in_footer"
+                  :class="`button icon-spacer is-${footerSocialsColor} is-${footerSocialsColor}-b ${footerSocialsClass} `" 
+                  :key="iconIdx"
                   :href="icon.url" 
                   >
-                  <span class="icon">
+                  <span 
+                    :class="`icon`"
+                    >
                     <i :class="icon.icon_class"></i>
                   </span>
                 </a>
                 
-                &nbsp;&nbsp;&nbsp;
               </template>
 
             </div>
@@ -100,6 +124,7 @@ export default {
     ...mapState ({
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
+      isIframe : state => state.isIframe,
     }),
 
     ...mapGetters ({
@@ -110,6 +135,43 @@ export default {
     footerUI() {
       return this.footerConfig.ui_options
     },
+
+    footerColor(){
+      let cardColor = this.footerUI.card_color
+      cardColor = cardColor ? cardColor : { default : 'default_background_app' }
+      let footColor = cardColor.value ? cardColor.value : cardColor.default
+      return footColor
+    },
+
+
+    footerTitleColor(){
+      let titleColor = this.footerUI.title_color
+      titleColor = titleColor ? titleColor : { default : 'primary' }
+      let footTitleColor = titleColor.value ? titleColor.value : titleColor.default
+      return footTitleColor
+    },
+
+    footerTextColor(){
+      let textColor = this.footerUI.text_color
+      textColor = textColor ? textColor : { default : 'link' }
+      let footTextColor = textColor.value ? textColor.value : textColor.default
+      return footTextColor
+    },
+
+    footerSocialsColor(){
+      let socialsColor = this.footerUI.socials_color
+      socialsColor = socialsColor ? socialsColor : { default : 'primary' }
+      let footSocialsColor = socialsColor.value ? socialsColor.value : socialsColor.default
+      return footSocialsColor
+    },
+
+    footerSocialsClass(){
+      let socialsClass = this.footerUI.socials_class
+      socialsClass = socialsClass ? socialsClass : { default : '' }
+      let footSocialsClass = socialsClass.value ? socialsClass.value : socialsClass.default
+      return footSocialsClass
+    },
+
 
     visibleBlocks() {
       let visibleColumns = this.footerConfig.links_options.filter(block => {
@@ -123,21 +185,36 @@ export default {
       return Object.keys(this.visibleBlocks).length
     },
 
-    columnsDivisions(){
-      if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
-        return 8
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
-        return 5
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
-        return 3
-      } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
-        return 2
-      } 
-   }
 
   },
 
   methods : {
+
+    columnsDivisions(block){
+
+      if (block.block_class) {
+        return block.block_class
+      }
+      else {
+        if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 1){
+          return ""
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 2){
+          return "is-half"
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 3){
+          return "is-third"
+        } else if (this.lengthLinksOptions > 0 && this.lengthLinksOptions == 4){
+          return "is-quarter"
+        } 
+      }
+
+   },
+
+    blockLinkClass(block){
+      let linkClass = block.link_class
+      linkClass = linkClass ? linkClass : { default : 'has-text-left' }
+      let linkTextClass = linkClass.value ? linkClass.value : linkClass.default
+      return linkTextClass
+    },
 
     footerLinks(position) {
       // console.log("position : ", position)
