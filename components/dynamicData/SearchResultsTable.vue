@@ -128,7 +128,7 @@
 
                 <!-- EXTERNAL LINK -->
                 <a v-else-if="contentField.is_external_link"
-                  :href="itemField(item, contentField.field )"
+                  :href="getCleanUrl(item, contentField.field )"
                   target="_blank"
                   class="link-underlined"
                   >
@@ -418,6 +418,16 @@ export default {
         resultText = textRef.text
       }
       return resultText
+    },
+
+    getCleanUrl( item, field ) {
+      let rawContent = this.itemField( item, field )
+      if ( rawContent ) {
+        if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
+          rawContent = 'htttp://' + rawContent
+        }
+      }
+      return rawContent
     },
 
     getContentField(field) {
