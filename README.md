@@ -47,7 +47,7 @@ Main apiviz demo website :
 - [Apiviz.io](https://apiviz.io) : [![Netlify Status](https://api.netlify.com/api/v1/badges/851f6ce8-91bb-43e6-b6c6-80b66c9328cd/deploy-status)](https://app.netlify.com/sites/apiviz-demo-site/deploys)
 
 Official websites : 
-- [PiNG - carto](https://ping-carto.netlify.app) : [![Netlify Status](https://api.netlify.com/api/v1/badges/23e061dc-c6f6-4b8b-bd03-a3cd4dd622a1/deploy-status)](https://app.netlify.com/sites/ping-carto/deploys)
+- [PiNG - carto](https://tierslieux.cartes.pingbase.net) : [![Netlify Status](https://api.netlify.com/api/v1/badges/23e061dc-c6f6-4b8b-bd03-a3cd4dd622a1/deploy-status)](https://app.netlify.com/sites/ping-carto/deploys)
 - [CONUMM - carto](https://conumm.netlify.app) : [![Netlify Status](https://api.netlify.com/api/v1/badges/a60524d7-bfe3-478f-9537-344f5830f70b/deploy-status)](https://app.netlify.com/sites/conumm/deploys)
 - [Décider ensemble - ressources](https://decider-ensemble.netlify.app) : [![Netlify Status](https://api.netlify.com/api/v1/badges/f39c62de-075d-4f52-ad43-41cfd23b46ff/deploy-status)](https://app.netlify.com/sites/decider-ensemble/deploys)
 - [Covid-initiatives](https://covid-initiatives.org) : [![Netlify Status](https://api.netlify.com/api/v1/badges/653aa511-7abc-4a74-ab71-6ba9f5d599a0/deploy-status)](https://app.netlify.com/sites/covid-initiatives/deploys)
