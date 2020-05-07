@@ -938,7 +938,7 @@ export default {
     getCleanUrl( fieldBlock ) {
       let rawContent = this.matchProjectWithConfig( fieldBlock )
       if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
-        rawContent = 'htttp://' + rawContent
+        rawContent = 'http://' + rawContent
       }
       return rawContent
     },
