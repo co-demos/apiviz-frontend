@@ -55,7 +55,7 @@
             >
             <div class="navbar-item navbar-item-filter has-text-centered">
               <a 
-                :class="`button ${ showFilters ? 'is-primary is-primary-c' : 'is-white' }`"
+                :class="`button ${ showFilters ? 'is-primary is-primary-b' : 'is-white' }`"
                 @click="SwitchFilters()"
                 >
                 <span 
