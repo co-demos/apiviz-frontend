@@ -453,7 +453,7 @@
             <!-- BLOCK CONTACT -->
             <div
               v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
-              class="added is-info-b has-text-white"
+              class="added is-info is-info-b is-info-b-only has-text-white"
               id="block-contact"
               >
               <div class="columns">
@@ -494,15 +494,20 @@
                     <span class="icon is-small">
                       <i class="fas fa-at"></i>
                     </span>
-                    <span>
+                    &nbsp;
+                    <a 
+                      class="has-text-white"
+                      :href="`mailto:${matchProjectWithConfig('block_contact_email')}`"
+                      >
                       {{ matchProjectWithConfig('block_contact_email')}} <br>
-                    </span>
+                    </a>
                   </div>
 
                   <div v-if="isPositionFilled('block_contact_tel')">
                     <span class="icon is-small">
                       <i class="fas fa-phone"></i>
                     </span>
+                    &nbsp;
                     <span>
                       {{ matchProjectWithConfig('block_contact_tel')}} <br>
                     </span>
@@ -546,7 +551,8 @@
                     <span>
                       {{ getDefaultText('open_infos') }}
                       : <br>
-                      {{ matchProjectWithConfig('block_open_infos')}} <br>
+                      <span v-html="matchProjectWithConfig('block_open_infos')"/>
+                      <br>
                     </span>
                   </div>
 

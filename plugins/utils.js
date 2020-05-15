@@ -1037,8 +1037,12 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
             const tail = ( trimming && content.length > trimming )? '...' : '' ;
             content = content.slice(0, trim) + tail
             // log && console.log("getItemContent / object content not tag like : ", content)
+            // if ( field_format.breakline ) {
+              //   content = content.split(field_format.breakline)
+              // }
             return content
           }
+
         }
 
       } catch(e){

@@ -80,7 +80,10 @@
         color : {{ appColors[cCode] }} !important ;
         border-color : {{ appColors[cCode] }} !important ;
       }
-
+      .is-{{ cCode }}-b-only:hover{
+        background-color : {{ appColors[cCode] }} !important ;
+        color : white !important ;
+      }
       .is-{{ cCode }}-b.is-inverted{
         color : {{ appColors[cCode] }} !important ;
         background-color : transparent !important ;
