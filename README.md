@@ -41,6 +41,8 @@ To fully enjoy Apiviz frontend's features if you're not using Solidata's API, **
 
 --------
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 #### DEPLOYED WEBSITES : 
 
 Main apiviz demo website : 
