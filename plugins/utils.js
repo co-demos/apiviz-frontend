@@ -852,9 +852,13 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
   let blocktags = [
     'block_tags',
     'block_rb1_tags',
+    'block_rb2_tags',
+    'block_rb3_tags',
+    'block_rb4_tags',
   ]
   let blocksToLog = [
     'block_tags',
+    'block_tags_bis',
     // 'block_abstract',
     // 'block_image',
   ]
@@ -893,7 +897,9 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 
           // log && console.log("getItemContent / list_tags content ", content)
 
+          // !!!! => `filter_correspondance` => DEPRECATED 
           if ( contentField.filter_correspondance ) {
+            log && console.log("getItemContent / contentField.filter_correspondance : ", contentField.filter_correspondance)
             // log && console.log("getItemContent / list_tags content filterDescriptions : ", filterDescriptions)
             // choose filter corresponding to field
 
@@ -1085,15 +1091,15 @@ export function getDefaultImage(defaultImages, item, idField='id'){
   let image
   let images_set  = (d) ? d.images_set : undefined
 
-  console.log("getDefaultImage / item : ", item)
-  console.log("getDefaultImage / images_set : ", images_set)
+  // console.log("getDefaultImage / item : ", item)
+  // console.log("getDefaultImage / images_set : ", images_set)
 
   try {
     if (images_set && images_set.length > 0) {
       const textureCount = images_set.length + 1
       let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
       if (!id) { id = 111111111111111111 }
-      console.log("getDefaultImage / id : ", id)
+      // console.log("getDefaultImage / id : ", id)
       let tail = id % images_set.length + 1;
       // console.log("getDefaultImage / tail : ", tail)
       let imageObj = images_set.find(function(i){

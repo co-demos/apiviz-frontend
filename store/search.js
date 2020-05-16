@@ -200,7 +200,7 @@ export const getters = {
   // IMAGES CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getImgUrl : (state, getters, rootState) => (obj) => {
-      console.log("\nS-search-G-getImgUrl / obj : ", obj)
+      // console.log("\nS-search-G-getImgUrl / obj : ", obj)
       let image = obj.image
 
       if(!image){
@@ -214,7 +214,7 @@ export const getters = {
           })
           images_set  = (d) ? d.images_set : undefined
         }
-        console.log("S-search-G-getImgUrl / images_set : ", images_set)
+        // console.log("S-search-G-getImgUrl / images_set : ", images_set)
 
         if (images_set && images_set.length > 0) {
           const textureCount = images_set.length + 1
@@ -225,9 +225,9 @@ export const getters = {
           
           let id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
           if (!id) { id = 111111111111111111 }
-          console.log("S-search-G-getImgUrl / id : ", id)
+          // console.log("S-search-G-getImgUrl / id : ", id)
           let reste = id % images_set.length + 1
-          console.log("S-search-G-getImgUrl / reste : ", reste)
+          // console.log("S-search-G-getImgUrl / reste : ", reste)
 
           let imageObj = images_set.find(function(i){
             return i.dft_text === 'img_'+reste;

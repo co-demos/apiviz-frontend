@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.11 :code cleaning ...
 - v.1.0.10 : can use other field than `sd_id` for stable url with id
 - v.1.0.9 : fix for clean url generation in table
 - v.1.0.8 : tags in ( project card and table view) acting as filters

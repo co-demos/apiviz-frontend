@@ -661,6 +661,25 @@
                     </div>
                   </div>
 
+                  <!-- BLOCK RB4 TAGS -->
+                  <div id="block-RB4-tags" v-if="isPositionFilled('block_rb4_tags')" class="mb-2">
+                    <div
+                      v-if="getCustomBlockTitle('block_rb4_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                      >
+                      {{ getCustomBlockTitle('block_rb4_tags') }}
+                    </div>
+                    <div>
+                      <button v-for="(tag, i) in convertTags('block_rb4_tags')"
+                        :class="`button tag ${ getItemColors('block_rb4_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb4_tags', tag)"
+                        >
+                        {{ tag.tagText }}
+                      </button>
+                    </div>
+                  </div>
+
                   <!--  -->
                   <div v-if="isPositionFilled('block_right_bottom_1')">
                     <span
@@ -700,6 +719,20 @@
                     </span>
                     <span>
                       {{ matchProjectWithConfig('block_right_bottom_3')}}
+                    </span>
+                  </div>
+
+                  <div v-if="isPositionFilled('block_right_bottom_4')">
+                    <br>
+                    <span
+                      v-if="getCustomBlockTitle('block_right_bottom_4')"
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_4') }}
+                      <br><br>
+                    </span>
+                    <span>
+                      {{ matchProjectWithConfig('block_right_bottom_4')}}
                     </span>
                   </div>
 
