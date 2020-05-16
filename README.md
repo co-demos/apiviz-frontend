@@ -216,3 +216,22 @@ $ make down # stop app with Docker
 ```
 
 ... then check in your browser : [`localhost:3333`](localhost:3333)
+
+---------
+
+### Linting
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+Run dev with Standard lint messages :
+
+```
+npm run dev-lint
+```
+
+
+Lint what could be automatically linted 
+
+```
+npx standard --fix
+```
