@@ -200,7 +200,7 @@ export const getters = {
   // IMAGES CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
     getImgUrl : (state, getters, rootState) => (obj) => {
-      // console.log("\nS-search-G-getImgUrl / obj : ", obj)
+      console.log("\nS-search-G-getImgUrl / obj : ", obj)
       let image = obj.image
 
       if(!image){
@@ -210,20 +210,30 @@ export const getters = {
           && rootState.config.config.styles.app_search_default_images_sets
           && rootState.config.config.styles.app_search_default_images_sets.images_sets) {
           let d = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function(d){
-            return d.dataset_uri === state.search.dataset_uri;
+            return d.dataset_uri === state.search.dataset_uri
           })
           images_set  = (d) ? d.images_set : undefined
         }
+        console.log("S-search-G-getImgUrl / images_set : ", images_set)
 
         if (images_set && images_set.length > 0) {
           const textureCount = images_set.length + 1
+
+          // let subLen = (obj.id.length <= 16) ? obj.id.length-2 : 16
+          // const testDebug = parseInt(obj.id.substr(obj.id.length), subLen)
+          // console.log("S-search-G-getImgUrl / testDebug : ",testDebug)
+          
           let id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
-          let reste = id % images_set.length + 1;
+          if (!id) { id = 111111111111111111 }
+          console.log("S-search-G-getImgUrl / id : ", id)
+          let reste = id % images_set.length + 1
+          console.log("S-search-G-getImgUrl / reste : ", reste)
+
           let imageObj = images_set.find(function(i){
             return i.dft_text === 'img_'+reste;
           })
           image = imageObj.src_image
-        }else {
+        } else {
           let random = Math.floor(Math.random() * (7 - 1) + 1)
           image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16)%textureCount) + 1}.png`
         }

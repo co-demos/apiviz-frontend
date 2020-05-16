@@ -732,7 +732,12 @@ export function searchEndpointGenerator( obj ) {
     if ( !EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1 ){
       if ( questionParams[EndpointArg.app_arg] || !EndpointArg.optional ) {
         let argVal = EndpointArg.app_arg === "defaultValue" ? EndpointArg.default : String(questionParams[EndpointArg.app_arg])
-        let argString = EndpointArg.arg + '=' + argVal // String(questionParams[EndpointArg.app_arg])
+        let argString = EndpointArg.arg + '=' + argVal 
+
+        if (EndpointArg.replace_arg) {
+          argString = `${EndpointArg.replace_arg.arg}=${EndpointArg.replace_arg.sub_arg}${EndpointArg.replace_arg.sep}${argVal}`
+        }
+
         argsArray.push(argString)
       }
     }
@@ -1075,26 +1080,34 @@ export function getItemContent(fieldBlock, displayableItem, contentFields, noDat
 export function getDefaultImage(defaultImages, item, idField='id'){
 
   let d = defaultImages
+  const errorImage = `https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/textures/medium_fiche_1.png?raw=true`
+
   let image
   let images_set  = (d) ? d.images_set : undefined
 
   console.log("getDefaultImage / item : ", item)
   console.log("getDefaultImage / images_set : ", images_set)
 
-  if (images_set && images_set.length > 0) {
-    const textureCount = images_set.length + 1
-    let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
-    console.log("getDefaultImage / id : ", id)
-    let tail = id % images_set.length + 1;
-    let imageObj = images_set.find(function(i){
-      return i.dft_text === 'img_'+tail;
-    })
-    image = imageObj.src_image
+  try {
+    if (images_set && images_set.length > 0) {
+      const textureCount = images_set.length + 1
+      let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
+      if (!id) { id = 111111111111111111 }
+      console.log("getDefaultImage / id : ", id)
+      let tail = id % images_set.length + 1;
+      // console.log("getDefaultImage / tail : ", tail)
+      let imageObj = images_set.find(function(i){
+        return i.dft_text === 'img_'+tail;
+      })
+      // console.log("getDefaultImage / imageObj : ", imageObj)
+      image = imageObj.src_image
+    }
+    else {
+      image = errorImage
+    }
+  } catch {
+    image = errorImage
   }
-  // else {
-  //   let id = 111111111111111111
-  //   image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
-  // }
   return image
 
 }
