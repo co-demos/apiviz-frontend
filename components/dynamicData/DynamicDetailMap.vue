@@ -138,6 +138,7 @@ export default {
 
   mounted(){
     this.mapbox = Mapbox
+    this.$emit('mapReady', true)
   },
 
   computed: {
