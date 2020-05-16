@@ -424,7 +424,7 @@ export default {
       let rawContent = this.itemField( item, field )
       if ( rawContent ) {
         if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
-          rawContent = 'htttp://' + rawContent
+          rawContent = 'http://' + rawContent
         }
       }
       return rawContent

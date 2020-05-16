@@ -210,7 +210,7 @@
                   <a
                     v-if="matchProjectWithConfig('block_contact')"
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
-                    :href="matchProjectWithConfig('block_website') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
+                    :href="matchProjectWithConfig('block_contact') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
                     target="_blank">
                     <!-- {{ seeContact }} -->
                     {{ getDefaultText('see_contact') }}
@@ -453,7 +453,7 @@
             <!-- BLOCK CONTACT -->
             <div
               v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
-              class="added is-info-b has-text-white"
+              :class="`added ${getItemColors('block_contact_email', {only:true})}`"
               id="block-contact"
               >
               <div class="columns">
@@ -494,8 +494,36 @@
                     <span class="icon is-small">
                       <i class="fas fa-at"></i>
                     </span>
-                    <span>
+                    &nbsp;&nbsp;
+                    <a v-if="matchProjectWithConfig('block_contact_email') !== noData"
+                      class="has-text-white"
+                      :href="`mailto:${matchProjectWithConfig('block_contact_email')}`"
+                      >
                       {{ matchProjectWithConfig('block_contact_email')}} <br>
+                    </a>
+                    <span v-else
+                      class="has-text-white"
+                      >
+                      {{ matchProjectWithConfig('block_contact_email')}} <br>
+                    </span>
+                  </div>
+
+                  <div v-if="isPositionFilled('block_contact_website')">
+                    <span class="icon is-small">
+                      <i class="fas fa-external-link-alt"></i>
+                    </span>
+                    &nbsp;&nbsp;
+                    <a v-if="matchProjectWithConfig('block_contact_website') !== noData"
+                      class="has-text-white"
+                      target="_blank"
+                      :href="matchProjectWithConfig('block_contact_website') === noData ? '' : getCleanUrl('block_contact_website') "
+                      >
+                      {{ getCleanUrl('block_contact_website') }} <br>
+                    </a>
+                    <span v-else
+                      class="has-text-white"
+                      >
+                      {{ matchProjectWithConfig('block_contact_website')}} <br>
                     </span>
                   </div>
 
@@ -503,6 +531,7 @@
                     <span class="icon is-small">
                       <i class="fas fa-phone"></i>
                     </span>
+                    &nbsp;&nbsp;
                     <span>
                       {{ matchProjectWithConfig('block_contact_tel')}} <br>
                     </span>
@@ -510,6 +539,7 @@
 
                 </div>
               </div>
+              <br>
             </div>
 
             <!-- BLOCK OPEN INFOS -->
@@ -546,7 +576,8 @@
                     <span>
                       {{ getDefaultText('open_infos') }}
                       : <br>
-                      {{ matchProjectWithConfig('block_open_infos')}} <br>
+                      <span v-html="matchProjectWithConfig('block_open_infos')"/>
+                      <br>
                     </span>
                   </div>
 
@@ -935,10 +966,17 @@ export default {
       return itemContents
     },
 
+    // getBlockColor(fieldBlock, defaultBackColor="primary", defaultColor="white") {
+    //   let contentField = this.getContentField( fieldBlock )
+    //   let blockColor = contentField.block_color ? contentField.block_color : defaultBackColor
+    //   let textColor = contentField.item_color ? contentField.item_color : "white"
+    //   let colors = `is-${blockColor} is-${blockColor}-b has-text-${textColor} has-text-${textColor}-c`
+    // },
+
     getCleanUrl( fieldBlock ) {
       let rawContent = this.matchProjectWithConfig( fieldBlock )
       if ( rawContent.startsWith('www') || !rawContent.startsWith('http') ) {
-        rawContent = 'htttp://' + rawContent
+        rawContent = 'http://' + rawContent
       }
       return rawContent
     },
@@ -1015,11 +1053,11 @@ export default {
       }
     },
 
-    getItemColors(fieldBlock) {
+    getItemColors(fieldBlock, {defaultBackColor="dark", defaultColor="white", only=false}={}) {
       let contentField = this.getContentField( fieldBlock )
-      let textColor = contentField.item_color ? contentField.item_color : "white"
-      let backgroundColor = contentField.background_color ? contentField.background_color : "dark"
-      let colors = `is-${backgroundColor} is-${backgroundColor}-b has-text-${textColor} has-text-${textColor}-c`
+      let textColor = contentField.item_color ? contentField.item_color : defaultColor
+      let backgroundColor = contentField.background_color ? contentField.background_color : defaultBackColor
+      let colors = `is-${backgroundColor} is-${backgroundColor}-b ${only? 'is-'+backgroundColor+'-b-only' : ''} has-text-${textColor} has-text-${textColor}-c`
       return colors
     },
 
