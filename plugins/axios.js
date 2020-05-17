@@ -37,7 +37,7 @@ export default function ({ $axios, redirect, store }) {
   // })
 
   $axios.onError(error => {
-    console.log('> > > plugin axios / error : ', error );
+    console.log('> > > plugin axios / error : ', error)
     const code = parseInt(error.response && error.response.status)
     console.log('\n> > > plugin axios / error - code : ', code)
 

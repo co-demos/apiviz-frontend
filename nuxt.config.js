@@ -41,21 +41,21 @@ export default {
   // buildDir: 'src', // default : '.nuxt'
 
   server: {
-    port: 3001, // default: 3000
+    port: 3001 // default: 3000
     // host: 'localhost' // '0.0.0.0', // default: localhost
   },
 
-  /* 
+  /*
   ** ENV variables
   cf : https://nuxtjs.org/api/configuration-env/
   cf : https://samuelcoe.com/blog/nuxt-dotenv/
   */
   env: {
-    AppConfigName : envAppName,
-    ApivizUUID : process.env.NUXT_APIVIZ_UUID,
-    BackendMode : envBackendMode,
+    AppConfigName: envAppName,
+    ApivizUUID: process.env.NUXT_APIVIZ_UUID,
+    BackendMode: envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
-    AuthMode : envAuthMode,
+    AuthMode: envAuthMode
     // HtmlFilesMode : htmlFilesMode,
   },
 
@@ -68,8 +68,8 @@ export default {
       'setAppMode',
       'getAppConfig',
       'checkAuth',
-      'collapseNavbar',
-    ],
+      'collapseNavbar'
+    ]
     // scrollBehavior: function (to, from, savedPosition) {
     //   return { x: 0, y: 0 }
     // }
@@ -84,7 +84,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
-    ],
+    ]
     // link: [
     //   { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     // ]
@@ -94,7 +94,6 @@ export default {
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },
-
 
   /*
   ** Global CSS
@@ -114,7 +113,7 @@ export default {
   */
   plugins: [
 
-    {src: '~plugins/vee-validate.js', ssr: false},
+    { src: '~plugins/vee-validate.js', ssr: false },
 
     '~/plugins/translate',
     // '~/plugins/axios',
@@ -138,8 +137,8 @@ export default {
 
     ['nuxt-validate', {
       // lang: 'es',
-      // regular vee-validate options 
-    }],
+      // regular vee-validate options
+    }]
 
     // Doc: https://axios.nuxtjs.org/usage
     // '@nuxtjs/axios',
@@ -181,14 +180,14 @@ export default {
   */
   build: {
 
-    extend(config, { isDev, isClient }) {
-      config.resolve.alias["vue"] = "vue/dist/vue.common";
+    extend (config, { isDev, isClient }) {
+      config.resolve.alias.vue = 'vue/dist/vue.common'
     },
 
-    vendors : [
+    vendors: [
       'axios',
       // 'vee-validate',
-      'mapbox-gl',
+      'mapbox-gl'
       // 'turf'
     ],
 
@@ -203,7 +202,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
+    extend (config, ctx) {
     }
   }
 }
