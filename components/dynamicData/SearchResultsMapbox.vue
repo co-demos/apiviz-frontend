@@ -614,6 +614,7 @@ export default {
     }),
 
     ...mapGetters({
+      datasetURI : 'search/getSearchDatasetURI',
       projects : 'search/getResults',
       displayedProject : 'search/getDisplayedProject',
       isPending : 'search/getPending',
@@ -1174,6 +1175,7 @@ export default {
       const itemIdField = this.getBlockField('block_id') ? this.getBlockField('block_id') : "sd_id"
 
       let displayPoint = this.highlightItem
+      let goToDetailPage = this.goToDetailPage
 
       let toggleSelectedOn = this.toggleSelectedOn
       let popup = new mapboxgl.Popup({
@@ -1235,19 +1237,23 @@ export default {
             var pointId = itemProps[ itemIdField ]
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
 
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
-
-            // fly to point
-            let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
-            mapboxMap.easeTo({
-              center: coordinates,
-              zoom : mapZoom + mapZoomAdd
-            })
-
-            itemProps.lat = coordinates[1]
-            itemProps.lon = coordinates[0]
-            displayPoint(itemProps)
+            if (allPointsConfigOptions.direct_to_detail) {
+              goToDetailPage(pointId)
+            } else {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+              console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
+  
+              // fly to point
+              let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
+              mapboxMap.easeTo({
+                center: coordinates,
+                zoom : mapZoom + mapZoomAdd
+              })
+  
+              itemProps.lat = coordinates[1]
+              itemProps.lon = coordinates[0]
+              displayPoint(itemProps)
+            }
 
           })
           // HOVER ENTER
@@ -1604,6 +1610,11 @@ export default {
     },
     switchLegendDrawer(){
       this.drawerScalesOpen = !this.drawerScalesOpen
+    },
+    goToDetailPage(itemId) {
+      const datasetURI = this.datasetURI
+      const detailItemUrl = `/${datasetURI}/detail?id=${itemId}`
+      this.$router.push(detailItemUrl)
     },
 
     // - - - - - - - - - - - - - - - - - - //

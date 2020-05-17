@@ -8,7 +8,7 @@
       <!-- DEBUGGING -->
       <!-- <div class="container"> -->
         <!-- -- ProjectCard --<br> -->
-        <!-- dataset_uri : <br><code>{{ dataset_uri }}</code><br> -->
+        <!-- datasetURI : <br><code>{{ datasetURI }}</code><br> -->
         <!-- block_id : <br><code>{{ matchItemWithConfig('block_id') }}</code><br> -->
         <!-- item : <br><pre><code>{{ JSON.stringify(item , null, 1) }}</code></pre><br>  -->
         <!-- contentFields : <br><pre><code>{{ JSON.stringify(contentFields , null, 1) }}</code></pre><br>  -->
@@ -18,7 +18,7 @@
 
       <!-- BLOCK IMAGE -->
       <nuxt-link 
-        :to="`/${dataset_uri}/detail?id=${matchItemWithConfig('block_id')}`" 
+        :to="`/${datasetURI}/detail?id=${matchItemWithConfig('block_id')}`" 
         class="card-image"
         >
         <img 
@@ -60,7 +60,7 @@
 
         <!-- BLOCK TITLE -->
         <p class="title is-5 has-text-weight-bold has-text-black-ter" v-if="matchItemWithConfig('block_title')">
-          <nuxt-link :to="`/${dataset_uri}/detail?id=${ matchItemWithConfig('block_id') }`">
+          <nuxt-link :to="`/${datasetURI}/detail?id=${ matchItemWithConfig('block_id') }`">
             {{ matchItemWithConfig('block_title')}}
           </nuxt-link>
         </p>
@@ -240,7 +240,7 @@ export default {
     }),
 
     ...mapGetters({
-      dataset_uri : 'search/getSearchDatasetURI',
+      datasetURI : 'search/getSearchDatasetURI',
       selectedFilters : 'search/getSelectedFilters',
       filterDescriptions : 'search/getFilterDescriptions',
       getProjectConfigUniform : 'search/getProjectConfigUniform',
