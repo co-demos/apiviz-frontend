@@ -1041,7 +1041,7 @@ export default {
       let locale = this.locale
       const contentField = this.getContentField(fieldBlock)
       let tags = this.matchProjectWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
-      console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
+      // console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
       if ( tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
@@ -1074,12 +1074,12 @@ export default {
         tags = newTags
       }
       if ( tags === this.noData ) { tags = undefined }
-      console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
+      // console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
       return tags
     },
 
     addTagAsFilter(fieldBlock, tag) {
-      this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
+      // this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
       const contentField = this.getContentField(fieldBlock)
       if ( contentField.convert_from_filters ) {
         let filterTarget = {
