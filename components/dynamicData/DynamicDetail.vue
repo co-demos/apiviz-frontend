@@ -66,6 +66,7 @@
                     <DynamicDetailMap
                       :contentField="getContentField( 'block_map_top_left' )"
                       :mapWidth="mapTopLeft"
+                      @mapReady="columnsWidth()"
                       />
                   </div>
                 </div>
@@ -268,6 +269,7 @@
                   <DynamicDetailMap
                     :contentField="getContentField( 'block_map_bottom_left' )"
                     :mapWidth="mapBottomLeft"
+                    @mapReady="columnsWidth()"
                     />
                 </div>
               </div>
@@ -381,6 +383,7 @@
                   <DynamicDetailMap
                     :contentField="getContentField( 'block_map_top_right_bis' )"
                     :mapWidth="mapTopRightBis"
+                    @mapReady="columnsWidth()"
                     />
                 </div>
               </div>
@@ -459,9 +462,9 @@
               <div class="columns">
                 <div class="column is-12">
 
+                  <!-- {{ seeContact }}  -->
                   <div>
                     <span class="has-text-weight-semibold">
-                      <!-- {{ seeContact }}  -->
                       {{ getDefaultText('see_contact') }}
                       :
                     </span>
@@ -492,7 +495,7 @@
 
                   <div v-if="isPositionFilled('block_contact_email')">
                     <span class="icon is-small">
-                      <i class="fas fa-at"></i>
+                      <i class="far fa-envelope"></i>
                     </span>
                     &nbsp;&nbsp;
                     <a v-if="matchProjectWithConfig('block_contact_email') !== noData"
@@ -505,6 +508,16 @@
                       class="has-text-white"
                       >
                       {{ matchProjectWithConfig('block_contact_email')}} <br>
+                    </span>
+                  </div>
+
+                  <div v-if="isPositionFilled('block_contact_tel')">
+                    <span class="icon is-small">
+                      <i class="fas fa-phone"></i>
+                    </span>
+                    &nbsp;&nbsp;
+                    <span>
+                      {{ matchProjectWithConfig('block_contact_tel')}} <br>
                     </span>
                   </div>
 
@@ -524,16 +537,6 @@
                       class="has-text-white"
                       >
                       {{ matchProjectWithConfig('block_contact_website')}} <br>
-                    </span>
-                  </div>
-
-                  <div v-if="isPositionFilled('block_contact_tel')">
-                    <span class="icon is-small">
-                      <i class="fas fa-phone"></i>
-                    </span>
-                    &nbsp;&nbsp;
-                    <span>
-                      {{ matchProjectWithConfig('block_contact_tel')}} <br>
                     </span>
                   </div>
 
@@ -658,6 +661,25 @@
                     </div>
                   </div>
 
+                  <!-- BLOCK RB4 TAGS -->
+                  <div id="block-RB4-tags" v-if="isPositionFilled('block_rb4_tags')" class="mb-2">
+                    <div
+                      v-if="getCustomBlockTitle('block_rb4_tags')"
+                      :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                      >
+                      {{ getCustomBlockTitle('block_rb4_tags') }}
+                    </div>
+                    <div>
+                      <button v-for="(tag, i) in convertTags('block_rb4_tags')"
+                        :class="`button tag ${ getItemColors('block_rb4_tags')}`"
+                        :key="tag.tagText + i"
+                        @click="addTagAsFilter('block_rb4_tags', tag)"
+                        >
+                        {{ tag.tagText }}
+                      </button>
+                    </div>
+                  </div>
+
                   <!--  -->
                   <div v-if="isPositionFilled('block_right_bottom_1')">
                     <span
@@ -700,6 +722,20 @@
                     </span>
                   </div>
 
+                  <div v-if="isPositionFilled('block_right_bottom_4')">
+                    <br>
+                    <span
+                      v-if="getCustomBlockTitle('block_right_bottom_4')"
+                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_4') }}
+                      <br><br>
+                    </span>
+                    <span>
+                      {{ matchProjectWithConfig('block_right_bottom_4')}}
+                    </span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -713,6 +749,7 @@
                   <DynamicDetailMap
                     :contentField="getContentField( 'block_map_bottom_right' )"
                     :mapWidth="mapBottomRight"
+                    @mapReady="columnsWidth()"
                     />
                 </div>
               </div>
@@ -810,20 +847,22 @@ export default {
 
   watch : {
     displayableItem(next, prev) {
-      this.columnsWidth()
+      if (next) {
+        this.columnsWidth()
+      }
     }
   },
 
-  beforeMount: function () {
+  beforeMount() {
     this.log && console.log("\nC-DynamicDetail / beforeMount ... ")
     this.contentFields = this.routeConfig.contents_fields
 
-    // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    // this.log && console.log(" - - DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
-    // if (this.$nuxt.$route.query.id) {
-    //   this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-    // } 
-  
+    // console.log(" - - DynamicDetail / beforeMount / this.$route : ", this.$route )
+    this.log && console.log(" - - DynamicDetail / beforeMount / this.$nuxt.$route : ", this.$nuxt.$route )
+    if (this.$nuxt.$route.query.id) {
+      this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
+    } 
+
   },
 
   mounted(){
@@ -837,18 +876,14 @@ export default {
       else{
         window.scrollTo(0, 0)
       }
-    }, 100);
+    }, 100)
 
     // console.log(" - - DynamicDetail / mounted / this.$route : ", this.$route )
-    this.log && console.log("C-DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
-    if ( this.$nuxt.$route.query.id ) {
-      this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
-    }
+    // this.log && console.log("C-DynamicDetail / mounted / this.$nuxt.$route : ", this.$nuxt.$route )
+    // if ( this.$nuxt.$route.query.id ) {
+    //   this.$store.dispatch('search/searchOne', this.$nuxt.$route.query.id)
+    // }
 
-    // let refs = this.$refs
-    // this.log && console.log("C-DynamicDetail / getRefWidth /  refs :", refs)
-    // this.colRight = refs.columnRight
-    // this.colLeft = refs.columnLeft
     this.columnsWidth()
 
   },
@@ -894,6 +929,8 @@ export default {
   methods : {
 
     columnsWidth() {
+      this.log && console.log("\nC-DynamicDetail / columnsWidth ... " )
+
       let columnLeft = document.getElementById('column-left') ? document.getElementById('column-left') : undefined 
       let columnRight = document.getElementById('column-right') ? document.getElementById('column-right') : undefined 
       // this.log && console.log("C-DynamicDetail / columnsWidth /  columnLeft :", columnLeft )
@@ -907,7 +944,7 @@ export default {
       let mapTopRightBis = document.getElementById('map-right-top-bis') ? document.getElementById('map-right-top-bis') : undefined 
       let mapBottomRight = document.getElementById('map-right-bottom') ? document.getElementById('map-right-bottom') : undefined 
       
-      // this.log && console.log("C-DynamicDetail /  mapBottomLeft :", mapBottomLeft )
+      this.log && console.log("C-DynamicDetail /  mapBottomLeft :", mapBottomLeft )
 
       if ( mapTopLeft ) {
         var stylesTL = window.getComputedStyle(mapTopLeft)
@@ -1004,7 +1041,7 @@ export default {
       let locale = this.locale
       const contentField = this.getContentField(fieldBlock)
       let tags = this.matchProjectWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
-      console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
+      // console.log("C-DynamicDetail / convertTags / tags (A) : ", tags)
       if ( tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
@@ -1037,12 +1074,12 @@ export default {
         tags = newTags
       }
       if ( tags === this.noData ) { tags = undefined }
-      console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
+      // console.log("C-DynamicDetail / convertTags / tags (B) : ", tags)
       return tags
     },
 
     addTagAsFilter(fieldBlock, tag) {
-      this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
+      // this.log && console.log("\nC-DynamicDetail / addTagAsFilter / tag : ", tag )
       const contentField = this.getContentField(fieldBlock)
       if ( contentField.convert_from_filters ) {
         let filterTarget = {

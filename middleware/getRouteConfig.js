@@ -39,7 +39,7 @@ export default function ({ store, route, redirect }) {
   if (path.startsWith('/preferences')) {
     path = '/preferences'
   }
-  const previousIsMapSearch = store.getters['search/getIsMapSearch']
+  // const previousIsMapSearch = store.getters['search/getIsMapSearch']
 
   const currentRouteConfig = store.getters['config/getCurrentRouteConfig'](path)
   log && console.log('-M3- getRouteConfig / currentRouteConfig : ', currentRouteConfig)
@@ -93,22 +93,12 @@ export default function ({ store, route, redirect }) {
         // log && console.log('-M3- getRouteConfig / finished ...')
 
       // } else if ( currentRouteConfig.dynamic_template != 'DynamicMap' || previousIsMapSearch ) {
-      }
-
-      // else if ( currentRouteConfig.dynamic_template != 'DynamicMap' ) {
-      //   store.commit('search/clearResults')
-      //   if ( currentRouteConfig.dynamic_template != 'DynamicDetail' ){
-      //     log && console.log('-M3- getRouteConfig / dispatching search ...')
-      //     store.dispatch('search/search')
-      //   }
-      // }
-
-      else {
+      } else {
         log && console.log('-M3- getRouteConfig / same dataset URI ... ')
 
         // FIX PROBLEM WHEN RETURNING TO MAP AFTER DETAIL VIEW
         store.commit('search/clearResults')
-        if (currentRouteConfig.dynamic_template != 'DynamicDetail') {
+        if (currentRouteConfig.dynamic_template !== 'DynamicDetail') {
           log && console.log('-M3- getRouteConfig / dispatching search and cleaning itemId from question...')
           store.commit('search/clearItemId')
         }

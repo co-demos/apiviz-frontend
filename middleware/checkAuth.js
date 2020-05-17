@@ -16,8 +16,8 @@ export default function ({ req, store, route, redirect }) {
     let cookie
     let parsed
 
-    let accessToken 	= null
-    let refreshToken 	= null
+    let accessToken = null
+    let refreshToken = null
 
     // retrieving cookie
     if (process.server) {
@@ -36,8 +36,8 @@ export default function ({ req, store, route, redirect }) {
       parsed = cookieparser.parse(cookie)
       // log && console.log('-M4- checkAuth / parsed : ', parsed )
 
-      accessToken		= parsed.access_token
-      refreshToken 	= parsed.refresh_token
+      accessToken = parsed.access_token
+      refreshToken = parsed.refresh_token
       // log && console.log('-M4- checkAuth / accessToken : ', accessToken )
 
       if (accessToken) {

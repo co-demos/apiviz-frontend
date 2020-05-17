@@ -147,7 +147,7 @@ export const getters = {
     const bannersSet = getters.getStylesConfig.app_banners.banners_set
     const routeBannerUri = state.localRouteConfig.banner.banner_uri
     const resultSet = bannersSet.find(function (b) {
-      return b.banner_uri == routeBannerUri
+      return b.banner_uri === routeBannerUri
     })
     // state.log && console.log('S-config-getCurrentBanner ... resultSet : \n', resultSet)
     return resultSet
@@ -162,7 +162,7 @@ export const getters = {
     // state.log && console.log('S-config-G-getTabConfig ... tabsUri : ', tabsUri)
     // state.log && console.log('S-config-G-getTabConfig ... state.config.tabs : \n', state.config.tabs)
     const tabsConfig = state.config.tabs.find(tabs => {
-      return tabs.tabs_uri == tabsUri
+      return tabs.tabs_uri === tabsUri
     })
     // state.log && console.log('S-config-G-getTabConfig ... tabsConfig : \n', tabsConfig)
     return tabsConfig
@@ -353,7 +353,7 @@ export const getters = {
 
     const noAbstractDict = state.config.global.app_basic_dict[f]
     // state.log && console.log("S-config-G-defaultText / noAbstractDict : ", noAbstractDict )
-    const text = noAbstractDict && noAbstractDict.find(t => t.locale == rootState.locale)
+    const text = noAbstractDict && noAbstractDict.find(t => t.locale === rootState.locale)
     return text && text.text
   }
 
@@ -463,10 +463,10 @@ export const actions = {
       .then(response => {
       // state.log && console.log("\nS-config-A-getConfigType / type : ", type)
         state.log && console.log('S-config-A-getConfigType / type -', type, ' - response.data : ', response.data)
-        const app_config = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
+        const appConfig = (response && response.data && response.data.app_config) ? response.data.app_config : undefined
         // state.log && console.log("S-config-A-getConfigType / type : "+ type + " / app_config ", app_config)
-        commit('setConfig', { type: type, result: app_config })
-        return app_config
+        commit('setConfig', { type: type, result: appConfig })
+        return appConfig
       })
       .catch(err =>
         state.log && console.log('there was an error trying to fetch some configuration file', err)

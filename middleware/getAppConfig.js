@@ -48,11 +48,11 @@ export default function ({ store, route, redirect }) {
             log && console.log('-M2- getAppConfig / after checkUuidAuth ... isUuidPrivate : ', isUuidPrivate)
 
             if (isUuidAuthorized) {
-            // this apiviz instance is not locked
+              // this apiviz instance is not locked
               log && console.log('-M2- getAppConfig / isUuidAuthorized ')
 
               if (!isUuidPrivate || isLoginRoutePath || userAccessToken) {
-              // this Apiviz instance is a not private one user doesn't need to log first
+                // this Apiviz instance is a not private one user doesn't need to log first
                 // or
                 // this route is a login route (e.g /login, /logout, /register)
                 // => so need to load the config
@@ -89,8 +89,8 @@ export default function ({ store, route, redirect }) {
                 )
                 // LAUNCH 'config/getConfigAll' from within the promiseArrayUuidAuth after it's finished (then)
                 return Promise.all(promiseArrayconfigs)
-              } // end of : if (!isUuidPrivate || isLoginRoutePath)
-              else {
+                // end of : if (!isUuidPrivate || isLoginRoutePath)
+              } else {
                 log && console.log('-M2- getAppConfig / isUuidPrivate && !isLoginRoutePath')
                 // redirect to login : the uuid exists but is protected
                 return redirect('/login')

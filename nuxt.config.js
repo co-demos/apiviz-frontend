@@ -193,7 +193,7 @@ export default {
       // 'turf'
     ],
 
-    extractCSS: true,
+    extractCSS: true
     // postcss: {
     //   preset: {
     //     features: {
@@ -204,7 +204,6 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
-    }
+
   }
 }

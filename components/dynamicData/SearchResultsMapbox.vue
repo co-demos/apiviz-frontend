@@ -1183,6 +1183,8 @@ export default {
       let mapboxMap = this.map 
       let mapZoom = this.getZoom
 
+      const itemIdField = this.getBlockField('block_id') ? this.getBlockField('block_id') : "sd_id"
+
       let displayPoint = this.highlightItem
 
       let toggleSelectedOn = this.toggleSelectedOn
@@ -1238,7 +1240,7 @@ export default {
             // toggle as selected
             toggleSelectedOn(e, itemSource)
 
-            var pointId = itemProps["sd_id"]
+            var pointId = itemProps[ itemIdField ]
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
 
             var coordinates = e.features[0].geometry.coordinates.slice();
@@ -1374,7 +1376,7 @@ export default {
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ unclusteredLayerId ] });
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
 
-            var pointId = featuresPoint[0].properties.sd_id;
+            var pointId = featuresPoint[0].properties[ itemIdField ];
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
 
             var coordinates = e.features[0].geometry.coordinates.slice();
@@ -1584,6 +1586,16 @@ export default {
     // - - - - - - - - - - - - - - - - - - //
     // ITEM MATCHING
     // - - - - - - - - - - - - - - - - - - //
+    getBlockField(fieldBlock) {
+      const contentField = this.contentFields.find(f=> f.position == fieldBlock)
+      if (contentField) {
+        return contentField.field
+      }
+      else {
+        return undefined
+      }
+    },
+
     matchItemWithConfig(item, fieldBlock) {
       // this.log && console.log("C-SearchResultsMapbox / matchItemWithConfig / item : ", item)
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)

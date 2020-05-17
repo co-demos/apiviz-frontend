@@ -322,6 +322,7 @@ export default {
       const contentField = this.getContentField(fieldBlock)
       let tags = this.matchItemWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
       // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
+      // this.log && console.log("C-ProjectCard / convertTags / this.item : ", this.item )
       if ( tags && tags !== this.noData && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
@@ -336,13 +337,12 @@ export default {
             tagText: tag
           }
           try {
-            let choice = filterChoices.find( c => c.name == tag)
+            let choice = filterChoices.find( c => c.name === tag)
             tagContainer.filterChoice = choice
 
             if ( contentField.convert_from_filters ) {
               let newTagObj = choice.choice_title.find( title => title.locale == locale )
               let newText = newTagObj.text
-              // return trimString(newText, trimming)
               tagContainer.tagText = trimString(newText, trimming)
             }
 
@@ -358,14 +358,17 @@ export default {
     },
 
     addTagAsFilter(fieldBlock, tag) {
-      this.log && console.log("\nC-ProjectCard / addTagAsFilter / tag : ", tag )
+      this.log && console.log("\nC-ProjectCard / addTagAsFilter / this.item : ", this.item )
+      this.log && console.log("C-ProjectCard / addTagAsFilter / tag : ", tag )
       const contentField = this.getContentField(fieldBlock)
       if ( contentField.convert_from_filters ) {
-        let filterTarget = {
-          filter: tag.filterName,
-          value: tag.tagOriginal
+        if ( tag.tagOriginal ) {
+          let filterTarget = {
+            filter: tag.filterName,
+            value: tag.tagOriginal
+          }
+          this.$store.dispatch( 'search/toggleFilter', filterTarget )
         }
-        this.$store.dispatch( 'search/toggleFilter', filterTarget )
       }
     },
 

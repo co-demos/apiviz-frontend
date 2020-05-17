@@ -55,8 +55,7 @@
 
       ...mapState({
 
-        log : 'log',
-
+        log: state => state.log,
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
         
@@ -89,6 +88,8 @@
       },
 
       getFilterTitle(filter, value){
+        this.log && console.log('\nC-FiltersFeedback / getFilterTitle / filter : ', filter )
+        this.log && console.log('C-FiltersFeedback / getFilterTitle / value : ', value )
         let filterData = this.filterDescriptions.find(f => f.name === filter)
         let filerTexts = filterData.choices.find(c => c.name === value)
         return this.translate(filerTexts, 'choice_title' )
@@ -99,7 +100,9 @@
       },
 
       translate( textsToTranslate, listField ) {
-        let listTexts = textsToTranslate[listField]
+        this.log && console.log('\nC-FiltersFeedback / translate / textsToTranslate : ', textsToTranslate )
+        this.log && console.log('C-FiltersFeedback / translate / listField : ', listField )
+        let listTexts = textsToTranslate && textsToTranslate[listField]
         return this.$Translate( listTexts, this.locale, 'text')
       },
 

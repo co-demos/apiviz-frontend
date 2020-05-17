@@ -1,7 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import {
   makeEmptySelectedFilters,
-  getObjectDataFromPath,
+  // getObjectDataFromPath,
   searchItems,
   rawRequest,
   // searchEnpointCreator,
@@ -18,7 +18,7 @@ export const state = () => ({
   log: process.env.ConsoleLog,
 
   // MAPBOX
-  mapbox: { map: new Object() },
+  mapbox: { map: {} },
 
   // LEGACY
   geolocByProjectId: new Map(),
@@ -203,7 +203,7 @@ export const getters = {
     let image = obj.image
 
     if (!image) {
-      let images_set
+      let imagesSet
       if (state.search.dataset_uri &&
           rootState.config.config.styles &&
           rootState.config.config.styles.app_search_default_images_sets &&
@@ -211,20 +211,30 @@ export const getters = {
         const d = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function (d) {
           return d.dataset_uri === state.search.dataset_uri
         })
-        images_set = (d) ? d.images_set : undefined
+        imagesSet = (d) ? d.images_set : undefined
       }
+      // console.log("S-search-G-getImgUrl / imagesSet : ", imagesSet)
+      const textureCount = imagesSet.length + 1
 
-      if (images_set && images_set.length > 0) {
-        const textureCount = images_set.length + 1
-        const id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
-        const reste = id % images_set.length + 1
-        const imageObj = images_set.find(function (i) {
+      if (imagesSet && imagesSet.length > 0) {
+        // let subLen = (obj.id.length <= 16) ? obj.id.length-2 : 16
+        // const testDebug = parseInt(obj.id.substr(obj.id.length), subLen)
+        // console.log("S-search-G-getImgUrl / testDebug : ",testDebug)
+
+        let id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
+        if (!id) { id = 111111111111111111 }
+        // console.log("S-search-G-getImgUrl / id : ", id)
+        const reste = id % imagesSet.length + 1
+        // console.log("S-search-G-getImgUrl / reste : ", reste)
+
+        const imageObj = imagesSet.find(function (i) {
           return i.dft_text === 'img_' + reste
         })
         image = imageObj.src_image
       } else {
-        const random = Math.floor(Math.random() * (7 - 1) + 1)
-        image = `/static/illustrations/textures/medium_fiche_${(parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
+        const idDefault = 111111111111111111
+        // const random = Math.floor(Math.random() * (7 - 1) + 1)
+        image = `/static/illustrations/textures/medium_fiche_${(parseInt(idDefault.substr(idDefault.length - 6), 16) % textureCount) + 1}.png`
       }
     }
     return image
@@ -253,18 +263,19 @@ export const getters = {
 
     if (!image) {
       const d = defaultImages
-      const images_set = (d) ? d.images_set : undefined
+      const imagesSet = (d) ? d.images_set : undefined
+      const textureCount = imagesSet.length + 1
 
-      if (images_set && images_set.length > 0) {
-        const textureCount = images_set.length + 1
+      if (imagesSet && imagesSet.length > 0) {
         const id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
-        const tail = id % images_set.length + 1
-        const imageObj = images_set.find(function (i) {
+        const tail = id % imagesSet.length + 1
+        const imageObj = imagesSet.find(function (i) {
           return i.dft_text === 'img_' + tail
         })
         image = imageObj.src_image
       } else {
-        image = `/static/illustrations/textures/medium_fiche_${(parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
+        const idDefault = 111111111111111111
+        image = `/static/illustrations/textures/medium_fiche_${(parseInt(idDefault.substr(idDefault.length - 6), 16) % textureCount) + 1}.png`
       }
     }
     // console.log("S-search-G-getImageUrl - image (B) : ", image)
@@ -314,10 +325,6 @@ export const mutations = {
     })
   },
 
-  setQuestionPerPage (state, perPageNumber) {
-    state.search.question.perPage = perPageNumber
-  },
-
   // FILTERS-RELATED
   setDatasetFilters (state, datasetFilter) {
     // state.log && console.log("S-search-setDatasetFilters / datasetFilter : ", datasetFilter )
@@ -341,9 +348,6 @@ export const mutations = {
   setSelectedFilters (state, { selectedFilters }) {
     // trigger re-render
     state.search.question.selectedFilters = new Map(selectedFilters)
-  },
-  setFilterDescriptions (state, filterDescriptions) {
-    state.filterDescriptions = filterDescriptions
   },
   setQuestionPage (state, pageNumber) {
     // state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
@@ -381,12 +385,6 @@ export const mutations = {
     state.search.question.selectedFilters.set(filter, new Set())
     // trigger re-render
     state.search.question.selectedFilters = new Map(state.search.question.selectedFilters)
-  },
-  setSearchParam (state, { type, result }) {
-    state.search[type] = result
-  },
-  setSearchConfig (state, { type, result }) {
-    state.search.config[type] = result
   },
 
   // RESULTS-RELATED

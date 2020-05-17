@@ -2,8 +2,8 @@
 import axios from 'axios'
 
 console.log('+ + + plugins/utils... ')
-const CancelToken = axios.CancelToken
-const source = CancelToken.source()
+// const CancelToken = axios.CancelToken
+// const source = CancelToken.source()
 
 // feature test for AbortController that works in Safari 12
 let abortableFetchSupported = false
@@ -54,13 +54,13 @@ export function chooseTemplate (templates, locale) {
 }
 
 // To load external librairies in components
-export function loadScript (url, type, script_id, callback) {
-  // console.log("loadScript / script_id :", script_id);
+export function loadScript (url, type, scriptId, callback) {
+  // console.log("loadScript / scriptId :", scriptId);
   // console.log("loadScript / url :", url);
 
   var script = document.createElement('script')
   script.src = url
-  script.id = script_id
+  script.id = scriptId
 
   if (type !== undefined) {
     script.type = 'text/javascript'
@@ -75,16 +75,16 @@ export function loadScript (url, type, script_id, callback) {
 }
 
 export function isEmpty (obj) {
-  for (var prop in obj) {
+  for (const prop in obj) {
     if (obj.hasOwnProperty(prop)) return false
   }
   return true
 }
 
-export function deleteScript (script_id) {
+export function deleteScript (scriptId) {
   try {
     // console.log("deleteScript / script_id :", script_id);
-    var elem = document.getElementById(script_id)
+    var elem = document.getElementById(scriptId)
     // console.log("deleteScript / elem:", elem);
 
     elem.parentNode.removeChild(elem)
@@ -94,31 +94,31 @@ export function deleteScript (script_id) {
 }
 
 // To activate carousels from components
-export function activateCarousel (slidesNumber = 2, isInfinite = true, hasPagination = false) {
-  console.log('activate carousel from utils')
-  var carousels = bulmaCarousel.attach('.carousel', {
-    // TODO: give the parameters as args?
-    slidesToShow: 2,
-    infinite: true,
-    pagination: false
+// export function activateCarousel (slidesNumber = 2, isInfinite = true, hasPagination = false) {
+//   console.log('activate carousel from utils')
+//   // var carousels = bulmaCarousel.attach('.carousel', {
+//   //   // TODO: give the parameters as args?
+//   //   slidesToShow: 2,
+//   //   infinite: true,
+//   //   pagination: false
 
-    // slidesToShow: slidesNumber,
-    // infinite: isInfinite,
-    // pagination: hasPagination
-  })
+//   //   // slidesToShow: slidesNumber,
+//   //   // infinite: isInfinite,
+//   //   // pagination: hasPagination
+//   // })
 
-  // "hacky" way to get custom icons
-  document.getElementsByClassName('slider-navigation-previous')[0].childNodes[0].remove()
-  document.getElementsByClassName('slider-navigation-next')[0].childNodes[0].remove()
-}
+//   // "hacky" way to get custom icons
+//   document.getElementsByClassName('slider-navigation-previous')[0].childNodes[0].remove()
+//   document.getElementsByClassName('slider-navigation-next')[0].childNodes[0].remove()
+// }
 
-export function activateBulmaExtension (extension, pointer, options) {
-  console.log('plugins / utils / activate extension from utils')
-  console.log('plugins / utils / activate extension from utils / options : \n', options)
-  const bulmaExtension = extension.attach(pointer, options)
-  console.log('plugins / utils / activate extension from utils / bulmaExtension : \n', bulmaExtension)
-  return bulmaExtension
-}
+// export function activateBulmaExtension (extension, pointer, options) {
+//   console.log('plugins / utils / activate extension from utils')
+//   console.log('plugins / utils / activate extension from utils / options : \n', options)
+//   const bulmaExtension = extension.attach(pointer, options)
+//   console.log('plugins / utils / activate extension from utils / bulmaExtension : \n', bulmaExtension)
+//   return bulmaExtension
+// }
 
 // SEARCH RELATED
 
@@ -132,7 +132,7 @@ export function getItemById (id, endpointConfig, userAccessToken, endpointAuthCo
   //   item_id:id
   // })
   console.log('\nPL-getItemById ...')
-  console.log('\PL-getItemById / endpointConfig : ', endpointConfig)
+  console.log('PL-getItemById / endpointConfig : ', endpointConfig)
 
   const endPointUrlAndPayload = searchEndpointGenerator({
     endpointConfig: endpointConfig,
@@ -142,10 +142,10 @@ export function getItemById (id, endpointConfig, userAccessToken, endpointAuthCo
     accesToken: userAccessToken
   })
   const url = endPointUrlAndPayload.requestUrl
-  console.log('\PL-getItemById / url : ', url)
+  console.log('PL-getItemById / url : ', url)
 
   const payload = endPointUrlAndPayload.requestPayload
-  console.log('\PL-getItemById / payload : ', payload)
+  console.log('PL-getItemById / payload : ', payload)
 
   return fetch(url)
     .then(r => r.json())
@@ -549,21 +549,21 @@ export function buildRequestHeader (token, endpointConfigHeaderAuth, endpointCon
   //   'Authorization' : ""
   // }
 
-  for (const header_arg of endpointConfigHeaderAuth) {
+  for (const headerArg of endpointConfigHeaderAuth) {
     // let headerField = header_arg.header_field
-    const headerField = header_arg.header_field
+    const headerField = headerArg.header_field
     console.log('+ + + buildRequestHeader / headerField : ', headerField)
 
-    let headerVal = header_arg.header_value
+    let headerVal = headerArg.header_value
     console.log('+ + + buildRequestHeader / headerVal : ', headerVal)
 
-    if (headerVal && header_arg.app_var_name !== 'token') {
+    if (headerVal && headerArg.app_var_name !== 'token') {
       headers[headerField] = headerVal
     }
 
-    if (header_arg.is_var && header_arg.app_var_name === 'token' && token) {
-      headers[headerField] = header_arg.header_value_prefix + token
-      headerVal = header_arg.header_value_prefix + token
+    if (headerArg.is_var && headerArg.app_var_name === 'token' && token) {
+      headers[headerField] = headerArg.header_value_prefix + token
+      headerVal = headerArg.header_value_prefix + token
     }
 
     // myHeaders.append( headerField, headerVal )
@@ -571,21 +571,21 @@ export function buildRequestHeader (token, endpointConfigHeaderAuth, endpointCon
   }
 
   if (endpointHeaderOptions) {
-    for (const header_arg of endpointHeaderOptions) {
+    for (const headerArg of endpointHeaderOptions) {
       // let headerField = header_arg.header_field
-      const headerField = header_arg.header_field
+      const headerField = headerArg.header_field
       console.log('+ + + buildRequestHeader / (options) headerField : ', headerField)
 
-      let headerVal = header_arg.header_value
+      let headerVal = headerArg.header_value
       console.log('+ + + buildRequestHeader / (options) headerVal : ', headerVal)
 
-      if (headerVal && header_arg.app_var_name !== 'token') {
+      if (headerVal && headerArg.app_var_name !== 'token') {
         headers[headerField] = headerVal
       }
 
-      if (header_arg.is_var && header_arg.app_var_name === 'token' && token) {
-        headers[headerField] = header_arg.header_value_prefix + token
-        headerVal = header_arg.header_value_prefix + token
+      if (headerArg.is_var && headerArg.app_var_name === 'token' && token) {
+        headers[headerField] = headerArg.header_value_prefix + token
+        headerVal = headerArg.header_value_prefix + token
       }
     }
   }
@@ -680,7 +680,12 @@ export function searchEndpointGenerator (obj) {
     if (!EndpointArg.optional || appArgs.indexOf(EndpointArg.app_arg) !== -1) {
       if (questionParams[EndpointArg.app_arg] || !EndpointArg.optional) {
         const argVal = EndpointArg.app_arg === 'defaultValue' ? EndpointArg.default : String(questionParams[EndpointArg.app_arg])
-        const argString = EndpointArg.arg + '=' + argVal // String(questionParams[EndpointArg.app_arg])
+        let argString = EndpointArg.arg + '=' + argVal
+
+        if (EndpointArg.replace_arg) {
+          argString = `${EndpointArg.replace_arg.arg}=${EndpointArg.replace_arg.sub_arg}${EndpointArg.replace_arg.sep}${argVal}`
+        }
+
         argsArray.push(argString)
       }
     }
@@ -753,12 +758,12 @@ export function getObjectDataFromPath (obj, path, splitter = '/') {
   const current = obj
   // console.log("+ + + getObjectDataFromPath / current raw : \n", current )
   try {
-    let current_temp = current
+    let currentTemp = current
     path.split(splitter).forEach(function (p) {
-      current_temp = current_temp[p]
+      currentTemp = currentTemp[p]
     })
     // console.log("+ + + getObjectDataFromPath / current final : \n", current )
-    return current_temp
+    return currentTemp
   } catch (e) {
     return ''
   }
@@ -787,15 +792,19 @@ export function trimString (string, trimming) {
 }
 
 export function getItemContent (fieldBlock, displayableItem, contentFields, noData, filterDescriptions, locale = 'fr', trimmingOverride = false) {
-  const contentField = contentFields.find(f => f.position == fieldBlock)
+  const contentField = contentFields.find(f => f.position === fieldBlock)
 
   // const log = true
   const blocktags = [
     'block_tags',
-    'block_rb1_tags'
+    'block_rb1_tags',
+    'block_rb2_tags',
+    'block_rb3_tags',
+    'block_rb4_tags'
   ]
   const blocksToLog = [
-    'block_tags'
+    'block_tags',
+    'block_tags_bis'
     // 'block_abstract',
     // 'block_image',
   ]
@@ -807,30 +816,32 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
 
   if (contentField && contentField.is_visible) {
     const field = contentField.field
-    const field_format = contentField.field_format
+    const fieldFormat = contentField.field_format
 
-    const log = typesToLog.includes(field_format.type) && blocksToLog.includes(fieldBlock)
+    const log = typesToLog.includes(fieldFormat.type) && blocksToLog.includes(fieldBlock)
     // const log = blocksToLog.includes(fieldBlock)
-    // const log = contentField && contentField.field_format.type === 'list_tags'
+    // const log = contentField && contentField.fieldFormat.type === 'list_tags'
 
     // log && console.log("\ngetItemContent / contentField : ", contentField)
     // log && console.log("\ngetItemContent / fieldBlock : ", fieldBlock)
-    // log && console.log("getItemContent / field_format : ", field_format)
+    // log && console.log("getItemContent / fieldFormat : ", fieldFormat)
 
     let content = displayableItem[field]
     // log && console.log("getItemContent / content A : ", content)
 
     if (content && content !== 'None' && content !== '') {
-      const trimming = !contentField.convert_from_filters && field_format && field_format.trim
+      const trimming = !contentField.convert_from_filters && fieldFormat && fieldFormat.trim
       log && console.log('getItemContent / trimming : ', trimming)
 
       try {
         // DEALING WITH LIST-LIKE RESULTS (TAGS)
         // slice tags in array
-        if (field_format.type === 'list_tags') {
+        if (fieldFormat.type === 'list_tags') {
           // log && console.log("getItemContent / list_tags content ", content)
 
+          // !!!! => `filter_correspondance` => DEPRECATED
           if (contentField.filter_correspondance) {
+            log && console.log('getItemContent / contentField.filter_correspondance : ', contentField.filter_correspondance)
             // log && console.log("getItemContent / list_tags content filterDescriptions : ", filterDescriptions)
             // choose filter corresponding to field
 
@@ -855,22 +866,20 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
           // log && console.log("getItemContent / content B : ", content)
 
           return content
-        }
-
-        // DEALING WITH LIST TO STRING RESULTS
-        // get item from array if type == list
-        else if (field_format.type === 'list') {
+        } else if (fieldFormat.type === 'list') {
+          // DEALING WITH LIST TO STRING RESULTS
+          // get item from array if type == list
           // log && console.log("getItemContent / list content : ", content)
 
-          const begin = field_format.retrieve[0]
+          const begin = fieldFormat.retrieve[0]
 
           // choose in array
           if (begin === -1) {
             content = content.join(' ')
-          } else if (field_format.retrieve.length === 1) {
+          } else if (fieldFormat.retrieve.length === 1) {
             content = content[begin]
           } else {
-            const end = field_format.retrieve[1] ? field_format.retrieve[1] : content.length
+            const end = fieldFormat.retrieve[1] ? fieldFormat.retrieve[1] : content.length
             content = content.slice(begin, end)
             content = content.join(' ')
           }
@@ -879,7 +888,7 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
 
           // string is tag-like and needs to be splitten
           if (contentField.is_tag_like) {
-            content = content.split(contentField.tags_separator).filter(c => c != '')
+            content = content.split(contentField.tags_separator).filter(c => c !== '')
 
             if (contentField.filter_correspondance) {
               // log && console.log("getItemContent / list content filterDescriptions : ", filterDescriptions)
@@ -901,18 +910,14 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
                 return corrContent || c
               })
             }
-
             content = content.map(tag => {
               const trim = (trimming && tag.length > trimming) ? trimming : tag.length
               const tail = (trimming && tag.length > trimming) ? '...' : ''
               return tag.slice(0, trim) + tail
             })
-
             return content
-          }
-
-          // trim string
-          else {
+          } else {
+            // trim string
             // log && console.log("getItemContent / string content : ", content)
             const trim = (trimming && content.length > trimming) ? trimming : content.length
             // log && console.log("getItemContent / trim : ", trim)
@@ -920,15 +925,13 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
             content = content.slice(0, trim) + tail
             return content
           }
-        }
-
-        // DEALING WITH NATIVE STRING RESULTS
-        else if (field_format.type === 'object') {
+        } else if (fieldFormat.type === 'object') {
+          // DEALING WITH NATIVE STRING RESULTS
           // log && console.log("getItemContent / object content : ", content)
 
           // string is tag-like and needs to be splitten
           if (contentField.is_tag_like) {
-            content = content.split(contentField.tags_separator).filter(c => c != '')
+            content = content.split(contentField.tags_separator).filter(c => c !== '')
             content = content.map(tag => {
               const trim = (trimming && tag.length > trimming) ? trimming : tag.length
               const tail = (trimming && tag.length > trimming) ? '...' : ''
@@ -1000,26 +1003,33 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
 
 export function getDefaultImage (defaultImages, item, idField = 'id') {
   const d = defaultImages
+  const errorImage = 'https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/textures/medium_fiche_1.png?raw=true'
+
   let image
-  const images_set = (d) ? d.images_set : undefined
+  const imagesSet = (d) ? d.images_set : undefined
 
-  console.log('getDefaultImage / item : ', item)
-  console.log('getDefaultImage / images_set : ', images_set)
+  // console.log("getDefaultImage / item : ", item)
+  // console.log("getDefaultImage / imagesSet : ", imagesSet)
 
-  if (images_set && images_set.length > 0) {
-    const textureCount = images_set.length + 1
-    const id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
-    console.log('getDefaultImage / id : ', id)
-    const tail = id % images_set.length + 1
-    const imageObj = images_set.find(function (i) {
-      return i.dft_text === 'img_' + tail
-    })
-    image = imageObj.src_image
+  try {
+    if (imagesSet && imagesSet.length > 0) {
+      const textureCount = imagesSet.length + 1
+      let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
+      if (!id) { id = 111111111111111111 }
+      // console.log("getDefaultImage / id : ", id)
+      const tail = id % imagesSet.length + 1
+      // console.log("getDefaultImage / tail : ", tail)
+      const imageObj = imagesSet.find(function (i) {
+        return i.dft_text === 'img_' + tail
+      })
+      // console.log("getDefaultImage / imageObj : ", imageObj)
+      image = imageObj.src_image
+    } else {
+      image = errorImage
+    }
+  } catch {
+    image = errorImage
   }
-  // else {
-  //   let id = 111111111111111111
-  //   image = `/static/illustrations/textures/medium_fiche_${ (parseInt(id.substr(id.length - 6), 16) % textureCount) + 1}.png`
-  // }
   return image
 }
 
