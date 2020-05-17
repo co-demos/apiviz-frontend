@@ -1254,7 +1254,6 @@ export default {
           mapboxMap.on('mouseenter', allPointsLayerId, function (e) {
             mapboxMap.getCanvas().style.cursor = 'pointer';
 
-
             // ADD POPUP ON MARKER IF ACTIVE
             // cf : https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
             if (allPointsConfigOptions.has_popup) {
@@ -1274,7 +1273,6 @@ export default {
                 .addTo(mapboxMap)
               // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => pop : ", pop)
 
-
               const popInstance = new PopupClass({
                 propsData: { 
                   feature: featuresPolygon[0],
@@ -1288,7 +1286,6 @@ export default {
               pop._update()
 
             }
-
 
           })
           // HOVER LEAVE
