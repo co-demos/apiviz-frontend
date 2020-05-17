@@ -6,7 +6,8 @@ import {
   rawRequest,
   // searchEnpointCreator,
   searchEndpointGenerator,
-  createSelectedFiltersForSearch
+  createSelectedFiltersForSearch,
+  getDefaultImage
 } from '~/plugins/utils.js'
 import { defaultPagination } from '~/config/constants.js'
 
@@ -199,88 +200,23 @@ export const getters = {
   // IMAGES CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
   getImgUrl: (state, getters, rootState) => (obj) => {
-    // console.log("\nS-search-G-getImgUrl / obj : ", obj)
+    console.log('\nS-search-G-getImgUrl / obj : ', obj)
     let image = obj.image
-
     if (!image) {
-      let imagesSet
+      let defaultImages
       if (state.search.dataset_uri &&
           rootState.config.config.styles &&
           rootState.config.config.styles.app_search_default_images_sets &&
           rootState.config.config.styles.app_search_default_images_sets.images_sets) {
-        const d = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function (d) {
+        defaultImages = rootState.config.config.styles.app_search_default_images_sets.images_sets.find(function (d) {
           return d.dataset_uri === state.search.dataset_uri
         })
-        imagesSet = (d) ? d.images_set : undefined
       }
-      // console.log("S-search-G-getImgUrl / imagesSet : ", imagesSet)
-      const textureCount = imagesSet.length + 1
-
-      if (imagesSet && imagesSet.length > 0) {
-        // let subLen = (obj.id.length <= 16) ? obj.id.length-2 : 16
-        // const testDebug = parseInt(obj.id.substr(obj.id.length), subLen)
-        // console.log("S-search-G-getImgUrl / testDebug : ",testDebug)
-
-        let id = (obj.id) ? parseInt(obj.id.substr(obj.id.length - 6), 16) % textureCount : 111111111111111111
-        if (!id) { id = 111111111111111111 }
-        // console.log("S-search-G-getImgUrl / id : ", id)
-        const reste = id % imagesSet.length + 1
-        // console.log("S-search-G-getImgUrl / reste : ", reste)
-
-        const imageObj = imagesSet.find(function (i) {
-          return i.dft_text === 'img_' + reste
-        })
-        image = imageObj.src_image
-      } else {
-        const idDefault = 111111111111111111
-        // const random = Math.floor(Math.random() * (7 - 1) + 1)
-        image = `/static/illustrations/textures/medium_fiche_${(parseInt(idDefault.substr(idDefault.length - 6), 16) % textureCount) + 1}.png`
-      }
+      image = getDefaultImage(defaultImages, obj)
     }
-    return image
-  },
-  getImageUrl: (state, getters, rootState, rootGetters) => (obj) => {
-    // console.log("getImageUrl - obj : ", obj)
-    const item = obj.item
-    // console.log("S-search-G-getImageUrl - item : ", item)
-
-    const position = obj.position
-    // console.log("S-search-G-getImageUrl - position : ", position)
-
-    const defaultImages = rootGetters['config/getRouteConfigDefaultDatasetImages']
-    // console.log("S-search-G-getImageUrl - defaultImages : ", defaultImages)
-
-    // console.log("getImageUrl - state.search.currentRouteConfig : ", state.search.currentRouteConfig)
-    const routeContentImagesFields = state.search.currentRouteConfig.images_fields
-    // console.log("getImageUrl - routeContentImagesFields : ", routeContentImagesFields)
-
-    const fieldToGet = routeContentImagesFields[position]
-    const fieldImage = fieldToGet.field
-    // console.log("S-search-G-getImageUrl - fieldImage : ", fieldImage)
-
-    let image = item[fieldImage]
-    // console.log("S-search-G-getImageUrl - image (A) : ", image)
-
-    if (!image) {
-      const d = defaultImages
-      const imagesSet = (d) ? d.images_set : undefined
-      const textureCount = imagesSet.length + 1
-
-      if (imagesSet && imagesSet.length > 0) {
-        const id = (item.id) ? parseInt(item.id.substr(item.id.length - 6), 16) % textureCount : 111111111111111111
-        const tail = id % imagesSet.length + 1
-        const imageObj = imagesSet.find(function (i) {
-          return i.dft_text === 'img_' + tail
-        })
-        image = imageObj.src_image
-      } else {
-        const idDefault = 111111111111111111
-        image = `/static/illustrations/textures/medium_fiche_${(parseInt(idDefault.substr(idDefault.length - 6), 16) % textureCount) + 1}.png`
-      }
-    }
-    // console.log("S-search-G-getImageUrl - image (B) : ", image)
     return image
   }
+
 }
 
 export const mutations = {
