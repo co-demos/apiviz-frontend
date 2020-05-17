@@ -1001,19 +1001,18 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
   }
 }
 
-export function getDefaultImage (defaultImages, item, idField = 'id') {
-  const d = defaultImages
+export function getDefaultImage (defaultImages, item) {
+  const idField = defaultImages.id_field ? defaultImages.id_field : 'sd_id'
+  const imagesSet = (defaultImages) ? defaultImages.images_set : undefined
+  const textureCount = imagesSet.length + 1
   const errorImage = 'https://raw.githubusercontent.com/co-demos/cis-data/master/illustrations/textures/medium_fiche_1.png?raw=true'
 
+  // console.log('getDefaultImage / item : ', item)
+  // console.log('getDefaultImage / imagesSet : ', imagesSet)
+
   let image
-  const imagesSet = (d) ? d.images_set : undefined
-
-  // console.log("getDefaultImage / item : ", item)
-  // console.log("getDefaultImage / imagesSet : ", imagesSet)
-
   try {
     if (imagesSet && imagesSet.length > 0) {
-      const textureCount = imagesSet.length + 1
       let id = (item[idField]) ? parseInt(item[idField].substr(item[idField].length - 6), 16) % textureCount : 111111111111111111
       if (!id) { id = 111111111111111111 }
       // console.log("getDefaultImage / id : ", id)

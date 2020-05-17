@@ -45,7 +45,6 @@
         <div class="columns">
 
 
-
           <!-- //// COLUMN LEFT //// -->
           <div class="column is-5 is-offset-1"
             id="column-left"
@@ -388,7 +387,6 @@
                 </div>
               </div>
             </div>
-
 
             <!-- BLOCK SCALE -->
             <div id="block-scale" class="added" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
@@ -984,13 +982,12 @@ export default {
 
     itemImage(fieldBlock){
       let image = this.matchProjectWithConfig(fieldBlock)
+      // this.log && console.log('C-DynamicDetail / itemImage / image : ', image)
       if ( !image ){
-        let idFieldObject = this.contentFields.find( c => c.position === 'block_id' )
-        // let idField = idFieldObject.field
-        let idField = idFieldObject ? idFieldObject.field : 'sd_id'
-        let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
-        let image_default = getDefaultImage(d, this.displayableItem, idField)
-        image = image_default
+        // this.log && console.log('C-DynamicDetail / itemImage / this.contentFields : ', this.contentFields)
+        const defaultImages = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
+        let imageDefault = getDefaultImage(defaultImages, this.displayableItem)
+        image = imageDefault
       }
       return image
     },
