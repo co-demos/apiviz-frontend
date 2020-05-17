@@ -290,23 +290,20 @@ export default {
     },
 
     itemImage(fieldBlock){
-      // console.log("C-ProjectCard / itemImage / fieldBlock : ", fieldBlock )
       let image = this.matchItemWithConfig(fieldBlock)
-      // console.log("C-ProjectCard / itemImage / this.contentFields : ", this.contentFields )
+      // this.log && console.log('C-ProjectCard / itemImage / image : ', image)
       if ( !image ){
-        let idFieldObject = this.contentFields.find( c => c.position === 'block_id' )
-        // let idField = idFieldObject.field
-        let idField = idFieldObject ? idFieldObject.field : 'sd_id'
-        let d = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
-        let image_default = getDefaultImage(d, this.item, idField)
-        image = image_default
+        // this.log && console.log('C-ProjectCard / itemImage / this.contentFields : ', this.contentFields)
+        const defaultImages = this.$store.getters['config/getRouteConfigDefaultDatasetImages']
+        let imageDefault = getDefaultImage(defaultImages, this.item)
+        image = imageDefault
       }
       return image
     },
 
     projectCity() {
       let cityItem = this.matchItemWithConfig('block_city')
-      // this.log && console.log('C-ProjectCard / cityItem : ', cityItem)
+      // this.log && console.log('C-ProjectCard / projectCity / cityItem : ', cityItem)
       let city = ( cityItem || cityItem !== 'None' ) ?  cityItem : this.noAddress
       return city
     },
