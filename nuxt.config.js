@@ -180,6 +180,8 @@ export default {
   */
   build: {
 
+    transpile: ['vue-mapbox'],
+
     extend (config, { isDev, isClient }) {
       config.resolve.alias.vue = 'vue/dist/vue.common'
     },
@@ -191,7 +193,7 @@ export default {
       // 'turf'
     ],
 
-    extractCSS: true,
+    extractCSS: true
     // postcss: {
     //   preset: {
     //     features: {
@@ -202,7 +204,6 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
-    }
+
   }
 }

@@ -866,11 +866,9 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
           // log && console.log("getItemContent / content B : ", content)
 
           return content
-        }
-
-        // DEALING WITH LIST TO STRING RESULTS
-        // get item from array if type == list
-        else if (fieldFormat.type === 'list') {
+        } else if (fieldFormat.type === 'list') {
+          // DEALING WITH LIST TO STRING RESULTS
+          // get item from array if type == list
           // log && console.log("getItemContent / list content : ", content)
 
           const begin = fieldFormat.retrieve[0]
@@ -918,10 +916,8 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
               return tag.slice(0, trim) + tail
             })
             return content
-          }
-
-          // trim string
-          else {
+          } else {
+            // trim string
             // log && console.log("getItemContent / string content : ", content)
             const trim = (trimming && content.length > trimming) ? trimming : content.length
             // log && console.log("getItemContent / trim : ", trim)
@@ -929,10 +925,8 @@ export function getItemContent (fieldBlock, displayableItem, contentFields, noDa
             content = content.slice(0, trim) + tail
             return content
           }
-        }
-
-        // DEALING WITH NATIVE STRING RESULTS
-        else if (fieldFormat.type === 'object') {
+        } else if (fieldFormat.type === 'object') {
+          // DEALING WITH NATIVE STRING RESULTS
           // log && console.log("getItemContent / object content : ", content)
 
           // string is tag-like and needs to be splitten

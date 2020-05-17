@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "NUXT_CONSOLELOG=dev nuxt",
+    "dev-lint": "standard NUXT_CONSOLELOG=dev nuxt",
     "dev-test": "NUXT_CONSOLELOG=dev NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481 nuxt",
     "dev-docker": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=default_docker nuxt",
     "dev-preprod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=preprod nuxt",
@@ -61,6 +62,7 @@
     "dotenv": "^8.0.0",
     "node-sass": "^4.13.1",
     "nodemon": "^1.18.9",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^7.1.0",
+    "standard": "^14.3.4"
   }
 }

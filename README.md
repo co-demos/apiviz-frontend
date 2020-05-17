@@ -41,6 +41,8 @@ To fully enjoy Apiviz frontend's features if you're not using Solidata's API, **
 
 --------
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 #### DEPLOYED WEBSITES : 
 
 Main apiviz demo website : 
@@ -215,3 +217,22 @@ $ make down # stop app with Docker
 ```
 
 ... then check in your browser : [`localhost:3333`](localhost:3333)
+
+---------
+
+### Linting
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+Run dev with Standard lint messages :
+
+```
+npm run dev-lint
+```
+
+
+Lint what could be automatically linted 
+
+```
+npx standard --fix
+```
