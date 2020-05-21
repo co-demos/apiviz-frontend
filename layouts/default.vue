@@ -89,6 +89,7 @@ export default {
         fr : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer.html',
         en : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
         es : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
+        it : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
         de : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
         tr : 'https://raw.githubusercontent.com/co-demos/structure/master/pages-html/codemos-footer-en.html',
       },
