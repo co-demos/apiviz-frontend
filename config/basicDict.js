@@ -4,6 +4,7 @@ export const BasicDictionnary = {
   empty_dict: {
     en: ' ',
     es: ' ',
+    it: '',
     de: ' ',
     tr: ' ',
     fr: ' '
@@ -11,6 +12,7 @@ export const BasicDictionnary = {
   shuffle: {
     en: 'randomly shuffle the data',
     es: 'mezclar los datos',
+    it: 'Mescolare casualmente i dati',
     de: 'shuffle the data',
     tr: 'shuffle the data',
     fr: 'mélanger aléatoirement les données'
@@ -18,6 +20,7 @@ export const BasicDictionnary = {
   website: {
     en: 'website',
     es: 'sitio',
+    it: 'vuoto',
     de: 'Webseite',
     tr: 'İnternet sitesi',
     fr: 'site'
@@ -25,6 +28,7 @@ export const BasicDictionnary = {
   phone: {
     en: 'phone',
     es: 'teléfono',
+    it: 'vuoto',
     de: 'Telefon',
     tr: 'telefon',
     fr: 'téléphone'
@@ -34,6 +38,7 @@ export const BasicDictionnary = {
   map_layers: {
     en: 'Layers',
     es: 'Capas',
+    it: 'Strati',
     de: 'Layers',
     tr: 'Layers',
     fr: 'Calques'
@@ -43,6 +48,7 @@ export const BasicDictionnary = {
   tab_map: {
     en: 'map',
     es: 'mapa',
+    it: 'mappa',
     de: 'Karte',
     tr: 'harita',
     fr: 'carte'
@@ -50,6 +56,7 @@ export const BasicDictionnary = {
   tab_table: {
     en: 'table',
     es: 'tabula',
+    it: 'tabella',
     de: 'Tabelle',
     tr: 'tablo',
     fr: 'table'
@@ -57,6 +64,7 @@ export const BasicDictionnary = {
   tab_list: {
     en: 'list',
     es: 'lista',
+    it: 'lista',
     de: 'Liste',
     tr: 'liste',
     fr: 'liste'
@@ -64,6 +72,7 @@ export const BasicDictionnary = {
   tab_stat: {
     en: 'stats',
     es: 'datos',
+    it: 'vuoto',
     de: 'statis',
     tr: 'istat',
     fr: 'données'
@@ -71,6 +80,7 @@ export const BasicDictionnary = {
   tab_calendar: {
     en: 'calendar',
     es: 'calendario',
+    it: 'vuoto',
     de: 'calendar',
     tr: 'calendar',
     fr: 'calendrier'
@@ -78,6 +88,7 @@ export const BasicDictionnary = {
   tab_export: {
     en: 'export data',
     es: 'exportar los datos',
+    it: 'dati di esportazione',
     de: 'export',
     tr: 'export',
     fr: 'exporter les données'
@@ -87,6 +98,7 @@ export const BasicDictionnary = {
   table_to_detail: {
     en: 'detail',
     es: 'detalle',
+    it: 'vuoto',
     de: 'view',
     tr: 'view',
     fr: 'détail'
@@ -94,6 +106,7 @@ export const BasicDictionnary = {
   results_per_page: {
     en: 'resuts per page',
     es: 'resultados por pagina',
+    it: 'risultato per pagina',
     de: 'resuts per page',
     tr: 'resuts per page',
     fr: 'résultats par page'
@@ -101,6 +114,7 @@ export const BasicDictionnary = {
   results: {
     en: 'resuts',
     es: 'resultados',
+    it: 'risultato',
     de: 'resuts',
     tr: 'resuts',
     fr: 'résultats'
@@ -108,6 +122,7 @@ export const BasicDictionnary = {
   per_page: {
     en: 'per page',
     es: 'por pagina',
+    it: 'per pagina',
     de: 'per page',
     tr: 'per page',
     fr: 'par page'
@@ -115,6 +130,7 @@ export const BasicDictionnary = {
   page: {
     en: 'page',
     es: 'pagina',
+    it: 'pagina',
     de: 'page',
     tr: 'sayfa',
     fr: 'page'
@@ -124,6 +140,7 @@ export const BasicDictionnary = {
   request_loading: {
     en: 'request is pending...',
     es: 'búsqueda está pendiente...',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Recherche en cours...'
@@ -131,6 +148,7 @@ export const BasicDictionnary = {
   no_results: {
     en: 'No results',
     es: 'No resultados',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Pas de résultats'
@@ -138,6 +156,7 @@ export const BasicDictionnary = {
   no_results_help: {
     en: 'For more results, please change your search criterias',
     es: 'Para tener mas resultados, cambie sus criterios',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Pour obtenir plus de résultats, modifiez vos critères de recherche'
@@ -145,6 +164,7 @@ export const BasicDictionnary = {
   delete_all_filters: {
     en: 'Delete all filters',
     es: 'Suprimir todos los fieltros',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Supprimer tous les filtres'
@@ -154,6 +174,7 @@ export const BasicDictionnary = {
   uuid_blocked: {
     en: 'Sorry, this UUID exists but is blocked',
     es: 'Lo sentamos, este UUID existe pero esta bloqueado',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Désolé, cet UUID existe mais est bloqué'
@@ -161,6 +182,7 @@ export const BasicDictionnary = {
   contact_team: {
     en: 'Please contact the Apiviz team or your admin sys',
     es: 'Por favor contacte el Apiviz team o sea su adminn sys',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Merci de contacter la team Apiviz ou votre administrateur système'
@@ -170,6 +192,7 @@ export const BasicDictionnary = {
   error_1a: {
     en: 'Error during process',
     es: 'Error durante el proceso',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Erreur du process'
@@ -177,6 +200,7 @@ export const BasicDictionnary = {
   instance_used_1a: {
     en: "you can't use this model..",
     es: 'Error durante el proceso',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Erreur du process'
@@ -184,6 +208,7 @@ export const BasicDictionnary = {
   uuid_is_current_1a: {
     en: 'your current uuid is already used... ',
     es: 'Error durante el proceso',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Erreur du process'
@@ -191,6 +216,7 @@ export const BasicDictionnary = {
   instane_created_1a: {
     en: 'your current uuid is already used... ',
     es: 'Error durante el proceso',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Erreur du process'
@@ -198,6 +224,7 @@ export const BasicDictionnary = {
   instane_deleted_1a: {
     en: 'your apiviz instance has been deleted... ',
     es: 'Error durante el proceso',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Erreur du process'
@@ -207,6 +234,7 @@ export const BasicDictionnary = {
   welcome_nav: {
     en: 'Welcome to the Apiviz dataviz website generator',
     es: 'Bienvenido.a al generador Apiviz de sitio de datavisualización',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Bienvenue sur le générateur de site de datavisualisation Apiviz'
@@ -214,6 +242,7 @@ export const BasicDictionnary = {
   quick_start: {
     en: 'Quick start',
     es: 'Empezar ya',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Commencer'
@@ -223,6 +252,7 @@ export const BasicDictionnary = {
   welcome_1: {
     en: 'Welcome to Apiviz',
     es: 'Bienvenido.a en Apiviz',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Bienvenue sur Apiviz'
@@ -230,6 +260,7 @@ export const BasicDictionnary = {
   welcome_2: {
     en: 'select a model to create a brand new apiviz website ',
     es: 'elegir un módelo para crear un nuevo sitio con Apiviz',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'sélectionnez un modèle pour créer un site original de datavisualisation'
@@ -239,6 +270,7 @@ export const BasicDictionnary = {
   intro_1a: {
     en: 'Create a new data visualisation website',
     es: 'Generar un nuevo sitio de data visualización',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Créez un nouveau site de datavisualisation'
@@ -246,6 +278,7 @@ export const BasicDictionnary = {
   intro_1b: {
     en: 'in a few clicks with Apiviz !',
     es: 'en algunos clics con Apiviz',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'en quelques clics avec Apiviz!'
@@ -254,6 +287,7 @@ export const BasicDictionnary = {
   intro_2a: {
     en: 'To do so you can start with an ',
     es: 'Empieze con un',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Commencez avec un '
@@ -261,6 +295,7 @@ export const BasicDictionnary = {
   intro_2b: {
     en: 'existing model',
     es: 'módelo existante',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'modèle de site'
@@ -268,6 +303,7 @@ export const BasicDictionnary = {
   intro_2c: {
     en: 'and then modify it from the back-office',
     es: 'y modificarlo desde el back office',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'que vous pourrez ensuite modifier depuis le back office'
@@ -275,6 +311,7 @@ export const BasicDictionnary = {
   intro_3a: {
     en: 'Apiviz is an',
     es: 'Apiviz es un',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Apiviz est un '
@@ -282,6 +319,7 @@ export const BasicDictionnary = {
   intro_3b: {
     en: 'so you can also reuse the source code instead of the saas service',
     es: 'tambien puedes reutilizar el código en lugar del servicio saas',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "vous pouvez donc réutiliser le code source de l'application au lieu du service en saas "
@@ -291,6 +329,7 @@ export const BasicDictionnary = {
   div_1: {
     en: 'your current UUID',
     es: 'su UUID actual',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre UUID actuel'
@@ -298,6 +337,7 @@ export const BasicDictionnary = {
   div_2: {
     en: 'create your datavisualisation website from a model',
     es: 'creas su sitio de data visualización a partir de un módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "créez votre site de datavisualisation en partant d'un modèle"
@@ -305,6 +345,7 @@ export const BasicDictionnary = {
   div_3: {
     en: 'options of the selected model',
     es: 'opciones del módelo eligido',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'options du modèle sélectionné'
@@ -312,6 +353,7 @@ export const BasicDictionnary = {
   div_4: {
     en: 'complementary infos',
     es: 'informaciones complementarias',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'informations complémentaires'
@@ -319,6 +361,7 @@ export const BasicDictionnary = {
   or: {
     en: 'OR',
     es: 'O SEA',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'YA DA',
     fr: 'OU'
@@ -328,6 +371,7 @@ export const BasicDictionnary = {
   select_1a: {
     en: 'select a default model ',
     es: 'elige un módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'sélectionnez le modèle'
@@ -335,6 +379,7 @@ export const BasicDictionnary = {
   select_1b: {
     en: 'for your new apiviz website',
     es: 'para su nuvo sitio Apivviz',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'de votre nouveau site Apiviz'
@@ -342,6 +387,7 @@ export const BasicDictionnary = {
   select_1c: {
     en: 'Please select a model',
     es: 'Elige su módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Sélectionnez votre modèle'
@@ -351,6 +397,7 @@ export const BasicDictionnary = {
   uuid_1a: {
     en: 'you already have ',
     es: 'ya tienes',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'vous avez déjà'
@@ -358,6 +405,7 @@ export const BasicDictionnary = {
   uuid_1b: {
     en: "a model's UUID",
     es: 'el UUID del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "l'UUID du modèle"
@@ -365,6 +413,7 @@ export const BasicDictionnary = {
   uuid_1c: {
     en: 'enter an UUID',
     es: 'entre un UUID',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'entrez un UUID'
@@ -372,6 +421,7 @@ export const BasicDictionnary = {
   uuid_invalid: {
     en: 'This model is invalid',
     es: 'Este módelo no es valido',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "Ce modèle n'est pas valide"
@@ -381,6 +431,7 @@ export const BasicDictionnary = {
   feedback_1: {
     en: 'your current UUID : ',
     es: 'su UUID actual :',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre UUID actuel : '
@@ -388,6 +439,7 @@ export const BasicDictionnary = {
   feedback_1a: {
     en: "model's name : ",
     es: 'el nombre del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'nom du modèle : '
@@ -395,6 +447,7 @@ export const BasicDictionnary = {
   feedback_1b: {
     en: "model's UUID : ",
     es: 'UUID del módelo :',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'UUID du modèle : '
@@ -402,6 +455,7 @@ export const BasicDictionnary = {
   feedback_preview: {
     en: 'preview of the selected model',
     es: 'previsualización del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'prévisualisation du modèle sélectionné'
@@ -411,6 +465,7 @@ export const BasicDictionnary = {
   tags_1a: {
     en: "model's options : ",
     es: 'opciones del módelo :',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'options du modèle :'
@@ -418,6 +473,7 @@ export const BasicDictionnary = {
   dynamic_template: {
     en: 'route types',
     es: 'tipos de rutas',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'types de routes'
@@ -425,6 +481,7 @@ export const BasicDictionnary = {
   endpoint_type: {
     en: 'data endpoint types',
     es: 'tipos de puntos de API',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "types de points d'API"
@@ -434,6 +491,7 @@ export const BasicDictionnary = {
   app_colors: {
     en: "model's colors ",
     es: 'colores del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'couleurs du modèle'
@@ -441,6 +499,7 @@ export const BasicDictionnary = {
   app_colors_class: {
     en: 'colors class',
     es: 'clases del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'classe couleur'
@@ -448,6 +507,7 @@ export const BasicDictionnary = {
   app_colors_color: {
     en: 'color',
     es: 'colores',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'couleur'
@@ -455,6 +515,7 @@ export const BasicDictionnary = {
   app_colors_code: {
     en: 'color code ',
     es: 'código color',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'code couleur'
@@ -462,6 +523,7 @@ export const BasicDictionnary = {
   app_languages: {
     en: "model's languages ",
     es: 'idiomas del módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'langues du modèle'
@@ -471,6 +533,7 @@ export const BasicDictionnary = {
   title_1a: {
     en: 'title of your new website ',
     es: 'título de su nuevo sitio',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'titre de votre nouveau site'
@@ -478,6 +541,7 @@ export const BasicDictionnary = {
   title_1b: {
     en: 'the title of your new website ',
     es: 'el título de su nuevo sitio',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'le titre de votre nouveau site'
@@ -487,6 +551,7 @@ export const BasicDictionnary = {
   logo_1a: {
     en: 'Your new website logo ',
     es: 'el logo de su nuevo sitio',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Le logo de votre nouveau site'
@@ -494,6 +559,7 @@ export const BasicDictionnary = {
   logo_1b: {
     en: 'enter your logo url',
     es: 'entre el URL de su logo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "entrez l'url vers l'image de votre logo"
@@ -501,6 +567,7 @@ export const BasicDictionnary = {
   logo_1c: {
     en: 'preview of your logo',
     es: 'previsualización de su logo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'prévisualisation de votre logo'
@@ -510,6 +577,7 @@ export const BasicDictionnary = {
   admin_1a: {
     en: 'admin infos ',
     es: 'infos admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'infos admin'
@@ -517,6 +585,7 @@ export const BasicDictionnary = {
   name_1a: {
     en: 'your name ',
     es: 'su nombre',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre prénom'
@@ -524,6 +593,7 @@ export const BasicDictionnary = {
   name_1b: {
     en: 'your name as the first admin',
     es: 'su nombre de admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre prénom de premier admin'
@@ -531,6 +601,7 @@ export const BasicDictionnary = {
   surname_1a: {
     en: 'your surname ',
     es: 'su apellido',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre nom de famille'
@@ -538,6 +609,7 @@ export const BasicDictionnary = {
   surname_1b: {
     en: 'your surname as the first admin',
     es: 'su apellido de admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre nom de famille '
@@ -545,6 +617,7 @@ export const BasicDictionnary = {
   email_1a: {
     en: 'your email ',
     es: 'su email',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre email'
@@ -552,6 +625,7 @@ export const BasicDictionnary = {
   email_1b: {
     en: 'the email you will use to log as as the first admin',
     es: 'el email que vas a usar para conectarte como admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "l'email qui vous servira pour vous connecter en tant que premier admin"
@@ -560,6 +634,7 @@ export const BasicDictionnary = {
   data_new_endpoint_question: {
     en: 'I want to enter a new Solidata endpoint',
     es: 'Quiero entrar un nuevo endpoint Solidata para mis datos',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Je veux préciser un nouvel endpoint Solidata pour mes données'
@@ -567,6 +642,7 @@ export const BasicDictionnary = {
   data_solidata_endpoint_url_1a: {
     en: 'Your dataset ID in Solidata',
     es: 'Su dataset ID en Solidata',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "L'ID de votre dataset dans Solidata"
@@ -574,6 +650,7 @@ export const BasicDictionnary = {
   data_solidata_endpoint_url_1b: {
     en: "Your Solidata dataset's ID",
     es: 'Su dataset ID en Solidata',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "L'ID de votre dataset dans Solidata"
@@ -581,6 +658,7 @@ export const BasicDictionnary = {
   data_solidata_endpoint_url_1c: {
     en: 'new Solidata endpoint',
     es: 'nuevo endpoint Solidata',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'nouveau endpoint Solidata'
@@ -588,6 +666,7 @@ export const BasicDictionnary = {
   data_new_endpoint_dsType: {
     en: 'dataset type',
     es: 'tipo de dataset',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'type de dataset'
@@ -595,6 +674,7 @@ export const BasicDictionnary = {
   data_new_endpoint_dsId: {
     en: 'dataset ID',
     es: 'ID del dataset',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'ID du dataset'
@@ -604,6 +684,7 @@ export const BasicDictionnary = {
   create_1a: {
     en: 'Generate your new website',
     es: 'Genere su nuevo sitio',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Générez votre nouveau site'
@@ -611,6 +692,7 @@ export const BasicDictionnary = {
   create_1b: {
     en: 'Choose a model first',
     es: 'Primero elige un módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Merci de choisir un modèle'
@@ -618,6 +700,7 @@ export const BasicDictionnary = {
   create_1c: {
     en: 'Choose an admin email first',
     es: 'Primero elige un email de admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "Merci de choisir un email d'admin"
@@ -625,6 +708,7 @@ export const BasicDictionnary = {
   create_1d: {
     en: 'Choose a model and an email admin first',
     es: 'Elige un módelo y un email de admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "Merci de choisir un modèle et un email d'admin"
@@ -634,6 +718,7 @@ export const BasicDictionnary = {
   goto_1a: {
     en: 'See your new website',
     es: 'Ver su nuevo sitio',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Accédez à votre nouveau site'
@@ -643,6 +728,7 @@ export const BasicDictionnary = {
   repo: {
     en: 'source code on Github',
     es: 'código fuente en Github',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'code source sur Github'
@@ -650,6 +736,7 @@ export const BasicDictionnary = {
   docs: {
     en: 'documentation',
     es: 'documenntación',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'documentation'
@@ -658,6 +745,7 @@ export const BasicDictionnary = {
   check_repo: {
     en: 'Check the repo',
     es: 'Ver el repo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Code source'
@@ -665,6 +753,7 @@ export const BasicDictionnary = {
   check_docs: {
     en: 'Check the documentation',
     es: 'Ver la documentación',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Voir la documentation'
@@ -672,6 +761,7 @@ export const BasicDictionnary = {
   open_source_pr: {
     en: 'open source project',
     es: 'proyecto open source',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'projet open source'
@@ -681,6 +771,7 @@ export const BasicDictionnary = {
   step_title: {
     en: 'your title',
     es: 'su título',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre titre'
@@ -688,6 +779,7 @@ export const BasicDictionnary = {
   step_model: {
     en: 'your model',
     es: 'su módelo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre modèle'
@@ -695,6 +787,7 @@ export const BasicDictionnary = {
   step_logo: {
     en: 'your logo',
     es: 'su logo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'votre logo'
@@ -702,6 +795,7 @@ export const BasicDictionnary = {
   step_email: {
     en: 'admin email',
     es: 'email de admin',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "email d'admin"
@@ -709,6 +803,7 @@ export const BasicDictionnary = {
   step_data: {
     en: 'your data',
     es: 'sus datos',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'vos données'
@@ -716,20 +811,16 @@ export const BasicDictionnary = {
   step_finish: {
     en: 'generate',
     es: 'generar',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'générer'
   },
-  docs: {
-    en: 'documentation',
-    es: 'documentación',
-    de: 'to do de',
-    tr: 'to do tr',
-    fr: 'documentation'
-  },
+
   next: {
     en: 'next',
     es: 'siguiente',
+    it: 'seguente',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'suivant'
@@ -737,6 +828,7 @@ export const BasicDictionnary = {
   previous: {
     en: 'previous',
     es: 'previo',
+    it: 'precedenti',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'précédent'
@@ -747,6 +839,7 @@ export const BasicDictionnary = {
   modal_doc_1a: {
     en: 'To know more about the',
     es: 'Para saber mas a propocito de los ajustes',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Pour en savoir plus sur les réglages de la configuration'
@@ -754,6 +847,7 @@ export const BasicDictionnary = {
   modal_doc_1b: {
     en: 'settings',
     es: '',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: ''
@@ -761,6 +855,7 @@ export const BasicDictionnary = {
   modal_doc_1c: {
     en: 'check our documentation here ',
     es: 'ver nuestra documentation',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'consultez notre documentation ici'
@@ -768,6 +863,7 @@ export const BasicDictionnary = {
   modal_doc_1d: {
     en: 'apiviz documentation website',
     es: 'sitio de deocumentatción de Apiviz',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "site de documentation d'Apiviz"
@@ -776,6 +872,7 @@ export const BasicDictionnary = {
   bo_delete_confirm_1a: {
     en: 'Are you sure you want to delete this element? ',
     es: '¿Estais seguro.a que queréis suprimir este elemento?',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Êtes-vous certain.e de vouloir supprimer ce document?'
@@ -783,6 +880,7 @@ export const BasicDictionnary = {
   bo_delete_btn: {
     en: 'yes, delete',
     es: 'si, suprimir',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'oui, supprimer'
@@ -791,6 +889,7 @@ export const BasicDictionnary = {
   bo_helper_1a: {
     en: 'you can do the following (experimental) :',
     es: 'podeis hacer lo siguiente (experimental)',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'vous pouvez faire les opérations suivantes (expérimental) :'
@@ -798,6 +897,7 @@ export const BasicDictionnary = {
   bo_helper_2a: {
     en: 'delete or duplicate this element ',
     es: 'suprimir o duplicar este elemento',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'supprimer ou dupliquer ce document'
@@ -805,6 +905,7 @@ export const BasicDictionnary = {
   bo_helper_2a_: {
     en: "beware to create an original value for the following fields : 'field' (and 'tab_uri') ",
     es: "tenga cuidado crear un valor para los siguientes campos : 'field' (y 'tab_uri') ",
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "prenez garde à bien créer une nouvelle valeur pour les champs suivants : 'field' (et 'tab_uri')"
@@ -812,6 +913,7 @@ export const BasicDictionnary = {
   bo_helper_2b: {
     en: 'modify the values',
     es: 'modificarr los valores',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'modifier les valeurs'
@@ -819,6 +921,7 @@ export const BasicDictionnary = {
   bo_helper_2c: {
     en: 'add new key(s) at your own risk',
     es: 'añadir nuevas llaves (keys) a sus propios riesgos',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'ajouter de nouvelles entrées (à votre propre rique)'
@@ -826,6 +929,7 @@ export const BasicDictionnary = {
   bo_helper_2d: {
     en: 'add new entries to the lists (but beware to respect the format)',
     es: 'añadir nuevos valores a las listas (pero tennga cuidado respetar al formato)',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'ajouter une nouvelle entrée aux listes (attention de respecter le format)'
@@ -833,6 +937,7 @@ export const BasicDictionnary = {
   bo_helper_2e: {
     en: 'modifying the keys will not be taken into account',
     es: 'modificar las llaves (keys) no sera tomado en cuenta',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'modifier les champs clés ne sera pas pris en compte'
@@ -840,6 +945,7 @@ export const BasicDictionnary = {
   bo_helper_2f: {
     en: 'modify the existing keys (at your own risk)',
     es: 'modificar las llaves (keys) existantes',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'modifier les champs clés existants (à votre propre risque)'
@@ -848,6 +954,7 @@ export const BasicDictionnary = {
   bo_test: {
     en: 'test',
     es: 'probar',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'tester'
@@ -855,6 +962,7 @@ export const BasicDictionnary = {
   bo_warning: {
     en: 'warning',
     es: 'cuidado',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'attention'
@@ -862,6 +970,7 @@ export const BasicDictionnary = {
   bo_delete: {
     en: 'delete',
     es: 'suprimir',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'supprimer'
@@ -869,6 +978,7 @@ export const BasicDictionnary = {
   bo_save: {
     en: 'save',
     es: 'guardar',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'enregistrer'
@@ -876,6 +986,7 @@ export const BasicDictionnary = {
   bo_cancel: {
     en: 'cancel',
     es: 'anular',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'annuler'
@@ -883,6 +994,7 @@ export const BasicDictionnary = {
   bo_add: {
     en: 'add a document ',
     es: 'añadir un documento',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'ajouter un document '
@@ -892,6 +1004,7 @@ export const BasicDictionnary = {
   bo_duplicate_title: {
     en: 'Duplicate a document ',
     es: 'Duplicar un documento',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Dupliquer un document'
@@ -899,6 +1012,7 @@ export const BasicDictionnary = {
   bo_duplicate_intro_1a: {
     en: 'You can add a new document to this collection',
     es: 'Podeis añadir un nuevo documento a la colección',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Vous pouvez ajouter un document à cette collection'
@@ -906,6 +1020,7 @@ export const BasicDictionnary = {
   bo_duplicate_intro_1b: {
     en: 'by duplicating an existing one',
     es: 'duplicando un documento existante',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'en dupliquant un document existant'
@@ -913,6 +1028,7 @@ export const BasicDictionnary = {
   bo_duplicate_select_helper: {
     en: 'Select the document you want to duplicate',
     es: 'Elegir un documento que quiereis duplicar',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Sélectionner le document que vous souhaitez dupliquer'
@@ -920,6 +1036,7 @@ export const BasicDictionnary = {
   bo_duplicate_edit_helper: {
     en: 'You can edit the selected document before sending it',
     es: 'Podeis editar el documento elegido antes mandarlo',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: "Vous pouvez éditer le document avant de l'envoyer"
@@ -927,6 +1044,7 @@ export const BasicDictionnary = {
   bo_duplicate_select_placeholder: {
     en: 'Select a document ',
     es: 'Elegir un documento',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Sélectionner un document'
@@ -935,6 +1053,7 @@ export const BasicDictionnary = {
   bo_title: {
     en: 'Back office',
     es: 'Espacio de configuración',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Espace de configuration'
@@ -942,6 +1061,7 @@ export const BasicDictionnary = {
   bo_back: {
     en: 'Back to previous page',
     es: 'Volver a la página anterior',
+    it: 'vuoto',
     de: 'to do de',
     tr: 'to do tr',
     fr: 'Retour à la page précédente'
@@ -951,6 +1071,7 @@ export const BasicDictionnary = {
   login: {
     en: 'Login',
     es: 'Login',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Login'
@@ -958,6 +1079,7 @@ export const BasicDictionnary = {
   connect: {
     en: 'Connect',
     es: 'Conectarse',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Se connecter'
@@ -965,6 +1087,7 @@ export const BasicDictionnary = {
   connected: {
     en: 'already connected',
     es: 'ya conectado.a',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'déjà connecté.e'
@@ -972,6 +1095,7 @@ export const BasicDictionnary = {
   reconnect: {
     en: 'Reconnect',
     es: 'Reconectarse',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Se reconnecter'
@@ -979,6 +1103,7 @@ export const BasicDictionnary = {
   disconnect: {
     en: 'Disconnect',
     es: 'Desconectarse',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Se déconnecter'
@@ -986,6 +1111,7 @@ export const BasicDictionnary = {
   disconnect_msg: {
     en: 'you successfully disconnected',
     es: 'se disconectó con exito',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Vous avez été déconnecté.e avec succès'
@@ -993,6 +1119,7 @@ export const BasicDictionnary = {
   want_disconnect: {
     en: 'Do you want to disconnect?',
     es: '¿Queréis desconectarse?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Voulez-vous vous déconnecter?'
@@ -1000,6 +1127,7 @@ export const BasicDictionnary = {
   want_reconnect: {
     en: 'Do you want to reconnect?',
     es: '¿Queréis reconectarse?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Voulez-vous vous reconnecter?'
@@ -1007,6 +1135,7 @@ export const BasicDictionnary = {
   is_account: {
     en: 'You already have an account?',
     es: '¿Ya tenéis una cuenta?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Vous avez déjà un compte?'
@@ -1014,6 +1143,7 @@ export const BasicDictionnary = {
   no_account: {
     en: "You don't have an account yet?",
     es: '¿Todavía no tenéis cuenta?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: "Vous n'avez pas encore de compte?"
@@ -1021,6 +1151,7 @@ export const BasicDictionnary = {
   register: {
     en: 'Register',
     es: 'Registrarse',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: "S'inscrire"
@@ -1028,6 +1159,7 @@ export const BasicDictionnary = {
   optionnal: {
     en: 'optionnal',
     es: 'opcional',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'optionnel'
@@ -1035,6 +1167,7 @@ export const BasicDictionnary = {
   preferences: {
     en: 'Preferences',
     es: 'Preferencias',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Préférences'
@@ -1042,6 +1175,7 @@ export const BasicDictionnary = {
   backoffice: {
     en: 'Back office',
     es: 'Back office',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Back office'
@@ -1049,6 +1183,7 @@ export const BasicDictionnary = {
   is_registered: {
     en: 'You are already registred',
     es: 'Ya estais registrado.a',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Vous êtes déjà inscrit.e'
@@ -1056,6 +1191,7 @@ export const BasicDictionnary = {
   logout: {
     en: 'Logout',
     es: 'Salir',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Se déconnecter'
@@ -1063,6 +1199,7 @@ export const BasicDictionnary = {
   hello: {
     en: 'hello',
     es: 'hola',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'bonjour'
@@ -1070,6 +1207,7 @@ export const BasicDictionnary = {
   email: {
     en: 'email',
     es: 'email',
+    it: 'vuoto',
     tr: 'email',
     de: 'email',
     fr: 'email'
@@ -1077,6 +1215,7 @@ export const BasicDictionnary = {
   name: {
     en: 'name',
     es: 'nombre',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'prénom'
@@ -1084,6 +1223,7 @@ export const BasicDictionnary = {
   surname: {
     en: 'surname',
     es: 'apellido',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'nom'
@@ -1091,6 +1231,7 @@ export const BasicDictionnary = {
   password: {
     en: 'password',
     es: 'contraseña',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'mot de passe'
@@ -1098,6 +1239,7 @@ export const BasicDictionnary = {
   password_confirm: {
     en: 'confirm the password',
     es: 'confirma su contraseña',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'confirmer le mot de passe'
@@ -1105,6 +1247,7 @@ export const BasicDictionnary = {
   password_bis: {
     en: 'repeat the password',
     es: 'repite su contraseña',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'répéter le mot de passe'
@@ -1112,6 +1255,7 @@ export const BasicDictionnary = {
   remember_me: {
     en: 'remember me',
     es: 'acordarse de mi',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'se souvenir de moi'
@@ -1119,6 +1263,7 @@ export const BasicDictionnary = {
   forgot_password: {
     en: 'Forgot your password?',
     es: '¿Contraseña olvidada?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Mot de passe oublié?'
@@ -1126,6 +1271,7 @@ export const BasicDictionnary = {
   create_account: {
     en: 'Create an account',
     es: 'Crea una cuenta',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Créer un compte'
@@ -1133,6 +1279,7 @@ export const BasicDictionnary = {
   accept_cgu: {
     en: 'Accept CGU',
     es: 'Accepto los CGU',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: "J'accepte les CGU"
@@ -1142,6 +1289,7 @@ export const BasicDictionnary = {
   menu_app_settings: {
     en: 'CONFIGURATION',
     es: 'CONFIGURACION',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'CONFIGURATION'
@@ -1149,6 +1297,7 @@ export const BasicDictionnary = {
   menu_preferences: {
     en: 'PREFERENCES',
     es: 'PREFERRENCIAS',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'PREFERENCES'
@@ -1158,6 +1307,7 @@ export const BasicDictionnary = {
   bo_global: {
     en: 'global',
     es: 'global',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'global'
@@ -1165,6 +1315,7 @@ export const BasicDictionnary = {
   bo_navbar: {
     en: 'navigation',
     es: 'navegación',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'navigation'
@@ -1172,6 +1323,7 @@ export const BasicDictionnary = {
   bo_routes: {
     en: 'routes',
     es: 'rutas',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'routes'
@@ -1179,6 +1331,7 @@ export const BasicDictionnary = {
   bo_endpoints: {
     en: 'data',
     es: 'data',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'données'
@@ -1186,6 +1339,7 @@ export const BasicDictionnary = {
   bo_tabs: {
     en: 'tabs',
     es: 'tabs',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'tabs'
@@ -1193,6 +1347,7 @@ export const BasicDictionnary = {
   bo_footer: {
     en: 'footer',
     es: 'footer',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'footer'
@@ -1200,6 +1355,7 @@ export const BasicDictionnary = {
   bo_socials: {
     en: 'socials',
     es: 'sociales',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'réseaux sociaux'
@@ -1207,6 +1363,7 @@ export const BasicDictionnary = {
   bo_styles: {
     en: 'styles',
     es: 'estilos',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'styles'
@@ -1214,6 +1371,7 @@ export const BasicDictionnary = {
   bo_users: {
     en: 'users',
     es: 'usuarios',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'utilisateurs'
@@ -1223,6 +1381,7 @@ export const BasicDictionnary = {
   gl_general: {
     en: 'general',
     es: 'general',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'général'
@@ -1230,6 +1389,7 @@ export const BasicDictionnary = {
   gl_identity: {
     en: 'identity',
     es: 'identidad',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'identité du site'
@@ -1237,6 +1397,7 @@ export const BasicDictionnary = {
   gl_meta: {
     en: 'meta',
     es: 'meta',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'meta'
@@ -1244,6 +1405,7 @@ export const BasicDictionnary = {
   gl_seo: {
     en: 'SEO',
     es: 'SEO',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'SEO'
@@ -1251,6 +1413,7 @@ export const BasicDictionnary = {
   gl_lang: {
     en: 'international',
     es: 'internacional',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'international'
@@ -1258,6 +1421,7 @@ export const BasicDictionnary = {
   na_global: {
     en: 'navbar',
     es: 'navbar',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'navbar'
@@ -1265,6 +1429,7 @@ export const BasicDictionnary = {
   na_links: {
     en: 'navbar links',
     es: 'vínculos navbar',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'liens navbar'
@@ -1272,6 +1437,7 @@ export const BasicDictionnary = {
   ro_data: {
     en: 'data routes',
     es: 'rutas data',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'routes data'
@@ -1279,6 +1445,7 @@ export const BasicDictionnary = {
   ro_statics: {
     en: 'pages routes',
     es: 'rutas páginas',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'routes pages'
@@ -1286,6 +1453,7 @@ export const BasicDictionnary = {
   ro_user: {
     en: 'user routes',
     es: 'rutas usuarios',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'routes utilisateur'
@@ -1293,6 +1461,7 @@ export const BasicDictionnary = {
   ep_data_filters: {
     en: 'filters',
     es: 'fieltros',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'filtres'
@@ -1300,6 +1469,7 @@ export const BasicDictionnary = {
   ep_data: {
     en: 'data',
     es: 'data',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'données'
@@ -1307,6 +1477,7 @@ export const BasicDictionnary = {
   ep_auth: {
     en: 'authentication',
     es: 'autentificación',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'authentification'
@@ -1314,6 +1485,7 @@ export const BasicDictionnary = {
   ep_user: {
     en: 'users',
     es: 'usuarios',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'utilisateurs'
@@ -1321,6 +1493,7 @@ export const BasicDictionnary = {
   ta_tabs: {
     en: 'tabs',
     es: 'tabs',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'tabs'
@@ -1328,6 +1501,7 @@ export const BasicDictionnary = {
   fo_settings: {
     en: 'footer',
     es: 'footer',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'footer'
@@ -1335,6 +1509,7 @@ export const BasicDictionnary = {
   fo_links: {
     en: 'footer links',
     es: 'vínculos footer',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'liens footer'
@@ -1342,6 +1517,7 @@ export const BasicDictionnary = {
   so_settings: {
     en: 'socials',
     es: 'redes socials',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'réseaux sociaux'
@@ -1349,6 +1525,7 @@ export const BasicDictionnary = {
   st_colors: {
     en: 'colors',
     es: 'colores',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'couleurs'
@@ -1356,6 +1533,7 @@ export const BasicDictionnary = {
   st_typo: {
     en: 'typos',
     es: 'tipografías',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'typos'
@@ -1363,6 +1541,7 @@ export const BasicDictionnary = {
   st_typocolors: {
     en: 'typo colors',
     es: 'typo colores',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'couleurs typo'
@@ -1370,6 +1549,7 @@ export const BasicDictionnary = {
   st_banners: {
     en: 'banners',
     es: 'banderas',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'bannières'
@@ -1377,6 +1557,7 @@ export const BasicDictionnary = {
   st_images: {
     en: 'images',
     es: 'imagenes',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'images'
@@ -1384,6 +1565,7 @@ export const BasicDictionnary = {
   us_users: {
     en: 'users list',
     es: 'lista usuarios',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'liste utilisateurs'
@@ -1391,6 +1573,7 @@ export const BasicDictionnary = {
   us_teams: {
     en: 'teams list',
     es: 'lista equipos',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'liste équipes'
@@ -1400,6 +1583,7 @@ export const BasicDictionnary = {
   u_infos: {
     en: 'infos',
     es: 'infos',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'infos'
@@ -1407,6 +1591,7 @@ export const BasicDictionnary = {
   u_password: {
     en: 'security',
     es: 'securidad',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'sécurité'
@@ -1414,6 +1599,7 @@ export const BasicDictionnary = {
   u_logout: {
     en: 'logout',
     es: 'logout',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'logout'
@@ -1421,6 +1607,7 @@ export const BasicDictionnary = {
   u_contact: {
     en: 'contact',
     es: 'contacto',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'contact'
@@ -1428,6 +1615,7 @@ export const BasicDictionnary = {
   u_profile: {
     en: 'profile',
     es: 'perfil',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'profil'
@@ -1435,6 +1623,7 @@ export const BasicDictionnary = {
   u_about: {
     en: 'message',
     es: 'mensaje',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'message'
@@ -1442,6 +1631,7 @@ export const BasicDictionnary = {
   u_about_more: {
     en: 'How can we help?',
     es: '¿Como podriamos ayudarle?',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'Comment pourrions-nous vous aider?'
@@ -1449,6 +1639,7 @@ export const BasicDictionnary = {
   u_infos_send: {
     en: 'update my infos',
     es: 'actualizar sus infos',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'mettre à jour les informations'
@@ -1456,6 +1647,7 @@ export const BasicDictionnary = {
   password_new: {
     en: 'your new password',
     es: 'su neuva contraseña',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'votre nouveau mot de passe'
@@ -1463,6 +1655,7 @@ export const BasicDictionnary = {
   password_send: {
     en: 'update my password',
     es: 'actualizar mi contraseña',
+    it: 'vuoto',
     tr: 'yapılmamış',
     de: 'ungemacht',
     fr: 'enregister le nouveau mot de passe'

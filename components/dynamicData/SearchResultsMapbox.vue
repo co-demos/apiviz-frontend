@@ -207,11 +207,13 @@
                 :offset="item_marker_offset"
                 :anchor="item_marker_anchor"
                 >
+
                 <span slot="marker"
                   :class="`icon is-large has-text-${item_marker_color} has-text-${item_marker_color}-c`" 
                   >
                   <i :class="`fa-3x ${item_marker}`"></i>
                 </span>
+
               </MglMarker>
 
               <!-- CONTROLS -->
@@ -229,13 +231,9 @@
             <!-- <div id="mapboxDiv">
             </div> -->
 
-
-
           </no-ssr>
 
-
           <!-- <code><pre>{{ findCurrentChorosource }}</pre></code> -->
-
 
           <!-- DEBUGGING -->
           <!-- <div class="column is-half"> -->
@@ -285,10 +283,13 @@ import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 import PopupContent from './MapboxPopupContent.vue'
 const PopupClass = Vue.extend(PopupContent)
 
+// import PopupContentCard from './MapboxPopupContentCard.vue'
+// const PopupCardClass = Vue.extend(PopupContentCard)
+
 import { VIEW_MAP, GeoCenters } from '../../config/constants.js'
 
-import Mapbox from "mapbox-gl";
-import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
+import Mapbox from "mapbox-gl"
+import { MglMap, MglMarker, MglPopup } from "vue-mapbox"
 import mapboxgl from 'mapbox-gl'
 import * as turf from '@turf/turf'
 
@@ -361,7 +362,6 @@ export default {
       item_marker_anchor: undefined,
 
       popup : undefined,
-      // PopupClass: Vue.extend(PopupContent),
       // legendContent : undefined,
       // hoveredPolygon : undefined,
       drawerLayersOpen : false,
@@ -556,7 +556,7 @@ export default {
 
     getCenter(next, prev){
 
-      this.log && console.log('\nC-SearchResultsMapbox / watch - getCenter ...')
+      // this.log && console.log('\nC-SearchResultsMapbox / watch - getCenter ...')
       let stringNextCenter = JSON.stringify( next )
       let stringPrevCenter = JSON.stringify( prev )
 
@@ -565,10 +565,6 @@ export default {
         if ( choroConfigs.length > 1 ){
 
           let layersToCheck = choroConfigs.filter( c => c.update_src_from_previous_source )
-          
-          // if () {
-
-          // }
 
           layersToCheck.forEach( sourceConfig => {
             this.updateChoroSourceByZoom( sourceConfig )
@@ -618,6 +614,7 @@ export default {
     }),
 
     ...mapGetters({
+      datasetURI : 'search/getSearchDatasetURI',
       projects : 'search/getResults',
       displayedProject : 'search/getDisplayedProject',
       isPending : 'search/getPending',
@@ -738,7 +735,6 @@ export default {
       return choroConfig ? choroConfig : emptyChoroConfig
     },
 
-
   },
 
   beforeDestroy() {
@@ -792,7 +788,6 @@ export default {
 
     },
 
-
     // - - - - - - - - - - - - - - - - - - //
     // MAP ITEMS AS GEOJSON
     // - - - - - - - - - - - - - - - - - - //
@@ -818,9 +813,7 @@ export default {
       this.isClusterSet = true
       // this.log && console.log("C-SearchResultsMapbox / createMapItems / this.map :", this.map)
 
-
     },
-
 
     // - - - - - - - - - - - - - - - - - - //
     // SOURCES 
@@ -862,7 +855,6 @@ export default {
 
       }
     },
-
     createAddGeoJsonSource(geoJson){
 
       this.log && console.log("\nC-SearchResultsMapbox / createAddGeoJsonSource / geoJson :", geoJson)
@@ -911,7 +903,6 @@ export default {
 
 
     },
-
     createChoroplethSource( isUpdate=false ){
 
       this.log && console.log("\nC-SearchResultsMapbox / createChoroplethSource / isUpdate : ", isUpdate)
@@ -1037,7 +1028,6 @@ export default {
 
       }
     },
-
     getRenderedChoroFeatures( layerId ){
 
       // this.log && console.log('\nC-SearchResultsMapbox / getRenderedFeatures... ')
@@ -1060,7 +1050,6 @@ export default {
       this.log && console.log('C-SearchResultsMapbox / getRenderedFeatures / renderedFeatures : ', renderedFeatures)
       return renderedFeatures 
     },
-
     updateChoroSourceByZoom( choroSourceConfig, featuresArray=undefined ){
 
       // called by watching "getCorrespondingChoroConfigs" computed value
@@ -1168,7 +1157,6 @@ export default {
 
     },
 
-
     // - - - - - - - - - - - - - - - - - - //
     // LAYERS
     // - - - - - - - - - - - - - - - - - - //
@@ -1182,12 +1170,18 @@ export default {
       let mapboxOptions = this.routeConfig.map_options.mapbox_layers
       let mapboxMap = this.map 
       let mapZoom = this.getZoom
+      let loc = this.locale
 
       const itemIdField = this.getBlockField('block_id') ? this.getBlockField('block_id') : "sd_id"
 
       let displayPoint = this.highlightItem
+      let goToDetailPage = this.goToDetailPage
 
       let toggleSelectedOn = this.toggleSelectedOn
+      let popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      })
 
       //  CHOROPLETH
       if ( mapboxOptions.choropleth_layer && mapboxOptions.choropleth_layer.is_activated ){
@@ -1243,28 +1237,69 @@ export default {
             var pointId = itemProps[ itemIdField ]
             console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
 
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
-
-            // fly to point
-            let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
-            mapboxMap.easeTo({
-              center: coordinates,
-              zoom : mapZoom + mapZoomAdd
-            })
-
-            itemProps.lat = coordinates[1]
-            itemProps.lon = coordinates[0]
-            displayPoint(itemProps)
+            if (allPointsConfigOptions.direct_to_detail) {
+              goToDetailPage(pointId)
+            } else {
+              var coordinates = e.features[0].geometry.coordinates.slice();
+              console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
+  
+              // fly to point
+              let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
+              mapboxMap.easeTo({
+                center: coordinates,
+                zoom : mapZoom + mapZoomAdd
+              })
+  
+              itemProps.lat = coordinates[1]
+              itemProps.lon = coordinates[0]
+              displayPoint(itemProps)
+            }
 
           })
           // HOVER ENTER
-          mapboxMap.on('mouseenter', allPointsLayerId, function () {
+          mapboxMap.on('mouseenter', allPointsLayerId, function (e) {
             mapboxMap.getCanvas().style.cursor = 'pointer';
+
+            // ADD POPUP ON MARKER IF ACTIVE
+            // cf : https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+            if (allPointsConfigOptions.has_popup) {
+              var featuresPolygon = mapboxMap.queryRenderedFeatures( e.point, { layers: [ allPointsLayerId ] })
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => featuresPolygon : ", featuresPolygon)
+
+              const coordinates = e.features[0].geometry.coordinates.slice()
+              const itemProps = featuresPolygon[0].properties
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => itemProps : ", itemProps)
+
+              const pop = popup
+                .setLngLat({ lng: e.lngLat.lng, lat: e.lngLat.lat })
+                .setHTML(`
+                  <div id="vue-popup-marker">
+                  </div>`
+                )
+                .addTo(mapboxMap)
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => pop : ", pop)
+
+              const popInstance = new PopupClass({
+                propsData: { 
+                  feature: featuresPolygon[0],
+                  properties: itemProps,
+                  config : allPointsConfigOptions.popup_config,
+                  locale : loc
+                },
+              })
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => popInstance : ", popInstance)
+              popInstance.$mount('#vue-popup-marker')
+              pop._update()
+
+            }
+
           })
           // HOVER LEAVE
           mapboxMap.on('mouseleave', allPointsLayerId, function () {
-            mapboxMap.getCanvas().style.cursor = '';
+            mapboxMap.getCanvas().style.cursor = ''
+            if (allPointsConfigOptions.has_popup) {
+              popup.remove()
+            }
           })
         }
 
@@ -1404,7 +1439,6 @@ export default {
 
 
     },
-
     createAddChoroplethLayers(source) {
 
       this.log && console.log("\nC-SearchResultsMapbox / createGeoJsonLayer ... ")
@@ -1445,10 +1479,10 @@ export default {
           // mapboxMap.getCanvas().style.cursor = 'pointer';
           // console.log("C-SearchResultsMapbox / createAddChoroplethLayers / clic - choroplethLayerId - e : ", e)
 
-          var featuresPolygon = mapboxMap.queryRenderedFeatures( e.point, { layers: [ choroplethLayerId ] });
+          var featuresPolygon = mapboxMap.queryRenderedFeatures( e.point, { layers: [ choroplethLayerId ] })
           // console.log("C-SearchResultsMapbox / createAddChoroplethLayers / clic - choroplethLayerId - featuresPolygon : ", featuresPolygon)
 
-          const coordinates = e.features[0].geometry.coordinates.slice();
+          const coordinates = e.features[0].geometry.coordinates.slice()
           // console.log("C-SearchResultsMapbox / createAddChoroplethLayers / clic - choroplethLayerId - coordinates : ", coordinates)
 
           // Ensure that if the map is zoomed out such that multiple
@@ -1459,7 +1493,7 @@ export default {
           // }
           // console.log("C-SearchResultsMapbox / createAddChoroplethLayers / clic - choroplethLayerId - coordinates : ", coordinates)
 
-          let itemProps = featuresPolygon[0].properties
+          const itemProps = featuresPolygon[0].properties
           // console.log("C-SearchResultsMapbox / createAddChoroplethLayers / clic - choroplethLayerId - itemProps : ", itemProps)
 
           const pop = popup
@@ -1526,7 +1560,6 @@ export default {
         )
       }
     },
-
     toggleSelectedOn(event, source) {
       let mapbox = this.map
       if (event.features.length > 0) {
@@ -1555,7 +1588,6 @@ export default {
       }
     },
 
-
     // - - - - - - - - - - - - - - - - - - //
     // UX FUNCTIONS
     // - - - - - - - - - - - - - - - - - - //
@@ -1573,15 +1605,17 @@ export default {
         }
       }
     },
-
     switchLayersDrawer(){
       this.drawerLayersOpen = !this.drawerLayersOpen
     },
-
     switchLegendDrawer(){
       this.drawerScalesOpen = !this.drawerScalesOpen
     },
-
+    goToDetailPage(itemId) {
+      const datasetURI = this.datasetURI
+      const detailItemUrl = `/${datasetURI}/detail?id=${itemId}`
+      this.$router.push(detailItemUrl)
+    },
 
     // - - - - - - - - - - - - - - - - - - //
     // ITEM MATCHING
@@ -1595,7 +1629,6 @@ export default {
         return undefined
       }
     },
-
     matchItemWithConfig(item, fieldBlock) {
       // this.log && console.log("C-SearchResultsMapbox / matchItemWithConfig / item : ", item)
       const contentField = this.contentFields.find(f=> f.position == fieldBlock)
@@ -1630,7 +1663,6 @@ export default {
       this.$store.dispatch('search/searchOne', item_id )
       
     },
-
     getItemCoordinates() {
       let item = this.displayedProject
       const item_geo_fields = this.item_geo_fields
@@ -1645,7 +1677,6 @@ export default {
       // this.log && console.log('C-SearchResultsMapbox / handleIconSignal / itemData : ', itemData)
       this.highlightItem(itemData)
     },
-
     getIconSize(item, highlightedItem){
       if (highlightedItem) {
         return this.itemId(item, 'block_id') === this.itemId(highlightedItem, 'block_id') ? this.iconSizeHighlighted : this.iconSizeNormal
@@ -1666,11 +1697,9 @@ export default {
         return false
       }
     },
-
     checkIfItemHasLatLng(item){
       return this.checkIfStringFloat(item.lat) && this.checkIfStringFloat(item.lon)
     },
-
 
   },
 
