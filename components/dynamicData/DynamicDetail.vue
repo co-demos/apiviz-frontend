@@ -734,7 +734,7 @@ export default {
         var factorCA = 1000000;
         var unitCA = 'millions d\'€';
       }
-      else if (CADeReference > 30000) {
+      else if (CADeReference > 300000) {
         var factorCA = 1000;
         var unitCA = 'milliers d\'€';
       }

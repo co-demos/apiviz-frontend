@@ -28,47 +28,18 @@
 
           <!-- HEADER -->
           <thead>
-            <tr
-              class="is-centered"
-              >
-              <th
-                v-if="tableOptions && tableOptions.has_link_col"
-                class="is-size-7 table-header-center-parent"
-                >
-                <span
-                  class="table-header-center-child">
-                  {{ basicDict.table_to_detail[locale] }}
-                </span>
+            <tr class="is-centered">
+              <th class="is-size-7">
+                détail
               </th>
-              <th
-                v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
-                :key="index"
-                class="table-header-center-parent has-text-centered"
-                >
-                <!-- <abbr
-                  :title="contentField">
-                  {{ contentField }}
-                </abbr> -->
-                <div
-                  v-if="contentField.is_sortable"
-                  :class="`button is-small  ${ contentField.field === sortBy ? 'is-active' : ''}`"
-                  @click="changeSorting( contentField.field )"
-                  >
-                  {{ contentField.field }}
-                  <span class="icon has-text-centered is-marginless">
-                    <i
-                      :class="`fas fa-angle-${ sortIsDescending ? 'down' : 'up'} ${ contentField.field === sortBy ? '' : ''}`"></i>
-                  </span>
-                </div>
-                <div
-                  v-else
-                  class="is-size-7 has-text-centered table-header-center-child"
-                  >
-                  <span
-                    class="table-header-center-child">
-                    {{ contentField.field }}
-                  </span>
-                </div>
+              <th class="has-text-centered is-size-7">
+                  Name
+              </th>
+              <th class="has-text-centered is-size-7">
+                Secteur (code APE)
+              </th>
+              <th class="has-text-centered is-size-7">
+                CompanyNumber
               </th>
             </tr>
           </thead>
@@ -79,10 +50,7 @@
               v-for="(item, index) in projects"
               :key="index"
               >
-              <td
-                v-if="tableOptions && tableOptions.has_link_col"
-                class="has-text-centered"
-                >
+              <td class="has-text-centered">
                 <nuxt-link
                   :to="`/${dataset_uri}/detail?id=${ item.siren.value }`"
                   >
@@ -93,21 +61,18 @@
                   &nbsp;
                 </nuxt-link>
               </td>
-              <td
-                v-for="(contentField, index) in columnsOrder.contentFieldsRaw"
-                :key="index">
+              <td>
                 <nuxt-link
-                  v-if="contentField.has_link_to_detail"
                   :to="`/${dataset_uri}/detail?id=${ item.siren.value }`"
-                  :class="`link-underlined ${ contentField.is_table_head ? 'has-text-weight-semibold' : 'has-text-weight-medium'}`"
+                  class="link-underlined has-text-weight-semibold"
                   >{{ item.denomination.value }}
                 </nuxt-link>
-                <span
-                  v-else
-                  :class="`${ contentField.is_table_head ? 'has-text-weight-semibold' : ''}`"
-                  >
-                  {{ item.siren.value }}
-                </span>
+              </td>
+              <td>
+                {{ item.ape.value }}
+              </td>
+              <td>
+                {{ item.siren.value }}
               </td>
             </tr>
           </tbody>
