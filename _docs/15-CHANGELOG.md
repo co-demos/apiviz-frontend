@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.14 : adding DynamicDetailParagraph component
 - v.1.0.13 : some more translation fields for italian
 - v.1.0.12 : hover popup on map's markers + direct to detail from map
 - v.1.0.11 : code cleaning ... + update to acorn 6.4
