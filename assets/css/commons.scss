@@ -3,6 +3,49 @@
 @import './apiviz-spacing.scss';
 @import './apiviz-misc.scss';
 
+
+.my-0{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.mt-0{
+  margin-top: 0 !important;
+}
+.mt-1{
+  margin-top: .5em;
+}
+.mt-2{
+  margin-top: 1em;
+}
+.mt-3{
+  margin-top: 1.5em;
+}
+
+.mb-0:last-child{
+  margin-bottom: 0 !important;
+}
+.mb-0{
+  margin-bottom: 0 !important;
+}
+.mb-1{
+  margin-bottom: .5em;
+}
+.mb-2{
+  margin-bottom: 1em;
+}
+.mb-3{
+  margin-bottom: 1.5em;
+}
+
+.py-0{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.pb-3{
+  margin-bottom: 1.5em;
+}
+
+
 html {
   font-size: $apiviz-base-font-size; // base for rem
   scroll-behavior: smooth;

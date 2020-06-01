@@ -135,7 +135,7 @@
               >
 
               <!-- BLOCK PRE ABSTRACT -->
-              <p id="block-pre-abstract" class="mt-2" v-if="isPositionFilled('block_pre_abstract')">
+              <p id="block-pre-abstract" class="mt-0" v-if="isPositionFilled('block_pre_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_pre_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -151,7 +151,7 @@
               </p>
 
               <!-- BLOCK ABSTRACT -->
-              <p id="block-abstract"  class="mt-2" v-if="isPositionFilled('block_abstract')">
+              <p id="block-abstract" class="mt-0" v-if="isPositionFilled('block_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -167,7 +167,7 @@
               </p>
 
               <!-- BLOCK POST ABSTRACT -->
-              <p id="block-post-abstract" class="mt-2" v-if="isPositionFilled('block_post_abstract')">
+              <p id="block-post-abstract" class="mt-0" v-if="isPositionFilled('block_post_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_post_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
@@ -247,10 +247,12 @@
               </p>
 
               <!-- BLOCK WEBSITE / CONTACT -->
-              <div class="columns">
+              <div class="columns is-centered">
 
                 <!-- BLOCK WEBSITE -->
-                <div id="block-main-website" class="column is-5 is-offset-1 link">
+                <div id="block-main-website" 
+                  v-if="isPositionFilled('block_website')"
+                  :class="`column has-text-centered ${isPositionFilled('block_contact') ? 'is-5 is-offset-1' : '' } link`">
                   <a
                     v-if="matchProjectWithConfig('block_website')"
                     :class="matchProjectWithConfig('block_website') === noData ? 'disabled has-text-grey' : 'has-text-primary has-text-primary-c' "
@@ -261,7 +263,9 @@
                 </div>
 
                 <!-- BLOCK CONTACT -->
-                <div id="block-main-contact" class="column is-5 is-offset-1 link">
+                <div id="block-main-contact" 
+                  v-if="isPositionFilled('block_contact')"
+                  :class="`column has-text-centered ${isPositionFilled('block_website') ? 'is-5 is-offset-1' : '' } link`">
                   <a
                     v-if="matchProjectWithConfig('block_contact')"
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
@@ -1206,45 +1210,6 @@ export default {
       margin-bottom: 0.5em;
   }
 
-
-
-  .my-0{
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  .mt-0{
-    margin-top: 0 !important;
-  }
-  .mt-1{
-    margin-top: .5em;
-  }
-  .mt-2{
-    margin-top: 1em;
-  }
-  .mt-3{
-    margin-top: 1.5em;
-  }
-
-  .mb-0:last-child{
-    margin-bottom: 0 !important;
-  }
-  .mb-0{
-    margin-bottom: 0 !important;
-  }
-  .mb-1{
-    margin-bottom: .5em;
-  }
-  .mb-2{
-    margin-bottom: 1em;
-  }
-
-  .py-0{
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-  .pb-3{
-    margin-bottom: 1.5em;
-  }
 
   a.disabled {
     pointer-events: none;

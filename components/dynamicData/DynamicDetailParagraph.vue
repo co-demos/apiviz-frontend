@@ -1,6 +1,7 @@
 <template>
 
-  <div>
+  <div 
+    :class="`mb-3`">
 
     <!-- {{ paragaphFormat }} -->
     <!-- <code>{{ formatParagraph(rawText)}}</code> -->
@@ -14,10 +15,10 @@
       <p 
         v-for="(p,index) in formatParagraph(rawText)"
         :key="index"
+        :class="`${index === 0 ? 'mt-1' : ''}`"
         >
-        <!-- :class="`${index === 0 ? 'mt-3' : ''}`" -->
         
-        <br v-if="index === 0 && !p.listType">
+        <!-- <br v-if="index === 0 && !p.listType"> -->
 
         <!-- loop lists -->
         <ul v-if="p.listType && p.listType == 'ul'">
@@ -38,12 +39,10 @@
     </div>
 
     <!-- no format at all -->
-    <div v-else>
-      <br>
+    <div v-else class="mt-1">
+      <!-- <br> -->
       {{ rawText }}
     </div>
-
-    <br>
     
   </div>
 
