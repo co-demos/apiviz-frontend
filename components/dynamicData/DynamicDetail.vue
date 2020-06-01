@@ -49,7 +49,9 @@
           <div class="column is-5 is-offset-1"
             id="column-left"
             >
-            <div class="description">
+
+            <!-- TITLE -->
+            <div class="description" id="title">
 
               <!-- BLOCK TITLE -->
               <h1 id="block-title" class="title is-3">
@@ -109,40 +111,75 @@
                 {{ matchProjectWithConfig('block_actor_left_top_b') }}
               </p>
 
+            </div>
+
+            <!-- BLOCK SOURCE -->
+            <div id="block-src" class="added" v-if="isPositionFilled('block_src_left')">
+              <div class="columns mt-0 mb-0">
+                <div class="column py-0 is-12">
+                  <div>
+                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
+                      {{ getDefaultText('source') }}
+                      :
+                    </span>
+                    <span>
+                      {{ matchProjectWithConfig('block_src_left')}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="description"
+              id="descriptions"
+              >
+
               <!-- BLOCK PRE ABSTRACT -->
-              <p id="block-pre-abstract" class="mt-3" v-if="isPositionFilled('block_pre_abstract')">
+              <p id="block-pre-abstract" class="mt-0" v-if="isPositionFilled('block_pre_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_pre_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_pre_abstract') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_pre_abstract')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_pre_abstract')"
+                  :paragraphFormat="getContentParagraphFormat('block_pre_abstract')"
+                />
+                <!-- {{ matchProjectWithConfig('block_pre_abstract')}} -->
               </p>
 
               <!-- BLOCK ABSTRACT -->
-              <p id="block-abstract"  class="mt-3" v-if="isPositionFilled('block_abstract')">
+              <p id="block-abstract" class="mt-0" v-if="isPositionFilled('block_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_abstract') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_abstract')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_abstract')"
+                  :paragraphFormat="getContentParagraphFormat('block_abstract')"
+                />
+                <!-- {{ matchProjectWithConfig('block_abstract')}} -->
               </p>
 
               <!-- BLOCK POST ABSTRACT -->
-              <p id="block-post-abstract" class="mt-3" v-if="isPositionFilled('block_post_abstract')">
+              <p id="block-post-abstract" class="mt-0" v-if="isPositionFilled('block_post_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_post_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_post_abstract')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_post_abstract')"
+                  :paragraphFormat="getContentParagraphFormat('block_post_abstract')"
+                />
+                <!-- {{ matchProjectWithConfig('block_post_abstract')}} -->
               </p>
 
               <!-- BLOCK PARTNERS -->
@@ -152,9 +189,13 @@
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_partners') }}
-                  <br><br>
+                  <br>
                 </span>
-                <p>{{ matchProjectWithConfig('block_partners')}}</p>
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_partners')"
+                  :paragraphFormat="getContentParagraphFormat('block_partners')"
+                />
+                <!-- <p>{{ matchProjectWithConfig('block_partners')}}</p> -->
               </div>
 
               <!-- BLOCK POST ABSTRACT 1 -->
@@ -164,10 +205,15 @@
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_1') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_post_abstract_1')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_post_abstract_1')"
+                  :paragraphFormat="getContentParagraphFormat('block_post_abstract_1')"
+                />
+                <!-- {{ matchProjectWithConfig('block_post_abstract_1')}} -->
               </p>
+
               <!-- BLOCK POST ABSTRACT 2 -->
               <p id="block-post-abstract-2" v-if="isPositionFilled('block_post_abstract_2')">
                 <span
@@ -175,10 +221,15 @@
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_2') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_post_abstract_2')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_post_abstract_2')"
+                  :paragraphFormat="getContentParagraphFormat('block_post_abstract_2')"
+                />
+                <!-- {{ matchProjectWithConfig('block_post_abstract_2')}} -->
               </p>
+
               <!-- BLOCK POST ABSTRACT 3 -->
               <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
                 <span
@@ -186,16 +237,22 @@
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
                   >
                   {{ getCustomBlockTitle('block_post_abstract_3') }}
-                  <br><br>
+                  <br>
                 </span>
-                {{ matchProjectWithConfig('block_post_abstract_3')}}
+                <DynamicDetailParagraph
+                  :rawText="matchProjectWithConfig('block_post_abstract_3')"
+                  :paragraphFormat="getContentParagraphFormat('block_post_abstract_3')"
+                />
+                <!-- {{ matchProjectWithConfig('block_post_abstract_3')}} -->
               </p>
 
               <!-- BLOCK WEBSITE / CONTACT -->
-              <div class="columns">
+              <div class="columns is-centered">
 
                 <!-- BLOCK WEBSITE -->
-                <div id="block-main-website" class="column is-5 is-offset-1 link">
+                <div id="block-main-website" 
+                  v-if="isPositionFilled('block_website')"
+                  :class="`column has-text-centered ${isPositionFilled('block_contact') ? 'is-5 is-offset-1' : '' } link`">
                   <a
                     v-if="matchProjectWithConfig('block_website')"
                     :class="matchProjectWithConfig('block_website') === noData ? 'disabled has-text-grey' : 'has-text-primary has-text-primary-c' "
@@ -206,7 +263,9 @@
                 </div>
 
                 <!-- BLOCK CONTACT -->
-                <div id="block-main-contact" class="column is-5 is-offset-1 link">
+                <div id="block-main-contact" 
+                  v-if="isPositionFilled('block_contact')"
+                  :class="`column has-text-centered ${isPositionFilled('block_website') ? 'is-5 is-offset-1' : '' } link`">
                   <a
                     v-if="matchProjectWithConfig('block_contact')"
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
@@ -805,6 +864,7 @@ import NotFoundError from './NotFoundError.vue';
 
 import DynamicDetailMap  from '~/components/dynamicData/DynamicDetailMap.vue'
 import DynamicDetailTimeline  from '~/components/dynamicData/DynamicDetailTimeline.vue'
+import DynamicDetailParagraph  from '~/components/dynamicData/DynamicDetailParagraph.vue'
 
 // import { getItemById } from '~/plugins/utils.js';
 import { getItemContent, getDefaultImage, trimString } from '~/plugins/utils.js';
@@ -818,6 +878,7 @@ export default {
     NotFoundError,
     DynamicDetailMap,
     DynamicDetailTimeline,
+    DynamicDetailParagraph,
   },
 
   props: [
@@ -977,7 +1038,15 @@ export default {
 
     isPositionFilled(fieldBlock){
       // this.log && console.log("isPositionFilled /  fieldBlock :", fieldBlock)
-      return this.listOfPositions.indexOf(fieldBlock) !== -1
+      const contentField = this.getContentField(fieldBlock)
+      let falseIfNoData = contentField && contentField.field_format && contentField.field_format.false_if_nodata
+      let canShow = true
+      if ( falseIfNoData ) {
+        let content = this.matchProjectWithConfig(fieldBlock)
+        canShow = content === this.noData ? false : true
+      }
+
+      return canShow && this.listOfPositions.indexOf(fieldBlock) !== -1
     },
 
     itemImage(fieldBlock){
@@ -1032,6 +1101,14 @@ export default {
       const contentsFields = this.contentFields
       const contentField = contentsFields.find(f=> f.position == fieldBlock)
       return contentField
+    },
+
+    getContentParagraphFormat(fieldBlock) {
+      let locale = this.locale
+      const contentField = this.getContentField(fieldBlock)
+      if (contentField && contentField.paragraph_format) {
+        return contentField.paragraph_format
+      }
     },
 
     convertTags(fieldBlock) {
@@ -1133,45 +1210,6 @@ export default {
       margin-bottom: 0.5em;
   }
 
-
-
-  .my-0{
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  .mt-0{
-    margin-top: 0 !important;
-  }
-  .mt-1{
-    margin-top: .5em;
-  }
-  .mt-2{
-    margin-top: 1em;
-  }
-  .mt-3{
-    margin-top: 1.5em;
-  }
-
-  .mb-0:last-child{
-    margin-bottom: 0 !important;
-  }
-  .mb-0{
-    margin-bottom: 0 !important;
-  }
-  .mb-1{
-    margin-bottom: .5em;
-  }
-  .mb-2{
-    margin-bottom: 1em;
-  }
-
-  .py-0{
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-  .pb-3{
-    margin-bottom: 1.5em;
-  }
 
   a.disabled {
     pointer-events: none;
