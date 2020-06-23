@@ -112,7 +112,7 @@
 
           <a
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button is-primary is-primary-b is-outlined is-small btn-menu`"
+            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button ${ isNavbarDark ? 'is-white' : 'is-primary is-primary-b'} is-outlined is-small btn-menu`"
             :href="link.link_to"
             :key="`'sublink-int-' + ${index}`"
             target="_blank"
@@ -296,6 +296,10 @@
       isUserStaff () {
         return this.$store.getters['user/getCheckUserRole']('staff')
       },
+
+      isNavbarDark() {
+        return this.navbarConfig.ui_options.background_isdark
+      }
 
 
     },

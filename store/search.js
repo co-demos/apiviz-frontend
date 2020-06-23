@@ -200,7 +200,7 @@ export const getters = {
   // IMAGES CONFIG GETTERS
   // - - - - - - - - - - - - - - - //
   getImgUrl: (state, getters, rootState) => (obj) => {
-    console.log('\nS-search-G-getImgUrl / obj : ', obj)
+    // console.log('\nS-search-G-getImgUrl / obj : ', obj)
     let image = obj.image
     if (!image) {
       let defaultImages
