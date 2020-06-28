@@ -1225,7 +1225,7 @@ export default {
           mapboxMap.on('click', allPointsLayerId, function (e) {
             
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ allPointsLayerId ] });
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - featuresPoint : ", featuresPoint)
+            // console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - featuresPoint : ", featuresPoint)
 
             let item = featuresPoint[0]
             let itemSource = item.source
@@ -1235,13 +1235,13 @@ export default {
             toggleSelectedOn(e, itemSource)
 
             var pointId = itemProps[ itemIdField ]
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
+            // console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - pointId : ", pointId)
 
             if (allPointsConfigOptions.direct_to_detail) {
               goToDetailPage(pointId)
             } else {
-              var coordinates = e.features[0].geometry.coordinates.slice();
-              console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
+              var coordinates = e.features[0].geometry.coordinates.slice()
+              // console.log("C-SearchResultsMapbox / createGeoJsonLayers / click - all-points - coordinates : ", coordinates)
   
               // fly to point
               let mapZoomAdd = allPointsConfigOptions.add_zoom_on_click ? allPointsConfigOptions.add_zoom_on_click : 2 
@@ -1406,32 +1406,84 @@ export default {
         )
         mapboxMap.addLayer(unclusteredLayerConfig)
         if ( unclusteredLayerConfigOptions.is_clickable ) {
+
+          // CLICK
           mapboxMap.on('click', unclusteredLayerId, function (e) {
-            
+
             var featuresPoint = mapboxMap.queryRenderedFeatures(e.point, { layers: [ unclusteredLayerId ] });
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
+            // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - featuresPoint : ", featuresPoint)
 
-            var pointId = featuresPoint[0].properties[ itemIdField ];
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
+            let item = featuresPoint[0]
+            let itemSource = item.source
+            let itemProps = item.properties
 
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
+            // toggle as selected
+            toggleSelectedOn(e, itemSource)
 
-            mapboxMap.easeTo({
-              center: coordinates,
-            })
+            var pointId = itemProps[ itemIdField ]
+            // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - pointId : ", pointId)
 
-            let itemProps = featuresPoint[0].properties
-            itemProps.lat = coordinates[1]
-            itemProps.lon = coordinates[0]
-            displayPoint(itemProps)
+            if (unclusteredLayerConfigOptions.direct_to_detail) {
+              goToDetailPage(pointId)
+            } else {
+
+              var coordinates = e.features[0].geometry.coordinates.slice()
+              // console.log("C-SearchResultsMapbox / createGeoJsonLayers / clic - unclustered-point - coordinates : ", coordinates)
+
+              // fly to point
+              let mapZoomAdd = unclusteredLayerConfigOptions.add_zoom_on_click ? unclusteredLayerConfigOptions.add_zoom_on_click : 2 
+              mapboxMap.easeTo({
+                center: coordinates,
+                zoom : mapZoom + mapZoomAdd
+              })
+              itemProps.lat = coordinates[1]
+              itemProps.lon = coordinates[0]
+              displayPoint(itemProps)
+            }
 
           })
-          mapboxMap.on('mouseenter', unclusteredLayerId, function () {
-            mapboxMap.getCanvas().style.cursor = 'pointer';
+          mapboxMap.on('mouseenter', unclusteredLayerId, function (e) {
+            mapboxMap.getCanvas().style.cursor = 'pointer'
+
+            // ADD POPUP ON MARKER IF ACTIVE
+            // cf : https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+            if (unclusteredLayerConfigOptions.has_popup) {
+              var featuresPolygon = mapboxMap.queryRenderedFeatures( e.point, { layers: [ unclusteredLayerId ] })
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => featuresPolygon : ", featuresPolygon)
+
+              const coordinates = e.features[0].geometry.coordinates.slice()
+              const itemProps = featuresPolygon[0].properties
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => itemProps : ", itemProps)
+
+              const pop = popup
+                .setLngLat({ lng: e.lngLat.lng, lat: e.lngLat.lat })
+                .setHTML(`
+                  <div id="vue-popup-marker">
+                  </div>`
+                )
+                .addTo(mapboxMap)
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => pop : ", pop)
+
+              const popInstance = new PopupClass({
+                propsData: { 
+                  feature: featuresPolygon[0],
+                  properties: itemProps,
+                  config : unclusteredLayerConfigOptions.popup_config,
+                  locale : loc
+                },
+              })
+              // console.log("C-SearchResultsMapbox / createAddGeoJsonLayers / hover => popInstance : ", popInstance)
+              popInstance.$mount('#vue-popup-marker')
+              pop._update()
+
+            }
+
           })
           mapboxMap.on('mouseleave', unclusteredLayerId, function () {
-            mapboxMap.getCanvas().style.cursor = '';
+            mapboxMap.getCanvas().style.cursor = ''
+            if (unclusteredLayerConfigOptions.has_popup) {
+              popup.remove()
+            }
           })
         }
       }

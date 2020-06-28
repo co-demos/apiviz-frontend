@@ -1,6 +1,6 @@
 {
   "name": "apiviz-nuxt",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "Apiviz as SPA",
   "author": "Julien_P",
   "private": true,
@@ -12,6 +12,7 @@
     "dev-preprod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=preprod nuxt",
     "dev-prod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=production nuxt",
     "build": "nuxt build",
+    "build-apiviz": "nuxt build",
     "build-docker": "NUXT_BACKEND_MODE=default_docker nuxt build",
     "build-prod": "NUXT_BACKEND_MODE=production nuxt build",
     "build-preprod": "NUXT_CONSOLELOG=preprod NUXT_BACKEND_MODE=preprod nuxt build",
