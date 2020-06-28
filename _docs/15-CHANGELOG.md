@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.16 : hovering point and direct to detail on unclustered layer for map
 - v.1.0.15 : adding `.nvmrc` file
 - v.1.0.14 : adding DynamicDetailParagraph component
 - v.1.0.13 : some more translation fields for italian
