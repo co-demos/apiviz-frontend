@@ -5,10 +5,10 @@
 ![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
 
 -------
+
+[![GitHub license](https://img.shields.io/github/license/co-demos/apiviz-frontend)](https://github.com/co-demos/apiviz-frontend/blob/master/LICENSE) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) ![GitHub package.json version](https://img.shields.io/github/package-json/v/co-demos/apiviz-frontend)
+
 ## PRESENTATION
-
-[![GitHub license](https://img.shields.io/github/license/co-demos/apiviz-frontend)](https://github.com/co-demos/apiviz-frontend/blob/master/LICENSE) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
 
 Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
 
