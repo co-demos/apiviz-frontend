@@ -112,7 +112,7 @@
 
           <a
             v-if="!link.has_dropdown && link.is_external_link && link.link_type == 'button' && link.is_visible == true"
-            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button ${ isNavbarDark ? 'is-white' : 'is-primary is-primary-b'} is-outlined is-small btn-menu`"
+            :class="`navbar-item ${ !showNav ? 'navbar-item-hov' : '' } a-anim button ${ isNavbarDark ? 'is-white' : 'is-primary is-primary-b'} is-outlined is-small btn-menu ${shrinkNav ? 'btn-bm' : ''}`"
             :href="link.link_to"
             :key="`'sublink-int-' + ${index}`"
             target="_blank"
@@ -387,6 +387,9 @@
   .btn-menu{
     margin-left: 1em;
     margin-bottom: 0em;
+  }
+  .btn-bm{
+    margin-bottom: .5em;
   }
   .is-flex-touch{
     margin-top: 1em;

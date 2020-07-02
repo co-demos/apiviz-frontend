@@ -1,6 +1,6 @@
 ---
 layout : single 
-title : DEPLOYMENT CONFIGURATIONS
+title : CHANGELOG
 # permalink : /meta/changelog
 categories:
   - documentation
@@ -13,10 +13,11 @@ sidebar:
 ---
 
 -----
-
+# CHANGELOG
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.17 : minor fixes to navbar (clickable title and margin on shrinked navbar button)
 - v.1.0.16 : hovering point and direct to detail on unclustered layer for map
 - v.1.0.15 : adding `.nvmrc` file
 - v.1.0.14 : adding DynamicDetailParagraph component
