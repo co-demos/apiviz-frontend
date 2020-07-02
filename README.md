@@ -7,8 +7,6 @@
 -------
 ## PRESENTATION
 
-[![GitHub license](https://img.shields.io/github/license/co-demos/apiviz-frontend)](https://github.com/co-demos/apiviz-frontend/blob/master/LICENSE) 
-
 Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
@@ -43,7 +41,9 @@ To fully enjoy Apiviz frontend's features if you're not using Solidata's API, **
 
 --------
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![GitHub license](https://img.shields.io/github/license/co-demos/apiviz-frontend)](https://github.com/co-demos/apiviz-frontend/blob/master/LICENSE) 
+ [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) ![GitHub package.json version](https://img.shields.io/github/package-json/v/co-demos/apiviz-frontend)
+
 
 #### DEPLOYED WEBSITES : 
 
