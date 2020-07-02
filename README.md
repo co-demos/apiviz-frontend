@@ -7,6 +7,8 @@
 -------
 ## PRESENTATION
 
+[![GitHub license](https://img.shields.io/github/license/co-demos/apiviz-frontend)](https://github.com/co-demos/apiviz-frontend/blob/master/LICENSE) 
+
 Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
 
 If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
