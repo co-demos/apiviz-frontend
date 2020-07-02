@@ -38,7 +38,14 @@
       :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? titleSize+1 : titleSize }-touch is-size-${titleSize-1}-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
       <!-- {{ brand.content }} -->
       <!-- {{ shrinkNav }} -->
-      {{ translate( brand, 'content_text' ) }} 
+      <nuxt-link v-if="navbarConfig.title_to"
+        :to="navbarConfig.title_to"
+        >
+        {{ translate( brand, 'content_text' ) }}
+      </nuxt-link>
+      <span v-else>
+        {{ translate( brand, 'content_text' ) }}
+      </span>
     </div>
 
     <!-- cf : https://jsfiddle.net/tbonz/80jkq0Ls/ -->
