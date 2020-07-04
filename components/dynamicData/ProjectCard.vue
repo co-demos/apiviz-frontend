@@ -18,7 +18,7 @@
 
       <!-- BLOCK IMAGE -->
       <nuxt-link 
-        v-if="matchItemWithConfig('block_image')"
+        v-if="matchItemWithConfig('block_image') && matchItemWithConfig('block_image') !== this.noData"
         :to="`/${datasetURI}/detail?id=${matchItemWithConfig('block_id')}`" 
         class="card-image"
         >
@@ -40,7 +40,7 @@
 
         <!-- BLOCK ADDRESS -->
         <div class="mb-3" v-if="projectCity() || matchItemWithConfig('block_actor_top_b')">
-          
+
           <!-- BLOCK ADDRESS -->
           <p v-if="projectCity()">
             <span class="icon">

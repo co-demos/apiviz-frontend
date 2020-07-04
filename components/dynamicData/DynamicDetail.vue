@@ -507,7 +507,7 @@
 
             <!-- BLOCK MAIN ILLUSTRATION -->
             <div id="block-illustration"
-              v-if="matchProjectWithConfig('block_website') == noData"
+              v-if="matchProjectWithConfig('block_website') === noData"
               >
               <img
                 class="illustration"
@@ -516,7 +516,7 @@
               />
             </div>
             <a id="block-illustration"
-              v-if="matchProjectWithConfig('block_website') && matchProjectWithConfig('block_website') != noData"
+              v-if="matchProjectWithConfig('block_website') && matchProjectWithConfig('block_website') !== noData"
               :href="getCleanUrl('block_website')"
               target="_blank"
               >
