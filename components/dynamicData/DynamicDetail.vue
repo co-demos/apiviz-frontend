@@ -58,7 +58,7 @@
                 {{ matchProjectWithConfig('block_title')}}
               </h1>
 
-              <!-- BLOCK MAP - RIGHT BOTTOM -->
+              <!-- BLOCK MAP - LEFT TOP -->
               <div id="map-left-top" class="added" v-if="isPositionFilled('block_map_top_left') "
                 ref="mapTL"
                 >
@@ -87,6 +87,7 @@
                   v-for="(tag, i) in convertTags('block_main_tags')"
                   :key="tag.tagText + i"
                   @click="addTagAsFilter('block_main_tags', tag)"
+                  :data-tooltip="tag.tagFullText"
                   >
                   {{ tag.tagText }}
                 </button>
@@ -130,8 +131,10 @@
               </div>
             </div>
 
+            <!-- BLOCK DESCRIPTION -->
             <div class="description"
               id="descriptions"
+              v-if="isPositionFilled('block_pre_abstract') || isPositionFilled('block_abstract') || isPositionFilled('block_post_abstract') || isPositionFilled('block_partners') || isPositionFilled('block_post_abstract_1') || isPositionFilled('block_post_abstract_2') || isPositionFilled('block_post_abstract_3') || isPositionFilled('block_website') || isPositionFilled('block_contact')"
               >
 
               <!-- BLOCK PRE ABSTRACT -->
@@ -265,7 +268,7 @@
                 <!-- BLOCK CONTACT -->
                 <div id="block-main-contact" 
                   v-if="isPositionFilled('block_contact')"
-                  :class="`column has-text-centered ${isPositionFilled('block_website') ? 'is-5 is-offset-1' : '' } link`">
+                  :class="`column has-text-centered ${isPositionFilled('block_contact') ? 'is-5 is-offset-1' : '' } link`">
                   <a
                     v-if="matchProjectWithConfig('block_contact')"
                     :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
@@ -302,6 +305,7 @@
             <div class="added" id="block-LB2" v-if="isPositionFilled('block_left_bottom_2')">
               <div class="columns">
                 <div class="column is-12">
+
                   <div>
                     <span
                       v-if="getCustomBlockTitle('block_left_bottom_2')"
@@ -314,6 +318,72 @@
                       {{ matchProjectWithConfig('block_left_bottom_2')}}
                     </span>
                   </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos')">
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    <span>
+                      <!-- {{ getDefaultText('open_infos') }}
+                      : <br> -->
+                      <span v-html="matchProjectWithConfig('block_left_open_infos')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_2')">
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    <span>
+                      <!-- {{ getDefaultText('open_infos') }}
+                      : <br> -->
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_2')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_3')">
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    <span>
+                      <!-- {{ getDefaultText('open_infos') }}
+                      : <br> -->
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_3')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_4')">
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    <span>
+                      <!-- {{ getDefaultText('open_infos') }}
+                      : <br> -->
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_4')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_5')">
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span>
+                    <span>
+                      <!-- {{ getDefaultText('open_infos') }}
+                      : <br> -->
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_5')"/>
+                      <br>
+                    </span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -329,6 +399,99 @@
                     :mapWidth="mapBottomLeft"
                     @mapReady="columnsWidth()"
                     />
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOCK BOTTOM 2 OPEN INFOS -->
+            <div class="added" id="block-LB-open-infos" v-if="isPositionFilled('block_left_open_infos')">
+              <div class="columns">
+                <div class="column is-12">
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos')">
+                    <!-- <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span> -->
+                    <span>
+                      <div v-if="getCustomBlockTitle('block_left_open_infos')"
+                        :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                        >
+                        {{ getCustomBlockTitle('block_left_open_infos') }}
+                      </div>
+                      <span v-html="matchProjectWithConfig('block_left_open_infos')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_2')">
+                    <!-- <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span> -->
+                    <hr>
+                    <span>
+                      <div v-if="getCustomBlockTitle('block_left_open_infos_2')"
+                        :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                        >
+                        {{ getCustomBlockTitle('block_left_open_infos_2') }}
+                      </div>
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_2')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_3')">
+                    <!-- <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span> -->
+                    <hr>
+                    <span>
+                      <div v-if="getCustomBlockTitle('block_left_open_infos_3')"
+                        :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                        >
+                        {{ getCustomBlockTitle('block_left_open_infos_3') }}
+                      </div>
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_3')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_4')">
+                    <!-- <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span> -->
+                    <hr>
+                    <span>
+                      <div v-if="getCustomBlockTitle('block_left_open_infos_4')"
+                        :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                        >
+                        {{ getCustomBlockTitle('block_left_open_infos_4') }}
+                      </div>
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_4')"/>
+                      <br>
+                    </span>
+                  </div>
+
+                  <!-- {{ infosOpen }}  -->
+                  <div id="block-open-infos" v-if="isPositionFilled('block_left_open_infos_5')">
+                    <!-- <span class="icon is-small">
+                      <i class="fas fa-angle-right"></i>
+                    </span> -->
+                    <hr>
+                    <span>
+                      <div v-if="getCustomBlockTitle('block_left_open_infos_5')"
+                        :class="`has-text-weight-semibold has-text-primary has-text-primary-c mb-1`"
+                        >
+                        {{ getCustomBlockTitle('block_left_open_infos_5') }}
+                      </div>
+                      <span v-html="matchProjectWithConfig('block_left_open_infos_5')"/>
+                      <br>
+                    </span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -464,6 +627,7 @@
                       v-for="(tag, i) in convertTags('block_scale_tags')"
                       :key="tag.tagText + i"
                       @click="addTagAsFilter('block_scale_tags', tag)"
+                      :data-tooltip="tag.tagFullText"
                       >
                       {{ tag.tagText }}
                     </button>
@@ -512,7 +676,7 @@
 
             <!-- BLOCK CONTACT -->
             <div
-              v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
+              v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email') || isPositionFilled('block_contact_tel') || isPositionFilled('block_contact_website')"
               :class="`added ${getItemColors('block_contact_email', {only:true})}`"
               id="block-contact"
               >
@@ -603,7 +767,7 @@
             </div>
 
             <!-- BLOCK OPEN INFOS -->
-            <div id="block-infos" class="added" v-if="isPositionFilled('block_open_infos')">
+            <div id="block-infos" class="added" v-if="isPositionFilled('block_open_infos') || isPositionFilled('block_tel') || isPositionFilled('block_infos_pract')">
               <div class="columns">
 
                 <div class="column is-12">
@@ -658,7 +822,7 @@
               </div>
             </div>
 
-            <!-- BLOCK RIGHT BOTTOM 1 -->
+            <!-- BLOCK RIGHT BOTTOM 1 TAGS -->
             <div id="block-RB1" class="added" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
               <div class="columns">
                 <div class="column is-12">
@@ -672,9 +836,10 @@
                     </div>
                     <div>
                       <button v-for="(tag, i) in convertTags('block_rb1_tags')"
-                        :class="`button tag ${ getItemColors('block_rb1_tags')}`"
+                        :class="`button tag ${ hasTootip('block_rb1_tags') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_rb1_tags')}`"
                         :key="tag.tagText + i"
                         @click="addTagAsFilter('block_rb1_tags', tag)"
+                        :data-tooltip="hasTootip('block_rb1_tags') && tag.tagFullText"
                         >
                         {{ tag.tagText }}
                       </button>
@@ -690,9 +855,10 @@
                     </div>
                     <div>
                       <button v-for="(tag, i) in convertTags('block_rb2_tags')"
-                        :class="`button tag ${ getItemColors('block_rb2_tags')}`"
+                        :class="`button tag ${ hasTootip('block_rb2_tags') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_rb2_tags')}`"
                         :key="tag.tagText + i"
                         @click="addTagAsFilter('block_rb2_tags', tag)"
+                        :data-tooltip="hasTootip('block_rb2_tags') && tag.tagFullText"
                         >
                         {{ tag.tagText }}
                       </button>
@@ -709,9 +875,10 @@
                     </div>
                     <div>
                       <button v-for="(tag, i) in convertTags('block_rb3_tags')"
-                        :class="`button tag ${ getItemColors('block_rb3_tags')}`"
+                        :class="`button tag ${ hasTootip('block_rb3_tags') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_rb3_tags')}`"
                         :key="tag.tagText + i"
                         @click="addTagAsFilter('block_rb3_tags', tag)"
+                        :data-tooltip="hasTootip('block_rb3_tags') && tag.tagFullText"
                         >
                         {{ tag.tagText }}
                       </button>
@@ -728,9 +895,10 @@
                     </div>
                     <div>
                       <button v-for="(tag, i) in convertTags('block_rb4_tags')"
-                        :class="`button tag ${ getItemColors('block_rb4_tags')}`"
+                        :class="`button tag ${ hasTootip('block_rb4_tags') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_rb4_tags')}`"
                         :key="tag.tagText + i"
                         @click="addTagAsFilter('block_rb4_tags', tag)"
+                        :data-tooltip="hasTootip('block_rb4_tags') && tag.tagFullText"
                         >
                         {{ tag.tagText }}
                       </button>
@@ -794,6 +962,45 @@
                   </div>
 
                 </div>
+              </div>
+            </div>
+
+
+
+
+            <!-- BLOCK RIGHT BOTTOM - TECH -->
+            <div id="block-RB-tech" 
+              v-if="isPositionFilled('block_right_bottom_tech')"
+              :class="`added ${getItemColors('block_right_bottom_tech', {only:true})}`"
+              >
+              <div class="content mt-1 is-italic">
+                <!-- <div class="column is-12"> -->
+
+                  <div v-if="isPositionFilled('block_right_bottom_tech')"
+                    class="pb-1"
+                    >
+                    <span v-if="getCustomBlockTitle('block_right_bottom_tech')"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_tech') }}
+                    </span>
+                    <span v-if="isPositionFilled('block_right_bottom_tech')">
+                      {{ matchProjectWithConfig('block_right_bottom_tech')}}
+                    </span>
+                  </div>
+
+                  <div v-if="isPositionFilled('block_right_bottom_tech_2')"
+                    class="pb-2"
+                    >
+                    <span v-if="getCustomBlockTitle('block_right_bottom_tech_2')"
+                      >
+                      {{ getCustomBlockTitle('block_right_bottom_tech_2') }}
+                    </span>
+                    <span v-if="isPositionFilled('block_right_bottom_tech_2')">
+                      {{ matchProjectWithConfig('block_right_bottom_tech_2')}}
+                    </span>
+                  </div>
+
+                <!-- </div> -->
               </div>
             </div>
 
@@ -1111,6 +1318,11 @@ export default {
       }
     },
 
+    hasTootip(fieldBlock) {
+      const contentsField = this.getContentField(fieldBlock)
+      return contentsField.has_tooltip
+    },
+
     convertTags(fieldBlock) {
       let locale = this.locale
       const contentField = this.getContentField(fieldBlock)
@@ -1127,6 +1339,7 @@ export default {
             filterName: filterDictionnary ? filterDictionnary.name : undefined,
             filterChoice: undefined,
             tagOriginal: tag,
+            tagFullText: tag,
             tagText: tag
           }
           try {
@@ -1136,7 +1349,7 @@ export default {
             if ( contentField.convert_from_filters ) {
               let newTagObj = choice.choice_title.find( title => title.locale == locale )
               let newText = newTagObj.text
-              // return trimString(newText, trimming)
+              tagContainer.tagFullText = newText
               tagContainer.tagText = trimString(newText, trimming)
             }
 

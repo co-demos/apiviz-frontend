@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.18 : more block options on project card and detail view, tooltips on tags
 - v.1.0.17 : minor fixes to navbar (clickable title and margin on shrinked navbar button)
 - v.1.0.16 : hovering point and direct to detail on unclustered layer for map
 - v.1.0.15 : adding `.nvmrc` file

@@ -10,11 +10,11 @@
 
 ## PRESENTATION
 
-Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
+Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation.
 
-If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
+If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best.
 
-ApiViz includes "out-the-box" a back-office to fully configure/customize an original datavisualisation website 
+ApiViz includes "out-the-box" a back-office to fully configure/customize an original datavisualisation website
 
 --------
 

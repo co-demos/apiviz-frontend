@@ -1,6 +1,6 @@
 {
   "name": "apiviz-nuxt",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Apiviz as SPA",
   "author": "Julien_P",
   "private": true,
@@ -23,6 +23,7 @@
     "generate-preprod": "NUXT_CONSOLELOG=preprod NUXT_BACKEND_MODE=preprod nuxt generate"
   },
   "dependencies": {
+    "@creativebulma/bulma-tooltip": "^1.2.0",
     "@fullcalendar/core": "^4.3.1",
     "@fullcalendar/daygrid": "^4.3.0",
     "@fullcalendar/vue": "^4.3.1",

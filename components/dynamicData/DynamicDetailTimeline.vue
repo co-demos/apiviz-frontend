@@ -81,7 +81,7 @@ export default {
   },
 
   beforeMount: function () {
-    this.log && console.log("\nC-DynamicDetailTimeline / beforeMount ... ")
+    // this.log && console.log("\nC-DynamicDetailTimeline / beforeMount ... ")
     // console.log("C-DynamicDetailTimeline / mounted / this.displayableItem : ", this.displayableItem )
     // this.steps = []
 

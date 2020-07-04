@@ -18,6 +18,7 @@
 
       <!-- BLOCK IMAGE -->
       <nuxt-link 
+        v-if="matchItemWithConfig('block_image')"
         :to="`/${datasetURI}/detail?id=${matchItemWithConfig('block_id')}`" 
         class="card-image"
         >
@@ -98,24 +99,34 @@
           <p class="is-size-7 is-marginless"
             v-if="getDataContentOrNothing('block_phone')"
             >
-            <span>
+            <span class="has-text-weight-semibold">
               {{ basicDict.phone[locale] }} : 
             </span>
-            {{ getDataContentOrNothing('block_phone') }}
+            {{ matchItemWithConfig('block_phone') }}
+          </p>
+
+          <!-- BLOCK EMAIL -->
+          <p class="is-size-7 is-marginless"
+            v-if="getDataContentOrNothing('block_email')"
+            >
+            <span class="has-text-weight-semibold">
+              {{ basicDict.email[locale] }} : 
+            </span>
+            {{ matchItemWithConfig('block_email') }}
           </p>
 
           <!-- BLOCK WEBSITE -->
           <p class="is-size-7 is-marginless"
             v-if="getDataContentOrNothing('block_url')"
             >
-            <span>
+            <span class="has-text-weight-semibold">
               {{ basicDict.website[locale] }} : 
             </span>
             <a class="link-underlined"
               :href="getDataContentOrNothing('block_url')"
               target="_blank"
               >
-              {{ getDataContentOrNothing('block_url') }}
+              {{ matchItemWithConfig('block_url') }}
             </a>
           </p>
 
@@ -124,7 +135,7 @@
         <!-- BLOCK SOURCE -->
         <div class="content" v-if="matchItemWithConfig('block_src')">
           <p class="subtitle is-6 is-italic has-text-grey">
-            {{ this.$store.getters['config/defaultText']({txt:'source'})}} : {{ matchItemWithConfig('block_src') }}
+            {{ sourceText }} : {{ matchItemWithConfig('block_src') }}
           </p>
         </div>
 
@@ -132,13 +143,14 @@
         <div class="content">
           
           <!-- block_tags -->
-          <span v-if="convertTags('block_tags')"
+          <span v-if="convertTags('block_tags') && convertTags('block_tags').length > 0"
             >
             <button 
               v-for="(tag, i) in convertTags('block_tags')" 
-              :class="`button tag ${ getItemColors('block_tags')}`"
+              :class="`button tag ${ hasTootip('block_tags') ? 'has-tooltip-arrow  has-tooltip-multiline' : '' } ${ getItemColors('block_tags')}`"
               :key="tag.tagText+i"
               @click="addTagAsFilter('block_tags', tag)"
+              :data-tooltip="hasTootip('block_tags') && tag.tagFullText"
               >
               <span>
                 {{ tag.tagText }}
@@ -152,13 +164,14 @@
           </span>
 
           <!-- block_tags_bis -->
-          <span v-if="convertTags('block_tags_bis')"
+          <span v-if="convertTags('block_tags_bis') && convertTags('block_tags_bis').length > 0"
             >
             <button 
               v-for="(tag, i) in convertTags('block_tags_bis')" 
-              :class="`button tag ${ getItemColors('block_tags_bis')}`"
+              :class="`button tag ${ hasTootip('block_tags_bis') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_tags_bis')}`"
               :key="tag.tagText+i"
               @click="addTagAsFilter('block_tags_bis', tag)"
+              :data-tooltip="hasTootip('block_tags_bis') && tag.tagFullText"
               >
               <span>
                 {{ tag.tagText }}
@@ -170,6 +183,18 @@
               </span>
             </button>
           </span>
+
+        </div>
+
+        <!-- BLOCK TECH -->
+        <div class="content" v-if="matchItemWithConfig('block_tech')">
+          <p class="is-size-7 is-italic has-text-grey">
+            <span v-if="getCustomBlockTitle('block_tech')"
+              >
+              {{ getCustomBlockTitle('block_tech') }}
+            </span>
+            {{ matchItemWithConfig('block_tech') }}
+          </p>
         </div>
 
       </div>
@@ -267,6 +292,10 @@ export default {
       return this.defaultText({txt:'no_address'})
       // return this.$store.getters['config/defaultText']({txt:'no_address'})
     },
+    sourceText() {
+      return this.defaultText({txt:'source'})
+      // return this.$store.getters['config/defaultText']({txt:'source'})
+    },
 
   },
 
@@ -310,8 +339,26 @@ export default {
 
     getContentField(fieldBlock) {
       const contentsFields = this.contentFields
-      const contentField = contentsFields.find(f=> f.position == fieldBlock)
+      const contentField = contentsFields.find(f => f.position == fieldBlock)
       return contentField
+    },
+
+    getCustomBlockTitle(fieldBlock){
+      let customBlockTitle = undefined
+      const contentField = this.getContentField(fieldBlock)
+      if (contentField){
+        customBlockTitle = contentField.custom_title
+        if ( Array.isArray(customBlockTitle) ) {
+          let translation = customBlockTitle.find( txt => txt.locale == this.locale )
+          customBlockTitle = translation.text
+        } 
+      }
+      return customBlockTitle
+    },
+
+    hasTootip(fieldBlock) {
+      const contentsField = this.getContentField(fieldBlock)
+      return contentsField.has_tooltip
     },
 
     convertTags(fieldBlock) {
@@ -320,17 +367,22 @@ export default {
       let tags = this.matchItemWithConfig(fieldBlock, contentField && contentField.convert_from_filters)
       // this.log && console.log("\nC-ProjectCard / convertTags / tags : ", tags )
       // this.log && console.log("C-ProjectCard / convertTags / this.item : ", this.item )
-      if ( tags && tags !== this.noData && contentField ) {
+      // this.log && console.log("C-ProjectCard / convertTags / tags === [this.noData] : ", tags === [this.noData] )
+      if ( !tags || tags === this.noData || tags[0] === this.noData ) { tags = undefined }
+      if ( tags && contentField ) {
         const trimming = contentField.field_format.trim
         const filtersDescription = this.filterDescriptions
         const filterDictionnary = filtersDescription && filtersDescription.find( filter => filter.col_name == contentField.field )
         const filterChoices = filterDictionnary ? filterDictionnary.choices : undefined
+
+        tags = Array.isArray(tags) ? tags : [tags]
         let newTags = tags.map( tag => {
 
           let tagContainer = {
             filterName: filterDictionnary ? filterDictionnary.name : undefined,
             filterChoice: undefined,
             tagOriginal: tag,
+            tagFullText: tag,
             tagText: tag
           }
           try {
@@ -340,6 +392,7 @@ export default {
             if ( contentField.convert_from_filters ) {
               let newTagObj = choice.choice_title.find( title => title.locale == locale )
               let newText = newTagObj.text
+              tagContainer.tagFullText = newText
               tagContainer.tagText = trimString(newText, trimming)
             }
 
@@ -350,13 +403,12 @@ export default {
         })
         tags = newTags
       }
-      if ( tags === this.noData ) { tags = undefined }
       return tags
     },
 
     addTagAsFilter(fieldBlock, tag) {
-      this.log && console.log("\nC-ProjectCard / addTagAsFilter / this.item : ", this.item )
-      this.log && console.log("C-ProjectCard / addTagAsFilter / tag : ", tag )
+      // this.log && console.log("\nC-ProjectCard / addTagAsFilter / this.item : ", this.item )
+      // this.log && console.log("C-ProjectCard / addTagAsFilter / tag : ", tag )
       const contentField = this.getContentField(fieldBlock)
       if ( contentField.convert_from_filters ) {
         if ( tag.tagOriginal ) {
