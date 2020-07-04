@@ -1,8 +1,17 @@
 <template>
   <div>
 
+    <style type="text/css" id="CSS-override">
 
-    <style type="text/css">
+      .navbar-item-hov:before {
+        background-color: {{appColors['primary']}} !important;
+        height: 3px !important;
+      }
+      .navbar-item-hov-dark:before {
+        background-color: white !important;
+        height: 3px !important;
+      }
+
       a{ 
         color : {{appColors['link']}};
       }
@@ -31,9 +40,6 @@
       v-if="navbarConfig.ui_options.navbar_items_hover_color"
       type="text/css"
       >
-      .navbar-item-hov:hover {
-        background-color : {{appColors[navbarConfig.ui_options.navbar_items_hover_color.bulma_color]}} !important;
-      }
       .navbar-link-top {
         background-color : transparent !important;
       }
