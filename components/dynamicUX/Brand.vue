@@ -38,7 +38,9 @@
       :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? titleSize+1 : titleSize }-touch is-size-${titleSize-1}-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
       <!-- {{ brand.content }} -->
       <!-- {{ shrinkNav }} -->
-      <nuxt-link v-if="navbarConfig.title_to"
+      <nuxt-link 
+        v-if="navbarConfig.title_to"
+        :class="`${(navbarConfig.ui_options.background_isdark ? 'navbar-item-hov-dark' : 'navbar-item-hov')}`"
         :to="navbarConfig.title_to"
         >
         {{ translate( brand, 'content_text' ) }}
@@ -76,6 +78,12 @@
 
     beforeMount : function(){
       // this.log && console.log('\nC-Brand / beforeMount...')
+    },
+
+    data: () => {
+      return {
+        // isHovered: false
+      }
     },
 
     computed: {
@@ -118,12 +126,12 @@
   @import '../../assets/css/apiviz-misc.scss';
 
   .navbar-logo {
-    max-height:$apiviz-navbar-logo-height ! important ;
+    max-height:$apiviz-navbar-logo-height !important ;
     transition: max-height 0.4s ease-in;
   }
 
   .navbar-logo-shrink {
-    max-height: $apiviz-navbar-logo-height-shrink ! important ;
+    max-height: $apiviz-navbar-logo-height-shrink !important ;
     transition: max-height 0.4s ease-out;
   }
 
