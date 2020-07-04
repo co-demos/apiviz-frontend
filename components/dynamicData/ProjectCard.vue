@@ -380,6 +380,7 @@ export default {
 
           let tagContainer = {
             filterName: filterDictionnary ? filterDictionnary.name : undefined,
+            filterTitle: filterDictionnary ? filterDictionnary.filter_title.find( title => title.locale === locale ) : undefined,
             filterChoice: undefined,
             tagOriginal: tag,
             tagFullText: tag,
@@ -390,9 +391,9 @@ export default {
             tagContainer.filterChoice = choice
 
             if ( contentField.convert_from_filters ) {
-              let newTagObj = choice.choice_title.find( title => title.locale == locale )
+              let newTagObj = choice.choice_title.find( title => title.locale === locale )
               let newText = newTagObj.text
-              tagContainer.tagFullText = newText
+              tagContainer.tagFullText = `${tagContainer.filterTitle.text} : ${newText}`
               tagContainer.tagText = trimString(newText, trimming)
             }
 
