@@ -38,7 +38,6 @@
       :class="`navbar-item has-text-weight-medium is-size-${ shrinkNav ? titleSize+1 : titleSize }-touch is-size-${titleSize-1}-desktop is-family-primary ${ brand.title_color ? 'has-text-'+brand.title_color+'-c' : '' }`">
       <!-- {{ brand.content }} -->
       <!-- {{ shrinkNav }} -->
-        <!-- :class="`${ isHovered ? (navbarConfig.ui_options.background_isdark ? 'is-underlined-dark-c' : 'is-underlined-primary-c') : '' }`" -->
       <nuxt-link 
         v-if="navbarConfig.title_to"
         :class="`${(navbarConfig.ui_options.background_isdark ? 'navbar-item-hov-dark' : 'navbar-item-hov')}`"
