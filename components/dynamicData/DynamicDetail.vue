@@ -547,17 +547,19 @@
                 <div class="column is-12 py-0 ">
                   <p class="has-text-centered">
 
-                    <div v-if="!matchProjectWithConfig('block_file_1') == noData ">
+                    <div v-if="matchProjectWithConfig('block_file_1') !== noData">
                       <a :class="`has-text-primary has-text-primary-c`"
                         target="_blank"
                         :href="getCleanUrl('block_file_1')"
-                        :disabled="matchProjectWithConfig('block_file_1') == noData"
                         >
+                        <!-- :disabled="!matchProjectWithConfig('block_file_1') == noData" -->
                         <span class="icon is-small">
                           <i class="fas fa-download"></i>
                         </span>
                         <span>
                           {{ getDefaultText('dowload_file') }}
+                          <!-- {{ matchProjectWithConfig('block_file_1') }} -->
+                          <!-- {{ noData }} -->
                         </span>
                       </a>
                     </div>
