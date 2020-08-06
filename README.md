@@ -1,12 +1,12 @@
 ## FRONTEND
-Code source du site https://opencompaniesdata.netlify.app qui permet de rechercher les résultats financiers des entreprises françaises, et faire de la dataviz dessus, notamment :
+Code source du site [OpenCompaniesData](https://opencompaniesdata.netlify.app) [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys) qui permet de rechercher les résultats financiers des entreprises françaises, et faire de la dataviz dessus, notamment :
  - comment se réparti la marge de l'entreprise entre les salarié⋅es, les impôts, les dividendes
  - comment évolue le chiffre d'affaire, et quelle part sert à payer des salarié⋅es
 
 Si vous voulez poser d'autres questions au site, ouvrez des issues :-)
 
 ## BACKEND
-Les données sont stockées et accessible sur https://www.enthic.fr (et son API) dont le code source est hébergé sur https://github.com/phe-sto/enthic
+Les données sont stockées et accessible sur [Enthic.fr](https://www.enthic.fr) (et son [API](https://api.enthic.fr)) dont le code source est hébergé sur https://github.com/phe-sto/enthic
 
 -------
 ## PRESENTATION
@@ -23,18 +23,26 @@ Les ultimes bénéficiaires du projet seront les consommateur/trices qui veulent
 Mais aussi les salarié⋅es qui veulent savoir comment leur entreprise réparti la valeur ajoutée produite entre les salarié⋅es, l'État, les investissements et les actionnaires.
 Mais avant d'atteindre un tel niveau de service, l'objectif intermédiaire est de rendre facilement récupérable et analysable les données sans requérir de écrire du code : un des buts du projet est de rendre accessible les données à n'importe qui sachant utiliser un tableur. Pour que les data-journalistes, les syndicats, les associations, et même des élu⋅es puissent faire usage de ces données.
 
-La forme du projet serait une base de données opendata, accessible via une API, pour que les données soit ouvertes à tous⋅tes informaticien⋅nes.
-Un site web permettant de chercher des entreprises, voir leur statistiques avec de la dataviz pertinente, les comparer entre elles, télécharger les données en .csv, etc...
-
 ### Comment ça marche ?
-Le projet Enthic (https://www.enthic.fr) et son code source (https://github.com/phe-sto/enthic) permettent de constituer une base de données à partir des sources officielles, et de rendre cette base accessible via une API (https://api.enthic.fr/).
-Le site https://opencompaniesdata.netlify.app utilise cette API pour permettre de faire des recherches dans la base à n'importe qui, et afficher les données mise en forme.
+Le projet [Enthic](https://www.enthic.fr) et son [code source](https://github.com/phe-sto/enthic) permettent de constituer une base de données opendata à partir des sources officielles, et de rendre cette base accessible via une [API](https://api.enthic.fr/), pour que les données soit ouvertes à tous⋅tes informaticien⋅nes.
+Le site https://opencompaniesdata.netlify.app utilise cette API pour permettre à n'importe qui de faire des recherches dans la base, et afficher les données mise en forme.
+
+### Quelles sont les données officiellement disponible?
+
+| Nom officiel | Explication | Exemple de contenu | Source |
+| ------------ | ----------- | ------------------ | ------ |
+| RNCS CA | Comptes annuels des entreprises françaises depuis 2017 | **Compte de résultat** (chiffre d'affaire, masse salariale, cotisation sociale, nombre d'employé⋅es, impôts, prime de participation, subvention, etc...), **Bilan actif et passif** (dette, capital social, etc...) | [FTP avec identifiant](https://www.inpi.fr/fr/licence-registre-national-du-commerce-et-des-societes-rncs) |
+| RNCS IMR | Immatriculations, modifications, radiations des sociétés françaises | Les adresses, secteur d'activité et taille des différents établissements de l'entreprise, les membres du Conseil d'Administration y compris s'ils représentent une autre entreprise | [API](https://entreprise.data.gouv.fr/api_doc/rncs) ou [FTP avec identifiant](https://www.inpi.fr/fr/immatriculations-modifications-radiations-des-societes-imr) |
+| base SIRENE | base de données sur les entreprises | Une carte d'identité des entreprises assez concise | [API](https://entreprise.data.gouv.fr/api_doc/sirene) |
+
+Surveiller [cette page](https://entreprise.data.gouv.fr/api_doc) présentant les API officielles sur des données d'entreprises
 
 ## ROADMAP
-
---------
-[OpenCompaniesData - OpenCompaniesData branch](https://opencompaniesdata.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys)
-
+ - Permettre de naviguer d'une entreprise à une autre quand elles ont un lien actionnarial
+ - Permettre de comparer les résultats d'une entreprise avec d'autres entreprises du même secteur et/ou même taille
+ - Faire un classement des entreprises plus ou moins transparente (données officielles bien remplie, etc...)
+ - Faire un classement des entreprises plus ou moins partageuse/vertueuse (profil du compte de résultat, etc...)
+ 
 --------
 ## INSTALLATION WALKTHROUGH
 If you just want to run the frontend and play with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following : 
