@@ -9,7 +9,7 @@ Si vous voulez poser d'autres questions au site, ouvrez des issues :-)
 Les données sont stockées et accessible sur [Enthic.fr](https://www.enthic.fr) (et son [API](https://api.enthic.fr)) dont le code source est hébergé sur https://github.com/phe-sto/enthic
 
 -------
-## PRESENTATION
+## PRÉSENTATION
 Le but de ce projet est de rendre accessible, explorable, exploitable et parlant les données sur les entreprises rendues publiques par l'État pour pouvoir répondre à des questions simples : 
  - à qui appartiennent les entreprises
  - lesquelles payent leur impôts en France
@@ -33,15 +33,29 @@ Le site https://opencompaniesdata.netlify.app utilise cette API pour permettre �
 | ------------ | ----------- | ------------------ | ------ |
 | RNCS CA | Comptes annuels des entreprises françaises depuis 2017 | **Compte de résultat** (chiffre d'affaire, masse salariale, cotisation sociale, nombre d'employé⋅es, impôts, prime de participation, subvention, etc...), **Bilan actif et passif** (dette, capital social, etc...) | [FTP avec identifiant](https://www.inpi.fr/fr/licence-registre-national-du-commerce-et-des-societes-rncs) |
 | RNCS IMR | Immatriculations, modifications, radiations des sociétés françaises | Les adresses, secteur d'activité et taille des différents établissements de l'entreprise, les membres du Conseil d'Administration y compris s'ils représentent une autre entreprise | [API](https://entreprise.data.gouv.fr/api_doc/rncs) ou [FTP avec identifiant](https://www.inpi.fr/fr/immatriculations-modifications-radiations-des-societes-imr) |
-| base SIRENE | base de données sur les entreprises | Une carte d'identité des entreprises assez concise | [API](https://entreprise.data.gouv.fr/api_doc/sirene) |
+| base SIRENE | Base de données sur les entreprises | Une carte d'identité assez concise pour chaque entreprises | [API](https://entreprise.data.gouv.fr/api_doc/sirene) |
 
 Surveiller [cette page](https://entreprise.data.gouv.fr/api_doc) présentant les API officielles sur des données d'entreprises
 
+### Comment aider ?
+Venez en discute sur le [chat Code For France](https://chat.codefor.fr/home) ou entamez la discussion via une *issue*.
+
+#### Pour celleux qui ne sont pas développeur⋅ses 
+Si les données ci-dessus attisent votre curiosité, vous pouvez aider en nous disant ce que vous aimeriez voir comme fonctionnalités sur le site.
+
+#### Pour les développeur⋅ses
+Toutes les bonnes volontés et idées sont les bienvenues.
+Le front est actuellement développé en vuejs et déployé automatiquement via netlify.
+Le back est une base de données MariaDB alimenté via des scripts python. Son API est aussi codée en python.
+Mais nous sommes ouverts au dialogue :-)
+
 ## ROADMAP
+### Fonctionnel
  - Permettre de naviguer d'une entreprise à une autre quand elles ont un lien actionnarial
  - Permettre de comparer les résultats d'une entreprise avec d'autres entreprises du même secteur et/ou même taille
  - Faire un classement des entreprises plus ou moins transparente (données officielles bien remplie, etc...)
  - Faire un classement des entreprises plus ou moins partageuse/vertueuse (profil du compte de résultat, etc...)
+ - Permettre le téléchargement des données sous la forme d'un tableur intelligible
  
 --------
 ## INSTALLATION WALKTHROUGH
