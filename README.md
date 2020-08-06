@@ -1,116 +1,43 @@
-
-
 ## FRONTEND
+Code source du site https://opencompaniesdata.netlify.app qui permet de rechercher les résultats financiers des entreprises françaises, et faire de la dataviz dessus, notamment :
+ - comment se réparti la marge de l'entreprise entre les salarié⋅es, les impôts, les dividendes
+ - comment évolue le chiffre d'affaire, et quelle part sert à payer des salarié⋅es
 
-![APIVIZ-BRAND](./static/logos/logo_apiviz_15.png)
+Si vous voulez poser d'autres questions au site, ouvrez des issues :-)
+
+## BACKEND
+Les données sont stockées et accessible sur https://www.enthic.fr (et son API) dont le code source est hébergé sur https://github.com/phe-sto/enthic
 
 -------
 ## PRESENTATION
+Le but de ce projet est de rendre accessible, explorable, exploitable et parlant les données sur les entreprises rendues publiques par l'État pour pouvoir répondre à des questions simples : 
+ - à qui appartiennent les entreprises
+ - lesquelles payent leur impôts en France
+ - lesquelles embauchent en France
+ - lesquelles touchent des subventions
+ - lesquelles ne remplissent pas leur déclaration
+ - lesquelles sont les plus transparentes, ou les plus opaques.
+ 
+### À qui ça sert ?
+Les ultimes bénéficiaires du projet seront les consommateur/trices qui veulent consommer mieux pour contribuer à la relocalisation de l'économie.
+Mais aussi les salarié⋅es qui veulent savoir comment leur entreprise réparti la valeur ajoutée produite entre les salarié⋅es, l'État, les investissements et les actionnaires.
+Mais avant d'atteindre un tel niveau de service, l'objectif intermédiaire est de rendre facilement récupérable et analysable les données sans requérir de écrire du code : un des buts du projet est de rendre accessible les données à n'importe qui sachant utiliser un tableur. Pour que les data-journalistes, les syndicats, les associations, et même des élu⋅es puissent faire usage de ces données.
 
-Visualize data coming from an API in a CMS-like app : in short we aim to develop a Wordpress for data-visualisation. 
+La forme du projet serait une base de données opendata, accessible via une API, pour que les données soit ouvertes à tous⋅tes informaticien⋅nes.
+Un site web permettant de chercher des entreprises, voir leur statistiques avec de la dataviz pertinente, les comparer entre elles, télécharger les données en .csv, etc...
 
-If your data is stored somewhere and accessible via an API, ApiViz can transform it into a full website to show it at its best. 
+### Comment ça marche ?
+Le projet Enthic (https://www.enthic.fr) et son code source (https://github.com/phe-sto/enthic) permettent de constituer une base de données à partir des sources officielles, et de rendre cette base accessible via une API (https://api.enthic.fr/).
+Le site https://opencompaniesdata.netlify.app utilise cette API pour permettre de faire des recherches dans la base à n'importe qui, et afficher les données mise en forme.
 
-ApiViz includes "out-the-box" a back-office to fully configure/customize an original datavisualisation website 
-
---------
-
-#### WARNINGS : 
-
-**apiviz-frontend** is only the frontend of the APIVIZ application, it only works if (and only) if A **[apiviz-backend](https://github.com/co-demos/apiviz-backend)** is correctly installed first or is serving configurations to the frontend.
-
-To fully enjoy Apiviz frontend's features if you're not using Solidata's API, ***your own API Rest might propose all or some of the following parameters***, or equivalent when querying a dataset : 
-
-- ***for the research navbar :***
-  - `query` : full text searrch
-  - `search_filter` : to filter out your results given a field name and a value. For instance querying all items in a 'my-data' dataset in which the field 'category' has the value 'categ01' could be similar to : `https://my-api.com/my-data?search_filter=category__categ01`
-
-- ***for detail view :*** 
-  - `item_id` : to search an item by its id inside a dataset
-
-- ***for table and list views :***
-  - `page_number` : the page number
-  - `results_per_page` : the number of items per page
-  - `sort_by` : field to sort your result by
-  - `sort_order` : sorting order
-  - `shuffle_seed` (optionnal) : if you want to shuffle the results
-
-- ***for the map view :***
-  - `results_for_map` : getting all the results in a condensed format, like `{ id : <item_id>, lat: <latittude>, lng: <longitude>}`
-  - `fields_to_return` : to return additional fields, for instance when using `results_for_map=true` if you need another field(s) to link an item to a choropleth layer 
+## ROADMAP
 
 --------
-
-#### DEPLOYED WEBSITES : 
-
-Main apiviz demo website : 
-- [Apiviz.io](https://apiviz.io) : [![Netlify Status](https://api.netlify.com/api/v1/badges/851f6ce8-91bb-43e6-b6c6-80b66c9328cd/deploy-status)](https://app.netlify.com/sites/apiviz-demo-site/deploys)
-
-Main Apiviz instances with public data : 
-- [tiers-lieux (test)](https://tiers-lieux-dataviz.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/7fc48ec3-148f-46a9-9151-6f78996cfd37/deploy-status)](https://app.netlify.com/sites/tiers-lieux-dataviz/deploys)
-- [sonum-preprod](https://apiviz-preprod-sonum.netlify.com/sonum-carto/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/1e4ddb5c-9df8-4903-a100-6f8ba054b4e8/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-sonum/deploys)
-- [apcis-preprod](https://apiviz-preprod-cis.netlify.com/recherche/carte) : [![Netlify Status](https://api.netlify.com/api/v1/badges/abb54fbc-01c6-4c48-9f1b-8ff5b9ef00b1/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-cis/deploys)
-- [apcis-preprod (CIS migration )](https://carrefour-innovations-sociales.fr/recherche) : [![Netlify Status](https://api.netlify.com/api/v1/badges/f5ff305b-52c1-4fb1-be79-17a7494705ac/deploy-status)](https://app.netlify.com/sites/apiviz-preprod-apcis-url-migration/deploys)
-- [Codes Etalab](https://etalab-codes.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/c0a9ad0c-6969-403c-80bb-2e4f262d7703/deploy-status)](https://app.netlify.com/sites/etalab-codes/deploys)
-- [Inventaire des orgues](https://orgues-apiviz.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/e91ca7c3-3426-4467-b92c-1e371d8b038c/deploy-status)](https://app.netlify.com/sites/orgues-apiviz/deploys)
-
-
-Test websites : 
--[Hub CONUMM](https://conumm.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/a60524d7-bfe3-478f-9537-344f5830f70b/deploy-status)](https://app.netlify.com/sites/conumm/deploys)
-- [PiNG-carto](https://ping-carto.netlify.com) : [![Netlify Status](https://api.netlify.com/api/v1/badges/23e061dc-c6f6-4b8b-bd03-a3cd4dd622a1/deploy-status)](https://app.netlify.com/sites/ping-carto/deploys)
-- [OpenCompaniesData - OpenCompaniesData branch](https://opencompaniesdata.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys)
-
+[OpenCompaniesData - OpenCompaniesData branch](https://opencompaniesdata.netlify.com/) : [![Netlify Status](https://api.netlify.com/api/v1/badges/cef36329-5ed1-49a6-b567-d3dfd79d9fe8/deploy-status)](https://app.netlify.com/sites/opencompaniesdata/deploys)
 
 --------
-
-## DOCUMENTATION 
-
-Check out our brand new Apiviz presentation website : https://apiviz.io
-
-Check out our brand new documentation website on Github pages : https://co-demos.github.io/apiviz-frontend/
-
-[![DOC_SITE](./documentation/documentation_website.png)](https://co-demos.github.io/apiviz-frontend/)
-<!-- -------- -->
-
-<!-- ![MAP VIEW](./documentation/screenshots/map-view-sonum-03.png) -->
-
---------
-
-## THE APIVIZ ECOSYSTEM
-
-ApiViz is designed to **agnosticaly display data** and provide an engine to deploy a **datavisualisation website** without (too much) pain, not regarding to the service(s) serving and storing the data. 
-
-Nevertheless to do so an instance of ApiViz must be connected to several external services : one for authentication, one for serving the data, one for storing the static contents (html pages, images...).
-
-The goal of ApiViz is to **work with any external service** fulfilling those roles, but we developed an **eco-system of open source applications** allowing a complete and free way to deploy such a datavisualisation service. 
-
-<br>
-
-| logo | the open source eco-system ( aka TADATA! ) |
-|    :----:   |          :--- |
-| <img src="./static/logos/logo_apiviz_icon_15.png" height="33"> | **[Apiviz](https://github.com/co-demos/ApiViz)** as the high-level app for visualisation, a sort of open source CMS for data-visualisation ;   |
-| <img src="./static/logos/logo_solidata.png" height="33"> | **[Solidata](https://github.com/entrepreneur-interet-general/solidata_frontend)** to "API-fy" your data and manage open data projects ; |
-| <img src="./static/logos/logo_auth_microservice.png" height="33"> | **[TokTok](https://github.com/co-demos/toktok)** for a dedicated authentication service to manage users, JWT, and roles.  |
-| <img src="./static/logos/logo_openscraper_01.png" height="33"> | **[OpenScraper](https://github.com/entrepreneur-interet-general/OpenScraper)** is a generic web scraper serving the results of the scraping via its API  |
-
-
---------
-
-## DEVELOPERS
-
-Please check out our *[guidelines](./GUIDELINES_DEV.md)*
-
-You can also check the *[development roadmap for future features](https://github.com/co-demos/apiviz-frontend/projects/1)*
-
---------
-
-## INSTALLATION WALKTHROUGH 
-
---------
-
-Before anything, if you want to use the whole Apiviz stack as a stand-alone app you need to install **[Apiviz-backend](https://github.com/co-demos/apiviz-backend)** to serve your configuration to the frontend.
-
-Otherwise, if you just want to run Apiviz frontend and plya with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following : 
+## INSTALLATION WALKTHROUGH
+If you just want to run the frontend and play with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following : 
 
 ```env
 
@@ -120,43 +47,15 @@ Otherwise, if you just want to run Apiviz frontend and plya with it, you just ne
 APIVIZ_REPO=/apiviz-frontend/
 DEPLOY_ENV=NETLIFY
 
-### Apiviz backend's preprod server to serrve configs
+### Apiviz backend's preprod server to serve configs
 NUXT_BACKEND_MODE=preprod
 
 ### Apiviz's distant preprod auth server to deal with login and auth
 NUXT_AUTH_MODE=distant_preprod
 
 ### Apiviz's UUID to retrieve the corresponding configuration elements 
-
-### you can comment / de-comment the pair of following vars of your choice 
-### so you'll get the corresponding instance's specific configuration
-
-NUXT_APP_CONFIG_NAME=DEMO_APIVIZ
-NUXT_APIVIZ_UUID=89edbf7d-8b63-4088-ad14-ae6779d7698f
-
-# NUXT_APP_CONFIG_NAME=SONUM
-# NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481
-
-# NUXT_APP_CONFIG_NAME=APCIS
-# NUXT_APIVIZ_UUID=f0a482da-28be-4929-a443-f22ecb03ee68
-
-# NUXT_APP_CONFIG_NAME=TIERS_LIEUX
-# NUXT_APIVIZ_UUID=fd9d4302-bddb-4fb1-8f13-d64dfdb66b91
-
-# NUXT_APP_CONFIG_NAME=PING_CARTO
-# NUXT_APIVIZ_UUID=0278419c-558e-43d5-a4d6-c836afd10445
-
-# NUXT_APP_CONFIG_NAME=CONNUMM
-# NUXT_APIVIZ_UUID=2f658fb8-f00a-4b1a-ab73-7064433c98bc
-
-# NUXT_APP_CONFIG_NAME=ETALAB_CODES
-# NUXT_APIVIZ_UUID=a44de08d-12a1-4182-a06e-78058928c1e1
-
-# NUXT_APP_CONFIG_NAME=ASSO_ORGUES
-# NUXT_APIVIZ_UUID=3f3fd562-5202-427f-8ba3-f58d5660aabf
-
-# NUXT_APP_CONFIG_NAME=OPEN_CORPORATE_FACTS
-# NUXT_APIVIZ_UUID=305ab50d-c976-44d7-a8f2-a7594155c292
+NUXT_APP_CONFIG_NAME=OPEN_CORPORATE_FACTS
+NUXT_APIVIZ_UUID=305ab50d-c976-44d7-a8f2-a7594155c292
 
 ```
 
@@ -188,16 +87,3 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
-
-
-## Build setup (with Docker)
-
-``` bash
-# install / stop / restart
-
-$ make up # run app with Docker
-$ make restart # restart app with Docker
-$ make down # stop app with Docker
-```
-
-... then check in your browser : [`localhost:3333`](localhost:3333)
