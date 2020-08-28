@@ -90,428 +90,432 @@
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->
-          <div class="column is-5 is-offset-1 box">
-            <h1 class="tile title is-6">
-              Autres données présentes dans la base Enthic, mais pas valorisées ici :
-            </h1>
-            <p v-for="year in displayableEnthicData.yearData">
-              {{ year.year }}
+          <div class="column">
+            <div class="box">
+              <h1 class="tile title is-6">
+                Autres données présentes dans la base Enthic, mais pas valorisées ici :
+              </h1>
+              <p v-for="year in displayableEnthicData.yearData">
+                {{ year.year }}
               <ul>
                 <li v-for="data in year.data">{{ data.description }} : {{ data.value }}</li>
               </ul>
-            </p>
-            <div class="description">
-              <!-- BLOCK MAIN TAGS -->
-              <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
+              </p>
+              <div class="description">
+                <!-- BLOCK MAIN TAGS -->
+                <div id="block-main-tags" v-if="isPositionFilled('block_main_tags')">
                 <span
                   v-if="getCustomBlockTitle('block_main_tags')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
+                >
                   {{ getCustomBlockTitle('block_main_tags') }}
                 </span>
-                <br>
-                <span
-                  class="tag"
-                  v-for="(tag, i) in matchProjectWithConfig('block_main_tags')"
-                  :key="tag + i"
+                  <br>
+                  <span
+                    class="tag"
+                    v-for="(tag, i) in matchProjectWithConfig('block_main_tags')"
+                    :key="tag + i"
                   >
                   {{ tag }}
                 </span>
-                <br><br>
-              </div>
+                  <br><br>
+                </div>
 
-              <!-- BLOCK ADDRESS -->
-              <p id="block-address" v-if="isPositionFilled('block_address')">
+                <!-- BLOCK ADDRESS -->
+                <p id="block-address" v-if="isPositionFilled('block_address')">
                 <span class="icon">
                   <img class="image is-16x16" src="~assets/icons/icon_pin.svg">
                 </span>
-                {{ matchProjectWithConfig('block_address')}}
-              </p>
+                  {{ matchProjectWithConfig('block_address')}}
+                </p>
 
-              <!-- BLOCK PRE ABSTRACT -->
-              <p id="block-pre-abstract" v-if="isPositionFilled('block_pre_abstract')">
+                <!-- BLOCK PRE ABSTRACT -->
+                <p id="block-pre-abstract" v-if="isPositionFilled('block_pre_abstract')">
                 <span
                   v-if="getCustomBlockTitle('block_pre_abstract')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
+                >
                   {{ getCustomBlockTitle('block_pre_abstract') }}
                   <br><br>
                 </span>
-                {{ matchProjectWithConfig('block_pre_abstract')}}
-              </p>
+                  {{ matchProjectWithConfig('block_pre_abstract')}}
+                </p>
 
-              <!-- BLOCK PARTNERS -->
-              <div id="block-partners" v-if="isPositionFilled('block_partners')">
-                <p>{{ matchProjectWithConfig('block_partners')}}</p>
-              </div>
+                <!-- BLOCK PARTNERS -->
+                <div id="block-partners" v-if="isPositionFilled('block_partners')">
+                  <p>{{ matchProjectWithConfig('block_partners')}}</p>
+                </div>
 
-              <!-- BLOCK POST ABSTRACT 1 -->
-              <p id="block-post-abstract-1">
-              </p>
+                <!-- BLOCK POST ABSTRACT 1 -->
+                <p id="block-post-abstract-1">
+                </p>
 
-              <!-- BLOCK POST ABSTRACT 2 -->
-              <p id="block-post-abstract-2">
-              </p>
+                <!-- BLOCK POST ABSTRACT 2 -->
+                <p id="block-post-abstract-2">
+                </p>
 
-              <!-- BLOCK POST ABSTRACT 3 -->
-              <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
+                <!-- BLOCK POST ABSTRACT 3 -->
+                <p id="block-post-abstract-3" v-if="isPositionFilled('block_post_abstract_3')">
                 <span
                   v-if="getCustomBlockTitle('block_post_abstract_3')"
                   class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                  >
+                >
                   {{ getCustomBlockTitle('block_post_abstract_3') }}
                   <br><br>
                 </span>
-                {{ matchProjectWithConfig('block_post_abstract_3')}}
-              </p>
+                  {{ matchProjectWithConfig('block_post_abstract_3')}}
+                </p>
 
-              <!-- BLOCK WEBSITE / CONTACT -->
-              <div class="columns">
+                <!-- BLOCK WEBSITE / CONTACT -->
+                <div class="columns">
 
-                <!-- BLOCK WEBSITE -->
-                <div id="block-main-website" class="column is-5 is-offset-1 link">
-                  <a
-                    v-if="matchProjectWithConfig('block_wesite')"
-                    :class="matchProjectWithConfig('block_wesite') === noData ? 'disabled has-text-grey' : '' "
-                    :href="matchProjectWithConfig('block_wesite') === noData ? '' : matchProjectWithConfig('block_wesite') "
-                    target="_blank">
-                    <!-- {{ seeWebsite }} -->
-                    {{ getDefaultText('see_website') }}
-                  </a>
+                  <!-- BLOCK WEBSITE -->
+                  <div id="block-main-website" class="column is-5 is-offset-1 link">
+                    <a
+                      v-if="matchProjectWithConfig('block_wesite')"
+                      :class="matchProjectWithConfig('block_wesite') === noData ? 'disabled has-text-grey' : '' "
+                      :href="matchProjectWithConfig('block_wesite') === noData ? '' : matchProjectWithConfig('block_wesite') "
+                      target="_blank">
+                      <!-- {{ seeWebsite }} -->
+                      {{ getDefaultText('see_website') }}
+                    </a>
+                  </div>
+
+                  <!-- BLOCK CONTACT -->
+                  <div id="block-main-contact" class="column is-5 is-offset-1 link">
+                    <a
+                      v-if="matchProjectWithConfig('block_contact')"
+                      :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
+                      :href="matchProjectWithConfig('block_wesite') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
+                      target="_blank">
+                      <!-- {{ seeContact }} -->
+                      {{ getDefaultText('see_contact') }}
+                    </a>
+                  </div>
                 </div>
 
-                <!-- BLOCK CONTACT -->
-                <div id="block-main-contact" class="column is-5 is-offset-1 link">
-                  <a
-                    v-if="matchProjectWithConfig('block_contact')"
-                    :class="matchProjectWithConfig('block_contact') === noData ? 'disabled has-text-grey' : '' "
-                    :href="matchProjectWithConfig('block_wesite') === noData ? '' :'mailto:' + matchProjectWithConfig('block_contact') "
-                    target="_blank">
-                    <!-- {{ seeContact }} -->
-                    {{ getDefaultText('see_contact') }}
-                  </a>
-                </div>
               </div>
 
-            </div>
-
-            <!-- BLOCK SERVICES -->
-            <div class="added" id="block-services" v-if="isPositionFilled('block_services')">
-              <div class="columns">
-                <div class="column is-12">
-                  <div>
+              <!-- BLOCK SERVICES -->
+              <div class="added" id="block-services" v-if="isPositionFilled('block_services')">
+                <div class="columns">
+                  <div class="column is-12">
+                    <div>
                     <span
                       class="has-text-weight-semibold has-text-primary has-text-primary-c">
                       <!-- {{ servicesData }}  -->
                       {{ getDefaultText('services') }}
                       : <br><br>
                     </span>
-                    <span>
+                      <span>
                       {{ matchProjectWithConfig('block_services')}}
                     </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- BLOCK BOTTOM 2 -->
-            <div class="added" id="block-LB2" v-if="isPositionFilled('block_left_bottom_2')">
-              <div class="columns">
-                <div class="column is-12">
-                  <div>
+              <!-- BLOCK BOTTOM 2 -->
+              <div class="added" id="block-LB2" v-if="isPositionFilled('block_left_bottom_2')">
+                <div class="columns">
+                  <div class="column is-12">
+                    <div>
                     <span
                       v-if="getCustomBlockTitle('block_left_bottom_2')"
                       class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                      >
+                    >
                       {{ getCustomBlockTitle('block_left_bottom_2') }}
                       <br><br>
                     </span>
-                    <span>
+                      <span>
                       {{ matchProjectWithConfig('block_left_bottom_2')}}
                     </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-          </div>  <!-- end column left -->
-
-
+            </div>  <!-- end column left -->
+          </div>
 
           <!-- //// COLUMN RIGHT //// -->
-          <div class="column is-5 box has-background-grey-lighter">
-            <h1 class="tile title is-6 ">
-              Autre représentation des comptes de résultat
-            </h1>
-            <ul v-for="oneYeardata in displayableItem.Enthic.treeRepresentations" v-bind:key="oneYeardata.year">
-              <p> Année {{ oneYeardata.year }} </p>
-              <TreeItem
-                class="item"
-                :item="oneYeardata"
-              ></TreeItem>
-            </ul>
+          <div class="column">
+            <div class="box has-background-grey-lighter">
+              <h1 class="tile title is-6 ">
+                Autre représentation des comptes de résultat
+              </h1>
+              <ul v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"
+                  v-bind:key="oneYeardata.year">
+                <p> Année {{ oneYeardata.year }} </p>
+                <TreeItem
+                  class="item"
+                  :item="oneYeardata"
+                ></TreeItem>
+              </ul>
 
-            <!-- BLOCK SOURCE -->
-            <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
-              <div class="columns">
-                <div class="column is-12">
-                  <div>
-                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      <!-- {{ sourceData }}  -->
-                      {{ getDefaultText('source') }}
-                      :
-                    </span>
-                    <span>
-                      {{ matchProjectWithConfig('block_src')}}
-                    </span>
+              <!-- BLOCK SOURCE -->
+              <div class="added" id="block-src" v-if="isPositionFilled('block_src')">
+                <div class="columns">
+                  <div class="column is-12">
+                    <div>
+                              <span
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c">
+                                <!-- {{ sourceData }}  -->
+                                {{ getDefaultText('source') }}
+                                :
+                              </span>
+                      <span>
+                                {{ matchProjectWithConfig('block_src')}}
+                              </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- BLOCK SCALE -->
-            <div class="added" id="block-scale" v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
-              <div class="columns">
-                <div class="column is-12">
+              <!-- BLOCK SCALE -->
+              <div class="added" id="block-scale"
+                   v-if="isPositionFilled('block_scale') || isPositionFilled('block_scale_address')">
+                <div class="columns">
+                  <div class="column is-12">
 
-                  <div>
-                    <span
-                      v-if="getCustomBlockTitle('block_scale_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                    <div>
+                              <span
+                                v-if="getCustomBlockTitle('block_scale_tags')"
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                              >
+                                {{ getCustomBlockTitle('block_scale_tags') }}
+                              </span>
+                      <span
+                        class="tag"
+                        v-for="(tag, i) in matchProjectWithConfig('block_scale_tags')"
+                        :key="tag + i"
                       >
-                      {{ getCustomBlockTitle('block_scale_tags') }}
-                    </span>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_scale_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                  </div>
+                                {{ tag }}
+                              </span>
+                    </div>
 
-                  <div id="block-scale-2">
-                    <span
-                      v-if="getCustomBlockTitle('block_scale_2')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                      >
-                      {{ getCustomBlockTitle('block_scale_2') }}
-                    </span>
-                    <span>
-                      {{ matchProjectWithConfig('block_scale_2')}}
-                    </span>
-                  </div>
+                    <div id="block-scale-2">
+                              <span
+                                v-if="getCustomBlockTitle('block_scale_2')"
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                              >
+                                {{ getCustomBlockTitle('block_scale_2') }}
+                              </span>
+                      <span>
+                                {{ matchProjectWithConfig('block_scale_2')}}
+                              </span>
+                    </div>
 
-                  <div id="block-scale-address" v-if="isPositionFilled('block_scale_address')">
-                    <span class="icon">
-                      <img class="image is-16x16" src="/static/icons/icon_pin.svg">
-                    </span>
-                    {{ matchProjectWithConfig('block_scale_address')}}
-                  </div>
+                    <div id="block-scale-address" v-if="isPositionFilled('block_scale_address')">
+                              <span class="icon">
+                                <img class="image is-16x16" src="/static/icons/icon_pin.svg">
+                              </span>
+                      {{ matchProjectWithConfig('block_scale_address')}}
+                    </div>
 
-                </div>
-              </div>
-            </div>
-
-            <!-- BLOCK PERIOD -->
-            <div class="added" id="block-period" v-if="isPositionFilled('block_period')">
-              <div class="columns">
-                <div class="column is-12">
-                  <div>
-                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      <!-- {{ periodData }}  -->
-                      {{ getDefaultText('period') }}
-                      :
-                    </span>
-                    <span>
-                      {{ matchProjectWithConfig('block_period')}}
-                    </span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- BLOCK CONTACT -->
-            <div
-              v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
-              class="added is-info-b has-text-white"
-              id="block-contact"
+              <!-- BLOCK PERIOD -->
+              <div class="added" id="block-period" v-if="isPositionFilled('block_period')">
+                <div class="columns">
+                  <div class="column is-12">
+                    <div>
+                              <span
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c">
+                                <!-- {{ periodData }}  -->
+                                {{ getDefaultText('period') }}
+                                :
+                              </span>
+                      <span>
+                                {{ matchProjectWithConfig('block_period')}}
+                              </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BLOCK CONTACT -->
+              <div
+                v-if="isPositionFilled('block_contact_name') || isPositionFilled('block_contact_email')"
+                class="added is-info-b has-text-white"
+                id="block-contact"
               >
-              <div class="columns">
-                <div class="column is-12">
+                <div class="columns">
+                  <div class="column is-12">
 
-                  <div>
-                    <span class="has-text-weight-semibold">
-                      <!-- {{ seeContact }}  -->
-                      {{ getDefaultText('see_contact') }}
-                      :
-                    </span>
-                  </div>
-                  <br>
-
-                  <div v-if="isPositionFilled('block_contact_name')">
-                    <span class="icon is-small">
-                      <i class="far fa-user"></i>
-                    </span>
-                    <span>
-                      <span v-if="isPositionFilled('block_contact_name')">
-                        {{ matchProjectWithConfig('block_contact_name')}}
-                      </span>
-                      <span v-if="isPositionFilled('block_contact_surname')">
-                        {{ matchProjectWithConfig('block_contact_surname')}}
-                      </span>
-                      <span v-if="isPositionFilled('block_contact_fullname')">
-                        {{ matchProjectWithConfig('block_contact_fullname')}}
-                      </span>
-                      <span v-if="isPositionFilled('block_contact_title')"><br>
-                        {{ matchProjectWithConfig('block_contact_title')}}
-                        <br>
-                      </span>
-                    </span>
-                    <br>
-                  </div>
-
-                  <div v-if="isPositionFilled('block_contact_email')">
-                    <span class="icon is-small">
-                      <i class="fas fa-at"></i>
-                    </span>
-                    <span>
-                      {{ matchProjectWithConfig('block_contact_email')}} <br>
-                    </span>
-                  </div>
-
-                  <div v-if="isPositionFilled('block_contact_tel')">
-                    <span class="icon is-small">
-                      <i class="fas fa-phone"></i>
-                    </span>
-                    <span>
-                      {{ matchProjectWithConfig('block_contact_tel')}} <br>
-                    </span>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <!-- BLOCK OPEN INFOS -->
-            <div class="added" id="block-infos" v-if="isPositionFilled('block_open_infos')">
-              <div class="columns">
-
-                <div class="column is-12">
-
-                  <div>
-                    <span class="has-text-weight-semibold has-text-primary has-text-primary-c">
-                      <!-- {{ infosData }}  -->
-                      {{ getDefaultText('infos') }}
-                      : <br><br>
-                    </span>
-                  </div>
-
-                  <div id="block-tel" v-if="isPositionFilled('block_tel')">
-                    <span class="icon is-small">
-                      <i class="fas fa-angle-right"></i>
-                    </span>
-                    <span>
-                      <!-- {{ infosTel }}  -->
-                      {{ getDefaultText('tel') }}
-                      :
-                      {{ matchProjectWithConfig('block_tel')}} <br>
-                    </span>
-                  </div>
-
-                  <div id="block-open-infos" v-if="isPositionFilled('block_open_infos')">
-                    <span class="icon is-small">
-                      <i class="fas fa-angle-right"></i>
-                    </span>
-                    <span>
-                      <!-- {{ infosOpen }}  -->
-                      {{ getDefaultText('open_infos') }}
-                      : <br>
-                      {{ matchProjectWithConfig('block_open_infos')}} <br>
-                    </span>
-                  </div>
-
-                  <div id="block-infos-pract" v-if="isPositionFilled('block_infos_pract')">
-                    <span class="icon is-small">
-                      <i class="fas fa-angle-right"></i>
-                    </span>
-                    <span>
-                      <!-- {{ infosMore }}  -->
-                      {{ getDefaultText('more_infos') }}
-                      :
-                      {{ matchProjectWithConfig('block_infos_pract')}}
-                    </span>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-            <!-- BLOCK RIGHT BOTTOM 1 -->
-            <div class="added" id="block-RB1" v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
-              <div class="columns">
-                <div class="column is-12">
-
-                  <!-- BLOCK RB1 TAGS -->
-                  <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
-                    <span
-                      v-if="getCustomBlockTitle('block_rb1_tags')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                      >
-                      {{ getCustomBlockTitle('block_rb1_tags') }}
-                    </span>
-                    <br><br>
-                    <span
-                      class="tag"
-                      v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
-                      :key="tag + i"
-                      >
-                      {{ tag }}
-                    </span>
-                    <br><br>
-                  </div>
-
-                  <div>
-
-                    <span
-                      v-if="getCustomBlockTitle('block_right_bottom_1')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                      >
-                      {{ getCustomBlockTitle('block_right_bottom_1') }}
-                      <br><br>
-                    </span>
-
-                    <span>
-                      {{ matchProjectWithConfig('block_right_bottom_1')}}
-                    </span>
-
-                  </div>
-
-                  <div v-if="isPositionFilled('block_right_bottom_2')">
+                    <div>
+                              <span class="has-text-weight-semibold">
+                                <!-- {{ seeContact }}  -->
+                                {{ getDefaultText('see_contact') }}
+                                :
+                              </span>
+                    </div>
                     <br>
 
-                    <span
-                      v-if="getCustomBlockTitle('block_right_bottom_2')"
-                      class="has-text-weight-semibold has-text-primary has-text-primary-c"
-                      >
-                      {{ getCustomBlockTitle('block_right_bottom_2') }}
-                      <br><br>
-                    </span>
+                    <div v-if="isPositionFilled('block_contact_name')">
+                              <span class="icon is-small">
+                                <i class="far fa-user"></i>
+                              </span>
+                      <span>
+                                <span v-if="isPositionFilled('block_contact_name')">
+                                  {{ matchProjectWithConfig('block_contact_name')}}
+                                </span>
+                                <span v-if="isPositionFilled('block_contact_surname')">
+                                  {{ matchProjectWithConfig('block_contact_surname')}}
+                                </span>
+                                <span v-if="isPositionFilled('block_contact_fullname')">
+                                  {{ matchProjectWithConfig('block_contact_fullname')}}
+                                </span>
+                                <span v-if="isPositionFilled('block_contact_title')"><br>
+                                  {{ matchProjectWithConfig('block_contact_title')}}
+                                  <br>
+                                </span>
+                              </span>
+                      <br>
+                    </div>
 
-                    <span>
-                      {{ matchProjectWithConfig('block_right_bottom_2')}}
-                    </span>
+                    <div v-if="isPositionFilled('block_contact_email')">
+                              <span class="icon is-small">
+                                <i class="fas fa-at"></i>
+                              </span>
+                      <span>
+                                {{ matchProjectWithConfig('block_contact_email')}} <br>
+                              </span>
+                    </div>
+
+                    <div v-if="isPositionFilled('block_contact_tel')">
+                              <span class="icon is-small">
+                                <i class="fas fa-phone"></i>
+                              </span>
+                      <span>
+                                {{ matchProjectWithConfig('block_contact_tel')}} <br>
+                              </span>
+                    </div>
 
                   </div>
                 </div>
               </div>
+
+              <!-- BLOCK OPEN INFOS -->
+              <div class="added" id="block-infos" v-if="isPositionFilled('block_open_infos')">
+                <div class="columns">
+
+                  <div class="column is-12">
+
+                    <div>
+                              <span
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c">
+                                <!-- {{ infosData }}  -->
+                                {{ getDefaultText('infos') }}
+                                : <br><br>
+                              </span>
+                    </div>
+
+                    <div id="block-tel" v-if="isPositionFilled('block_tel')">
+                              <span class="icon is-small">
+                                <i class="fas fa-angle-right"></i>
+                              </span>
+                      <span>
+                                <!-- {{ infosTel }}  -->
+                                {{ getDefaultText('tel') }}
+                                :
+                                {{ matchProjectWithConfig('block_tel')}} <br>
+                              </span>
+                    </div>
+
+                    <div id="block-open-infos" v-if="isPositionFilled('block_open_infos')">
+                              <span class="icon is-small">
+                                <i class="fas fa-angle-right"></i>
+                              </span>
+                      <span>
+                                <!-- {{ infosOpen }}  -->
+                                {{ getDefaultText('open_infos') }}
+                                : <br>
+                                {{ matchProjectWithConfig('block_open_infos')}} <br>
+                              </span>
+                    </div>
+
+                    <div id="block-infos-pract" v-if="isPositionFilled('block_infos_pract')">
+                              <span class="icon is-small">
+                                <i class="fas fa-angle-right"></i>
+                              </span>
+                      <span>
+                                <!-- {{ infosMore }}  -->
+                                {{ getDefaultText('more_infos') }}
+                                :
+                                {{ matchProjectWithConfig('block_infos_pract')}}
+                              </span>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- BLOCK RIGHT BOTTOM 1 -->
+              <div class="added" id="block-RB1"
+                   v-if="isPositionFilled('block_right_bottom_1') || isPositionFilled('block_rb1_tags') || isPositionFilled('block_right_bottom_2') ">
+                <div class="columns">
+                  <div class="column is-12">
+
+                    <!-- BLOCK RB1 TAGS -->
+                    <div id="block-RB1-tags" v-if="isPositionFilled('block_rb1_tags')">
+                              <span
+                                v-if="getCustomBlockTitle('block_rb1_tags')"
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                              >
+                                {{ getCustomBlockTitle('block_rb1_tags') }}
+                              </span>
+                      <br><br>
+                      <span
+                        class="tag"
+                        v-for="(tag, i) in matchProjectWithConfig('block_rb1_tags')"
+                        :key="tag + i"
+                      >
+                                {{ tag }}
+                              </span>
+                      <br><br>
+                    </div>
+
+                    <div>
+
+                              <span
+                                v-if="getCustomBlockTitle('block_right_bottom_1')"
+                                class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                              >
+                                {{ getCustomBlockTitle('block_right_bottom_1') }}
+                                <br><br>
+                              </span>
+
+                      <span>
+                                {{ matchProjectWithConfig('block_right_bottom_1')}}
+                              </span>
+
+                    </div>
+
+                    <div v-if="isPositionFilled('block_right_bottom_2')">
+                      <br>
+
+                      <span
+                        v-if="getCustomBlockTitle('block_right_bottom_2')"
+                        class="has-text-weight-semibold has-text-primary has-text-primary-c"
+                      >
+                                {{ getCustomBlockTitle('block_right_bottom_2') }}
+                                <br><br>
+                              </span>
+
+                      <span>
+                                {{ matchProjectWithConfig('block_right_bottom_2')}}
+                              </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-
-          </div> <!-- end column right -->
-
-        </div>
+          </div>
+        </div><!-- end column right -->
       </div>
 
     </main>
