@@ -768,6 +768,42 @@
               <br>
             </div>
 
+            <!-- BLOCK RIGHT BOTTOM - TECH -->
+            <div id="block-RB-tech-top" 
+              v-if="isPositionFilled('block_right_top_tech')"
+              :class="`added ${getItemColors('block_right_top_tech', {only:true})}`"
+              >
+              <div class="content mt-1 is-italic">
+                <!-- <div class="column is-12"> -->
+
+                  <div v-if="isPositionFilled('block_right_top_tech')"
+                    class="pb-1"
+                    >
+                    <span v-if="getCustomBlockTitle('block_right_top_tech')"
+                      >
+                      {{ getCustomBlockTitle('block_right_top_tech') }}
+                    </span>
+                    <span v-if="isPositionFilled('block_right_top_tech')">
+                      {{ matchProjectWithConfig('block_right_top_tech')}}
+                    </span>
+                  </div>
+
+                  <div v-if="isPositionFilled('block_right_top_tech_2')"
+                    class="pb-2"
+                    >
+                    <span v-if="getCustomBlockTitle('block_right_top_tech_2')"
+                      >
+                      {{ getCustomBlockTitle('block_right_top_tech_2') }}
+                    </span>
+                    <span v-if="isPositionFilled('block_right_top_tech_2')">
+                      {{ matchProjectWithConfig('block_right_top_tech_2')}}
+                    </span>
+                  </div>
+
+                <!-- </div> -->
+              </div>
+            </div>
+
             <!-- BLOCK OPEN INFOS -->
             <div id="block-infos" class="added" v-if="isPositionFilled('block_open_infos') || isPositionFilled('block_tel') || isPositionFilled('block_infos_pract')">
               <div class="columns">
