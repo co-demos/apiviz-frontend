@@ -751,7 +751,7 @@ export default {
       // this.log && console.log("C-SearchResultsMapbox / mounted / this.$refs.mapboxDiv : ", this.$refs.mapboxDiv)
       
       // store in component
-      this.map = event.map;
+      this.map = event.map
 
       // in store => WARNING : object too complex to be stored/mutated in vuex so far
       // check : https://ypereirareis.github.io/blog/2017/04/25/vuejs-two-way-data-binding-state-management-vuex-strict-mode/
