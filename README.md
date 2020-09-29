@@ -10,14 +10,14 @@ Les données sont stockées et accessible sur [Enthic.fr](https://www.enthic.fr)
 
 -------
 ## PRÉSENTATION
-Le but de ce projet est de rendre accessible, explorable, exploitable et parlant les données sur les entreprises rendues publiques par l'État pour pouvoir répondre à des questions simples : 
+Le but de ce projet est de rendre accessible, explorable, exploitable et parlant les données sur les entreprises rendues publiques par l'État pour pouvoir répondre à des questions simples :
  - à qui appartiennent les entreprises
  - lesquelles payent leur impôts en France
  - lesquelles embauchent en France
  - lesquelles touchent des subventions
  - lesquelles ne remplissent pas leur déclaration
  - lesquelles sont les plus transparentes, ou les plus opaques.
- 
+
 ### À qui ça sert ?
 Les ultimes bénéficiaires du projet seront les consommateur/trices qui veulent consommer mieux pour contribuer à la relocalisation de l'économie.
 Mais aussi les salarié⋅es qui veulent savoir comment leur entreprise réparti la valeur ajoutée produite entre les salarié⋅es, l'État, les investissements et les actionnaires.
@@ -40,7 +40,7 @@ Surveiller [cette page](https://entreprise.data.gouv.fr/api_doc) présentant les
 ### Comment aider ?
 Venez en discute sur le [chat Code For France](https://chat.codefor.fr/home) ou entamez la discussion via une *issue*.
 
-#### Pour celleux qui ne sont pas développeur⋅ses 
+#### Pour celleux qui ne sont pas développeur⋅ses
 Si les données ci-dessus attisent votre curiosité, vous pouvez aider en nous disant ce que vous aimeriez voir comme fonctionnalités sur le site.
 
 #### Pour les développeur⋅ses
@@ -56,15 +56,37 @@ Mais nous sommes ouverts au dialogue :-)
  - Faire un classement des entreprises plus ou moins transparente (données officielles bien remplie, etc...)
  - Faire un classement des entreprises plus ou moins partageuse/vertueuse (profil du compte de résultat, etc...)
  - Permettre le téléchargement des données sous la forme d'un tableur intelligible
- 
+
+## Synergies potentielles :
+Audit d'entreprises pour noter leurs actions positives : https://www.gen-ethic.com/
+Notation d'entreprises sur la base de leur déclaration. Note proportionnelle à l'impact positif en matière de social et d'écologie : https://noussommesdemain.com/content/impact-score
+Site valorisant les déclarations de patrimoines et d'intérêts des personnages politiques, ainsi que les lobbyistes : http://integritywatch.fr/
+
 --------
+
+## Documentation du code
+### Partie affichage du site
+Le fichier pages/index.vue contient le code de la page d'accueil, ainsi que le code de routage vers les autres pages du site.
+Le fichier layouts/default.vue contient la ligne de footer vraiment tout en bas du site.
+Le dossier components/dynamicUX contient des éléments visuels génériques du site, comme le footer, le header, la barre de navigation, ...
+Le dossier components/dynamicData contient des éléments visuels utilisés par le site pour afficher de la donnée, notamment tous les éléments qu'on trouve dans une page détaillant une entreprise.
+
+### Partie tuyauterie du site
+Le fichier store/config.js contient la configuration du site. Il va actuellement la chercher sur un serveur distant, mais l'objectif est de stocker la configuration directement dans le code.
+Le fichier store/search.js contient le code pour chercher les données aux backend via les API, selon la recherche de l'utilisateur.
+Le fichier plugins/utils.js contient des fonctions utilitaires, et notamment les fonctions permettant de vérifier et mieux formater les données d'une entreprises. Ces fonctions incluent :
+La fonction populateDisplayedItem qui fait la requête sur l'API d'Enthic
+La fonction formatEnthicData qui reconstitue un objet JSON par année, en remplaçant les codes par des noms humainement compréhensibles
+La fonction createTreeRepresentation qui créer un objet JSON représentant le compte de résultat sous la forme d'un arbre, ce qui permet de facilement vérifier si les valeurs sont cohérentes les unes avec les autres, et de compléter les manques si possible.
+
+
 ## INSTALLATION WALKTHROUGH
-If you just want to run the frontend and play with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following : 
+If you just want to run the frontend and play with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following :
 
 ```env
 
-### ENV VARIABLES FOR APIVIZ FRONTEND ### 
-### - - - - - - - - - - - - - - - - - ### 
+### ENV VARIABLES FOR APIVIZ FRONTEND ###
+### - - - - - - - - - - - - - - - - - ###
 
 APIVIZ_REPO=/apiviz-frontend/
 DEPLOY_ENV=NETLIFY
@@ -75,7 +97,7 @@ NUXT_BACKEND_MODE=preprod
 ### Apiviz's distant preprod auth server to deal with login and auth
 NUXT_AUTH_MODE=distant_preprod
 
-### Apiviz's UUID to retrieve the corresponding configuration elements 
+### Apiviz's UUID to retrieve the corresponding configuration elements
 NUXT_APP_CONFIG_NAME=OPEN_CORPORATE_FACTS
 NUXT_APIVIZ_UUID=305ab50d-c976-44d7-a8f2-a7594155c292
 
