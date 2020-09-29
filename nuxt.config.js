@@ -45,7 +45,7 @@ export default {
     // host: 'localhost' // '0.0.0.0', // default: localhost
   },
 
-  /* 
+  /*
   ** ENV variables
   cf : https://nuxtjs.org/api/configuration-env/
   cf : https://samuelcoe.com/blog/nuxt-dotenv/
@@ -66,7 +66,6 @@ export default {
   router: {
     middleware: [
       'setAppMode',
-      'getAppConfig',
       'checkAuth',
       'collapseNavbar',
     ],
@@ -138,7 +137,7 @@ export default {
 
     ['nuxt-validate', {
       // lang: 'es',
-      // regular vee-validate options 
+      // regular vee-validate options
     }],
 
     // Doc: https://axios.nuxtjs.org/usage
