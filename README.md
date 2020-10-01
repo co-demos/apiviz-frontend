@@ -66,18 +66,18 @@ Site valorisant les déclarations de patrimoines et d'intérêts des personnages
 
 ## Documentation du code
 ### Partie affichage du site
-Le fichier pages/index.vue contient le code de la page d'accueil, ainsi que le code de routage vers les autres pages du site.
-Le fichier layouts/default.vue contient la ligne de footer vraiment tout en bas du site.
-Le dossier components/dynamicUX contient des éléments visuels génériques du site, comme le footer, le header, la barre de navigation, ...
-Le dossier components/dynamicData contient des éléments visuels utilisés par le site pour afficher de la donnée, notamment tous les éléments qu'on trouve dans une page détaillant une entreprise.
+ - Le fichier pages/index.vue contient le code de la page d'accueil, ainsi que le code de routage vers les autres pages du site.
+ - Le fichier layouts/default.vue contient la ligne de footer vraiment tout en bas du site.
+ - Le dossier components/dynamicUX contient des éléments visuels génériques du site, comme le footer, le header, la barre de navigation, ...
+ - Le dossier components/dynamicData contient des éléments visuels utilisés par le site pour afficher de la donnée, notamment tous les éléments qu'on trouve dans une page détaillant une entreprise.
 
 ### Partie tuyauterie du site
-Le fichier store/config.js contient la configuration du site. Il va actuellement la chercher sur un serveur distant, mais l'objectif est de stocker la configuration directement dans le code.
-Le fichier store/search.js contient le code pour chercher les données aux backend via les API, selon la recherche de l'utilisateur.
-Le fichier plugins/utils.js contient des fonctions utilitaires, et notamment les fonctions permettant de vérifier et mieux formater les données d'une entreprises. Ces fonctions incluent :
-La fonction populateDisplayedItem qui fait la requête sur l'API d'Enthic
-La fonction formatEnthicData qui reconstitue un objet JSON par année, en remplaçant les codes par des noms humainement compréhensibles
-La fonction createTreeRepresentation qui créer un objet JSON représentant le compte de résultat sous la forme d'un arbre, ce qui permet de facilement vérifier si les valeurs sont cohérentes les unes avec les autres, et de compléter les manques si possible.
+ - Le fichier store/config.js contient la configuration du site. Il va actuellement la chercher sur un serveur distant, mais l'objectif est de stocker la configuration directement dans le code.
+ - Le fichier store/search.js contient le code pour chercher les données aux backend via les API, selon la recherche de l'utilisateur.
+ - Le fichier plugins/utils.js contient des fonctions utilitaires, et notamment les fonctions permettant de vérifier et mieux formater les données d'une entreprises. Ces fonctions incluent :
+   - La fonction ```populateDisplayedItem``` qui fait la requête sur l'API d'Enthic
+   - La fonction ```formatEnthicData``` qui reconstitue un objet JSON par année, en remplaçant les codes par des noms humainement compréhensibles
+   - La fonction ```createTreeRepresentation``` qui créer un objet JSON représentant le compte de résultat sous la forme d'un arbre, ce qui permet de facilement vérifier si les valeurs sont cohérentes les unes avec les autres, et de compléter les manques si possible.
 
 
 ## INSTALLATION WALKTHROUGH
