@@ -1,18 +1,17 @@
 <template>
-  <div 
-    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`" 
-    role="menubar" 
+  <div
+    :class="`search-bar ${ shrinkNav ? 'search-bar-shrink' : '' } ${ onlyIframe ? 'iframing' : '' } navbar is-white is-fixed-top has-bottom-border`"
+    role="menubar"
     aria-label="filters navigation"
     >
-    
+
     <div class="container">
-      
       <!-- INPUT TEXT -->
       <div class="navbar-start custom-start"> <!-- is-hidden-touch (to completely hide from mobile)-->
-      
+
         <div class="columns is-gapless is-mobile custom-input">
 
-          <div :class="`column is-${ showFiltersSwitch ? '10' : '12' }`">
+          <div :class="`column is-${ showFiltersSwitch ? '10' : '11' }`">
             <div class="navbar-item is-paddingless">
               <div class="field is-large has-addons field-centered">
 
@@ -49,105 +48,97 @@
             </div>
           </div>
 
-          <div 
+          <div
             v-if="showFiltersSwitch"
             :class="`column is-2 is-centered`"
             >
             <div class="navbar-item navbar-item-filter has-text-centered">
-              <a 
+              <a
                 :class="`button ${ showFilters ? 'is-primary is-primary-c' : 'is-white' }`"
                 @click="SwitchFilters()"
                 >
-                <span 
+                <span
                   :class="`icon ${ showFilters ? '' : 'has-text-primary has-text-primary-c' }`">
                   <i class="fas fa-filter"></i>
                 </span>
               </a>
             </div>
           </div>
-
         </div>
 
       </div>
-
-
 
       <!-- INPUT FILTERS -->
       <hr 
         v-if="showFiltersSwitch && showFilters"
         class="is-flex-touch filters-delimiter"
       >
-
-      <div 
-        v-if="showFilters"
+          <div
+            v-if="showFilters"
         class="navbar-end has-background-white"
         > <!-- is-hidden-touch (to completely hide from mobile)-->
-
-
-        <!-- LOOP FILTERS LISTS -->
-        <span v-for="filter in filterDescriptions"
-          class="navbar-item navbar-item-filter has-dropdown is-hoverable"
-          :key="filter.name"
-          :id="filter.name"
-          href="#"
-          >
-
-          <!-- FILTER TITLE - MAIN DROPDOWN -->
-          <a :class="`navbar-link is-arrrowless ${ selectedFilters.get(filter.name).size >= 1 ? 'has-text-weight-semibold' : '' } `"
-            @click="collapseChoices(filter.name)"
-            >
-            <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
-            <span>
-              {{ translate(filter, 'filter_title' ) }}
-            </span>
-          </a>
-
-          <!-- CHOICES CONTAINER -->
-          <div  
-            :id="filter.name" 
-            :ref="filter.name"
-            class="navbar-dropdown is-right hide-choices no-padding-bottom"
-            > 
-            <!-- here make it collapsable -->
-
-            <!-- LOOP CHOICES -->
-            <a v-for="choice in filter.choices" :key="choice.name"
-              class="navbar-item no-border"
+            <!-- LOOP FILTERS LISTS -->
+            <span v-for="filter in filterDescriptions"
+              class="navbar-item navbar-item-filter has-dropdown is-hoverable"
+              :key="filter.name"
+              :id="filter.name"
+              href="#"
               >
-              <div class="field is-narrow">
-                <input 	class="is-checkradio is-checkradio-c is-default is-normal"
-                  :id="choice.name"
-                  type="checkbox"
-                  :checked="selectedFilters.get(filter.name).has(choice.name)"
-                  :data-filter="filter.name"
-                  :data-choice="choice.name"
-                  @change="changeFilter"
-                  >
-                <label :for="choice.name" class="dense-label">
-                  {{ translate(choice, 'choice_title' ) }}
-                </label>
-              </div>
-            </a>
 
-            <!-- RESET FILTER BTN -->
-            <hr class="end-choices">
-
-            <div class="reset-btn">
-              <button class="button is-text no-underline is-fullwidth has-text-grey"
-                :data-filter="filter.name"
-                @click="emptyOneFilter({filter: filter.name})"
+              <!-- FILTER TITLE - MAIN DROPDOWN -->
+              <a :class="`navbar-link is-arrrowless ${ selectedFilters.get(filter.name).size >= 1 ? 'has-text-weight-semibold' : '' } `"
+                @click="collapseChoices(filter.name)"
                 >
+                <!-- <a :class='["navbar-link", {"has-text-weight-semibold" : isFilterFromSelectedFiltersBold(filter.name) } ]'> -->
                 <span>
-                  {{ translate(endpointConfigFilters, 'reset' ) }}
+                  {{ translate(filter, 'filter_title' ) }}
                 </span>
-              </button>
-            </div>
+              </a>
 
-          </div>
+              <!-- CHOICES CONTAINER -->
+              <div
+                :id="filter.name"
+                :ref="filter.name"
+                class="navbar-dropdown is-right hide-choices no-padding-bottom"
+                >
+                <!-- here make it collapsable -->
 
-          <hr class="is-flex-touch filters-delimiter">
+                <!-- LOOP CHOICES -->
+                <a v-for="choice in filter.choices" :key="choice.name"
+                  class="navbar-item no-border"
+                  >
+                  <div class="field is-narrow">
+                    <input 	class="is-checkradio is-checkradio-c is-default is-normal"
+                      :id="choice.name"
+                      type="checkbox"
+                      :checked="selectedFilters.get(filter.name).has(choice.name)"
+                      :data-filter="filter.name"
+                      :data-choice="choice.name"
+                      @change="changeFilter"
+                      >
+                    <label :for="choice.name" class="dense-label">
+                      {{ translate(choice, 'choice_title' ) }}
+                    </label>
+                  </div>
+                </a>
 
-        </span>
+                <!-- RESET FILTER BTN -->
+                <hr class="end-choices">
+
+                <div class="reset-btn">
+                  <button class="button is-text no-underline is-fullwidth has-text-grey"
+                    :data-filter="filter.name"
+                    @click="emptyOneFilter({filter: filter.name})"
+                    >
+                    <span>
+                      {{ translate(endpointConfigFilters, 'reset' ) }}
+                    </span>
+                  </button>
+                </div>
+
+              </div>
+              <hr class="is-flex-touch filters-delimiter">
+            </span>
 
       </div>
 
@@ -218,7 +209,7 @@
     computed: {
 
       ...mapState({
-        log : state => state.log, 
+        log : state => state.log,
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
         // selectedFilters: state => state.search.search.question.selectedFilters,
@@ -232,7 +223,7 @@
         shrinkNav : 'getShrinkNav',
       }),
 
-    
+
       // searchedText: {
       //   get () { return this.$store.getters['search/getSearchQuestionQuery'] },
       //   // set (value) {
@@ -364,7 +355,7 @@
   }
 
   .search-bar {
-    
+
     top: $apiviz-navbar-height;
     // top: 60px ;
     // height: $apiviz-search-bar-height;

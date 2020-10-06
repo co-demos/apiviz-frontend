@@ -106,8 +106,6 @@ export const getters = {
       return state.search.question.selectedFilters
     },
     getFilterDescriptions : state => {
-      // state.log && console.log("\nS-search-G-getFilterDescriptions ..." )
-      // state.log && console.log("S-search-G-getFilterDescriptions / state.search.question.filterDescriptions : \n", state.search.question.filterDescriptions )
       return state.filterDescriptions
     },
 
@@ -322,9 +320,7 @@ export const mutations = {
 
   // FILTERS-RELATED
     setDatasetFilters(state, datasetFilter ){
-      // state.log && console.log("S-search-setDatasetFilters / datasetFilter : ", datasetFilter )
       const filterOptions = datasetFilter.filter_options
-      // state.log && console.log("S-search-setDatasetFilters / filterOptions : ", filterOptions )
       state.datasetFilters = filterOptions
     },
     setFilterDescriptions (state, filterDescriptions) {
@@ -336,19 +332,13 @@ export const mutations = {
       state.search[type] = result
     },
     setSearchedText (state, {searchedText}) {
-      // state.log && console.log("\nS-search-M-setSearchedText ..." )
-      // state.log && console.log("S-search-M-setSearchedText / searchedText : ", searchedText )
       state.search.question.query = searchedText
     },
     setSelectedFilters (state, {selectedFilters}) {
       // trigger re-render
       state.search.question.selectedFilters = new Map(selectedFilters)
     },
-    setFilterDescriptions (state, filterDescriptions) {
-      state.filterDescriptions = filterDescriptions
-    },
     setQuestionPage (state, pageNumber ) {
-      // state.log && console.log("\nS-search-M-setQuestionPage / pageNumber : ", pageNumber )
       let newPageNumber = state.search.question.page + pageNumber
       if ( newPageNumber > 0 ){
         state.search.question.page = newPageNumber
@@ -521,26 +511,64 @@ export const actions = {
 
   // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
-      // state.log && console.log("\nS-search-A-createDatasetFilters / state : ", state )
+      let filterDescriptions = []
 
-      const currentFiltersConfig = rootGetters['config/getEndpointConfigFilters']
-      // state.log && console.log("S-search-A-createDatasetFilters / currentFiltersConfig : ", currentFiltersConfig)
-
-      if (currentFiltersConfig && currentFiltersConfig.filter_options){
-        let filterDescriptions = currentFiltersConfig.filter_options
-        // state.log && console.log("S-search-A-createDatasetFilters / filterDescriptions : ", filterDescriptions)
-        commit('setFilterDescriptions', filterDescriptions)
-        commit('clearAllFilters')
+      return {
+        abort(){
+          searchAborted = true
+          if( ac )
+            ac.abort()
+        },
+        promise : axios({
+          method: "get",
+          url: "http://api.enthic.fr/company/ape",
+          headers : {
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json'
+          },
+        })
+        .then( resp => {
+          console.log("+ + + createDatasetFilters / (axios) / resp :", resp.data);
+          var newFilter = {
+            filter_title : [{
+              "locale": "fr",
+              "text": "Secteurs d'activités"
+            }],
+            id : "APEfilterId",
+            name : "APEFilter",
+            col_name: "APEFilter",
+            dataType: "text",
+            choices : []
+          }
+          for (var enthicApeCode in resp.data)
+          {
+            if (resp.data[enthicApeCode]['0'].length == 2)
+            {
+              newFilter.choices.push({
+                choice_title : [{
+                  "locale": "fr",
+                  "text": resp.data[enthicApeCode]['1'] + "(" + resp.data[enthicApeCode]['0'] + ")"
+                }],
+                name : enthicApeCode
+              });
+            }
+          }
+          console.log("+ + + createDatasetFilters / (axios) /  newFilter :", newFilter);
+          filterDescriptions.push(newFilter);
+          commit('setFilterDescriptions', filterDescriptions)
+          commit('clearAllFilters')
+          return resp;
+        })
+        .catch( err => {
+          console.log("+ + + createDatasetFilters / (axios)  err :", err);
+        })
       }
-      // state.log && console.log("S-search-A-createDatasetFilters / finished...")
-
     },
 
   // FOR QUERY SEARCH FILTERS
     toggleFilter({state, commit, dispatch, getters}, {filter, value}){
       state.log && console.log("\n// toggleFilter ..." )
       const selectedFilters = new Map(getters.getSelectedFilters)
-      // state.log && console.log("// toggleFilter / selectedFilters : ", selectedFilters);
       const selectedValues = selectedFilters.get(filter)
       if(selectedValues.has(value))
         selectedValues.delete(value)
@@ -582,69 +610,64 @@ export const actions = {
   // MAIN SEARCH ACTION
   // + - + - + - + - + - //
     search({state, commit, dispatch, getters, rootGetters}){
+        state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+        const search = state.search
 
-      state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
+        const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
+        state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
+        // abort previous search if any
+        if(search.answer.pendingAbort){
+          search.answer.pendingAbort.abort()
+        }
 
-      const search = state.search
-      // state.log && console.log("S-search-A-search / search : ", search )
+        const endpointRawConfig = state.search.endpoint
+        const responsePaths = endpointRawConfig.resp_fields
+        state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
 
-      const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
-      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
-      // abort previous search if any
-      if(search.answer.pendingAbort){
-        search.answer.pendingAbort.abort()
-      }
+        // get user access token if any
+        const userAccessToken = rootGetters['user/getAccessToken']
 
-      const endpointRawConfig = state.search.endpoint
-      const responsePaths = endpointRawConfig.resp_fields
-      state.log && console.log("S-search-A-search / responsePaths : \n", responsePaths )
+        // get user configAuth if any
+        const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
+        state.log && console.log("S-search-A-search / endpointAuthConfig : \n", endpointAuthConfig )
 
-      // get user access token if any
-      const userAccessToken = rootGetters['user/getAccessToken']
+        commit('clearItemId')
 
-      // get user configAuth if any
-      const endpointAuthConfig = rootGetters['config/getEndpointConfigAuthSpecific']('auth_root')
-      state.log && console.log("S-search-A-search / endpointAuthConfig : \n", endpointAuthConfig )
-
-      commit('clearItemId')
-
-      // ENDPOINT GENERATOR
-      let endpointGenerated = searchEndpointGenerator({
-        endpointConfig : endpointRawConfig,
-        questionParams : state.search.question,
-        selectedFilters : selectedFilters,
-        authConfig : endpointAuthConfig,
-        accessToken : userAccessToken
-      })
-      state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
+        // ENDPOINT GENERATOR
+        let endpointGenerated = searchEndpointGenerator({
+          endpointConfig : endpointRawConfig,
+          questionParams : state.search.question,
+          selectedFilters : selectedFilters,
+          authConfig : endpointAuthConfig,
+          accessToken : userAccessToken
+        })
+        state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
 
 
-      // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
-      // perform search --> !!! only request map search if map search results empty in store !!!
+        // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
+        // perform search --> !!! only request map search if map search results empty in store !!!
 
-      const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
-      commit('setSearchPending', { pendingAbort: searchPendingAbort })
+        const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
+        commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
-      searchPendingAbort.promise
-      .then(( response ) => {
-        state.log && console.log("S-search-A-search / response : \n", response )
-        // state.log && console.log("S-search-A-search / total : \n", total )
-        // state.log && console.log("S-search-A-search / projects : \n", projects )
+        searchPendingAbort.promise
+        .then(( response ) => {
+          state.log && console.log("S-search-A-search / response : \n", response )
+          // state.log && console.log("S-search-A-search / total : \n", total )
+          // state.log && console.log("S-search-A-search / projects : \n", projects )
 
-        // if search is for map either fill resultMap if empty or do nothing
-        commit('setSearchResult', { result: {
-          projects : response.projects,
-          stats : response.stats,
-          total : response.total
-        }})
-        // commit('setSearchResult', {result: {projects, total}})
-        // commit ('setSearchResultMap', {resultMap: {projects, total}})
-      })
-      .catch(error => {
-        // don't report aborted fetch as errors
-        if (error.name !== 'AbortError')
-          commit('setSearchError', { error })
-      })
+          // if search is for map either fill resultMap if empty or do nothing
+          commit('setSearchResult', { result: {
+            projects : response.projects,
+            stats : response.stats,
+            total : response.total
+          }})
+        })
+        .catch(error => {
+          // don't report aborted fetch as errors
+          if (error.name !== 'AbortError')
+            commit('setSearchError', { error })
+        })
     },
 
     searchOne({state, commit, dispatch, getters, rootGetters}, id ){
