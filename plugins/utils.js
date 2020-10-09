@@ -453,6 +453,7 @@ function fillYearTree (treeToFill, rawData) {
       {
         treeToFill.data = rawData[i][property]
         treeToFill.data.status = "official"
+        treeToFill.data.code = property
         rawData.splice(i,1)
         break
       }
