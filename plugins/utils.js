@@ -451,7 +451,8 @@ function fillYearTree (treeToFill, rawData) {
     {
       if (treeToFill.codeLiasses.indexOf(property) > -1)
       {
-        treeToFill["data"] = rawData[i][property]
+        treeToFill.data = rawData[i][property]
+        treeToFill.data.status = "official"
         rawData.splice(i,1)
         break
       }

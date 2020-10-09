@@ -28,6 +28,7 @@ export function checkTreeData( item ) {
     // Compute ourself item's value from its children
     var computedSum = 0 // Result from official children's value
     var computedSumFromComputed = 0 // Result from computed children's value
+    var childMissingCount = 0 // Count of child without value officially given
     for (var childName in item.children)
     {
       var child = item.children[childName]
@@ -36,9 +37,13 @@ export function checkTreeData( item ) {
         computedSum += child.data.value * (child.sign ? -1 : 1)
         computedSumFromComputed += child.data.value * (child.sign ? -1 : 1)
       }
-      else if (child.data.computedValue)
+      else
       {
-        computedSumFromComputed += child.data.computedValue * (child.sign ? -1 : 1)
+        childMissingCount += 1
+        if (child.data.computedValue)
+        {
+          computedSumFromComputed += child.data.computedValue * (child.sign ? -1 : 1)
+        }
       }
     }
 
@@ -69,6 +74,22 @@ export function checkTreeData( item ) {
           }
         }
         computedSum = computedSumFromComputed
+      }
+      // If there is only on value missing from children, set this child's value equal to the computed difference
+      else if (childMissingCount == 1)
+      {
+        for (var childName in item.children)
+        {
+          var child = item.children[childName]
+          if (!child.data.value)
+          {
+            item.children[childName].data.computedValue = computedSum - item.data.value
+            item.children[childName].data.value = item.children[childName].data.computedValue
+            item.children[childName].data.status = "computed"
+            item.data.status = "checked"
+            break;
+          }
+        }
       }
       else {
         item.data.status = "error"

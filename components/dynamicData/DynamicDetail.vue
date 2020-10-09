@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
+        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-info">
           <h1 id="block-title" class="title is-6">
             Répartition du chiffre d'affaire
           </h1>
@@ -73,7 +73,7 @@
             </li>
           </ul>
         </div>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-info">
+        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-info">
           <h1 id="block-title" class="title is-6">
             Répartition de la marge de l'entreprise
           </h1>
@@ -243,7 +243,7 @@
               <h1 class="tile title is-6 ">
                 Autre représentation des comptes de résultat
               </h1>
-              <ul v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"
+              <ul v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"
                   v-bind:key="oneYeardata.year">
                 <p> Année {{ oneYeardata.year }} </p>
                 <TreeItem
@@ -730,7 +730,7 @@ export default {
 
     chartDetails(){
       // Find perfect unit for CA graphic (€, k€ or M€)
-      var beneficeItem = this.displayableItem.Enthic.treeRepresentations[0]
+      var beneficeItem = this.displayableItem.Enthic.comptesDeResultats[0]
       var factorCA = 1;
       var unitCA = '€';
       var CADeReference = beneficeItem.children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
@@ -785,11 +785,11 @@ export default {
       var listOfUndisplayableData = []
       var showResultatExploitation = true
       var showTaxeVsSubvention = true
-      for(var i = 0; i < this.displayableItem.Enthic.treeRepresentations.length; i++){
-          xLabels.push(this.displayableItem.Enthic.compteResultatRefined[i].year)
+      for(var i = 0; i < this.displayableItem.Enthic.comptesDeResultats.length; i++){
+          xLabels.push(this.displayableItem.Enthic.comptesDeResultats[i].year)
 
           // Local variables for code visibility
-          var rootItem = this.displayableItem.Enthic.treeRepresentations[i]
+          var rootItem = this.displayableItem.Enthic.comptesDeResultats[i]
           var resultExploit = rootItem.children.ResultatExploitation
           var produits = resultExploit.children.ProduitsExploitation
           var charges = resultExploit.children.ChargesExploitation
