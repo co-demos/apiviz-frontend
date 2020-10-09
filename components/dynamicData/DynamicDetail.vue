@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-        <div v-if="displayableItem.Enthic.treeRepresentations" class="box has-background-grey-lighter">
+        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-grey-lighter">
           <h1 class="title is-6">
             Voici les données des bilans comptables présentées de façon arborescente :
           </h1>
@@ -47,10 +47,10 @@
           <div class="tile is-ancestor is-vertical">
             <div class="tile is-parent">
               <div class="tile is-6"></div>
-              <div class="tile" v-for="oneYeardata in displayableItem.Enthic.treeRepresentations"> Année {{ oneYeardata.year }}</div>
+              <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> Année {{ oneYeardata.year }}</div>
             </div>
             <FoldingArray
-              :rowItem="displayableItem.Enthic.treeRepresentations"
+              :rowItem="displayableItem.Enthic.comptesDeResultats"
             ></FoldingArray>
             <div class="tile is-parent">
               <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies

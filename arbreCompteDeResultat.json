@@ -147,7 +147,7 @@
             },
             "DotationExploitation": {
               "name": "DOTATIONS D'EXPLOITATION ",
-              "codeLiasses": "",
+              "codeLiasses": [],
               "children": {
                 "DotationAmortissementImmobilisations": {
                   "name": "Sur immobilisations : dotations aux amortissements ",
