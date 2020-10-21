@@ -768,6 +768,19 @@
               <br>
             </div>
 
+            <!-- BLOCK BTN UPDATE -->
+            <div id="block-btn-ext_link" class="added" v-if="isPositionFilled('block_btn_ext_link')">
+              <a
+                class="button is-fullwidth is-primary is-primary-b is-outlined"
+                :href="getContentLink('block_btn_ext_link')"
+                target="_blank"
+                >
+                <span>
+                  {{ getCustomBlockTitle('block_btn_ext_link') }}
+                </span>
+              </a>
+            </div>
+
             <!-- BLOCK RIGHT BOTTOM - TECH -->
             <div id="block-RB-tech-top" 
               v-if="isPositionFilled('block_right_top_tech')"
@@ -1343,6 +1356,11 @@ export default {
       const contentsFields = this.contentFields
       const contentField = contentsFields.find(f=> f.position == fieldBlock)
       return contentField
+    },
+
+    getContentLink(fieldBlock) {
+      const contentField = this.getContentField(fieldBlock)
+      return contentField.btn_link
     },
 
     getContentParagraphFormat(fieldBlock) {
