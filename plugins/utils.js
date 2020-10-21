@@ -402,12 +402,16 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
 */
         // Handle Enthic API response
         item.Enthic = responsesArray[0].data
-        for (var declaration of item.Enthic.declarations){
-          var yearTree = JSON.parse(JSON.stringify(arbreCompteDeResultat));
-          fillYearTree(yearTree, declaration.financial_data)
-          checkTreeData(yearTree)
-          yearTree.year = declaration.declaration.value
-          item.Enthic.comptesDeResultats.push(yearTree)
+        if (item.Enthic.declarations.length > 0)
+        {
+          item.Enthic.comptesDeResultats = []
+          for (var declaration of item.Enthic.declarations){
+            var yearTree = JSON.parse(JSON.stringify(arbreCompteDeResultat));
+            fillYearTree(yearTree, declaration.financial_data)
+            checkTreeData(yearTree)
+            yearTree.year = declaration.declaration.value
+            item.Enthic.comptesDeResultats.push(yearTree)
+          }
         }
 
         for ( let enthicDeclaration of item.Enthic.declarations)
