@@ -17,6 +17,7 @@ sidebar:
 
 ## v.1.0.XX beta (2020)
 
+- v.1.0.20 : add external button link option in detail view
 - v.1.0.19 : fix bug on detail page for downloading files
 - v.1.0.18 : more block options on project card and detail view, tooltips on tags
 - v.1.0.17 : minor fixes to navbar (clickable title and margin on shrinked navbar button)
