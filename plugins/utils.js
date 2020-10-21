@@ -402,8 +402,6 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
 */
         // Handle Enthic API response
         item.Enthic = responsesArray[0].data
-
-        item.Enthic.comptesDeResultats = []
         for (var declaration of item.Enthic.declarations){
           var yearTree = JSON.parse(JSON.stringify(arbreCompteDeResultat));
           fillYearTree(yearTree, declaration.financial_data)
@@ -642,14 +640,8 @@ export function searchEndpointGenerator( obj ) {
   const endpointConfig = obj.endpointConfig
   console.log("+ + + searchEndpointGenerator / endpointConfig : ", endpointConfig)
 
-  const endpointConfigHeaderAuth = obj.authConfig.request_header_auth_options
-  console.log("+ + + searchEndpointGenerator / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
-
   const endpointConfigArgs = endpointConfig.args_options
   console.log("+ + + searchEndpointGenerator / endpointConfigArgs : ", endpointConfigArgs)
-
-  let fetchMethod = endpointConfig.method
-  console.log("+ + + searchEndpointGenerator / fetchMethod : ", fetchMethod)
 
   // question related
   const questionParams = obj.questionParams
@@ -660,10 +652,6 @@ export function searchEndpointGenerator( obj ) {
 
   const accessToken = obj.accesToken
   console.log("+ + + searchEndpointGenerator / accessToken : ", accessToken)
-
-  let fetchPayloadOptions = endpointConfig.payload_options
-  console.log("+ + + searchEndpointGenerator / fetchPayloadOptions : ", fetchPayloadOptions)
-
 
   // base query to be completed with args + questions
   // let baseQuery = endpointConfig.root_url + '?'
@@ -720,10 +708,13 @@ export function searchEndpointGenerator( obj ) {
   console.log("+ + + searchEndpointGenerator / endpointConfig.root_url : \n ", endpointConfig.root_url)
 
   // build header from endpointConfig
+  const endpointConfigHeaderAuth = obj.authConfig.request_header_auth_options
+  console.log("+ + + searchEndpointGenerator / endpointConfigHeaderAuth : ", endpointConfigHeaderAuth)
   let header = buildRequestHeader( accessToken, endpointConfigHeaderAuth, endpointConfig )
 
-
   // build payload from endpointConfig
+  let fetchPayloadOptions = endpointConfig.payload_options
+  console.log("+ + + searchEndpointGenerator / fetchPayloadOptions : ", fetchPayloadOptions)
   let payload = fetchPayloadOptions && buildRequestPayload( fetchPayloadOptions )
 
   let endPointUrlAndPayload = {
@@ -733,7 +724,6 @@ export function searchEndpointGenerator( obj ) {
   }
   console.log("+ + + searchEndpointGenerator / endPointUrlAndPayload : ", endPointUrlAndPayload)
 
-  // return baseQuery
   return endPointUrlAndPayload
 }
 
@@ -747,10 +737,28 @@ export function makeEmptySelectedFilters(filterDescriptions){
   return selectedFilters;
 }
 
-export function createSelectedFiltersForSearch(selectedFiltersMap){
+export function createSelectedFiltersForSearch(selectedFiltersMap, filterDescription){
+  console.log("+ + + createSelectedFiltersForSearch : selectedFiltersMap : ", selectedFiltersMap, ", filterDescription : ", filterDescription)
+  console.log("+ + + createSelectedFiltersForSearch : APE codes selected: ", selectedFiltersMap.get("APEFilter"))
+  if (!filterDescription)
+  {
+    return []
+  }
+  console.log("+ + + createSelectedFiltersForSearch : APE code filter choices description: ", filterDescription[0].choices)
+  let filterPayload = []
+  for (const APEEnthicCode of selectedFiltersMap.get("APEFilter"))
+  {
+    for (const choice of filterDescription[0].choices)
+    {
+      if (choice.name === APEEnthicCode)
+      {
+        console.log("+ + + createSelectedFiltersForSearch : APE code filter choice found: ", choice)
+        break
+      }
+    }
+  }
   let filtersUri = []
   selectedFiltersMap.forEach( (val,key,map) => {
-    // console.log('val,key,map',val,key,map);
     val.forEach( (v) => {
       filtersUri.push(key + v)
     })

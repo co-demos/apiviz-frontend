@@ -509,10 +509,8 @@ export const actions = {
       dispatch('search')
     },
 
-  // FOR FILTERS
+    // FOR FILTERS
     createDatasetFilters({state, getters, commit, rootGetters}){
-      let filterDescriptions = []
-
       return {
         abort(){
           searchAborted = true
@@ -540,24 +538,39 @@ export const actions = {
             dataType: "text",
             choices : []
           }
+          // Retrieve root APE codes (only 2 digits)
           for (var enthicApeCode in resp.data)
           {
             if (resp.data[enthicApeCode]['0'].length == 2)
             {
               newFilter.choices.push({
                 choice_title : [{
-                  "locale": "fr",
-                  "text": resp.data[enthicApeCode]['1'] + "(" + resp.data[enthicApeCode]['0'] + ")"
+                  locale: "fr",
+                  text: resp.data[enthicApeCode]['1'] + "(" + resp.data[enthicApeCode]['0'] + ")",
                 }],
-                name : enthicApeCode
+                MainAPECode : resp.data[enthicApeCode]['0'],
+                EnthicCodeList : [ enthicApeCode ],
+                name : resp.data[enthicApeCode]['0']
               });
+              delete resp.data[enthicApeCode]
+            }
+          }
+          // Assign affiliate codes to root code
+          for (var choice in newFilter.choices)
+          {
+            let filterChoice = newFilter.choices[choice]
+            for (var enthicApeCode in resp.data)
+            {
+              if (resp.data[enthicApeCode]['0'].startsWith(filterChoice.MainAPECode))
+              {
+                filterChoice.EnthicCodeList.push(enthicApeCode)
+                delete resp.data[enthicApeCode]
+              }
             }
           }
           console.log("+ + + createDatasetFilters / (axios) /  newFilter :", newFilter);
-          filterDescriptions.push(newFilter);
-          commit('setFilterDescriptions', filterDescriptions)
+          commit('setFilterDescriptions', [ newFilter ])
           commit('clearAllFilters')
-          return resp;
         })
         .catch( err => {
           console.log("+ + + createDatasetFilters / (axios)  err :", err);
@@ -613,8 +626,11 @@ export const actions = {
         state.log && console.log("\nS-search-A-search / main action to query endpoint..." )
         const search = state.search
 
-        const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
-        state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
+        state.log && console.log('S-search-A-search / getters.getSelectedFilters', getters.getSelectedFilters)
+        state.log && console.log('S-search-A-search / getters.getFilterDescriptions', getters.getFilterDescriptions)
+
+        const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters, getters.getFilterDescriptions)
+        state.log && console.log('S-search-A-search / selectedFilters', selectedFilters)
         // abort previous search if any
         if(search.answer.pendingAbort){
           search.answer.pendingAbort.abort()
@@ -643,18 +659,12 @@ export const actions = {
         })
         state.log && console.log("S-search-A-search / endpointGenerated : \n", endpointGenerated )
 
-
-        // TO DO - CHANGE FETCH --> USE AXIOS INSTEAD IN "plugins/utils.js"
-        // perform search --> !!! only request map search if map search results empty in store !!!
-
         const searchPendingAbort = searchItems( endpointGenerated, endpointRawConfig )
         commit('setSearchPending', { pendingAbort: searchPendingAbort })
 
         searchPendingAbort.promise
         .then(( response ) => {
           state.log && console.log("S-search-A-search / response : \n", response )
-          // state.log && console.log("S-search-A-search / total : \n", total )
-          // state.log && console.log("S-search-A-search / projects : \n", projects )
 
           // if search is for map either fill resultMap if empty or do nothing
           commit('setSearchResult', { result: {
@@ -732,7 +742,7 @@ export const actions = {
       state.log && console.log("\nS-search-A-exportDataset ..." )
 
       const selectedFilters = createSelectedFiltersForSearch( getters.getSelectedFilters )
-      state.log && console.log('S-search-A-search / selectedFilters',selectedFilters)
+      state.log && console.log('S-search-A-exportDataset / selectedFilters',selectedFilters)
 
       // get user access token if any
       const userAccessToken = rootGetters['user/getAccessToken']

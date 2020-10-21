@@ -39,54 +39,64 @@
             </div>
           </div>
         </div>
-        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-grey-lighter">
-          <h1 class="title is-6">
-            Voici les données des bilans comptables présentées de façon arborescente :
-          </h1>
-          <p class="subtitle">Cliquer sur une ligne permet de découvrir les détails de sa composition</p>
-          <div class="tile is-ancestor is-vertical">
-            <div class="tile is-parent">
-              <div class="tile is-6"></div>
-              <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> Année {{ oneYeardata.year }}</div>
-            </div>
-            <FoldingArray
-              :rowItem="displayableItem.Enthic.comptesDeResultats"
-            ></FoldingArray>
-            <div class="tile is-parent">
-              <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies
-                (erreur de maximum 0,5% ou 10€ tolérée)</p>
-              <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
-              <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
+        <template v-if="displayableItem.Enthic.comptesDeResultats">
+          <div class="box has-background-grey-lighter">
+            <h1 class="title is-6">
+              Voici les données des bilans comptables présentées de façon arborescente :
+            </h1>
+            <p class="subtitle">Cliquer sur une ligne permet de découvrir les détails de sa composition</p>
+            <div class="tile is-ancestor is-vertical">
+              <div class="tile is-parent">
+                <div class="tile is-6"></div>
+                <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> Année {{ oneYeardata.year }}</div>
+              </div>
+              <FoldingArray
+                :rowItem="displayableItem.Enthic.comptesDeResultats"
+              ></FoldingArray>
+              <div class="tile is-parent">
+                <p class="tile" style="color: #194;">Une valeur en vert est une valeur officielle et qui peut être retrouvée avec les autres valeurs fournies
+                  (erreur de maximum 0,5% ou 10€ tolérée)</p>
+                <p class="tile" style="color: #419;">Une valeur en bleu est une valeur non fournie mais qui peut être retrouvée avec les autres valeurs</p>
+                <p class="tile" style="color: #941;">Une valeur en rouge est une valeur non fournie, ou officielle mais ne correspondant pas aux autres valeurs</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-info">
-          <h1 id="block-title" class="title is-6">
-            Répartition du chiffre d'affaire
-          </h1>
-          <p>Ce graphique montre la répartition des charges payées par le chiffre d'affaire de l'entreprise. La hauteur de chaque colonne correspond au chiffre d'affaire.</p>
-          <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
-          <p>Listes des problèmes pour afficher le graphique</p>
-          <ul>
-            <li v-for="item in chartDetails.undisplayables">
-              {{ item }}
-            </li>
-          </ul>
-        </div>
-        <div v-if="displayableItem.Enthic.comptesDeResultats" class="box has-background-info">
-          <h1 id="block-title" class="title is-6">
-            Répartition de la marge de l'entreprise
-          </h1>
-          <p>Ce graphique montre comment la marge de l'entreprise sur son activité principale (résultat d'exploitation) est répartie entre :</p>
-          <ul>
-            <li>les salarié⋅es (participation)</li>
-            <li>la collectivité (impôts)</li>
-            <li>l'entreprise (Résultat pour les propriétaires de l'entreprise)</li>
-            <li>les créanciers, les marchés, etc... (Résultat financier et exceptionnel)</li>
+          <div class="box has-background-info">
+            <h1 id="block-title" class="title is-6">
+              Répartition du chiffre d'affaire
+            </h1>
+            <p>Ce graphique montre la répartition des charges payées par le chiffre d'affaire de l'entreprise. La hauteur de chaque colonne correspond au chiffre d'affaire.</p>
+            <apexchart type="bar" height="350" :options="chartDetails.chartOptionsCA" :series="chartDetails.seriesCA"></apexchart>
+            <p>Listes des problèmes pour afficher le graphique</p>
+            <ul>
+              <li v-for="item in chartDetails.undisplayables">
+                {{ item }}
+              </li>
             </ul>
-          <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
-          <p>Un montant positif signifie que l'entreprise a donné de l'argent à l'acteur économique en question, un montant négatif signifie que l'acteur économique donne de l'argent à l'entreprise.</p>
-        </div>
+          </div>
+          <div class="box has-background-info">
+            <h1 id="block-title" class="title is-6">
+              Répartition de la marge de l'entreprise
+            </h1>
+            <p>Ce graphique montre comment la marge de l'entreprise sur son activité principale (résultat d'exploitation) est répartie entre :</p>
+            <ul>
+              <li>les salarié⋅es (participation)</li>
+              <li>la collectivité (impôts)</li>
+              <li>l'entreprise (Résultat pour les propriétaires de l'entreprise)</li>
+              <li>les créanciers, les marchés, etc... (Résultat financier et exceptionnel)</li>
+              </ul>
+            <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
+            <p>Un montant positif signifie que l'entreprise a donné de l'argent à l'acteur économique en question, un montant négatif signifie que l'acteur économique donne de l'argent à l'entreprise.</p>
+          </div>
+        </template>
+        <template v-else>
+          <div class="box has-background-info">
+            <h1 id="block-title" class="title is-6">
+              Aucun compte disponible pour cette entreprise
+            </h1>
+            <p>Peut-être pour des raisons de confidentialité ou de problème dans la saisie</p>
+          </div>
+        </template>
         <div class="columns">
 
           <!-- //// COLUMN LEFT //// -->

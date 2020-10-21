@@ -423,11 +423,11 @@ const emptyConfig = {
       "apiviz_front_uuid": "305ab50d-c976-44d7-a8f2-a7594155c292",
       "app_version": "v.0.10 beta",
       "can_be_used_as_model": true,
-      "content": "Open Corporate Facts",
+      "content": "Open Companies Data",
       "content_text": [
         {
           "locale": "en",
-          "text": "Open Corporate Facts"
+          "text": "Open Companies Data"
         },
         {
           "locale": "es",
@@ -443,7 +443,7 @@ const emptyConfig = {
         },
         {
           "locale": "fr",
-          "text": "Open Corporate Facts"
+          "text": "Open Companies Data"
         }
       ],
       "field": "app_title",
@@ -894,108 +894,6 @@ const emptyConfig = {
           "has_socials": true,
           "is_visible": true,
           "links": [
-            {
-              "icon_class": "",
-              "is_external_link": true,
-              "is_visible": true,
-              "link_text": [
-                {
-                  "locale": "en",
-                  "text": "OCF on Github"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "OCF sur Github"
-                }
-              ],
-              "link_to": "https://github.com/leonarf/OpenCorporateFacts",
-              "link_type": "text",
-              "tooltip": [
-                {
-                  "locale": "en",
-                  "text": "See the source code"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "Voir le code"
-                }
-              ]
-            },
-            {
-              "icon_class": "",
-              "is_external_link": true,
-              "is_visible": true,
-              "link_text": [
-                {
-                  "locale": "en",
-                  "text": "OCF on Code for France"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "OCF sur Code for France"
-                }
-              ],
-              "link_to": "https://codefor.fr/processes/opencorporatefacts",
-              "link_type": "text",
-              "tooltip": [
-                {
-                  "locale": "en",
-                  "text": "See the source code"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "Voir le code"
-                }
-              ]
-            },
             {
               "icon_class": "",
               "is_external_link": true,
