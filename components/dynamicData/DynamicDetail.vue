@@ -743,7 +743,7 @@ export default {
       var beneficeItem = this.displayableItem.Enthic.comptesDeResultats[0]
       var factorCA = 1;
       var unitCA = '€';
-      var CADeReference = beneficeItem.children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
+      var CADeReference = beneficeItem.children.ResultatAvantImpot.children.ResultatExploitation.children.ProduitsExploitation.children.ChiffresAffairesNet.data.value
       if (CADeReference > 10000000){
         var factorCA = 1000000;
         var unitCA = 'millions d\'€';
@@ -756,7 +756,7 @@ export default {
       // Find perfect unit for margin graphic (€, k€ or M€)
       var factor = 1;
       var unitMargin = '€';
-      var resultatDeReference = beneficeItem.children.ResultatExploitation.data.value
+      var resultatDeReference = beneficeItem.children.ResultatAvantImpot.children.ResultatExploitation.data.value
       if (isNaN(resultatDeReference))
       {
         resultatDeReference = beneficeItem.data.value
@@ -800,7 +800,7 @@ export default {
 
           // Local variables for code visibility
           var rootItem = this.displayableItem.Enthic.comptesDeResultats[i]
-          var resultExploit = rootItem.children.ResultatExploitation
+          var resultExploit = rootItem.children.ResultatAvantImpot.children.ResultatExploitation
           var produits = resultExploit.children.ProduitsExploitation
           var charges = resultExploit.children.ChargesExploitation
 
@@ -849,7 +849,7 @@ export default {
           dataSeriesMargin.Participation.push(Math.round(1000 *  rootItem.children.ParticipationSalariesAuxResultats.data.value / factor) / 1000);
           dataSeriesMargin.ImpotsSurLesSocietes.push(Math.round(1000 * rootItem.children.ImpotsSurLesBenefices.data.value / factor) / 1000);
           dataSeriesMargin.resultatPourProprietaire.push(Math.round(1000 * rootItem.data.value / factor) / 1000);
-          dataSeriesMargin.resultatExceptionnelEtFinancier.push(Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatFinancier.data.value) / factor) / 1000);
+          dataSeriesMargin.resultatExceptionnelEtFinancier.push(Math.round(1000 * (-rootItem.children.ResultatExceptionnel.data.value - rootItem.children.ResultatAvantImpot.children.ResultatFinancier.data.value) / factor) / 1000);
       }
 
       // Build data series to pass to graphical plugin

@@ -132,6 +132,10 @@ export default {
         {
           text += "montant fourni et pas de vérification possible"
         }
+        else if (oneYearItem.data.status == "signFlipped")
+        {
+          text += "montant fourni avec, semble-t-il, une erreur de signe"
+        }
         else
         {
           text += "montant fourni mais incohérent avec les autres montants présents"
@@ -157,6 +161,10 @@ export default {
       else if (oneYearItem.data.status == "computed")
       {
         return 419
+      }
+      else if (oneYearItem.data.status == "signFlipped")
+      {
+        return 499
       }
       return 941
     }

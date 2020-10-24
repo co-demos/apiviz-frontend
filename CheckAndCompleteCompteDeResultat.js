@@ -25,9 +25,14 @@ export function checkTreeData( item ) {
       checkTreeData(item.children[childName])
     }
 
+    // Accepted amount of difference when checking parent value against it's children
+    const relativeError = 0.005
+    const absoluteError = 10
+
     // Compute ourself item's value from its children
     var computedSum = 0 // Result from official children's value
     var computedSumFromComputed = 0 // Result from computed children's value
+    var computedSumWithoutSign = 0 // Result by adding all children (even if somme children should be substracted)
     var childMissingCount = 0 // Count of child without value officially given
     for (var childName in item.children)
     {
@@ -36,6 +41,7 @@ export function checkTreeData( item ) {
       {
         computedSum += child.data.value * (child.sign ? -1 : 1)
         computedSumFromComputed += child.data.value * (child.sign ? -1 : 1)
+        computedSumWithoutSign += child.data.value
       }
       else
       {
@@ -49,19 +55,22 @@ export function checkTreeData( item ) {
 
     if (item.data.value) {
       // If official value match computed value from official children's value with less than 0.5% error
-      if (Math.abs((computedSum - item.data.value) / item.data.value) < 0.005
-          || Math.abs(computedSum - item.data.value) < 10)
+      if (Math.abs((computedSum - item.data.value) / item.data.value) < relativeError
+          || Math.abs(computedSum - item.data.value) < absoluteError)
       {
         item.data.status = "checked"
         // Fix children values if needed
-        for (var childName in item.children)
+        if (childMissingCount > 0)
         {
-          setToZeroComputed(item.children[childName])
+          for (var childName in item.children)
+          {
+            setToZeroComputed(item.children[childName])
+          }
         }
       }
       // If official value match computed value from computed children's value with less than 0.5% error
-      else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < 0.005
-               || Math.abs(computedSumFromComputed - item.data.value) < 10)
+      else if (Math.abs((computedSumFromComputed - item.data.value) / item.data.value) < relativeError
+               || Math.abs(computedSumFromComputed - item.data.value) < absoluteError)
       {
         item.data.status = "checked"
         // Fix children values if needed
@@ -83,7 +92,7 @@ export function checkTreeData( item ) {
           var child = item.children[childName]
           if (!child.data.value)
           {
-            item.children[childName].data.computedValue = computedSum - item.data.value
+            item.children[childName].data.computedValue = (item.data.value - computedSum) / (child.sign ? -1 : 1)
             item.children[childName].data.value = item.children[childName].data.computedValue
             item.children[childName].data.status = "computed"
             item.data.status = "checked"
@@ -91,8 +100,21 @@ export function checkTreeData( item ) {
           }
         }
       }
+      // If official value match computed value by adding all children's value (no substraction) with less than 0.5% error
+      else if (Math.abs((computedSumWithoutSign - item.data.value) / item.data.value) < relativeError
+               || Math.abs(computedSumWithoutSign - item.data.value) < absoluteError)
+      {
+        item.data.status = "checked"
+        // Fix children sign and/or set to zero missing values if any
+        for (var childName in item.children)
+        {
+          flipSign(item.children[childName])
+          setToZeroComputed(item.children[childName])
+        }
+      }
       else {
         item.data.status = "error"
+        console.log("checkTreeData detected error for ", item.name, " value doesn't match with ", computedSumWithoutSign)
       }
     }
     if (computedSum != item.data.value)
@@ -114,5 +136,15 @@ function setToZeroComputed ( item )
     {
       setToZeroComputed(item.children[childName])
     }
+  }
+}
+
+function flipSign ( item )
+{
+  console.log("flipSign called for : ", item.name, item.data)
+  if (item.sign && item.sign == -1)
+  {
+    item.data.value = -item.data.value
+    item.data.status = "signFlipped"
   }
 }
