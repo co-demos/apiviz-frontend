@@ -36,6 +36,7 @@
               <ul>
                 <li v-for="data in displayableEnthicData.flatData">{{ data.description }} : {{ data.value }}</li>
               </ul>
+              <h3>Retrouvez les données de cette entreprise directement sur la <a v-bind:href="'https://data.inpi.fr/entreprises/' + displayableEnthicData.flatData.siren.value"> page dédiée de l'INPI</a></h3>
             </div>
           </div>
         </div>

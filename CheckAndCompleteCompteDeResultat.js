@@ -112,6 +112,11 @@ export function checkTreeData( item ) {
           setToZeroComputed(item.children[childName])
         }
       }
+      else if (Math.abs((computedSum - item.data.value) / item.data.value) > 100)
+      {
+        item.data.status = "error"
+        console.log("checkTreeData detected very big error for ", item.name, " value doesn't match by several order of magnitude. Maybe units problem ?")
+      }
       else {
         item.data.status = "error"
         console.log("checkTreeData detected error for ", item.name, " value doesn't match with ", computedSumWithoutSign)
