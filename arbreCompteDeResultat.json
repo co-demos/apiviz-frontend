@@ -280,6 +280,19 @@
               }
             }
           }
+        },
+        "BenefAttribueOuPerteTransferee":{
+          "name": "Bénéfice attribué ou perte transférée",
+          "codeLiasses": [
+            "GH"
+          ]
+        },
+        "PerteSupporteeOuBenefTransfere":{
+          "name": "Perte supportée ou bénéfice transféré",
+          "codeLiasses": [
+            "GI"
+          ],
+          "sign": -1
         }
       }
     },
