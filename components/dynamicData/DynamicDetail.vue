@@ -35,12 +35,34 @@
               </h1>
               <ul>
                 <li v-for="data in displayableEnthicData.flatData">{{ data.description }} : {{ data.value }}</li>
+                <li>{{ lastEffectif }}</li>
               </ul>
-              <h3>Retrouvez les données de cette entreprise directement sur la <a v-bind:href="'https://data.inpi.fr/entreprises/' + displayableEnthicData.flatData.siren.value"> page dédiée de l'INPI</a></h3>
+              <h3>Vérifiez les données de cette entreprise directement sur la <a v-bind:href="'https://data.inpi.fr/entreprises/' + displayableEnthicData.flatData.siren.value"> page dédiée de l'INPI</a></h3>
+              <h3>Retrouvez d'autre données de cette entreprise sur le <a v-bind:href="'https://entreprise.data.gouv.fr/sirene/' + displayableEnthicData.flatData.siren.value"> portail data.gouv.fr</a></h3>
             </div>
           </div>
         </div>
         <template v-if="displayableItem.Enthic.comptesDeResultats">
+          <div class="box has-background-grey-lighter">
+            <div class="tile is-ancestor is-vertical">
+              <div class="tile is-parent">
+                <div class="tile"></div>
+                <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> Année {{ oneYeardata.year }}</div>
+              </div>
+              <div class="tile is-parent">
+                <div class="tile">score de transparence (sur 100)</div>
+                <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> {{ oneYeardata.scores.transparencyScore }}</div>
+              </div>
+              <div class="tile is-parent">
+                <div class="tile">score de partage (sur 100)</div>
+                <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> {{ oneYeardata.scores.sharingScore }}</div>
+              </div>
+              <div class="tile is-parent">
+                <div class="tile">score d'ancrage dans l'économie réelle (sur 100)</div>
+                <div class="tile" v-for="oneYeardata in displayableItem.Enthic.comptesDeResultats"> {{ oneYeardata.scores.realEconomyScore }}</div>
+              </div>
+            </div>
+          </div>
           <div class="box has-background-grey-lighter">
             <h1 class="title is-6">
               Voici les données des bilans comptables présentées de façon arborescente :
@@ -1000,6 +1022,22 @@ export default {
         chartOptionsMargin: chartOptionsMargin,
         undisplayables : listOfUndisplayableData
       }
+    },
+
+    lastEffectif(){
+      this.log && console.log(" - - DynamicDetail / computed / lastEffectif :", this.displayableEnthicData.yearData)
+      var lastEffectif = "Nombre de salarié⋅es non déclaré :-("
+      var lastYear = 0
+      for (var year of this.displayableEnthicData.yearData)
+      {
+        if (year.year > lastYear && year.data.YP)
+        {
+          lastYear = year.year
+          lastEffectif = year.data.YP.value + " salarié⋅es en moyenne sur " + year.year
+        }
+        this.log && console.log(" - - DynamicDetail / computed / lastEffectif :", year)
+      }
+      return lastEffectif
     }
   },
 

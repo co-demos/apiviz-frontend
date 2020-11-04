@@ -125,7 +125,7 @@ export function checkTreeData( item ) {
     if (computedSum != item.data.value)
     {
       console.log("computed sum : ", computedSum, "computed sum from computed : ", computedSumFromComputed, " and given sum : ", item.data.value, " diff en pour 100 : ", ((computedSum - item.data.value)*100 / item.data.value))
-      item.data.computedValue = computedSum
+      item.data.computedValue = computedSumFromComputed
     }
   }
 }

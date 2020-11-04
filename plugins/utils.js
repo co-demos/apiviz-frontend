@@ -4,6 +4,8 @@ console.log('+ + + plugins/utils... ')
 import axios from 'axios'
 import arbreCompteDeResultat from '../arbreCompteDeResultat'
 import { checkTreeData } from '../CheckAndCompleteCompteDeResultat.js'
+import { convertDataToTree } from '../FillArbreCompteDeResultat.js'
+import { computeScore } from '../ComputeCompanyYearScore.js'
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
 
@@ -406,9 +408,9 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
         {
           item.Enthic.comptesDeResultats = []
           for (var declaration of item.Enthic.declarations){
-            var yearTree = JSON.parse(JSON.stringify(arbreCompteDeResultat));
-            fillYearTree(yearTree, declaration.financial_data)
+            var yearTree = convertDataToTree(declaration.financial_data)
             checkTreeData(yearTree)
+            yearTree.scores = computeScore(yearTree)
             yearTree.year = declaration.declaration.value
             item.Enthic.comptesDeResultats.push(yearTree)
           }
@@ -434,33 +436,6 @@ export function populateDisplayedItem( companyNumber, endpointGenerated, endpoin
         return item
       })
     }
-}
-
-function fillYearTree (treeToFill, rawData) {
-  // Begin to fill children if there is children
-  if (treeToFill.children)
-  {
-      for (var childName in treeToFill.children)
-      {
-        fillYearTree(treeToFill.children[childName], rawData)
-      }
-  }
-
-  // Find corresponding value from rawData
-  for (var i = 0; i < rawData.length; i++)
-  {
-    for (var property in rawData[i])
-    {
-      if (treeToFill.codeLiasses.indexOf(property) > -1)
-      {
-        treeToFill.data = rawData[i][property]
-        treeToFill.data.status = "official"
-        treeToFill.data.code = property
-        rawData.splice(i,1)
-        break
-      }
-    }
-  }
 }
 
 export function rawRequest( endpointGenerated=undefined, endpointRawConfig=undefined ){
