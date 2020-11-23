@@ -74,11 +74,9 @@ Site valorisant les déclarations de patrimoines et d'intérêts des personnages
 ### Partie tuyauterie du site
  - Le fichier store/config.js contient la configuration du site. Il va actuellement la chercher sur un serveur distant, mais l'objectif est de stocker la configuration directement dans le code.
  - Le fichier store/search.js contient le code pour chercher les données aux backend via les API, selon la recherche de l'utilisateur.
- - Le fichier plugins/utils.js contient des fonctions utilitaires, et notamment les fonctions permettant de vérifier et mieux formater les données d'une entreprises. Ces fonctions incluent :
-   - La fonction ```populateDisplayedItem``` qui fait la requête sur l'API d'Enthic
-   - La fonction ```formatEnthicData``` qui reconstitue un objet JSON par année, en remplaçant les codes par des noms humainement compréhensibles
-   - La fonction ```createTreeRepresentation``` qui créer un objet JSON représentant le compte de résultat sous la forme d'un arbre, ce qui permet de facilement vérifier si les valeurs sont cohérentes les unes avec les autres, et de compléter les manques si possible.
-
+ - Le fichier plugins/utils.js contient la fonction ```populateDisplayedItem``` qui fait la requête sur l'API d'Enthic
+ - Le fichier FillArbreCompteDeResultat.js permet de convertir la réponse de l'API Enthic sous la forme d'arbres 'arbreCompteDeResultat.json' par année, en remplaçant les codes par des noms humainement compréhensibles
+ - Le fichier CheckAndCompleteCompteDeResultat.js contient le code permettant, à partir des données sous forme d'arbre, de vérifier si les valeurs sont cohérentes les unes avec les autres, et de compléter les manques si possible.
 
 ## INSTALLATION WALKTHROUGH
 If you just want to run the frontend and play with it, you just need to add a `.env` file at the root of your cloned repo. The `.env`file must contain the following :
