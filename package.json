@@ -1,12 +1,11 @@
 {
-  "name": "apiviz-nuxt",
+  "name": "Enthic",
   "version": "1.0.0",
-  "description": "Apiviz as SPA",
+  "description": "Enthic as Vue SPA",
   "author": "Julien_P",
   "private": true,
   "scripts": {
     "dev": "NUXT_CONSOLELOG=dev nuxt",
-    "dev-test": "NUXT_CONSOLELOG=dev NUXT_APIVIZ_UUID=c5efafab-1733-4ad1-9eb8-d529bc87c481 nuxt",
     "dev-docker": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=default_docker nuxt",
     "dev-preprod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=preprod nuxt",
     "dev-prod": "NUXT_CONSOLELOG=dev NUXT_BACKEND_MODE=production nuxt",
