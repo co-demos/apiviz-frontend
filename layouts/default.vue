@@ -91,6 +91,6 @@ export default {
   padding-bottom : 10px;
 }
 a {
-  color : white;
+  color: dimgrey;
 }
 </style>
