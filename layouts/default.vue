@@ -89,8 +89,8 @@ export default {
   color : #ffffff;
   padding-top : 10px ;
   padding-bottom : 10px;
-  a {
-    color : white;
-  }
+}
+a {
+  color : white;
 }
 </style>
