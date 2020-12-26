@@ -392,7 +392,7 @@ const emptyConfig = {
       "field": "app_favicon",
       "help": "The default favicon for your ApiViz instance",
       "is_default": true,
-      "url": "favicon.ico"
+      "url": /"favicon.ico"
     },
     "app_languages": {
       "_id": "5f6364ff7727e6c73f6d7bd3",

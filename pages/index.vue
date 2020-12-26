@@ -95,7 +95,7 @@
           <div class="column is-8 content">
             <div class="has-text-centered content is-horizontal-center">
               <figure class="image img-large is-inline-block">
-                <img src="https://www.enthic.fr/favicon.ico" alt="Main logo" style="width:50%">
+                <img src="/favicon.ico" alt="Main logo" style="width:50%">
               </figure>
             </div>
             <p>
@@ -119,7 +119,7 @@
             <div class="columns is-centered is-multiline">
               <div class="column is-3 content is-horizontal-center">
                 <figure class="image img-mini is-inline-block">
-                  <a href="https://www.enthic.fr"><img src="https://www.enthic.fr/favicon.ico" alt="logo Enthic" style="width:40%"></a>
+                  <a href="https://www.enthic.fr"><img src="/favicon.ico" alt="logo Enthic" style="width:40%"></a>
                 </figure>
               </div>
 
