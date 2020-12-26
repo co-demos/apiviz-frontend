@@ -78,7 +78,7 @@
         v-if="!pending && total === 0"
         >
 
-        <img src="/static/illustrations/erreur_no_results.png">
+        <img src="/error_no_result.png">
 
         <br>
 
