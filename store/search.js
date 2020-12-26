@@ -511,7 +511,7 @@ export const actions = {
         },
         promise : axios({
           method: "get",
-          url: "http://api.enthic.fr/company/ape",
+          url: "https://api.enthic.fr/company/ape",
           headers : {
             'Accept' : 'application/json',
             'Content-Type' : 'application/json'
