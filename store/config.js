@@ -422,27 +422,11 @@ const emptyConfig = {
       "apiviz_front_uuid": "305ab50d-c976-44d7-a8f2-a7594155c292",
       "app_version": "v.0.10 beta",
       "can_be_used_as_model": true,
-      "content": "Open Companies Data",
+      "content": "Enthic Frontend",
       "content_text": [
         {
-          "locale": "en",
-          "text": "Open Companies Data"
-        },
-        {
-          "locale": "es",
-          "text": "pendiente"
-        },
-        {
-          "locale": "tr",
-          "text": "yapılmamış"
-        },
-        {
-          "locale": "de",
-          "text": "ungemacht"
-        },
-        {
           "locale": "fr",
-          "text": "Open Companies Data"
+          "text": "Enthic Frontend"
         }
       ],
       "field": "app_title",

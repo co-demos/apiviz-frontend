@@ -2,7 +2,7 @@
 
   <div
     :class="`navbar-brand ${ shrinkNav ? 'navbar--shrink' : ''}`"
-    :title="brand"
+    :title="brand.content"
     >
 
       <nuxt-link
