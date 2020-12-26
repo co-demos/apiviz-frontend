@@ -404,7 +404,6 @@ const emptyConfig = {
       "is_multi_lang": true,
       "languages": [
         "fr",
-        "en"
       ],
       "locale": "fr"
     },
