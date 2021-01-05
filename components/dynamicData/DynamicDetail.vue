@@ -105,8 +105,8 @@
             <ul>
               <li>les salarié⋅es (participation)</li>
               <li>la collectivité (impôts)</li>
-              <li>l'entreprise (Résultat pour les propriétaires de l'entreprise)</li>
-              <li>les créanciers, les marchés, etc... (Résultat financier et exceptionnel)</li>
+              <li>l'entreprise (bénéfices)</li>
+              <li>les créanciers, les marchés, etc... (Résultats financier et exceptionnel)</li>
               </ul>
             <apexchart type="bar" height="350" :options="chartDetails.chartOptionsMargin" :series="chartDetails.seriesMargin"></apexchart>
             <p>Un montant positif signifie que l'entreprise a donné de l'argent à l'acteur économique en question, un montant négatif signifie que l'acteur économique donne de l'argent à l'entreprise.</p>
@@ -911,10 +911,10 @@ export default {
           name: 'Impôts',
           data: dataSeriesMargin.ImpotsSurLesSocietes
         }, {
-          name: 'Résultat pour les propriétaires de l\'entreprise',
+          name: 'Bénéfices',
           data: dataSeriesMargin.resultatPourProprietaire
         }, {
-          name: 'Résultat financier et exceptionnel',
+          name: 'Résultats financier et exceptionnel',
           data: dataSeriesMargin.resultatExceptionnelEtFinancier
         }]
 

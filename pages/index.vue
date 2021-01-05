@@ -67,7 +67,7 @@
             <form action="/recherche" method="GET" class="columns">
               <div class="column is-9">
                 <div class="control has-icons-left is-large">
-                  <input type="search" name="text" class="input is-large" placeholder="Cherchez un lieu de médiation numérique">
+                  <input type="search" name="text" class="input is-large" placeholder="Cherchez une entreprise par son nom">
                   <span class="icon is-left">
                     <i class="fas fa-search"></i>
                   </span>
