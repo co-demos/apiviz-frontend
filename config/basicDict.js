@@ -25,7 +25,7 @@ export const BasicDictionnary = {
     fr : "Calques",
   },
 
-  // TABS VIEWS 
+  // TABS VIEWS
   tab_map : {
     en : "map",
     es : "mapa",
@@ -106,7 +106,7 @@ export const BasicDictionnary = {
     fr : "page",
   },
 
-  // 
+  //
   request_loading : {
     en : "request is pending...",
     es : "búsqueda está pendiente...",
@@ -136,7 +136,7 @@ export const BasicDictionnary = {
     fr : "Supprimer tous les filtres",
   },
 
-  // UUID NOT AUTHORIZED 
+  // UUID NOT AUTHORIZED
   uuid_blocked : {
     en : "Sorry, this UUID exists but is blocked",
     es : "Lo sentamos, este UUID existe pero esta bloqueado",
@@ -310,7 +310,7 @@ export const BasicDictionnary = {
       fr : "OU",
     },
 
-  // SELECT 
+  // SELECT
     select_1a : {
       en : "select a default model ",
       es : "elige un módelo",
@@ -324,7 +324,7 @@ export const BasicDictionnary = {
       de : "to do de",
       tr : "to do tr",
       fr : "de votre nouveau site Apiviz",
-    },  
+    },
     select_1c : {
       en : "Please select a model",
       es : "Elige su módelo",
@@ -377,7 +377,7 @@ export const BasicDictionnary = {
       de : "to do de",
       tr : "to do tr",
       fr : "nom du modèle : ",
-    },  
+    },
     feedback_1b : {
       en : "model's UUID : ",
       es : "UUID del módelo :",
@@ -616,7 +616,7 @@ export const BasicDictionnary = {
       fr : "Merci de choisir un modèle et un email d'admin",
     },
 
-  // GO TO 
+  // GO TO
     goto_1a : {
       en : "See your new website",
       es : "Ver su nuevo sitio",
@@ -937,190 +937,190 @@ export const BasicDictionnary = {
 
 
 
-// GLOBALLY BASICS 
-  login : { 
+// GLOBALLY BASICS
+  login : {
     en : "Login",
     es : "Login",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Login",
   },
-  connect : { 
+  connect : {
     en : "Connect",
     es : "Conectarse",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Se connecter",
   },
-  connected      : { 
+  connected      : {
     en : "already connected",
     es : "ya conectado.a",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "déjà connecté.e",
   },
-  reconnect      : { 
+  reconnect      : {
     en : "Reconnect",
     es : "Reconectarse",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Se reconnecter",
   },
-  disconnect     : { 
+  disconnect     : {
     en : "Disconnect",
     es : "Desconectarse",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Se déconnecter",
   },
-  disconnect_msg : { 
+  disconnect_msg : {
     en : "you successfully disconnected",
     es : "se disconectó con exito",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Vous avez été déconnecté.e avec succès",
   },
-  want_disconnect: { 
+  want_disconnect: {
     en : "Do you want to disconnect?",
     es : "¿Queréis desconectarse?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Voulez-vous vous déconnecter?",
   },
-  want_reconnect: { 
+  want_reconnect: {
     en : "Do you want to reconnect?",
     es : "¿Queréis reconectarse?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Voulez-vous vous reconnecter?",
   },
-  is_account     : { 
+  is_account     : {
     en : "You already have an account?",
     es : "¿Ya tenéis una cuenta?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Vous avez déjà un compte?",
   },
-  no_account     : { 
+  no_account     : {
     en : "You don't have an account yet?",
     es : "¿Todavía no tenéis cuenta?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Vous n'avez pas encore de compte?",
   },
-  register : { 
+  register : {
     en : "Register",
     es : "Registrarse",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "S'inscrire",
   },
-  optionnal : { 
+  optionnal : {
     en : "optionnal",
     es : "opcional",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "optionnel",
   },
-  preferences : { 
+  preferences : {
     en : "Preferences",
     es : "Preferencias",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Préférences",
   },
-  backoffice : { 
+  backoffice : {
     en : "Back office",
     es : "Back office",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Back office",
   },
-  is_registered  : { 
+  is_registered  : {
     en : "You are already registred",
     es : "Ya estais registrado.a",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Vous êtes déjà inscrit.e",
   },
-  logout  : { 
+  logout  : {
     en : "Logout",
     es : "Salir",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Se déconnecter",
   },
-  hello : { 
+  hello : {
     en : "hello",
     es : "hola",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "bonjour",
   },
-  email : { 
+  email : {
     en : "email",
     es : "email",
     tr : "email",
     de : "email",
     fr : "email",
   },
-  name  : { 
+  name  : {
     en : "name",
     es : "nombre",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "prénom",
   },
-  surname  : { 
+  surname  : {
     en : "surname",
     es : "apellido",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "nom",
   },
-  password : { 
+  password : {
     en : "password",
     es : "contraseña",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "mot de passe",
   },
-  password_confirm : { 
+  password_confirm : {
     en : "confirm the password",
     es : "confirma su contraseña",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "confirmer le mot de passe",
   },
-  password_bis   : { 
+  password_bis   : {
     en : "repeat the password",
     es : "repite su contraseña",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "répéter le mot de passe",
   },
-  remember_me    : { 
+  remember_me    : {
     en : "remember me",
     es : "acordarse de mi",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "se souvenir de moi",
   },
-  forgot_password: { 
+  forgot_password: {
     en : "Forgot your password?",
     es : "¿Contraseña olvidada?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Mot de passe oublié?",
   },
-  create_account : { 
+  create_account : {
     en : "Create an account",
     es : "Crea una cuenta",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Créer un compte",
   },
-  accept_cgu     : { 
+  accept_cgu     : {
     en : "Accept CGU",
     es : "Accepto los CGU",
     tr : "yapılmamış",
@@ -1129,14 +1129,14 @@ export const BasicDictionnary = {
   },
 
   // ### for back office
-  menu_app_settings   : { 
+  menu_app_settings   : {
     en : "CONFIGURATION",
     es : "CONFIGURACION",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "CONFIGURATION",
   },
-  menu_preferences    : { 
+  menu_preferences    : {
     en : "PREFERENCES",
     es : "PREFERRENCIAS",
     tr : "yapılmamış",
@@ -1145,63 +1145,63 @@ export const BasicDictionnary = {
   },
 
   // # menus
-  bo_global : { 
+  bo_global : {
     en : "global",
     es : "global",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "global",
   },
-  bo_navbar : { 
+  bo_navbar : {
     en : "navigation",
     es : "navegación",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "navigation",
   },
-  bo_routes : { 
+  bo_routes : {
     en : "routes",
     es : "rutas",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "routes",
   },
-  bo_endpoints : { 
+  bo_endpoints : {
     en : "data",
     es : "data",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "données",
   },
-  bo_tabs   : { 
+  bo_tabs   : {
     en : "tabs",
     es : "tabs",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "tabs",
   },
-  bo_footer : { 
+  bo_footer : {
     en : "footer",
     es : "footer",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "footer",
   },
-  bo_socials  : { 
+  bo_socials  : {
     en : "socials",
     es : "sociales",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "réseaux sociaux",
   },
-  bo_styles : { 
+  bo_styles : {
     en : "styles",
     es : "estilos",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "styles",
   },
-  bo_users  : { 
+  bo_users  : {
     en : "users",
     es : "usuarios",
     tr : "yapılmamış",
@@ -1210,247 +1210,247 @@ export const BasicDictionnary = {
   },
 
   // # tabs
-  gl_general : { 
+  gl_general : {
     en : "general",
     es : "general",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "général",
   },
-  gl_identity  : { 
+  gl_identity  : {
     en : "identity",
     es : "identidad",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "identité du site",
   },
-  gl_meta    : { 
+  gl_meta    : {
     en : "meta",
     es : "meta",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "meta",
   },
-  gl_seo     : { 
+  gl_seo     : {
     en : "SEO",
     es : "SEO",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "SEO",
   },
-  gl_lang    : { 
+  gl_lang    : {
     en : "international",
     es : "internacional",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "international",
   },
-  na_global  : { 
+  na_global  : {
     en : "navbar",
     es : "navbar",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "navbar",
   },
-  na_links   : { 
+  na_links   : {
     en : "navbar links",
     es : "vínculos navbar",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "liens navbar",
   },
-  ro_data    : { 
+  ro_data    : {
     en : "data routes",
     es : "rutas data",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "routes data",
   },
-  ro_statics : { 
+  ro_statics : {
     en : "pages routes",
     es : "rutas páginas",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "routes pages",
   },
-  ro_user    : { 
+  ro_user    : {
     en : "user routes",
     es : "rutas usuarios",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "routes utilisateur",
   },
-  ep_data_filters     : { 
+  ep_data_filters     : {
     en : "filters",
     es : "fieltros",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "filtres",
   },
-  ep_data    : { 
+  ep_data    : {
     en : "data",
     es : "data",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "données",
   },
-  ep_auth    : { 
+  ep_auth    : {
     en : "authentication",
     es : "autentificación",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "authentification",
   },
-  ep_user    : { 
+  ep_user    : {
     en : "users",
     es : "usuarios",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "utilisateurs",
   },
-  ta_tabs    : { 
+  ta_tabs    : {
     en : "tabs",
     es : "tabs",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "tabs",
   },
-  fo_settings  : { 
+  fo_settings  : {
     en : "footer",
     es : "footer",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "footer",
   },
-  fo_links   : { 
+  fo_links   : {
     en : "footer links",
     es : "vínculos footer",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "liens footer",
   },
-  so_settings  : { 
+  so_settings  : {
     en : "socials",
     es : "redes socials",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "réseaux sociaux",
   },
-  st_colors  : { 
+  st_colors  : {
     en : "colors",
     es : "colores",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "couleurs",
   },
-  st_typo    : { 
+  st_typo    : {
     en : "typos",
     es : "tipografías",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "typos",
   },
-  st_typocolors : { 
+  st_typocolors : {
     en : "typo colors",
     es : "typo colores",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "couleurs typo",
   },
-  st_banners : { 
+  st_banners : {
     en : "banners",
     es : "banderas",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "bannières",
   },
-  st_images  : { 
+  st_images  : {
     en : "images",
     es : "imagenes",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "images",
   },
-  us_users   : { 
+  us_users   : {
     en : "users list",
     es : "lista usuarios",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "liste utilisateurs",
   },
-  us_teams   : { 
+  us_teams   : {
     en : "teams list",
     es : "lista equipos",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "liste équipes",
   },
-  
+
   // # preferences
-  u_infos    : { 
+  u_infos    : {
     en : "infos",
     es : "infos",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "infos",
   },
-  u_password : { 
+  u_password : {
     en : "security",
     es : "securidad",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "sécurité",
   },
-  u_logout   : { 
+  u_logout   : {
     en : "logout",
     es : "logout",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "logout",
   },
-  u_contact  : { 
+  u_contact  : {
     en : "contact",
     es : "contacto",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "contact",
   },
-  u_profile  : { 
+  u_profile  : {
     en : "profile",
     es : "perfil",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "profil",
   },
-  u_about    : { 
+  u_about    : {
     en : "message",
     es : "mensaje",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "message",
   },
-  u_about_more : { 
+  u_about_more : {
     en : "How can we help?",
     es : "¿Como podriamos ayudarle?",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "Comment pourrions-nous vous aider?",
   },
-  u_infos_send : { 
+  u_infos_send : {
     en : "update my infos",
     es : "actualizar sus infos",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "mettre à jour les informations",
   },
-  password_new : { 
+  password_new : {
     en : "your new password",
     es : "su neuva contraseña",
     tr : "yapılmamış",
     de : "ungemacht",
     fr : "votre nouveau mot de passe",
   },
-  password_send : { 
+  password_send : {
     en : "update my password",
     es : "actualizar mi contraseña",
     tr : "yapılmamış",

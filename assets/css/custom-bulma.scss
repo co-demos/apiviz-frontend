@@ -29,13 +29,13 @@
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-$primary        : $apiviz-primary; 
+$primary        : $apiviz-primary;
 $primary-invert : $apiviz-primary-invert;
-$info           : $apiviz-info; 
-$link           : $apiviz-link; 
-$success        : $apiviz-success; 
-$warning        : $apiviz-warning; 
-$danger         : $apiviz-danger; 
+$info           : $apiviz-info;
+$link           : $apiviz-link;
+$success        : $apiviz-success;
+$warning        : $apiviz-warning;
+$danger         : $apiviz-danger;
 
 
 $light          : $apiviz-grey-light;
@@ -60,8 +60,8 @@ $family-BonvenoCF  : "BonvenoCF" ;
 
 // $family-sans-serif  : "Barlow", sans-serif ;
 $family-sans-serif  : "Nexa", sans-serif ;
-$family-primary     : $family-sans-serif ; 
-$family-secondary   : $family-BonvenoCF ; 
+$family-primary     : $family-sans-serif ;
+$family-secondary   : $family-BonvenoCF ;
 
 
 
@@ -157,4 +157,3 @@ box-shadow : $apiviz-strong-shadow;
   background-image: url('../icons/icon_chevron1_violet.svg');
   right: calc( 50% + (-4em)); // Same as above
 }
-

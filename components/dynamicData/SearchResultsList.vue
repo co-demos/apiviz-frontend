@@ -9,45 +9,45 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <!-- <div 
-      class="container" 
+    <!-- <div
+      class="container"
       v-if="pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
       <div class="pending">
         {{ basicDict.request_loading[locale] }}
       </div>
-    </div> 
+    </div>
     -->
 
       <!-- v-if="!pending" -->
-    <div 
-      class="container" 
+    <div
+      class="container"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
-      <SearchResultsCountAndTabs 
+      <SearchResultsCountAndTabs
         :view="VIEW_LIST"
       />
 
-      <PaginationNav 
-        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+      <PaginationNav
+        v-if="routePagination && routePagination.is_visible && ['top', 'top_and_bottom', 'both'].includes(routePagination.position)"
         :position="'top'"
         :feedback="routePagination.feedback"
         :show="true"
       />
 
-      <div 
+      <div
         v-if="total > 0 && !pending"
-        class="columns" 
+        class="columns"
         >
-        <div class="column is-3" 
-          v-for="(itemsColumn, i) in projectColumns" 
+        <div class="column is-3"
+          v-for="(itemsColumn, i) in projectColumns"
           :key="i"
           >
           <div class="columns is-multiline">
-            <ProjectCard 
-              v-for="item in itemsColumn" 
-              :key="item.id" 
+            <ProjectCard
+              v-for="item in itemsColumn"
+              :key="item.id"
               :item="item"
               :contentFields="projectContentsFields"
               :view="VIEW_LIST"
@@ -56,8 +56,8 @@
         </div>
       </div>
 
-      <div 
-        class="container" 
+      <div
+        class="container"
         v-if="pending"
         :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
         >
@@ -66,15 +66,15 @@
         </div>
       </div>
 
-      <PaginationNav 
-        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)" 
+      <PaginationNav
+        v-if="routePagination && routePagination.is_visible && ['bottom', 'top_and_bottom', 'both'].includes(routePagination.position)"
         :position="'bottom'"
         :feedback="routePagination.feedback"
         :show="!pending && total > 0"
       />
 
-      <div 
-        class="no-result error" 
+      <div
+        class="no-result error"
         v-if="!pending && total === 0"
         >
 
@@ -115,7 +115,7 @@ import SearchResultsCountAndTabs from './SearchResultsCountAndTabs.vue'
 import PaginationNav from './PaginationNav.vue'
 
 import { VIEW_LIST } from '../../config/constants.js'
-import { BasicDictionnary } from "~/config/basicDict.js" 
+import { BasicDictionnary } from "~/config/basicDict.js"
 
 let scrollListener;
 
@@ -181,10 +181,10 @@ export default {
     return {
       VIEW_LIST,
       showCount: undefined,
-      basicDict : BasicDictionnary, 
+      basicDict : BasicDictionnary,
     }
   },
-  
+
   computed: {
 
     projectContentsFields() {
@@ -196,7 +196,7 @@ export default {
     },
 
     ...mapState({
-      log : 'log', 
+      log : 'log',
       locale : state => state.locale,
       breakpoint : state => state.breakpoint,
       // pending: state => !!state.search.search.answer.pendingAbort,

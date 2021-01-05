@@ -10,8 +10,8 @@
       <!-- <br> -->
     <!-- </div> -->
 
-    <div 
-      class="container" 
+    <div
+      class="container"
       v-if="pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
@@ -23,12 +23,12 @@
       </div>
     </div>
 
-    <div 
-      class="container" 
+    <div
+      class="container"
       v-if="!pending"
       :style="`margin-right:${breakpoint.marginContainer}; margin-left:${breakpoint.marginContainer}`"
       >
-      <SearchResultsCountAndTabs 
+      <SearchResultsCountAndTabs
         :view="VIEW_STAT"
         />
 
@@ -38,7 +38,7 @@
         class="columns is-multiline is-8"
         >
 
-        <div 
+        <div
           v-for="(chart, index) in chartsList"
           :key="chart.serie_id"
           :class="`apexChartComponent-canvas column is-${ chart.col_size }`"
@@ -53,7 +53,7 @@
             >
           </ApexChartComponent>
 
-        </div>   
+        </div>
 
       </div>
 
@@ -63,30 +63,30 @@
 
       <!-- <div class="columns is-multiline">
 
-        <apexchart 
+        <apexchart
           :class="`column is-6`"
           type="bar"
           width="100%"
           height="300px"
-          :options="chartOptions" 
+          :options="chartOptions"
           :series="series_horiz_bar"
         />
 
-        <apexchart 
+        <apexchart
           :class="`column is-6 `"
-          type="line" 
+          type="line"
           width="100%"
           height="200px"
-          :options="options" 
+          :options="options"
           :series="series_line">
         </apexchart>
 
-        <apexchart 
+        <apexchart
           :class="`column is-6 `"
-          type="donut" 
+          type="donut"
           width="100%"
           height="200px"
-          :options="chartOptions_doughnut" 
+          :options="chartOptions_doughnut"
           :series="series_doughnut"
         ></apexchart>
 
@@ -129,7 +129,7 @@
   import {  objectFromPath, isEmpty } from '~/plugins/utils.js';
 
   import { VIEW_STAT } from '../../config/constants.js'
-  import { BasicDictionnary } from "~/config/basicDict.js" 
+  import { BasicDictionnary } from "~/config/basicDict.js"
 
 
   let scrollListener;
@@ -157,7 +157,7 @@
     // created: function () {
       //   console.log("\n - - SearchResultsList / created ... ")
     // },
-    
+
     beforeMount : function(){
       this.log && console.log('\nC-SearchResultsStats / beforeMount...')
     },
@@ -195,7 +195,7 @@
       return {
         VIEW_STAT,
         showCount: undefined,
-        basicDict : BasicDictionnary, 
+        basicDict : BasicDictionnary,
       }
     },
 
@@ -219,7 +219,7 @@
 
       ...mapState({
 
-        log : state => state.log, 
+        log : state => state.log,
         locale : state => state.locale,
         breakpoint : state => state.breakpoint,
         // pending: state => !!state.search.search.answer.pendingAbort,
@@ -254,7 +254,7 @@
     },
 
     methods: {
-      
+
       getCurrentRawSerie( serieId ) {
         this.log && console.log('\nC-SearchResultsStats-getCurrentRawSerie / this.stats : ', this.stats)
         let rawSerie = !this.isStatsEmpty && this.stats.find( serie => {
@@ -275,7 +275,7 @@
 
         // let rawSerieVue = this.getCurrentRawSerie( chartId )
         // let rawSerie = Object.assign( {}, rawSerieVue )
-        let rawSerie = this.getCurrentRawSerie(chartId) 
+        let rawSerie = this.getCurrentRawSerie(chartId)
 
         let dataMapping = chartSettings.data_mapping
         let dataPath = dataMapping.serie_path
@@ -292,7 +292,7 @@
 
         // let rawSerieVue = this.getCurrentRawSerie( chartId )
         // let rawSerie = Object.assign( {}, rawSerieVue )
-        let rawSerie = this.getCurrentRawSerie(chartId) 
+        let rawSerie = this.getCurrentRawSerie(chartId)
         this.log && console.log('C-SearchResultsStats-buildChartSeries / rawSerie :', rawSerie)
 
         let dataMapping = chartSettings.data_mapping
@@ -306,14 +306,14 @@
 
 
         let dataObjectRefined = dataObject.map( item => {
-          
+
           this.log && console.log('C-SearchResultsStats-buildChartSeries / map / item :', item)
           const container = {}
 
           // remap serie name
           container.name = item[ dataNameField ]
 
-          // remap serie data values 
+          // remap serie data values
           let serieData = objectFromPath( item, dataSerieSettings.subpath )
           this.log && console.log('C-SearchResultsStats-buildChartSeries / map / serieData :', serieData)
 
@@ -325,7 +325,7 @@
 
             let fieldName = dataSerieSettings.missing_data_by.val_field
             this.log && console.log('C-SearchResultsStats-buildChartSeries / map / fieldName :', fieldName)
-            
+
             let existingFields = serieData.map( data => {
               return data[ fieldName ]
             })
@@ -333,10 +333,10 @@
             for ( let field of missingFields ) {
               if ( !existingFields.includes(field) ) {
                 let missingData = {}
-                missingData[ dataValueField ] = 0 
+                missingData[ dataValueField ] = 0
                 missingData[ fieldName ] = field
                 // serieData.push( missingData ) // tries to mutate vuex object => BAD
-              } 
+              }
             }
           }
 
