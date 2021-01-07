@@ -3,10 +3,7 @@ import pkg from './package'
 require('dotenv').config()
 
 console.log('>>> nuxt.config.js / process.env.NUXT_APP_CONFIG_NAME : ', process.env.NUXT_APP_CONFIG_NAME)
-const envAppName = process.env.NUXT_APP_CONFIG_NAME || 'APIVIZ'
 
-// console.log('>>> nuxt.config.js / process.env :\n', process.env)
-console.log('>>> nuxt.config.js / process.env.NUXT_APIVIZ_UUID : ', process.env.NUXT_APIVIZ_UUID)
 
 const envBackendMode = process.env.NUXT_BACKEND_MODE || 'default'
 console.log('>>> nuxt.config.js / process.env.NUXT_BACKEND_MODE : ', envBackendMode)
@@ -21,16 +18,12 @@ const logAllowed = ['dev', 'preprod']
 const consoleLogMode = process.env.NUXT_CONSOLELOG || 'prod'
 console.log('>>> nuxt.config.js / process.env.NUXT_CONSOLELOG :', consoleLogMode)
 
-// cf : https://nuxtjs.org/faq/github-pages/
-const envApivizRepo = process.env.APIVIZ_REPO || undefined
-console.log('>>> nuxt.config.js / process.env.APIVIZ_REPO :', envApivizRepo)
-const envDeployEnv = process.env.DEPLOY_ENV || undefined
-console.log('>>> nuxt.config.js / process.env.DEPLOY_ENV :', envDeployEnv)
-const routerBase = envApivizRepo && envDeployEnv === 'GH_PAGES' ? {
+
+const routerBase = {
   router: {
-    base: envApivizRepo
+    base: "/"
   }
-} : {}
+}
 
 export default {
 
@@ -51,8 +44,6 @@ export default {
   cf : https://samuelcoe.com/blog/nuxt-dotenv/
   */
   env: {
-    AppConfigName : envAppName,
-    ApivizUUID : process.env.NUXT_APIVIZ_UUID,
     BackendMode : envBackendMode,
     ConsoleLog: logAllowed.includes(consoleLogMode),
     AuthMode : envAuthMode,
@@ -202,7 +193,5 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
-    }
   }
 }

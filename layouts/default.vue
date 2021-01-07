@@ -8,9 +8,6 @@
       <div class="content has-text-centered has-text-white has-background-grey-dark" style="padding:7px 0px 7px 0px">
         <p>
           Propulsé par
-          <strong><a href="https://apiviz.io" target="_blank" style="text-decoration:underline; color:white">
-            ApiViz</a>
-          </strong> |
           <strong><a href="https://www.enthic.fr/" style="text-decoration:underline; color:white">
             Enthic
           </a></strong>
@@ -92,8 +89,8 @@ export default {
   color : #ffffff;
   padding-top : 10px ;
   padding-bottom : 10px;
-  a {
-    color : white;
-  }
+}
+a {
+  color: dimgrey;
 }
 </style>

@@ -347,10 +347,6 @@ export const mutations = {
     setQuestionPageAbsolute (state, pageNumber ) {
       state.search.question.page = pageNumber
     },
-    setQuestionPerPage (state, perPageNumber ) {
-      // state.log && console.log("\nS-search-M-setQuestionPerPage ..." )
-      state.search.question.perPage = perPageNumber
-    },
     setQuestionSortBy (state, field ) {
       // state.log && console.log("\nS-search-M-setQuestionSortBy ..." )
       state.search.question.shuffleSeed = undefined
@@ -373,9 +369,6 @@ export const mutations = {
       state.search.question.selectedFilters.set(filter, new Set())
       // trigger re-render
       state.search.question.selectedFilters = new Map(state.search.question.selectedFilters)
-    },
-    setSearchConfig(state, {type,result}) {
-      state.search.config[type] = result
     },
 
   // RESULTS-RELATED
@@ -513,13 +506,12 @@ export const actions = {
     createDatasetFilters({state, getters, commit, rootGetters}){
       return {
         abort(){
-          searchAborted = true
           if( ac )
             ac.abort()
         },
         promise : axios({
           method: "get",
-          url: "http://api.enthic.fr/company/ape",
+          url: "https://api.enthic.fr/company/ape",
           headers : {
             'Accept' : 'application/json',
             'Content-Type' : 'application/json'

@@ -633,13 +633,6 @@ export const BasicDictionnary = {
       tr : "to do tr",
       fr : "code source sur Github",
     },
-    docs: {
-      en : "documentation",
-      es : "documenntación",
-      de : "to do de",
-      tr : "to do tr",
-      fr : "documentation",
-    },
 
     check_repo: {
       en : "Check the repo",

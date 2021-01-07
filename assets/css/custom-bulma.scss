@@ -8,9 +8,6 @@
 @import "./apiviz-colors.scss";
 @import "./apiviz-misc.scss";
 
-// Barlow
-@import url(https://fonts.googleapis.com/css?family=Barlow:400,700&subset=latin-ext);
-
 // Nexa
 @font-face {
   font-family: 'Nexa';
@@ -53,12 +50,9 @@ $link-hover     : $apiviz-primary;
 $disabled-opacity: 0.7 ;
 $button-disabled-opacity: $disabled-opacity ;
 
-$family-Barlow     : "Barlow", sans-serif ;
 $family-Nexa       : "Nexa" ;
 $family-BonvenoCF  : "BonvenoCF" ;
 
-
-// $family-sans-serif  : "Barlow", sans-serif ;
 $family-sans-serif  : "Nexa", sans-serif ;
 $family-primary     : $family-sans-serif ;
 $family-secondary   : $family-BonvenoCF ;
