@@ -134,6 +134,12 @@
                   <a href="https://wexample.com/"><img src="https://wexample.com/wp-content/uploads/2019/08/header-site-web-v3.png" alt="Logo Wexample"></a>
                 </figure>
               </div>
+              
+              <div class="column is-3 content is-horizontal-center">
+                <figure class="image img-mini is-inline-block">
+                  <a href="https://apiviz.io/"><img src="https://raw.githubusercontent.com/co-demos/apiviz-frontend/master/static/logos/logo_apiviz_15.png" alt="Logo ApiViz"></a>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
