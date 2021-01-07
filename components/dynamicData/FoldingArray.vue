@@ -175,7 +175,6 @@ export default {
 
 <style>
   body {
-    font-family: Menlo, Consolas, monospace;
     color: #444;
   }
   .gotchildren {
@@ -190,7 +189,6 @@ export default {
     font-weight: bold;
   }
   .tile .is-child {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     border: 1px solid #aaa;
     margin: 0px;
