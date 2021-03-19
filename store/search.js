@@ -257,6 +257,14 @@ export const mutations = {
       const appArg = arg.app_arg
       if (authorizedDefaultArgs.includes(appArg)) {
         state.search.question[appArg] = arg.default
+
+        // init shuffle if precised in route args
+        if (appArg === 'shuffleSeed' && arg.init ) {
+          // state.log && console.log("S-search-setSearchQuestion / argOptions : ", argOptions )
+          let minMax = { min: 0, max: 2000 }
+          state.search.question.shuffleSeed = Math.floor(Math.random() * (minMax.max - minMax.min + 1)) + minMax.min
+        }
+        
       }
     })
   },
