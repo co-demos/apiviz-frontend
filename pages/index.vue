@@ -119,7 +119,19 @@
             <div class="columns is-centered is-multiline">
               <div class="column is-3 content is-horizontal-center">
                 <figure class="image img-mini is-inline-block">
-                  <a href="https://www.enthic.fr"><img src="/favicon.ico" alt="logo Enthic" style="width:40%"></a>
+                  <a href="https://www.enthic.fr"><img src="/favicon.ico" alt="logo Enthic" style="width:50%"></a>
+                </figure>
+              </div>
+
+              <div class="column is-3 content is-horizontal-center">
+                <figure class="image img-mini is-inline-block">
+                <a href="https://dataforgood.fr/"><img src="https://dataforgood.fr/img/logo-white.png" alt="logo Data for Good" style="width:50%"></a>
+                </figure>
+              </div>
+
+              <div class="column is-3 content is-horizontal-center">
+                <figure class="image img-mini is-inline-block">
+                <a href="https://www.latitudes.cc/"><img src="https://user-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_1440,w_720,f_auto,q_auto/1127947/94d0886c-2247-43ea-9bc2-857fb3299d69_yd1kkl.png" alt="logo Latitudes" style="width:70%"></a>
                 </figure>
               </div>
 
@@ -134,7 +146,7 @@
                   <a href="https://wexample.com/"><img src="https://wexample.com/wp-content/uploads/2019/08/header-site-web-v3.png" alt="Logo Wexample"></a>
                 </figure>
               </div>
-              
+
               <div class="column is-3 content is-horizontal-center">
                 <figure class="image img-mini is-inline-block">
                   <a href="https://apiviz.io/"><img src="https://raw.githubusercontent.com/co-demos/apiviz-frontend/master/static/logos/logo_apiviz_15.png" alt="Logo ApiViz"></a>

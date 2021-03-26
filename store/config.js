@@ -671,108 +671,6 @@ const emptyConfig = {
               "link_text": [
                 {
                   "locale": "en",
-                  "text": "OCF official website"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "Le site officiel d'OCF"
-                }
-              ],
-              "link_to": "http://opencorporatefacts.fr/",
-              "link_type": "text",
-              "tooltip": [
-                {
-                  "locale": "en",
-                  "text": "More infos"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "Plus d’informations"
-                }
-              ]
-            },
-            {
-              "icon_class": "",
-              "is_external_link": true,
-              "is_visible": true,
-              "link_text": [
-                {
-                  "locale": "en",
-                  "text": "OCF's API platform"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "API platform d'OCF"
-                }
-              ],
-              "link_to": "http://opencorporatefacts.fr/api?ui=docs",
-              "link_type": "text",
-              "tooltip": [
-                {
-                  "locale": "en",
-                  "text": "More infos"
-                },
-                {
-                  "locale": "es",
-                  "text": "pendiente"
-                },
-                {
-                  "locale": "tr",
-                  "text": "yapılmamış"
-                },
-                {
-                  "locale": "de",
-                  "text": "ungemacht"
-                },
-                {
-                  "locale": "fr",
-                  "text": "Plus d’informations"
-                }
-              ]
-            },
-            {
-              "icon_class": "",
-              "is_external_link": true,
-              "is_visible": true,
-              "link_text": [
-                {
-                  "locale": "en",
                   "text": "CQuest's API for companies"
                 },
                 {
@@ -4710,22 +4608,6 @@ const emptyConfig = {
       ],
       "resp_callbacks": [
         {
-          "args_options": [
-            {
-              "app_arg": "itemId",
-              "arg": "Corporate",
-              "default": null,
-              "in": [
-                "url"
-              ],
-              "optional": false,
-              "resp_field_id": "id",
-              "type": "str"
-            }
-          ],
-          "root_url": "https://opencorporatefacts.fr/api/compte_de_resultats"
-        },
-        {
           "root_sufix": [
             {
               "default": null,
@@ -4791,22 +4673,6 @@ const emptyConfig = {
       "is_visible": true,
       "method": "GET",
       "resp_callbacks": [
-        {
-          "args_options": [
-            {
-              "app_arg": "itemId",
-              "arg": "Corporate",
-              "default": null,
-              "in": [
-                "url"
-              ],
-              "optional": false,
-              "resp_field_id": "id",
-              "type": "str"
-            }
-          ],
-          "root_url": "https://opencorporatefacts.fr/api/compte_de_resultats"
-        },
         {
           "root_sufix": [
             {
@@ -4894,22 +4760,6 @@ const emptyConfig = {
         }
       ],
       "resp_callbacks": [
-        {
-          "args_options": [
-            {
-              "app_arg": "itemId",
-              "arg": "Corporate",
-              "default": null,
-              "in": [
-                "url"
-              ],
-              "optional": false,
-              "resp_field_id": "id",
-              "type": "str"
-            }
-          ],
-          "root_url": "https://opencorporatefacts.fr/api/compte_de_resultats"
-        },
         {
           "root_sufix": [
             {

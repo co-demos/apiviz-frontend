@@ -665,15 +665,19 @@ export function searchEndpointGenerator( obj ) {
   }
 
   // loop in selectedFilters to add filters request if any
-  // find corresponding mapper in endPointConfig
-  const filterMapper = endpointConfigArgs.find( c => c.app_arg === 'filters')
-  // console.log("+ + + searchEndpointGenerator / filterMapper : \n ", filterMapper)
-  if (filterMapper && selectedFilters.length > 0 ){
-    const EndpointArg = filterMapper.arg
+  console.log("+ + + searchEndpointGenerator / selectedFilters : \n ", selectedFilters)
+  if (selectedFilters.length > 0 ){
+    let filterUrlArg = ""
     for (let index in selectedFilters) {
-      let argFilterString = EndpointArg + '=' + selectedFilters[index]
-      argsArray.push(argFilterString)
+      if (filterUrlArg) {
+          filterUrlArg += ","
+      }
+      else {
+          filterUrlArg = "ape="
+      }
+      filterUrlArg += selectedFilters[index].slice(selectedFilters[index].length - 2)
     }
+    argsArray.push(filterUrlArg)
   }
 
   let baseQuery = "https://api.enthic.fr/company/search/page"
