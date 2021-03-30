@@ -409,12 +409,25 @@ export default {
       // mapStyle: 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json',
       // mapStyle: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
 
-      // mapStyle : StylesOSM.ShittyPlanet, // OK but shitty 
-      // mapStyle : StylesOSM.testRasterPositron, // OK better
-      mapStyle : StylesOSM.testRasterVoyager, // OK better
 
+
+      //// WORKING MAPS /////////////////////////////////////////
+
+      // mapStyle : StylesOSM.testRasterPositron, // OK better
+      mapStyle : StylesOSM.testRasterVoyager, // OK better - default
       // mapStyle : StylesOSM.testRasterOSM,
+      // mapStyle : StylesOSM.testRasterOSM_bis,
+      // mapStyle : StylesOSM.testRasterOSM_topo,
+      // mapStyle: StylesOSM.testGeoportail,
+      // mapStyle: StylesOSM.testGeo,
+
+      ////////////////////////////////////////////////////////////
+
+
+
+
       // mapStyle : StylesOSM.testVectorStyle,
+      // mapStyle : StylesOSM.ShittyPlanet, // shitty 
 
       // mapStyle : 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json',
       // mapStyle : StylesOSM.Positron,
@@ -461,6 +474,8 @@ export default {
 
     this.layersVisibility = mapOptionsRoute.layers_visibility
     this.drawerLayersOpen = this.layersVisibility && this.layersVisibility.is_drawer_open
+
+    this.mapStyle = mapOptionsRoute.mapStyle ? StylesOSM[mapOptionsRoute.mapStyle] : this.mapStyle // StylesOSM.testRasterVoyager // OK better
 
   },
 
