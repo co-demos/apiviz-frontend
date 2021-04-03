@@ -507,7 +507,7 @@
 
             <!-- BLOCK MAIN ILLUSTRATION -->
             <div id="block-illustration"
-              v-if="matchProjectWithConfig('block_website') === noData"
+              v-if="!matchProjectWithConfig('block_website') || matchProjectWithConfig('block_website') === noData"
               >
               <img
                 class="illustration"
