@@ -8,10 +8,6 @@
     margin: 0;
   }
 
-  .full-height {
-    height: 100% !important;
-  }
-
   .iframing{
     top : 0 !important;
   }
@@ -27,6 +23,15 @@
   .filters-delimiter{
     margin:0em;
     background-color: $apiviz-primary;
+  }
+
+  .custom-start {
+    margin-right: none;
+    // width: 100%;
+
+    .custom-input{
+      // width: 99.9%;
+    }
   }
 
   .search-bar {
@@ -46,12 +51,10 @@
     }
 
     .row-search {
-      align-items: stretch !important;
-      align-content: center;
+      align-items: center !important;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      margin: none !important;
+      margin: 0 5px 0 5px !important;
     }
 
     .field {
@@ -66,7 +69,6 @@
         // justify-content: center;
         align-items: center;
         margin-bottom: 0;
-        margin-left: 0px;
 
         // .image-container{
         //   display: flex;
@@ -83,7 +85,6 @@
           height: 100%;
           border: 0;
           width: 100%;
-          padding-right: 0px;
         }
         a {
           height: 100%;
@@ -147,86 +148,82 @@
     aria-label="filters navigation"
     >
     
-    <div class="row-search">
-    <!-- <div class="navbar-menu"> -->
+    <!-- <div class="row-search"> -->
+    <div class="navbar-menu">
       
       <!-- INPUT TEXT -->
-      <div 
-        v-show="!showFilters || !showFiltersSwitch"
-        class="navbar-start"
-        :style="`flex-grow: 1;`"
-        > <!-- is-hidden-touch (to completely hide from mobile)-->
+      <div class="navbar-start custom-start"> <!-- is-hidden-touch (to completely hide from mobile)-->
+      
+        <div class="columns is-gapless is-mobile custom-input">
 
-        <div class="navbar-item is-paddingless input-navbar full-height">
+          <div :class="`${ showFiltersSwitch ? 'column is-10' : '12' }`">
+            <div class="navbar-item is-paddingless input-navbar">
+              <div class="field has-addons field-centered">
+                <div class="control is-expanded has-icons-left">
+                  <input
+                    type="search"
+                    v-model="textQuery"
+                    class="input is-light"
+                    @input="searchTextChanged"
+                    :placeholder="translate(endpointConfigFilters, 'placeholder' )"
+                    >
+                    <!-- :placeholder="`WW : ${ windowWidth } / SFS : ${ showFiltersSwitch }`" -->
+                  <span class="icon is-left has-text-grey-light">
+                    <i class="fas fa-search"></i>
+                  </span>
+                </div>
 
-          <div class="field has-addons field-centered full-height"
-            >
-            
-            <div class="control has-icons-left full-height"
-              style="flex-grow: 1; height:100%;"
-              >
-              
-              <input
-                type="text"
-                v-model="textQuery"
-                class="input full-height"
-                @input="searchTextChanged"
-                :placeholder="translate(endpointConfigFilters, 'placeholder' )"
-                style="border: none;"
-                >
-                <!-- :placeholder="`WW : ${ windowWidth } / SFS : ${ showFiltersSwitch }`" -->
-              <span
-                class="icon is-left has-text-grey-light"
-                style="height: 100%;"
-                >
-                <i class="fas fa-search"></i>
-              </span>
+                <!-- <p class="control"
+                  v-show="textQuery !== ''"
+                  >
+                  <a class="button is-large is-right has-text-grey-light"
+                    @click="clearQuery"
+                    >
+                    <span class="icon">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </a>
+                </p> -->
 
+              </div>
             </div>
-
-            <a class="control icon has-text-grey-light"
-              v-show="textQuery !== ''"
-              @click="clearQuery"
-              style="height: 100%;"
-              >
-              <i class="fas fa-times"></i>
-            </a>
           </div>
+
+          <div 
+            v-if="showFiltersSwitch"
+            :class="`column is-2 is-centered`"
+            >
+            <div class="navbar-item navbar-item-filter has-text-centered">
+              <a 
+                :class="`button ${ showFilters ? 'is-primary is-primary-b' : 'is-white' }`"
+                @click="SwitchFilters()"
+                >
+                <span 
+                  :class="`icon ${ showFilters ? '' : 'has-text-primary has-text-primary-c' }`">
+                  <i class="fas fa-filter"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
-
       <!-- INPUT FILTERS -->
-      <!-- <hr 
+      <hr 
         v-if="showFiltersSwitch && showFilters"
         class="is-flex-touch filters-delimiter"
-        > -->
+      >
 
       <div 
+        v-if="showFilters"
         class="navbar-end has-background-white"
-        :style="`${showFiltersSwitch && showFilters ? 'flex-grow: 1 ;' : '' }`"
         > <!-- is-hidden-touch (to completely hide from mobile)-->
 
-        <div 
-          v-if="showFiltersSwitch"
-          class="navbar-item navbar-item-filter has-text-centered"
-          >
-          <a 
-            :class="`button ${ showFilters ? 'is-primary is-primary-b' : 'is-white' }`"
-            @click="SwitchFilters()"
-            >
-            <span 
-              :class="`icon ${ showFilters ? '' : 'has-text-primary has-text-primary-c' }`">
-              <i class="fas fa-filter"></i>
-            </span>
-          </a>
-        </div>
 
         <!-- LOOP FILTERS LISTS -->
-        <span 
-          v-if="showFilters || !showFiltersSwitch"
-          v-for="filter in filterDescriptions"
+        <span v-for="filter in filterDescriptions"
           class="navbar-item navbar-item-filter has-dropdown is-hoverable"
           :key="filter.name"
           :id="filter.name"

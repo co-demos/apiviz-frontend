@@ -70,6 +70,134 @@ export const StylesOSM = {
     }]
   },
 
+  testRasterOSM_bis: {
+    version: 8,
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        tileSize: 256
+      }
+    },
+    layers: [{
+      id: 'osm',
+      type: 'raster',
+      source: 'osm',
+    }]
+  },
+
+  testRasterOSM_topo: {
+    version: 8,
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ["https://tile.opentopomap.org/{z}/{x}/{y}.png"],
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        tileSize: 256
+      }
+    },
+    layers: [{
+      id: 'osm',
+      type: 'raster',
+      source: 'osm',
+    }]
+  },
+
+  // cf : https://damien.pobel.fr/post/cartographie-api-geoportail-ign-leaflet/
+  // cf : 
+  testGeoportail: {
+    version: 8,
+    sources: {
+      geoportail: {
+        type: 'raster',
+        tiles: [
+          // "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+          // "https://wxs.ign.fr/an7nvfzojv5wa96dsga5nk8w/geoportail/wmts?layer=ORTHOIMAGERY.ORTHOPHOTOS&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=16&TileCol=33733&TileRow=23881",
+          
+          // "http://wxs.ign.fr/" + "an7nvfzojv5wa96dsga5nk8w"
+          //   + "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&"
+          //   + "LAYER=" + "GEOGRAPHICALGRIDSYSTEMS.MAPS" 
+          //   + "&STYLE=normal&TILEMATRIXSET=PM&"
+          //   + "TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg",
+
+          "http://wxs.ign.fr/" + "an7nvfzojv5wa96dsga5nk8w"
+            + "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&"
+            + "LAYER=" 
+            // + "ORTHOIMAGERY.ORTHOPHOTOS" 
+            + "GEOGRAPHICALGRIDSYSTEMS.MAPS"
+            + "&STYLE=normal&TILEMATRIXSET=PM&"
+            + "TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg",
+        ],
+        attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>',
+        tileSize: 256
+      },
+    },
+    layers: [{
+      id: 'geoportail',
+      type: 'raster',
+      source: 'geoportail',
+    }]
+  },
+
+  // cf : https://leaflet-extras.github.io/leaflet-providers/preview/
+  testGeo: {
+    version: 8,
+    sources: {
+      geo: {
+        type: 'raster',
+        tiles: [
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        ],
+        atttribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        tileSize: 256
+      },
+    },
+    layers: [{
+      id: 'geo',
+      type: 'raster',
+      source: 'geo',
+    }]
+  },
+
+  arcGis: {
+    version: 8,
+    sources: {
+      geo: {
+        type: 'raster',
+        tiles: [
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        ],
+        atttribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        tileSize: 256
+      },
+    },
+    layers: [{
+      id: 'geo',
+      type: 'raster',
+      source: 'geo',
+    }]
+  },
+
+  // testGeoTopo: {
+  //   version: 8,
+  //   sources: {
+  //     geo: {
+  //       type: 'raster',
+  //       tiles: [
+  //         "https://{s}.tile.jawg.io/jawg-terrain/{z}/{x}/{y}{r}.png?access-token={accessToken}"
+  //       ],
+  //       atttribution: "<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors",
+  //       tileSize: 256
+  //     },
+  //   },
+  //   layers: [{
+  //     id: 'geo',
+  //     type: 'raster',
+  //     source: 'geo',
+  //   }]
+  // },
+
   testVectorStyle: {
     version: 8,
     name: 'Positron',
