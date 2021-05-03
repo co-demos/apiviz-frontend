@@ -413,13 +413,14 @@ export default {
 
       //// WORKING MAPS /////////////////////////////////////////
 
-      // mapStyle : StylesOSM.testRasterPositron, // OK better
       mapStyle : StylesOSM.testRasterVoyager, // OK better - default
+      // mapStyle : StylesOSM.testRasterPositron, // OK better
       // mapStyle : StylesOSM.testRasterOSM,
       // mapStyle : StylesOSM.testRasterOSM_bis,
       // mapStyle : StylesOSM.testRasterOSM_topo,
       // mapStyle: StylesOSM.testGeoportail,
       // mapStyle: StylesOSM.testGeo,
+      // mapStyle: StylesOSM.arcGis,
 
       ////////////////////////////////////////////////////////////
 
