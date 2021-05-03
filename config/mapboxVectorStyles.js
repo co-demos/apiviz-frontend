@@ -123,7 +123,9 @@ export const StylesOSM = {
 
           "http://wxs.ign.fr/" + "an7nvfzojv5wa96dsga5nk8w"
             + "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&"
-            + "LAYER=" + "ORTHOIMAGERY.ORTHOPHOTOS" 
+            + "LAYER=" 
+            // + "ORTHOIMAGERY.ORTHOPHOTOS" 
+            + "GEOGRAPHICALGRIDSYSTEMS.MAPS"
             + "&STYLE=normal&TILEMATRIXSET=PM&"
             + "TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg",
         ],
@@ -140,6 +142,25 @@ export const StylesOSM = {
 
   // cf : https://leaflet-extras.github.io/leaflet-providers/preview/
   testGeo: {
+    version: 8,
+    sources: {
+      geo: {
+        type: 'raster',
+        tiles: [
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        ],
+        atttribution: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        tileSize: 256
+      },
+    },
+    layers: [{
+      id: 'geo',
+      type: 'raster',
+      source: 'geo',
+    }]
+  },
+
+  arcGis: {
     version: 8,
     sources: {
       geo: {
