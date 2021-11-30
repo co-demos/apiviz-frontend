@@ -73,16 +73,18 @@
 
         <!-- BLOCK ABSTRACT -->
         <div class="content" v-if="matchItemWithConfig('block_abstract')">
-          <p class="subtitle is-6">
-            {{ matchItemWithConfig('block_abstract') }}
-          </p>
+          <p class="subtitle is-6"
+            v-html="matchItemWithConfig('block_abstract')"
+          />
+            <!-- {{ matchItemWithConfig('block_abstract') }} -->
+          <!-- </p> -->
         </div>
 
         <!-- BLOCK ABSTRACT 1 -->
         <div class="content" v-if="matchItemWithConfig('block_abstract_1')">
-          <p class="subtitle is-6">
-            {{ matchItemWithConfig('block_abstract_1') }}
-          </p>
+          <p class="subtitle is-6"
+            v-html="matchItemWithConfig('block_abstract_1')"
+          />
         </div>
 
         <!-- BLOCK ABSTRACT 2 -->
