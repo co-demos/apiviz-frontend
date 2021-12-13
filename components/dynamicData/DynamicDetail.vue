@@ -162,6 +162,7 @@
                   {{ getCustomBlockTitle('block_abstract') }}
                   <br>
                 </span>
+                {{ getContentParagraphFormat('block_abstract') }}
                 <DynamicDetailParagraph
                   :rawText="matchProjectWithConfig('block_abstract')"
                   :paragraphFormat="getContentParagraphFormat('block_abstract')"
