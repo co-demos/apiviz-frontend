@@ -62,7 +62,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
     "dotenv": "^8.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.18.9",
     "sass-loader": "^7.1.0",
     "standard": "^14.3.4"
