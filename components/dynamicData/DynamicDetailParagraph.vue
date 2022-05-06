@@ -35,13 +35,17 @@
         </span>
 
       </p>
-      
-    </div>
 
+    </div>
+      
     <!-- no format at all -->
-    <div v-else class="mt-1">
+    <div 
+      v-else 
+      class="mt-1"
+      v-html="rawText"
+      >
       <!-- <br> -->
-      {{ rawText }}
+      <!-- {{ rawText }} -->
     </div>
     
   </div>

@@ -73,16 +73,18 @@
 
         <!-- BLOCK ABSTRACT -->
         <div class="content" v-if="matchItemWithConfig('block_abstract')">
-          <p class="subtitle is-6">
-            {{ matchItemWithConfig('block_abstract') }}
-          </p>
+          <p class="subtitle is-6"
+            v-html="matchItemWithConfig('block_abstract')"
+          />
+            <!-- {{ matchItemWithConfig('block_abstract') }} -->
+          <!-- </p> -->
         </div>
 
         <!-- BLOCK ABSTRACT 1 -->
         <div class="content" v-if="matchItemWithConfig('block_abstract_1')">
-          <p class="subtitle is-6">
-            {{ matchItemWithConfig('block_abstract_1') }}
-          </p>
+          <p class="subtitle is-6"
+            v-html="matchItemWithConfig('block_abstract_1')"
+          />
         </div>
 
         <!-- BLOCK ABSTRACT 2 -->
@@ -172,6 +174,27 @@
               :key="tag.tagText+i"
               @click="addTagAsFilter('block_tags_bis', tag)"
               :data-tooltip="hasTootip('block_tags_bis') && tag.tagFullText"
+              >
+              <span>
+                {{ tag.tagText }}
+              </span>
+              <span class="icon is-small"
+                v-if="selectedFilters.get(tag.filterName) && selectedFilters.get(tag.filterName).has(tag.tagOriginal)"
+                >
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+          </span>
+
+          <!-- block_tags-ter -->
+          <span v-if="convertTags('block_tags_ter') && convertTags('block_tags_ter').length > 0"
+            >
+            <button 
+              v-for="(tag, i) in convertTags('block_tags_ter')" 
+              :class="`button tag ${ hasTootip('block_tags_ter') ? 'has-tooltip-arrow has-tooltip-multiline' : '' } ${ getItemColors('block_tags_ter')}`"
+              :key="tag.tagText+i"
+              @click="addTagAsFilter('block_tags_ter', tag)"
+              :data-tooltip="hasTootip('block_tags_ter') && tag.tagFullText"
               >
               <span>
                 {{ tag.tagText }}
