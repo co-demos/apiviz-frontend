@@ -780,12 +780,18 @@ export default {
     // - - - - - - - - - - - - - - - - - - //
     joinProjectsToPolygon( source, dataLoaded, choroRefIdex, noDataProxy=false ){
 
+      this.log && console.log('\nC-SearchResultsMapbox / joinProjectsToPolygon ...')
+      this.log && console.log('C-SearchResultsMapbox / joinProjectsToPolygon > source : ', source)
+      this.log && console.log('C-SearchResultsMapbox / joinProjectsToPolygon > source.join_polygon_id_to_field : ', source.join_polygon_id_to_field)
+      this.log && console.log('C-SearchResultsMapbox / joinProjectsToPolygon > source.agregated_data_field : ', source.agregated_data_field)
+
       // modify / agregate data
       let mapbox = this.map
       let items = this.projects
       this.showLoader = true 
 
       let dataFeatures = dataLoaded.features
+      this.log && console.log('C-SearchResultsMapbox / joinProjectsToPolygon > dataFeatures : ', dataFeatures)
       dataFeatures.forEach( i => {
         const result = items.reduce( (sum, item) => 
           ( String(item[ source.join_polygon_id_to_field ]) === String(i.properties[ source.polygon_prop_id])  ? sum + 1 : sum ), 0
@@ -793,6 +799,7 @@ export default {
         i.properties[ source.agregated_data_field ] = result
       })
       dataLoaded.features = dataFeatures
+      this.log && console.log('C-SearchResultsMapbox / joinProjectsToPolygon > dataLoaded : ', dataLoaded)
 
       mapbox.getSource( source.source_id ).setData(dataLoaded)
 
